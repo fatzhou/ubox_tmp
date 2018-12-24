@@ -1,0 +1,131 @@
+
+<ion-header class="my-header">
+    <ion-navbar>
+		<ion-title>{{ walletInfo.name }}</ion-title>
+		<div class="set-btn-wrap" (click)="goWalletSettingPage()">
+			<img class="set-btn" src="assets/img/setting@2x.png" alt="">
+		</div>
+    </ion-navbar>
+</ion-header>
+<div class="blue-bg"></div>
+
+<ion-content no-padding overflow-scroll="true" class="my-content">
+    <ion-refresher snapbackDuration="300"  (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="{{global.L('wallatPullingText')}}" refreshingSpinner="circles" refreshingText="{{global.L('wallatRefreshingText')}}">
+        </ion-refresher-content>
+    </ion-refresher>
+
+	<div class="wallet-assets">
+		<div class="wallet-value">
+			<p class="key">{{global.L("TotalAssets")}}(UBBEY)</p>
+			<p class="value">{{ walletInfo.totalEarn }}</p>
+		</div>
+
+		<div class="assets-info clear">
+			<div class="assets fl">
+				<p class="key">{{global.L("TotalValue")}}({{ rateInfo.curreycy }})</p>
+				<p class="value"><span>{{ rateInfo.symbol }}</span>{{ evaluteWealth() }}</p>
+			</div>
+			<div class="assets fl">
+				<p class="key">{{global.L("CumulativeDig")}}(UBBEY)</p>
+				<p class="value">{{ walletInfo.totalMining }}</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="trade-list" *ngIf="chainType === 'ERC20'">
+		<p class="title erc20Title">{{global.L("RecentTransactionRecords")}}</p>
+		<ul class="trade-ul" *ngIf="(recordList.length > 0 || walletInfo.earn_this_month > 0)">
+			<li class="gray" *ngIf="walletInfo.earn_this_month > 0">
+				<img class="fl" src="assets/img/record@2x.png" alt="">
+				<div class="trade-info clear">
+					<div class="trade-desc fl">
+						<p class="trade-type">{{global.L("MiningReward")}}</p>
+						<p class="trade-date">{{global.L("WaitUnlock")}}</p>
+					</div>
+					<p class="trade-amount fr">
+						+{{ walletInfo.earn_this_month }} UBBEY
+					</p>
+				</div>
+			</li>
+			<li class="" *ngFor="let list of recordList" (click)="goTransactionPage(list)">
+				<img class="fl" src="assets/img/record@2x.png" alt="">
+				<div class="trade-info clear">
+					<div class="trade-desc fl">
+						<p class="trade-type">{{ list.displayAddr }}</p>
+						<p class="trade-date">{{ list.displayTime }}</p>
+					</div>
+					<div class="trade-amount fr" [ngClass]="list.status === 1 || list.status === 3 || list.status === 5 ? 'error' : ''">
+						<p class="eps" [ngClass]="list.value < 0 ? 'red' : ''">{{ list.value }} UBBEY</p>
+						<span *ngIf="list.status === 1 || list.status === 3 || list.status === 5">{{ list.displayStatus }}</span>
+					</div>
+				</div>
+			</li> 			
+		</ul>
+		<p class="no-more" *ngIf="recordList.length > 0 && more === false && loading === false">{{global.L("NoMoreData")}}</p>
+
+		<div class="no-data" *ngIf="!loading && (recordList.length === 0)">
+            <img src="assets/img/file@2x.png" alt="">
+            <p>{{global.L("HaveNoRewardRecord")}}</p>
+        </div>
+	</div>
+	<div class="trade-list" *ngIf="chainType !== 'ERC20'">
+			<p class="title">
+				<span [class]="chainRecordIndex == 0 ? 'active' : ''" (click)="changeChainRecordIndex(0)">{{ global.L('MiningAvenue') }}</span>
+				<span [class]="chainRecordIndex == 1 ? 'active' : ''" (click)="changeChainRecordIndex(1)">{{ global.L('TransactionRecord') }}</span>
+			</p>
+			<div *ngIf="chainRecordIndex == 0">
+				<ul class="trade-ul" *ngIf="recordChainList.length > 0">
+					
+					<li class="gray" *ngFor="let list of recordChainList">
+						<img class="fl" src="assets/img/record@2x.png" alt="">
+						<div class="trade-info clear">
+							<div class="trade-desc fl">
+								<p class="trade-type">{{global.L("MiningReward")}}</p>
+								<p class="trade-date">{{ list.displayTime }}</p>
+							</div>
+							<p class="trade-amount fr">
+								+{{ list.value }} UBBEY
+							</p>
+						</div>
+					</li>		
+				</ul>
+				<p class="no-more" *ngIf="recordChainList.length > 0 && moreChain === false && loading === false">{{global.L("NoMoreData")}}</p>
+		
+				<div class="no-data" *ngIf="!loading && (recordChainList.length === 0)">
+					<img src="assets/img/file@2x.png" alt="">
+					<p>{{global.L("HaveNoRewardRecord")}}</p>
+				</div>
+			</div>
+			<div *ngIf="chainRecordIndex == 1">
+				<ul class="trade-ul" *ngIf="(recordList.length > 0 || walletInfo.earn_this_month > 0 || recordPendingList.length > 0)">
+					<li class="" *ngFor="let list of recordPendingList.concat(recordList)" (click)="goTransactionPage(list)">
+						<img class="fl" src="assets/img/record@2x.png" alt="">
+						<div class="trade-info clear">
+							<div class="trade-desc fl">
+								<p class="trade-type">{{ list.displayAddr }}</p>
+								<p class="trade-date">{{ list.displayTime }}</p>
+							</div>
+							<div class="trade-amount fr" [ngClass]="list.status === 1 || list.status === 3 || list.status === 5 ? 'error' : ''">
+								<p class="eps" [ngClass]="list.value < 0 ? 'red' : ''">{{ list.value }} UBBEY</p>
+								<span *ngIf="list.status === 1 || list.status === 3 || list.status === 5">{{ list.displayStatus }}</span>
+							</div>
+						</div>
+					</li> 			
+				</ul>
+				<p class="no-more" *ngIf="(recordList.length > 0 || recordPendingList.length > 0) && more === false && loading === false ">{{global.L("NoMoreData")}}</p>
+				<div class="no-data" *ngIf="!loading && (recordList.length === 0 && recordPendingList.length === 0)">
+					<img src="assets/img/file@2x.png" alt="">
+					<p>{{global.L("HaveNoChangeRecord")}}</p>
+				</div>
+			</div>
+		</div>
+	<ion-infinite-scroll (ionInfinite)="getMore($event)">
+	<ion-infinite-scroll-content></ion-infinite-scroll-content>
+	</ion-infinite-scroll>
+</ion-content>
+
+<div class="wallet-create">
+	<span class="common-unfocus-button get-ubbey-btn" tappable  (click)="getUbbey()">{{global.L("Collection")}}</span>
+	<span class="common-focus-button send-ubbey-btn no-shadow" tappable (click)="sendUbbey()">{{global.L("Transfer")}}</span>
+</div>	

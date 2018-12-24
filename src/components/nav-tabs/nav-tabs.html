@@ -1,0 +1,34 @@
+<!-- Generated template for the NavTabsComponent component -->
+<div class="nav-bars">
+    <div tappable class="nav nav-home" [ngClass]="focusTab==='home'?'active':''" (click)="slideTabs('home')">
+        <svg class="icon icon-light" aria-hidden="true">
+            <use xlink:href="#icon-home"></use>
+        </svg>        
+        <svg class="icon icon-dark" aria-hidden="true">
+            <use xlink:href="#icon-homefocus"></use>
+        </svg>
+        <p>Home</p>
+    </div>    
+
+    <div tappable class="nav nav-mining" [ngClass]="focusTab==='mining'?'active':''" (click)="slideTabs('mining')">
+        <svg class="icon icon-light" aria-hidden="true">
+            <use xlink:href="#icon-miningfocus"></use>
+        </svg>        
+        <svg class="icon icon-dark" aria-hidden="true">
+            <use xlink:href="#icon-mining"></use>
+        </svg>
+        <p>Mining</p>
+    </div>
+
+    <div tappable class="nav nav-user" [ngClass]="focusTab==='user'?'active':''" (click)="slideTabs('user')">
+        <svg class="icon icon-light" aria-hidden="true">
+            <use xlink:href="#icon-userfocus"></use>
+        </svg>        
+        <svg class="icon icon-dark" aria-hidden="true">
+            <use xlink:href="#icon-user"></use>
+        </svg>
+        <p>User</p>
+    </div>
+</div>
+
+

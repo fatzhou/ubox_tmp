@@ -1,0 +1,25 @@
+
+<div class="float-new-box">
+    <div class="back-bg"></div>
+    <div class="content-main" [ngClass]="isShowAction ? '' : 'no-padding'">
+        <div class="content-head">
+          <p *ngFor="let item of head">
+            {{ item }}
+          </p>
+          <span  *ngIf="isVersion">{{ version }}</span>
+        </div>
+        <div class="content-body">
+          <p *ngFor="let item of info;">
+            {{ item }}
+          </p>
+          <div class="event-btn" *ngIf="isShowAction" (click)="doAction()">
+            <a href="javascript:void(0)">{{ txt }}</a>
+          </div>
+        </div>
+      <div class="close-btn" *ngIf="close" (click)="closeNoticeComponent()">
+        <img src="assets/img/newsclose.png" alt="">
+      </div>
+    </div>
+  </div>
+  
+  

@@ -1,0 +1,101 @@
+page-user {
+	.user-page {
+		min-height: 100%;
+		padding-bottom: 20px;
+		background: $bgColor;
+		position: relative;
+		.message{
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			padding: 5px;
+			z-index: 1;
+			width: 40px;
+			.icon{
+				font-size: 32px;
+			}
+		}
+		.function-list {
+			margin-top: 20px;
+			.item {
+				.item-inner {
+					border-bottom: 1px solid #f1f1f1;
+				}	
+				&:last-child {
+					.item-inner {
+						border: none;
+					}
+				}							
+			}
+		}
+		.avatar-info {
+			height: 290px;
+    		position: relative;
+    		background: #F7F7F7 url(../assets/img/avatar-bg@2x.png) 0 0 no-repeat;
+    		background-size: 100% 244px;
+    		.info {
+				position: absolute;
+				top: 50px;
+			    width: 100%;
+			    text-align: center;  
+			    .img-wrap {
+			    	width: 80px;
+			    	background: #fff;
+			    	height: 80px;
+			    	border-radius: 50%;
+			    	overflow: hidden;
+			    	margin: 0 auto;
+				    img {
+				    	width: 72px;
+				    	display: block;
+				    	margin: 4px auto;
+				    	border-radius: 50%;
+				    }  			    	
+			    }
+			    p {
+			    	color: #444;
+			    	font-size: 18px;
+			    	margin-top: 2px;
+			    	line-height: 24px;
+			    }
+    		}
+    		.admin {
+    			position: absolute;
+			    bottom: 4px;
+			    width: 100%;
+			    height: 72px;
+			    .admin-wrap {
+			    	margin: 0 10px;
+			    	height: 100%;
+					background: #fff;
+					border-radius: 6px;
+					-webkit-border-radius:6px;
+			    	padding: 15px 0;
+			    	.wallet {
+			    		width: 50%;
+			    		height: 42px;
+			    		box-sizing: border-box;
+			    		border-right: 1px solid #f1f1f1;
+			    		text-align: center;
+			    		.icon {
+			    			font-size: 26px;
+			    			margin-top: -4px;
+			    		}
+			    		p {
+			    			color: #444;
+			    			font-size: 14px;
+			    			margin-top: 6px;
+			    			line-height: 20px;
+			    		}
+			    		&:last-child {
+			    			border: none;
+			    		}
+			    	}
+			    }
+    		}
+		}
+	}
+	.content-ios:not([no-bounce]) > .scroll-content::before, .content-ios:not([no-bounce]) > .scroll-content::after {
+		height: 0;
+	}
+}

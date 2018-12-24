@@ -1,0 +1,99 @@
+news-notice {
+    .float-new-box{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        .back-bg{
+            background: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .content-main {
+            width: 80%;
+            border-radius: 6px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            background: #fff;
+            transform: translate(-50%,-50%);
+            padding-bottom: 50px;
+            &.no-padding {
+                padding-bottom: 0px;
+            }
+            // .content-box{
+                .content-head{
+                    width: 100%;
+                    height: 80px;
+                    background-image: url(../assets/img/newstop.png);
+                    background-position: center center;
+                    background-size: 100% 100%;
+                    background-repeat: no-repeat;
+                    padding: 18px;
+                    box-sizing: border-box;
+                    position: relative;
+                    overflow: hidden;
+                    p {
+                        font-size: 18px;
+                        color: #D6D9FF;
+                    }
+                    span {
+                        position: absolute;
+                        right: 20px;
+                        background: #D6D9FF;
+                        padding: 3px 5px;
+                        border-radius: 4px;
+                        color: #4F54D9;
+                        bottom: 20px;
+                        font-size: 14px;
+                    }
+                }
+                .content-body{
+                    height: auto;
+                    padding: 18px;
+                    max-height: 240px;
+                    overflow: scroll;
+                    p {
+                        color: #1B1B1B;
+                        font-size: 14px;
+                        line-height: 20px;
+                    }
+                    .event-btn{
+                        position: absolute;
+                        width: 60%;
+                        height: 40px;
+                        border-radius: 30px;
+                        box-sizing: border-box;
+                        background: linear-gradient(#4045D6, #5D75F7);;
+                        color: #fff;
+                        bottom: -24px;
+                        left: 20%;
+                        text-align: center;
+                        a {
+                            color: #fff;
+                            text-decoration: none;
+                            line-height: 40px;
+                        }
+                    }
+                }
+
+
+        }
+        .close-btn{
+            position: absolute;
+            width: 30px;
+            overflow: hidden;
+            left: 50%;
+            bottom: -90px;
+            transform: translate(-50%);
+            img{
+                width: 100%;
+            }
+        }
+    }
+}

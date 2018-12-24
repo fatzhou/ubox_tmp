@@ -1,0 +1,31 @@
+page-privacy-policy {
+    .content-main {
+		padding: $padding;
+		min-height: 100%;
+    }
+    h4,div,p{
+        margin: 0;
+        padding: 0;
+        color: #000;
+    }
+    h4{
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 1.5;
+    }
+    p{
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+    .text-indent25{
+        text-indent: 25px;
+    }
+    .font-blod{
+        font-weight: bold;
+    }
+    .text-right{
+        text-align: right;
+    }
+}

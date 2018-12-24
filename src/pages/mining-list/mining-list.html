@@ -1,0 +1,44 @@
+<!--
+  Generated template for the MiningListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{global.L("MiningReward")}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<ul class="reward-list" *ngIf="!loading && avenueData.length > 0">
+		<li *ngFor="let avenueInfo of avenueData;">
+			<p class="month">{{ avenueInfo.key }}</p>
+			<div class="reward-day">
+				<div class="reward-info clear" *ngFor="let dayInfo of avenueInfo.value;">
+					<svg class="icon fl" aria-hidden="true">
+	                    <use xlink:href="#icon-mining"></use>
+	                </svg>
+	                <div class="fl desc">
+	                	<p class="tips">{{global.L("MiningReward")}}</p>
+	                	<p class="date">{{ dayInfo.date }}</p>
+	                </div>
+					<div class="fr reward-amount">
+						<span>+{{ dayInfo.earn }}</span>
+						UBBEY
+					</div>	                
+				</div>		
+
+
+
+			</div>
+		</li>				
+	</ul>
+	<div class="no-avenue" *ngIf="!loading && avenueData.length === 0">
+	    <img src="assets/img/avenue@2x.png" alt="">
+        <p>{{global.L("HaveNoRewardRecord")}}</p>
+	</div>
+</ion-content>

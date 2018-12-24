@@ -1,0 +1,56 @@
+<!--
+  Generated template for the DeviceManagementPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<div class="page-content device-management-content">
+		<h2 class="title">{{global.L("DeviceManagement")}}</h2>
+		<div class="device-info" tappable (click)="goAboutDevicePage()" *ngIf="!!global.deviceSelected">
+			<div class="top-area clear">
+				<div class="device fl">
+					<div class="icon-wrap">
+						<svg class="icon" aria-hidden="true" end>
+					        <use xlink:href="#icon-device"></use>
+					    </svg>						
+					</div>
+
+				    <!-- <p>{{ ifMining ? global.L("IsMining") : global.L("NotSetMining") }}</p> -->
+				</div>	 
+				<div class="info fl">
+					<h3 class="name eps">{{ name }}</h3>
+					<p class="wallet eps">{{global.L("WalletAddress")}}：{{ coinbase || global.L("NotSetWalletAddress") }}</p>
+				</div>     
+			</div>
+			<div class="disk-info clear">
+				<div class="disk fl clear">
+					<p class="key">{{global.L("DiskType")}}</p>
+					<p class="value">{{ diskType }}</p>
+				</div>				
+				<div class="disk fl clear">
+					<p class="key">{{global.L("DiskCapacity")}}</p>
+					<p class="value">{{ diskStorage }}</p>
+				</div>
+			</div>
+			<div class="btns clear">
+				<div class="btn clear-data fl" tappable click-and-wait (click)="formatDisk();$event.stopPropagation();">{{global.L("FormatDisk")}}</div>
+				<div class="btn unbind-disk fl" tappable click-and-wait (click)="unBindBox();$event.stopPropagation();">{{global.L("DoUnbind")}}</div>
+			</div>
+			<img src="assets/img/device-selected@2x.png" class="select-icon" alt="">
+		</div>		
+		<div class="no-device" *ngIf="!global.deviceSelected">
+			<img src="assets/img/no-wallet@2x.png" alt="">
+			<p>{{global.L("YouNotConnectedDev")}}</p>
+		</div>
+	</div>
+</ion-content>

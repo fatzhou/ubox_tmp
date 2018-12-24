@@ -1,0 +1,54 @@
+<!--
+  Generated template for the ChangepasswdPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+	<div class="change-passwd-content">
+		<h2 class="change-passwd-title">{{global.L("ForgotPassword")}}</h2>
+		<p class="change-passwd-desc">{{global.L("PlsSetPasswordSlogan")}}</p>
+		<form class="change-passwd-form" action="">
+			<div class="form-input">
+				<input type="text" class="common-input disabled-input" placeholder="{{global.L('PlsInputUsername')}}“ value="ubbeybox@163.com" disabled />
+				<label class="borderline"></label>
+			</div>		
+
+			<div class="form-input">
+				<div class="passwd-wrap close-eye">
+					<input type="password" class="common-input normal-input passwd-input" placeholder="{{global.L('PlsInputNewPassword')}}"/>
+					<label class="borderline"></label>
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-open"></use>
+					</svg>					
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-eyeclose"></use>
+					</svg>
+				</div>
+				<p class="error-input"></p>
+			</div>			
+
+			<div class="form-input">
+				<div class="passwd-wrap close-eye">
+					<input type="password" class="common-input normal-input passwd-input" placeholder="{{global.L('PlsInputNewPassword')}}"/>
+					<label class="borderline"></label>
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-open"></use>
+					</svg>					
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-eyeclose"></use>
+
+					</svg>
+				</div>
+				<p class="error-input"></p>
+			</div>
+		</form> 
+
+		<div class="common-focus-button change-passwd-btn">{{global.L("Commit")}}</div>			
+	</div>
+</ion-content>

@@ -1,0 +1,31 @@
+<!--
+  Generated template for the WalletImportPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar class="page-padding clear">
+
+	    <svg class="icon qrcode-icon fr" aria-hidden="true" (click)="scanKeystore()" end>
+	        <use xlink:href="#icon-qrcode"></use>
+	    </svg>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <div class="main-content">
+    <h2 class="title">{{global.L("ImportWallet")}}</h2>
+    <p class="desc">{{global.L("ImportWalletRemind")}}</p>
+    <textarea class="keystore defalutline" name="keystore" [(ngModel)]="keystore" rows="5" placeholder="keystore{{global.L('WalletTextContend')}}"></textarea>
+    <label class="terms" for="service-privacy-terms">
+      <input type="checkbox" name="privacyCheck" [(ngModel)]="privacyCheck" id="service-privacy-terms">
+      <span>{{global.L("UserAgreementLable")}}<a href="javascript:;">{{global.L("UserAgreementButton")}}</a></span>
+    </label>
+
+    <div class="common-focus-button import-btn" click-and-wait tappable (click)="doImport()">{{global.L("StartImport")}}</div> 
+  </div>
+</ion-content>

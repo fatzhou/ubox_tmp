@@ -1,0 +1,30 @@
+<!--
+  Generated template for the CoinGetPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{global.L("Collection")}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<div class="main">
+		<div class="assets-select clear">
+			<img class="fl" src="assets/img/ubbey-coin@2x.png" alt="">
+			<p class="fl">{{global.L("ReceivableAssets")}}(UBBEY)</p>
+		</div>
+		<div class="scan-title">{{ global.L("PayMeUBBEY") }}</div>
+		<ngx-qrcode [qrc-value]="qrcode" qrc-version="9" ></ngx-qrcode>
+		<div class="wallet-address">
+			<!-- <p class="desc">{{global.L("WalletAddress")}}({{global.L("ClickCopy")}})</p> -->
+			<p class="address" (click)="copyAddress()">{{ addr }}</p>
+			<p class="btn-box"><span (click)="shareWalletAddr()">{{global.L("ShareToFriend")}}</span><span (click)="copyAddress()" class="right-btn">{{global.L("ClickCopy")}}</span></p>
+		</div>
+	</div>
+</ion-content>

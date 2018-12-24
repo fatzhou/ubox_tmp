@@ -1,0 +1,58 @@
+page-wallet-import {
+	$pagePadding: 10px;
+	.qrcode-icon {
+		font-size: 22px;
+	}
+	.page-padding {
+		padding: 0 $pagePadding;
+	}
+	.main-content {
+		background: $bgColor;
+		min-height: 100%;
+		padding: 0 $padding;
+		.title {
+			font-weight: bold;
+			color: #1B1B1B;
+			font-size: 34px;
+			line-height: 40px;
+			padding: 12px 0 18px;
+		}
+		.desc {
+			color: #4A4A4A;
+			font-size: 16px;
+			line-height: 22px;
+			margin-bottom: 26px;
+		}
+		.keystore {
+			display: block;
+			width: 100%;
+			border-radius: 4px;
+			border: 1px solid #d8d8d8;
+			resize: none;
+			padding: 10px 8px;
+			line-height: 1.5;
+		}
+		.terms {
+			display: block;
+    		margin-top: 23px;
+    		margin-bottom: 26px;
+    		width: 100%;
+    		input[type="checkbox"] {
+    			display: inline-block;
+			    vertical-align: middle;
+			    font-size: 14px;
+			    color: #4A4A4A;
+    		}
+    		span {
+			    vertical-align: middle;
+			    color: #4A4A4A;
+			    a {
+			    	margin-left: 2px;
+			    	text-decoration: none;
+				    color: $mainColor;
+				    line-height: 20px;
+			    }
+    		}
+		}
+	}
+}

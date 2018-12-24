@@ -1,0 +1,40 @@
+<!--
+  Generated template for the PreviewOtherPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ fileName }}</ion-title>
+    <svg class="icon more-icon" aria-hidden="true" (click)="toggleDetailPage(true)">
+        <use xlink:href="#icon-Moreicon"></use>
+    </svg>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <div class="info-box">
+        <div class="file-box">
+            <div class="file-type" [ngClass]="util.computeFileType(fileName)"></div>
+            <h5>{{ fileName }}</h5>
+            <p>{{ fileSize | computeFileSize }} </p>
+        </div>
+        <div class="detail-box">
+            <p>{{ global.L('CannotView') }}</p>
+            <p>{{ global.L('OpenAfterDownload') }}</p>
+            <div class="progress-box" (click)="controlDownloadFile()">
+                <button type="button" class="btn font-fff" *ngIf="downloadStatus === 'default'">{{ global.L('DownloadFile') }}</button>
+                <button type="button" class="btn font-fff" *ngIf="downloadStatus === 'finished'">{{ global.L('OpenOtherApp') }}</button>
+                <button type="button" class="btn" *ngIf="downloadStatus === 'doing' || downloadStatus === 'paused'">{{ task.pausing === 'paused' ? '恢复下载' : '暂停下载' }}</button>
+                <div class="mask" *ngIf="downloadStatus === 'doing' || downloadStatus === 'paused'" [ngStyle]="{width : computeFinished()}">
+                    <button type="button" class="btn font-fff">{{ task.pausing === 'paused' ? '恢复下载' : '暂停下载' }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>
+<file-detail *ngIf="isShowDetail" [path]='currPath' (closeDetailBox)="toggleDetailPage()" citePage="preview" (goPop)="goBack()" [info]="fileInfo"></file-detail>

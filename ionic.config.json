@@ -1,0 +1,8 @@
+{
+  "name": "ubox.ionicapp",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "proxies": []
+}

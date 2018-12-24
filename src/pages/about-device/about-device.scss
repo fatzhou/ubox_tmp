@@ -1,0 +1,26 @@
+page-about-device {
+	.about-device-page {
+		padding-bottom: 16px;
+		.item-list {
+			margin-bottom: 16px;
+			&:last-child {
+				margin-bottom: 0;
+			}
+			.desc {
+				color: #999;
+				font-size: 13px;				
+				margin-right: 0;
+				max-width: 200px;
+			}
+			.padding-right .desc {
+				padding-right: 10px;
+			}
+			.item-inner {
+				border-bottom: 1px solid #f1f1f1;
+			}
+			.item:last-child .item-inner {
+				border-bottom: 0;
+			}
+		}
+	}
+}

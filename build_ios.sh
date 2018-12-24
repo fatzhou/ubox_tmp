@@ -1,0 +1,1 @@
+ionic cordova platform remove ios && ionic cordova platform add ios --no-resources && ionic cordova build ios --debug --device && ionic cordova build ios --release --device --prod --buildConfig ./build.json

@@ -1,0 +1,69 @@
+page-mining-list {
+	$pagePadding: 10px;
+	.toolbar{
+		.toolbar-background{
+		   border-bottom: .5px solid #d8d8d8;			
+		}
+		
+	}
+	.reward-list {
+		li {
+			.month {
+				padding: 0 $pagePadding;
+				line-height: 32px;
+				height: 32px;
+				font-size: 12px;
+				color: #9B9B9B;
+				background: $bgColor;
+			}
+			.reward-day {
+				padding: 4px 0;
+				.reward-info {
+					padding: 10px 16px;
+					border-bottom: 1px solid #efefef;
+					&:last-child{
+						border-bottom: 0;
+					}
+					.icon {
+						font-size: 28px;
+					}
+					.desc {
+						margin-left: 6px;
+						margin-top: -4px;
+						.tips {
+							color: #444;
+    						font-size: 16px;
+    						margin-bottom: 2px;
+						}
+						.date {
+							color: #9B9B9B;
+							font-size: 12px;
+						}
+					}
+					.reward-amount {
+						color: #9B9B9B;
+						font-size: 12px;
+						margin-top: 8px;
+						span {
+							color: #444;
+							font-size: 16px;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.no-avenue {
+        text-align: center;
+        margin-top: 80px;
+        img {
+            width: 64px;
+        }
+        p {
+            color: #5D75F7;
+            line-height: 3;
+            font-size: 12px;
+        }
+    }
+}

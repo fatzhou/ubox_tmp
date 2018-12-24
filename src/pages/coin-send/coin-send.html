@@ -1,0 +1,60 @@
+<!--
+  Generated template for the CoinSendPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{global.L("Transfer")}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="my-content">
+	<div class="wallet-address shadow-after">
+		<div class="address-area">
+			<div class="desc clear">
+		       <p class="label fl">{{global.L("WalletAddress")}}</p>
+		       <div class="scan-qrcode fr" (click)="scanWallet()">
+	            <svg class="icon qrcode-icon" aria-hidden="true">
+	                <use xlink:href="#icon-qrcode"></use>
+	            </svg>		       	
+		       </div>
+			</div>
+			<input type="text" name="toWallet" [(ngModel)]="toWallet" placeholder="{{global.L('EnterAddress')}}" />
+	  </div>	
+		<div class="transfer-warning">
+			<img src="assets/img/warning@2x.png" class="fl" alt="">
+			<span>{{global.L("EnterAddressPrompt")}}</span>
+		</div>
+	</div>
+	<div class="transfer-amount shadow-after">
+		<div class="desc clear">
+			<p class="label fl">{{global.L("TransferAmount")}}</p>
+			<span class="label fr" (click)="transferAll()" *ngIf="chainType === 'ERC20'">{{global.L("AllTurnOut")}}</span>
+		</div>
+		<!-- <input class="transfer-input" name="sendAmount" type="number" [(ngModel)]="sendAmount"  /> -->
+
+		<input class="transfer-input" name="sendAmount" type="number" [(ngModel)]="sendAmount" placeholder="{{global.L('InputFullAmount')}}" />
+		<p class="total">{{global.L("AvailableBalance")}}<span>{{ total }}</span>UBBEY</p>
+	</div>
+	<div class="mining-fees">
+		<div class="desc clear">
+			<p class="label fl">{{global.L("MinersFee")}}</p>
+			<span class="fr">{{ chainType === 'ERC20' ? gasUsed + 'ETH(' + global.L("About"): '' }}{{ chainType === 'ERC20' ? gasUbbeyUsed + 'UBBEY)' : gasUbbeyUsed + 'UBBEY'}} </span>
+		</div>		
+		<div class="progress-info">
+		  <ion-range class="my-range-bar" [max]="100" (ionChange)="progressChanged()" [(ngModel)]="progress">
+		    <span class="left-tips" range-left>{{global.L("TransferSlow")}}</span>
+		    <span class="right-tips" range-right>{{global.L("TransferFast")}}</span>
+		  </ion-range>
+		</div>
+		<p class="tips" *ngIf="chainType === 'ERC20'">{{global.L("TransferPrompt")}}</p>
+	</div>
+
+	<div class="common-focus-button confirm-btn" tappable (click)="startPay()">{{global.L("Next")}}</div>
+
+</ion-content>

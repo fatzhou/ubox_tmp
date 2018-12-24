@@ -1,0 +1,89 @@
+<!--
+  Generated template for the DevicelistPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content class="">
+	<div class="scanning" *ngIf="scanning">
+        <div class="qrcode-button">
+        	<div class="stop" tappable (click)="stopScan()">
+	            <svg class="icon back-icon" aria-hidden="true">
+	                <use xlink:href="#icon-lefticon"></use>
+	            </svg>
+        		{{global.L("Back")}}
+        	</div>
+            <svg class="icon qrcode-icon" aria-hidden="true" style="display: none;">
+                <use xlink:href="#icon-qrcode"></use>
+            </svg>
+        </div>
+        <div class="box-area">
+            <img src="assets/img/device.svg" alt="">
+            <p class="wifi-name">{{ computeNetworkInfo() }}</p>
+            <p class="progress"><span class="percent">{{ progress }}</span><span>%</span></p>
+            <p class="progress-tip">{{ global.Lf("IsScanning") }}</p>
+            <div class="circles">
+            	<div class="circle circle-1"></div>
+            	<div class="circle circle-2"></div>
+            	<div class="circle circle-3"></div>
+            	<div class="circle circle-4"></div>
+            	<div class="circle circle-5"></div>
+			</div>
+			
+		</div>
+		
+	</div>
+    <div class="devicelist-content" *ngIf="!scanning">
+        <div class="qrcode-button">
+            <svg class="icon" aria-hidden="true" style="display: none;">
+                <use xlink:href="#icon-qrcode"></use>
+            </svg>
+        </div>
+        <div class="box-area">
+            <img src="assets/img/device.svg" alt="">
+			<p>{{ computeNetworkInfo() }}</p>
+			<div class="login-wrap ">
+				<div class="common-focus-button login-btn" tappable click-and-wait (click)="searchUbbeyBox()" ClickAndWaitDirective>{{global.L("RetryScan")}}</div>
+			</div>
+        </div>
+        <div class="device-list">
+            <div class="device-header kr-device-header">
+                <span *ngIf="deviceList.length > 0 && !scanning">{{global.Lf("ScannedDeviceNum", deviceList.length)}}</span>
+                <span *ngIf="deviceList.length === 0 && !scanning">{{global.L("ScanNotFoundDev")}}</span>
+                <span *ngIf="scanning">{{global.L("IsDoingScan")}}</span>
+                <div class="scan-button common-general-button defalutline blueline" click-and-wait tappable   (click)="goLoginPage()">{{global.L("RemoteLogin")}}</div>
+			</div>
+			<ion-list *ngIf="!scanning && deviceList.length > 0">
+				<ul class="device-ul">
+					<li *ngFor="let device of deviceList;" tappable click-and-wait  (click)="gotoBinding(device)">
+						<div class="ubbey ">
+							<svg class="icon" aria-hidden="true">
+								<use xlink:href="#icon-device"></use>
+							</svg>
+						</div>
+						<div class="detail">
+							<h2 class="eps">{{ device.friendlyName }}</h2>
+							<p class="eps">{{ device.deviceType }}</p>
+						</div>
+						<div *ngIf="device.bindUser.length != 0" class="email-button common-general-button defalutline blueline" >{{device.bindUser}}</div>
+					</li>
+				</ul>
+			</ion-list>
+
+			<div class="no-device" *ngIf="!scanning && deviceList.length === 0">
+				<div class="tips">
+					<svg class="icon" aria-hidden="true">
+		                <use xlink:href="#icon-no-device"></use>
+		            </svg>
+					<p>{{global.L("ScanNotFoundDev")}}</p>
+				</div>
+				<div class="tricks">
+                    <p>·{{global.L("BindComment1")}}</p>
+					<p>·{{global.L("BindComment2")}}</p>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+</ion-content> 

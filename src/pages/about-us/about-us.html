@@ -1,0 +1,40 @@
+<!--
+  Generated template for the AboutUsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{global.L("AboutUs")}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<div class="page-content about-us-content">
+		<div class="logo">
+			<img src="assets/img/ulabs-icon.svg" alt="">
+			<p class="eps">Ubbey Box</p>
+		</div>
+
+		<div class="info-list">
+			<div class="info" ion-item>
+				<p class="key" item-start>{{global.L('Version')}}</p>
+				<p class="value" item-end>{{ appVersion }}</p>
+			</div>
+
+			<div class="info" ion-item>
+				<p class="key" item-start>{{global.L("WebSite")}}</p>
+				<p class="value" item-end>http://ulabs.tech/</p>
+			</div>
+		</div>
+
+		<div class="copyright">
+			<p class="">{{global.L("Copyright")}}</p>
+		</div>
+
+	</div>
+</ion-content>

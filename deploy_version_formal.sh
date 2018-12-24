@@ -1,0 +1,1 @@
+scp ./src/assets/js/versionControl.json work@211.159.189.190:~/ubbey/

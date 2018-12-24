@@ -1,0 +1,37 @@
+<!-- Generated template for the DropdownFolderComponent component -->
+<h1 class="folder">
+    <p class="title eps">{{ pageTitle }}</p>
+    <div class="span-folder">
+      <svg class="icon" aria-hidden="true" tappable (click)="toggleFolderSelect()">
+        <use xlink:href="#icon-fileview"></use>
+      </svg>
+    </div>
+
+
+    <ul class="type-list" *ngIf="typeListShow">
+      <li tappable (click)="goFolderPage('image', '/Images')">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-image"></use>
+          </svg>
+          <h2>{{global.L('DirImages')}}</h2>
+      </li>
+      <li tappable (click)="goFolderPage('video', '/Videos')">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-video"></use>
+          </svg>
+          <h2>{{global.L('DirVideos')}}</h2>
+      </li>
+      <li tappable (click)="goFolderPage('music', '/Music')">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-music"></use>
+          </svg>
+          <h2>{{global.L('DirMusics')}}</h2>
+      </li>
+      <li tappable (click)="goFolderPage('document', '/Documents')">
+          <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-document"></use>
+          </svg>
+          <h2>{{global.L('DirDocuments')}}</h2>
+      </li>
+    </ul>
+</h1>

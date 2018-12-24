@@ -1,0 +1,96 @@
+add-file {
+    .file-type-select {
+        position: fixed;
+        z-index: 100;
+        background: #fff;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+
+        .file-type-select-wrap {
+            position: absolute;
+            bottom: 50px;
+            width: 100%;
+            padding: 0 $padding;
+            height: 360px;
+        }
+        .title {
+            color: #5D75F7;
+            font-size: 17px;
+            line-height: 1.75;
+        }
+        .content {
+            color: #9B9B9B;
+            font-size: 14px;
+            line-height: 1.75;
+        }
+        .type-list {
+            overflow: hidden;
+            padding-top: 30px;
+            margin: 0px -18px;
+            li {
+
+                float: left;
+                width: 25%;
+                text-align: center;
+                color: #1B1B1B;
+                font-size: 14px;
+                margin-bottom: 20px;
+                h2 {
+                    font-size: 14px;
+                    font-weight: normal;
+                    text-align: center;
+                    text-indent: 0;
+                    margin-top: 9px;
+                }
+                
+                img {
+                    width: 48px;
+                }
+                .folderbox  {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    margin: 0 auto;
+                    .icon {
+                        position: relative;
+                        font-size: 22px;
+                        display: block;
+                        margin: 0 auto;
+                        top: 13px;
+                        color: #fff;
+                    }
+                    &.FF4747{
+                        background: #FF4747;
+                    }
+                    &.F5A623{
+                        background: #F5A623;
+                    }
+                    &.D5D75F7{
+                        background: #5D75F7;
+                    }
+                    &.D3FCD67{
+                        background: #3FCD67;
+                    }
+                    &.D586D97{
+                        background: #586D97;
+                    }
+                    &.A90E2{
+                        background: #4A90E2;
+                    }
+                    
+                }
+
+            }
+        }
+        .close {
+            font-size: 54px;
+            bottom: 20px;
+            position: absolute;
+            right: 8px;
+            padding: 10px;
+        }
+    }
+    
+}

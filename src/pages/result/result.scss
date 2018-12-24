@@ -1,0 +1,20 @@
+page-result {
+	.result-content {
+		padding: $padding;
+		background: $bgColor;
+		text-align: center;
+		min-height: 100%;
+		.icon {
+    		display: block;
+			color: $mainColor;
+			font-size: 54px;
+			margin: 100px - $padding auto 0;
+		}
+		p {
+			font-size: 16px;
+		    color: #4A4A4A;
+		    margin-top: 14px;
+		    margin-bottom: 41px;
+		}
+	}
+}

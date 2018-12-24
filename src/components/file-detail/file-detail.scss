@@ -1,0 +1,162 @@
+file-detail {
+    text-align: left;
+    dl,dt,dd{
+        margin: 0;
+        padding: 0;
+    }
+    .info-box {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        background: rgba(0,0,0,0.3);
+        top: 0;
+        left: 0;
+        z-index: 999;
+        .box-bg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            background: transparent;
+        }
+        .content-box {
+            height: 399px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            background: #fff;
+            box-sizing: border-box;
+            .info-head {
+                padding: 10px;
+                border-bottom: 1px solid #edededa1;
+                dl {
+                    overflow: hidden;
+                }
+                dt,dd {
+                    display: inline-block;
+                    float: left;
+                }
+                dt {
+                    width: 48px;
+                    height: 48px;
+                    background-size: cover;
+                    &.default {
+                        background-image: url(../assets/img/default.svg);
+                    }                
+                    &.pdf {
+                        background-image: url(../assets/img/pdf.svg);
+                    }
+                    &.ppt {
+                        background-image: url(../assets/img/ppt.svg);
+                    }            
+                    &.xls {
+                        background-image: url(../assets/img/xls.svg);
+                    }            
+                    &.video {
+                        background-image: url(../assets/img/video.svg);
+                    }            
+                    &.image {
+                        background-image: url(../assets/img/image.svg);
+                    }            
+                    &.folder {
+                        background-image: url(../assets/img/folder.svg);
+                    }            
+                    &.doc {
+                        background-image: url(../assets/img/doc.svg);
+                    }            
+                    &.zip {
+                        background-image: url(../assets/img/zip.svg);
+                    }
+                    &.music {
+                        background-image: url(../assets/img/music.svg);
+                    }
+                    img {
+                        width: 48px;
+                        height: 48px;
+                        position: relative;
+                    }
+                }
+                dd {
+                    width: calc(100% - 48px);
+                    padding-left: 10px;
+                }
+                .title {
+                    color: #1B1B1B;
+                    font-size: 17px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+                .path {
+                    color: #6F6F6F;
+                    font-size: 12px;
+                    margin-top: 5px;
+                }
+            }
+            .info-list{
+                padding: 10px;
+                color: #6F6F6F;
+                font-size: 13px;
+                line-height: 30px;
+            }
+            .info-operation {
+                padding-top: 4px;
+                ul {
+                    overflow: hidden;
+                    li {
+                        width: 20%;
+                        float: left;
+                        text-align: center;
+                        span {
+                            display: inline-block;
+                            width: 48px;
+                            margin: 0 auto;
+                            display: inline-block;
+                            line-height: 30px;
+                            color: #6F6F6F;
+                            font-size: 12px;
+                            &.iconspan {
+                                height: 48px;
+                                border-radius: 50%;
+                                color: #fff;
+                                background: #3FCD67;
+                                font-size: 23px;
+                                line-height: 48px;
+                                text-align: center;
+                                &.download {
+                                    background: #F5A623;
+                                }
+                                &.move {
+                                    background: #5D75F7;
+                                }
+                                &.rename {
+                                    background: #586D97;
+                                }
+                                &.delete {
+                                    background: #FF4747;
+                                }
+                            }
+                            &.font-span {
+                                width: 100%;
+                            }
+                        }
+                       
+                    }
+                }
+                button{
+                    width: 100%;
+                    height: 48px;
+                    line-height: 48px;
+                    color: #4a4a4a;
+                    font-size: 17px;
+                    background: #f8f8f8;
+                }
+
+            }
+        }
+    }
+}

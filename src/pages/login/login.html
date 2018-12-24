@@ -1,0 +1,42 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+	<div class="login-content">
+		<h2 class="login-title">{{global.L("Login")}}({{global.L("InnerTestVersion")}})</h2>
+		<p class="login-desc" *ngIf="showDes">{{global.L("LoginYouCanFinishBind")}}</p>
+		<form class="login-form" action="">
+			<div class="form-input">
+				<input type="text" name="username" [(ngModel)]="username" class="common-input normal-input" placeholder="{{global.L('PlsInputEmail')}}"/>
+				<label class="borderline"></label>
+				<p class="error-input" *ngIf="uError">{{ uErrorText }}</p>
+			</div>		
+
+			<div class="form-input passwd-wrap {{eyeshow?'open-eye':'close-eye'}}">
+				<input  type="{{eyeshow?'text':'password'}}"  name="password" [(ngModel)]="password" class="common-input normal-input" placeholder="{{global.L('PlsInputPassword')}}"/>
+				<label class="borderline"></label>
+				<svg aria-hidden="true" (click)="showIcon()" class="icon open">
+					<use xlink:href="#icon-eyeopen"></use>
+				</svg>					
+				<svg aria-hidden="true" class="icon closed"  (click)="showIcon()">
+					<use xlink:href="#icon-eyeclose"></use>
+				</svg>
+				<p class="error-input" *ngIf="pError">{{ pErrorText }}</p>
+			</div>
+		</form>
+
+		<div class="common-focus-button login-btn" tappable (click)="doLogin()">{{global.L("Login")}}({{global.L("InnerTestVersion")}})</div>
+		<div class="buttons">
+			<div class="forget-password fl" (click)="goForgetPasswdPage()">{{global.L("ForgotPassword")}}</div>
+			<div class="forget-password fr" (click)="goRegisterPage()">{{global.L("RegisterNewUser")}}</div>
+		</div>		
+	</div>
+
+</ion-content>

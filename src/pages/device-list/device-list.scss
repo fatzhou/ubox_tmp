@@ -1,0 +1,320 @@
+page-device-list {
+	$Duration: 1s;
+	.scanning {
+		color: $mainColor;
+	    height: 100%;
+	    padding: 10px;
+	    .qrcode-button {
+	    	overflow: hidden;
+	    	position: relative;
+	    	z-index: 9999;
+	    	.stop {
+	    		font-size: 18px;
+    			float: left;
+				.back-icon  {
+					font-size: 22px;
+				}
+	    	}
+    		.qrcode-icon {
+				font-size: 22px;
+			    float: right;
+			    margin-top: 2px;
+			}
+	    }
+	    .box-area {
+	    	position: relative;
+	    	padding-top: 160px;
+	    	text-align: center;
+
+	    	img {
+	    		width: 80%;
+	    	}
+	    	.circles {
+	    		position: absolute;
+	    		width: 100%;
+	    		height: 400px;
+	    		overflow: visible;
+	    		left: 0;
+	    		top: 0;
+	    		.circle {
+	    			position: absolute;
+	    			top: 181px;
+	    			left: 50%;
+	    			border-radius: 50%;
+	    			background: rgba(93, 117, 247, .1);
+					border: 1px solid #5D75F7;
+					opacity: 0;
+	    		}
+	    		.circle-1 {
+					width: 80px;
+					height: 80px;
+					margin-left: -40px;
+					margin-top: -40px;
+					/*opacity: .7;*/
+					animation: circle1 $Duration infinite;
+					background: radial-gradient(#fff, #eef0fc, rgba(93, 117, 247,0.7));
+	    		}	    		
+	    		.circle-2 {
+					width: 160px;
+					height: 160px;
+					margin-left: -80px;
+					margin-top: -80px;
+					/*opacity: .3;*/
+					animation: circle2 $Duration infinite;
+					background: radial-gradient(#fff, #ffffff, rgba(93, 117, 247,0.8));
+	    		}	    		
+	    		.circle-3 {
+					width: 280px;
+					height: 280px;
+					margin-left: -140px;
+					margin-top: -140px;
+					/*opacity: .2;*/
+					animation: circle3 $Duration infinite;
+					background: radial-gradient(#fff, #ffffff, rgba(93, 117, 247,0.6));
+	    		}	    		
+	    		.circle-4 {
+					width: 400px;
+					height: 400px;
+					margin-left: -200px;
+					margin-top: -200px;
+					/*opacity: .1;*/
+					animation: circle4 $Duration infinite;
+					background: radial-gradient(#fff, #ffffff, rgba(93, 117, 247,0.5));
+	    		}	    		
+	    		.circle-5 {
+					width: 600px;
+					height: 600px;
+					margin-left: -300px;
+					margin-top: -300px;
+					background: radial-gradient(#fff, #ffffff, rgba(93, 117, 247,0.4));
+					/*opacity: .05;*/
+					animation: circle5 $Duration infinite;
+	    		}
+	    	}
+	    	img {
+	    		width: 240px;
+	    		/*max-width: 80%;*/
+	    		display: block;
+	    		margin: 0 auto;
+	    		position: relative;
+    			z-index: 9999;
+	    	}
+	    	.wifi-name {
+	    		margin-top: 21px;
+	    		font-size: 14px;
+	    		line-height: 20px;
+	    	}
+	    	.progress {
+	    		font-size: 24px;
+	    		margin-top: 54px;
+	    		span {
+	    			/*vertical-align: bottom;*/
+	    			display: inline-block;
+	    			line-height: 1;
+	    			&.percent {
+	    				font-size: 34px;
+	    			}
+	    		}
+	    	}
+	    	.progress-tip {
+	    		margin-top: 6px;
+	    		font-size: 16px;
+	    	}
+	    }
+	}
+	.devicelist-content {
+		background: #fff;
+		padding-bottom: 20px;
+    	min-height: 100%;
+		.qrcode-button {
+			text-align: right;
+			padding: $padding;
+			background: $bgColor;
+			height: 58px;
+			.icon  {
+				font-size: 22px;
+			}
+		}
+		.box-area {
+			text-align: center;
+			padding-top: 35px;
+			padding-bottom: 20px;
+			background: $bgColor;
+			img {
+				width: 60%;
+			}
+			p {
+				font-size: 14px;
+				line-height: 20px;
+				margin-top: 12px;
+				color: $mainColor;
+				letter-spacing: 0.17px;
+			}
+		}
+		.device-list {
+
+		}
+		.device-header {
+			line-height: 44px;
+		    height: 44px;
+		    font-size: 17px;
+		    color: #000000;
+		    letter-spacing: 0.2px;
+		    position: relative;
+		    /*box-shadow: 0 0 10px 0 rgba(181,181,181,0.50);*/
+		    border-top: 1px solid #e8e8e8;
+		    border-bottom: 1px solid #e8e8e8;
+		    padding: 0 $padding;
+		    .scan-button {
+		    	/*width: 80px;*/
+		    	padding: 0 10px;
+			    height: 32px;
+			    font-size: 14px;
+			    letter-spacing: 0.17px;
+			    text-align: center;
+			    line-height: 30px;
+			    position: absolute;
+			    right: $padding;
+			    top: 5px;
+		    }
+		}
+		.kr-device-header{
+			padding: 0 14px;
+			font-size: 16px;
+			.scan-button{
+				right: 14px;
+			}
+		}
+		.device-ul {
+			padding: $padding 0;
+			padding-top: 0;
+			li {
+				background: #fff;
+			    padding: $padding - 4px;
+				overflow: hidden;
+				border-bottom: 1px solid #e8e8e8;
+			    &:last-child {
+			    	margin-bottom: 0;
+			    }	
+			    .ubbey {
+			    	width: 44px;
+				    height: 44px;
+				    background: #DFE3FD;
+				    border-radius: 4px;
+				    color: $mainColor;
+				    text-align: center;
+				    line-height: 44px;
+				    float: left;
+				    font-size: 25px;
+			    }	
+			    .detail {
+				    float: left;
+				    margin-left: 11px;
+				    max-width: 240px;
+				    h2 {
+				    	font-size: 20px;
+					    color: #000;
+					    font-weight: bold;
+					    line-height: 24px;
+					    margin-bottom: 6px;
+				    }
+				    p {
+				    	font-size: 12px;
+    					line-height: 14px;
+				    }
+				}	
+				.email-button{
+					float: right;
+					line-height: 30px;
+					height: 30px;
+					padding: 0 5px;
+					font-size: 12px;
+					background: #EEF0FA;
+					width: 60px;
+					overflow: hidden;
+					margin-top: 7px;
+				}	
+			}
+		}	
+		.login-wrap {
+			margin: 78px - $padding $padding 0;
+		}	
+		.no-device {
+			padding-top: 25px;
+    		margin-bottom: 40px;
+    		.tips {
+    			text-align: center;
+    			svg {
+    				font-size: 44px;
+    			}
+    			p {
+    				font-size: 14px;
+				    color: #333;
+				    margin-top: 4px;
+    			}
+    		}
+    		.tricks {
+    			font-size: 14px;
+			    color: #8E8E93;
+			    line-height: 1.75;
+			    padding: 0 18px;
+			    margin-top: 22px;
+			    h2 {
+			    	font-size: 14px;
+			    	font-weight: normal;
+			    }
+    		}
+		}
+	}
+	@keyframes circle1 {
+		0%, 20%{
+			opacity: 0;
+		}
+		30%, 100% {
+			opacity: .7;
+		}
+    }	
+   	@keyframes circle2 {
+		0%, 30%{
+			opacity: 0;
+		}
+		60%, 100% {
+			opacity: .3;
+		}
+    }  
+   	@keyframes circle3 {
+		0%, 60% {
+			opacity: 0;
+		}
+		80%, 100% {
+			opacity: .2;
+		}
+    }  
+   	@keyframes circle4 {
+		0%, 80% {
+			opacity: 0;
+		}
+		90%, 100% {
+			opacity: .1;
+		}
+    }    
+   	@keyframes circle5 {
+		0%, 90% {
+			opacity: 0;
+		}
+		98%, 100% {
+			opacity: .05;
+		}
+	}  
+	.content-ios:not([no-bounce]) > .scroll-content::before, .content-ios:not([no-bounce]) > .scroll-content::after {
+		height: 0;
+	}
+}
+
+@media only screen and (max-width: 320px) {  
+	page-devicelist {
+		.devicelist-content .device-ul li .detail {
+			max-width: 180px;
+		}
+	} 
+}

@@ -1,0 +1,22 @@
+<ion-content tappable (click)="toggleTitle()">
+    <div class="qrcode-button" *ngIf="isShowTitle" (click)="$event.stopPropagation();">
+        <div class="back-box" (click)="goBack();$event.stopPropagation();">
+            <svg class="icon back-icon" aria-hidden="true">
+                <use xlink:href="#icon-Backicon"></use>
+            </svg>
+            {{global.L("Back")}}
+        </div>
+        <span>{{ imageName }}</span>
+        <svg class="icon more-icon" aria-hidden="true" (click)="toggleDetailPage(true);$event.stopPropagation();">
+            <use xlink:href="#icon-Moreicon"></use>
+        </svg>
+    </div>
+    <ion-slides (ionSlideDidChange)="slideChanged()">
+        <ion-slide *ngFor="let info of fileList">
+            <img [src]="info.thumbnail">
+        </ion-slide>
+    </ion-slides>
+    
+</ion-content>
+<file-detail *ngIf="isShowDetail" [path]='currPath' (closeDetailBox)="toggleDetailPage()" citePage="preview" (goPop)="goBack()" [info]="imageInfo"></file-detail>
+    

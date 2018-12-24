@@ -1,0 +1,29 @@
+<!--
+  Generated template for the WalletSettingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>
+    	{{ global.L("WalletSetting") }}
+<!-- 		<span class="save-btn fr" tappable (click)="saveModify()">
+	    	{{global.L("SaveModify")}}
+	    </span> -->
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+	<div class="main-content">
+		<button (click)="goModifyNamePage()" class="bor-btm" ion-item>{{ global.L("WalletName") }}<span item-end>{{ name }}</span></button>
+		<button (click)="goChangePayPasswordPage()" class="bor-btm" ion-item>{{ global.L("ChangePayPassword") }}</button>
+		<button (click)="goExportKeystorePage()" class="bor-btm" ion-item>{{ global.L("ExportKeystore") }}</button>
+
+    <div class="remove-btn-wrap">
+      <div class="common-general-button defalutline blueline lightbackground remove-btn" click-and-wait tappable (click)="doRemove()">{{global.L("DeleteWallet")}}</div>     
+    </div>    
+	</div>
+</ion-content>

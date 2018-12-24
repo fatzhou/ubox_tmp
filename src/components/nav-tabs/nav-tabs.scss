@@ -1,0 +1,44 @@
+nav-tabs {
+	.nav-bars {
+		overflow: hidden;
+		position: fixed;
+		height: 50px;
+		width: 101%;
+		margin: 0 -1%;
+		bottom: 0;
+		left: 0;
+		text-align: center;
+		background: #fff;
+		box-shadow: 0 -1px 1px #d8d8d8;
+		margin: 0 -0.5%;
+		.nav {
+			width: 33%;
+			height: 100%;
+			float: left;
+			.icon {
+				font-size: 28px;
+				margin: 6px auto 2px;
+			}
+			p {
+				font-size: 10px;
+			}
+			.icon-light {
+				display: none;
+			}
+			.icon-dark {
+				display: block;
+			}
+			&.focus {
+				.icon-light {
+					display: block;
+				}
+				.icon-dark {
+					display: none;
+				}
+				p {
+					color: #4E65EF;
+				}
+			}
+		}
+	}
+}

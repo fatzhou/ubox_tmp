@@ -1,0 +1,53 @@
+<!--
+  Generated template for the ChangepasswdPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+	<div class="page-content change-passwd-content">
+		<h2 class="change-passwd-title h2-title">{{global.L("ChangePassword")}}</h2>
+		<p class="change-passwd-desc">{{global.L("PasswordRuleDesc")}}</p>
+		<form class="change-passwd-form" action="">
+			<div class="form-input">
+				<input type="text" name="username" class="common-input disabled-input" placeholder="{{global.L('PlsInputUsername')}}" [(ngModel)]="username" disabled/>
+				<label class="borderline disabledline"></label>
+
+			</div>		
+
+			<div class="form-input passwd-wrap {{eyeshow?'open-eye':'close-eye'}}">
+				<!-- <div class="passwd-wrap close-eye"> -->
+					<input type="{{eyeshow?'text':'password'}}" name="password1" [(ngModel)]="password1" class="common-input normal-input passwd-input" placeholder="{{global.L('PlsInputOldPassword')}}"/>
+					<label class="borderline"></label>
+					<!-- <svg aria-hidden="true" (click)="showIcon()" class="icon open">
+						<use xlink:href="#icon-eyeopen"></use>
+					</svg>					
+					<svg aria-hidden="true" class="icon closed"  (click)="showIcon()">
+						<use xlink:href="#icon-eyeclose"></use>
+					</svg>
+				</div> -->
+				<p class="error-input" *ngIf="pError1">{{ pErrorText1 }}</p>
+			</div>	
+
+			<div class="form-input">
+				<input type="password" name="password2" [(ngModel)]="password2" class="common-input normal-input passwd-input" placeholder="{{global.L('PlsInputNewPassword')}}"/>
+				<label class="borderline"></label>
+
+				<p class="error-input" *ngIf="pError2">{{ pErrorText2 }}</p>
+			</div>			
+
+			<div class="form-input">
+				<input type="password" name="password3" [(ngModel)]="password3" class="common-input normal-input passwd-input" placeholder="{{global.L('PlsInputNewPassword1')}}"/>
+				<label class="borderline"></label>
+				<p class="error-input" *ngIf="pError3">{{ pErrorText3 }}</p>
+			</div>
+		</form> 
+
+		<div class="common-focus-button change-passwd-btn" click-and-wait tappable (click)="commitNewPassword()">{{global.L("Commit")}}</div>
+	</div>
+</ion-content>

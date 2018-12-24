@@ -1,0 +1,113 @@
+page-mining-test-list {
+	$pagePadding: 10px;
+	.toolbar{
+		.toolbar-background{
+		   border-bottom: .5px solid #d8d8d8;			
+		}
+		
+	}
+	.scroll-content{
+		background: $bgColor;
+	}
+	.reward-list {
+		
+		li {
+			.month {
+				padding: 0 $pagePadding;
+				line-height: 32px;
+				height: 32px;
+				font-size: 12px;
+				color: #9B9B9B;
+				background: $bgColor;
+			}
+			.reward-day {
+				padding: 4px 0;
+				background: $bgColor;
+				.reward-info {
+					margin-bottom: 10px;
+					background: #fff;
+					border-top: 1px solid #ededed69;
+					border-bottom: 1px solid #ededed69;
+					&:last-child{
+						margin-bottom: 0px;
+					}
+					.reward-all{
+						padding: 10px 16px;
+						overflow: hidden;
+					}
+					.icon {
+						font-size: 28px;
+					}
+					.desc {
+						margin-left: 6px;
+						margin-top: -4px;
+						.tips {
+							color: #444;
+    						font-size: 16px;
+    						margin-bottom: 2px;
+						}
+						.date {
+							color: #9B9B9B;
+							font-size: 12px;
+						}
+					}
+					.reward-amount {
+						color: #9B9B9B;
+						font-size: 12px;
+						margin-top: 8px;
+						span {
+							color: #444;
+							font-size: 16px;
+						}
+					}
+					.see-detail{
+						clear: both;
+						background: #FCFCFC;
+						color: #9b9b9b;
+						line-height: 34px;
+						font-size: 14px;
+						border-top: 1px solid #ededed69;
+						padding: 0px 16px;
+						.icon{
+							font-size: 34px;
+							padding: 11px;
+						}
+					}
+					.detail-list{
+						clear: both;
+						overflow: hidden;
+						.detail-box{
+							overflow: hidden;
+							padding: 10px 16px;
+							border-top: 1px solid #ededed69;
+							.desc{
+								margin-left: 0;
+								p{
+									padding: 2px 0;
+									b{
+										font-weight: normal;
+										color:#333;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.no-avenue {
+        text-align: center;
+        margin-top: 80px;
+        img {
+            width: 64px;
+        }
+        p {
+            color: #5D75F7;
+            line-height: 3;
+            font-size: 12px;
+        }
+    }
+}
+

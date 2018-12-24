@@ -1,0 +1,38 @@
+<!-- Generated template for the DeviceComponent component -->
+<div class="device" *ngIf="global.centerUserInfo.uname != undefined">
+    <div class="ubbey" (click)="goPages()">
+        <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-device"></use>
+        </svg>
+    </div>
+
+    <h1 class="eps">
+	  	<span (click)="goPages()">{{ global.deviceSelected ? global.deviceSelected.friendlyName : global.L('WORD89462053') }}</span>
+		<svg class="icon" aria-hidden="true" style="display: none;">
+			<use xlink:href="#icon-fold"></use>
+		</svg>
+	</h1>
+</div>
+<div class="device" *ngIf="global.centerUserInfo.uname == undefined">
+	<h1 class="eps">
+		<span>{{ global.L('LoginBtn') }}</span>
+	</h1>	
+	
+	<div *ngIf="loginTipsFlag" class="login-mask" (click)="promptLogin()">
+		{{ global.L('LoginTips') }}
+		<svg class="icon close" aria-hidden="true" (click)="closeLoginTips();$event.stopPropagation();">
+			<use xlink:href="#icon-guanbiicon"></use>
+		</svg>
+	</div>	
+</div>
+<!-- <div tappable class="tips" *ngIf="(!global.networking || !global.deviceSelected || !global.boxStatus || !(global.diskInfo.disks && global.diskInfo.disks.length)) || tipsShow" (click)="$event.stopPropagation();" ion-item> -->
+<!-- <div tappable class="tips" *ngIf="lastPath==='home-page'&&tipsShow && (!global.networking || !global.deviceSelected || !global.boxStatus || !global.diskInfoStatus)" (click)="$event.stopPropagation();" ion-item>
+   <svg class="icon icon-tips" aria-hidden="true" item-start>
+      <use xlink:href="#icon-tanhao"></use>
+   </svg>
+	<span>{{ !global.networking ? global.L('WORD5e53c092') : (!global.deviceSelected ? global.L('REMOTE_CONNECT') : (!global.boxStatus ? showboxStatus : global.L('WORD8cabdefd'))) }}</span>
+
+   <svg class="icon icon-close" aria-hidden="true" item-end tappable (click)="closeTips();$event.stopPropagation();">
+      <use xlink:href="#icon-guanbiicon"></use>
+   </svg>
+</div>	 -->

@@ -1,0 +1,55 @@
+$font-path: '../assets/fonts';
+@font-face {
+  font-family: 'wecare';
+  src:  url('fonts/wecare.eot?4wpwse');
+  src:  url('fonts/wecare.eot?4wpwse#iefix') format('embedded-opentype'),
+    url('fonts/wecare.ttf?4wpwse') format('truetype'),
+    url('fonts/wecare.woff?4wpwse') format('woff'),
+    url('fonts/wecare.svg?4wpwse#wecare') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.wecare {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'wecare' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.ion-ios-smart-outline:before, 
+    .ion-ios-smart:before, 
+    .ion-md-smart-outline:before, 
+    .ion-md-smart:before, 
+    
+    .ion-md-test-outline:before, 
+    .ion-md-test:before {
+      @extend .wecare;
+    }
+.ion-ios-smart-outline:before {
+  content: "\e942";
+}
+.ion-ios-smart:before {
+  content: "\e950";
+}
+.ion-md-smart-outline:before {
+  content: "\e9a3";
+}
+.ion-md-smart:before {
+  content: "\e9a4";
+}
+.ion-md-test-outline:before {
+  content: "\e9a5";
+}
+.ion-md-test:before {
+  content: "\e9a6";
+}
+
+

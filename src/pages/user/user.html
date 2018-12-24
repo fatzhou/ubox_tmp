@@ -1,0 +1,64 @@
+<!--
+  Generated template for the HomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-content>
+  <div class="user-page">
+	<div class="message" (click)="goNoticePage()">
+		<svg class="icon" aria-hidden="true"  *ngIf="!isShowNotice" end>
+				<use xlink:href="#icon-MessageCenter"></use>
+		</svg>
+		<svg class="icon" aria-hidden="true" *ngIf="isShowNotice" end>
+				<use xlink:href="#icon-MessageCenter-red"></use>
+		</svg>
+	</div>
+	<div class="avatar-info">
+		<div class="info">
+			<div class="img-wrap">
+				<img src="assets/img/avatar@2x.png" alt="">
+			</div>
+			<p>{{ username }}</p>
+		</div>
+		<div class="admin">
+			<div class="admin-wrap clear">
+				<div class="wallet fl" tappable (click)="goWalletSelectPage()">
+					<svg class="icon" aria-hidden="true" end>
+				        <use xlink:href="#icon-qianbaoguanli"></use>
+				    </svg>
+				    <p>{{global.L("WalletManagement")}}</p>
+				</div>			
+
+				<div class="wallet fl" tappable (click)="goDeviceManagementPage()">
+					<svg class="icon" aria-hidden="true" end>
+				        <use xlink:href="#icon-shebeiguanli"></use>
+				    </svg>
+				    <p>{{global.L("DeviceManagement")}}</p>
+				</div>				
+			</div>
+		</div>
+	</div>
+
+	<div class="function-list">
+		<button ion-item (click)="goChangePasswdPage()">
+			{{global.L("ModifyPassword")}}
+		</button>			
+		<button ion-item (click)="goSystemSettingPage()">
+			{{global.L("System")}}
+		</button>
+	</div>		
+
+	<div class="function-list">
+<!-- 		<button ion-item (click)="checkUpdate()">
+	      {{global.L("CheckUpdate")}}
+	    </button>	 -->			
+	    <button ion-item (click)="goAboutUsPage()">
+	      {{global.L("AboutUs")}}
+	    </button>		    
+	    <button ion-item click-and-wait (click)="logoutSystem()">
+	      {{global.L("ExitLogin")}}
+	    </button>
+	</div> 
+  </div>
+</ion-content>

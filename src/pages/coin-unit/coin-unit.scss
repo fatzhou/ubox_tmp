@@ -1,0 +1,30 @@
+page-coin-unit {
+	.save-btn {
+		margin-right: 10px;
+		color: #444;
+		font-size: 18px;
+		position: absolute;
+		right: 0;
+		font-weight: normal;
+	}	
+
+	.language-select-page {
+		border-top: 1px solid #d8d8d8;		
+		.language-list {
+			padding: 0 10px;
+			background: #fff;
+			margin-top: 20px;
+			.language {
+				border-bottom: 1px solid #f1f1f1;
+				&:last-child {
+					border-bottom: none;
+				}
+				.icon {
+					font-size: 24px;
+					margin-right: -2px;
+				}
+			}			
+		}
+
+	}
+}

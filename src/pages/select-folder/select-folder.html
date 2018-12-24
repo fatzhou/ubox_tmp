@@ -1,0 +1,57 @@
+<!--
+  Generated template for the SelectfolderPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+      <ion-title>
+        {{ global.L('SelectFile') }}
+            <div class="list-header">
+                <div class="back-nav">
+                    <div class="back-btn" (click)='toggleAllSelected()'>  
+                        <span tappable *ngIf="!isAllSelected">{{ global.L('SelectAll') }}</span>  
+                        <span tappable *ngIf="isAllSelected">{{ global.L('CancelSelectAll') }}</span>               
+                    </div>     
+                </div>    
+            </div>
+      </ion-title>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content>
+    <div class="main-content">
+        <div class="second-content">
+            <div>
+                <ul *ngIf="listFiles.length > 0">
+                    <li  tappable class="fileli" *ngFor="let info of listFiles" (click)="selectFile(info)">
+                        <div class="file-type" [ngClass]="util.computeFileType(info.name, info.isFile ? 0 : 1)"></div>
+                        <div class="info">
+                            <h2 class="eps">{{ info.name }}</h2>
+                            <p>{{ info.path }}</p>
+                        </div>
+                        <div class="btn">
+                            <svg class="icon icon-ellipsis nexticon" *ngIf="info.isFile == false" aria-hidden="true" >
+                                <use xlink:href="#icon-you"></use>
+                            </svg>  
+                            <svg class="icon icon-ellipsis" *ngIf="info.isFile == true" [ngClass]="info.isSelected == true ? 'active' : ''" aria-hidden="true" >
+                                <use xlink:href="#icon-gouxuanicon"></use>
+                            </svg>                                 
+                        </div>
+                    </li>
+                </ul>
+                <div class="no-file" *ngIf="listFiles.length == 0">
+                    <img src="assets/img/file@2x.png" alt="">
+                    <p>{{global.L("NoFiles")}}</p>
+                </div>
+            </div>
+        </div>
+        </div>
+        <ion-infinite-scroll (ionInfinite)="refreshFileList($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+  </ion-content>
+  <file-footer class="footer" *ngIf="isShowFooter ? '' : 'hidden'" [canClick]="canUpload" (uploadFileEvent)="uploadFile()"></file-footer>

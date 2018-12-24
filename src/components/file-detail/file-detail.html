@@ -1,0 +1,68 @@
+<!-- Generated template for the FileDetailComponent component -->
+<div class="info-box">
+    <div class="box-bg" tappable (click)="closeBox()"></div>
+    <div class="content-box" >
+        <div class="info-head">
+        <dl>
+            <dt class="default" [ngClass]="info.style">
+                <img *ngIf="info.style == 'image' && info.thumbnail != ''" [src]="info.thumbnail" alt="">
+            </dt>
+            <dd class='title'>{{ info.name }}</dd>
+            <dd class='path'>{{ path }}</dd>
+        </dl>
+        </div>
+        <div class="info-list">
+            <p>{{ global.L('Type') }}: {{ info.style }}</p>
+            <p>{{ global.L('Size') }}: {{ (info.size || '0.00') | computeFileSize }}</p>
+            <p>{{ global.L('Owner') }}: {{ owner }}</p>
+            <p>{{ global.L('CreatTime') }}: {{ info.displayTime }}</p>
+            <p>{{ global.L('EditTime') }}: {{ info.displayTime }}</p>
+            <p>{{ global.L('Editor') }}: {{ modifier }}</p>
+        </div>
+        <div class="info-operation">
+        <ul>
+            <li (click)="shareFile()">
+                <span class="iconspan">
+                    <svg class="icon icon-ellipsis nexticon" aria-hidden="true" >
+                        <use xlink:href="#icon-Shareicon"></use>
+                    </svg> 
+                </span>
+                <span class="font-span">{{ global.L('Share') }}</span>
+            </li>
+            <li (click)="downloadFile()">
+                <span class="iconspan download">
+                    <svg class="icon icon-ellipsis nexticon" aria-hidden="true" >
+                        <use xlink:href="#icon-downloadicon"></use>
+                    </svg> 
+                </span>
+                <span class="font-span">{{ global.L('Download') }}</span>
+            </li>
+            <li (click)="moveFilePath()">
+                <span class="iconspan move">
+                    <svg class="icon icon-ellipsis nexticon" aria-hidden="true" >
+                        <use xlink:href="#icon-Moveicon"></use>
+                    </svg> 
+                </span> 
+                <span class="font-span">{{ global.L('Move') }}</span>
+            </li>
+            <li (click)="renameFile()">
+                <span class="iconspan rename">
+                    <svg class="icon icon-ellipsis nexticon" aria-hidden="true" >
+                        <use xlink:href="#icon-Renameicon"></use>
+                    </svg> 
+                </span> 
+                <span class="font-span">{{ global.L('Rename') }}</span>
+            </li>
+            <li (click)="deleteFile()">
+                <span class="iconspan delete">
+                    <svg class="icon icon-ellipsis nexticon" aria-hidden="true" >
+                        <use xlink:href="#icon-deleteicon"></use>
+                    </svg> 
+                </span> 
+                <span class="font-span">{{ global.L('Delete') }}</span>
+            </li>
+        </ul>
+        <button (click)="closeBox()">{{ global.L('Cancel') }}</button>
+        </div>
+    </div>
+</div>

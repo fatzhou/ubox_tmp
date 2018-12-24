@@ -1,0 +1,75 @@
+<!--
+  Generated template for the AboutDevicePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+    <ion-navbar>
+        <ion-title></ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <div class="page-content about-device-page">
+        <h2 class="h2-title">{{global.L("AboutDevice")}}</h2>
+        <!-- <ion-list class="item-list">
+            <ion-item>
+                <ion-label>{{global.L("StartMining")}}</ion-label>
+                <ion-toggle  disabled="true"   [checked]="ifMining" color="secondary"></ion-toggle>
+            </ion-item>
+        </ion-list> -->
+
+        <ion-list class="item-list">
+            <ion-item>
+		        {{global.L("BindWallet")}}
+		        <div class="desc eps" item-end>{{ coinbase }}</div>
+		    </ion-item>
+        </ion-list>
+
+        <ion-list class="item-list">
+            <ion-item >
+		        {{global.L("DeviceName")}}
+		        <div class="desc eps" item-end>{{ deviceName }}</div>
+		    </ion-item>
+
+            <ion-item class="padding-right" *ngIf="deviceType ? true : false">
+		        {{global.L("DeviceModel")}}
+		        <div class="desc eps" item-end (click)="copyType()">{{ deviceType }}</div>
+		    </ion-item>
+
+            <ion-item class="padding-right">
+		        {{global.L("DeviceStatus")}}
+		        <div class="desc eps" item-end>{{global.L("Online")}}</div>
+		    </ion-item>	            
+
+		    <ion-item class="padding-right">
+		        {{global.L("DiskModel")}}
+		        <div class="desc eps" item-end>{{ diskType }}</div>
+		    </ion-item>
+
+		    <ion-item class="padding-right">
+		        {{global.L("DeviceStorage")}}
+		        <div class="desc eps" item-end>
+                    <p>{{global.Lf("DiskAvailableSpace", leftStorage)}}</p>
+                    <p>{{global.Lf("DiskTotalSpace", totalStorage)}}</p>
+		        </div>
+		    </ion-item>	
+
+        </ion-list>
+
+        <ion-list class="item-list">
+            <ion-item class="padding-right">
+		        {{global.L("SerialNo")}}
+		        <div class="desc eps" item-end (click)="copyNumber()">{{ boxId }}</div>
+		    </ion-item>            
+		    <ion-item class="padding-right">
+		        {{global.L("FirmwareVersion")}}
+		        <div class="desc eps" item-end>{{ global.deviceSelected && global.deviceSelected.version }}</div>
+		    </ion-item>		    
+		    <button ion-item (click)="updateRom()">
+		        {{global.L("CheckFirmwareUpdate")}}
+		    </button>
+        </ion-list>
+
+    </div>
+</ion-content>

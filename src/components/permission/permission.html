@@ -1,0 +1,10 @@
+<!-- Generated template for the PermissionComponent component -->
+<div class="bg">
+    <div class="content-box">
+        <div class="content-head"><img src="assets/img/permission.png" alt=""></div>
+        <div class="content-txt">
+            <p>{{ platformName == 'android' ? global.L('AndroidPermissionTxt') : global.L('IosPermissionTxt') }}</p>
+            <div class="content-btn" (click)="closeBox(false);this.checkPermission()">{{ global.L('PermissionBtn') }}</div>
+        </div>
+    </div>
+</div>

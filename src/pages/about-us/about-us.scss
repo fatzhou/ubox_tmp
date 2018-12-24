@@ -1,0 +1,54 @@
+page-about-us {
+	.about-us-content {
+		position: relative;
+		.logo {
+			text-align: center;
+	    	padding-top: 40px;
+	    	img {
+	    		width: 90px;
+	    		/*font-size: 90px;*/
+	    	}
+	    	p {
+	    		color: #444;
+			    font-size: 16px;
+			    margin: 10px $padding 0;
+	    	}
+		}	
+
+		.info-list {
+			background: #fff;
+			margin-top: 50px;
+			padding: 0 $padding;
+			.key {
+				color: #444;
+				font-size: 15px;
+			}
+			.value {
+				color: #999;
+				font-size: 13px;
+				margin-right: 0;
+				margin-top: 0;
+			}
+			.info {
+				border-bottom: 1px solid #f1f1f1;
+				&:last-child {
+					border: none;
+				}
+			}
+			.item {
+				padding-left: 0;
+			}
+		}
+
+		.copyright {
+			position: absolute;
+			width: 100%;
+			text-align: center;
+			bottom: 20px;
+			color: #9B9B9B;
+			font-size: 12px;
+			line-height: 1.75;
+		}	
+	}
+
+}
