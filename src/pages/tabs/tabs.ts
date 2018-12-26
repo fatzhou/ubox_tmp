@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Tabs } from 'ionic-angular';
+import { SearchPage } from '../search/search';
 import { HomePage } from '../home/home';
 import { MiningPage } from '../mining/mining';
 import { UserPage } from '../user/user';
@@ -31,12 +32,13 @@ import { FileOpener } from '@ionic-native/file-opener';
 export class TabsPage {
     @ViewChild('boxtabs') tabRef: Tabs;
     // mySelectedIndex:any = 0;
+    search: any = SearchPage;
     home: any = HomePage;
     user: any = UserPage;
     mining: any = MiningPage;
     version: any = "";
-
-    homeIcon: string = 'custom-home-active';
+    searchIcon: string = 'custom-home-active';
+    fileIcon: string = 'custom-file-active';
     miningIcon: string = 'custom-mining';
     userIcon: string = 'custom-user';
     info: any = [];
@@ -282,15 +284,23 @@ export class TabsPage {
     setIcons(e) {
         this.selectIndex = e.index;
         if (e.index === 0) {
-            this.homeIcon = 'custom-home-active';
+            this.searchIcon = 'custom-home-active';
+            this.fileIcon = 'custom-file';
             this.miningIcon = 'custom-mining';
             this.userIcon = 'custom-user';
         } else if (e.index === 1) {
-            this.homeIcon = 'custom-home';
-            this.miningIcon = 'custom-mining-active';
+            this.searchIcon = 'custom-home';
+            this.fileIcon = 'custom-file-active';
+            this.miningIcon = 'custom-mining';
             this.userIcon = 'custom-user';
         } else if (e.index === 2) {
-            this.homeIcon = 'custom-home';
+            this.searchIcon = 'custom-home';
+            this.fileIcon = 'custom-file';
+            this.miningIcon = 'custom-mining-active';
+            this.userIcon = 'custom-user';
+        } else if (e.index === 3) {
+            this.searchIcon = 'custom-home';
+            this.fileIcon = 'custom-file';
             this.miningIcon = 'custom-mining';
             this.userIcon = 'custom-user-active';
         }

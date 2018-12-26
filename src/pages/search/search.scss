@@ -1,0 +1,89 @@
+page-search {
+    $homePadding: 10px;
+    .search-page {
+      padding: 0;
+      background: $bgColor;
+      min-height: 100%;
+      position: relative;
+    }
+    header {
+        padding: 0 $homePadding;
+        .network {
+            position: absolute;
+            right: $homePadding;
+            top: 19px;
+            .icon {
+                font-size: 22px;
+            }
+        }
+    }
+    .slides-box {
+        height: 180px;
+    }
+    .app-list-box {
+        .app-more {
+            color: #000;
+            font-size: 16px;
+            line-height: 30px;
+            padding-left: $homePadding;
+            .more-span {
+                color: #4A4A4A;
+                font-size: 12px;
+                float: right;
+                padding-right: $homePadding;
+            }
+        }
+        .app-li {
+            overflow: hidden;
+            .item-inner {
+                padding-right: 0;
+            }
+            &.item-block {
+                background: $bgColor;
+                padding-left: $homePadding;
+                padding-right: $homePadding;
+            }
+            .app-logo {
+                font-size: 64px;
+                float: left;
+            }
+            .eps {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+            .info {
+                float: left;
+                margin-left: 8px;
+                width: calc(100% - 80px);
+                .info-name {
+                    color: #000;
+                    font-size: 16px;
+                }
+                .icon-type {
+                    font-size: 14px;
+                }
+                .info-Introduction{
+                    color: #666666;
+                    font-size: 12px;
+                }
+            }
+            .info-status {
+                float: left;
+                margin: 0;
+                .status-btn {
+                    margin-top: -28px;
+                    height: 24px;
+                    width: 54px;
+                    background: #F0F1FF;
+                    border: 1px solid #5D75F7;
+                    text-align: center;
+                    color: #5D75F7;
+                    line-height: 24px;
+                    font-size: 12px;
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
+}

@@ -68,6 +68,7 @@ import { SelectAlbumPage } from '../pages/select-album/select-album'
 import { ClassifyListPage } from '../pages/classify-list/classify-list';
 import { CopyPhotoPage } from '../pages/copy-photo/copy-photo';
 import { PermissionPage } from '../pages/permission/permission';
+import { SearchPage } from '../pages/search/search';
 
 
 //自定义组件
@@ -180,7 +181,8 @@ import { FileManager } from '../providers/FileManager';
     CDVPhotoLibraryPipe,
     ClassifyListPage,
     CopyPhotoPage,
-    PermissionPage
+    PermissionPage,
+    SearchPage
     // ClickAndWaitDirective,
   ],
   imports: [
@@ -253,7 +255,8 @@ import { FileManager } from '../providers/FileManager';
     SelectAlbumPage,
     ClassifyListPage,
     CopyPhotoPage,
-    PermissionPage
+    PermissionPage,
+    SearchPage
   ],
   providers: [
     UboxApp,

@@ -117,4 +117,10 @@ ion-icon {
     &[class*="custom-user-active"] {
         background-image: url(../assets/img/user-active.svg);
     }
+    &[class*="custom-file"] {
+      background-image: url(../assets/img/file.svg);
+  }    
+  &[class*="custom-file-active"] {
+      background-image: url(../assets/img/file-active.svg);
+  }
 }
