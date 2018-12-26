@@ -19,7 +19,8 @@
 			<div class="img-wrap">
 				<img src="assets/img/avatar@2x.png" alt="">
 			</div>
-			<p>{{ username }}</p>
+			<p *ngIf="global.centerUserInfo.uname">{{ global.centerUserInfo.uname }}</p>
+			<p *ngIf="!global.centerUserInfo.uname" (click)="goLoginPage(true)">{{ global.L('LoginBtn') }}</p>
 		</div>
 		<div class="admin">
 			<div class="admin-wrap clear">

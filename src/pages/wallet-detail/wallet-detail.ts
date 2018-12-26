@@ -206,7 +206,6 @@ export class WalletDetailPage {
         .then(total => {
             GlobalService.consoleLog("数据总数：" + total + ",页码：" + pageNo + "," + (total <= pageNo * this.pageSize));
             if(total <= pageNo * this.pageSize) {
-                console.error("数据拉取完成...");
                 if(this.chainType != 'ERC20' && this.chainRecordIndex == 0){
                     this.moreChain = false;
                 }else{

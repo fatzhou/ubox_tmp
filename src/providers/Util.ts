@@ -82,6 +82,150 @@ export class Util {
         }
     };
 
+    public loginAndCheckBox($scope, silence = true) {
+        let url = GlobalService.centerApi["getUserInfo"].url;
+        return this.http.post(url, {}, false)
+        .then(res => {
+            if(res.err_no === 0) {
+                return res;
+            } else {
+                if($scope.username && $scope.password) {
+                    var loginUrl = GlobalService.centerApi["login"].url;
+                    return $scope.http.post(loginUrl, {
+                        uname: $scope.username,
+                        password: Md5.hashStr($scope.password).toString(),
+                        // password: $scope.password,
+                    }, silence)
+                    .then((res) => {
+                        if (res.err_no === 0) {
+                            GlobalService.consoleLog("登录中心成功，获取个人信息");
+                            return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, silence)
+                        } else {
+                            // throw new Error('登录中心失败');
+                            return Promise.reject("Login Error");
+                        }
+                    })                       
+                } else {
+                    return Promise.reject("Login Error");
+                }
+            }
+        })
+        .then((res:any) => {
+            if (res.err_no === 0) {
+                $scope.global.centerUserInfo = res.user_info;
+                let network = this.global.networkType === 'wifi';
+                //查询用户的盒子
+                if(res.user_info.bind_box_count > 0 && network) {
+                    //用户有盒子
+                    return this.searchUbbey();
+                } else {
+                    //用户没有盒子
+                    return [];
+                }
+            }             
+        })
+        .then((res:any) => {
+            if(res.length) {
+                //检查盒子是否有自己的盒子
+                let userHash = Md5.hashStr($scope.global.centerUserInfo.uname).toString();
+                let myBox = res.find(item => item.bindUserHash === userHash);
+                if(myBox) {
+                    console.log("查找到自己的盒子：" + JSON.stringify(myBox));
+                    $scope.global.useWebrtc = false;
+                    $scope.global.deviceSelected = myBox;
+                    return $scope.global.deviceSelected.version;
+                } else {
+                    //本地没有自己的盒子
+                    return Promise.reject("NOBOX");
+                }
+            } else {
+                console.log("本地不存在盒子，远程登录查看")
+                return $scope.http.createDataChannel()
+                .then(res => {
+                    if($scope.global.deviceSelected) {
+                        return this.getBoxVersion($scope.global.deviceSelected.deviceId);
+                    } else {
+                        return Promise.reject("NOBOX");
+                    }
+                })                   
+            }
+        })
+        .then((res:any) => {
+            if(this.global.deviceSelected) {
+                //检测盒子的登陆态
+                let userInfoUrl = this.global.getBoxApi('getUserInfo');
+                return this.http.post(userInfoUrl, {}, false)
+                .then(res => {
+                    if(res.err_no === 0) {
+                        this.global.boxUserInfo = res.userinfo;
+                        return this.global.boxUserInfo;
+                    } else {
+                        if(!$scope.username || !$scope.password) {
+                            return this.getUserList()
+                            .then((r:any) => {
+                                if(r) {
+                                    //获取到用户名和密码
+                                    return this.loginBox(r.username, r.password);
+                                } else {
+                                    //没有用户名或者密码
+                                    return null;
+                                }
+                            })
+                        } else {
+                            //直接登录
+                            return this.loginBox($scope.username, $scope.password);
+                        }                        
+                    }
+                })
+            } else {
+                return null;
+            }
+        })
+        .then(res => {
+            if(!res) {
+                this.global.deviceSelected = null;
+                this.global.centerUserInfo = {};
+            } 
+            return res;
+        })
+        .catch(res => {
+            GlobalService.consoleLog(res);
+            $scope.global.closeGlobalLoading($scope);
+            //没有盒子或者其他错误，只需登录中心即可
+            // errorCallback && errorCallback();
+            return Promise.reject("Login error...");
+        })               
+    }
+
+    loginBox(username, password) {
+        let url = this.global.getBoxApi('login');
+        return this.http.post(url, {
+            username: username,
+            password: Md5.hashStr(password).toString(),
+            // password: $scope.password,
+        })
+        .then(res => {
+            if(res.err_no === 0) {
+                let userInfoUrl = this.global.getBoxApi('getUserInfo');
+                return this.http.post(userInfoUrl, {})
+                .then(res => {
+                    if(res.err_no === 0) {
+                        this.global.boxUserInfo = res.userinfo;
+                        return this.global.boxUserInfo;
+                    } else {
+                        return null;
+                    }
+                })
+            } else {
+                return null;
+            }
+        })
+        .catch(e => {
+            console.log(e.stack);
+            return null;
+        })
+    }
+
     public static loginCenter($scope, callback, silence: any = true, errorCallback = null) {
         var userInfoUrl = GlobalService.centerApi["login"].url;
         $scope.http.post(userInfoUrl, {
@@ -609,7 +753,7 @@ export class Util {
                     } else {
                         userLoginInfo = userLoginList['remote'] || null;
                     }
-                    if(userLoginInfo && (Date.now() - userLoginInfo.timestamp) < 24 * 3600 * 1000 * 7){
+                    if(userLoginInfo && (Date.now() - userLoginInfo.timestamp) < 24 * 3600 * 1000 * 7) {
                         this.global.userLoginInfo = userLoginInfo;
                     } else {
                         this.global.userLoginInfo = null;
@@ -626,7 +770,7 @@ export class Util {
     }
 
     setUserList(){
-        if(this.global.useWebrtc){
+        if(!this.global.deviceSelected){
             this.global.userLoginList['remote'] = this.global.userLoginInfo;
         } else {
             this.global.userLoginList['boxid'] = this.global.userLoginList['boxid'] || {};

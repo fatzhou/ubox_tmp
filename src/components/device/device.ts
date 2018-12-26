@@ -19,6 +19,7 @@ export class DeviceComponent {
 
   @Input() lastPath: string;
   @Output() goDevicePage = new EventEmitter < any > ();
+  @Output() goLoginPage = new EventEmitter < any > ();
   constructor(
     private global: GlobalService,
     private events: Events,
@@ -40,7 +41,7 @@ export class DeviceComponent {
   }
 
   promptLogin() {
-    
+    this.goLoginPage.emit();
   }
 
   goPages(){

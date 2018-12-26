@@ -22,6 +22,9 @@ import { FileManager } from '../../providers/FileManager';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Platform } from 'ionic-angular';
 
+import { LoginPage } from '../login/login';
+
+
 // import { FileTransfer } from "../../providers/FileTransfer"
 /**
  * Generated class for the HomePage page.
@@ -279,6 +282,12 @@ export class HomePage {
             GlobalService.consoleLog("已连接设备，进入设备管理");
             this.app.getRootNav().push(DeviceManagementPage);            
         }
+    }
+
+    goLoginPage() {
+        this.app.getRootNav().push(LoginPage, {
+            popBack: true
+        });            
     }
 
     goFolderPage(type) {

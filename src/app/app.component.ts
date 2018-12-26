@@ -59,7 +59,7 @@ export class UboxApp {
     // @ViewChild(Nav) gets a reference to the app's root nav
     @ViewChild(Nav) nav: Nav;
 
-    rootPage:any = TabsPage;
+    rootPage:any;
     needTips: Boolean = false;
     fileListString: any;
 
@@ -137,8 +137,9 @@ export class UboxApp {
                 this.global.fileRootPath = cordova.file.externalRootDirectory;           
             } else {
                 GlobalService.consoleLog("我不是cordova");
-                this.rootPage = TabsPage;
             }
+
+            this.getUserInfo();
 
             //恢复下载列表
             this.initFileTaskList();
@@ -154,6 +155,30 @@ export class UboxApp {
             this.removeBackButtonAction();
             // this.util.getDeviceID();
         });
+    }
+
+    getUserInfo() {
+        let url = GlobalService.centerApi['getUserInfo'].url;
+        this.http.post(url, {}, false)
+        .then(res => {
+            if(res.err_no === 0) {
+                this.global.centerUserInfo = res.user_info;
+                //获取版本号
+                this.util.loginAndCheckBox(this)
+                .then(res => {
+                    console.log("loginAndCheckBox成功进入resolve....");
+                    this.rootPage = TabsPage;
+                })
+                .catch(e => {                    //没有盒子
+                    this.rootPage = TabsPage;
+                })
+            } else {
+                this.rootPage = TabsPage;
+            }
+        })
+        .catch(res => {
+            this.rootPage = TabsPage;
+        })
     }
 
     getWifiName() {

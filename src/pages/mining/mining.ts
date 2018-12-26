@@ -12,6 +12,7 @@ import { DeviceListPage } from '../device-list/device-list';
 import { Events, App } from 'ionic-angular';
 import { Lang } from '../../providers/Language';
 import { DeviceManagementPage } from '../device-management/device-management';
+import { LoginPage } from '../login/login';
 import { AboutDevicePage } from '../about-device/about-device';
 
 /**
@@ -125,6 +126,10 @@ export class MiningPage {
         //从中心获取挖矿收益
         this.getMiningInfo();
         GlobalService.consoleLog(this.global.deviceSelected)        
+    }
+
+    goLoginPage() {
+        this.app.getRootNav().push(LoginPage);            
     }
 
     getMiningInfo() {

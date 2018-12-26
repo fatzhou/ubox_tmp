@@ -7,7 +7,7 @@
 <ion-content>
     <div class="page-content mining-page">
         <header>
-            <device (goDevicePage)="goDeviceList()" lastPath="mining-page"></device>
+            <device (goDevicePage)="goDeviceList()"  (goLoginPage)="goLoginPage()" lastPath="mining-page"></device>
             <div class="generate-files" *ngIf="chainType != 'ERC20'" (click)="showShareData()">
                 <svg class="icon back-icon " *ngIf="!isEnoughSpace" [ngClass]="(ifMining && isChainMining)? 'rotate' : ''" aria-hidden="true">
                     <use xlink:href="#icon-Miningicon"></use>

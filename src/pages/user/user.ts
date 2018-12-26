@@ -5,8 +5,8 @@ import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { WalletSelectPage } from '../wallet-select/wallet-select';
 import { DeviceListPage } from '../device-list/device-list';
+import { LoginPage } from '../login/login';
 import { DeviceManagementPage } from '../device-management/device-management';
-import { ToastController } from 'ionic-angular';
 import { LanguageSelectPage } from '../language-select/language-select';
 import { ChangePasswdPage } from '../change-passwd/change-passwd';
 import { AboutUsPage } from '../about-us/about-us';
@@ -27,7 +27,7 @@ declare var chcp: any;
     templateUrl: 'user.html',
 })
 export class UserPage {
-    username: String = "";
+    // username: String = "";
     updateTime: any = 0;
     isShowNotice: Boolean = false;
 
@@ -35,7 +35,6 @@ export class UserPage {
         private global: GlobalService,
         private http: HttpService,
         private util: Util,
-        private toastCtrl: ToastController,
         private app: App,
         private events: Events,
         public navParams: NavParams) {
@@ -47,8 +46,15 @@ export class UserPage {
 
     ionViewDidEnter() {
         GlobalService.consoleLog('ionViewDidLoad UserPage   进入user');
-        this.username = this.global.boxUserInfo.username || this.global.centerUserInfo.uname;
+        // console.log("用户信息：" + JSON.stringify(this.global.centerUserInfo));
+        // this.username = this.global.centerUserInfo.uname;
         this.isShowNoticeList();
+    }
+
+    goLoginPage(b) {
+        this.app.getRootNav().push(LoginPage, {
+            popBack: b
+        })
     }
 
     goWalletSelectPage() {

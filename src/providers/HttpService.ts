@@ -70,8 +70,12 @@ export class HttpService {
     public initWebrtc() {
         this.global.useWebrtc = true;
         this.clearWebrtc();
+        this.keepWebrtcAlive();
+    }
+
+    public keepWebrtcAlive() {
         this.channelStatusManager();
-        this.keepAlive();
+        this.keepAlive();        
     }
 
     private keepAlive() {
@@ -823,6 +827,7 @@ export class HttpService {
                     GlobalService.consoleLog("建立连接流程出错");
                     this.global.closeGlobalLoading(this);
                     if(this.dataChannelOpen !== 'nobox') {
+                        console.log("手动关闭远程连接.....");
                         setTimeout(()=>{
                             this.dataChannelOpen = "closed";                                  
                         }, this.successiveConnectGap)
@@ -858,7 +863,7 @@ export class HttpService {
                     //     //用户没有盒子
                     //     gResolve && gResolve();
                     // }
-                    return e;
+                    gResolve(null);
                 })          
         });
     }
@@ -975,7 +980,8 @@ export class HttpService {
         channel.onopen = () => {
             GlobalService.consoleLog("---------------Data channel opened----------------");
             this.dataChannelOpen = "opened";
-            resolve && resolve();
+            this.global.useWebrtc = true;
+            resolve && resolve(this.global.deviceSelected);
             // this.startChat();
         }
         channel.onclose = () => {
