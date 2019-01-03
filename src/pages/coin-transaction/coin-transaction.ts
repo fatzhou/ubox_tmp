@@ -21,6 +21,7 @@ export class CoinTransactionPage {
   gas: any = '--';
   time: any;
   displayStatus: string;
+  status: any;
   amount;
   chainType:string;
 
@@ -37,6 +38,7 @@ export class CoinTransactionPage {
     if(tx) {
       this.txhash = tx.txhash;
       this.displayStatus = tx.displayStatus;
+      this.status = tx.status;
       this.from = tx.from;
       this.to = tx.to;
       this.value = tx.value;

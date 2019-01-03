@@ -1,5 +1,6 @@
 <ion-tabs (ionChange)="setIcons($event)" #boxtabs name="boxtabs">
-    <ion-tab [root]="home" tabTitle="Home" [tabIcon]="homeIcon"></ion-tab>
+    <ion-tab [root]="search" tabTitle="Search"   [tabIcon]="searchIcon"></ion-tab>
+    <ion-tab [root]="home" tabTitle="Home"   [tabIcon]="fileIcon"></ion-tab>
     <ion-tab [root]="mining" tabTitle="Mining" [tabIcon]="miningIcon"></ion-tab>
     <ion-tab [root]="user" tabTitle="User" [tabIcon]="userIcon"></ion-tab>
     <news-notice *ngIf="isClose" [isVersion]="isVersion" [isShowAction]="isShowAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action" (closeNotice)="closeNotice()"></news-notice>

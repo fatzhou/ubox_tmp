@@ -51,6 +51,7 @@ import { SystemSettingPage } from '../pages/system-setting/system-setting';
 import { WalletSettingPage } from '../pages/wallet-setting/wallet-setting';
 import { ChangePayPasswordPage } from '../pages/change-pay-password/change-pay-password';
 import { UpdateAssitantPage } from '../pages/update-assitant/update-assitant';
+import { AdviceSubmitPage } from '../pages/advice-submit/advice-submit';
 
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
 import { CoinGetPage } from '../pages/coin-get/coin-get';
@@ -69,7 +70,9 @@ import { SelectAlbumPage } from '../pages/select-album/select-album'
 import { ClassifyListPage } from '../pages/classify-list/classify-list';
 import { CopyPhotoPage } from '../pages/copy-photo/copy-photo';
 import { PermissionPage } from '../pages/permission/permission';
-import { AdviceSubmitPage } from '../pages/advice-submit/advice-submit';
+import { SearchPage } from '../pages/search/search';
+import { AppDetailPage } from '../pages/app-detail/app-detail';
+
 
 
 //自定义组件
@@ -188,7 +191,9 @@ import { FileManager } from '../providers/FileManager';
     CopyPhotoPage,
     PermissionPage,
     UpdateAssitantPage,
-    AdviceSubmitPage
+    AdviceSubmitPage,
+    SearchPage,
+    AppDetailPage
     // ClickAndWaitDirective,
   ],
   imports: [
@@ -263,7 +268,9 @@ import { FileManager } from '../providers/FileManager';
     CopyPhotoPage,
     PermissionPage,
     UpdateAssitantPage,
-    AdviceSubmitPage
+    AdviceSubmitPage,
+    SearchPage,
+    AppDetailPage
   ],
   providers: [
     UboxApp,

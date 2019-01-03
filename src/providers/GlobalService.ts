@@ -197,6 +197,13 @@ export class GlobalService {
         'dev': "https://www.yqtc.co/iamtest/ubox/versionControl.json",
         'prod': "https://m.yqtc.co/ubbey/versionControl.json"
     }
+
+    //版本控制文件
+    public static searchDataConfig = {
+        'dev': "https://www.yqtc.co/iamtest/ubox/searchData.json",
+        'prod': "https://m.yqtc.co/ubbey/searchData.json"
+    }
+
     //安装包下载地址
     public static DownloadPath = {
       'android': "https://www.yqtc.co/iamtest/ubox/ubbey-v1.2.2-test.apk",
