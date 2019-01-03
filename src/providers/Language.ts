@@ -62,6 +62,264 @@ export class Lang {
         kr: ""
     }
 
+    static NeedLogin = {
+        cn: "请先登录您的个人账号",
+        en: '',
+        kr: ''
+    }
+
+    static UpdateAssistant = {
+        cn: "升级助手",
+        en: '',
+        kr: ''
+    }
+
+    static APP = {
+        cn: '',
+        en: 'Ubbey APP',
+        kr: ''
+    }
+
+    static ROM = {
+        cn: '',
+        en: 'Ubbey Box ROM',
+        kr: ''
+    }
+
+    static CurrentVersion = {
+        cn: '当前版本',
+        en: '',
+        kr: ''
+    }
+
+    static RemoteNetwork = {
+        cn: '远场网络',
+        en: '',
+        kr: ''
+    }
+
+    static LocalNetwork = {
+        cn: '近场网络',
+        en: '',
+        kr: ''
+    }
+
+    static RemoteNetworkDesc = {
+        cn: '手机与Ubbey Box处于不同网络',
+        en: '',
+        kr: ''
+    }
+
+    static LocalNetworkDesc = {
+        cn: '手机与Ubbey Box处于同一网络',
+        en: '',
+        kr: ''
+    }
+
+    static ConnectionError = {
+        cn: '连接失败',
+        en: '',
+        kr: ''
+    }
+
+    static ConnectionErrorDesc = {
+        cn: '网络异常，请检查手机或设备网络状态',
+        en: '',
+        kr: ''
+    }
+
+    static Connecting = {
+        cn: '连接中',
+        en: '',
+        kr: ''
+    }
+
+    static ConnectingDesc = {
+        cn: '设备连接中，请稍候......',
+        en: '',
+        kr: ''
+    }
+
+    static BuyFavour = {
+        cn: '绑定Ubbey Box,您将获得',
+        en: '',
+        kr: ''
+    }
+
+    static BackupImmediately = {
+        cn: '去中心化存储私有云盘，随时备份',
+        en: '',
+        kr: ''
+    }
+
+    static StorageEnough = {
+        cn: '再也不担心手机存储不够用',
+        en: '',
+        kr: ''
+    }
+
+    static JoinMining = {
+        cn: '分享存储空间，参与挖矿',
+        en: '',
+        kr: ''
+    }
+
+    static EarnMoney = {
+        cn: '每天赚点零花钱',
+        en: '',
+        kr: ''
+    }
+
+    static BindImmediately = {
+        cn: '立即绑定',
+        en: '',
+        kr: ''
+    }
+
+    static BuyBox = {
+        cn: '购买Ubbey Box',
+        en: '',
+        kr: ''
+    }
+
+    static Offline = {
+        cn: "离线",
+        en: '',
+        kr: ''        
+    }    
+
+    static DeviceReboot = {
+        cn: "设备重启",
+        en: '',
+        kr: ''        
+    }    
+
+    static DeviceRebooting = {
+        cn: "设备正在重启中，盒子启动后将恢复重连...",
+        en: '',
+        kr: ''        
+    }    
+
+    static RebootSuccess = {
+        cn: "设备已重新连接！",
+        en: '',
+        kr: ''        
+    }
+
+    static AdviceSubmit = {
+        cn: "意见反馈",
+        en: '',
+        kr: ''
+    }
+
+    static ProblemCategory = {
+        cn: "问题类别",
+        en: '',
+        kr: ''
+    }
+
+    static Account = {
+        cn: '账号', 
+        en: '', 
+        kr: ''
+    }
+
+    static Application = {
+        cn: 'DAPP应用', 
+        en: '', 
+        kr: ''
+    }
+
+    static HardwareDevice = {
+        cn: '硬件设备', 
+        en:'', 
+        kr:''
+    }
+
+    static FileTransfer = {
+        cn: '文件传输', 
+        en: '', 
+        kr: ''
+    }
+
+    static FileManager = {
+        cn: '文件管理', 
+        en: '', 
+        kr: ''
+    }
+
+    static Others = {
+        cn: '其他', 
+        en:'', 
+        kr:''
+    }
+
+    static ProblemDetail = {
+        cn: '反馈问题详情',
+        en: '',
+        kr: ''
+    }
+
+    static ProblemDetailPlaceholder = {
+        cn: '您的反馈对我们来说非常重要，请输入您在使用过程中遇到的问题和建议，帮助我们优化产品（该详情输入不超过500个字符）',
+        en: '',
+        kr: ''
+    }
+
+    static ContactEmail = {
+        cn: '联系邮箱',
+        en: '',
+        kr: ''
+    }    
+
+    static ContactEmailPlaceholder = {
+        cn: '请输入您的常用邮箱',
+        en: '',
+        kr: ''
+    }
+
+    static ProblemSnapshot = {
+        cn: '问题截图(可选)',
+        en: '',
+        kr: ''
+    }      
+
+    static UploadSystemLog = {
+        cn: '上传系统日志，帮助我们定位问题',
+        en: '',
+        kr: ''
+    }    
+
+    static CommitFeedback = {
+        cn: '提交反馈',
+        en: '',
+        kr: ''
+    }    
+
+    static FeedbackSucceeded = {
+        cn: '您的反馈已提交成功',
+        en: '',
+        kr: ''
+    }
+
+    static ContactEmailEmpty = {
+        cn: '联系邮箱不能为空',
+        en: '',
+        kr: ''
+    }
+
+    static ContactEmailIlledge = {
+        cn: '请输入正确的联系邮箱',
+        en: '',
+        kr: ''
+    }    
+
+    static ProblemDetailEmpty = {
+        cn: '您的问题描述不能为空',
+        en: '',
+        kr: ''
+    }    
+
     static Ok = {
         cn: "确定",
         en: "Ok",

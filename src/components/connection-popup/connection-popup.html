@@ -1,0 +1,13 @@
+<!-- Generated template for the ConnectionPopupComponent component -->
+<div class="popup-wrap" (click)="closePopup()">
+  <div class="popup" (click)="$event.stopPropagation()">
+  	<div class="close" (click)="closePopup()">
+  	    <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-guanbiicon"></use>
+        </svg>
+  	</div>
+  	<p class="status">{{ status[connectionStatus].name }}</p>
+  	<p class="tips">{{ status[connectionStatus].desc }}</p>
+  	<div class="common-focus-button button" (click)="closePopup()">{{ buttonText }}</div>
+  </div>
+</div>

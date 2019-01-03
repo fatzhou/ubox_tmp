@@ -1,0 +1,46 @@
+<!--
+  Generated template for the AboutUsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{global.L("UpdateAssistant")}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<div class="page-content about-us-content">
+		<div class="logo-wrap">
+			<div class="logo">
+				<svg class="icon update-icon" aria-hidden="true">
+	                <use xlink:href="#icon-UpgradeAssistant"></use>
+	            </svg>
+			</div>			
+		</div>
+
+		<div class="info-list">
+			<button class="info" (click)="updateApp()" ion-item>
+				<p class="key" item-start>
+					<span class="label">{{global.L('APP')}}</span>
+					<span class="for">{{ global.L('CurrentVersion') }} {{ appVersion }}</span>
+				</p>
+				<p class="value" item-end>{{ appNewstVersion }}</p>
+			</button>
+
+			<button class="info" (click)="updateBox()" ion-item>
+				<p class="key" item-start>
+					<span class="label">{{global.L("ROM")}}</span>
+					<span class="for">{{ global.L('CurrentVersion') }} {{ global.deviceSelected ? global.deviceSelected.version : '' }}</span>
+				</p>
+				<p class="value" item-end>{{ romNewestVersion }}</p>
+			</button>
+		</div>
+	</div>
+
+	<news-notice *ngIf="showDialog" [isVersion]="currentVersion" [isShowAction]="showAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action"  (closeNotice)="closeNotice()"></news-notice>
+</ion-content>

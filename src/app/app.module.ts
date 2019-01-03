@@ -50,6 +50,7 @@ import { AgreementPage } from '../pages/agreement/agreement';
 import { SystemSettingPage } from '../pages/system-setting/system-setting';
 import { WalletSettingPage } from '../pages/wallet-setting/wallet-setting';
 import { ChangePayPasswordPage } from '../pages/change-pay-password/change-pay-password';
+import { UpdateAssitantPage } from '../pages/update-assitant/update-assitant';
 
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
 import { CoinGetPage } from '../pages/coin-get/coin-get';
@@ -68,6 +69,7 @@ import { SelectAlbumPage } from '../pages/select-album/select-album'
 import { ClassifyListPage } from '../pages/classify-list/classify-list';
 import { CopyPhotoPage } from '../pages/copy-photo/copy-photo';
 import { PermissionPage } from '../pages/permission/permission';
+import { AdviceSubmitPage } from '../pages/advice-submit/advice-submit';
 
 
 //自定义组件
@@ -79,6 +81,8 @@ import { NewsNoticeComponent } from '../components/news-notice/news-notice';
 import { FileDetailComponent } from '../components/file-detail/file-detail';
 import { FileFooterComponent } from '../components/file-footer/file-footer';
 import { PermissionComponent } from '../components/permission/permission';
+import { ConnectionPopupComponent } from '../components/connection-popup/connection-popup';
+import { BoxPromotionComponent } from '../components/box-promotion/box-promotion';
 
 
 
@@ -136,6 +140,8 @@ import { FileManager } from '../providers/FileManager';
     FileDetailComponent,
     FileFooterComponent,
     PermissionComponent,
+    ConnectionPopupComponent,
+    BoxPromotionComponent,
     UserPage,
     MiningPage,
     TabsPage,
@@ -180,7 +186,9 @@ import { FileManager } from '../providers/FileManager';
     CDVPhotoLibraryPipe,
     ClassifyListPage,
     CopyPhotoPage,
-    PermissionPage
+    PermissionPage,
+    UpdateAssitantPage,
+    AdviceSubmitPage
     // ClickAndWaitDirective,
   ],
   imports: [
@@ -253,7 +261,9 @@ import { FileManager } from '../providers/FileManager';
     SelectAlbumPage,
     ClassifyListPage,
     CopyPhotoPage,
-    PermissionPage
+    PermissionPage,
+    UpdateAssitantPage,
+    AdviceSubmitPage
   ],
   providers: [
     UboxApp,

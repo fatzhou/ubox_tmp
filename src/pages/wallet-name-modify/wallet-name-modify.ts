@@ -49,7 +49,12 @@ export class WalletNameModifyPage {
             return false;
         }
 
-        var url = this.global.getBoxApi("modifyWallet");
+        var url = '';
+        if(this.global.deviceSelected) {
+            url = this.global.getBoxApi("modifyWallet");
+        } else {
+            url = GlobalService.centerApi['modifyKeystore'].url;
+        }
         this.http.post(url, {
             name: this.walletName,
             addr: this.walletAddr,

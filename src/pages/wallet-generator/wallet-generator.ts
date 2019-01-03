@@ -86,7 +86,14 @@ export class WalletGeneratorPage {
 
     createWallet() {
         Util.createWallet(this.passwd, (keystore, filename, address)=>{
-            var url = this.global.getBoxApi("createWallet");
+            var url = '';
+            if(this.global.deviceSelected) {
+                url = this.global.getBoxApi("createWallet");
+            } else if(this.global.centerUserInfo && this.global.centerUserInfo.bind_box_count === 0) {
+                url = GlobalService.centerApi['addKeystore'].url;
+            } else {
+                throw new Error('Box offline.....');
+            }
             this.http.post(url, {
                 name: this.walletname,
                 addr: address,
@@ -94,7 +101,6 @@ export class WalletGeneratorPage {
                 type: this.global.chainSelectArray[this.global.chainSelectIndex] == 'ERC20' ? 0 : 1
             })     
             .then((res) => {
-                
                 if(res.err_no === 0) {
                     this.global.createGlobalToast(this, {
                         message: Lang.L('WORD97e2a1c5'),

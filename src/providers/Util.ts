@@ -82,11 +82,45 @@ export class Util {
         }
     };
 
+    public compareVersion(version1, version2) {
+        let num1 = parseInt(version1.replace(/\./g, '')),
+            num2 = parseInt(version2.replace(/\./g, ''));
+        return num1 > num2;
+    }
+
+    public updateAppIndeed($scope) {
+        GlobalService.consoleLog("开始升级APP....");
+        let _this = $scope;
+        //关闭弹窗
+        GlobalService.consoleLog("即将打开链接:" + GlobalService.DownloadPath[_this.global.platformName])
+        if(_this.global.platformName == 'android') {
+            console.log("Android优先使用Google Play");
+            this.fileOpener.appIsInstalled('com.android.vending')
+            .then((res) => {
+                console.log('openApp ' +JSON.stringify(res))
+                if (res.status === 0) {
+                    window.location.href = GlobalService.DownloadPath[_this.global.platformName];
+                } else {
+                    console.log('Google Play is installed.')
+                    window.open('market://details?id=com.ulabs.ubbeybox', '_system');
+                }
+            })
+            .catch(e => {
+                console.log('调用失败')
+            })
+        } else {
+            console.log("iOS直接使用App Store");
+            window.location.href = GlobalService.DownloadPath[_this.global.platformName];
+        }
+    }
+
     public loginAndCheckBox($scope, silence = true) {
         let url = GlobalService.centerApi["getUserInfo"].url;
         return this.http.post(url, {}, false)
         .then(res => {
+            //获取中心的用户信息
             if(res.err_no === 0) {
+                $scope.global.centerUserInfo = res.user_info;
                 return res;
             } else {
                 if($scope.username && $scope.password) {
@@ -111,7 +145,9 @@ export class Util {
             }
         })
         .then((res:any) => {
+            //获取盒子列表
             if (res.err_no === 0) {
+                console.log("保存用户信息...." + JSON.stringify(res.user_info));
                 $scope.global.centerUserInfo = res.user_info;
                 let network = this.global.networkType === 'wifi';
                 //查询用户的盒子
@@ -122,9 +158,12 @@ export class Util {
                     //用户没有盒子
                     return [];
                 }
+            } else {
+                return Promise.reject("UserInfo Error");
             }             
         })
         .then((res:any) => {
+            //建立盒子连接
             if(res.length) {
                 //检查盒子是否有自己的盒子
                 let userHash = Md5.hashStr($scope.global.centerUserInfo.uname).toString();
@@ -141,16 +180,17 @@ export class Util {
             } else {
                 console.log("本地不存在盒子，远程登录查看")
                 return $scope.http.createDataChannel()
-                .then(res => {
-                    if($scope.global.deviceSelected) {
-                        return this.getBoxVersion($scope.global.deviceSelected.deviceId);
-                    } else {
-                        return Promise.reject("NOBOX");
-                    }
-                })                   
+                // .then(res => {
+                //     if($scope.global.deviceSelected) {
+                //         return this.getBoxVersion($scope.global.deviceSelected.deviceId);
+                //     } else {
+                //         return Promise.reject("NOBOX");
+                //     }
+                // })                   
             }
         })
         .then((res:any) => {
+            //成功连接到盒子,获取盒子登陆态
             if(this.global.deviceSelected) {
                 //检测盒子的登陆态
                 let userInfoUrl = this.global.getBoxApi('getUserInfo');
@@ -158,31 +198,61 @@ export class Util {
                 .then(res => {
                     if(res.err_no === 0) {
                         this.global.boxUserInfo = res.userinfo;
-                        return this.global.boxUserInfo;
+                        return this.global.deviceSelected;
                     } else {
                         if(!$scope.username || !$scope.password) {
                             return this.getUserList()
                             .then((r:any) => {
                                 if(r) {
                                     //获取到用户名和密码
-                                    return this.loginBox(r.username, r.password);
+                                    return $scope.util.loginBox(r.username, r.password)
+                                    .then(res => {
+                                        if(res) {
+                                            // return this.global.deviceSelected;
+                                            //开始获取用户信息
+                                            return this.http.post(userInfoUrl, {}, false)
+                                            .then(res => {
+                                                if(res.err_no === 0) {
+                                                    this.global.boxUserInfo = res.userinfo;
+                                                    return this.global.deviceSelected;
+                                                } else {
+                                                    return null;
+                                                }
+                                            })
+                                        } else {
+                                            return null;
+                                        }
+                                    })
                                 } else {
                                     //没有用户名或者密码
                                     return null;
                                 }
                             })
+                            .catch(e => {
+                                return null;
+                            })
                         } else {
                             //直接登录
-                            return this.loginBox($scope.username, $scope.password);
+                            return $scope.util.loginBox($scope.username, $scope.password)
+                            .then(res => {
+                                //这里封装的不是很好，loginBox的返回值要么是盒子信息，要么是null，和之前不统一
+                                if(res) {
+                                    return this.global.deviceSelected;
+                                } else {
+                                    return null;
+                                }
+                            })
                         }                        
                     }
                 })
             } else {
-                return null;
+                return [];
             }
         })
         .then(res => {
-            if(!res) {
+            //成功获取到盒子登陆态，否则清除登陆信息
+            if(res === null) {
+                console.error("没有盒子登陆态，手动清除中心登陆信息");
                 this.global.deviceSelected = null;
                 this.global.centerUserInfo = {};
             } 
@@ -191,6 +261,7 @@ export class Util {
         .catch(res => {
             GlobalService.consoleLog(res);
             $scope.global.closeGlobalLoading($scope);
+            this.global.deviceSelected = null;
             //没有盒子或者其他错误，只需登录中心即可
             // errorCallback && errorCallback();
             return Promise.reject("Login error...");
@@ -223,6 +294,182 @@ export class Util {
         .catch(e => {
             console.log(e.stack);
             return null;
+        })
+    }
+
+    _checkRemoteBoxAvailable(boxId) {
+        let url = GlobalService.centerApi["getBoxList"].url;
+        let errorCallback = () => {
+            setTimeout(() => {
+                this._checkRemoteBoxAvailable(boxId);
+            }, 6000);            
+        }
+        //WEBRTC模式
+        this.http.post(url, {})
+        .then(res => {
+            if(res.err_no === 0) {
+                //检测盒子sdp_register
+                let boxList = res.boxinfo || [];
+                if(boxList.find(item => item.boxid == boxId && item.sdp_register)) {
+                    //盒子已恢复,重新建立连接
+                    this.http.initWebrtc();
+                    this.http.globalCallbackList.push(() => {
+                        this.global.createGlobalToast(this, {
+                            message: this.global.L("RebootSuccess")
+                        })
+                    })
+                } else {
+                    //盒子未恢复
+                    errorCallback();
+                }
+            } else {
+                errorCallback();
+            }
+        }) 
+        .catch(e => {
+            errorCallback();
+        })
+    }
+
+    _checkLocalBoxAvailable(boxId) {
+        let errorCallback = () => {
+            setTimeout(()=>{
+                this._checkLocalBoxAvailable(boxId);
+            }, 10000)
+        };
+        //搜索匹配盒子
+        this.searchUbbey()
+        .then((res:any) => {
+            if(res.length > 0) {
+                let box = res.find(item => item.boxId === boxId);
+                if(box) {
+                    this.global.deviceSelected = box;
+                    this.global.createGlobalToast(this, {
+                        message: this.global.L("RebootSuccess")
+                    })
+                } else {
+                    errorCallback();
+                }
+            } else {
+                errorCallback();
+            }
+        })
+        .catch(e => {
+            GlobalService.consoleLog(e);
+            errorCallback();
+        }) 
+    }
+
+    rebootDevice($scope) {
+        if(!$scope.global.deviceSelected) {
+            return false;
+        }
+        let url = $scope.global.getBoxApi("rebootDevice");
+        $scope.http.post(url, {})
+        .then(res => {
+            if(res.err_no === 0) {
+                $scope.global.createGlobalToast($scope, {
+                    message: $scope.global.L("DeviceRebooting")
+                })
+                $scope.navCtrl.pop()
+                .then(res => {
+                    //盒子即将重启.......
+                    let boxId = $scope.global.deviceSelected.boxId;
+                    $scope.global.deviceSelected = null;
+
+                    if($scope.global.useWebrtc) {
+                        //关闭webrtc连接
+                        $scope.http.clearWebrtc();
+                    }
+
+                    setTimeout(() => {
+                        //查询盒子是否已经重启完毕
+                        if($scope.global.useWebrtc) {
+                            this._checkRemoteBoxAvailable(boxId);                  
+                        } else {
+                            this._checkLocalBoxAvailable(boxId);
+                        }
+                    }, 6000);                    
+                })
+            }
+        })
+    }
+
+    unbindBox($scope, boxId, callback) {
+        let self = this;
+        $scope.global.createGlobalAlert(this, {
+            title: Lang.L('WORD67551a7e'),
+            message: Lang.L('WORD9f502956'),
+            buttons: [
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                       
+                    }
+                },
+                {
+                    text: Lang.L('WORDd0ce8c46'),
+                    handler: data => {
+                        if($scope.global.centerUserInfo.earn !== undefined) {
+                            //已登录中心，直接修改
+                            self.removeBox($scope, boxId, callback);
+                        } else {
+                            Util.loginCenter($scope, ()=>{
+                                self.removeBox($scope, boxId, callback);
+                            });
+                        } 
+                    }
+                }
+            ]
+        })  
+    }
+
+    removeBox($scope, boxId, callback) {
+        $scope.http.post(GlobalService.centerApi["unbindBox"].url, {
+            boxid: boxId,
+        })
+        .then(res => {
+            if(res.err_no === 0) {
+                var url = $scope.global.getBoxApi('unbindBox');
+                return $scope.http.post(url, {
+                    boxid: boxId,
+                    signature: res.credential
+                    // signature: encodeURIComponent(res.credential)
+                })                    
+            } else {
+                throw new Error(Lang.L('WORD4b3c3932'));
+            }
+        })
+        .then(res => {
+            if(res.err_no === 0) {
+                var url = GlobalService.centerApi["unbindBoxConfirm"].url;
+                return $scope.http.post(url, {
+                    boxid: boxId,
+                })                    
+            } else {
+                throw new Error(Lang.L('WORD3f31fa42'));
+            }                
+        })
+        .then(res => {
+            if(res.err_no == 0) {
+                $scope.global.createGlobalAlert($scope, {
+                    title: Lang.L('WORDab667a91'),
+                    message: Lang.L('WORDe6e1739b'),
+                    buttons: [
+                        {
+                            text: Lang.L('WORD0cde60d1'),
+                            handler: data => {
+                                $scope.global.centerUserInfo = {};
+                                $scope.global.boxUserInfo = {};
+                                callback && callback();
+                            }
+                        }
+                    ]
+                })                    
+            }
+        })
+        .catch (res => {
+            GlobalService.consoleLog(res);
         })
     }
 
@@ -692,23 +939,31 @@ export class Util {
         }
     }
 
-    
     getWalletList(){
         this.storage.get('walletList')
         .then(res => {
-            GlobalService.consoleLog("缓存钱包状态：" + JSON.stringify(res));
+            // GlobalService.consoleLog("缓存钱包状态：" + JSON.stringify(res));
             if(res) {
                 this.global.walletList = JSON.parse(res);
-                let uname = this.global.boxUserInfo.username || this.global.centerUserInfo.uname;
+                let uname = this.global.centerUserInfo.uname;
                 let hash = Md5.hashStr(uname.toLowerCase()).toString();
-                let boxId = this.global.deviceSelected.boxId || '';
-                let waletItem = this.global.walletList.filter(item => {
-                    return hash == item.bindUserHash && item.boxId == boxId;
-                })
-                if(waletItem.length === 0) {
+                let boxId = 'CENTERUSER',
+                    walletItem = null;
+                if(this.global.deviceSelected) {
+                    let boxId = this.global.deviceSelected.boxId || '';
+                    walletItem = this.global.walletList.find(item => {
+                        return hash == item.bindUserHash && item.boxId == boxId;
+                    })                    
+                } else {
+                    walletItem = this.global.walletList.find(item => {
+                        return hash == item.bindUserHash && item.boxId == 'CENTERUSER';
+                    })  
+                }
+
+                if(!walletItem) {
                     this.global.nowUserWallet = {};
                 } else {
-                    this.global.nowUserWallet = waletItem[0].walletList;
+                    this.global.nowUserWallet = walletItem.walletList;
                 }
             }
         })
@@ -716,21 +971,27 @@ export class Util {
             this.global.nowUserWallet = {};
         })
     }
+
     setWalletList(){
-        let uname = this.global.boxUserInfo.username || this.global.centerUserInfo.uname;
+        let uname = this.global.centerUserInfo.uname;
         let hash = Md5.hashStr(uname.toLowerCase()).toString();
-        let boxId = this.global.deviceSelected.boxId || '';
-        let waletItem = this.global.walletList.filter(item => {
-            return hash == item.bindUserHash && item.boxId == boxId;
-        })
-        if(waletItem.length === 0) {
+        let walletItem = null;
+        let boxId = 'CENTERUSER';
+        if(this.global.deviceSelected) {
+            boxId = this.global.deviceSelected.boxId || '';           
+        } 
+        walletItem = this.global.walletList.find(item => {
+            return hash == item.bindUserHash && item.boxId === 'CENTERUSER';
+        })        
+
+        if(!walletItem) {
             this.global.walletList.push({
                 bindUserHash: hash,
                 walletList: this.global.nowUserWallet,
                 boxId: boxId
-            })
+            });
         } else {
-            waletItem[0].walletList = this.global.nowUserWallet;
+            walletItem.walletList = this.global.nowUserWallet;
         }
         this.storage.set('walletList', JSON.stringify(this.global.walletList))
         .then(res => {
@@ -744,7 +1005,7 @@ export class Util {
         return new Promise((resolve, reject) => {
             this.storage.get('UserList')
             .then(res => {
-                GlobalService.consoleLog("缓存UserList状态：" + JSON.stringify(res));
+                // GlobalService.consoleLog("缓存UserList状态：" + JSON.stringify(res));
                 if(res) {
                     let userLoginList = JSON.parse(res);
                     let userLoginInfo;
@@ -778,7 +1039,7 @@ export class Util {
         }
         return this.storage.set('UserList', JSON.stringify(this.global.userLoginList))
         .then(res => {
-            GlobalService.consoleLog("缓存UserList状态：" + res);
+            // GlobalService.consoleLog("缓存UserList状态：" + res);
         })
         .catch(e => {
         })
@@ -939,7 +1200,7 @@ export class Util {
         this.global.albumBackupSwitch = undefined;
     }
 
-    public static bindBox($scope, callback, errorCallback = null) {
+    public static bindBox($scope) {
         var boxInfo = $scope.global.deviceSelected;
         GlobalService.consoleLog(boxInfo.URLBase)
         GlobalService.consoleLog(JSON.stringify(GlobalService.boxApi["bindBox"]))
@@ -948,13 +1209,19 @@ export class Util {
 
         GlobalService.consoleLog("弱中心预绑定，先登录");
         GlobalService.consoleLog("用户名是:" + $scope.username + ",密码是:" + $scope.password);
-        $scope.http.post(GlobalService.centerApi["login"].url, {
+        return $scope.http.post(GlobalService.centerApi["login"].url, {
                 uname: $scope.username,
                 password: Md5.hashStr($scope.password).toString(),
             })
+        .then(res => {
+            if(res.err_no === 0) {
+                return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {})
+            }
+        })
             .then((res) => {
                 if (res.err_no === 0) {
                     GlobalService.consoleLog("登录成功，开始预绑定");
+                    $scope.global.centerUserInfo = res.user_info;
                     return $scope.http.post(GlobalService.centerApi["bindBox"].url, {
                         boxid: boxInfo.boxId
                     })
@@ -989,24 +1256,31 @@ export class Util {
             .then((res) => {
                 if (res.err_no === 0) {
                     GlobalService.consoleLog("盒子确认成功，登录盒子");
+                    //更新用户绑定盒子的数量
+                    $scope.global.centerUserInfo.bind_box_count = 1;
                     //更新盒子用户数据
                     boxInfo.bindUser = $scope.username;
                     boxInfo.bindUserHash = Md5.hashStr($scope.username.toLowerCase()).toString();
-                    $scope.loginBox($scope, callback);
+                    return $scope.util.loginBox($scope.username, $scope.password);
                 } else {
                     GlobalService.consoleLog("盒子确认失败，需解除绑定");
-                    $scope.http.post(url, {
-                            boxid: boxInfo.boxId,
-                            signature: res.credential,
-                        })
-                        .then((res) => {
-                            GlobalService.consoleLog("解除绑定成功");
-                        })
+                    return $scope.http.post(url, {
+                        boxid: boxInfo.boxId,
+                        signature: res.credential,
+                    })
+                    .then((res) => {
+                        GlobalService.consoleLog("解除绑定成功");
+                        return {
+                            err_no: 12345
+                        }
+                    })
                 }
             })
             .catch((res) => {
-                errorCallback&&errorCallback();
                 GlobalService.consoleLog(res);
+                return {
+                    err_no: 11111
+                };
             })
     }
 

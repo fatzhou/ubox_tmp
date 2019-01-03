@@ -138,6 +138,12 @@ export class HomePage {
         // events.subscribe('backup:start', HomePage.backupEventerListener);
     }
 
+    showNetworkPopup() {
+        //通知父组件关闭
+        // this.navCtrl.parent.showPopup(true);
+        this.events.publish('open-popup');
+    }
+
     ionViewDidEnter() {
         GlobalService.consoleLog("获取磁盘信息");
         this.getDiskStatus();
@@ -161,7 +167,7 @@ export class HomePage {
                 setTimeout(() => {
                     this.fileManager.startBackUp();
                 }, 1000)
-            } else {
+            } else if(this.platform.is('cordova')) {
                 console.log("图片获取尚未完成，需要先拉配置");
                 this.fileManager.getBackupInfo()
                 .then(res => {
@@ -343,6 +349,14 @@ export class HomePage {
     addFileDone() {
         GlobalService.consoleLog("收到文件上传成功事件");
         this.goFolderPage('all');
+    }
+
+    goBindingPage() {
+        this.app.getRootNav().push(DeviceListPage);
+    }
+
+    goBuyBoxPage() {
+        this.util.openUrl("https://ubbey.com/products/ubbey-box");
     }
 
     // slideOtherTab(tabName) {

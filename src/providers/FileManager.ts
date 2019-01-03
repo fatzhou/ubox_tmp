@@ -781,6 +781,9 @@ export class FileManager {
 	 * @param {[type]} type [文件类型]
 	 */
 	fetchAlbums(type) {
+		if(!this.platform.is('cordova')) {
+			return Promise.reject([]);
+		}
 		// GlobalService.consoleLog("开始获取相册...")
 		let config = this.resourceStorage[type];
 		if(config.album) {

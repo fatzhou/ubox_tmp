@@ -72,6 +72,22 @@ export class WalletSelectPage {
             allearn: wallet.allearn
         });
     }
+
+    getWalletData() {
+        let url = "";
+        if(!!this.global.deviceSelected) {
+            //已连接盒子，直接
+            url = this.global.getBoxApi("getWalletList"); 
+        } else if(this.global.centerUserInfo && this.global.centerUserInfo.bind_box_count === 0) {
+            //未绑定盒子
+            url = GlobalService.centerApi['getKeystore'].url;
+        } else {
+            throw new Error("Wrong case in getWalletData");
+        }
+        return this.http.post(url, {
+            type: this.global.chainSelectArray[this.global.chainSelectIndex] == 'ERC20' ? 0 : 1
+        });   
+    }
    
     getWalletList() {
         if(this.walletList.length == 0){
@@ -79,10 +95,8 @@ export class WalletSelectPage {
                 message: Lang.L("Loading")
             })
         }
-        var url = this.global.getBoxApi("getWalletList");
-        this.http.post(url, {
-            type: this.global.chainSelectArray[this.global.chainSelectIndex] == 'ERC20' ? 0 : 1
-        })
+
+        this.getWalletData()
         .then(res => {
             GlobalService.consoleLog("获取钱包列表成功+++++++++");
             this.loading = false;

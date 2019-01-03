@@ -148,7 +148,7 @@ export class LoginPage {
                     this.navCtrl.pop();
                 } else {
                     this.navCtrl.push(TabsPage)
-                    .then(() => {
+                    .then(() => { 
                         this.isLoading = false;
                     })                    
                 }
@@ -262,19 +262,64 @@ export class LoginPage {
     }
 
     bindBox() {
-        Util.bindBox(this, ()=>{
-            GlobalService.consoleLog('第四个push')
-            this.navCtrl.push(TabsPage)
-            .then(() => {
-                this.isLoading = false;
-            })
-        },() => {
+        this.global.createGlobalLoading(this, {
+            message: this.global.L('Loading')
+        })
+        let errorCallback = () => {
             this.isLoading = false;
+            this.global.closeGlobalLoading(this);
+        };
+        Util.bindBox(this)
+        .then(res => {
+            if(res) {
+                console.log("开始转移钱包");
+                //绑定成功，开始转移钱包
+                let url = GlobalService.centerApi['getKeystore'].url;
+                this.http.post(url, {type: 0})
+                .then(res => {
+                    if(res.err_no === 0) {
+                        //获取备份在中心的钱包
+                        if(res.wallets) {
+                            let promises = [];
+                            let url = this.global.getBoxApi('createWallet');
+                            let wallets = res.wallets || [];
+                            res.wallets.forEach(item => {
+                                let promise = this.http.post(url, {
+                                    name: item.name,
+                                    addr: item.addr,
+                                    keystore: item.keystore,
+                                    type: 0
+                                })
+                                promises.push(promise);
+                            })
+                            Promise.all(promises)
+                            .then(res => {
+                                this.global.closeGlobalLoading(this);
+                                this.navCtrl.push(TabsPage)
+                                .then(() => {
+                                    errorCallback();
+                                })                          
+                            })                            
+                        } else {
+                            this.navCtrl.push(TabsPage)
+                            .then(() => {
+                                errorCallback();
+                            })                             
+                        }
+                    } else {
+                        errorCallback();
+                    }
+                })
+                .catch(e => {
+                    errorCallback();
+                })                
+            } else {
+                errorCallback();
+            }
         })
     }
 
     goRegisterPage() {
-        GlobalService.consoleLog("前往注册");
         this.global.passwdType = "register";
         this.navCtrl.push(RegisterPage);
     }

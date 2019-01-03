@@ -28,11 +28,14 @@
 						    </svg>						
 						</div>
 						<div class="desc">
-							<h3 class="name eps"><b class="test-b" *ngIf="global.chainSelectIndex == 1">
-								<svg class="icon back-icon " aria-hidden="true">
-									<use xlink:href="#icon-Test"></use>
-								</svg>
-							</b>{{  wallet.name }}</h3>
+							<h3 class="name eps">
+								<b class="test-b" *ngIf="global.chainSelectIndex == 1">
+									<svg class="icon back-icon " aria-hidden="true">
+										<use xlink:href="#icon-Test"></use>
+									</svg>
+							    </b>
+							    {{  wallet.name }}
+						    </h3>
 							<p class="addr">{{ wallet.addr | computeCoinbase }}</p>
 						</div>
 					</button>					

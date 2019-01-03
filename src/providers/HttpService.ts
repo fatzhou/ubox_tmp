@@ -27,6 +27,8 @@ export class HttpService {
     aliveInterval = 10000; //保活时间
     successiveConnectGap = 15000; //连续两次重试的间隔
 
+    deviceSelected = null;
+
     boxSdpRetryTimes = 0; //获取盒子sdp已重试的次数
     connectBoxSdp: any = null; //连接的盒子的sdp
     // userBoxCheck: Boolean = false; //是否已查询过用户有无盒子
@@ -192,8 +194,8 @@ export class HttpService {
              this.peerConnection = null;
         }
         // this.global.deviceSelected = null;
-        this.global.centerBoxSelected = null;
-        this.global.centerAvailableBoxList = [];
+        // this.global.centerBoxSelected = null;
+        // this.global.centerAvailableBoxList = [];
     }
 
     public get(url: string, paramObj: any, errorHandler: any = true, headers:any = {}, options:any = {}) {
@@ -394,7 +396,7 @@ export class HttpService {
 
     public getCookieString(url) {
         if(!url.startsWith('http') && this.global.useWebrtc) {
-            let boxId = this.global.deviceSelected && this.global.deviceSelected.boxId;
+            let boxId = this.deviceSelected && this.deviceSelected.boxId;
             // GlobalService.consoleLog('-----获取cookie-----' + boxId + "," +  this.cookies[boxId])
             return this.cookies[boxId] || "";
         } else {
@@ -500,7 +502,7 @@ export class HttpService {
     }
 
     selectBox(box) {
-        this.global.deviceSelected = {
+        this.deviceSelected = {
             version: "",
             friendlyName: box.boxid,
             bindUserHash: Md5.hashStr(this.global.centerUserInfo.uname.toLowerCase()).toString(),
@@ -755,26 +757,26 @@ export class HttpService {
                     GlobalService.consoleLog(res)
                     if (res.err_no === 0) {
                         // GlobalService.consoleLog("获取盒子列表成功");
-                        this.global.centerBoxList = res.boxinfo || [];
-                        if (this.global.centerBoxList.length > 0) {
+                        let centerBoxList = res.boxinfo || [];
+                        if (centerBoxList.length > 0) {
                             // GlobalService.consoleLog("用户拥有盒子，查询盒子在线状态");
-                            this.global.centerAvailableBoxList = this.global.centerBoxList.filter(item => item.sdp_register === 1);
-                            GlobalService.consoleLog("在线盒子数目：" + this.global.centerAvailableBoxList.length);
-                            if (this.global.centerAvailableBoxList.length > 0) {
+                            let centerAvailableBoxList = centerBoxList.filter(item => item.sdp_register === 1);
+                            GlobalService.consoleLog("在线盒子数目：" + centerAvailableBoxList.length);
+                            if (centerAvailableBoxList.length > 0) {
                                 // GlobalService.consoleLog("设定用户盒子");
-                                this.global.centerBoxSelected = this.global.centerAvailableBoxList[0];
+                                let deviceSelected = centerAvailableBoxList[0];
                                 // GlobalService.consoleLog("重新连接以后盒子是否一致：" + this.global.deviceSelected.boxId === this.global.centerBoxSelected.boxid)
-                                this.selectBox(this.global.centerBoxSelected);
+                                this.selectBox(deviceSelected);
                                 // GlobalService.consoleLog("默认选择盒子:" + this.global.centerBoxSelected.boxid);
                             } else {
-                                this.global.centerBoxSelected = null;
+                                this.deviceSelected = null;
                             }
-                            return this.global.centerBoxSelected;
+                            return this.deviceSelected;
                         } else {
                             //用户没有盒子
                             // this.userBoxCheck = true;
                             this.dataChannelOpen = 'nobox';
-                            this.global.centerBoxSelected = null;
+                            this.deviceSelected = null;
                             throw new Error("nobox");
                         }
                     } else {
@@ -782,9 +784,9 @@ export class HttpService {
                     }
                 })
                 .then((res: any) => {
-                    if (res && res.boxid) {
+                    if (res && res.boxId) {
                         GlobalService.consoleLog("当前有盒子在线，获取盒子sdp");
-                        return this.getBoxSdp(res.boxid);
+                        return this.getBoxSdp(res.boxId);
                     } else {
                         GlobalService.consoleLog("当前没有盒子在线");
                         // this.userBoxCheck = true;
@@ -834,26 +836,26 @@ export class HttpService {
                     } else {
                         this.global.deviceSelected = null;
                     }
-                    if(this.global.deviceSelected) {
-                        //盒子已掉线
-                        if(this.global.centerBoxSelected === null) {
-                            this.global.deviceSelected = null;
-                            this.global.createGlobalAlert(this, {
-                                title: "您的盒子已经离线",
-                                buttons: [{
-                                    text: "重试",
-                                    handler: () => {
-                                        this.dataChannelOpen = "closed";  
-                                    }
-                                }, {
-                                    text: "前往首页",
-                                    handler: () => {
-                                        this.events.publish('token:expired');
-                                    }
-                                }]
-                            });
-                        } 
-                    }
+                    // if(this.deviceSelected) {
+                    //     //盒子已掉线
+                    //     if(this.global.centerBoxSelected === null) {
+                    //         this.global.deviceSelected = null;
+                    //         this.global.createGlobalAlert(this, {
+                    //             title: "您的盒子已经离线",
+                    //             buttons: [{
+                    //                 text: "重试",
+                    //                 handler: () => {
+                    //                     this.dataChannelOpen = "closed";  
+                    //                 }
+                    //             }, {
+                    //                 text: "前往首页",
+                    //                 handler: () => {
+                    //                     this.events.publish('token:expired');
+                    //                 }
+                    //             }]
+                    //         });
+                    //     } 
+                    // }
 
                     // if(!this.userBoxCheck) {
                     //     GlobalService.consoleLog("用户连接盒子的时候出现错误");
@@ -981,7 +983,21 @@ export class HttpService {
             GlobalService.consoleLog("---------------Data channel opened----------------");
             this.dataChannelOpen = "opened";
             this.global.useWebrtc = true;
-            resolve && resolve(this.global.deviceSelected);
+            let url = this.global.getBoxApi('keepAlive');
+            this.global.deviceSelected = this.deviceSelected;
+            this.webrtcRequest(url, 'post', {})
+            .then((res:any) => {
+                if(res.status === 200 && res.data.err_no === 0) {
+                    this.global.deviceSelected.version = res.data.version;
+                    //填充盒子版本号
+                    resolve && resolve(this.global.deviceSelected);                    
+                } else {
+                    reject && reject(this.global.deviceSelected);
+                }
+            })
+            .catch(e => {
+                reject && reject(this.global.deviceSelected);
+            })
             // this.startChat();
         }
         channel.onclose = () => {
@@ -1012,7 +1028,7 @@ export class HttpService {
                 }
                 if(headers["set-cookie"]) {
                     GlobalService.consoleLog("需要设置cookie");
-                    this.cookies[this.global.deviceSelected.boxId] = headers["set-cookie"];
+                    this.cookies[this.deviceSelected.boxId] = headers["set-cookie"];
                 }
                 //是否为文件下载
                 if(headers['content-range']) {
@@ -1059,7 +1075,7 @@ export class HttpService {
         }
 
         return this._post(GlobalService.centerApi["submitLocalSdp"].url, {
-                box_id: this.global.centerBoxSelected.boxid,
+                box_id: this.deviceSelected.boxId,
                 app_sdp: JSON.stringify(localSdp)
             })
             .then((res: any) => {

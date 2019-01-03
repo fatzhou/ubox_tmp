@@ -20,6 +20,7 @@ export class DeviceComponent {
   @Input() lastPath: string;
   @Output() goDevicePage = new EventEmitter < any > ();
   @Output() goLoginPage = new EventEmitter < any > ();
+  @Output() showPopup = new EventEmitter < any > ();
   constructor(
     private global: GlobalService,
     private events: Events,
@@ -28,20 +29,20 @@ export class DeviceComponent {
     this.showboxStatus = Lang.ErrBox[1502].Title[l];
   }
 
-  ionViewDidLoad() {
-  }
-
   closeLoginTips() {
     this.loginTipsFlag = false;
   }
 
   closeTips() {
     this.tipsShow = false;
-
   }
 
   promptLogin() {
     this.goLoginPage.emit();
+  }
+
+  showNetworkPopup() {
+    this.showPopup.emit(true)
   }
 
   goPages(){

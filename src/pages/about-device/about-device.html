@@ -39,7 +39,7 @@
 
             <ion-item class="padding-right">
 		        {{global.L("DeviceStatus")}}
-		        <div class="desc eps" item-end>{{global.L("Online")}}</div>
+		        <div class="desc eps" item-end>{{global.deviceSelected ? global.L("Online") : global.L("Offline")}}</div>
 		    </ion-item>	            
 
 		    <ion-item class="padding-right">
@@ -68,6 +68,16 @@
 		    </ion-item>		    
 		    <button ion-item (click)="updateRom()">
 		        {{global.L("CheckFirmwareUpdate")}}
+		    </button>
+        </ion-list>
+
+        <ion-list class="item-list">
+        	<button ion-item (click)="rebootDevice()">
+		        {{global.L("DeviceReboot")}}
+		    </button>        	
+
+		    <button ion-item (click)="unbindDevice()">
+		        {{global.L("DoUnbind")}}
 		    </button>
         </ion-list>
 

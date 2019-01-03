@@ -81,9 +81,9 @@ export class GlobalService {
 
     public useWebrtc:any = false; //是否使用webrtc
     public boxInfo: any = {}; //当前连接的盒子信息
-    public centerBoxList:any = []; //盒子列表
-    public centerAvailableBoxList: any = []; //当前可连接的盒子ID
-    public centerBoxSelected: any = {}; //远程登录所选择的盒子
+    // public centerBoxList:any = []; //盒子列表
+    // public centerAvailableBoxList: any = []; //当前可连接的盒子ID
+    // public centerBoxSelected: any = {}; //远程登录所选择的盒子
     public boxStatus:Boolean = true;//磁盘连接状态
     public diskInfoStatus:Boolean = true;//磁盘连接状态
     public speedMax:any = 0.7;
@@ -170,7 +170,8 @@ export class GlobalService {
                 "cn": ["1. 修复已知BUG","2. 新增文件远程访问、操作功能","3. 优化文件上传下载性能","4. 优化部分UI及使用体验"],
                 "en": ["1. Bugs fixing","2. Adding file remote access and operation functions","3. Optimize file upload and download performance","4. Optimize UI and user experience"],
                 "kr": ["1. 알려진 버그를 수정합니다","2. 새로운 파일 원격 액세스 및 작업 기능","3. 파일 업로드 및 다운로드 성능 최적화","4. UI 및 사용자 환경의 일부를 최적화합니다"]
-            }
+            },
+        "downloadUrl":"https://m.yqtc.co/download/ubbey.v1.2.2.apk"
     };
 
     //热更新路径
@@ -361,6 +362,12 @@ export class GlobalService {
         },
         "uploadCopyAlbums": {
             url: "/ubeybox/backup/upload"
+        },        
+        "rebootDevice": {
+            url: "/ubeybox/device/reboot"
+        },        
+        "reportLog": {
+            url: "/collector/bug/report"
         },
     };
 
@@ -465,7 +472,22 @@ export class GlobalService {
         },  
         "getTransactionPendingList": {
             url:  GlobalService.centerApiHostEnv + "/uchainscan//transaction/get_addr_pending"
-        }
+        },        
+        "addKeystore": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/user/keystore/add"
+        },        
+        "delKeystore": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/user/keystore/del"
+        },        
+        "changeKeystore": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/user/keystore/change"
+        },        
+        "getKeystore": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/user/keystore/get"
+        },        
+        "modifyKeystore": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/user/keystore/change_name"
+        },
     }
 
     constructor(

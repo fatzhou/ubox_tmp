@@ -86,6 +86,18 @@ export class AboutDevicePage {
         
     }
 
+    rebootDevice() {
+        this.util.rebootDevice(this);
+    }
+
+    unbindDevice() {
+        this.util.unbindBox(this, this.boxId, ()=>{
+            this.navCtrl.push(DeviceListPage, {
+                refresh: true
+            });
+        })
+    }
+
     goDeviceManagementPage() {
     	this.navCtrl.push(DeviceManagementPage);
     }

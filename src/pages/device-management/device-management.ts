@@ -118,6 +118,10 @@ export class DeviceManagementPage {
         }, 500)
     }
 
+    rebootDevice() {
+        this.util.rebootDevice(this);
+    }
+
     formatDisk() {
         this.global.createGlobalAlert(this, {
             title: Lang.L('WORD652905a6'),
@@ -161,87 +165,14 @@ export class DeviceManagementPage {
                 	}
                 }
             ]
-        })	
-	               	
-    	
+        })		               	
     }
 
-    unBindBox() {
-        this.global.createGlobalAlert(this, {
-            title: Lang.L('WORD67551a7e'),
-            message: Lang.L('WORD9f502956'),
-            buttons: [
-                {
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                       
-                    }
-                },
-                {
-                    text: Lang.L('WORDd0ce8c46'),
-                    handler: data => {
-                        if(this.global.centerUserInfo.earn !== undefined) {
-                            //已登录中心，直接修改
-                            this.removeBox();
-                        } else {
-                            Util.loginCenter(this, ()=>{
-                                this.removeBox();
-                            });
-                        } 
-                    }
-                }
-            ]
-        })  
-    }
-
-    removeBox() {
-    	this.http.post(GlobalService.centerApi["unbindBox"].url, {
-    		boxid: this.boxId,
-    	})
-    	.then(res => {
-    		if(res.err_no === 0) {
-        		var url = this.global.getBoxApi('unbindBox');
-        		return this.http.post(url, {
-	        		boxid: this.boxId,
-                    signature: res.credential
-	        		// signature: encodeURIComponent(res.credential)
-	        	})        			
-    		} else {
-    			throw new Error(Lang.L('WORD4b3c3932'));
-    		}
-    	})
-    	.then(res => {
-    		if(res.err_no === 0) {
-        		var url = GlobalService.centerApi["unbindBoxConfirm"].url;
-        		return this.http.post(url, {
-	        		boxid: this.boxId,
-	        	})        			
-    		} else {
-    			throw new Error(Lang.L('WORD3f31fa42'));
-    		}        		
-    	})
-    	.then(res => {
-    		if(res.err_no == 0) {
-	            this.global.createGlobalAlert(this, {
-	                title: Lang.L('WORDab667a91'),
-	                message: Lang.L('WORDe6e1739b'),
-	                buttons: [
-	                    {
-	                        text: Lang.L('WORD0cde60d1'),
-	                        handler: data => {
-                                this.global.centerUserInfo = {};
-                                this.global.boxUserInfo = {};
-	                            this.navCtrl.push(DeviceListPage, {
-                                    refresh: true
-                                });
-	                        }
-	                    }
-	                ]
-	            })	    			
-    		}
-    	})
-    	.catch (res => {
-    		GlobalService.consoleLog(res);
-    	})
+    unbindBox() {
+        this.util.unbindBox(this, this.boxId, ()=>{
+            this.navCtrl.push(DeviceListPage, {
+                refresh: true
+            });
+        })
     }
 }
