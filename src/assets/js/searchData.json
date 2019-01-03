@@ -1,0 +1,79 @@
+{
+    "labelList": {
+        "DAPP": {
+            "name": "DAPP",
+            "url": ""
+        }
+    },
+    "bannerStyle": {
+        "COMMON": "http://"
+    },
+    "appList": {
+        "cn": [{
+                "id": "1",
+                "logo": "http://",
+                "title": "PVR应用",
+                "abbreTitle": "PVR",
+                "type": 0, //0:web, 0:DAPP,
+                "box": 0, //0不需要box, 1需要box
+                "label": ["DAPP"],
+                "slogon": "简写",
+                "summary": "",
+                "description": ["描述1", "描述2"],
+                "bannerStyle": "COMMON",
+                "productImage": "https://",
+                "size": 2444444444,
+                "version": "1.0.0",
+                "time": 13133333333,
+                "updateInfo": ["更新内容1","更新内容2"],
+                "permissions": ["权限"],
+                "hardware": ["硬件环境1","硬件环境2"],
+                "developers": ["开发者"]
+            }
+        ],
+        "en": [{
+                "id": "1",
+                "logo": "http://",
+                "title": "PVR应用",
+                "abbreTitle": "PVR",
+                "type": 0, 
+                "box": 0, 
+                "label": ["DAPP"],
+                "slogon": "简写",
+                "summary": "",
+                "description": ["描述1", "描述2"],
+                "bannerStyle": "COMMON",
+                "productImage": "https://",
+                "size": 2444444444,
+                "version": "1.0.0",
+                "time": 13133333333,
+                "updateInfo": ["更新内容1","更新内容2"],
+                "permissions": ["权限"],
+                "hardware": ["硬件环境1","硬件环境2"],
+                "developers": ["开发者"]
+            }
+        ],
+        "kr": [{
+                "id": "1",
+                "logo": "http://",
+                "title": "PVR应用",
+                "abbreTitle": "PVR",
+                "type": 0, 
+                "box": 0, 
+                "label": ["DAPP"],
+                "slogon": "简写",
+                "summary": "",
+                "description": ["描述1", "描述2"],
+                "bannerStyle": "COMMON",
+                "productImage": "https://",
+                "size": 2444444444,
+                "version": "1.0.0",
+                "time": 13133333333,
+                "updateInfo": ["更新内容1","更新内容2"],
+                "permissions": ["权限"],
+                "hardware": ["硬件环境1","硬件环境2"],
+                "developers": ["开发者"]
+            }
+        ]
+    }
+}

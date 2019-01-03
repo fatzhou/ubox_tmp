@@ -69,6 +69,7 @@ export class TabsPage {
         private checkUpdate: CheckUpdate,
         private events: Events,
         public storage: Storage,
+        private util: Util,
         private platform: Platform,
         private fileOpener: FileOpener,
         public navParams: NavParams) {
@@ -148,7 +149,7 @@ export class TabsPage {
             GlobalService.consoleLog("打开外部链接......")
             try {
                 // this.rootPage = page;
-                window.open(page);
+                this.util.openUrl(page);
             } catch(e) {
                 GlobalService.consoleLog("异常！！！");
                 window.open(page);

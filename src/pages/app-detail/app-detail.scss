@@ -1,0 +1,121 @@
+page-app-detail {
+    $pagePadding: 15px;
+    .scroll-content {
+        overflow-y: hidden;
+    }
+    .page-box {
+        padding: 0;
+        background: $bgColor;
+        height: 100%;
+        position: relative;
+        overflow-y: scroll;
+    }
+    .app-li {
+        overflow: hidden;
+        .item-inner {
+            padding-right: 0;
+        }
+        &.item-block {
+            background: $bgColor;
+            padding-left: $pagePadding;
+            padding-right: $pagePadding;
+        }
+        .app-logo {
+            font-size: 64px;
+            float: left;
+        }
+        .eps {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .info {
+            float: left;
+            margin-left: 8px;
+            width: calc(100% - 80px);
+            .info-name {
+                color: #000;
+                font-size: 16px;
+            }
+            .icon-type {
+                font-size: 14px;
+            }
+            .info-Introduction{
+                color: #666666;
+                font-size: 12px;
+            }
+        }
+        .info-status {
+            float: left;
+            margin: 0;
+            .status-btn {
+                margin-top: -28px;
+                height: 24px;
+                width: 54px;
+                background: #F0F1FF;
+                border: 1px solid #5D75F7;
+                text-align: center;
+                color: #5D75F7;
+                line-height: 24px;
+                font-size: 12px;
+                border-radius: 4px;
+            }
+        }
+    }
+    .body-info{
+        padding: 15px;
+        color: #000;
+        line-height: 25px;
+        font-size: 14px;
+        border-bottom: 1px solid #e8e8e880;
+        border-top: 1px solid #e8e8e880;
+        span {
+            color: #666666;
+            margin-right: 20px;
+        }
+        
+    }
+    .body-detail {
+        font-size: 14px;
+        color: #666666;
+        line-height: 1.7;
+        padding: 0 $pagePadding;
+        padding-bottom: 60px;
+        overflow: hidden;
+        .title {
+            font-size: 16px;
+            color: #000;
+            margin-top: 20px;
+            font-weight: bold;
+            line-height: 2;
+        }
+    }
+    .body-status {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 48px;
+        background: #fff;
+        width: 100%;
+        .delete {
+            font-size: 18px;
+            position: absolute;
+            top: 15px;
+            left: 5%;
+            color: #5D75F7;
+        }
+        .status-btn {
+            display: inline-block;
+            width: 70%;
+            height: 36px;
+            text-align: center;
+            line-height: 36px;
+            background: #5D75F7;
+            color: #fff;
+            border-radius: 6px;
+            position: absolute;
+            left: 15%;
+            top: 6px;
+        }
+    }
+}

@@ -19,62 +19,78 @@
             </div>
         </header>
         <div class="slides-box">
-            <ion-slides>
-                <ion-slide>
-                    <div>
+            <ion-slides pager spaceBetween="8px">
+                <ion-slide no-bounce>
+                    <div class="bg-box" style="background-image: url(assets/img/Mask@2x.png)">
                         <div class="float-left">
-                            <p></p>
-                            <div>
-                                <img src="" alt="">
-                                PVR
+                            <p>Extended storage for great partners</p>
+                            <div class="logo-box">
+                                <img src="assets/img/PVR2@2x.png" alt="">
+                                <span>PVR</span>
                             </div>
                         </div>
                         <div class="float-right">
-                            <img src="" alt="">
+                            <img src="assets/img/9640@2x.png" alt="">
                         </div>
                     </div>
                 </ion-slide>
                 <ion-slide>
-                    <div>
+                    <div class="bg-box" style="background-image: url(assets/img/Mask@2x.png)">
                         <div class="float-left">
-                            <p></p>
-                            <div>
-                                <img src="" alt="">
-                                PVR
+                            <p>Extended storage for great partners</p>
+                            <div class="logo-box">
+                                <img src="assets/img/PVR2@2x.png" alt="">
+                                <span>PVR</span>
                             </div>
                         </div>
                         <div class="float-right">
-                            <img src="" alt="">
+                            <img src="assets/img/9640@2x.png" alt="">
                         </div>
                     </div>
                 </ion-slide>
                 <ion-slide>
-                    <div>
+                    <div class="bg-box" style="background-image: url(assets/img/Mask@2x.png)">
                         <div class="float-left">
-                            <p></p>
-                            <div>
-                                <img src="" alt="">
-                                PVR
+                            <p>Extended storage for great partners</p>
+                            <div class="logo-box">
+                                <img src="assets/img/PVR2@2x.png" alt="">
+                                <span>PVR</span>
                             </div>
                         </div>
                         <div class="float-right">
-                            <img src="" alt="">
+                            <img src="assets/img/9640@2x.png" alt="">
+                        </div>
+                    </div>
+                </ion-slide>
+                <ion-slide>
+                    <div class="bg-box" style="background-image: url(assets/img/Mask@2x.png)">
+                        <div class="float-left">
+                            <p>Extended storage for great partners</p>
+                            <div class="logo-box">
+                                <img src="assets/img/PVR2@2x.png" alt="">
+                                <span>PVR</span>
+                            </div>
+                        </div>
+                        <div class="float-right">
+                            <img src="assets/img/9640@2x.png" alt="">
                         </div>
                     </div>
                 </ion-slide>
             </ion-slides>
+            
         </div>
         <div class="app-list-box">
             <p class="app-more">
                 发现精彩
-                <span class="more-span">
+                <!-- <span class="more-span">
                 更多
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-you"></use>
                 </svg>
-            </span></p>
+            </span> -->
+        </p>
             <ul>
-                <li ion-item class="app-li">
+                <li ion-item class="app-li" (click)="goAppDetail()">
                     <svg class="icon app-logo" aria-hidden="true">
                         <use xlink:href="#icon-BindingUbbey"></use>
                     </svg>

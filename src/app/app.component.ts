@@ -28,6 +28,7 @@ import { TaskListPage } from '../pages/task-list/task-list';
 import { GuidancePage } from '../pages/guidance/guidance';
 import { PermissionPage } from '../pages/permission/permission';
 import { SearchPage } from '../pages/search/search';
+import { AppDetailPage } from '../pages/app-detail/app-detail';
 
 import { AgreementPage } from '../pages/agreement/agreement'
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy'
@@ -138,7 +139,7 @@ export class UboxApp {
                 this.global.fileRootPath = cordova.file.externalRootDirectory;           
             } else {
                 GlobalService.consoleLog("我不是cordova");
-                this.rootPage = SearchPage;
+                this.rootPage = AppDetailPage;
             }
 
             this.getUserInfo();

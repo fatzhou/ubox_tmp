@@ -69,6 +69,8 @@ import { ClassifyListPage } from '../pages/classify-list/classify-list';
 import { CopyPhotoPage } from '../pages/copy-photo/copy-photo';
 import { PermissionPage } from '../pages/permission/permission';
 import { SearchPage } from '../pages/search/search';
+import { AppDetailPage } from '../pages/app-detail/app-detail';
+
 
 
 //自定义组件
@@ -182,7 +184,8 @@ import { FileManager } from '../providers/FileManager';
     ClassifyListPage,
     CopyPhotoPage,
     PermissionPage,
-    SearchPage
+    SearchPage,
+    AppDetailPage
     // ClickAndWaitDirective,
   ],
   imports: [
@@ -256,7 +259,8 @@ import { FileManager } from '../providers/FileManager';
     ClassifyListPage,
     CopyPhotoPage,
     PermissionPage,
-    SearchPage
+    SearchPage,
+    AppDetailPage
   ],
   providers: [
     UboxApp,
