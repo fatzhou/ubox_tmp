@@ -68,6 +68,22 @@ export class WalletCoinbasePage {
         this.coinbase = addr;
     }
 
+    getWalletData() {
+        let url = "";
+        if(!!this.global.deviceSelected) {
+            //已连接盒子，直接
+            url = this.global.getBoxApi("getWalletList"); 
+        } else if(this.global.centerUserInfo && this.global.centerUserInfo.bind_box_count === 0) {
+            //未绑定盒子
+            url = GlobalService.centerApi['getKeystore'].url;
+        } else {
+            throw new Error("Wrong case in getWalletData");
+        }
+        return this.http.post(url, {
+            type: this.global.chainSelectArray[this.global.chainSelectIndex] == 'ERC20' ? 0 : 1
+        });   
+    }
+
     getWalletList() {
         if(this.walletList.length == 0){
             this.global.createGlobalLoading(this, {
@@ -76,10 +92,7 @@ export class WalletCoinbasePage {
         }
         
         this.oldShareSize = this.navParams.get('shareSize');
-        var url = this.global.getBoxApi("getWalletList");
-        this.http.post(url, {            
-            type: this.global.chainSelectArray[this.global.chainSelectIndex] == 'ERC20' ? 0 : 1    
-        })
+        this.getWalletData()
         .then(res => {
             this.loading = false;
             if (res.err_no === 0) {

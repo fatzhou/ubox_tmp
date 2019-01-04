@@ -70,7 +70,12 @@ export class ChangePayPasswordPage {
         let keystore = this.keystore;
         this.web3.modifyWallet(this.passwd1, this.passwd2, this.keystore)
         .then((res:any) => {
-            let url = this.global.getBoxApi('changePayPassword');
+            let url = '';
+            if(this.global.deviceSelected) {
+                url = this.global.getBoxApi('changePayPassword');
+            } else {
+                url = GlobalService.centerApi['changeKeystore'].url;
+            }
             GlobalService.consoleLog(this.keystore + res.keystore)
             this.keystore = JSON.stringify(res.keystore);
             GlobalService.consoleLog(res.keyhash)

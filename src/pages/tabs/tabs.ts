@@ -62,6 +62,8 @@ export class TabsPage {
     oneShareStorage: any = 4;
     spanWidth: any = 0;
     selectIndex: any = 0;
+    popupShown:boolean = false;
+    connectionStatus = "remote";
 
     constructor(public navCtrl: NavController,
         private http: HttpService,
@@ -71,6 +73,7 @@ export class TabsPage {
         public storage: Storage,
         private util: Util,
         private platform: Platform,
+        private util: Util,
         private fileOpener: FileOpener,
         public navParams: NavParams) {
         GlobalService.consoleLog("tabs页面构造函数");
@@ -108,6 +111,7 @@ export class TabsPage {
             })
         })
 
+        //外部要求升级app
         events.subscribe('update-app', () => {
             GlobalService.consoleLog('提示用户升级app');
             this.version = this.appVersionDescription.version;
@@ -115,13 +119,19 @@ export class TabsPage {
             this.info = this.appVersionDescription.content[GlobalService.applang];
             this.head = this.global.NewVersionHead[GlobalService.applang];
             this.btnText = Lang.L('Update');
-            this.action = this.updateAppIndeed.bind(this);
+            this.action = ()=>{this.util.updateAppIndeed(this)};
             this.isClose = true; //提示用户升级box
             this.isShowAction = true;
 
             GlobalService.DownloadPath['android'] = this.appVersionDescription.downloadUrl;
         })
 
+        //接收home传过来的关闭设备网络状态的事件
+        events.subscribe('open-popup', ()=>{
+            this.showPopup(true);
+        })
+
+        //外部要求切换页面
         this.events.subscribe('page:changed', (pageId) => {
             GlobalService.consoleLog("接收到page页面更改事件......   id" + pageId);
             try {
@@ -134,6 +144,7 @@ export class TabsPage {
                 this.navCtrl.push(NoticeListPage);
             }
         })
+
         this.events.subscribe('goPage:changed', (page) => {
             GlobalService.consoleLog("接收到page页面更改事件......")
             try {
@@ -145,6 +156,7 @@ export class TabsPage {
                 this.navCtrl.push(NoticeListPage);
             }
         })
+
         this.events.subscribe('open-page', (page) => {
             GlobalService.consoleLog("打开外部链接......")
             try {
@@ -155,6 +167,7 @@ export class TabsPage {
                 window.open(page);
             }
         })
+
         this.events.subscribe('show-data', () => {
             try {
                 this.isShowShareBox = true;
@@ -183,29 +196,8 @@ export class TabsPage {
         })
     }
 
-    updateAppIndeed() {
-        GlobalService.consoleLog("开始升级APP....");
-        //关闭弹窗
-        GlobalService.consoleLog("即将打开链接:" + GlobalService.DownloadPath[this.global.platformName])
-        if(this.global.platformName == 'android') {
-            console.log("Android优先使用Google Play");
-            this.fileOpener.appIsInstalled('com.android.vending')
-            .then((res) => {
-                console.log('openApp ' +JSON.stringify(res))
-                if (res.status === 0) {
-                    window.location.href = GlobalService.DownloadPath[this.global.platformName];
-                } else {
-                    console.log('Google Play is installed.')
-                    window.open('market://details?id=com.ulabs.ubbeybox', '_system');
-                }
-            })
-            .catch(e => {
-                console.log('调用失败')
-            })
-        } else {
-            console.log("iOS直接使用App Store");
-            window.location.href = GlobalService.DownloadPath[this.global.platformName];
-        }
+    showPopup(b) {
+        this.popupShown = b;
     }
 
     //远程获取配置
@@ -220,8 +212,11 @@ export class TabsPage {
                 }
                 if (res.appControls && res.boxVersionDescription && res.appVersionDescription) {
                     this.versionControl = res.appControls;
+                    GlobalService.VersionControl = res.appControls;
                     this.boxVersionDescription = res.boxVersionDescription;
+                    GlobalService.BoxVersionDescription = res.boxVersionDescription;
                     this.appVersionDescription = res.appVersionDescription;
+                    GlobalService.AppVersionDescription = res.appVersionDescription;
                 }
                 this.global.firstLoadVersion = 1;
                 return res;
@@ -254,9 +249,12 @@ export class TabsPage {
 
     ionViewDidLoad() {
         GlobalService.consoleLog('ionViewDidLoad TabsPage');
+        //初始化connection组件
+        // this.connection.status = this.global.useWebrtc ? this.global.L('RemoteNetwork')
     }
 
     ionViewDidEnter() {
+        this.connectionStatus = this.global.useWebrtc ? (this.http.dataChannelOpen === 'opened' ? 'remote' : 'connecting') : 'local';
         let events = this.events;
         GlobalService.consoleLog('ionViewDidEnter TabsPage');
         if(this.tabRef.getSelected() !== null){
@@ -279,6 +277,8 @@ export class TabsPage {
                 this.global.closeGlobalLoading(this);
                 this.initNoticeList();
             })
+        } else {
+            this.getVersionControl();
         }
     }
 
@@ -381,11 +381,10 @@ export class TabsPage {
         if(this.global.platformName == 'android') {
             this.fileOpener.appIsInstalled('com.android.vending')
             .then((res) => {
-                console.log('openApp ' +JSON.stringify(res))
+                console.log('openApp ' + JSON.stringify(res))
                 if (res.status === 0) {
-                    console.log('Adobe Reader is not installed.');
+                    console.log('App is not installed.');
                 } else {
-                    console.log('Adobe Reader is installed.')
                     window.open('market://details?id=com.ulabs.ubbeybox', '_system');
                 }
             })

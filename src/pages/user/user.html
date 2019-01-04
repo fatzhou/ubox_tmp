@@ -51,15 +51,21 @@
 	</div>		
 
 	<div class="function-list">
-<!-- 		<button ion-item (click)="checkUpdate()">
-	      {{global.L("CheckUpdate")}}
-	    </button>	 -->			
+		<button ion-item (click)="goUpdatePage()">
+	      {{global.L("UpdateAssistant")}}
+	    </button>				
 	    <button ion-item (click)="goAboutUsPage()">
 	      {{global.L("AboutUs")}}
 	    </button>		    
-	    <button ion-item click-and-wait (click)="logoutSystem()">
-	      {{global.L("ExitLogin")}}
-	    </button>
+	    <button ion-item (click)="goAdvicePage()">
+	      {{global.L("AdviceSubmit")}}
+	    </button>		    
 	</div> 
+
+	<div class="function-list" *ngIf="!!global.centerUserInfo.uname">	    
+	    <div class="log-out" ion-item click-and-wait (click)="logoutSystem()">
+	      {{global.L("ExitLogin")}}
+	    </div>
+	</div> 	
   </div>
 </ion-content>

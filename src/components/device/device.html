@@ -8,9 +8,11 @@
 
     <h1 class="eps">
 	  	<span (click)="goPages()">{{ global.deviceSelected ? global.deviceSelected.friendlyName : global.L('WORD89462053') }}</span>
-		<svg class="icon" aria-hidden="true" style="display: none;">
-			<use xlink:href="#icon-fold"></use>
-		</svg>
+	  	<div class="network-status" (click)="showNetworkPopup()">
+			<svg class="icon" aria-hidden="true">
+				<use xlink:href="#icon-AddDevice"></use>
+			</svg>	  		
+	  	</div>
 	</h1>
 </div>
 <div class="device" *ngIf="global.centerUserInfo.uname == undefined">

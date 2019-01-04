@@ -1,0 +1,27 @@
+<!-- Generated template for the BoxPromotionComponent component -->
+<div class="box-promotion">
+	<p class="title">{{ global.L("BuyFavour") }}</p>
+	<ion-slides (ionSlideDidChange)="slideChanged()">
+	  	<ion-slide>
+	  		<ion-img class="image" src="../assets/img/box-cloud@2x.png"></ion-img>
+			<p class="text">{{ global.L('BackupImmediately') }}</p>
+			<p class="text">{{ global.L('StorageEnough') }}</p>
+	  	</ion-slide>	  	
+	  	<ion-slide>
+	  		<ion-img class="image" src="../assets/img/box-mining@2x.png"></ion-img>
+			<p class="text">{{ global.L('JoinMining') }}</p>
+			<p class="text">{{ global.L('EarnMoney') }}</p>
+	  	</ion-slide>
+	</ion-slides>
+
+	<div class="dot-area">
+		<span class="circle" [ngClass]="focusSlide == 0 ? 'active' : ''" (click)="selectSlide(0)" tapable></span>
+		<span class="circle" [ngClass]="focusSlide == 1 ? 'active' : ''" (click)="selectSlide(1)" tapable></span>
+	</div>
+
+	<div class="button-area">
+		<button class="common-focus-button bind-btn" (click)="goBindingBoxPage()" tapable>{{ global.L('BindImmediately') }}</button>
+		<button class="common-unfocus-button buy-btn" (click)="goPurchaseBoxPage()" tapable>{{ global.L('BuyBox') }}</button>		
+	</div>
+
+</div>

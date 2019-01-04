@@ -5,17 +5,18 @@
   Ionic pages and navigation.
 -->
 <ion-content>
-  <div class="home-page">
+  <box-promotion *ngIf="global.centerUserInfo.bind_box_count === 0" (goBindingPage)="goBindingPage()" (goBuyBoxPage)="goBuyBoxPage()"></box-promotion>
+  <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page">
     <header>
-      <device  (goDevicePage)="goAboutDevice()" (goLoginPage)="goLoginPage()" lastPath="home-page"></device>
-      <div class="network" *ngIf="global.centerUserInfo.uname">
+      <device  (goDevicePage)="goAboutDevice()" (goLoginPage)="goLoginPage()" (showPopup)="showNetworkPopup()" lastPath="home-page"></device>
+<!--       <div class="network" *ngIf="global.centerUserInfo.uname">
         <svg class="icon" aria-hidden="true" *ngIf="!!global.deviceSelected">
           <use xlink:href="#icon-netnormal"></use>
         </svg>        
         <svg class="icon" aria-hidden="true" *ngIf="!global.deviceSelected">
           <use xlink:href="#icon-neterror"></use>
         </svg>
-      </div>
+      </div> -->
     </header>
     <div class="info clear">
       <div class="info-area disk" tappable (click)="goDeviceList()">

@@ -1,0 +1,58 @@
+page-update-assitant {
+	.about-us-content {
+		position: relative;
+		.logo-wrap {
+			padding: 20px 0;
+			.logo {
+				text-align: center;
+				border: 1px solid #DFE3FD;
+				width: 100px;
+				height: 100px;
+				margin: 0 auto;
+				border-radius: 50%;
+				.update-icon {
+				    font-size: 52px;
+				    margin-top: 24px;
+				}
+			}				
+		}
+
+		.info-list {
+			background: #fff;
+			border-top: 1px solid #f1f1f1;
+			border-bottom: 1px solid #f1f1f1;
+			// padding: 0 $padding;
+			padding-left: $padding;
+			.key {
+				.label {
+					display: block;
+					color: #000;
+					font-size: 16px;	
+					line-height: 1.25;				
+				}
+				.for {
+					margin-top: 4px;
+					display: block;
+					color: #666;
+					font-size: 12px;
+					line-height: 1.25;
+				}
+			}
+			.value {
+				color: #999;
+				font-size: 13px;
+				margin-right: 0;
+				margin-top: 0;
+			}
+			.info {
+				border-bottom: 1px solid #f1f1f1;
+				&:last-child {
+					border: none;
+				}
+			}
+			.item {
+				padding-left: 0;
+			}
+		}	
+	}
+}

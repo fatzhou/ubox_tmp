@@ -34,8 +34,10 @@
 			</div>
 			<div class="disk-info clear">
 				<div class="disk fl clear">
-					<p class="key">{{global.L("DiskType")}}</p>
-					<p class="value">{{ diskType }}</p>
+<!-- 					<p class="key">{{global.L("DiskType")}}</p>
+					<p class="value">{{ diskType }}</p> -->
+					<p class="key">{{global.L("DeviceStatus")}}</p>
+					<p class="value">{{global.deviceSelected ? global.L('Online') : global.L("Offline")}}</p>
 				</div>				
 				<div class="disk fl clear">
 					<p class="key">{{global.L("DiskCapacity")}}</p>
@@ -43,8 +45,8 @@
 				</div>
 			</div>
 			<div class="btns clear">
-				<div class="btn clear-data fl" tappable click-and-wait (click)="formatDisk();$event.stopPropagation();">{{global.L("FormatDisk")}}</div>
-				<div class="btn unbind-disk fl" tappable click-and-wait (click)="unBindBox();$event.stopPropagation();">{{global.L("DoUnbind")}}</div>
+				<div class="btn clear-data fl" tappable click-and-wait (click)="rebootDevice();$event.stopPropagation();">{{global.L("DeviceReboot")}}</div>
+				<div class="btn unbind-disk fl" tappable click-and-wait (click)="unbindBox();$event.stopPropagation();">{{global.L("DoUnbind")}}</div>
 			</div>
 			<img src="assets/img/device-selected@2x.png" class="select-icon" alt="">
 		</div>		

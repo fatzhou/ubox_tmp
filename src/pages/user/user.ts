@@ -12,6 +12,8 @@ import { ChangePasswdPage } from '../change-passwd/change-passwd';
 import { AboutUsPage } from '../about-us/about-us';
 import { NoticeListPage } from '../notice-list/notice-list';
 import { SystemSettingPage } from "../system-setting/system-setting";
+import { UpdateAssitantPage } from "../update-assitant/update-assitant";
+import { AdviceSubmitPage } from '../advice-submit/advice-submit';
 import { Lang } from '../../providers/Language';
 import { Util } from '../../providers/Util';
 
@@ -57,16 +59,36 @@ export class UserPage {
         })
     }
 
+    goAdvicePage() {
+        this.app.getRootNav().push(AdviceSubmitPage);
+    }
+ 
+    goUpdatePage() {
+        this.app.getRootNav().push(UpdateAssitantPage);
+    }
+
     goWalletSelectPage() {
         if(!!this.global.deviceSelected) {
             this.app.getRootNav().push(WalletSelectPage);
         } else {
-            this.global.createGlobalToast(this, {
-                message: Lang.L('WORD0e77bf3e')
-            });
-            return false;
+            if(this.global.centerUserInfo.uname == undefined) {
+                //尚未登录
+                this.global.createGlobalToast(this, {
+                    message: Lang.L('NeedLogin')
+                })
+            } else {
+                if(this.global.centerUserInfo.bind_box_count > 0) {
+                    //盒子不在线
+                    this.global.createGlobalToast(this, {
+                        message: Lang.L('WORD0e77bf3e')
+                    });                    
+                } else {
+                    //未绑定盒子
+                    this.app.getRootNav().push(WalletSelectPage);
+                }
+            }
         }
-
+        return false;
     }
 
     goDeviceManagementPage() {

@@ -82,7 +82,12 @@ export class WalletSettingPage {
                     {
                         text: Lang.L('WORDd0ce8c46'),
                         handler: data => {
-                            var url = this.global.getBoxApi("deleteWallet");
+                            var url = '';
+                            if(this.global.deviceSelected) {
+                                url = this.global.getBoxApi("deleteWallet");
+                            } else {
+                                url = GlobalService.centerApi['delKeystore'].url; 
+                            }
                             this.http.post(url, {
                                     addr: this.addr,
                                     type: this.global.chainSelectArray[this.global.chainSelectIndex] == 'ERC20' ? 0 : 1

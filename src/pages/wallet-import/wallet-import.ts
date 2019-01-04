@@ -85,7 +85,12 @@ export class WalletImportPage {
             return false;
         }
 
-        var url = this.global.getBoxApi("createWallet");
+        var url = '';
+        if(this.global.deviceSelected) {
+           url = this.global.getBoxApi("createWallet");
+        } else {
+           url = GlobalService.centerApi['addKeystore'].url;
+        }
         this.http.post(url, {
             name: Lang.L('WORD388fa919') + address.slice(0, 8),
             addr: '0x' + address,

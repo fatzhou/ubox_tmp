@@ -137,7 +137,7 @@ export class CheckUpdate {
                     data: e
                 }); 
             })
-        }, 600);
+        }, 800);
     }
 
     //查询是否存在固件升级
@@ -150,26 +150,34 @@ export class CheckUpdate {
                 this.global.closeGlobalLoading(this);
                 GlobalService.consoleLog("res.err_no------"+res.err_no);
                 if(res.err_no === 0) {
-                    if(res.force === 1) {
-                        this.status = "updating";
-                        resolve({
-                            type: 'optional',
-                            data: res
-                        });
-                    } else if(res.force === 2) {
-                        // resolve('newest', res);
-                        resolve({
-                            type: 'newest',
-                            data: res
-                        })
-                    } else if(res.force === 0) {
-                        GlobalService.consoleLog("强制升级");
-                        this.status = "updating";
-                        this.global.createGlobalLoading(this, {
-                            message: Lang.L("romUpdatingTips")
-                        });
-                        this._checkUpdateStatus(resolve, reject);
-                    }
+                    resolve({
+                        type: 'optional',
+                        data: res
+                    });
+                    // if(res.force === 1) {
+                    //     this.status = "updating";
+                    //     resolve({
+                    //         type: 'optional',
+                    //         data: res
+                    //     });
+                    // } else if(res.force === 2) {
+                    //     // resolve('newest', res);
+                    //     resolve({
+                    //         type: 'newest',
+                    //         data: res
+                    //     })
+                    // } else if(res.force === 0) {
+                    //     GlobalService.consoleLog("强制升级");
+                    //     this.status = "updating";
+                    //     this.global.createGlobalLoading(this, {
+                    //         message: Lang.L("romUpdatingTips")
+                    //     });
+                    //     resolve({
+                    //         type: "force",
+                    //         data: res
+                    //     });
+                    //     // this._checkUpdateStatus(resolve, reject);
+                    // }
                 } else {  
                     reject(res);          
                 }
@@ -183,9 +191,9 @@ export class CheckUpdate {
 
     //升级固件到指定版本
     updateRomIndeed(dstVer, signature, resolve, reject) {
-        this.global.createGlobalLoading(this, {
-            message: Lang.L("romUpdatingTips")
-        });
+        // this.global.createGlobalLoading(this, {
+        //     message: Lang.L("romUpdatingTips")
+        // });
         var url = this.setUpdateRomUrl(this.global.getBoxApi('updateRom'));
         this.http.post(url, {
             dstVer: dstVer, 
