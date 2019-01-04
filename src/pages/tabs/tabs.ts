@@ -73,7 +73,6 @@ export class TabsPage {
         public storage: Storage,
         private util: Util,
         private platform: Platform,
-        private util: Util,
         private fileOpener: FileOpener,
         public navParams: NavParams) {
         GlobalService.consoleLog("tabs页面构造函数");
