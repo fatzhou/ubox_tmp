@@ -8,14 +8,15 @@
     "bannerStyle": {
         "COMMON": "http://"
     },
+    "bannerList":[],
     "appList": {
         "cn": [{
                 "id": "1",
                 "logo": "http://",
                 "title": "PVR应用",
                 "abbreTitle": "PVR",
-                "type": 0, //0:web, 0:DAPP,
-                "box": 0, //0不需要box, 1需要box
+                "type": 0, 
+                "box": 0, 
                 "label": ["DAPP"],
                 "slogon": "简写",
                 "summary": "",

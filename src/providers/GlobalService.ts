@@ -96,6 +96,7 @@ export class GlobalService {
     public walletList = []; //钱包缓存列表
     public nowUserWallet = {}; //当前用户钱包
     public firstLoadVersion = 0; //第一次拉取版本数据
+    public firstLoadSearchData = 0; //第一次拉取发现页数据
     public userLoginList = {
         'remote': {},
         'boxid': {}
@@ -127,6 +128,16 @@ export class GlobalService {
             return GlobalService.UBBEY_CONTRACT_TEST;
         } else {
             return GlobalService.UBBEY_CONTRACT;
+        }
+    }
+    public SearchData = {
+        "labelList": {},
+        "bannerStyle": {},
+        "bannerList": [],
+        "appList": {
+            "cn": [],
+            "en": [],
+            "kr": []
         }
     }
 
@@ -197,7 +208,7 @@ export class GlobalService {
         'prod': "https://m.yqtc.co/ubbey/versionControl.json"
     }
 
-    //版本控制文件
+    //发现页数据文件
     public static searchDataConfig = {
         'dev': "https://www.yqtc.co/iamtest/ubox/searchData.json",
         'prod': "https://m.yqtc.co/ubbey/searchData.json"

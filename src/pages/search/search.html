@@ -20,20 +20,6 @@
         </header>
         <div class="slides-box">
             <ion-slides pager spaceBetween="8px">
-                <ion-slide no-bounce>
-                    <div class="bg-box" style="background-image: url(assets/img/Mask@2x.png)">
-                        <div class="float-left">
-                            <p>Extended storage for great partners</p>
-                            <div class="logo-box">
-                                <img src="assets/img/PVR2@2x.png" alt="">
-                                <span>PVR</span>
-                            </div>
-                        </div>
-                        <div class="float-right">
-                            <img src="assets/img/9640@2x.png" alt="">
-                        </div>
-                    </div>
-                </ion-slide>
                 <ion-slide>
                     <div class="bg-box" style="background-image: url(assets/img/Mask@2x.png)">
                         <div class="float-left">
@@ -48,31 +34,17 @@
                         </div>
                     </div>
                 </ion-slide>
-                <ion-slide>
-                    <div class="bg-box" style="background-image: url(assets/img/Mask@2x.png)">
+                <ion-slide *ngFor="let item of bannerList">
+                    <div class="bg-box" [style]="'background-image: url(' + item.bannerStyle + ')''">
                         <div class="float-left">
-                            <p>Extended storage for great partners</p>
+                            <p>{{ item.slogon }}</p>
                             <div class="logo-box">
-                                <img src="assets/img/PVR2@2x.png" alt="">
-                                <span>PVR</span>
+                                <img [src]="item.logo" alt="">
+                                <span>{{ item.abbreTitle }}</span>
                             </div>
                         </div>
                         <div class="float-right">
-                            <img src="assets/img/9640@2x.png" alt="">
-                        </div>
-                    </div>
-                </ion-slide>
-                <ion-slide>
-                    <div class="bg-box" style="background-image: url(assets/img/Mask@2x.png)">
-                        <div class="float-left">
-                            <p>Extended storage for great partners</p>
-                            <div class="logo-box">
-                                <img src="assets/img/PVR2@2x.png" alt="">
-                                <span>PVR</span>
-                            </div>
-                        </div>
-                        <div class="float-right">
-                            <img src="assets/img/9640@2x.png" alt="">
+                            <img [src]="item.productImage" alt="">
                         </div>
                     </div>
                 </ion-slide>
@@ -110,6 +82,26 @@
                         <p class="status-btn eps">获取</p>
                     </div>
                 </li>
+                <li ion-item  *ngFor="let item of showList" class="app-li" (click)="goAppDetail()">
+                        <svg class="icon app-logo" aria-hidden="true">
+                            <use xlink:href="#icon-BindingUbbey"></use>
+                        </svg>
+                        <div class="info">
+                            <p class="info-name eps">IPFS播放器</p>
+                            <p class="info-icon-list eps">
+                                <svg class="icon icon-type" aria-hidden="true">
+                                    <use xlink:href="#icon-DAPP"></use>
+                                </svg>
+                                <svg class="icon icon-type" aria-hidden="true">
+                                    <use xlink:href="#icon-Freeinstallation"></use>
+                                </svg>
+                            </p>
+                            <p class="info-Introduction eps">基于IPFS的网络播放器</p>
+                        </div>
+                        <div class="info-status" item-end>
+                            <p class="status-btn eps">获取</p>
+                        </div>
+                    </li>
             </ul>
         </div>
     </div>

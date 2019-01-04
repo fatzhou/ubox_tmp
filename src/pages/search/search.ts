@@ -19,7 +19,11 @@ import { AppDetailPage } from '../app-detail/app-detail';
     templateUrl: 'search.html',
 })
 export class SearchPage {
-    windowWidth: number;
+    labelList: any = {};
+    bannerStyle: any = {};
+    appList: any = {};//全部的应用列表
+    showList: any = [];//需要展示的应用列表
+    bannerList: any = [];//需要展示的banner列表
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         private events: Events,
@@ -31,7 +35,6 @@ export class SearchPage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad SearchPage');
-        this.windowWidth = document.documentElement.offsetWidth - 18;
     }
 
     goAppDetail() {
@@ -42,12 +45,16 @@ export class SearchPage {
     getVersionControl() {
         var that = this;
         var url = GlobalService.searchDataConfig[GlobalService.ENV];
-        if(this.global.firstLoadVersion == 0){
+        if(this.global.firstLoadSearchData == 0){
             return this.http.get(url, {}, false)
             .then((res:any) => {
                 if(typeof res === 'string') {
                     res = JSON.parse(res);
                 }
+                if (res) {
+                    
+                }
+                this.global.firstLoadSearchData = 1;
                 return res;
             })
             .catch(e => {
