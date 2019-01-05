@@ -389,6 +389,15 @@ export class GlobalService {
         },        
         "checkUpdate130": {
             url: "/updatebox/check_update"
+        },        
+        "downloadPackage130": {
+            url: "/updatebox/download"
+        },          
+        "downloadPackageProgress130": {
+            url: "/updatebox/get_progress"
+        },        
+        "installPackage130": {
+            url: "/updatebox/install"
         },
     };
 
