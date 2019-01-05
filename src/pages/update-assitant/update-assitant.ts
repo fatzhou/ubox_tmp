@@ -105,7 +105,7 @@ export class UpdateAssitantPage {
                 if (!boxVersionDescription[version]) {
                     console.error("盒子版本" + version + "未配置");
                     this.showDialog = false;
-                    throw new Error("Version not configed");
+                    throw new Error("Version not configed:" + version);
                 }     
                 this.boxUpdateInfo = res.data;
                 this.toVersion = version;               
@@ -114,7 +114,8 @@ export class UpdateAssitantPage {
                 this.btnText = this.global.L('Update');
                 this.action = this.updateBoxIndeed.bind(this);
                 this.closeBtn = true;
-                this.showDialog = true;                
+                this.showDialog = true;   
+                this.showAction = true;             
             } else if(res.type === 'newest') {
                 this.global.createGlobalToast(this, {
                     message: Lang.L('NewestVersion')

@@ -114,13 +114,13 @@ import { FileUploader } from '../providers/FileUploader';
 import { Web3Service } from '../providers/Web3Service';
 // import { ClickAndWaitDirective } from '../directives/click-and-wait/click-and-wait';
 import { DirectivesModule } from '../directives/directives.module';
-import { CDVPhotoLibraryPipe } from './cdvphotolibrary.pipe';
 import { PhotoLibrary } from '@ionic-native/photo-library';
 
 
 import { ComputeCoinbasePipe } from '../pipes/compute-coinbase/compute-coinbase'
 import { ComputeFileSizePipe } from '../pipes/compute-file-size/compute-file-size'
 import { ComputeFileTimePipe } from '../pipes/compute-file-time/compute-file-time'
+import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
 
 import { FileTransfer } from '../providers/FileTransfer';
 import { FileManager } from '../providers/FileManager';
@@ -186,10 +186,10 @@ import { FileManager } from '../providers/FileManager';
     ComputeCoinbasePipe,
     ComputeFileSizePipe,
     ComputeFileTimePipe,
+    PhotoSantizerPipe,
     SelectImgPage,
     SelectAudioVideoPage,
     SelectAlbumPage,
-    CDVPhotoLibraryPipe,
     ClassifyListPage,
     CopyPhotoPage,
     PermissionPage,

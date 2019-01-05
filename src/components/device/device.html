@@ -8,7 +8,7 @@
 
     <h1 class="eps">
 	  	<span (click)="goPages()">{{ global.deviceSelected ? global.deviceSelected.friendlyName : global.L('WORD89462053') }}</span>
-	  	<div class="network-status" (click)="showNetworkPopup()">
+	  	<div class="network-status" *ngIf="networkStatusShow=='true'" (click)="showNetworkPopup()">
 			<svg class="icon" aria-hidden="true">
 				<use xlink:href="#icon-AddDevice"></use>
 			</svg>	  		

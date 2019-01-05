@@ -62,7 +62,7 @@
                             </div>
                             <div class="file-box image active" *ngIf="classify == 1">
                                 <div class="file-type img-box" *ngIf="!info.thumbnail" [ngClass]="info.style"></div>
-                                <img class="file-thumbnail img-box" [src]="info.thumbnail | cdvphotolibrary" *ngIf="info.thumbnail">
+                                <img class="file-thumbnail img-box" [src]="info.thumbnail | photoSantizer" *ngIf="info.thumbnail">
                                 <div class="btn">
                                     <em class="nochoose-circle" *ngIf="!info.selected && allBtnsShow"></em>
                                     <svg class="icon icon-ellipsis" *ngIf="info.selected && allBtnsShow" aria-hidden="true">

@@ -40,7 +40,7 @@
                 <ion-label class="label">
                     <dl>
                         <dt>
-                            <img [src]="album.content[0].thumbnailURL | cdvphotolibrary" alt="">
+                            <img [src]="album.content[0].thumbnailURL | photoSantizer" alt="">
                         </dt>
                         <dd>{{ album.title }}</dd>
                         <dd class="num-p">{{ album.content.length }}{{ global.L("Item") }}</dd>
