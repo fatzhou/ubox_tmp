@@ -28,7 +28,6 @@ import { TaskListPage } from '../pages/task-list/task-list';
 import { GuidancePage } from '../pages/guidance/guidance';
 import { PermissionPage } from '../pages/permission/permission';
 import { SearchPage } from '../pages/search/search';
-import { AppDetailPage } from '../pages/app-detail/app-detail';
 
 import { AgreementPage } from '../pages/agreement/agreement'
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy'
@@ -139,7 +138,7 @@ export class UboxApp {
                 this.global.fileRootPath = cordova.file.externalRootDirectory;           
             } else {
                 GlobalService.consoleLog("我不是cordova");
-                this.rootPage = AppDetailPage;
+                this.rootPage = SearchPage;
             }
 
             this.getUserInfo();
@@ -311,7 +310,6 @@ export class UboxApp {
         this.storage.get('noticeBrowseList')
         .then(res => {
             if (res) {
-                GlobalService.consoleLog("缓存载入营销消息浏览列表:" + JSON.stringify(res));
                 this.global.noticeBrowseList = JSON.parse(res);
             }
         })
@@ -321,7 +319,6 @@ export class UboxApp {
         this.storage.get('allNoticeList')
         .then(res => {
             if (res) {
-                GlobalService.consoleLog("缓存载入消息浏览列表:" + JSON.stringify(res));
                 this.global.allNoticeList = JSON.parse(res);
             }
         })

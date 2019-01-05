@@ -64,7 +64,7 @@ export class TabsPage {
     selectIndex: any = 0;
     popupShown:boolean = false;
     connectionStatus = "remote";
-
+    isCloseBindBox: boolean = false;
     constructor(public navCtrl: NavController,
         private http: HttpService,
         private global: GlobalService,
@@ -110,6 +110,8 @@ export class TabsPage {
             })
         })
 
+        
+
         //外部要求升级app
         events.subscribe('update-app', () => {
             GlobalService.consoleLog('提示用户升级app');
@@ -129,7 +131,9 @@ export class TabsPage {
         events.subscribe('open-popup', ()=>{
             this.showPopup(true);
         })
-
+        events.subscribe('open-bind-box', () => {
+            this.isCloseBindBox = true;
+        })
         //外部要求切换页面
         this.events.subscribe('page:changed', (pageId) => {
             GlobalService.consoleLog("接收到page页面更改事件......   id" + pageId);
@@ -392,5 +396,9 @@ export class TabsPage {
             })
         }
         
+    }
+
+    closeBindBox() {
+        this.isCloseBindBox = false;
     }
 }

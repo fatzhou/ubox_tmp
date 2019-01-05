@@ -86,6 +86,8 @@ import { FileFooterComponent } from '../components/file-footer/file-footer';
 import { PermissionComponent } from '../components/permission/permission';
 import { ConnectionPopupComponent } from '../components/connection-popup/connection-popup';
 import { BoxPromotionComponent } from '../components/box-promotion/box-promotion';
+import { BindBoxComponent } from '../components/bind-box/bind-box';
+
 
 
 
@@ -145,6 +147,7 @@ import { FileManager } from '../providers/FileManager';
     PermissionComponent,
     ConnectionPopupComponent,
     BoxPromotionComponent,
+    BindBoxComponent,
     UserPage,
     MiningPage,
     TabsPage,
