@@ -15,7 +15,11 @@ export class CheckUpdate {
 	}
 
     //查询是否存在可用的升级
-    checkIfNewestVersion() {
+    checkIfNewestVersion(onDownloadingProgress) {
+        let dstVer = '',
+            signature = '',
+            taskId = '';
+
         this.global.createGlobalLoading(this, {
             message: this.global.L("CheckUpdatingAvailable")
         });
@@ -24,10 +28,139 @@ export class CheckUpdate {
         .then(res => {
             this.global.closeGlobalLoading(this);
             if(res.err_no === 0) {
-                
+                //查询可用升级成功
+                return res;
             } else {
-                throw new Error("Error in " + url)
+                throw new Error("Error when get available update:  " + JSON.stringify(res));
             }
+        })
+        .then((res:any) => {
+            return new Promise((resolve, reject) => {
+                this.global.closeGlobalLoading(this);
+                if(res.force === 1) {
+                    //可选升级
+                    this.global.createGlobalAlert(this, {
+                        title: Lang.L('updateDetected'),
+                        message: Lang.Lf('updateTips', res.dstVer),
+                        buttons: [
+                            {
+                                text: Lang.L("Cancel"),
+                                handler: data => {
+                                    // reject();
+                                    GlobalService.consoleLog("用户拒绝升级");
+                                    reject(res);
+                                }
+                            },
+                            {
+                                text: Lang.L("Update"),
+                                handler: data => {
+                                    GlobalService.consoleLog("升级固件:" + res.data.dstVer + "," + res.data.signature);
+                                    resolve(res);
+                                }
+                            },                            
+                        ]
+                    })
+                } else if(res.force === 0 ) {
+                    //强制升级
+                    resolve(res);
+                } else if(res.force === 2) {
+                    //不需要升级
+                    this.global.createGlobalToast(this, {
+                        message: this.global.L('NewestVersion')
+                    });
+                    reject(res);
+                }
+            })
+        })
+        .then((res:any) => {
+            //用户要求升级
+            console.log("开始下载安装包...");
+            this.global.createGlobalLoading(this, {
+                message: this.global.L("DownloadingPackages")
+            })
+            dstVer = res.dstVer;
+            signature = res.signature;
+            let url = this.global.getBoxApi('downloadPackage130');
+            return this.http.post(url, {
+                signature: res.signature,
+                dstVer: res.dstVer
+            })
+            .then(res => {
+                if(res.err_no === 0) {
+                    taskId = res.taskid;
+                    return new Promise((resolve, reject) => {
+                        let interval = null;
+                        let failure = () => {
+                            clearInterval(interval);
+                            interval = null;
+                            throw new Error("Download progress error....");
+                        }
+                        //轮询查看进度
+                        interval = setInterval(() => {
+                            let progressUrl = this.global.getBoxApi('downloadPackageProgress130');
+                            this.http.post(progressUrl, {
+                                taskid: taskId
+                            })
+                            .then(res => {
+                                if(res.err_no === 0) {
+                                    if(res.status === 2) {
+                                        onDownloadingProgress(res.finish, res.total);
+                                        //下载完成
+                                        resolve(res);
+                                    } else if(res.status === 1) {
+                                        //正在下载
+                                        onDownloadingProgress(res.finish, res.total);
+                                    } else {
+                                        //下载失败
+                                        failure();
+                                    }
+                                } else {
+                                    failure();
+                                }
+                            })
+                        }, 1000);
+                    })                    
+                } else {
+                    throw new Error('Error when downloading...' + JSON.stringify(res))
+                }
+            })
+        }, res => {
+            this.global.closeGlobalLoading(this);
+            //不存在升级或者用户拒绝升级
+            console.log("升级过程结束");
+            throw new Error("Upgrade refused or no available upgrade...");
+        })
+        .then((res:any) => {
+            if(res.err_no === 0) {
+                //下载完成
+                this.global.closeGlobalLoading(this);
+                this.global.createGlobalLoading(this, {
+                    message: this.global.L('InstallingPackages')
+                })
+                //下载安装包完毕
+                let url = this.global.getBoxApi('installPackage130');
+                return this.http.post(url, {
+                    signature: signature,
+                    dstVer: dstVer,
+                    taskid: taskId
+                })
+            } else {
+                throw new Error('Error when downloading..' + JSON.stringify(res));
+            }
+        })
+        .then((res:any) => {
+            if(res.err_no === 0) {
+                //安装成功
+                return new Promise((resolve, reject) => {
+                    this._checkUpdateStatus(resolve, reject);
+                })                  
+            } else {
+                throw new Error('Error when installing...' + JSON.stringify(res));
+            }
+        })    
+        .catch(e => {
+            console.log("未能正常升级:" + JSON.stringify(e));
+            this.global.closeGlobalLoading(this);
         })
     }
 

@@ -324,6 +324,18 @@ export class Lang {
         cn: "正在检查可用的更新...",
         en: '',
         kr: ''
+    }    
+
+    static DownloadingPackages = {
+        cn: "正在下载升级包...",
+        en: '',
+        kr: ''
+    }    
+
+    static InstallingPackages = {
+        cn: "正在安装升级包...",
+        en: '',
+        kr: ''
     }
 
     static Ok = {
