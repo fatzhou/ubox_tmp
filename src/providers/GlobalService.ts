@@ -375,6 +375,9 @@ export class GlobalService {
         },        
         "reportLog": {
             url: "/collector/bug/report"
+        },        
+        "checkUpdate130": {
+            url: "/updatebox/check_update"
         },
     };
 
@@ -494,6 +497,9 @@ export class GlobalService {
         },        
         "modifyKeystore": {
             url:  GlobalService.centerApiHostEnv + "/ubbey/user/keystore/change_name"
+        },        
+        "uploadLogAnalyser": {
+            url:  GlobalService.centerApiHostEnv + "/loganalyser/user/upload_log_file"
         },
     }
 

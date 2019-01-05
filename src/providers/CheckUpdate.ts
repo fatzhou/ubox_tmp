@@ -14,6 +14,23 @@ export class CheckUpdate {
 
 	}
 
+    //查询是否存在可用的升级
+    checkIfNewestVersion() {
+        this.global.createGlobalLoading(this, {
+            message: this.global.L("CheckUpdatingAvailable")
+        });
+        let url = this.global.getBoxApi('checkUpdate130');
+        return this.http.post(url, {})
+        .then(res => {
+            this.global.closeGlobalLoading(this);
+            if(res.err_no === 0) {
+                
+            } else {
+                throw new Error("Error in " + url)
+            }
+        })
+    }
+
     //检查盒子版本是否匹配
     checkVersionMatch(versionControl) {
         if(!this.global.deviceSelected || !versionControl || !versionControl[GlobalService.AppVersion]) {
@@ -150,34 +167,30 @@ export class CheckUpdate {
                 this.global.closeGlobalLoading(this);
                 GlobalService.consoleLog("res.err_no------"+res.err_no);
                 if(res.err_no === 0) {
-                    resolve({
-                        type: 'optional',
-                        data: res
-                    });
-                    // if(res.force === 1) {
-                    //     this.status = "updating";
-                    //     resolve({
-                    //         type: 'optional',
-                    //         data: res
-                    //     });
-                    // } else if(res.force === 2) {
-                    //     // resolve('newest', res);
-                    //     resolve({
-                    //         type: 'newest',
-                    //         data: res
-                    //     })
-                    // } else if(res.force === 0) {
-                    //     GlobalService.consoleLog("强制升级");
-                    //     this.status = "updating";
-                    //     this.global.createGlobalLoading(this, {
-                    //         message: Lang.L("romUpdatingTips")
-                    //     });
-                    //     resolve({
-                    //         type: "force",
-                    //         data: res
-                    //     });
-                    //     // this._checkUpdateStatus(resolve, reject);
-                    // }
+                    if(res.force === 1) {
+                        this.status = "updating";
+                        resolve({
+                            type: 'optional',
+                            data: res
+                        });
+                    } else if(res.force === 2) {
+                        // resolve('newest', res);
+                        resolve({
+                            type: 'newest',
+                            data: res
+                        })
+                    } else if(res.force === 0) {
+                        GlobalService.consoleLog("强制升级");
+                        this.status = "updating";
+                        this.global.createGlobalLoading(this, {
+                            message: Lang.L("romUpdatingTips")
+                        });
+                        resolve({
+                            type: "force",
+                            data: res
+                        });
+                        // this._checkUpdateStatus(resolve, reject);
+                    }
                 } else {  
                     reject(res);          
                 }

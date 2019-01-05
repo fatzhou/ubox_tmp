@@ -320,6 +320,12 @@ export class Lang {
         kr: ''
     }    
 
+    static CheckUpdatingAvailable = {
+        cn: "正在检查可用的更新...",
+        en: '',
+        kr: ''
+    }
+
     static Ok = {
         cn: "确定",
         en: "Ok",

@@ -6,6 +6,7 @@ import { HttpService } from '../../providers/HttpService';
 import { Util } from '../../providers/Util';
 
 import { AppDetailPage } from '../app-detail/app-detail';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the SearchPage page.
@@ -36,6 +37,14 @@ export class SearchPage {
 
     goAppDetail() {
         this.app.getRootNav().push(AppDetailPage);
+    }    
+
+    goLoginPage() {
+        this.app.getRootNav().push(LoginPage);
+    }
+
+    showNetworkPopup() {
+        this.events.publish('open-popup');
     }
 
     //远程获取配置

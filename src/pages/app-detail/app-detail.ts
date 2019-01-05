@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { Util } from '../../providers/Util';
 
 /**
  * Generated class for the AppDetailPage page.
@@ -14,11 +15,17 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class AppDetailPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+	constructor(public navCtrl: NavController, 
+				private util: Util,
+				public navParams: NavParams) {
+	}
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad AppDetailPage');
+    }
+
+    openApp() {
+    	this.util.openUrl('https://ubbeyscan.io/');
     }
 
 }

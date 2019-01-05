@@ -14,52 +14,55 @@
 
 
 <ion-content>
-	<div class="items">
-		<ion-label for="">{{ global.L("ProblemCategory") }}</ion-label>
-		<ion-select [(ngModel)]="problemCategory"  interface="popover">
-		    <ion-option value="1">{{global.L("Account")}}</ion-option>
-		    <ion-option value="2">{{global.L("HardwareDevice")}}</ion-option>
-		    <ion-option value="3">{{global.L("Application")}}</ion-option>
-		    <ion-option value="4">{{global.L("FileTransfer")}}</ion-option>
-		    <ion-option value="5">{{global.L("FileManager")}}</ion-option>
-		    <ion-option value="6">{{global.L("UBBEY")}}</ion-option>
-		    <ion-option value="0">{{global.L("Others")}}</ion-option>
-		</ion-select>
-	</div>
+	<form #form="ngForm" (ngSubmit)="reportFeedback()">
+		<div class="items">
+			<ion-label for="">{{ global.L("ProblemCategory") }}</ion-label>
+			<ion-select [(ngModel)]="problemCategory" name="category" interface="popover">
+			    <ion-option value="1">{{global.L("Account")}}</ion-option>
+			    <ion-option value="2">{{global.L("HardwareDevice")}}</ion-option>
+			    <ion-option value="3">{{global.L("Application")}}</ion-option>
+			    <ion-option value="4">{{global.L("FileTransfer")}}</ion-option>
+			    <ion-option value="5">{{global.L("FileManager")}}</ion-option>
+			    <ion-option value="6">{{global.L("UBBEY")}}</ion-option>
+			    <ion-option value="0">{{global.L("Others")}}</ion-option>
+			</ion-select>
+		</div>
 
-	<div class="items">
-		<ion-label for="">{{ global.L("ProblemDetail") }}</ion-label>
-		<textarea rows="5" maxlength="200" [(ngModel)]="problemDetail" [placeholder]="global.L('ProblemDetailPlaceholder')"></textarea>
-	</div>
+		<div class="items">
+			<ion-label for="">{{ global.L("ProblemDetail") }}</ion-label>
+			<textarea rows="5" maxlength="200" name="detail" [(ngModel)]="problemDetail" [placeholder]="global.L('ProblemDetailPlaceholder')"></textarea>
+		</div>
 
-	<div class="items">
-		<ion-label for="">{{ global.L("ContactEmail") }}</ion-label>
-		<input type="text" [(ngModel)]="contactEmail" [placeholder]="global.L('ContactEmailPlaceholder')">
-	</div>
+		<div class="items">
+			<ion-label for="">{{ global.L("ContactEmail") }}</ion-label>
+			<input type="text" [(ngModel)]="contactEmail" name="contact_email" [placeholder]="global.L('ContactEmailPlaceholder')">
+		</div>
 
-	<div class="items clear">
-		<ion-label for="">{{global.L('ProblemSnapshot')}}</ion-label>
-		<ul *ngIf="updatedPhotos.length > 0">
-			<li *ngFor="let photo of updatedPhotos">
-				<img [src]="photo" alt="">
-			</li>
-		</ul>
-		<label for="upload-btn" class="upload-label" *ngIf="updatedPhotos.length < 3">
-			<svg class="icon" aria-hidden="true">
-			    <use xlink:href="#icon-ADD"></use>
-			</svg>
-			<input style="display: none;" type="file" name="upload-btn" accept="image/*" (change)="inputFileChange($event)" class="upload-btn" id="upload-btn" />
-		</label>
-	</div>
+		<div class="items clear">
+			<ion-label for="">{{global.L('ProblemSnapshot')}}</ion-label>
+			<ul *ngIf="updatedPhotos.length > 0">
+				<li *ngFor="let photo of updatedPhotos">
+					<img [src]="photo.url | photoSantizer" alt="">
+				</li>
+			</ul>
+			<label for="upload-btn" class="upload-label" *ngIf="updatedPhotos.length < 3">
+				<svg class="icon" aria-hidden="true">
+				    <use xlink:href="#icon-ADD"></use>
+				</svg>
+				<input style="display: none;" type="file" name="upload-btn"  (change)="inputFileChange($event)" class="upload-btn" id="upload-btn" />
+			</label>
+		</div>
 
-	<div class="items upload-log">
-		<label for="system-log">
-			<input type="checkbox" id="system-log" [(ngModel)]="systemLogNeeded" class="checkbox">
-			<span>{{global.L('UploadSystemLog')}}</span>			
-		</label>
-	</div>
+		<div class="items upload-log">
+			<label for="system-log">
+				<input type="checkbox" name="submitBoxLog" id="system-log" [(ngModel)]="systemLogNeeded" class="checkbox">
+				<span>{{global.L('UploadSystemLog')}}</span>			
+			</label>
+		</div>
 
-	<div class="btns">
-		<div class="button common-focus-button" (click)="reportFeedback()">{{global.L("CommitFeedback")}}</div>
-	</div>
+		<div class="btns">
+			<button type="submit" class="button common-focus-button">{{global.L("CommitFeedback")}}</button>
+		</div>		
+	</form>
+
 </ion-content>

@@ -18,6 +18,7 @@ export class DeviceComponent {
   loginTipsFlag = true;
 
   @Input() lastPath: string;
+  @Input() networkStatusShow: boolean;
   @Output() goDevicePage = new EventEmitter < any > ();
   @Output() goLoginPage = new EventEmitter < any > ();
   @Output() showPopup = new EventEmitter < any > ();

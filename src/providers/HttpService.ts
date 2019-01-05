@@ -326,7 +326,7 @@ export class HttpService {
         }
     }
 
-    private handleSuccess(url, result, errorHandler) {
+    public handleSuccess(url, result, errorHandler = true) {
         GlobalService.consoleLog("请求响应结果:" + JSON.stringify(result) + "请求url:" + url);
         //使用统一出错弹窗提示，如果针对错误有特殊处理，则需手动传入errorHandler为true
         var thisLanguage = Lang.ErrBox[result.err_no] || Lang.ErrBridge[result.err_no];
@@ -439,7 +439,7 @@ export class HttpService {
 
       }
 
-    private handleError(error: Response | any = {}, errorHandler) {
+    private handleError(error: Response | any = {}, errorHandler = true) {
         // GlobalService.consoleLog("==================");
         var l = this.global.getAppLang();
         if (!errorHandler) {

@@ -30,7 +30,7 @@
                 <ul class="item-list" *ngIf="photos.length > 0">
                     <li tappable class="img-li" *ngFor="let photo of photos" (click)="toggleSelectedImg(photo)">
                         <div class="file-box active">
-                            <img [src]="photo.thumbnailURL | cdvphotolibrary" alt="">
+                            <img [src]="photo.thumbnailURL | photoSantizer" alt="">
                             <div class="btn">
                                 <em class="nochoose-circle" *ngIf="photo.isSelected == undefined || photo.isSelected == false"></em>
                                 <svg class="icon icon-ellipsis" *ngIf="photo.isSelected" aria-hidden="true">
