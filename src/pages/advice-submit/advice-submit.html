@@ -43,6 +43,9 @@
 			<ul *ngIf="updatedPhotos.length > 0">
 				<li *ngFor="let photo of updatedPhotos">
 					<img [src]="photo.url | photoSantizer" alt="">
+					<svg class="icon" aria-hidden="true" (click)="removePhoto(photo)">
+						<use xlink:href="#icon-transactionfailed"></use>
+					</svg>
 				</li>
 			</ul>
 			<label for="upload-btn" class="upload-label" *ngIf="updatedPhotos.length < 3">

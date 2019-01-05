@@ -4,6 +4,7 @@ import { Events, App } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { Util } from '../../providers/Util';
+import { AboutDevicePage } from '../about-device/about-device';
 
 import { AppDetailPage } from '../app-detail/app-detail';
 import { LoginPage } from '../login/login';
@@ -111,4 +112,7 @@ export class SearchPage {
         }
     }
 
+    goAboutDevice() {
+        this.app.getRootNav().push(AboutDevicePage);
+    }
 }

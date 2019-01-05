@@ -1,6 +1,6 @@
 <!-- Generated template for the DeviceComponent component -->
 <div class="device" *ngIf="global.centerUserInfo.uname != undefined">
-    <div class="ubbey" (click)="goPages()">
+    <div class="ubbey" (click)="showNetworkPopup()">
         <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-device"></use>
         </svg>
@@ -8,7 +8,7 @@
 
     <h1 class="eps">
 	  	<span (click)="goPages()">{{ global.deviceSelected ? global.deviceSelected.friendlyName : global.L('WORD89462053') }}</span>
-	  	<div class="network-status" *ngIf="networkStatusShow=='true'" (click)="showNetworkPopup()">
+	  	<div class="network-status" *ngIf="networkStatusShow=='true'" (click)="showBindBox()">
 			<svg class="icon" aria-hidden="true">
 				<use xlink:href="#icon-AddDevice"></use>
 			</svg>	  		
@@ -17,7 +17,7 @@
 </div>
 <div class="device" *ngIf="global.centerUserInfo.uname == undefined">
 	<h1 class="eps">
-		<span>{{ global.L('LoginBtn') }}</span>
+		<span (click)="promptLogin()">{{ global.L('LoginBtn') }}</span>
 	</h1>	
 	
 	<div *ngIf="loginTipsFlag" class="login-mask" (click)="promptLogin()">

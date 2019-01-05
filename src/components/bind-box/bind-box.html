@@ -4,13 +4,13 @@
     <div class="content-main" >
       <div class="bind-info">
         <img src="assets/img/BindBitmap@2x.png" alt="">
-          <p class="title">绑定Ubbey Box</p>
-          <p class="des">拥有去中心化存储私有云盘，随时备份</p>
-          <p class="des">再也不担心手机存储不够用</p>
+          <p class="title">{{global.L('BindBox')}}</p>
+          <p class="des">{{global.L('BindBoxInfo1')}}</p>
+          <p class="des">{{global.L('BindBoxInfo2')}}</p>
       </div>
       <div class="bind-btn">
-        <span class="no-bind bind-span" (click)="closeBindBoxComponent()">暂不绑定</span>
-        <span class="bind-span" (click)="goDeviceListPage()">立即绑定</span>
+        <span class="no-bind bind-span" (click)="closeBindBoxComponent()">{{global.L('NotBind')}}</span>
+        <span class="bind-span" (click)="goDeviceListPage()">{{global.L('BindImmediately')}}</span>
       </div>
       <div class="close-btn" (click)="closeBindBoxComponent()">
         <img src="assets/img/newsclose.png" alt="">

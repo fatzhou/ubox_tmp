@@ -173,4 +173,9 @@ export class AdviceSubmitPage {
         // })
     }
 
+    removePhoto(photo) {
+        this.updatedPhotos = this.updatedPhotos.filter(item => {
+            return item.url != photo.url
+        });
+    }
 }
