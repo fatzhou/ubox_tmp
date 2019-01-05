@@ -31,39 +31,74 @@ export class SearchPage {
         private util: Util,
         private http: HttpService,
         private app: App) {
+            events.unsubscribe('language:change');
+            events.subscribe('language:change', () => {
+                console.log("语言变更")
+                this.showList = this.global.SearchData.appList[GlobalService.applang];
+                let bannerList = this.global.SearchData.bannerList;
+                this.bannerList = [];
+                if(this.showList.length != 0) {
+                    for(let i = 0;i < this.showList.length; i++) {
+                        for(let j = 0; j < bannerList.length; j++) {
+                            if(this.showList[i].id == bannerList[j]) {
+                                this.bannerList.push(this.showList[i]);
+                            }
+                        }
+                    }
+                }
+            })
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad SearchPage');
+        this.getSearchData()
+        .then((res)=> {
+            // console.log(JSON.stringify(res));
+            this.showList = this.global.SearchData.appList[GlobalService.applang];
+            this.labelList = this.global.SearchData.labelList;
+            this.bannerStyle = this.global.SearchData.bannerStyle;
+            let bannerList = this.global.SearchData.bannerList;
+            if(this.showList.length != 0) {
+                for(let i = 0;i < this.showList.length; i++) {
+                    for(let j = 0; j < bannerList.length; j++) {
+                        if(this.showList[i].id == bannerList[j]) {
+                            this.bannerList.push(this.showList[i]);
+                        }
+                    }
+                }
+            }
+            // console.log('this.bannerList' + JSON.stringify(this.bannerList))
+            
+        })
     }
 
-    goAppDetail() {
-        this.app.getRootNav().push(AppDetailPage);
+    goAppDetail(info) {
+        this.app.getRootNav().push(AppDetailPage,{
+            "info": info
+        });
     }
 
     //远程获取配置
-    getVersionControl() {
+    getSearchData() {
         var that = this;
         var url = GlobalService.searchDataConfig[GlobalService.ENV];
-        if(this.global.firstLoadSearchData == 0){
+        if(!this.global.SearchData){
             return this.http.get(url, {}, false)
             .then((res:any) => {
                 if(typeof res === 'string') {
                     res = JSON.parse(res);
                 }
-                if (res) {
-                    
+                if(res) {
+                    // console.log("search拿到了")
+                    this.global.SearchData = res;
                 }
-                this.global.firstLoadSearchData = 1;
                 return res;
             })
             .catch(e => {
                 GlobalService.consoleLog('版本配置赋值出错:' + e.stack);
             })
         } else {
-            return new Promise(()=>{
-                
-            })
+            return Promise.resolve(this.global.SearchData);
         }
     }
 

@@ -96,7 +96,7 @@ export class GlobalService {
     public walletList = []; //钱包缓存列表
     public nowUserWallet = {}; //当前用户钱包
     public firstLoadVersion = 0; //第一次拉取版本数据
-    public firstLoadSearchData = 0; //第一次拉取发现页数据
+    // public firstLoadSearchData = 0; //第一次拉取发现页数据
     public userLoginList = {
         'remote': {},
         'boxid': {}
@@ -130,16 +130,7 @@ export class GlobalService {
             return GlobalService.UBBEY_CONTRACT;
         }
     }
-    public SearchData = {
-        "labelList": {},
-        "bannerStyle": {},
-        "bannerList": [],
-        "appList": {
-            "cn": [],
-            "en": [],
-            "kr": []
-        }
-    }
+    public SearchData = null;
 
     public static VersionControl = {
         "1.1.0": {

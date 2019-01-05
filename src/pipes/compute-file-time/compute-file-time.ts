@@ -16,12 +16,26 @@ export class ComputeFileTimePipe implements PipeTransform {
   transform(time: any, ...args) {
 			var date = new Date(time);
 			var month = date.getMonth() + 1;
-			var Y = ('00' + date.getFullYear()).slice(-2),
+			var split = '-';
+			var needHours = true;
+			var Y = date.getFullYear(),
 					M = ('00' + month).slice(-2),
 					D = ('00' + date.getDate()).slice(-2),
 					h = ('00' + date.getHours()).slice(-2),
 					m = ('00' + date.getMinutes()).slice(-2),
 					s = ('00' + date.getSeconds()).slice(-2);
-			return [Y, M, D].join('-') + ' ' + [h, m, s].join(':');
+					if(args.length) {
+						if(args[0]) {
+							split = args[0];
+						} 
+						if(args[1] != undefined) {
+							needHours = args[1];
+						} 
+					}
+					var hours = ' ' + [h, m, s].join(':');
+					if(needHours == false) {
+						hours = '';
+					}
+			return [Y, M, D].join(split) + hours;
 	}
 }

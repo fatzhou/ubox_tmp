@@ -49,6 +49,7 @@ page-search {
                 color: #fff;
                 padding-left: 10px;
                 position: relative;
+                text-align: left;
                 .logo-box {
                     position: absolute;
                     bottom: 10px;
@@ -126,6 +127,8 @@ page-search {
             .app-logo {
                 font-size: 64px;
                 float: left;
+                width: 64px;
+                height: 64px;
             }
             .eps {
                 overflow: hidden;
@@ -142,6 +145,9 @@ page-search {
                 }
                 .icon-type {
                     font-size: 14px;
+                    width: auto;
+                    height: 14px;
+                    margin-right: 6px;
                 }
                 .info-Introduction{
                     color: #666666;

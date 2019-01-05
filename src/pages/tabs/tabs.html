@@ -3,6 +3,7 @@
     <ion-tab [root]="home" tabTitle="Home"   [tabIcon]="fileIcon"></ion-tab>
     <ion-tab [root]="mining" tabTitle="Mining" [tabIcon]="miningIcon"></ion-tab>
     <ion-tab [root]="user" tabTitle="User" [tabIcon]="userIcon"></ion-tab>
+    <bind-box *ngIf="isCloseBindBox" (closeBindBox)="closeBindBox()"></bind-box>
     <news-notice *ngIf="isClose" [isVersion]="isVersion" [isShowAction]="isShowAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action" (closeNotice)="closeNotice()"></news-notice>
     <connection-popup *ngIf="popupShown" (closeNetworkPopup)="showPopup(false)" [connectionStatus]="connectionStatus"></connection-popup>
     <div class="showBoxShare" *ngIf="isShowShareBox">
@@ -33,7 +34,7 @@
             </div>
             <div class="closeShareBtn" (click)="closeShareBox()">
                 <img src="assets/img/newsclose.png" alt="">
-      </div>
             </div>
         </div>
+    </div>
 </ion-tabs>

@@ -27,6 +27,7 @@ export class LanguageSelectPage {
             private http: HttpService,
              private toastCtrl: ToastController,
              private storage: Storage,
+             private events: Events,
   		     public navParams: NavParams) {
   }
 
@@ -51,6 +52,7 @@ export class LanguageSelectPage {
     // toast.present();  
     setTimeout(()=>{
       this.navCtrl.pop();
+      this.events.publish("language:change");
     }, 200);	
   }
 }

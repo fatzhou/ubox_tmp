@@ -1,0 +1,19 @@
+<!-- Generated template for the BindBoxComponent component -->
+<div class="float-new-box">
+    <div class="back-bg"></div>
+    <div class="content-main" >
+      <div class="bind-info">
+        <img src="assets/img/BindBitmap@2x.png" alt="">
+          <p class="title">绑定Ubbey Box</p>
+          <p class="des">拥有去中心化存储私有云盘，随时备份</p>
+          <p class="des">再也不担心手机存储不够用</p>
+      </div>
+      <div class="bind-btn">
+        <span class="no-bind bind-span" (click)="closeBindBoxComponent()">暂不绑定</span>
+        <span class="bind-span" (click)="goDeviceListPage()">立即绑定</span>
+      </div>
+      <div class="close-btn" (click)="closeBindBoxComponent()">
+        <img src="assets/img/newsclose.png" alt="">
+      </div>
+    </div>
+</div>

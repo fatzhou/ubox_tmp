@@ -3655,9 +3655,54 @@ export class Lang {
         kr: '전체 메시지를 복사하고 👉Ubbey App👈를 열면 바로 나의 지갑으로 이체할 수 있다.'
     }
     static CopyInfoFoot = {
-        cn: '】(未安装App点这里：https://ulabs.tech/app )',
-        en: 'Download app, please click https://ulabs.tech/app ',
+        cn: '】(未安装App点这里：https://ulabs.tech/app)',
+        en: 'Download app, please click https://ulabs.tech/app',
         kr: '앱 다운로드 받으시려면 여기를 누루세요'
+    }
+    static Time = {
+        cn: '时间',
+        en: '',
+        kr: ''
+    }
+    static UpdateApp = {
+        cn: '更新',
+        en: '',
+        kr: ''
+    }
+    static Description = {
+        cn: '应用描述',
+        en: '',
+        kr: ''
+    }
+    static Permissions = {
+        cn: '权限',
+        en: '',
+        kr: ''
+    }
+    static Hardware = {
+        cn: '硬件环境',
+        en: '',
+        kr: ''
+    }
+    static Developers = {
+        cn: '开发者',
+        en: '',
+        kr: ''
+    }
+    static Open = {
+        cn: '打开',
+        en: '',
+        kr: ''
+    }
+    static FindFascinating = {
+        cn: '发现精彩',
+        en: '',
+        kr: ''
+    }
+    static Get = {
+        cn: '获取',
+        en: '',
+        kr: ''
     }
 }
 

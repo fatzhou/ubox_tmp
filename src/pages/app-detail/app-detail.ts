@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { GlobalService } from '../../providers/GlobalService';
+import { Util } from '../../providers/Util';
 
 /**
  * Generated class for the AppDetailPage page.
@@ -13,12 +15,20 @@ import { NavController, NavParams } from 'ionic-angular';
     templateUrl: 'app-detail.html',
 })
 export class AppDetailPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+    info: any = {};
+    labelList: any = [];
+    size: any;
+    time: any;
+    constructor(public navCtrl: NavController, 
+        public navParams: NavParams,
+        private util: Util,
+        private global: GlobalService) {
+    }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad AppDetailPage');
+        this.info = this.navParams.get("info");
+        this.labelList = this.global.SearchData.labelList;
     }
 
 }
