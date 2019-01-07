@@ -46,6 +46,14 @@ export class DeviceComponent {
     this.showPopup.emit(true)
   }
 
+  showBindBox() {
+    if(this.global.deviceSelected) {
+      this.goPages();
+    } else {
+      this.events.publish("open-bind-box");
+    }
+  }
+
   goPages(){
     GlobalService.consoleLog("关闭浮层事件触发");
     this.goDevicePage.emit();

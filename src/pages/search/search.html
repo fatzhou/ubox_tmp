@@ -9,14 +9,6 @@
     <div class="search-page" *ngIf="this.global.SearchData">
         <header>
             <device networkStatusShow="true" (goDevicePage)="goAboutDevice()" (showPopup)="showNetworkPopup()" (goLoginPage)="goLoginPage()" lastPath="home-page"></device>
-<!--             <div class="network" *ngIf="global.centerUserInfo.uname">
-                <svg class="icon" aria-hidden="true" *ngIf="!!global.deviceSelected">
-                <use xlink:href="#icon-netnormal"></use>
-                </svg>        
-                <svg class="icon" aria-hidden="true" *ngIf="!global.deviceSelected">
-                <use xlink:href="#icon-neterror"></use>
-                </svg>
-            </div> -->
         </header>
         <div class="slides-box">
             <ion-slides pager spaceBetween="8px">

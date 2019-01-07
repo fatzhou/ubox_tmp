@@ -3734,5 +3734,36 @@ export class Lang {
         en: '',
         kr: ''
     }
+    static BindBox = {
+        cn: '绑定Ubbey Box',
+        en: '',
+        kr: ''
+    }
+    static BindBoxInfo1 = {
+        cn: '拥有去中心化存储私有云盘，随时备份',
+        en: '',
+        kr: ''
+    }
+    static BindBoxInfo2 = {
+        cn: '再也不担心手机存储不够用',
+        en: '',
+        kr: ''
+    }
+    static NotBind = {
+        cn: '暂不绑定',
+        en: '',
+        kr: ''
+    }
+    static FindFascinating = {
+        cn: '发现精彩',
+        en: '',
+        kr: ''
+    }
+    static Get = {
+        cn: '获取',
+        en: '',
+        kr: ''
+    }
+    
 }
 
