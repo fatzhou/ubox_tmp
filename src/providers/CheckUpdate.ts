@@ -236,7 +236,7 @@ export class CheckUpdate {
         //轮询检查升级状态
         let deviceVersion = this.global.deviceSelected.version;
         let boxId = this.global.deviceSelected.boxId;
-        GlobalService.consoleLog("升级时boxId " + boxId);
+        GlobalService.consoleLog("升级时boxId " + boxId + "status" + this.status);
         var interval = setInterval(()=>{
             if(this.status === 'normal') {
                 return false;

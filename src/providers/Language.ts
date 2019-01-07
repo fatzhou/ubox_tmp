@@ -3754,16 +3754,7 @@ export class Lang {
         en: '',
         kr: ''
     }
-    static FindFascinating = {
-        cn: '发现精彩',
-        en: '',
-        kr: ''
-    }
-    static Get = {
-        cn: '获取',
-        en: '',
-        kr: ''
-    }
+
     
 }
 

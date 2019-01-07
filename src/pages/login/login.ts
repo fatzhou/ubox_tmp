@@ -144,7 +144,9 @@ export class LoginPage {
                 this.http.keepWebrtcAlive();
 
                 this.global.closeGlobalLoading(this);
-                if(this.popBack) {
+                let index = this.navParams.get('tabIndex');
+
+                if(this.popBack || index !== undefined) {
                     this.navCtrl.pop();
                 } else {
                     this.navCtrl.push(TabsPage)
