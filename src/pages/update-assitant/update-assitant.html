@@ -32,7 +32,7 @@
 				<p class="value" item-end>{{ appNewstVersion }}</p>
 			</button>
 
-			<button class="info" (click)="updateBox()" ion-item>
+			<button class="info" *ngIf="global.deviceSelected" (click)="updateBox()" ion-item>
 				<p class="key" item-start>
 					<span class="label">{{global.L("ROM")}}</span>
 					<span class="for">{{ global.L('CurrentVersion') }} {{ global.deviceSelected ? global.deviceSelected.version : '' }}</span>
@@ -44,3 +44,13 @@
 
 	<news-notice *ngIf="showDialog" [isVersion]="currentVersion" [isShowAction]="showAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action"  (closeNotice)="closeNotice()"></news-notice>
 </ion-content>
+
+<div class="download-progress" *ngIf="progressBarShown">
+	<div class="download-progress-inner">
+		<p class="title">{{global.Lf('Downloading', percent)}}</p>
+		<div class="progress-bar">
+			<div class="progress-bar-inner" [ngStyle]="{width: percent + '%'}"></div>
+		</div>
+		<div class="cancel" (click)="stopUpgrade()">取消</div>
+	</div>
+</div>
