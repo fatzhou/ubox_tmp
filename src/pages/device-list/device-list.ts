@@ -33,7 +33,8 @@ export class DeviceListPage {
     private SetTimeOutNameOne:any;
     private SetTimeOutNameTwo:any;
     private isClicked:any = false;
-
+    username: any = "";
+    password: any = "";
     constructor(
         public navCtrl: NavController,
         public platform: Platform,
@@ -226,7 +227,7 @@ export class DeviceListPage {
         GlobalService.consoleLog("用户选择盒子:" + JSON.stringify(dv));
         this.global.useWebrtc = false;
         this.global.resetWebrtc('box');
-        this.updateCallback(dv);
+        this.checkBindBox(dv);
         // this.checkUpdate.updateRom({
         //     dialog: false
         // }).then((res: any) => {
@@ -243,6 +244,30 @@ export class DeviceListPage {
         //     this.http.post(url, {}, false);
         // }
     }
+
+    checkBindBox(dv) {
+        GlobalService.consoleLog("开始校验盒子登录态，登录则直接进入首页，否则进入登录页");
+        GlobalService.consoleLog(JSON.stringify(this.global.deviceSelected));
+        var uname = this.global.centerUserInfo.uname;
+        this.username = this.global.userLoginInfo.username;
+        this.password = this.global.userLoginInfo.password;
+        if (!dv.bindUser) {
+            GlobalService.consoleLog("盒子未绑定用户，直接绑定");
+            Util.bindBox(this)
+            .then((res) => {
+                this.navCtrl.push(TabsPage)
+                .then(() => {
+                    this.isClicked = false;
+                })
+            })
+        } else {
+            this.global.createGlobalToast(this, {
+                message: Lang.L('WORDf824108c') + '该盒子已经被绑定了'
+            })
+            this.isClicked = false;
+        }
+    }
+
 
     updateCallback(dv){
         GlobalService.consoleLog("开始校验盒子登录态，登录则直接进入首页，否则进入登录页");

@@ -6,6 +6,7 @@ import { HttpService } from '../../providers/HttpService';
 import { WalletSelectPage } from '../wallet-select/wallet-select';
 import { DeviceListPage } from '../device-list/device-list';
 import { LoginPage } from '../login/login';
+import { TabsPage } from '../tabs/tabs';
 import { DeviceManagementPage } from '../device-management/device-management';
 import { LanguageSelectPage } from '../language-select/language-select';
 import { ChangePasswdPage } from '../change-passwd/change-passwd';
@@ -54,9 +55,10 @@ export class UserPage {
     }
 
     goLoginPage(b) {
-        this.app.getRootNav().push(LoginPage, {
-            popBack: b
-        })
+        if(this.global.centerUserInfo.uname) {
+            return false
+        }
+        this.app.getRootNav().push(TabsPage)
     }
 
     goAdvicePage() {

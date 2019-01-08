@@ -255,8 +255,26 @@ export class Util {
                 console.error("没有盒子登陆态，手动清除中心登陆信息");
                 this.global.deviceSelected = null;
                 this.global.centerUserInfo = {};
-            } 
-            return res;
+                return null;
+            } else {
+                var url = this.global.getBoxApi("getDiskStatus");
+                return this.http.post(url, {})
+                .then((data) => {
+                    if (data.err_no === 0) {
+                        this.global.diskInfo = data.box;
+                        if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
+                            this.global.diskInfoStatus = false;
+                        }else{
+                            this.global.diskInfoStatus = true;
+                        }
+                    }
+                    return res;
+                })
+                .catch(()=>{
+                    return res;
+                })
+            }
+           // return res;
         })
         .catch(res => {
             GlobalService.consoleLog(res);
