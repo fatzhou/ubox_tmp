@@ -34,23 +34,23 @@
                 <p *ngIf="info.type != 0 && info.time !=''"><span>{{global.L('Time')}}</span>{{ info.time | computeFileTime:'/':false }}</p>
             </div>
             <div class="body-detail">
-                <div *ngIf="info.updateInfo.length != 0">
+                <div *ngIf="info.updateInfo">
                     <p class="title">{{global.L('UpdateApp')}}</p>
                     <p *ngFor="let item of info.updateInfo">{{ item }}</p>
                 </div>
-                <div *ngIf="info.description.length != 0">
+                <div *ngIf="info.description">
                     <p class="title">{{global.L('Description')}}</p>
                     <p *ngFor="let item of info.description">{{ item }}</p>
                 </div>
-                <div *ngIf="info.permissions.length != 0">
+                <div *ngIf="info.permissions">
                     <p class="title">{{global.L('Permissions')}}</p>
                     <p *ngFor="let item of info.permissions">{{ item }}</p>
                 </div>
-                <div *ngIf="info.hardware.length != 0">
+                <div *ngIf="info.hardware">
                     <p class="title">{{global.L('Hardware')}}</p>
                     <p *ngFor="let item of info.hardware">{{ item }}</p>
                 </div>
-                <div *ngIf="info.developers.length != 0">
+                <div *ngIf="info.developers">
                     <p class="title">{{global.L('Developers')}}</p>
                     <p *ngFor="let item of info.developers">{{ item }}</p>
                 </div>

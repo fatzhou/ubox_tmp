@@ -81,9 +81,9 @@ export class SearchPage {
     }
 
     goAppDetail(info) {
-        // this.app.getRootNav().push(AppDetailPage,{
-        //     "info": info
-        // });
+        this.app.getRootNav().push(AppDetailPage,{
+            "info": info
+        });
     }    
 
     goLoginPage() {
