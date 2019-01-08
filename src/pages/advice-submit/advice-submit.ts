@@ -72,7 +72,13 @@ export class AdviceSubmitPage {
             xhr.addEventListener("readystatechange", function () {
               if (this.readyState === 4) {
                 console.log(this.responseText);
-                resolve(JSON.parse(this.responseText));
+                let response = {};
+                try {
+                    response = JSON.parse(this.responseText);
+                    resolve(response);
+                } catch(e) {
+                    reject();
+                }
               }
             });
 
@@ -151,6 +157,11 @@ export class AdviceSubmitPage {
                     err_no: res
                 }, true);
             }
+        })
+        .catch(e => {
+            this.global.createGlobalToast(this, {
+                message: this.global.L("SystemError")
+            })
         })
 
         // let url = this.global.getBoxApi('reportLog');

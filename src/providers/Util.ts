@@ -257,22 +257,27 @@ export class Util {
                 this.global.centerUserInfo = {};
                 return null;
             } else {
-                var url = this.global.getBoxApi("getDiskStatus");
-                return this.http.post(url, {})
-                .then((data) => {
-                    if (data.err_no === 0) {
-                        this.global.diskInfo = data.box;
-                        if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
-                            this.global.diskInfoStatus = false;
-                        }else{
-                            this.global.diskInfoStatus = true;
+                console.log("已链接盒子：" + this.global.deviceSelected)
+                if(this.global.deviceSelected) {
+                    var url = this.global.getBoxApi("getDiskStatus");
+                    return this.http.post(url, {})
+                    .then((data) => {
+                        if (data.err_no === 0) {
+                            this.global.diskInfo = data.box;
+                            if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
+                                this.global.diskInfoStatus = false;
+                            }else{
+                                this.global.diskInfoStatus = true;
+                            }
                         }
-                    }
-                    return res;
-                })
-                .catch(()=>{
-                    return res;
-                })
+                        return res;
+                    })
+                    .catch(()=>{
+                        return res;
+                    })                    
+                } else {
+                    return null;
+                }
             }
            // return res;
         })
