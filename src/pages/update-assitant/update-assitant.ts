@@ -21,6 +21,9 @@ export class UpdateAssitantPage {
 	appVersion:string = '';
 	romNewestVersion:string = '';
     boxUpdateInfo:any;
+    percent = 0;
+
+    progressBarShown = false;
 
 	showDialog = false;
 	currentVersion = '';
@@ -82,14 +85,33 @@ export class UpdateAssitantPage {
             console.log("升级成功,重新连接盒子");
             this.util.loginAndCheckBox(this, true)
             .then(res => {
-                //登陆成功
+                //登录成功
             })
         }, ()=>{
             console.log("升级失败");
         });
     }
 
+    stopUpgrade() {
+        this.progressBarShown = false;
+        this.checkUpdate.stopUpgrade();
+    }
+
     updateBox() {
+        this.checkUpdate.checkIfNewestVersion(() => {
+            //开始下载
+            this.progressBarShown = true;
+        }, (finish, total) => {
+            console.log("下载进度:" + finish +  ",总大小:" + total)
+            this.percent = total === 0 ? 0 : Math.ceil(finish * 100 / total);
+            console.log("下载比例:" + this.percent);
+        }, () => {
+            //下载完成
+            this.progressBarShown = false;
+        })
+    }
+
+    updateBox1() {
         this.global.createGlobalLoading(this, {
             message: Lang.L("getRomUpdate")
         });

@@ -43,7 +43,7 @@ export class LoginPage {
         private util: Util,
         private app: App,
         public navParams: NavParams) {
-        GlobalService.consoleLog("进入登陆页...");
+        GlobalService.consoleLog("进入登录页...");
 
     }
 
@@ -144,7 +144,9 @@ export class LoginPage {
                 this.http.keepWebrtcAlive();
 
                 this.global.closeGlobalLoading(this);
-                if(this.popBack) {
+                let index = this.navParams.get('tabIndex');
+
+                if(this.popBack || index !== undefined) {
                     this.navCtrl.pop();
                 } else {
                     this.navCtrl.push(TabsPage)
@@ -214,7 +216,7 @@ export class LoginPage {
                     this.isLoading = false;
                 })               
             } else if(res.err_no === 1101) {
-                //登陆失败，可能是因为盒子重置了或者其他APP解除绑定了
+                //登录失败，可能是因为盒子重置了或者其他APP解除绑定了
                 // let view = this.navCtrl.getActive().name;
                 // let root = this.app.getRootNav().root.name;
                 // GlobalService.consoleLog("名字:" + view + "," + root);

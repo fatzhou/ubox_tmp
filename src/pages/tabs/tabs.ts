@@ -10,6 +10,7 @@ import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { CheckUpdate } from '../../providers/CheckUpdate';
 import { AboutDevicePage } from '../about-device/about-device';
+import { LoginPage } from '../login/login';
 import { NoticeListPage } from '../notice-list/notice-list';
 import { NoticeDetailPage } from '../notice-detail/notice-detail';
 import { Storage } from '@ionic/storage';
@@ -31,7 +32,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 })
 export class TabsPage {
     @ViewChild('boxtabs') tabRef: Tabs;
-    // mySelectedIndex:any = 0;
+    selectedIndex:any = 0;
     search: any = SearchPage;
     home: any = HomePage;
     user: any = UserPage;
@@ -197,6 +198,15 @@ export class TabsPage {
         .catch(e => {
             GlobalService.consoleLog("首页升级出现异常：" + e.stack);
         })
+    }
+
+    loginFirst(index) {
+        this.selectedIndex = index;
+        if(!this.global.centerUserInfo.uname) {
+            this.navCtrl.push(LoginPage, {
+                tabIndex: index
+            })            
+        }
     }
 
     showPopup(b) {

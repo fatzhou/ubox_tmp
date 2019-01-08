@@ -115,6 +115,7 @@ import { Web3Service } from '../providers/Web3Service';
 // import { ClickAndWaitDirective } from '../directives/click-and-wait/click-and-wait';
 import { DirectivesModule } from '../directives/directives.module';
 import { PhotoLibrary } from '@ionic-native/photo-library';
+import { UapPlatform } from '../providers/UappPlatform';
 
 
 import { ComputeCoinbasePipe } from '../pipes/compute-coinbase/compute-coinbase'
@@ -301,7 +302,8 @@ import { FileManager } from '../providers/FileManager';
     FileDownloader,
     FileUploader,
     FileTransfer,
-    PhotoLibrary
+    PhotoLibrary,
+    UapPlatform
   ]
 })
 export class AppModule {}

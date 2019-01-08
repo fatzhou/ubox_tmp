@@ -7,6 +7,7 @@ import { Util } from './Util';
 @Injectable()
 export class CheckUpdate {
     status:string = "normal";
+    upgradeFlag: string = "normal"; //"normal", "doing"
 
 	constructor(private global: GlobalService,
                 private util: Util,
@@ -14,8 +15,12 @@ export class CheckUpdate {
 
 	}
 
+    stopUpgrade() {
+        this.upgradeFlag = "normal";
+    }
+
     //查询是否存在可用的升级
-    checkIfNewestVersion(onDownloadingProgress) {
+    checkIfNewestVersion(onStartDownloading, onDownloadingProgress, onFinishDownloading) {
         let dstVer = '',
             signature = '',
             taskId = '';
@@ -26,7 +31,6 @@ export class CheckUpdate {
         let url = this.global.getBoxApi('checkUpdate130');
         return this.http.post(url, {})
         .then(res => {
-            this.global.closeGlobalLoading(this);
             if(res.err_no === 0) {
                 //查询可用升级成功
                 return res;
@@ -36,8 +40,8 @@ export class CheckUpdate {
         })
         .then((res:any) => {
             return new Promise((resolve, reject) => {
-                this.global.closeGlobalLoading(this);
                 if(res.force === 1) {
+                    this.global.closeGlobalLoading(this);
                     //可选升级
                     this.global.createGlobalAlert(this, {
                         title: Lang.L('updateDetected'),
@@ -61,25 +65,31 @@ export class CheckUpdate {
                         ]
                     })
                 } else if(res.force === 0 ) {
+                    this.global.closeGlobalLoading(this);
                     //强制升级
                     resolve(res);
                 } else if(res.force === 2) {
-                    //不需要升级
-                    this.global.createGlobalToast(this, {
-                        message: this.global.L('NewestVersion')
-                    });
-                    reject(res);
+                    setTimeout(() => {
+                        this.global.closeGlobalLoading(this);
+                        //不需要升级
+                        this.global.createGlobalToast(this, {
+                            message: this.global.L('NewestVersion')
+                        });
+                        reject(res);                        
+                    }, 1500)
                 }
             })
         })
         .then((res:any) => {
+            this.upgradeFlag = "doing";
             //用户要求升级
             console.log("开始下载安装包...");
-            this.global.createGlobalLoading(this, {
-                message: this.global.L("DownloadingPackages")
-            })
+            // this.global.createGlobalLoading(this, {
+            //     message: this.global.L("DownloadingPackages")
+            // })
             dstVer = res.dstVer;
             signature = res.signature;
+            onStartDownloading();
             let url = this.global.getBoxApi('downloadPackage130');
             return this.http.post(url, {
                 signature: res.signature,
@@ -93,17 +103,25 @@ export class CheckUpdate {
                         let failure = () => {
                             clearInterval(interval);
                             interval = null;
-                            throw new Error("Download progress error....");
+                            reject("Download result error.....")
                         }
                         //轮询查看进度
                         interval = setInterval(() => {
+                            if(this.upgradeFlag === 'normal') {
+                                this.global.createGlobalToast(this, {
+                                    message: this.global.L('UpgradeStopped')
+                                })
+                                failure();
+                            }
                             let progressUrl = this.global.getBoxApi('downloadPackageProgress130');
                             this.http.post(progressUrl, {
                                 taskid: taskId
                             })
                             .then(res => {
                                 if(res.err_no === 0) {
-                                    if(res.status === 2) {
+                                    if(res.status === 3) {
+                                        clearInterval(interval);
+                                        interval = null;
                                         onDownloadingProgress(res.finish, res.total);
                                         //下载完成
                                         resolve(res);
@@ -118,7 +136,7 @@ export class CheckUpdate {
                                     failure();
                                 }
                             })
-                        }, 1000);
+                        }, 500);
                     })                    
                 } else {
                     throw new Error('Error when downloading...' + JSON.stringify(res))
@@ -132,6 +150,7 @@ export class CheckUpdate {
         })
         .then((res:any) => {
             if(res.err_no === 0) {
+                onFinishDownloading();
                 //下载完成
                 this.global.closeGlobalLoading(this);
                 this.global.createGlobalLoading(this, {
@@ -217,7 +236,7 @@ export class CheckUpdate {
         //轮询检查升级状态
         let deviceVersion = this.global.deviceSelected.version;
         let boxId = this.global.deviceSelected.boxId;
-        GlobalService.consoleLog("升级时boxId " + boxId);
+        GlobalService.consoleLog("升级时boxId " + boxId + "status" + this.status);
         var interval = setInterval(()=>{
             if(this.status === 'normal') {
                 return false;

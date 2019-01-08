@@ -1,0 +1,42 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>help</title>
+</head>
+
+<body>
+<p>1</p>
+<p>2</p>
+<p>33336699963</p>
+<p id="txt1">txt1</p>
+<button onclick="btnclicked()">triggerscheme</button>
+<p id="txt">txt</p>
+
+
+<script type="text/javascript" >
+  var i=0;
+  var strtxt = "just test";
+  console.log("load....");
+
+  function btnclicked() {
+  	i++;
+    console.log("btnclicked:" + i);
+    strtxt = i + ":btnclicked";
+
+    exec(null, "echo", [strtxt])
+      .then(function(text){
+        var txt = document.getElementById("txt");
+        txt.innerHTML = "exec: echo success:" + text;
+        console.log("exec: echo success");
+      })
+      .catch(function () {
+        var txt = document.getElementById("txt");
+        txt.innerHTML = "exec: echo failed";
+        console.log("exec: echo failed");
+      });
+  }
+</script>
+
+</body>
+
+</html>

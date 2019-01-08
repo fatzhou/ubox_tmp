@@ -190,9 +190,9 @@ export class Util {
             }
         })
         .then((res:any) => {
-            //成功连接到盒子,获取盒子登陆态
+            //成功连接到盒子,获取盒子登录态
             if(this.global.deviceSelected) {
-                //检测盒子的登陆态
+                //检测盒子的登录态
                 let userInfoUrl = this.global.getBoxApi('getUserInfo');
                 return this.http.post(userInfoUrl, {}, false)
                 .then(res => {
@@ -250,9 +250,9 @@ export class Util {
             }
         })
         .then(res => {
-            //成功获取到盒子登陆态，否则清除登陆信息
+            //成功获取到盒子登录态，否则清除登录信息
             if(res === null) {
-                console.error("没有盒子登陆态，手动清除中心登陆信息");
+                console.error("没有盒子登录态，手动清除中心登录信息");
                 this.global.deviceSelected = null;
                 this.global.centerUserInfo = {};
                 return null;
@@ -1227,79 +1227,93 @@ export class Util {
 
         GlobalService.consoleLog("弱中心预绑定，先登录");
         GlobalService.consoleLog("用户名是:" + $scope.username + ",密码是:" + $scope.password);
-        return $scope.http.post(GlobalService.centerApi["login"].url, {
-                uname: $scope.username,
-                password: Md5.hashStr($scope.password).toString(),
-            })
-        .then(res => {
-            if(res.err_no === 0) {
-                return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {})
+
+         return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {})
+         .then(res => {
+             if(res.err_no === 0) {
+                 return res;
+             } else {
+                 if($scope.username && $scope.password) {
+                    return $scope.http.post(GlobalService.centerApi["login"].url, {
+                        uname: $scope.username,
+                        password: Md5.hashStr($scope.password).toString(),
+                    })
+                    .then(r => {
+                        if(r.err_no === 0) {
+                            return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {})
+                        } else {
+                            throw new Error("Password error");
+                        }
+                    })                         
+                 } else {
+                     throw new Error("No username and password");
+                 }
+             }
+         })
+        .then((res) => {
+            if (res.err_no === 0) {
+                GlobalService.consoleLog("登录成功，开始预绑定");
+                $scope.global.centerUserInfo = res.user_info;
+                return $scope.http.post(GlobalService.centerApi["bindBox"].url, {
+                    boxid: boxInfo.boxId
+                })
+            } else {
+                throw new Error('预绑定失败');
             }
         })
-            .then((res) => {
-                if (res.err_no === 0) {
-                    GlobalService.consoleLog("登录成功，开始预绑定");
-                    $scope.global.centerUserInfo = res.user_info;
-                    return $scope.http.post(GlobalService.centerApi["bindBox"].url, {
-                        boxid: boxInfo.boxId
-                    })
-                } else {
-                    throw new Error('预绑定失败');
-                }
-            })
-            .then((res) => {
-                if (res.err_no === 0) {
-                    GlobalService.consoleLog("预绑定成功，开始绑定盒子");
-                    return $scope.http.post(url, {
-                        username: $scope.username,
-                        password: Md5.hashStr($scope.password).toString(),
-                        boxid: boxInfo.boxId,
-                        // signature: encodeURIComponent(res.credential),
-                        signature: res.credential,
-                    })
-                } else {
-                    throw new Error('盒子绑定失败');
-                }
-            })
-            .then((res) => {
-                if (res.err_no === 0) {
-                    GlobalService.consoleLog("盒子端绑定成功，开始中心确认");
-                    return $scope.http.post(GlobalService.centerApi["bindBoxConfirm"].url, {
-                        boxid: boxInfo.boxId
-                    })
-                } else {
-                    throw new Error('中心确认失败');
-                }
-            })
-            .then((res) => {
-                if (res.err_no === 0) {
-                    GlobalService.consoleLog("盒子确认成功，登录盒子");
-                    //更新用户绑定盒子的数量
-                    $scope.global.centerUserInfo.bind_box_count = 1;
-                    //更新盒子用户数据
-                    boxInfo.bindUser = $scope.username;
-                    boxInfo.bindUserHash = Md5.hashStr($scope.username.toLowerCase()).toString();
-                    return $scope.util.loginBox($scope.username, $scope.password);
-                } else {
-                    GlobalService.consoleLog("盒子确认失败，需解除绑定");
-                    return $scope.http.post(url, {
-                        boxid: boxInfo.boxId,
-                        signature: res.credential,
-                    })
-                    .then((res) => {
-                        GlobalService.consoleLog("解除绑定成功");
-                        return {
-                            err_no: 12345
-                        }
-                    })
-                }
-            })
-            .catch((res) => {
-                GlobalService.consoleLog(res);
-                return {
-                    err_no: 11111
-                };
-            })
+        .then((res) => {
+            if (res.err_no === 0) {
+                GlobalService.consoleLog("预绑定成功，开始绑定盒子");
+                return $scope.http.post(url, {
+                    username: $scope.username,
+                    password: Md5.hashStr($scope.password).toString(),
+                    boxid: boxInfo.boxId,
+                    // signature: encodeURIComponent(res.credential),
+                    signature: res.credential,
+                })
+            } else {
+                throw new Error('盒子绑定失败');
+            }
+        })
+        .then((res) => {
+            if (res.err_no === 0) {
+                GlobalService.consoleLog("盒子端绑定成功，开始中心确认");
+                return $scope.http.post(GlobalService.centerApi["bindBoxConfirm"].url, {
+                    boxid: boxInfo.boxId
+                })
+            } else {
+                throw new Error('中心确认失败');
+            }
+        })
+        .then((res) => {
+            if (res.err_no === 0) {
+                GlobalService.consoleLog("盒子确认成功，登录盒子");
+                //更新用户绑定盒子的数量
+                $scope.global.centerUserInfo.bind_box_count = 1;
+                //更新盒子用户数据
+                boxInfo.bindUser = $scope.username;
+                boxInfo.bindUserHash = Md5.hashStr($scope.username.toLowerCase()).toString();
+                return $scope.util.loginBox($scope.username, $scope.password);
+            } else {
+                GlobalService.consoleLog("盒子确认失败，需解除绑定");
+                return $scope.http.post(url, {
+                    boxid: boxInfo.boxId,
+                    signature: res.credential,
+                })
+                .then((res) => {
+                    GlobalService.consoleLog("解除绑定成功");
+                    return {
+                        err_no: 12345
+                    }
+                })
+            }
+        })
+        .catch((res) => {
+            GlobalService.consoleLog(res);
+            return {
+                err_no: 11111
+            };
+        })
     }
 
     public static getLocalTime(ts, split = "-") {

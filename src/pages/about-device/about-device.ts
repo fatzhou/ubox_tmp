@@ -121,9 +121,9 @@ export class AboutDevicePage {
     }
 
     updateRom() {
-        this.checkUpdate.checkIfNewestVersion((finish, total) => {
-            console.log("下载进度:" + finish +  ",总大小:" + total)
-        })
+        // this.checkUpdate.checkIfNewestVersion((finish, total) => {
+        //     console.log("下载进度:" + finish +  ",总大小:" + total)
+        // })
     }
 
     updateRom1() {

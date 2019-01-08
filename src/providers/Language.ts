@@ -57,7 +57,7 @@ export class Lang {
     }
 
     static LoginTips = {
-        cn: "尚未登陆，点击这里登陆/注册",
+        cn: "尚未登录，点击这里登录/注册",
         en: "",
         kr: ""
     }
@@ -334,6 +334,18 @@ export class Lang {
 
     static InstallingPackages = {
         cn: "正在安装升级包...",
+        en: '',
+        kr: ''
+    }    
+
+    static Downloading = {
+        cn: "正在下载(${percent}%)",
+        en: '',
+        kr: ''
+    }    
+
+    static UpgradeStopped = {
+        cn: "已停止升级",
         en: '',
         kr: ''
     }
