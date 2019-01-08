@@ -475,25 +475,10 @@ export class Util {
         })
         .then(res => {
             if(res.err_no == 0) {
-                $scope.global.createGlobalAlert($scope, {
-                    title: Lang.L('WORDab667a91'),
-                    message: Lang.L('WORDe6e1739b'),
-                    buttons: [
-                        {
-                            text: Lang.L('NotBind'),
-                            handler: data => {
-                            }
-                        },
-                        {
-                            text: Lang.L('WORD0cde60d1'),
-                            handler: data => {
-                                $scope.global.centerUserInfo = {};
-                                $scope.global.boxUserInfo = {};
-                                callback && callback();
-                            }
-                        }
-                    ]
-                })                    
+                $scope.global.deviceSelected = null;
+                $scope.global.boxUserInfo = {};
+                $scope.global.centerUserInfo.bind_box_count = 0;
+                callback && callback();                   
             }
         })
         .catch (res => {

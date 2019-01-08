@@ -305,7 +305,9 @@ export class TabsPage {
         console.log("this.selectIndex" + this.selectIndex);
         if(!this.global.centerUserInfo.uname && (this.selectIndex == 1 || this.selectIndex == 2)){
             this.selectedIndex = 0;
-            this.navCtrl.push(LoginPage)
+            this.navCtrl.push(LoginPage, {
+                refresh: true
+            })
         } else {
             this.events.publish('tab:enter', {
                 pageId: this.tabRef.getSelected().index

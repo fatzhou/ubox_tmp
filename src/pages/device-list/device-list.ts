@@ -65,6 +65,19 @@ export class DeviceListPage {
     ionViewDidEnter() {
         GlobalService.consoleLog("进入发现列表页");
         var refresh = this.navParams.get('refresh') || false;
+        if(!this.global.userLoginInfo) {
+            console.log("this.global.user");
+            this.util.getUserList()
+            .then(res => {
+                if(this.global.userLoginInfo){
+                    this.username = this.global.userLoginInfo.username;
+                    this.password = this.global.userLoginInfo.password;
+                }
+            }) 
+        } else {
+            this.username = this.global.userLoginInfo.username;
+            this.password = this.global.userLoginInfo.password;
+        }
         // this.getVersionControl();
         if (this.platform.is('cordova')) {
             if (this.global.foundDeviceList.length && !refresh) {
@@ -249,11 +262,27 @@ export class DeviceListPage {
         GlobalService.consoleLog("开始校验盒子登录态，登录则直接进入首页，否则进入登录页");
         GlobalService.consoleLog(JSON.stringify(this.global.deviceSelected));
         console.log("this.global.userLoginInfo  " + JSON.stringify(this.global.userLoginInfo));
-        this.username = this.global.userLoginInfo.username;
-        this.password = this.global.userLoginInfo.password;
         if (!dv.bindUser) {
             GlobalService.consoleLog("盒子未绑定用户，直接绑定");
             Util.bindBox(this)
+            .then((res)=>{
+                var url = this.global.getBoxApi("getDiskStatus");
+                return this.http.post(url, {})
+                .then((data) => {
+                    if (data.err_no === 0) {
+                        this.global.diskInfo = data.box;
+                        if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
+                            this.global.diskInfoStatus = false;
+                        }else{
+                            this.global.diskInfoStatus = true;
+                        }
+                    }
+                    return res;
+                })
+                .catch(()=>{
+                    return res;
+                })   
+            })
             .then((res) => {
                 this.navCtrl.push(TabsPage)
                 .then(() => {
