@@ -24,7 +24,7 @@ export class ComputeFileTimePipe implements PipeTransform {
 					h = ('00' + date.getHours()).slice(-2),
 					m = ('00' + date.getMinutes()).slice(-2),
 					s = ('00' + date.getSeconds()).slice(-2);
-					if(args.length) {
+					if(args && args.length) {
 						if(args[0]) {
 							split = args[0];
 						} 

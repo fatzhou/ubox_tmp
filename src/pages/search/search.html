@@ -69,7 +69,7 @@
                         </p>
                         <p class="info-Introduction eps">{{ item.summary }}</p>
                     </div>
-                    <div class="info-status" item-end>
+                    <div class="info-status" (click)="openApp(item)" item-end>
                         <p class="status-btn eps">{{ item.type == 0 ? global.L('Open') : global.L('Get') }}</p>
                     </div>
                 </li>

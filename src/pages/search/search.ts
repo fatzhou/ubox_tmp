@@ -4,8 +4,9 @@ import { Events, App } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { Util } from '../../providers/Util';
-import { AboutDevicePage } from '../about-device/about-device';
+import { UapPlatform } from "../../providers/UappPlatform";
 
+import { AboutDevicePage } from '../about-device/about-device';
 import { AppDetailPage } from '../app-detail/app-detail';
 import { LoginPage } from '../login/login';
 
@@ -32,6 +33,7 @@ export class SearchPage {
         private global: GlobalService,
         private util: Util,
         private http: HttpService,
+        private uapplatform: UapPlatform,
         private app: App) {
             events.unsubscribe('language:change');
             events.subscribe('language:change', () => {
@@ -74,10 +76,14 @@ export class SearchPage {
         })
     }
 
+    openApp() {
+        this.uapplatform.openapp('pvr');
+    }
+
     goAppDetail(info) {
-        this.app.getRootNav().push(AppDetailPage,{
-            "info": info
-        });
+        // this.app.getRootNav().push(AppDetailPage,{
+        //     "info": info
+        // });
     }    
 
     goLoginPage() {
