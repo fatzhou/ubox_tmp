@@ -248,7 +248,7 @@ export class DeviceListPage {
     checkBindBox(dv) {
         GlobalService.consoleLog("开始校验盒子登录态，登录则直接进入首页，否则进入登录页");
         GlobalService.consoleLog(JSON.stringify(this.global.deviceSelected));
-        var uname = this.global.centerUserInfo.uname;
+        console.log("this.global.userLoginInfo  " + JSON.stringify(this.global.userLoginInfo));
         this.username = this.global.userLoginInfo.username;
         this.password = this.global.userLoginInfo.password;
         if (!dv.bindUser) {

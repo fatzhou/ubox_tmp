@@ -58,7 +58,7 @@ export class UserPage {
         if(this.global.centerUserInfo.uname) {
             return false
         }
-        this.app.getRootNav().push(TabsPage)
+        this.app.getRootNav().push(LoginPage)
     }
 
     goAdvicePage() {
@@ -105,7 +105,7 @@ export class UserPage {
     }
 
     goDeviceListPage() {
-        this.app.getRootNav().push(DeviceListPage);   
+        this.app.getRootNav().push(TabsPage);   
     }
 
     goChangePasswdPage() {

@@ -50,13 +50,22 @@ export class DeviceComponent {
     if(this.global.deviceSelected) {
       this.goPages();
     } else {
-      this.events.publish("open-bind-box");
+      this.events.publish("open-bind-box",true);
     }
   }
 
   goPages(){
     GlobalService.consoleLog("关闭浮层事件触发");
-    this.goDevicePage.emit();
+    if(this.global.centerUserInfo.bind_box_count > 0) {
+      if(this.global.deviceSelected) {
+        this.goDevicePage.emit();
+      } else {
+        console.log("有设备未连接")
+      }
+    } else {
+      this.events.publish("open-bind-box", true);
+    }
+    
   }
 
 }

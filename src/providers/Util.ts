@@ -475,6 +475,11 @@ export class Util {
                     message: Lang.L('WORDe6e1739b'),
                     buttons: [
                         {
+                            text: Lang.L('NotBind'),
+                            handler: data => {
+                            }
+                        },
+                        {
                             text: Lang.L('WORD0cde60d1'),
                             handler: data => {
                                 $scope.global.centerUserInfo = {};
