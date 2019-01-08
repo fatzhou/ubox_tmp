@@ -239,8 +239,8 @@ export class ListPage {
                 var index = 0;
                 if (res.list && res.list.length > 0) {
                     list = res.list.map((item) => {
-                        item.name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
-                        let md5 = Md5.hashStr(this.currPath + "/" + item.name).toString();
+                        let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+                        let md5 = Md5.hashStr(this.currPath + "/" + name).toString();
                         return {
                             name: item.name,
                             size: item.size,

@@ -221,8 +221,8 @@ export class ClassifyListPage {
                     let md5 = '';
                     list = res.list.map((item) => {
                         let test = /(\.HEIC)$/gi;
-                        item.name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
-                        this.classify === 1 && (md5 = Md5.hashStr(item.path + "/" + item.name).toString());
+                        let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+                        this.classify === 1 && (md5 = Md5.hashStr(item.path + "/" + name).toString());
                         if(!test.test(item.name)) { 
                             return {
                                 name: item.name,

@@ -29,6 +29,7 @@ export class CheckUpdate {
             message: this.global.L("CheckUpdatingAvailable")
         });
         let url = this.global.getBoxApi('checkUpdate130');
+        let start = Date.now();
         return this.http.post(url, {})
         .then(res => {
             if(res.err_no === 0) {
@@ -39,46 +40,49 @@ export class CheckUpdate {
             }
         })
         .then((res:any) => {
-            return new Promise((resolve, reject) => {
-                if(res.force === 1) {
-                    this.global.closeGlobalLoading(this);
-                    //可选升级
-                    this.global.createGlobalAlert(this, {
-                        title: Lang.L('updateDetected'),
-                        message: Lang.Lf('updateTips', res.dstVer),
-                        buttons: [
-                            {
-                                text: Lang.L("Cancel"),
-                                handler: data => {
-                                    // reject();
-                                    GlobalService.consoleLog("用户拒绝升级");
-                                    reject(res);
-                                }
-                            },
-                            {
-                                text: Lang.L("Update"),
-                                handler: data => {
-                                    GlobalService.consoleLog("升级固件:" + res.data.dstVer + "," + res.data.signature);
-                                    resolve(res);
-                                }
-                            },                            
-                        ]
-                    })
-                } else if(res.force === 0 ) {
-                    this.global.closeGlobalLoading(this);
-                    //强制升级
-                    resolve(res);
-                } else if(res.force === 2) {
-                    setTimeout(() => {
+            setTimeout(() => {
+                return new Promise((resolve, reject) => {
+                    if(res.force === 1) {
                         this.global.closeGlobalLoading(this);
-                        //不需要升级
-                        this.global.createGlobalToast(this, {
-                            message: this.global.L('NewestVersion')
-                        });
-                        reject(res);                        
-                    }, 1500)
-                }
-            })
+                        //可选升级
+                        this.global.createGlobalAlert(this, {
+                            title: Lang.L('updateDetected'),
+                            message: Lang.Lf('updateTips', res.dstVer),
+                            buttons: [
+                                {
+                                    text: Lang.L("Cancel"),
+                                    handler: data => {
+                                        // reject();
+                                        GlobalService.consoleLog("用户拒绝升级");
+                                        reject(res);
+                                    }
+                                },
+                                {
+                                    text: Lang.L("Update"),
+                                    handler: data => {
+                                        GlobalService.consoleLog("升级固件:" + res.data.dstVer + "," + res.data.signature);
+                                        resolve(res);
+                                    }
+                                },                            
+                            ]
+                        })
+                    } else if(res.force === 0 ) {
+                        this.global.closeGlobalLoading(this);
+                        //强制升级
+                        resolve(res);
+                    } else if(res.force === 2) {
+                        setTimeout(() => {
+                            this.global.closeGlobalLoading(this);
+                            //不需要升级
+                            this.global.createGlobalToast(this, {
+                                message: this.global.L('NewestVersion')
+                            });
+                            reject(res);                        
+                        }, 1500)
+                    }
+                })                
+            }, 2000 - (Date.now() - start));
+
         })
         .then((res:any) => {
             this.upgradeFlag = "doing";
@@ -179,7 +183,7 @@ export class CheckUpdate {
         })    
         .catch(e => {
             console.log("未能正常升级:" + JSON.stringify(e));
-            this.global.closeGlobalLoading(this);
+            this.global.closeGlobalLoading(this);        
         })
     }
 
