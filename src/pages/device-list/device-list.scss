@@ -1,5 +1,11 @@
 page-device-list {
 	$Duration: 1s;
+	.head-hide { 
+		display: none;
+	}
+	.head-show { 
+		display: block;
+	}
 	.scanning {
 		color: $mainColor;
 	    height: 100%;

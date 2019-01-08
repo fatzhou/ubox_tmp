@@ -40,8 +40,8 @@ export class CheckUpdate {
             }
         })
         .then((res:any) => {
-            setTimeout(() => {
-                return new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
                     if(res.force === 1) {
                         this.global.closeGlobalLoading(this);
                         //可选升级
@@ -79,10 +79,9 @@ export class CheckUpdate {
                             });
                             reject(res);                        
                         }, 1500)
-                    }
-                })                
-            }, 2000 - (Date.now() - start));
-
+                    }                    
+                }, 3000 - (Date.now() - start));
+            })                
         })
         .then((res:any) => {
             this.upgradeFlag = "doing";
@@ -183,7 +182,9 @@ export class CheckUpdate {
         })    
         .catch(e => {
             console.log("未能正常升级:" + JSON.stringify(e));
-            this.global.closeGlobalLoading(this);        
+            setTimeout(() => {
+                this.global.closeGlobalLoading(this);  
+            }, 5000 - (Date.now() - start))      
         })
     }
 
@@ -241,23 +242,28 @@ export class CheckUpdate {
         let deviceVersion = this.global.deviceSelected.version;
         let boxId = this.global.deviceSelected.boxId;
         GlobalService.consoleLog("升级时boxId " + boxId + "status" + this.status);
+        this.status = 'updating';
         var interval = setInterval(()=>{
             if(this.status === 'normal') {
+                clearInterval(interval);
+                interval = null;
                 return false;
             }
             this.http.post(updateUrl, {}, false)
             .then(res => {
+                console.log("升级状态查询接口返回:" + JSON.stringify(res))
                 if(res.err_no === 0) {
                     //忽略1604错误
                     if(res.status === 0) {
                         this.status = "normal";
+                        clearInterval(interval);
+                        interval = null;                        
                         //查询当前版本号
                         this.util.getBoxVersion(boxId)
                         .then(version => {
                             GlobalService.consoleLog("检查更新成功后版本号为：" + version);
                             this.global.closeGlobalLoading(this); 
-                            clearInterval(interval);
-                            interval = null;
+
                             if(deviceVersion == this.global.deviceSelected.version) {
                                 console.error("升级失败，却返回升级成功！");
                                 this.global.createGlobalToast(this, {
@@ -292,6 +298,7 @@ export class CheckUpdate {
                     } else if(res.status === 1 || res.status === 1604) {
                         GlobalService.consoleLog("正在升级中");
                     } else {
+                        this.status = 'normal';
                         throw new Error("升级失败：" + JSON.stringify(res));
                     }
                 } 
@@ -310,7 +317,7 @@ export class CheckUpdate {
                     data: e
                 }); 
             })
-        }, 800);
+        }, 2000);
     }
 
     //查询是否存在固件升级
@@ -337,7 +344,6 @@ export class CheckUpdate {
                         })
                     } else if(res.force === 0) {
                         GlobalService.consoleLog("强制升级");
-                        this.status = "updating";
                         this.global.createGlobalLoading(this, {
                             message: Lang.L("romUpdatingTips")
                         });

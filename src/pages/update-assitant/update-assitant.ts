@@ -98,20 +98,25 @@ export class UpdateAssitantPage {
     }
 
     updateBox() {
-        this.checkUpdate.checkIfNewestVersion(() => {
-            //开始下载
-            this.progressBarShown = true;
-        }, (finish, total) => {
-            console.log("下载进度:" + finish +  ",总大小:" + total)
-            this.percent = total === 0 ? 0 : Math.ceil(finish * 100 / total);
-            console.log("下载比例:" + this.percent);
-        }, () => {
-            //下载完成
-            this.progressBarShown = false;
-        })
+        if(this.util.compareVersion(this.global.deviceSelected.version, '1.2.2')) {
+            this.checkUpdate.checkIfNewestVersion(() => {
+                //开始下载
+                this.progressBarShown = true;
+            }, (finish, total) => {
+                console.log("下载进度:" + finish +  ",总大小:" + total)
+                this.percent = total === 0 ? 0 : Math.ceil(finish * 100 / total);
+                console.log("下载比例:" + this.percent);
+            }, () => {
+                //下载完成
+                this.progressBarShown = false;
+            })            
+        } else {
+            //低版本
+            this.updateBoxLowVersion();
+        }
     }
 
-    updateBox1() {
+    updateBoxLowVersion() {
         this.global.createGlobalLoading(this, {
             message: Lang.L("getRomUpdate")
         });

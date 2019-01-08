@@ -16,7 +16,7 @@
 	</div>
 	<div class="avatar-info">
 		<div class="info">
-			<div class="img-wrap">
+			<div class="img-wrap" (click)="goLoginPage(true)">
 				<img src="assets/img/avatar@2x.png" alt="">
 			</div>
 			<p *ngIf="global.centerUserInfo.uname">{{ global.centerUserInfo.uname }}</p>

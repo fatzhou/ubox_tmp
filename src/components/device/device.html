@@ -7,7 +7,7 @@
     </div>
 
     <h1 class="eps">
-	  	<span (click)="goPages()">{{ global.deviceSelected ? global.deviceSelected.friendlyName : global.L('WORD89462053') }}</span>
+	  	<span (click)="goPages()">{{ global.centerUserInfo.bind_box_count > 0 ? ( global.deviceSelected ? global.deviceSelected.friendlyName : global.L('WORD89462053')) : global.L('UbbeyBoxNotBind') }}</span>
 	  	<div class="network-status" *ngIf="networkStatusShow=='true'" (click)="showBindBox()">
 			<svg class="icon" aria-hidden="true">
 				<use xlink:href="#icon-AddDevice"></use>

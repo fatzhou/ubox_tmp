@@ -2763,9 +2763,14 @@ export class Lang {
     };
     ////src/components//device/device.html////
     static WORD89462053 = {
-        cn: "未连接设备",
-        en: "No connecting device",
-        kr: "디바이스에 로그인 되어있지 않습니다."
+        cn: "Ubbey Box(未连接)",
+        en: "",
+        kr: ""
+    };
+    static UbbeyBoxNotBind = {
+        cn: "Ubbey Box(未绑定)",
+        en: "",
+        kr: ""
     };
 
     static REMOTE_CONNECT = {
@@ -3754,7 +3759,6 @@ export class Lang {
         en: '',
         kr: ''
     }
-
     
 }
 

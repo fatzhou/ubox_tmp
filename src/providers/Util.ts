@@ -255,8 +255,31 @@ export class Util {
                 console.error("没有盒子登录态，手动清除中心登录信息");
                 this.global.deviceSelected = null;
                 this.global.centerUserInfo = {};
-            } 
-            return res;
+                return null;
+            } else {
+                console.log("已链接盒子：" + this.global.deviceSelected)
+                if(this.global.deviceSelected) {
+                    var url = this.global.getBoxApi("getDiskStatus");
+                    return this.http.post(url, {})
+                    .then((data) => {
+                        if (data.err_no === 0) {
+                            this.global.diskInfo = data.box;
+                            if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
+                                this.global.diskInfoStatus = false;
+                            }else{
+                                this.global.diskInfoStatus = true;
+                            }
+                        }
+                        return res;
+                    })
+                    .catch(()=>{
+                        return res;
+                    })                    
+                } else {
+                    return null;
+                }
+            }
+           // return res;
         })
         .catch(res => {
             GlobalService.consoleLog(res);
@@ -456,6 +479,11 @@ export class Util {
                     title: Lang.L('WORDab667a91'),
                     message: Lang.L('WORDe6e1739b'),
                     buttons: [
+                        {
+                            text: Lang.L('NotBind'),
+                            handler: data => {
+                            }
+                        },
                         {
                             text: Lang.L('WORD0cde60d1'),
                             handler: data => {

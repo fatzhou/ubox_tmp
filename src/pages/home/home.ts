@@ -248,25 +248,11 @@ export class HomePage {
     // }
 
     getDiskStatus() {
-        if (this.global.deviceSelected) {
-            var url = this.global.getBoxApi("getDiskStatus");
-            this.http.post(url, {})
-                .then((res) => {
-                    if (res.err_no === 0) {
-                        this.global.diskInfo = res.box;
-                        if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
-                            this.global.diskInfoStatus = false;
-                        }else{
-                            this.global.diskInfoStatus = true;
-                        }
-                        this.computeDiskSize(res.box);
-                    }
-                })
-        }
+        this.computeDiskSize(this.global.diskInfo);
     }
 
     computeDiskSize(box) {
-        var disk = box.disks && box.disks[0];
+        var disk = box && box.disks && box.disks[0];
         if (disk) {
             var freeSpace = (disk.total - disk.usage) / GlobalService.DISK_G_BITS;
             this.diskInterger = Math.floor(freeSpace);

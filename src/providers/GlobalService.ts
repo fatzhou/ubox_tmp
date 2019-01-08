@@ -16,7 +16,7 @@ export class GlobalService {
     public static ToastTime = 1500; //toast弹窗时间控制
     public static webrtcFileControl = 2;
     public static boxFileControl = 3;
-    public static AppVersion = '1.2.3';
+    public static AppVersion = '1.3.0';
     public static applang: any = "en";
     public static ENV = "dev"; //环境设定
     public static UBBEY_CONTRACT: string = "0x6cB1C2B61e24aD08bF5FFF4d2b13ea987d211a88";

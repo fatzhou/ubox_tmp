@@ -24,7 +24,8 @@ export class HttpService {
     dataChannelTimeout = 40000; //网络超时时间
     requestCheckGap = 1000; //channel状态检查间隙
     requestStorageTime = 10000; //请求缓存时间
-    aliveInterval = 10000; //保活时间
+    aliveIntervalTime = 10000; //保活时间
+    aliveInterval = null; //保活的interval
     successiveConnectGap = 15000; //连续两次重试的间隔
 
     deviceSelected = null;
@@ -81,18 +82,20 @@ export class HttpService {
     }
 
     private keepAlive() {
-        let interval = setInterval(()=>{
-            if(!this.global.useWebrtc) {
-                clearInterval(interval);
-            } else if(this.dataChannelOpen === 'opened') {
-                let url = this.global.getBoxApi('keepAlive');
-                GlobalService.consoleLog("发起保活请求发出------" + Date.now().toString());
-                this.webrtcRequest(url, 'post', {})
-                .catch(e => {
-                    GlobalService.consoleLog(e.stack);
-                })
-            }
-        }, this.aliveInterval);
+        if(!this.aliveInterval) {
+            this.aliveInterval = setInterval(()=>{
+                if(!this.global.useWebrtc) {
+                    clearInterval(this.aliveInterval);
+                } else if(this.dataChannelOpen === 'opened') {
+                    let url = this.global.getBoxApi('keepAlive');
+                    GlobalService.consoleLog("发起保活请求发出------" + Date.now().toString());
+                    this.webrtcRequest(url, 'post', {})
+                    .catch(e => {
+                        GlobalService.consoleLog(e.stack);
+                    })
+                }
+            }, this.aliveIntervalTime);            
+        }
     }
 
     private channelStatusManager() {
@@ -125,7 +128,7 @@ export class HttpService {
                 case 'opened':
                     let channelState = this.dataChannel.readyState;
                     GlobalService.consoleLog("连接已建立：" + channelState);
-                    if(Date.now() - this.lastReceivedTime > this.aliveInterval * 6) {
+                    if(Date.now() - this.lastReceivedTime > this.aliveIntervalTime * 6) {
                         GlobalService.consoleLog("--------连接超时，关闭信道-------" + Date.now() + "-------" + this.lastReceivedTime + '====信道状态====' + channelState);
                         this.dataChannelOpen = 'closed';
                         this.lastReceivedTime = Date.now();
@@ -169,6 +172,8 @@ export class HttpService {
             clearTimeout(this.globalRequestManagerTimer);
             this.globalRequestManagerTimer = null;
         }
+        clearInterval(this.aliveInterval);
+        this.aliveInterval = null;
         for(let session in this.globalRequestMap) {
             let mySession = this.globalRequestMap[session];
             mySession.reject && mySession.reject("Channel closed");
@@ -985,6 +990,7 @@ export class HttpService {
             this.global.useWebrtc = true;
             let url = this.global.getBoxApi('keepAlive');
             this.global.deviceSelected = this.deviceSelected;
+            this.keepWebrtcAlive();
             this.webrtcRequest(url, 'post', {})
             .then((res:any) => {
                 if(res.status === 200 && res.data.err_no === 0) {

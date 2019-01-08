@@ -132,8 +132,8 @@ export class TabsPage {
         events.subscribe('open-popup', ()=>{
             this.showPopup(true);
         })
-        events.subscribe('open-bind-box', () => {
-            this.isCloseBindBox = true;
+        events.subscribe('open-bind-box', (res) => {
+            this.isCloseBindBox = res;
         })
         //外部要求切换页面
         this.events.subscribe('page:changed', (pageId) => {
