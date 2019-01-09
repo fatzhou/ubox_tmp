@@ -32,7 +32,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 })
 export class TabsPage {
     @ViewChild('boxtabs') tabRef: Tabs;
-    selectedIndex:any = 0;
+    // selectedIndex:any = 0;
     search: any = SearchPage;
     home: any = HomePage;
     user: any = UserPage;
@@ -202,18 +202,24 @@ export class TabsPage {
 
     ionViewWillEnter() {
         let index = this.navParams.get('tabIndex');
+        console.log("需要跳转到第" + index + "tab");
         if(index != undefined) {
-            this.selectedIndex = index;
+            // this.selectedIndex = index;
+            this.tabRef.select(index);
         }
     }
 
     loginFirst(index) {
-        // this.selectedIndex = index;
+        // this.selectedIndex = 0;
         if(!this.global.centerUserInfo.uname) {
+            setTimeout(() => {
+                console.log("跳转发现页");
+                this.tabRef.select(0);
+            }, 1000);               
             this.navCtrl.push(LoginPage, {
                 tabIndex: index
             })            
-        }
+        } 
     }
 
     showPopup(b) {
@@ -277,16 +283,16 @@ export class TabsPage {
         this.connectionStatus = this.global.useWebrtc ? (this.http.dataChannelOpen === 'opened' ? 'remote' : 'connecting') : 'local';
         let events = this.events;
         GlobalService.consoleLog('ionViewDidEnter TabsPage');
-        if(this.tabRef.getSelected() !== null){
-            if((this.selectedIndex == 1 || this.selectedIndex == 2) && !this.global.centerUserInfo.uname){
-                this.selectedIndex = 0;
-                this.navCtrl.push(LoginPage)
-            } else {
-                this.events.publish('tab:enter', {
-                    pageId: this.tabRef.getSelected().index
-                });
-            }
-        }
+        // if(this.tabRef.getSelected() !== null){
+        //     if((this.selectedIndex == 1 || this.selectedIndex == 2) && !this.global.centerUserInfo.uname){
+        //         this.selectedIndex = 0;
+        //         this.navCtrl.push(LoginPage)
+        //     } else {
+        //         this.events.publish('tab:enter', {
+        //             pageId: this.tabRef.getSelected().index
+        //         });
+        //     }
+        // }
         this.isClose = false;
         if (this.global.deviceSelected) {
             this.version = this.global.deviceSelected.version;

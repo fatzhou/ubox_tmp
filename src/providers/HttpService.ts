@@ -346,8 +346,8 @@ export class HttpService {
             var cookie = this.getCookieString(url);
             console.error("接口报错登录态失效:" + JSON.stringify(result));
             GlobalService.consoleLog("cookie:" + cookie);
-            this.global.logger("丢失cookie的URL:" + url);
-            this.global.logger("获取用户信息失败cookie:" + cookie);
+            // this.global.logger("丢失cookie的URL:" + url);
+            // this.global.logger("获取用户信息失败cookie:" + cookie);
             GlobalService.consoleLog("localStorage:" + JSON.stringify(window.localStorage));
         }
         //   result.err_no = 1503;

@@ -195,6 +195,7 @@ export class LoginPage {
                 //     }
                 // })                              
             } else {
+                this.global.closeGlobalLoading(this);
                 this.navCtrl.push(TabsPage, {
                     tabIndex: index
                 });

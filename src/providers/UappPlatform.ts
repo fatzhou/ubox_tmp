@@ -51,7 +51,7 @@ export class UappPlatform {
     )
   }
 
-  public openapp(uapname) {
+  public openapp(uappName) {
     let self = this;
 
     if (this.global.platformName == "android"){
@@ -59,12 +59,12 @@ export class UappPlatform {
       UAPPROOT = UAPPROOT.replace('file://', "");
       self.createDir();
     } else {
-      UAPPROOT = "uap";
+      UAPPROOT = "uapp/";
     }
-    console.log("openapp:" + uapname);
+    console.log("openapp:" + uappName);
 
-    if(!UappPlatform.uap_installed[uapname].local_url){
-      alert("UAPP '" + uapname + "' not exist.");
+    if(!UappPlatform.uap_installed[uappName].local_url){
+      alert("UAPP '" + uappName + "' not exist.");
       return;
     }
 
@@ -74,20 +74,20 @@ export class UappPlatform {
       console.log("cordova.plugins:" + JSON.stringify(cordova.plugins));
       console.log("httpd:" + JSON.stringify(httpd));
       UappPlatform.prototype.startServer.bind(self)(UAPPROOT);
-      setTimeout(UappPlatform.prototype.openapp.bind(self), 1000, uapname);
+      setTimeout(UappPlatform.prototype.openapp.bind(self), 1000, uappName);
       return;
     }
     httpd.getURL((url)=> {
       if (url.length > 0) {
-        let uapstr  = UappPlatform.uap_installed[uapname].local_url;
-        let uapurl  = url + (url[url.length-1]=='/' ? uapstr.substr(1) : uapstr);//'https://www.baidu.com/';//
-        console.log("httpd服务正在运行: uapurl=" + uapurl);
-        setTimeout(self.openbrowser.bind(self), 100, uapurl);
+        let uappStr  = UappPlatform.uap_installed[uappName].local_url;
+        let uappUrl  = url + (url[url.length-1]=='/' ? uappStr.substr(1) : uappStr);//'https://www.baidu.com/';//
+        console.log("httpd服务正在运行: uapurl=" + uappUrl);
+        setTimeout(self.openbrowser.bind(self), 100, uappUrl);
       }else{
         console.log('httpd没有启动，请稍候重启');
       }
     });
-    console.log("done openapp:" + uapname);
+    console.log("done openapp:" + uappName);
   }
 
   public openbrowser(uapurl){
