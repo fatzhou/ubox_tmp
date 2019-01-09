@@ -278,9 +278,14 @@ export class TabsPage {
         let events = this.events;
         GlobalService.consoleLog('ionViewDidEnter TabsPage');
         if(this.tabRef.getSelected() !== null){
-            this.events.publish('tab:enter', {
-                pageId: this.tabRef.getSelected().index
-            });
+            if((this.selectedIndex == 1 || this.selectedIndex == 2) && !this.global.centerUserInfo.uname){
+                this.selectedIndex = 0;
+                this.navCtrl.push(LoginPage)
+            } else {
+                this.events.publish('tab:enter', {
+                    pageId: this.tabRef.getSelected().index
+                });
+            }
         }
         this.isClose = false;
         if (this.global.deviceSelected) {
@@ -304,22 +309,34 @@ export class TabsPage {
 
     setIcons(e) {
         // this.selectIndex = e.index;
-        if (e.index === 0) {
+        // this.selectIndex = e.index;
+        // console.log("this.selectIndex" + this.selectIndex);
+        // if(!this.global.centerUserInfo.uname && (this.selectIndex == 1 || this.selectIndex == 2)){
+        //     this.selectedIndex = 0;
+        //     this.navCtrl.push(LoginPage, {
+        //         refresh: true
+        //     })
+        // } else {
+        //     this.events.publish('tab:enter', {
+        //         pageId: this.tabRef.getSelected().index
+        //     });
+        // }
+        if (this.selectIndex === 0) {
             this.searchIcon = 'custom-home-active';
             this.fileIcon = 'custom-file';
             this.miningIcon = 'custom-mining';
             this.userIcon = 'custom-user';
-        } else if (e.index === 1) {
+        } else if (this.selectIndex === 1) {
             this.searchIcon = 'custom-home';
             this.fileIcon = 'custom-file-active';
             this.miningIcon = 'custom-mining';
             this.userIcon = 'custom-user';
-        } else if (e.index === 2) {
+        } else if (this.selectIndex === 2) {
             this.searchIcon = 'custom-home';
             this.fileIcon = 'custom-file';
             this.miningIcon = 'custom-mining-active';
             this.userIcon = 'custom-user';
-        } else if (e.index === 3) {
+        } else if (this.selectIndex === 3) {
             this.searchIcon = 'custom-home';
             this.fileIcon = 'custom-file';
             this.miningIcon = 'custom-mining';

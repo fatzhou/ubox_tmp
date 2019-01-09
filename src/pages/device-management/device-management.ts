@@ -170,9 +170,26 @@ export class DeviceManagementPage {
 
     unbindBox() {
         this.util.unbindBox(this, this.boxId, ()=>{
-            this.navCtrl.push(DeviceListPage, {
-                refresh: true
-            });
+            this.global.createGlobalAlert(this, {
+                title: Lang.L('WORDab667a91'),
+                message: Lang.L('WORDe6e1739b'),
+                buttons: [
+                    {
+                        text: Lang.L('NotBind'),
+                        handler: data => {
+                            this.navCtrl.pop();
+                        }
+                    },
+                    {
+                        text: Lang.L('WORD0cde60d1'),
+                        handler: data => {
+                            this.navCtrl.push(DeviceListPage, {
+                                refresh: true
+                            });
+                        }
+                    }
+                ]
+            }) 
         })
     }
 }

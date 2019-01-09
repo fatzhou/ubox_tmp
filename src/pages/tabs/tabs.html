@@ -1,7 +1,7 @@
 <ion-tabs (ionChange)="setIcons($event)" [selectedIndex]="selectedIndex" #boxtabs name="boxtabs">
     <ion-tab [root]="search" tabTitle="Search"   [tabIcon]="searchIcon"></ion-tab>
-    <ion-tab [root]="home" (ionSelect)="loginFirst(1)" tabTitle="Home"   [tabIcon]="fileIcon"></ion-tab>
-    <ion-tab [root]="mining" (ionSelect)="loginFirst(2)" tabTitle="Mining" [tabIcon]="miningIcon"></ion-tab>
+    <ion-tab [root]="home"  tabTitle="Home"   [tabIcon]="fileIcon"></ion-tab>
+    <ion-tab [root]="mining"  tabTitle="Mining" [tabIcon]="miningIcon"></ion-tab>
     <ion-tab [root]="user" tabTitle="User" [tabIcon]="userIcon"></ion-tab>
     <bind-box *ngIf="isCloseBindBox" (closeBindBox)="closeBindBox()"></bind-box>
     <news-notice *ngIf="isClose" [isVersion]="isVersion" [isShowAction]="isShowAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action" (closeNotice)="closeNotice()"></news-notice>

@@ -475,25 +475,10 @@ export class Util {
         })
         .then(res => {
             if(res.err_no == 0) {
-                $scope.global.createGlobalAlert($scope, {
-                    title: Lang.L('WORDab667a91'),
-                    message: Lang.L('WORDe6e1739b'),
-                    buttons: [
-                        {
-                            text: Lang.L('NotBind'),
-                            handler: data => {
-                            }
-                        },
-                        {
-                            text: Lang.L('WORD0cde60d1'),
-                            handler: data => {
-                                $scope.global.centerUserInfo = {};
-                                $scope.global.boxUserInfo = {};
-                                callback && callback();
-                            }
-                        }
-                    ]
-                })                    
+                $scope.global.deviceSelected = null;
+                $scope.global.boxUserInfo = {};
+                $scope.global.centerUserInfo.bind_box_count = 0;
+                callback && callback();                   
             }
         })
         .catch (res => {
@@ -1357,49 +1342,49 @@ export class Util {
         GlobalService.consoleLog("用户未登录中心，提示用户登录");
         var username = $scope.global.boxUserInfo.username || $scope.global.centerUserInfo.uname;
         $scope.username = username;
-        $scope.global.createGlobalAlert($scope, {
-            title: Lang.L('NeedPassword'),
-            message: Lang.Lf('PlsInputCurrentPassword', username),
-            inputs: [{
-                name: 'password',
-                type: 'password',
-                placeholder: Lang.L('PasswordPlaceholder')
-            }, ],
-            buttons: [{
-                    text: needBack ? Lang.L('Back') : Lang.L('Cancel'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked enhhhhhh');
-                        // $scope.app.getRootNav().pop();
-                        if (needBack) {
-                            try {
-                                var index = $scope.navCtrl.parent.previousTab();
-                                $scope.navCtrl.parent.select(index);
-                            } catch (error) {
-                                $scope.navCtrl.pop();
-                            }
-                        } else {
+        // $scope.global.createGlobalAlert($scope, {
+        //     title: Lang.L('NeedPassword'),
+        //     message: Lang.Lf('PlsInputCurrentPassword', username),
+        //     inputs: [{
+        //         name: 'password',
+        //         type: 'password',
+        //         placeholder: Lang.L('PasswordPlaceholder')
+        //     }, ],
+        //     buttons: [{
+        //             text: needBack ? Lang.L('Back') : Lang.L('Cancel'),
+        //             handler: data => {
+        //                 GlobalService.consoleLog('Cancel clicked enhhhhhh');
+        //                 // $scope.app.getRootNav().pop();
+        //                 if (needBack) {
+        //                     try {
+        //                         var index = $scope.navCtrl.parent.previousTab();
+        //                         $scope.navCtrl.parent.select(index);
+        //                     } catch (error) {
+        //                         $scope.navCtrl.pop();
+        //                     }
+        //                 } else {
 
-                        }
-                    }
-                },
-                {
-                    text: Lang.L('ReLogin'),
-                    handler: data => {
-                        if (!data.password) {
-                            GlobalService.consoleLog("密码为空，不处理");
-                            return false;
-                        }
-                        //开始登录
-                        $scope.password = data.password;
-                        Util.loginCenter($scope, (res) => {
-                            GlobalService.consoleLog("成功登录中心，获取盒子列表");
-                            callback && callback(res);
-                        },true);
-                        return true;
-                    }
-                }
-            ]
-        })
+        //                 }
+        //             }
+        //         },
+        //         {
+        //             text: Lang.L('ReLogin'),
+        //             handler: data => {
+        //                 if (!data.password) {
+        //                     GlobalService.consoleLog("密码为空，不处理");
+        //                     return false;
+        //                 }
+        //                 //开始登录
+        //                 $scope.password = data.password;
+        //                 Util.loginCenter($scope, (res) => {
+        //                     GlobalService.consoleLog("成功登录中心，获取盒子列表");
+        //                     callback && callback(res);
+        //                 },true);
+        //                 return true;
+        //             }
+        //         }
+        //     ]
+        // })
     }
  
      /**
