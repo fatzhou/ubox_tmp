@@ -115,7 +115,7 @@ import { Web3Service } from '../providers/Web3Service';
 // import { ClickAndWaitDirective } from '../directives/click-and-wait/click-and-wait';
 import { DirectivesModule } from '../directives/directives.module';
 import { PhotoLibrary } from '@ionic-native/photo-library';
-import { UapPlatform } from '../providers/UappPlatform';
+import { UappPlatform } from '../providers/UappPlatform';
 
 
 import { ComputeCoinbasePipe } from '../pipes/compute-coinbase/compute-coinbase'
@@ -125,6 +125,8 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
 
 import { FileTransfer } from '../providers/FileTransfer';
 import { FileManager } from '../providers/FileManager';
+import { AppsInstalled } from '../providers/AppsInstalled';
+import { AppsInterface } from '../providers/AppsInterface';
 
 @NgModule({
   declarations: [
@@ -303,7 +305,8 @@ import { FileManager } from '../providers/FileManager';
     FileUploader,
     FileTransfer,
     PhotoLibrary,
-    UapPlatform
+    UappPlatform,
+    AppsInstalled
   ]
 })
 export class AppModule {}

@@ -5,11 +5,11 @@ import { GlobalService } from './GlobalService';
 
 declare var cordova;
 let httpd: any      = null;
-let UAPROOT:string  = "";
+let UAPPROOT:string  = "";
 
 
 @Injectable()
-export class UapPlatform {
+export class UappPlatform {
   private inAppBrowserRef:any;
 
   private static uap_installed = {
@@ -24,8 +24,8 @@ export class UapPlatform {
   private static exportJsApi = {
     'echo':function(str){
       return new Promise((resolv, reject)=>{
-        UapPlatform._this.file.listDir(cordova.file.dataDirectory, '.').then((entryes)=>{
-          resolv(JSON.stringify(entryes));
+        UappPlatform._this.file.listDir(cordova.file.dataDirectory, '.').then((entries)=>{
+          resolv(JSON.stringify(entries));
         }).catch(()=>{
           resolv(JSON.stringify("eeeeeeor"));
         })
@@ -35,18 +35,18 @@ export class UapPlatform {
 
   constructor(private file:File,
               private global: GlobalService) {
-    UapPlatform._this = this;
+    UappPlatform._this = this;
   }
 
-  public createDir(){
+  public createDir() {
     let self = this;
     self.file.createDir(cordova.file.externalDataDirectory, "www", false).then(
       ()=>{
-        console.log("createDir UAPROOT:[" + UAPROOT + "]success");
+        console.log("createDir UAPPROOT:[" + UAPPROOT + "]success");
       }
     ).catch(
       ()=>{
-        console.log("createDir UAPROOT:[" + UAPROOT + "] failed, maybe it already exist.");
+        console.log("createDir UAPPROOT:[" + UAPPROOT + "] failed, maybe it already exist.");
       }
     )
   }
@@ -55,15 +55,15 @@ export class UapPlatform {
     let self = this;
 
     if (this.global.platformName == "android"){
-      UAPROOT = cordova.file.externalDataDirectory + "www/uapp/";
-      UAPROOT = UAPROOT.replace('file://', "");
+      UAPPROOT = cordova.file.externalDataDirectory + "www/uapp/";
+      UAPPROOT = UAPPROOT.replace('file://', "");
       self.createDir();
     } else {
-      UAPROOT = "uap";
+      UAPPROOT = "uap";
     }
     console.log("openapp:" + uapname);
 
-    if(!UapPlatform.uap_installed[uapname].local_url){
+    if(!UappPlatform.uap_installed[uapname].local_url){
       alert("UAPP '" + uapname + "' not exist.");
       return;
     }
@@ -73,13 +73,13 @@ export class UapPlatform {
       console.log("cordova:" + JSON.stringify(cordova));
       console.log("cordova.plugins:" + JSON.stringify(cordova.plugins));
       console.log("httpd:" + JSON.stringify(httpd));
-      UapPlatform.prototype.startServer.bind(self)(UAPROOT);
-      setTimeout(UapPlatform.prototype.openapp.bind(self), 1000, uapname);
+      UappPlatform.prototype.startServer.bind(self)(UAPPROOT);
+      setTimeout(UappPlatform.prototype.openapp.bind(self), 1000, uapname);
       return;
     }
     httpd.getURL((url)=> {
       if (url.length > 0) {
-        let uapstr  = UapPlatform.uap_installed[uapname].local_url;
+        let uapstr  = UappPlatform.uap_installed[uapname].local_url;
         let uapurl  = url + (url[url.length-1]=='/' ? uapstr.substr(1) : uapstr);//'https://www.baidu.com/';//
         console.log("httpd服务正在运行: uapurl=" + uapurl);
         setTimeout(self.openbrowser.bind(self), 100, uapurl);
@@ -96,11 +96,11 @@ export class UapPlatform {
     let target  = "_blank";
     let options = "location=no, hidden=yes, beforeload=yes";
     self.inAppBrowserRef = cordova.InAppBrowser.open(uapurl, target, options);
-    self.inAppBrowserRef.addEventListener('loadstart', UapPlatform.prototype.loadStartCallBack.bind(self));
-    self.inAppBrowserRef.addEventListener('loadstop', UapPlatform.prototype.loadStopCallBack.bind(self));
-    self.inAppBrowserRef.addEventListener('loaderror', UapPlatform.prototype.loadErrorCallBack.bind(self));
-    self.inAppBrowserRef.addEventListener('message', UapPlatform.prototype.execMessageCallback.bind(self));
-    self.inAppBrowserRef.addEventListener('exit', UapPlatform.prototype.loadErrorCallBack.bind(self));
+    self.inAppBrowserRef.addEventListener('loadstart', UappPlatform.prototype.loadStartCallBack.bind(self));
+    self.inAppBrowserRef.addEventListener('loadstop', UappPlatform.prototype.loadStopCallBack.bind(self));
+    self.inAppBrowserRef.addEventListener('loaderror', UappPlatform.prototype.loadErrorCallBack.bind(self));
+    self.inAppBrowserRef.addEventListener('message', UappPlatform.prototype.execMessageCallback.bind(self));
+    self.inAppBrowserRef.addEventListener('exit', UappPlatform.prototype.loadErrorCallBack.bind(self));
     setTimeout(self.showbrowser.bind(self), 100, uapurl);
   }
 
@@ -137,7 +137,7 @@ export class UapPlatform {
           }, function (error) {
             console.log('failed to start server: ' + error);
             //console.log('httpd启动失败，10秒后尝试重启');
-            //setTimeout(()=>{UapPlatform.prototype.startServer.bind(self)(wwwroot);}, 10000);
+            //setTimeout(()=>{UappPlatform.prototype.startServer.bind(self)(wwwroot);}, 10000);
           });
         }
       });
@@ -180,8 +180,8 @@ export class UapPlatform {
     console.log("===execMessageCallback=========" + JSON.stringify(params));
     let args = params.data;
     let exportedfunc = null;
-    if(!args.service && UapPlatform.exportJsApi[args.execute]){
-      exportedfunc = UapPlatform.exportJsApi[args.execute];
+    if(!args.service && UappPlatform.exportJsApi[args.execute]){
+      exportedfunc = UappPlatform.exportJsApi[args.execute];
     }else{
       console.log("!!!!----方法["+ args.execute + "] 暂不支持---暂不支持---!!!!!!!!");
       return

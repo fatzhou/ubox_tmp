@@ -62,7 +62,7 @@ export class TabsPage {
     allShareStorage: any = 0;
     oneShareStorage: any = 4;
     spanWidth: any = 0;
-    selectIndex: any = 0;
+    // selectIndex: any = 0;
     popupShown:boolean = false;
     connectionStatus = "remote";
     isCloseBindBox: boolean = false;
@@ -200,8 +200,15 @@ export class TabsPage {
         })
     }
 
+    ionViewWillEnter() {
+        let index = this.navParams.get('tabIndex');
+        if(index != undefined) {
+            this.selectedIndex = index;
+        }
+    }
+
     loginFirst(index) {
-        this.selectedIndex = index;
+        // this.selectedIndex = index;
         if(!this.global.centerUserInfo.uname) {
             this.navCtrl.push(LoginPage, {
                 tabIndex: index
@@ -296,7 +303,7 @@ export class TabsPage {
     }
 
     setIcons(e) {
-        this.selectIndex = e.index;
+        // this.selectIndex = e.index;
         if (e.index === 0) {
             this.searchIcon = 'custom-home-active';
             this.fileIcon = 'custom-file';

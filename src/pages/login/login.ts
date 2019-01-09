@@ -135,6 +135,7 @@ export class LoginPage {
             message: Lang.L('SearchingBox')
         });
 
+        let index = this.navParams.get('tabIndex');
         this.util.loginAndCheckBox(this, true)
         .then(res => {
             if(this.global.useWebrtc) {
@@ -144,12 +145,12 @@ export class LoginPage {
                 this.http.keepWebrtcAlive();
 
                 this.global.closeGlobalLoading(this);
-                let index = this.navParams.get('tabIndex');
-
                 if(this.popBack || index !== undefined) {
                     this.navCtrl.pop();
                 } else {
-                    this.navCtrl.push(TabsPage)
+                    this.navCtrl.push(TabsPage, {
+                        tabIndex: index
+                    })
                     .then(() => { 
                         this.isLoading = false;
                     })                    
@@ -194,7 +195,9 @@ export class LoginPage {
                 //     }
                 // })                              
             } else {
-                this.navCtrl.push(TabsPage);
+                this.navCtrl.push(TabsPage, {
+                    tabIndex: index
+                });
             }
         })
         .catch(e => {
