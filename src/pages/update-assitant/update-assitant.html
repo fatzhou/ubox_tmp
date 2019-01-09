@@ -42,8 +42,8 @@
 		</div>
 	</div>
 
-	<news-notice *ngIf="showDialog" [isVersion]="currentVersion" [isShowAction]="showAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action"  (closeNotice)="closeNotice()"></news-notice>
 </ion-content>
+<news-notice *ngIf="showDialog" [isVersion]="currentVersion" [isShowAction]="showAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action"  (closeNotice)="closeNotice()"></news-notice>
 
 <div class="download-progress" *ngIf="progressBarShown">
 	<div class="download-progress-inner">

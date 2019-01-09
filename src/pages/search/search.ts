@@ -53,7 +53,7 @@ export class SearchPage {
             })
     }
 
-    ionViewDidLoad() {
+    ionViewDidEnter() {
         console.log('ionViewDidLoad SearchPage');
         this.getSearchData()
         .then((res)=> {

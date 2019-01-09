@@ -160,6 +160,15 @@ export class UboxApp {
     }
 
     getUserInfo() {
+        if(!this.global.networking) {
+            GlobalService.consoleLog("网络异常，请先打开网络.....");
+            return false;
+        }
+        setTimeout(() => {
+            if(!this.rootPage) {
+                this.rootPage = TabsPage;
+            }
+        }, 3000);
         let url = GlobalService.centerApi['getUserInfo'].url;
         this.http.post(url, {}, false)
         .then(res => {
@@ -353,6 +362,10 @@ export class UboxApp {
             GlobalService.consoleLog("除了wifi类型的网络赋值");
             global.networkType = this.network.type;
         }
+
+        if(!global.networking) {
+            this.createNetworkingAlert();
+        }
         // this.initGuidance();
         
         network.onDisconnect().subscribe(() => {
@@ -412,14 +425,15 @@ export class UboxApp {
         if(global.useWebrtc) {
             this.http.dataChannelOpen = 'closed';                
         }  
-        if(global.networkType === 'wifi') {
-            this.getWifiName();  
-            //继续使用打洞模式  
-        } else if(this.check4G(global.networkType)) {
-            if(!this.global.useWebrtc && this.global.centerUserInfo.uname) {
-                this.http.initWebrtc();
-            }
-        }      
+        // if(global.networkType === 'wifi') {
+        //     this.getWifiName();  
+        //     //继续使用打洞模式  
+        // } else if(this.check4G(global.networkType)) {
+        //     if(!this.global.useWebrtc && this.global.centerUserInfo.uname) {
+        //         this.http.initWebrtc();
+        //     }
+        // }   
+        this.getUserInfo();  
     }
 
     createNetworkingAlert() {
