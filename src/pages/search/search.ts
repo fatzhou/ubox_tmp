@@ -4,7 +4,7 @@ import { Events, App } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { Util } from '../../providers/Util';
-import { UapPlatform } from "../../providers/UappPlatform";
+import { UappPlatform } from "../../providers/UappPlatform";
 
 import { AboutDevicePage } from '../about-device/about-device';
 import { AppDetailPage } from '../app-detail/app-detail';
@@ -33,7 +33,7 @@ export class SearchPage {
         private global: GlobalService,
         private util: Util,
         private http: HttpService,
-        private uapplatform: UapPlatform,
+        private uappPlatform: UappPlatform,
         private app: App) {
             events.unsubscribe('language:change');
             events.subscribe('language:change', () => {
@@ -77,7 +77,7 @@ export class SearchPage {
     }
 
     openApp() {
-        this.uapplatform.openapp('pvr');
+        this.uappPlatform.openapp('pvr');
     }
 
     goAppDetail(info) {

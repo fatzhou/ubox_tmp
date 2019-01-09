@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
+import { UappPlatform } from "../../providers/UappPlatform";
 
 /**
  * Generated class for the AppDetailPage page.
@@ -22,6 +23,7 @@ export class AppDetailPage {
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         private util: Util,
+        private uappPlatform: UappPlatform,
         private global: GlobalService) {
     }
 
@@ -32,7 +34,8 @@ export class AppDetailPage {
     }
 
     openApp() {
-    	this.util.openUrl('https://ubbeyscan.io/');
+    	// this.util.openUrl('https://ubbeyscan.io/');
+        this.uappPlatform.openapp('pvr');
     }
 
 }

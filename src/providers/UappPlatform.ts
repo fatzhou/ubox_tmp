@@ -24,7 +24,7 @@ export class UappPlatform {
   private static exportJsApi = {
     'echo':function(str){
       return new Promise((resolv, reject)=>{
-        UappPlatform._this.file.listDir(cordova.file.dataDirectory, '.').then((entries)=>{
+        UappPlatform._this.file.listDir(UappPlatform._this.global.fileSavePath, '.').then((entries)=>{
           resolv(JSON.stringify(entries));
         }).catch(()=>{
           resolv(JSON.stringify("eeeeeeor"));
@@ -40,7 +40,7 @@ export class UappPlatform {
 
   public createDir() {
     let self = this;
-    self.file.createDir(cordova.file.externalDataDirectory, "www", false).then(
+    self.file.createDir(UappPlatform._this.global.fileSavePath, "www", false).then(
       ()=>{
         console.log("createDir UAPPROOT:[" + UAPPROOT + "]success");
       }
@@ -55,7 +55,7 @@ export class UappPlatform {
     let self = this;
 
     if (this.global.platformName == "android"){
-      UAPPROOT = cordova.file.externalDataDirectory + "www/uapp/";
+      UAPPROOT = UappPlatform._this.global.fileSavePath + "www/uapp/";
       UAPPROOT = UAPPROOT.replace('file://', "");
       self.createDir();
     } else {

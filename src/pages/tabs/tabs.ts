@@ -321,22 +321,23 @@ export class TabsPage {
         //         pageId: this.tabRef.getSelected().index
         //     });
         // }
-        if (this.selectIndex === 0) {
+        let index = e.index;
+        if (index === 0) {
             this.searchIcon = 'custom-home-active';
             this.fileIcon = 'custom-file';
             this.miningIcon = 'custom-mining';
             this.userIcon = 'custom-user';
-        } else if (this.selectIndex === 1) {
+        } else if (index === 1) {
             this.searchIcon = 'custom-home';
             this.fileIcon = 'custom-file-active';
             this.miningIcon = 'custom-mining';
             this.userIcon = 'custom-user';
-        } else if (this.selectIndex === 2) {
+        } else if (index === 2) {
             this.searchIcon = 'custom-home';
             this.fileIcon = 'custom-file';
             this.miningIcon = 'custom-mining-active';
             this.userIcon = 'custom-user';
-        } else if (this.selectIndex === 3) {
+        } else if (index === 3) {
             this.searchIcon = 'custom-home';
             this.fileIcon = 'custom-file';
             this.miningIcon = 'custom-mining';
