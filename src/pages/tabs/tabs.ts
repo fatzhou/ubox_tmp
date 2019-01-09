@@ -201,12 +201,12 @@ export class TabsPage {
     }
 
     ionViewWillEnter() {
-        let index = this.navParams.get('tabIndex');
-        console.log("需要跳转到第" + index + "tab");
-        if(index != undefined) {
-            // this.selectedIndex = index;
-            this.tabRef.select(index);
-        }
+        // let index = this.navParams.get('tabIndex');
+        // console.log("需要跳转到第" + index + "tab");
+        // if(index != undefined) {
+        //     // this.selectedIndex = index;
+        //     this.tabRef.select(index);
+        // }
     }
 
     loginFirst(index) {
