@@ -35,6 +35,7 @@ export class DeviceListPage {
     private isClicked:any = false;
     username: any = "";
     password: any = "";
+    refresh: boolean = false;
     constructor(
         public navCtrl: NavController,
         public platform: Platform,
@@ -53,7 +54,7 @@ export class DeviceListPage {
         platform.ready().then(() => {
             if (platform.is('cordova')) {
                 GlobalService.consoleLog("开始发现盒子");
-                if(!this.global.foundDeviceList.length) {
+                if(!this.global.foundDeviceList.length && !this.refresh) {
                     this.searchUbbeyBox();                    
                 }
             } else {
@@ -64,7 +65,7 @@ export class DeviceListPage {
     
     ionViewDidEnter() {
         GlobalService.consoleLog("进入发现列表页");
-        var refresh = this.navParams.get('refresh') || false;
+        this.refresh = this.navParams.get('refresh') || false;
         if(!this.global.userLoginInfo) {
             console.log("this.global.user");
             this.util.getUserList()
@@ -80,7 +81,7 @@ export class DeviceListPage {
         }
         // this.getVersionControl();
         if (this.platform.is('cordova')) {
-            if (this.global.foundDeviceList.length && !refresh) {
+            if (this.global.foundDeviceList.length && !this.refresh) {
                 GlobalService.consoleLog("已经不用再次扫描了");
                 this.deviceList = this.global.foundDeviceList;
             } else {
@@ -266,6 +267,7 @@ export class DeviceListPage {
             GlobalService.consoleLog("盒子未绑定用户，直接绑定");
             Util.bindBox(this)
             .then((res)=>{
+                
                 var url = this.global.getBoxApi("getDiskStatus");
                 return this.http.post(url, {})
                 .then((data) => {
@@ -287,11 +289,14 @@ export class DeviceListPage {
                 this.navCtrl.push(TabsPage)
                 .then(() => {
                     this.isClicked = false;
+                    this.global.createGlobalToast(this, {
+                        message: Lang.L('BindSuccess')
+                    })
                 })
             })
         } else {
             this.global.createGlobalToast(this, {
-                message: Lang.L('WORDf824108c') + '该盒子已经被绑定了'
+                message: Lang.L('BoxHasBind')
             })
             this.isClicked = false;
         }

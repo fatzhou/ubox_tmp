@@ -127,7 +127,11 @@ export class MiningPage {
         this.getMiningInfo();
         GlobalService.consoleLog(this.global.deviceSelected)        
     }
-
+    showNetworkPopup() {
+        //通知父组件关闭
+        // this.navCtrl.parent.showPopup(true);
+        this.events.publish('open-popup');
+    }
     goLoginPage() {
         this.app.getRootNav().push(LoginPage);            
     }
