@@ -66,8 +66,10 @@ export class AdviceSubmitPage {
                 data.append("file", item.file);
             })
 
+            let url = GlobalService.centerApi['uploadLogAnalyser'].url;
             var xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
+            xhr.setRequestHeader('Cookie', this.http.getCookieString(url));
 
             xhr.addEventListener("readystatechange", function () {
               if (this.readyState === 4) {
@@ -82,7 +84,6 @@ export class AdviceSubmitPage {
               }
             });
 
-            let url = GlobalService.centerApi['uploadLogAnalyser'].url;
             xhr.open("POST", url);
             xhr.send(data);            
         })
