@@ -521,7 +521,7 @@ export class UboxApp {
           // get current active page
           let view = this.nav.getActive();
           this.global.closeGlobalLoading(this);
-          if(view.component == DeviceListPage || view.component == TabsPage) {
+          if(view.component == TabsPage) {
             var end = Date.now();
             if(end - start < 1500) {
                 this.platform.exitApp();

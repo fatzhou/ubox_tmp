@@ -121,6 +121,10 @@ export class DeviceListPage {
         }
     }
 
+    goBack() {
+        this.navCtrl.pop();
+    }
+
     clearTimeOutName(){
         if(this.SetTimeOutNameOne){
             clearTimeout(this.SetTimeOutNameOne);
