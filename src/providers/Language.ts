@@ -3759,6 +3759,17 @@ export class Lang {
         en: '',
         kr: ''
     }
+    static BindSuccess = {
+        cn: '绑定成功',
+        en: '',
+        kr: ''
+    }
+
+    static BoxHasBind = {
+        cn: '该盒子已经被绑定',
+        en: '',
+        kr: ''
+    }
     
 }
 

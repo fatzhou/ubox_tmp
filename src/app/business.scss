@@ -447,6 +447,9 @@ textarea::-webkit-input-placeholder {
     &.music {
         background-image: url(../assets/img/music.svg);
     }
+    &.txt {
+        background-image: url(../assets/img/txt.png);
+    }
 }
 .blank-height-50 {
     width: 100%;
