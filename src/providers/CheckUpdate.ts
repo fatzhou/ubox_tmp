@@ -29,6 +29,7 @@ export class CheckUpdate {
             message: this.global.L("CheckUpdatingAvailable")
         });
         let url = this.global.getBoxApi('checkUpdate130');
+        url = this.setUpdateRomUrl(url);
         let start = Date.now();
         return this.http.post(url, {})
         .then(res => {
