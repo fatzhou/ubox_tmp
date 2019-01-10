@@ -136,11 +136,11 @@ export class Util {
                             return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, silence)
                         } else {
                             // throw new Error('登录中心失败');
-                            return Promise.reject("Login Error");
+                            return Promise.reject(res);
                         }
                     })                       
                 } else {
-                    return Promise.reject("Login Error");
+                    return Promise.reject(res);
                 }
             }
         })
@@ -287,7 +287,7 @@ export class Util {
             this.global.deviceSelected = null;
             //没有盒子或者其他错误，只需登录中心即可
             // errorCallback && errorCallback();
-            return Promise.reject("Login error...");
+            return Promise.reject(res);
         })               
     }
 
