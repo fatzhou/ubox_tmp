@@ -216,6 +216,7 @@ export class HttpService {
             GlobalService.consoleLog("发出get请求:" + url);
             GlobalService.consoleLog("请求参数:" + this.toQueryString(paramObj));
 
+            headers['X-Request-Id'] = this.getXRequestId();
             if (url.startsWith('http') || !this.global.useWebrtc) {
                 if (this.platform.is('cordova')) {
                     GlobalService.consoleLog("cordova的http请求;");
@@ -230,7 +231,8 @@ export class HttpService {
                         // .catch(error => this.handleError(error, errorHandler));
                 } else {
                     // GlobalService.consoleLog("非cordova的http请求");
-                    let headers = new Headers({ 'withCredentials': true });
+                    // headers['withCredentials'] = true;
+                    // let getHeaders = new Headers(headers);
                     return this.aHttp.get(url + this.toQueryString(paramObj))
                         .toPromise()
                         .then(res => {
@@ -277,9 +279,10 @@ export class HttpService {
 
     public post(url: string, paramObj: any, errorHandler: any = true,  headers: any = {}) {
         url = url || '';
+        headers['X-Request-Id'] = this.getXRequestId();
         if (url.startsWith('http') || !this.global.useWebrtc) {
             //接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
-            return this._post(url, paramObj, errorHandler);
+            return this._post(url, paramObj, headers, errorHandler);
         } else {
             if (this.dataChannelOpen === 'opened') {
                 // GlobalService.consoleLog("已经连接盒子sdp，直接post'");
@@ -305,7 +308,11 @@ export class HttpService {
         }            
     }
 
-    _post(url: string, paramObj: any, errorHandler: any = true) {
+    getXRequestId() {
+        return this.global.deviceID + '_' + Date.now()
+    }
+
+    _post(url: string, paramObj: any, headers: any = {}, errorHandler: any = true) {
         if (!url) {
             GlobalService.consoleLog("无效请求");
             return new Promise((resolve, reject) => {
@@ -318,12 +325,14 @@ export class HttpService {
             GlobalService.consoleLog("请求参数:" + this.toBodyString(paramObj));
 
             if (this.platform.is('cordova')) {
-                return this.http.post(url, paramObj, {})
-                    .then((res:any) => this.handleSuccess(url, JSON.parse(res.data), errorHandler))
-                    .catch(error => this.handleError(error, errorHandler));
+                return this.http.post(url, paramObj, headers)
+                .then((res:any) => this.handleSuccess(url, JSON.parse(res.data), errorHandler))
+                .catch(error => this.handleError(error, errorHandler));
             } else {
-                let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'withCredentials': true });
-                return this.aHttp.post(url, this.toBodyString(paramObj), new RequestOptions({ headers: headers }))
+                headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                headers['withCredentials'] = true;
+                let postHeaders = new Headers(headers);
+                return this.aHttp.post(url, this.toBodyString(paramObj), new RequestOptions({ headers: postHeaders }))
                     .toPromise()
                     .then(res => this.handleSuccess(url, res.json(), errorHandler))
                     .catch(error => this.handleError(error, errorHandler));
