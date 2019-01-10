@@ -69,7 +69,9 @@ export class AdviceSubmitPage {
             let url = GlobalService.centerApi['uploadLogAnalyser'].url;
             var xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
+            console.log('this.http.getCookieString(url)   :' + this.http.getCookieString(url))
             xhr.setRequestHeader('Cookie', this.http.getCookieString(url));
+            console.log('this.http.getCookieString(url) 2222  :' + this.http.getCookieString(url))
 
             xhr.addEventListener("readystatechange", function () {
               if (this.readyState === 4) {
