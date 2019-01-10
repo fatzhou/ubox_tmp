@@ -6,27 +6,35 @@ page-device-list {
 	.head-show { 
 		display: block;
 	}
+    .qrcode-button {
+	    overflow: hidden;
+	    position: relative;
+	    z-index: 9999;
+	    color: $mainColor;
+	    font-size: 18px;
+	    padding: 10px;
+	    background: #f7f7f7;
+    	.stop {
+    		font-size: 18px;
+			float: left;
+			.back-icon  {
+				font-size: 22px;
+			}
+    	}
+		.qrcode-icon {
+			font-size: 22px;
+		    float: right;
+		    margin-top: 2px;
+		}
+    }	
 	.scanning {
 		color: $mainColor;
 	    height: 100%;
 	    padding: 10px;
-	    .qrcode-button {
-	    	overflow: hidden;
-	    	position: relative;
-	    	z-index: 9999;
-	    	.stop {
-	    		font-size: 18px;
-    			float: left;
-				.back-icon  {
-					font-size: 22px;
-				}
-	    	}
-    		.qrcode-icon {
-				font-size: 22px;
-			    float: right;
-			    margin-top: 2px;
-			}
-	    }
+		.qrcode-button {
+			padding: 0;
+			background: #fff;
+		}
 	    .box-area {
 	    	position: relative;
 	    	padding-top: 160px;
@@ -130,17 +138,18 @@ page-device-list {
 	}
 	.devicelist-content {
 		background: #fff;
-		padding-bottom: 20px;
     	min-height: 100%;
-		.qrcode-button {
-			text-align: right;
-			padding: $padding;
-			background: $bgColor;
-			height: 58px;
-			.icon  {
-				font-size: 22px;
-			}
-		}
+		padding-bottom: 20px;
+
+		// .qrcode-button {
+		// 	text-align: right;
+		// 	padding: $padding;
+		// 	background: $bgColor;
+		// 	height: 58px;
+		// 	.icon  {
+		// 		font-size: 22px;
+		// 	}
+		// }
 		.box-area {
 			text-align: center;
 			padding-top: 35px;

@@ -1408,8 +1408,11 @@ export class Util {
             if (/^(mp4|avi|rm|rmvb|mov|mp(e)g|mov|wmv|ts|3gp|flv)$/.test(suffix)) {
                 return "video";
             }
-            if (/^(doc|docx|txt)$/.test(suffix)) {
+            if (/^(doc|docx)$/.test(suffix)) {
                 return "doc";
+            }
+            if (/^(txt)$/.test(suffix)) {
+                return "txt";
             }
             if (/^(pdf)$/.test(suffix)) {
                 return "pdf";
