@@ -122,7 +122,7 @@ export class GlobalService {
     private loadingTimer = null; //加载loading的关闭计时器
     public thumbnailMap = {}; //文件远程路径到缩略图的映射
     public platformName = 'android'; //平台名
-
+    public readPermitted = false; //读取权限
     public static getUbbeyContract() {
         if(GlobalService.ENV === 'dev') {
             return GlobalService.UBBEY_CONTRACT_TEST;

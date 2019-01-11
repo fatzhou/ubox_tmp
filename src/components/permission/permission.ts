@@ -7,6 +7,7 @@ import { Lang } from "../../providers/Language";
 import { FileManager } from '../../providers/FileManager';
 import { GuidancePage } from '../../pages/guidance/guidance';
 import { Platform } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the PermissionComponent component.
@@ -29,6 +30,7 @@ export class PermissionComponent {
         public navCtrl: NavController,
         private fileManager: FileManager,
         private platform: Platform,
+        public storage: Storage,
     ) {
         console.log('Hello PermissionComponent Component');
         this.platformName = this.global.platformName;
@@ -38,9 +40,10 @@ export class PermissionComponent {
         console.log('准备检查权限')
         this.fileManager.getPermission()
         .then(res => {
+            this.storage.set('ReadPermitted', true);
+            this.fileManager.readPermitted = true;
             console.log('准备关闭弹窗了')
             this.closeBox(false);
-            this.navCtrl.push(GuidancePage);
             this.fileManager.initFileList();
         })
         .catch(e => {
