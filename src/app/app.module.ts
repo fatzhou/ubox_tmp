@@ -88,9 +88,6 @@ import { ConnectionPopupComponent } from '../components/connection-popup/connect
 import { BoxPromotionComponent } from '../components/box-promotion/box-promotion';
 import { BindBoxComponent } from '../components/bind-box/bind-box';
 
-
-
-
 //插件providers
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
@@ -103,30 +100,26 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 // import { ImagePicker } from '@ionic-native/image-picker';
 
 import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { DirectivesModule } from '../directives/directives.module';
+import { PhotoLibrary } from '@ionic-native/photo-library';
 
 //自定义providers
 import { HttpService } from "../providers/HttpService";
 import { GlobalService } from "../providers/GlobalService";
-// import { WebrtcService } from "../providers/WebrtcService";
 import { Util } from "../providers/Util";
 import { FileDownloader } from '../providers/FileDownloader';
 import { FileUploader } from '../providers/FileUploader';
 import { Web3Service } from '../providers/Web3Service';
-// import { ClickAndWaitDirective } from '../directives/click-and-wait/click-and-wait';
-import { DirectivesModule } from '../directives/directives.module';
-import { PhotoLibrary } from '@ionic-native/photo-library';
+import { FileTransfer } from '../providers/FileTransfer';
+import { FileManager } from '../providers/FileManager';
+import { AppsInstalled } from '../providers/AppsInstalled';
+import { AppsInterface } from '../providers/AppsInterface';
 import { UappPlatform } from '../providers/UappPlatform';
-
 
 import { ComputeCoinbasePipe } from '../pipes/compute-coinbase/compute-coinbase'
 import { ComputeFileSizePipe } from '../pipes/compute-file-size/compute-file-size'
 import { ComputeFileTimePipe } from '../pipes/compute-file-time/compute-file-time'
 import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
-
-import { FileTransfer } from '../providers/FileTransfer';
-import { FileManager } from '../providers/FileManager';
-import { AppsInstalled } from '../providers/AppsInstalled';
-import { AppsInterface } from '../providers/AppsInterface';
 
 @NgModule({
   declarations: [
@@ -306,7 +299,8 @@ import { AppsInterface } from '../providers/AppsInterface';
     FileTransfer,
     PhotoLibrary,
     UappPlatform,
-    AppsInstalled
+    AppsInstalled,
+    AppsInterface
   ]
 })
 export class AppModule {}

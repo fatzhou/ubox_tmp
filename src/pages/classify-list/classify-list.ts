@@ -91,8 +91,13 @@ export class ClassifyListPage {
 
         if(task && task.taskId) {
             GlobalService.consoleLog(_this.classify + "," + task.fileStyle);
+            let fileTypeMatch = true;
+            if(_this.classify !== 4) {
+                //临时改法，类型识别比较麻烦，目前只有doc需要分类型，其他类型为统一类型
+                fileTypeMatch = (task.fileStyle === {2: 'video', 1: 'image', 3: 'music'}[_this.classify]);
+            }
             //传入任务
-            if(task.action === 'upload' && task.fileStyle === {2: 'video', 1: 'image', 4: 'doc', 3: 'music'}[_this.classify]) {
+            if(task.action === 'upload' && fileTypeMatch) {
             } else {
                 flag = false;
             }
@@ -247,7 +252,7 @@ export class ClassifyListPage {
                 if(this.classify === 1) {
                     this.util.getThumbnail(this.fileList, true);
                 }
-                this.cd.detectChanges();
+                // this.cd.detectChanges();
                 //获取缩略图
                 this.clearStatus();
             }

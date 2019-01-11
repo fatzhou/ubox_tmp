@@ -597,9 +597,15 @@ export class Util {
             var flag = false;
             var serviceType = "upnp:ubbeybox";
             var deviceList = [];
+            let SEARCH_TIMEOUT = 10000;
+            let timeout = setTimeout(()=>{
+                setSearchFinish(deviceList);
+            }, SEARCH_TIMEOUT);
 
             var setSearchFinish = (devices) => {
+                console.log("盒子扫描完毕!" + devices.length);
                 clearTimeout(timeout);
+                timeout = null;
                 if (devices.length) {
                     // GlobalService.consoleLog("解析并获取设备列表" + JSON.stringify(devices));
                     self.parseDeviceList(devices, deviceList => {
@@ -607,9 +613,10 @@ export class Util {
                         self.global.foundDeviceList = deviceList;
                         resolve(deviceList);
                     });
+                } else {
+                    resolve([]);
                 }
             };
-            let SEARCH_TIMEOUT = 10000;
             let processRes = (devices) => {
                 GlobalService.consoleLog("发现接口成功回调");      
                 //ios需要手动下载xml
@@ -651,9 +658,7 @@ export class Util {
             let failure = () => {
                 reject();
             }
-            let timeout = setTimeout(()=>{
-                setSearchFinish(deviceList);
-            }, SEARCH_TIMEOUT);
+
             serviceDiscovery.getNetworkServices(serviceType, processRes, failure);           
         }) 
 
