@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Tabs } from 'ionic-angular';
+import { NavController, NavParams, Tabs, Nav } from 'ionic-angular';
 import { SearchPage } from '../search/search';
 import { HomePage } from '../home/home';
 import { MiningPage } from '../mining/mining';
@@ -32,6 +32,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 })
 export class TabsPage {
     @ViewChild('boxtabs') tabRef: Tabs;
+    @ViewChild(Nav) nav: Nav;
     // selectedIndex:any = 0;
     search: any = SearchPage;
     home: any = HomePage;
@@ -180,6 +181,23 @@ export class TabsPage {
                 GlobalService.consoleLog("打开浮层失败......")
             }
         })
+
+        this.events.subscribe('token:expired', (res) => {
+            GlobalService.consoleLog("登录态失效!!!");
+            res.that.global.centerUserInfo = {};
+            res.that.global.boxUserInfo = {};
+            if(res.action == 'cancal') {
+                let view = this.navCtrl.getActive();
+                if(view.component == TabsPage) {
+                    this.tabRef.select(0);
+                } else {
+                    this.tabRef.select(0); 
+                    this.navCtrl.push(TabsPage);
+                }
+            } else {
+                this.navCtrl.push(LoginPage); 
+            }
+        });
     }
 
     updateBoxIndeed() {

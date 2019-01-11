@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GlobalService } from './GlobalService';
+import { NavController, NavParams } from 'ionic-angular';
 import { Util } from './Util';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 // import { HttpService } from './HttpService';
@@ -378,18 +379,33 @@ export class HttpService {
             if (handlers) {
                 //弹出err_msg的内容
                 if (handlers.action) {
-                    this.global.createGlobalAlert(this, {
-                        title: thisLanguage.Title[l] || handlers.title,
-                        subTitle: thisLanguage.Subtitle[l] || handlers.subtitle,
-                        enableBackdropDismiss: false,
-                        buttons: [{
+                    var buttons = [];
+                    if(thisLanguage.ButtonText.length) {
+                        for(let i = 0; i < thisLanguage.ButtonText.length; i++) {
+                            buttons.push({
+                                text: thisLanguage.ButtonText[i] && thisLanguage.ButtonText[i][l] || this.global.L('WORDd0ce8c46'),
+                                handler: () => {
+                                    // throw new Error(result.err_msg);
+                                    handlers.action[i] && handlers.action[i].call(this, this);
+                                    // this.events.publish('token:expired', Date.now());
+                                }
+                            });
+                        } 
+                    } else {
+                        buttons.push({
                             text: thisLanguage.ButtonText && thisLanguage.ButtonText[l] || this.global.L('WORDd0ce8c46'),
                             handler: () => {
                                 // throw new Error(result.err_msg);
                                 handlers.action && handlers.action.call(this);
                                 // this.events.publish('token:expired', Date.now());
                             }
-                        }]
+                        });
+                    }
+                    this.global.createGlobalAlert(this, {
+                        title: thisLanguage.Title[l] || handlers.title,
+                        subTitle: thisLanguage.Subtitle[l] || handlers.subtitle,
+                        enableBackdropDismiss: false,
+                        buttons: buttons
                     })
                 } else {
                     this.global.createGlobalToast(this, {

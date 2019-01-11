@@ -89,6 +89,7 @@ export class ListPage {
     }
 
     ionViewDidEnter() {
+        
         this.global.currPath = this.currPath;
         if(this.currPath == '/') {
             setTimeout(()=>{
