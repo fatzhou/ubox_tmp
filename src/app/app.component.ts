@@ -130,7 +130,7 @@ export class UboxApp {
             }
 
             this.getUserInfo();
-
+            this.initReadPermitted();
             //恢复下载列表
             this.initFileTaskList();
 
@@ -195,6 +195,16 @@ export class UboxApp {
         //this.statusBar.backgroundColorByHexString("#007c36");
     }
 
+    initReadPermitted() {
+        this.storage.get('ReadPermitted')
+        .then(res => {
+            if(res) {
+                this.fileManager.readPermitted = true;
+            }
+        })
+        .catch(e => {
+        })
+    }
     initGuidance() {
         this.storage.get('Guidance')
         .then(res => {

@@ -30,7 +30,9 @@ export class BindBoxComponent {
     }
 
     goDeviceListPage() {
-        this.app.getRootNav().push(DeviceListPage);
+        this.app.getRootNav().push(DeviceListPage, {
+            refresh: true
+        });
     }
 
 }

@@ -46,7 +46,7 @@ export class HomePage {
     miningFraction: any = "00";
     miningTotal: any = 0;
     // static _this;
-
+    isShowBox: boolean = false; 
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -133,6 +133,9 @@ export class HomePage {
                 message: Lang.Lf('DownloadFileNotExist', task.name)
             })
         });
+        events.subscribe('close:box', (res) => {
+            this.isShowBox = res;
+        })
 
         // events.unsubscribe('backup:start', HomePage.backupEventerListener);
         // events.subscribe('backup:start', HomePage.backupEventerListener);
@@ -150,34 +153,48 @@ export class HomePage {
         // this.getMiningInfo();
         this.setLastDayEarn();
         this.getChainTypeList();
-        this.util.getWalletList();    
+        this.util.getWalletList();   
+        if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
+            // this.isShowBox = true;
+            this.fileManager.getPermission()
+            .then(res => {
+                this.getFileInfo();
+            }, () => {
+                this.isShowBox = true;
+            })
+        } 
     }
-
-    ionViewDidLoad() {
+    ionViewDidLeave() {
+        this.isShowBox = false;
+    }
+    getFileInfo() {
         // HomePage._this = this;
-        if(!this.fileManager.photoLibraryReady) {
-            this.fileManager.initFileList();
-        }
-        if(this.global.deviceSelected) {
-            console.log(JSON.stringify(this.global.deviceSelected))
-            let config = this.fileManager.resourceStorage['image'];
-            console.log("图片配置：" + JSON.stringify(config));
-            if(config.finished) {
-                console.log("图片获取已完成，直接备份");
-                setTimeout(() => {
-                    this.fileManager.startBackUp();
-                }, 1000)
-            } else if(this.platform.is('cordova')) {
-                console.log("图片获取尚未完成，需要先拉配置");
-                this.fileManager.getBackupInfo()
-                .then(res => {
-                    this.fileManager.fetchAlbums('image')
-                })
-                .catch(e => {
-                    //不需要备份
-                })
+        if(this.fileManager.readPermitted) {
+            if(!this.fileManager.photoLibraryReady) {
+                this.fileManager.initFileList();
+            }
+            if(this.global.deviceSelected) {
+                console.log(JSON.stringify(this.global.deviceSelected))
+                let config = this.fileManager.resourceStorage['image'];
+                console.log("图片配置：" + JSON.stringify(config));
+                if(config.finished) {
+                    console.log("图片获取已完成，直接备份");
+                    setTimeout(() => {
+                        this.fileManager.startBackUp();
+                    }, 1000)
+                } else if(this.platform.is('cordova')) {
+                    console.log("图片获取尚未完成，需要先拉配置");
+                    this.fileManager.getBackupInfo()
+                    .then(res => {
+                        this.fileManager.fetchAlbums('image')
+                    })
+                    .catch(e => {
+                        //不需要备份
+                    })
+                }            
             }            
         }
+
 
     }
 
@@ -338,7 +355,9 @@ export class HomePage {
     }
 
     goBindingPage() {
-        this.app.getRootNav().push(DeviceListPage);
+        this.app.getRootNav().push(DeviceListPage, {
+            refresh: true
+        });
     }
 
     goBuyBoxPage() {

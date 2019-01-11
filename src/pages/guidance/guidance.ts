@@ -61,7 +61,6 @@ export class GuidancePage {
                 refresh: false
             });
         }
-        
     }
 
     onInit(){

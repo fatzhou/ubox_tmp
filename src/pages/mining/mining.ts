@@ -108,9 +108,6 @@ export class MiningPage {
 
     ionViewDidEnter() {
         GlobalService.consoleLog('ionViewDidEnter MiningPage');
-        this.util.logout(()=>{
-            console.log("清除登陆态")
-        })
         this.pageNo = 1;
         this.needCommit = true;
         this.refreshData();
