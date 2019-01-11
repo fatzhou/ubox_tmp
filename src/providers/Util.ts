@@ -1368,12 +1368,12 @@ export class Util {
                                 }, false)
                                 promises.push(promise);
                             })
-                            Promise.all(promises)
+                            return Promise.all(promises)
                             .then(res => {
                                 return true;                          
                             })    
                             .catch(e => {
-                                return false;
+                                return true;
                             })                        
                         } else {
                             console.log("绑定成功，不需同步钱包");
