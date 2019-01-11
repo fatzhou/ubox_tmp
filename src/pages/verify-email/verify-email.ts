@@ -43,6 +43,7 @@ export class VerifyEmailPage {
         public alertCtrl: AlertController,
         private http: HttpService,
         private global: GlobalService,
+        private util: Util,
         private events: Events,
         public navParams: NavParams) {}
 
@@ -252,16 +253,11 @@ export class VerifyEmailPage {
     }
 
     bindBox() {
-        Util.bindBox(this)
+        this.util.bindBox(this)
         .then((res)=>{
             if(res) {
-                this.navCtrl.push(TabsPage)
-                .then(() => {
-                  const startIndex = this.navCtrl.getActive().index;
-                  GlobalService.consoleLog("即将删除历史记录：" + startIndex);
-                  this.navCtrl.remove(0, startIndex);
-                });                  
-            }
+                this.navCtrl.push(TabsPage)             
+            } 
         });
     }    
 

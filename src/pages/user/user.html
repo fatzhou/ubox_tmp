@@ -42,7 +42,7 @@
 	</div>
 
 	<div class="function-list">
-		<button ion-item (click)="goChangePasswdPage()">
+		<button ion-item (click)="goChangePasswdPage()" *ngIf="!!global.centerUserInfo.uname">
 			{{global.L("ModifyPassword")}}
 		</button>			
 		<button ion-item (click)="goSystemSettingPage()">

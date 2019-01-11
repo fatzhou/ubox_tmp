@@ -327,7 +327,12 @@ export class HttpService {
 
             if (this.platform.is('cordova')) {
                 return this.http.post(url, paramObj, headers)
-                .then((res:any) => this.handleSuccess(url, JSON.parse(res.data), errorHandler))
+                .then((res:any) => {
+                    // if(res.headers && res.headers['set-cookie']) {
+                    //     this.setCookie(url, res.headers['set-cookie']);
+                    // }
+                    return this.handleSuccess(url, JSON.parse(res.data), errorHandler)
+                })
                 .catch(error => this.handleError(error, errorHandler));
             } else {
                 headers['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -343,6 +348,7 @@ export class HttpService {
 
     public handleSuccess(url, result, errorHandler = true) {
         GlobalService.consoleLog("请求响应结果:" + JSON.stringify(result) + "请求url:" + url);
+
         //使用统一出错弹窗提示，如果针对错误有特殊处理，则需手动传入errorHandler为true
         var thisLanguage = Lang.ErrBox[result.err_no] || Lang.ErrBridge[result.err_no];
         if(result.status && result.status == 206) {
@@ -432,6 +438,13 @@ export class HttpService {
         } else {
             return this.http.getCookieString(url);            
         }
+    }
+
+    public setCookie(url, cookie) {
+        document.cookie = cookie + ";Domain=" + GlobalService.centerApiDomain[GlobalService.ENV];
+        // if(this.platform.is('cordova')) {
+        //    this.http.setCookie(url, cookie);
+        // }
     }
 
      /**

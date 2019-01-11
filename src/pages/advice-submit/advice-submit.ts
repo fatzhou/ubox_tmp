@@ -65,7 +65,6 @@ export class AdviceSubmitPage {
                 console.log("上传文件........")
                 data.append("file", item.file);
             })
-
             let url = GlobalService.centerApi['uploadLogAnalyser'].url;
             var xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
@@ -84,10 +83,9 @@ export class AdviceSubmitPage {
             });
 
             xhr.open("POST", url);
-            xhr.setRequestHeader('Cookie', this.http.getCookieString(url));
+            //xhr.setRequestHeader('Cookie', this.http.getCookieString(url));
             xhr.send(data);            
         })
-
     }
 
     reportFeedback() {
