@@ -80,19 +80,7 @@ export class UboxApp {
     ) {
         GlobalService.consoleLog("开始全局构造。。。");
 
-        this.events.subscribe('token:expired', (ts) => {
-            GlobalService.consoleLog("登录态失效!!!");
-            this.global.centerUserInfo = {};
-            this.global.boxUserInfo = {};
-            try {
-                // this.rootPage = page;
-                this.nav.setRoot(LoginPage); 
-                // this.rootPage = LoginPage;                   
-            } catch(e) {
-                GlobalService.consoleLog("异常！！！");
-                this.rootPage = LoginPage;
-            }
-        });
+        
 
         this.events.subscribe('root:changed', (page) => {
             GlobalService.consoleLog("接收到root页面更改事件......")
@@ -528,8 +516,6 @@ export class UboxApp {
             } else {
                 start = end;
             }
-          } else if(view.component == LoginPage){
-            this.nav.push(DeviceListPage);
           } else {
             this.nav.pop({});
           }

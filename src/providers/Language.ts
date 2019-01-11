@@ -1513,14 +1513,9 @@ export class Lang {
                 en: "Please click「Login again」button to login again",
                 kr: " 다시 로그인 하려면 [다시 로그인] 버튼을 클릭 하십시오."
             },
-            ButtonText: {
-                cn: "重新登录",
-                en: "Login again",
-                kr: "다시 로그인"
-            },
-            ButtonText1: [{
+            ButtonText: [{
                 cn: "取消登录",
-                en: "",
+                en: "cancal",
                 kr: ""
             },
             {
@@ -1528,18 +1523,14 @@ export class Lang {
                 en: "Login again",
                 kr: "다시 로그인"
             }],
-            action() {
-                // this.global.events.publish('token:expired', Date.now());
-            },
-            action1: [
-                () => {
-                    // this.global.events.publish('token:expired', Date.now());
+            action: [
+                (that) => {
+                    that.global.events.publish('token:expired', {that: that, action: "cancal"});
                 },
-                () => {
-                    // this.global.events.publish('token:expired', Date.now());
+                (that) => {
+                    that.global.events.publish('token:expired', {that: that, action: "login"});
                 },
             ]
-            
         },
         20011: {
             Title: {
