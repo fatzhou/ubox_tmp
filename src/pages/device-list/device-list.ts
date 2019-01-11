@@ -269,34 +269,26 @@ export class DeviceListPage {
         console.log("this.global.userLoginInfo  " + JSON.stringify(this.global.userLoginInfo));
         if (!dv.bindUser) {
             GlobalService.consoleLog("盒子未绑定用户，直接绑定");
-            Util.bindBox(this)
-            .then((res)=>{
-                
-                var url = this.global.getBoxApi("getDiskStatus");
-                return this.http.post(url, {})
-                .then((data) => {
-                    if (data.err_no === 0) {
-                        this.global.diskInfo = data.box;
-                        if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
-                            this.global.diskInfoStatus = false;
-                        }else{
-                            this.global.diskInfoStatus = true;
-                        }
-                    }
-                    return res;
-                })
-                .catch(()=>{
-                    return res;
-                })   
+            this.global.createGlobalLoading(this, {
+                message: this.global.L('Loading')
             })
+            Util.bindBox(this)
             .then((res) => {
-                this.navCtrl.push(TabsPage)
-                .then(() => {
-                    this.isClicked = false;
-                    this.global.createGlobalToast(this, {
-                        message: Lang.L('BindSuccess')
-                    })
-                })
+                this.global.closeGlobalLoading(this);
+                if(res) {
+                    this.navCtrl.push(TabsPage)
+                    .then(() => {
+                        this.isClicked = false;
+                        this.global.createGlobalToast(this, {
+                            message: Lang.L('BindSuccess')
+                        })
+                    })                    
+                } else {
+                    //绑定失败。。。。。
+                }
+            })
+            .catch(e => {
+                console.log("钱包绑定失败....");
             })
         } else {
             this.global.createGlobalToast(this, {

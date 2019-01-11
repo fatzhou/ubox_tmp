@@ -1297,17 +1297,69 @@ export class Util {
                 })
                 .then((res) => {
                     GlobalService.consoleLog("解除绑定成功");
-                    return {
-                        err_no: 12345
+                    return false;
+                })
+            }
+        })
+        .then(res => {
+            if(res) {
+                console.log("开始转移钱包");
+                //绑定成功，开始转移钱包
+                let url = GlobalService.centerApi['getKeystore'].url;
+                let boxStatusUrl = $scope.global.getBoxApi("getDiskStatus");
+                $scope.http.post(boxStatusUrl, {})
+                .then(res => {
+                    //盒子状态获取错误的出错率较高，目前出错继续保存钱包
+                    if(res.err_no === 0) {
+                        //获取到盒子状态信息
+                        $scope.global.diskInfo = res.box;
+                        $scope.global.diskInfoStatus = !!($scope.global.diskInfo.disks && $scope.global.diskInfo.disks.length);
+                        return $scope.http.post(url, {type: 0});
+                    } else {
+                        return $scope.http.post(url, {type: 0});
                     }
                 })
+                .then(res => {
+                    if(res.err_no === 0) {
+                        //获取备份在中心的钱包
+                        if(res.wallets) {
+                            let promises = [];
+                            let url = $scope.global.getBoxApi('createWallet');
+                            let wallets = res.wallets || [];
+                            res.wallets.forEach(item => {
+                                //盒子创建钱包，不报错...
+                                let promise = $scope.http.post(url, {
+                                    name: item.name,
+                                    addr: item.addr,
+                                    keystore: item.keystore,
+                                    type: 0
+                                }, false)
+                                promises.push(promise);
+                            })
+                            Promise.all(promises)
+                            .then(res => {
+                                return true;                          
+                            })    
+                            .catch(e => {
+                                return false;
+                            })                        
+                        } else {
+                            return true;                        
+                        }
+                    } else {
+                        return false;
+                    }
+                })
+                .catch(e => {
+                    return false;
+                })                
+            } else {
+                return false;
             }
         })
         .catch((res) => {
             GlobalService.consoleLog(res);
-            return {
-                err_no: 11111
-            };
+            return false;
         })
     }
 

@@ -65,11 +65,12 @@ export class AdviceSubmitPage {
                 console.log("上传文件........")
                 data.append("file", item.file);
             })
-
             let url = GlobalService.centerApi['uploadLogAnalyser'].url;
             var xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
-
+            //document.cookie = this.http.getCookieString(url);
+            // let cookieString = this.http.getCookieString(url);
+            // this.http.setCookie(Glp, cookieString);
 
             xhr.addEventListener("readystatechange", function () {
               if (this.readyState === 4) {
@@ -85,10 +86,9 @@ export class AdviceSubmitPage {
             });
 
             xhr.open("POST", url);
-            xhr.setRequestHeader('Cookie', this.http.getCookieString(url));
+            //xhr.setRequestHeader('Cookie', this.http.getCookieString(url));
             xhr.send(data);            
         })
-
     }
 
     reportFeedback() {

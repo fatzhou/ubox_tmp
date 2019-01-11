@@ -255,13 +255,8 @@ export class VerifyEmailPage {
         Util.bindBox(this)
         .then((res)=>{
             if(res) {
-                this.navCtrl.push(TabsPage)
-                .then(() => {
-                  const startIndex = this.navCtrl.getActive().index;
-                  GlobalService.consoleLog("即将删除历史记录：" + startIndex);
-                  this.navCtrl.remove(0, startIndex);
-                });                  
-            }
+                this.navCtrl.push(TabsPage)             
+            } 
         });
     }    
 

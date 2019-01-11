@@ -188,10 +188,15 @@ export class GlobalService {
         "prod": "https://uchain.yqtc.com/#/txhash/"
     }
 
+    public static centerApiDomain = {
+        'dev': 'www.yqtc.co',
+        'prod': 'api.yqtc.co'
+    }
+
     //中心服务器API的host
     public static centerApiHost = {
-        'dev': "https://www.yqtc.co/iamtest",
-        'prod': "https://api.yqtc.co"
+        'dev': "https://" + GlobalService.centerApiDomain.dev + "/iamtest",
+        'prod': "https://" + GlobalService.centerApiDomain.prod
     }
 
     //版本控制文件
