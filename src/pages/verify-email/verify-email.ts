@@ -43,6 +43,7 @@ export class VerifyEmailPage {
         public alertCtrl: AlertController,
         private http: HttpService,
         private global: GlobalService,
+        private util: Util,
         private events: Events,
         public navParams: NavParams) {}
 
@@ -252,7 +253,7 @@ export class VerifyEmailPage {
     }
 
     bindBox() {
-        Util.bindBox(this)
+        this.util.bindBox(this)
         .then((res)=>{
             if(res) {
                 this.navCtrl.push(TabsPage)             

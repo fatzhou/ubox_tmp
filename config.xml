@@ -91,7 +91,7 @@
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <allow-navigation href="http://192.168.0.22:8100" sessionid="dc1ca46a" />
-    <allow-navigation href="http://192.168.0.28:8100" sessionid="51fe89fe" />
+    <allow-navigation href="http://192.168.0.28:8100" sessionid="5e9dbcd8" />
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="4.5.5" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />

@@ -68,21 +68,18 @@ export class AdviceSubmitPage {
             let url = GlobalService.centerApi['uploadLogAnalyser'].url;
             var xhr = new XMLHttpRequest();
             xhr.withCredentials = true;
-            //document.cookie = this.http.getCookieString(url);
-            // let cookieString = this.http.getCookieString(url);
-            // this.http.setCookie(Glp, cookieString);
 
             xhr.addEventListener("readystatechange", function () {
-              if (this.readyState === 4) {
-                console.log(this.responseText);
-                let response = {};
-                try {
-                    response = JSON.parse(this.responseText);
-                    resolve(response);
-                } catch(e) {
-                    reject();
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
+                    let response = {};
+                    try {
+                        response = JSON.parse(this.responseText);
+                        resolve(response);
+                    } catch(e) {
+                        reject();
+                    }
                 }
-              }
             });
 
             xhr.open("POST", url);

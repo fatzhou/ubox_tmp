@@ -136,11 +136,11 @@ export class Util {
                             return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, silence)
                         } else {
                             // throw new Error('登录中心失败');
-                            return Promise.reject("Login Error");
+                            return Promise.reject(res);
                         }
                     })                       
                 } else {
-                    return Promise.reject("Login Error");
+                    return Promise.reject(res);
                 }
             }
         })
@@ -287,7 +287,7 @@ export class Util {
             this.global.deviceSelected = null;
             //没有盒子或者其他错误，只需登录中心即可
             // errorCallback && errorCallback();
-            return Promise.reject("Login error...");
+            return Promise.reject(res);
         })               
     }
 
@@ -1213,25 +1213,56 @@ export class Util {
         this.global.albumBackupSwitch = undefined;
     }
 
-    public static bindBox($scope) {
+    public bindBox($scope) {
         var boxInfo = $scope.global.deviceSelected;
         GlobalService.consoleLog(boxInfo.URLBase)
         GlobalService.consoleLog(JSON.stringify(GlobalService.boxApi["bindBox"]))
         // var url = "http://" + boxInfo.URLBase + GlobalService.boxApi["bindBox"].url;
         var url = $scope.global.getBoxApi('bindBox');
+        let username = "",
+            password = "";
 
         GlobalService.consoleLog("弱中心预绑定，先登录");
         GlobalService.consoleLog("用户名是:" + $scope.username + ",密码是:" + $scope.password);
 
-         return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {})
+        return new Promise((resolve, reject) => {
+            if($scope.username && $scope.password) {
+                username = $scope.username;
+                password = $scope.password;
+                resolve();
+            } else {
+                 this.getUserList()
+                .then((r:any) => {
+                    console.log(JSON.stringify(r))
+                    if(r) {
+                        username = r.username;
+                        password = r.password;
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                })
+            }
+        })
+        .then(res => {
+           return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {})
+        }, res => {
+            $scope.global.centerUserInfo = {};
+            this.events.publish('token:expired', {
+                that: $scope,
+                action: 'login'
+            });
+            //需要先登录
+            throw new Error("Password lost and cannot bind...");
+        })
          .then(res => {
              if(res.err_no === 0) {
                  return res;
              } else {
                  if($scope.username && $scope.password) {
                     return $scope.http.post(GlobalService.centerApi["login"].url, {
-                        uname: $scope.username,
-                        password: Md5.hashStr($scope.password).toString(),
+                        uname: username,
+                        password: Md5.hashStr(password).toString(),
                     })
                     .then(r => {
                         if(r.err_no === 0) {
@@ -1260,8 +1291,8 @@ export class Util {
             if (res.err_no === 0) {
                 GlobalService.consoleLog("预绑定成功，开始绑定盒子");
                 return $scope.http.post(url, {
-                    username: $scope.username,
-                    password: Md5.hashStr($scope.password).toString(),
+                    username: username,
+                    password: Md5.hashStr(password).toString(),
                     boxid: boxInfo.boxId,
                     // signature: encodeURIComponent(res.credential),
                     signature: res.credential,
@@ -1286,9 +1317,9 @@ export class Util {
                 //更新用户绑定盒子的数量
                 $scope.global.centerUserInfo.bind_box_count = 1;
                 //更新盒子用户数据
-                boxInfo.bindUser = $scope.username;
-                boxInfo.bindUserHash = Md5.hashStr($scope.username.toLowerCase()).toString();
-                return $scope.util.loginBox($scope.username, $scope.password);
+                boxInfo.bindUser = username;
+                boxInfo.bindUserHash = Md5.hashStr(username.toLowerCase()).toString();
+                return $scope.util.loginBox(username, password);
             } else {
                 GlobalService.consoleLog("盒子确认失败，需解除绑定");
                 return $scope.http.post(url, {
@@ -1307,7 +1338,7 @@ export class Util {
                 //绑定成功，开始转移钱包
                 let url = GlobalService.centerApi['getKeystore'].url;
                 let boxStatusUrl = $scope.global.getBoxApi("getDiskStatus");
-                $scope.http.post(boxStatusUrl, {})
+                return $scope.http.post(boxStatusUrl, {})
                 .then(res => {
                     //盒子状态获取错误的出错率较高，目前出错继续保存钱包
                     if(res.err_no === 0) {
@@ -1323,6 +1354,7 @@ export class Util {
                     if(res.err_no === 0) {
                         //获取备份在中心的钱包
                         if(res.wallets) {
+                            console.log("绑定成功，需要同步钱包");
                             let promises = [];
                             let url = $scope.global.getBoxApi('createWallet');
                             let wallets = res.wallets || [];
@@ -1344,9 +1376,11 @@ export class Util {
                                 return false;
                             })                        
                         } else {
+                            console.log("绑定成功，不需同步钱包");
                             return true;                        
                         }
                     } else {
+                        console.log("绑定失败");
                         return false;
                     }
                 })

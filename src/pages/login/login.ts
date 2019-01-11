@@ -206,7 +206,10 @@ export class LoginPage {
             this.global.closeGlobalLoading(this);
             this.isLoading = false;    
             console.log("即将进入首页...");
-            this.navCtrl.push(TabsPage);        
+            console.log(e)
+            if(!e.err_no) {
+                this.navCtrl.push(TabsPage); 
+            }
         })
     }
 
@@ -275,7 +278,7 @@ export class LoginPage {
             this.isLoading = false;
             this.global.closeGlobalLoading(this);
         };
-        Util.bindBox(this)
+        this.util.bindBox(this)
         .then(res => {
             if(res) {
                 this.global.closeGlobalLoading(this);

@@ -272,10 +272,12 @@ export class DeviceListPage {
             this.global.createGlobalLoading(this, {
                 message: this.global.L('Loading')
             })
-            Util.bindBox(this)
+            this.util.bindBox(this)
             .then((res) => {
+                console.log("绑定流程已完成....");
                 this.global.closeGlobalLoading(this);
                 if(res) {
+                    console.log("绑定成功.....");
                     this.navCtrl.push(TabsPage)
                     .then(() => {
                         this.isClicked = false;
@@ -285,6 +287,7 @@ export class DeviceListPage {
                     })                    
                 } else {
                     //绑定失败。。。。。
+                    console.log("绑定失败....");
                 }
             })
             .catch(e => {
