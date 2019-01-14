@@ -16,11 +16,13 @@ export class AppsInterface {
 		console.log('Hello AppsInstalledProvider Provider');
 	}
 
-	echo(str) {
+	test(str) {
 		return new Promise((resolv, reject)=>{
+			console.log("Start test......");
 			this.file.listDir(this.global.fileSavePath, '.').then((entries)=>{
 				resolv(JSON.stringify(entries));
-			}).catch(()=>{
+			}).catch((e)=>{
+				console.log(e.stack)
 				resolv(JSON.stringify("eeeeeeor"));
 			})
 		})

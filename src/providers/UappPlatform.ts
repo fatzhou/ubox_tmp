@@ -25,7 +25,7 @@ export class UappPlatform {
         let self = this;
 
         if (this.global.platformName == "android"){
-            UAPPROOT = UappPlatform._this.global.fileSavePath + "www/uapp/";
+            UAPPROOT = this.global.fileSavePath + "www/uapp/";
             UAPPROOT = UAPPROOT.replace('file://', "");
             this.api.createDir(UAPPROOT);
         } else {
@@ -33,8 +33,10 @@ export class UappPlatform {
         }
         console.log("openapp:" + uappName);
 
-        if(!AppsInstalled.uappInstalled[uappName].local_url){
-            alert("UAPP '" + uappName + "' not exist.");
+        if(!AppsInstalled.uappInstalled[uappName].local_url) {
+            this.global.createGlobalToast(this, {
+                message: "UAPP '" + uappName + "' not exist."
+            });
             return;
         }
 
@@ -43,8 +45,8 @@ export class UappPlatform {
             console.log("cordova:" + JSON.stringify(cordova));
             console.log("cordova.plugins:" + JSON.stringify(cordova.plugins));
             console.log("httpd:" + JSON.stringify(httpd));
-            UappPlatform.prototype.startServer.bind(self)(UAPPROOT);
-            setTimeout(UappPlatform.prototype.openapp.bind(self), 1000, uappName);
+            self.startServer(UAPPROOT);
+            setTimeout(self.openapp.bind(self), 1000, uappName);
             return;
         }
         httpd.getURL((url)=> {
@@ -60,21 +62,21 @@ export class UappPlatform {
         console.log("done openapp:" + uappName);
     }
 
-    public openbrowser(uapurl){
+    public openbrowser(uappUrl){
         console.log("===openbrowser===");
         let self = this;
         let target  = "_blank";
         let options = "location=no, hidden=yes, beforeload=yes";
-        self.inAppBrowserRef = cordova.InAppBrowser.open(uapurl, target, options);
+        self.inAppBrowserRef = cordova.InAppBrowser.open(uappUrl, target, options);
         self.inAppBrowserRef.addEventListener('loadstart', UappPlatform.prototype.loadStartCallBack.bind(self));
         self.inAppBrowserRef.addEventListener('loadstop', UappPlatform.prototype.loadStopCallBack.bind(self));
         self.inAppBrowserRef.addEventListener('loaderror', UappPlatform.prototype.loadErrorCallBack.bind(self));
         self.inAppBrowserRef.addEventListener('message', UappPlatform.prototype.execMessageCallback.bind(self));
         self.inAppBrowserRef.addEventListener('exit', UappPlatform.prototype.loadErrorCallBack.bind(self));
-        setTimeout(self.showbrowser.bind(self), 100, uapurl);
+        setTimeout(self.showbrowser.bind(self), 100, uappUrl);
     }
 
-    public showbrowser(uapurl){
+    public showbrowser(uappUrl){
         console.log("===showbrowser===");
         let self    = this;
         self.inAppBrowserRef.show()
@@ -157,7 +159,7 @@ export class UappPlatform {
         }
 
         if (!!exportedfunc) {
-            exportedfunc.apply(null, args.arrargs).then((ret)=> {
+            exportedfunc.apply(this.api, args.arrargs).then((ret)=> {
                 let code = "_exec_result('" + args.callbackId + "', true, " + JSON.stringify(ret) + ");";
                 console.log("exec_result code:==" + code);
                 this.inAppBrowserRef.executeScript({code: code}, (params) => {
@@ -166,7 +168,7 @@ export class UappPlatform {
             }).catch((err)=>{
                 let code = "_exec_result('" + args.callbackId + "', false, " + JSON.stringify(err) + ");";
                 console.log("执行出错");
-                console.log("exec_result code:==" + code);
+                console.log("exec_error_result code:==" + code);
                 this.inAppBrowserRef.executeScript({code: code}, (params) => {
                     console.log("executeScript result:" + JSON.stringify(params));
                 });
