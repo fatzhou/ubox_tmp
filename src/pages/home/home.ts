@@ -194,8 +194,6 @@ export class HomePage {
                 }            
             }            
         }
-
-
     }
 
     // static backupEventerListener() {

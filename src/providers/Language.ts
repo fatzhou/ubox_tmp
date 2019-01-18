@@ -42,6 +42,12 @@ export class Lang {
         cn: "挖矿",
         en: "Mining",
         kr: ""
+    }    
+    
+    static Discover = {
+        cn: "发现",
+        en: "Discover",
+        kr: ""
     }
 
     static User = {

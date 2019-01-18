@@ -53,31 +53,36 @@ export class SearchPage {
             })
     }
 
-    ionViewDidEnter() {
+    ionViewDidLoad() {
         console.log('ionViewDidLoad SearchPage');
-        this.getSearchData()
-        .then((res)=> {
-            // console.log(JSON.stringify(res));
-            this.showList = this.global.SearchData.appList[GlobalService.applang];
-            this.labelList = this.global.SearchData.labelList;
-            this.bannerStyle = this.global.SearchData.bannerStyle;
-            let bannerList = this.global.SearchData.bannerList;
-            if(this.showList.length != 0) {
-                for(let i = 0;i < this.showList.length; i++) {
-                    for(let j = 0; j < bannerList.length; j++) {
-                        if(this.showList[i].id == bannerList[j]) {
-                            this.bannerList.push(this.showList[i]);
+        if(!this.bannerList.length) {
+            this.getSearchData()
+            .then((res)=> {
+                // console.log(JSON.stringify(res));
+                this.showList = this.global.SearchData.appList[GlobalService.applang];
+                this.labelList = this.global.SearchData.labelList;
+                this.bannerStyle = this.global.SearchData.bannerStyle;
+                let bannerList = this.global.SearchData.bannerList;
+                if(this.showList.length != 0) {
+                    for(let i = 0;i < this.showList.length; i++) {
+                        for(let j = 0; j < bannerList.length; j++) {
+                            if(this.showList[i].id == bannerList[j]) {
+                                this.bannerList.push(this.showList[i]);
+                            }
                         }
                     }
                 }
-            }
-            // console.log('this.bannerList' + JSON.stringify(this.bannerList))
-            
-        })
+                // console.log('this.bannerList' + JSON.stringify(this.bannerList))
+            })
+        }
     }
 
-    openApp() {
-        this.uappPlatform.openapp('pvr');
+    openApp(item) {
+        if(item.type === 0) {
+            //网页应用，直接打开
+            
+        }
+        // this.uappPlatform.openapp('pvr');
     }
 
     goAppDetail(info) {

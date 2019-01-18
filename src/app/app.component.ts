@@ -80,8 +80,6 @@ export class UboxApp {
     ) {
         GlobalService.consoleLog("开始全局构造。。。");
 
-        
-
         this.events.subscribe('root:changed', (page) => {
             GlobalService.consoleLog("接收到root页面更改事件......")
             try {
@@ -154,7 +152,7 @@ export class UboxApp {
         }
         setTimeout(() => {
             if(!this.rootPage) {
-                this.rootPage = TabsPage;
+                this.rootPage = LoginPage;
             }
         }, 3000);
         let url = GlobalService.centerApi['getUserInfo'].url;
@@ -166,17 +164,21 @@ export class UboxApp {
                 this.util.loginAndCheckBox(this)
                 .then(res => {
                     console.log("loginAndCheckBox成功进入resolve....");
-                    this.rootPage = TabsPage;
+                    if(this.global.centerUserInfo.uname) {
+                        this.rootPage = TabsPage;
+                    } else {
+                        this.rootPage = LoginPage;
+                    }
                 })
                 .catch(e => {                    //没有盒子
                     this.rootPage = TabsPage;
                 })
             } else {
-                this.rootPage = TabsPage;
+                this.rootPage = LoginPage;
             }
         })
         .catch(res => {
-            this.rootPage = TabsPage;
+            this.rootPage = LoginPage;
         })
     }
 

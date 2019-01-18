@@ -23,6 +23,12 @@
         margin-bottom: 0;
     }
 
+    h4 {
+        text-align: center;
+        color: #666;
+        font-size: 14px;
+    }
+
     .main {
         text-align: center;
         padding: 20px 30px;
@@ -65,15 +71,24 @@
     }
 
     </style>
+<!--     <script src="https://wwid.yqtc.com/defaultlogin/js/jquery-1.8.3.min.js"></script>
+    <script src="https://wwid.yqtc.com/defaultlogin/js/jquery.cookie.js"></script>
+    <script src="//g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>
+    <script src="https://wwid.yqtc.com/defaultlogin/js/sdk.js"></script> -->
 </head>
 
 <body>
     <h2>优权天成APP下载地址：</h2>
     <script>
     document.write('<p class="env">检测到您当前的环境是:' + (navigator.userAgent.toLowerCase().indexOf('android') > -1 ? 'android' : '苹果') + '</p>');
-
     </script>
+
+    <h4>我已安装Ubbey APP1.3.0以上，<a href="ubbeybox://pay?address=0x123456789&amount=100">点此测试是否能正常打开</a></h4>
+
     <div class="main">
+        <div>
+            <a href="https://m.yqtc.co/download/ubbey.v1.3.0.apk">ubbey android正式版1.3.0下载</a>
+        </div>
         <div>
             <a href="https://www.yqtc.co/iamtest/ubox/ubbey-v1.3.0-test.apk">ubbey android测试版1.3.0下载</a>
         </div>
@@ -119,77 +134,113 @@
         <div>
             <a href="itms-services://?action=download-manifest&amp;url=https%3A%2F%2Fm.yqtc.co%2Fdownload%2FUbbey_1.2.1.plist">ubbey ios正式版1.2.1下载</a>
         </div>
-        <div>
-            <a href="https://www.yqtc.co/iamtest/ownershipApp/youquanapp.apk">优权Android测试版下载</a>
+    
+        <a href="javascript:;" id="show-more">查看更多</a>
+
+        <div class="previous-apps" id="previous-apps" style="display: none;"> 
+            <div>
+                <a href="https://www.yqtc.co/iamtest/ownershipApp/youquanapp.apk">优权Android测试版下载</a>
+            </div>
+            <div>
+                <a href="itms-services://?action=download-manifest&amp;url=https%3A%2F%2Fwww.yqtc.co%2Fiamtest%2FYQAPP%2Fmanifest.plist">
+                    优权IOS测试版下载
+                </a>
+            </div>
+            <div>
+                <a href="https://m.yqtc.co/download/youquan.v1.0.0.apk">优权Android正式版下载</a>
+            </div>
+            <div>
+                <a href="itms-services://?action=download-manifest&amp;url=https%3A%2F%2Fm.yqtc.co%2FYQAPP%2Fmanifest.plist">
+                    优权IOS正式版下载
+                </a>
+            </div>
+            <div>
+                <a href="https://www.yqtc.co/iamtest/YQAPP/">优权网页测试版</a>
+            </div>
+            <div>
+                <a href="https://m.yqtc.co/YQAPP/">
+                    优权网页正式版
+                </a>
+            </div>
+            <div>
+                <a href="https://www.yqtc.co/iamtest/ownershipApp/yqtctool.apk">上链工具Android测试版下载</a>
+            </div>
+            <div>
+                <a href="https://m.yqtc.co/download/yqtctool.v0.1.0.apk">上链工具Android正式版下载</a>
+            </div>
+            <div>
+                <a href="https://www.yqtc.co/iamtest/TOOLAPP/">上链工具网页测试版</a>
+            </div>
+            <div>
+                <a href="https://m.yqtc.co/TOOLAPP/">
+                    上链工具网页正式版
+                </a>
+            </div>
+            <div>
+                <a href="https://www.yqtc.co/iamtest/ownershipApp/arteye.apk">艺眼Android测试版下载</a>
+            </div>
+            <div>
+                <a href="itms-services://?action=download-manifest&amp;url=https%3A%2F%2Fwww.yqtc.co%2Fiamtest%2FTYAPP%2Fpublic%2Fmanifest.plist">
+                    艺眼IOS测试版下载
+                </a>
+            </div>
+            <div>
+                <a href="https://m.yqtc.co/download/arteye.v0.1.0.apk">艺眼Android正式版下载</a>
+            </div>
+            <div>
+                <a href="itms-services://?action=download-manifest&amp;url=https%3A%2F%2Fm.yqtc.co%2Fdownload%2Fmanifest.plist">
+                    艺眼IOS正式版下载
+                </a>
+            </div>
+            <div>
+                <a href="https://www.yqtc.co/iamtest/TYAPP/">艺眼网页测试版</a>
+            </div>
+            <div>
+                <a href="https://m.yqtc.co/TYAPP/">
+                    艺眼网页正式版
+                </a>
+            </div>
+            <div>
+                <a href="https://www.yqtc.co/iamtest/branduser/">品牌商户测试版(仅PC)</a>
+            </div>
+            <div>
+                <a href="https://m.yqtc.co/brand/">
+                    品牌商户正式版(仅PC)
+                </a>
+            </div>            
         </div>
-        <div>
-            <a href="itms-services://?action=download-manifest&amp;url=https%3A%2F%2Fwww.yqtc.co%2Fiamtest%2FYQAPP%2Fmanifest.plist">
-                优权IOS测试版下载
-            </a>
-        </div>
-        <div>
-            <a href="https://m.yqtc.co/download/youquan.v1.0.0.apk">优权Android正式版下载</a>
-        </div>
-        <div>
-            <a href="itms-services://?action=download-manifest&amp;url=https%3A%2F%2Fm.yqtc.co%2FYQAPP%2Fmanifest.plist">
-                优权IOS正式版下载
-            </a>
-        </div>
-        <div>
-            <a href="https://www.yqtc.co/iamtest/YQAPP/">优权网页测试版</a>
-        </div>
-        <div>
-            <a href="https://m.yqtc.co/YQAPP/">
-                优权网页正式版
-            </a>
-        </div>
-        <div>
-            <a href="https://www.yqtc.co/iamtest/ownershipApp/yqtctool.apk">上链工具Android测试版下载</a>
-        </div>
-        <div>
-            <a href="https://m.yqtc.co/download/yqtctool.v0.1.0.apk">上链工具Android正式版下载</a>
-        </div>
-        <div>
-            <a href="https://www.yqtc.co/iamtest/TOOLAPP/">上链工具网页测试版</a>
-        </div>
-        <div>
-            <a href="https://m.yqtc.co/TOOLAPP/">
-                上链工具网页正式版
-            </a>
-        </div>
-        <div>
-            <a href="https://www.yqtc.co/iamtest/ownershipApp/arteye.apk">艺眼Android测试版下载</a>
-        </div>
-        <div>
-            <a href="itms-services://?action=download-manifest&amp;url=https%3A%2F%2Fwww.yqtc.co%2Fiamtest%2FTYAPP%2Fpublic%2Fmanifest.plist">
-                艺眼IOS测试版下载
-            </a>
-        </div>
-        <div>
-            <a href="https://m.yqtc.co/download/arteye.v0.1.0.apk">艺眼Android正式版下载</a>
-        </div>
-        <div>
-            <a href="itms-services://?action=download-manifest&amp;url=https%3A%2F%2Fm.yqtc.co%2Fdownload%2Fmanifest.plist">
-                艺眼IOS正式版下载
-            </a>
-        </div>
-        <div>
-            <a href="https://www.yqtc.co/iamtest/TYAPP/">艺眼网页测试版</a>
-        </div>
-        <div>
-            <a href="https://m.yqtc.co/TYAPP/">
-                艺眼网页正式版
-            </a>
-        </div>
-        <div>
-            <a href="https://www.yqtc.co/iamtest/branduser/">品牌商户测试版(仅PC)</a>
-        </div>
-        <div>
-            <a href="https://m.yqtc.co/brand/">
-                品牌商户正式版(仅PC)
-            </a>
-        </div>
+       
     </div>
+    <script>
+        let showMoreNode = document.getElementById('show-more');
+        let previousApps = document.getElementById('previous-apps');
+        showMoreNode.onclick = function() {
+            showMoreNode.style.display = 'none';
+            previousApps.style.display = 'block';
+        }
+    </script>
+
+    <script>
+        /*
+        var userInfo = getuserinfo();
+
+        if (userInfo["err"] == "success") {
+            document.getElementsByTagName('body')[0].style.display = 'block'
+            // var html = "<li class=\"dropdown\" style=\"color:white;padding-top:0px;padding-right:20px;\">\n" +
+            //     "          <span id=\"showusername\">娆㈣繋浣�,<span>" + userInfo["name"] + "</span></span>\n" +
+            //     "        </li>\n" +
+            //     "        <li id = \"logout\" class=\"dropdown\" style=\"color:white;padding-top:0px;padding-right:20px;\">\n" +
+            //     "         <span style=\"color:white;cursor: pointer;}\">閫€鍑�</span>" +
+            //     "        </li>";
+
+            // document.getElementById("loginandout").innerHTMl = html;
+        } else if (userInfo["err"] == "not login") {
+            dingTalkLogin("applist");
+        } else if (userInfo["err"] == "error") {
+            alert("Login error:" + JSON.stringify(userInfo))
+            //window.location.href = host_ding_talk + "error.html";
+        }*/
+    </script>
 </body>
 
 </html>

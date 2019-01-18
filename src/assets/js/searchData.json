@@ -1,35 +1,36 @@
 {
     "labelList": {
-        "DAPP": {
-            "name": "DAPP",
+        "DApp": {
+            "name": "DApp",
             "url": "http://iamtest.yqtc.co/searchData/dapp.png"
         },
-        "thrid": {
-            "name": "thrid",
-            "url": "http://iamtest.yqtc.co/searchData/thrid.png"
+        "Third": {
+            "name": "Third",
+            "url": "http://iamtest.yqtc.co/searchData/third.png"
         },
-        "uninstall": {
-            "name": "uninstall",
+        "WebApp": {
+            "name": "WebApp",
             "url": "http://iamtest.yqtc.co/searchData/uninstall.png"
         },
-        "box": {
-            "name": "box",
+        "BoxDep": {
+            "name": "BoxDep",
             "url": "http://iamtest.yqtc.co/searchData/box.png"
         }
     },
     "bannerStyle": {
         "COMMON": "http://iamtest.yqtc.co/searchData/pvr-bg.png"
     },
-    "bannerList": ["1"],
+    "bannerList":  ["com.pvr.www"],
     "appList": {
         "cn": [{
-                "id": "1",
+                "id": "com.pvr.www",
+                "xml": "https://www.yqtc.co/iamtest/uapps/pvr-1.0.0.xml",
                 "logo": "http://iamtest.yqtc.co/searchData/pvr.png",
                 "title": "cn-PVR应用",
                 "abbreTitle": "PVR",
                 "type": 0, 
                 "box": 0, 
-                "label": ["DAPP","thrid","uninstall","box"],
+                "label": ["DApp","Third","WebApp","BoxDep"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
                 "description": ["IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于区块链网络播放器", "描述2"],
@@ -44,13 +45,14 @@
                 "developers": ["开发者","YQTC.COM"]
             },
             {
-                "id": "2",
+                "id": "com.browser.www",
+                "xml": "https://www.yqtc.co/iamtest/ubbeyscan/#/",
                 "logo": "http://iamtest.yqtc.co/searchData/ipfs.png",
-                "title": "cn-PVR应用2号",
+                "title": "区块链浏览器",
                 "abbreTitle": "PVR",
                 "type": 1, 
                 "box": 0, 
-                "label": ["DAPP"],
+                "label": ["DApp"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
                 "description": ["IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于区块链网络播放器", "描述2"],
@@ -66,13 +68,14 @@
             }
         ],
         "en": [{
-                "id": "1",
-                "logo": "http://iamtest.yqtc.co/searchData/ipfs.png",
-                "title": "en-PVR应用",
+                "id": "com.pvr.www",
+                "xml": "https://www.yqtc.co/iamtest/uapps/pvr-1.0.0.xml",
+                "logo": "http://iamtest.yqtc.co/searchData/pvr.png",
+                "title": "cn-PVR应用",
                 "abbreTitle": "PVR",
                 "type": 0, 
                 "box": 0, 
-                "label": ["DAPP"],
+                "label": ["DApp","Third","WebApp","BoxDep"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
                 "description": ["IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于区块链网络播放器", "描述2"],
@@ -87,13 +90,14 @@
                 "developers": ["开发者","YQTC.COM"]
             },
             {
-                "id": "2",
+                "id": "com.browser.www",
+                "xml": "https://www.yqtc.co/iamtest/uapps/pvr-1.0.0.xml",
                 "logo": "http://iamtest.yqtc.co/searchData/ipfs.png",
-                "title": "en-PVR应用2号",
+                "title": "区块链浏览器",
                 "abbreTitle": "PVR",
                 "type": 1, 
                 "box": 0, 
-                "label": ["DAPP"],
+                "label": ["DApp"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
                 "description": ["IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于区块链网络播放器", "描述2"],
@@ -109,13 +113,14 @@
             }
         ],
         "kr": [{
-                "id": "1",
-                "logo": "http://iamtest.yqtc.co/searchData/ipfs.png",
-                "title": "kr-PVR应用",
+                "id": "com.pvr.www",
+                "xml": "https://www.yqtc.co/iamtest/uapps/pvr-1.0.0.xml",
+                "logo": "http://iamtest.yqtc.co/searchData/pvr.png",
+                "title": "cn-PVR应用",
                 "abbreTitle": "PVR",
                 "type": 0, 
                 "box": 0, 
-                "label": ["DAPP"],
+                "label": ["DApp","Third","WebApp","BoxDep"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
                 "description": ["IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于区块链网络播放器", "描述2"],
@@ -130,13 +135,14 @@
                 "developers": ["开发者","YQTC.COM"]
             },
             {
-                "id": "2",
+                "id": "com.browser.www",
+                "xml": "https://www.yqtc.co/iamtest/uapps/pvr-1.0.0.xml",
                 "logo": "http://iamtest.yqtc.co/searchData/ipfs.png",
-                "title": "kr-PVR应用2号",
+                "title": "区块链浏览器",
                 "abbreTitle": "PVR",
                 "type": 1, 
                 "box": 0, 
-                "label": ["DAPP","DAPP"],
+                "label": ["DApp"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
                 "description": ["IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于区块链网络播放器", "描述2"],

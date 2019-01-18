@@ -6,6 +6,7 @@ import { GlobalService } from './GlobalService';
 
 
 declare var cordova;
+declare var window;
 let httpd: any      = null;
 let UAPPROOT:string  = "";
 
@@ -23,6 +24,11 @@ export class UappPlatform {
 
     public openapp(uappName) {
         let self = this;
+
+        if(!window.cordova) {
+            console.log("网页无法打开");
+            return false;
+        }
 
         if (this.global.platformName == "android"){
             UAPPROOT = this.global.fileSavePath + "www/uapp/";

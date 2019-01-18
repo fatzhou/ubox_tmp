@@ -7,18 +7,12 @@ import { Injectable } from '@angular/core';
   and Angular DI.
 */
 @Injectable()
-export class AppsInstalled {
+export class DownloadAppsProvider {
 
 	constructor() {
 		console.log('Hello AppsInstalledProvider Provider');
 	}
 
-	public static uappInstalled = {
-		'pvr':{
-			name:       'pvr',
-			remote_url: '',
-			local_url:  '/pvr/index.html'
-		},
-	};
+	
 
 }

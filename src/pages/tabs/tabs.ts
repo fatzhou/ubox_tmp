@@ -19,6 +19,8 @@ import { Events } from 'ionic-angular';
 import { Lang } from '../../providers/Language';
 import { FileOpener } from '@ionic-native/file-opener';
 
+declare var window;
+
 /**
  * Generated class for the TabsPage page.
  *
@@ -43,6 +45,12 @@ export class TabsPage {
     fileIcon: string = 'custom-file-active';
     miningIcon: string = 'custom-mining';
     userIcon: string = 'custom-user';
+
+    HomeTitle:string;
+    DiscoverTitle:string;
+    MiningTitle:string;
+    UserTitle:string;
+
     info: any = [];
     head: any = [];
     btnText: string = "";
@@ -82,6 +90,24 @@ export class TabsPage {
         this.versionControl = GlobalService.VersionControl;
         this.appVersionDescription = GlobalService.AppVersionDescription;
         this.boxVersionDescription = GlobalService.BoxVersionDescription;
+
+        this.HomeTitle = this.global.L('Home')
+        this.DiscoverTitle = this.global.L('Discover');
+        this.MiningTitle = this.global.L('Mining');
+        this.UserTitle = this.global.L('User');
+
+        // window.handleOpenURL = (url) => {
+        //     console.log("Url已打开...." + url);
+        //     let reg = /^ubbeybox:\/\/(\w+)?(\?.+)?$/g;
+        //     let matches = url.match(reg);
+        //     if(matches) {
+        //         let method = matches[1],
+        //             params = matches[2];
+        //         if(method == 'pay') {
+                    
+        //         }
+        //     }
+        // }
 
         events.subscribe('update-box', () => {
             GlobalService.consoleLog('提示用户升级box');
@@ -298,7 +324,26 @@ export class TabsPage {
     }
 
     ionViewDidEnter() {
-        this.connectionStatus = this.global.useWebrtc ? (this.http.dataChannelOpen === 'opened' ? 'remote' : 'connecting') : 'local';
+        if(this.global.centerUserInfo.bind_box_count > 0) {
+            this.connectionStatus =  this.global.useWebrtc ? (this.http.dataChannelOpen === 'opened' ? 'remote' : 'connecting') : (this.global.deviceSelected ? 'local' : 'connecting');
+            if(this.global.useWebrtc) {
+                //远场模式
+                if(this.http.dataChannelOpen === 'opened') {
+                    this.connectionStatus = 'remote';
+                } else if(this.http.dataChannelOpen === 'opening') {
+                    //盒子在线，尚未连接
+                    this.connectionStatus = 'connecting';
+                } else {
+                    this.connectionStatus = 'error';
+                }
+            } else {
+                //近场模式
+                this.connectionStatus = this.global.deviceSelected ? 'local' : 'error';
+            }
+        } else {
+            this.connectionStatus = 'local';
+        }
+
         let events = this.events;
         GlobalService.consoleLog('ionViewDidEnter TabsPage');
         // if(this.tabRef.getSelected() !== null){
@@ -347,13 +392,13 @@ export class TabsPage {
         // }
         let index = e.index;
         if (index === 0) {
-            this.searchIcon = 'custom-home-active';
-            this.fileIcon = 'custom-file';
+            this.searchIcon = 'custom-home';
+            this.fileIcon = 'custom-file-active';
             this.miningIcon = 'custom-mining';
             this.userIcon = 'custom-user';
         } else if (index === 1) {
-            this.searchIcon = 'custom-home';
-            this.fileIcon = 'custom-file-active';
+            this.searchIcon = 'custom-home-active';
+            this.fileIcon = 'custom-file';
             this.miningIcon = 'custom-mining';
             this.userIcon = 'custom-user';
         } else if (index === 2) {
