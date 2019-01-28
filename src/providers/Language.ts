@@ -368,6 +368,18 @@ export class Lang {
         cn : '您的盒子不在线，请在盒子在线时使用'
     }
 
+    static UappUninstalled = {
+        cn: '应用${name}已卸载成功'
+    }
+
+    static Getting = {
+        cn: '获取中(${progress}%)'
+    }
+
+    static AppInstalling = {
+        cn: '正在安装应用${name}'
+    }
+
     static Ok = {
         cn: "确定",
         en: "Ok",

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { File } from '@ionic-native/file';
 import { GlobalService } from '../providers/GlobalService';
 import { HttpService } from '../providers/HttpService';
-import { Util } from '../providers/Util';
 import xml2js from 'xml2js';
 import { HTTP } from '@ionic-native/http';
 import { IfObservable } from 'rxjs/observable/IfObservable';
@@ -21,7 +20,6 @@ export class AppsInstalled {
     uappDir;
 	constructor(private file: File,
 				private global: GlobalService,
-                private util: Util,
                 private nativeHttp: HTTP,
 				private http: HttpService) {
         console.log('Hello AppsInstalledProvider Provider');
@@ -221,8 +219,12 @@ export class AppsInstalled {
             .then(res => {
                 return this.file.moveDir(this.uappDir, info.id + "_tmp", this.uappDir, info.id)
             })
+            .catch(e => {
+                console.log("移动文件夹出错.." + (e && e.stack));
+            })
         })
         .then(res => {
+            console.log("应用安装成功...");
             this.uappInstalled[info.id] = {
                 id: info.id,
                 version: info.version,
@@ -242,6 +244,37 @@ export class AppsInstalled {
         .catch(e => {
             console.log("安装过程出错。。。" + (e && e.stack));
             throw new Error('Install failed...');
+        })
+    }
+
+    uninstallUapp(item) {
+        //删除uapp
+        let url = this.global.getBoxApi('uninstallUapp');
+    
+        delete this.uappInstalled[item.id];
+        this.setInstalledApps(this.uappInstalled)
+        .then(res => {
+            item.progress = undefined;
+            this.global.createGlobalToast(this, {
+                message: this.global.Lf('UappUninstalled', item.title)
+            })
+            //记录删除成功
+            if(item.box) {
+                return this.http.post(url, {
+                    bundleid: item.id
+                })                
+            } else {
+                return {
+                    err_no: 0
+                }
+            }           
+        })
+        .then((res:any) => {
+            //删除本地文件
+            return this.file.removeDir(this.uappDir, item.id)
+        })
+        .catch(e => {
+            console.log("应用卸载失败.." + (e && e.stack));
         })
     }
 
@@ -271,7 +304,11 @@ export class AppsInstalled {
         return this.file.readAsBinaryString(this.uappDir, 'appmanifest.json')
         .then(res => {
             console.log("已安装以下应用：" + res);
-            this.uappInstalled = JSON.parse(res);
+            try {
+                this.uappInstalled = JSON.parse(res);
+            } catch(r) {
+                this.uappInstalled = {};
+            } 
             //有安装的应用
             return this.uappInstalled;
         }, res => {
@@ -292,6 +329,10 @@ export class AppsInstalled {
                     interval = null;                    
                 }
             }
+            let fail = () => {
+                closeInterval();
+                reject();                
+            }
             interval = setInterval(() => {
                 this.http.post(url, {
                     taskid: taskId
@@ -299,9 +340,11 @@ export class AppsInstalled {
                 .then(res => {
                     if(res.err_no === 0) {
                         if(res.status === 3) {
+                            //下载成功
                             closeInterval();
                             resolve(true);
                         } else if(res.status === 1) {
+                            //下载中
                             progress({
                                 process: 'boxDownloading', 
                                 finish: res.finish,
@@ -309,10 +352,14 @@ export class AppsInstalled {
                             })
                         } else {
                             console.log("盒子进度异常，reject");
-                            closeInterval();
-                            reject();
+                            fail();
                         }
+                    } else {
+                        fail();
                     }
+                })
+                .catch(e => {
+                    fail();
                 })
             }, 2000)
         })     

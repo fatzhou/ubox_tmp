@@ -4,12 +4,13 @@ import { Events, App } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { Util } from '../../providers/Util';
-import { UappPlatform } from "../../providers/UappPlatform";
 
 import { AboutDevicePage } from '../about-device/about-device';
 import { AppDetailPage } from '../app-detail/app-detail';
 import { LoginPage } from '../login/login';
 import { AppsInstalled } from '../../providers/AppsInstalled';
+import { UappPlatform } from "../../providers/UappPlatform";
+
 import { InternalFormsSharedModule } from '@angular/forms/src/directives';
 
 /**
@@ -80,60 +81,11 @@ export class SearchPage {
         }
     }
 
+    //打开或者下载uapp
     openApp(item) {
-        if(item.type === 0) {
-            //网页应用，直接打开
-            this.util.openUrl(item.xml);
-        } else {
-            if(item.box) {
-                //依赖盒子，但是没有盒子
-                if(!this.global.centerUserInfo.bind_box_count) {
-                    this.global.createGlobalToast(this, {
-                        message: this.global.L('BindBoxFirst')
-                    })
-                    return false;                    
-                } else if(!this.global.deviceSelected) {
-                    this.global.createGlobalToast(this, {
-                        message: this.global.L('BoxOffline')
-                    })
-                    return false;                     
-                }
-            }
-            //下载安装
-            if(this.appsInstalled.uappInstalled[item.id]) {
-                //已安装
-                this.uappPlatform.openApp(item.id);
-            } else {
-                //安装中则直接返回
-                if(item.progress === undefined) {
-                    item.progress = 1;
-                    //尚未安装
-                    this.appsInstalled.installUapp({
-                        id: item.id,
-                        xml: item.xml,
-                        type: item.type,
-                        box: item.box,
-                        enter: item.enter,
-                        version: item.version
-                    }, (res) => {
-                        console.log("安装进度：" + JSON.stringify(res));
-                        let processProgress = this.util.getUappProgress(item, res);
-                        this.goProgress(item, processProgress);
-                    })    
-                    .then(res => {
-                        //安装完成.....
-                        console.log("APP已安装成功.......");
-                        this.global.createGlobalToast(this, {
-                            message: this.global.Lf('UappInstallSucceed', item.title)
-                        })
-                    })    
-                    .catch(e => {
-                        item.progress = undefined;
-                    })            
-                }
-
-            }
-        }
+        this.util.openUapp(item, (pro) => {
+            this.goProgress(item, pro);
+        });
     }
 
     goProgress(item, p) {
@@ -154,7 +106,8 @@ export class SearchPage {
     }
 
     goAppDetail(info) {
-        this.app.getRootNav().push(AppDetailPage,{
+        console.log("查看应用详情:" + JSON.stringify(info));
+        this.app.getRootNav().push(AppDetailPage, {
             "info": info
         });
     }    

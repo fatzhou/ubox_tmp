@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ItemReorder } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
+import { HttpService } from '../../providers/HttpService';
+import { AppsInstalled } from '../../providers/AppsInstalled';
 import { UappPlatform } from "../../providers/UappPlatform";
+import { InternalFormsSharedModule } from '@angular/forms/src/directives';
 
 /**
  * Generated class for the AppDetailPage page.
@@ -22,7 +25,9 @@ export class AppDetailPage {
     time: any;
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
+        private http: HttpService,
         private util: Util,
+        private appsInstalled: AppsInstalled,
         private uappPlatform: UappPlatform,
         private global: GlobalService) {
     }
@@ -34,12 +39,32 @@ export class AppDetailPage {
     }
 
     deleteUapp(item) {
+        //删除uapp
+        this.appsInstalled.uninstallUapp(this.info);
+    }
 
+    goProgress(item, p) {
+        if(item.progress < p) {
+            //清除上一次未完成的定时器
+            if(item.interval) {
+                clearInterval(item.interval);
+                item.interval = null;
+            }
+            item.interval = setInterval(() => {
+                item.progress++;
+                if(item.progress >= p) {
+                    clearInterval(item.interval);
+                    item.interval = null;
+                }
+            }, 1000);
+        }
     }
 
     openApp() {
     	// this.util.openUrl('https://ubbeyscan.io/');
-        this.uappPlatform.openApp(this.info.id);
+        this.util.openUapp(this.info, (pro) => {
+            this.goProgress(this.info, pro);
+        });
     }
 
 }

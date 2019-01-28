@@ -59,10 +59,11 @@
         </div>
     </div>
     <div class="body-status" (click)="openApp()">
-        <svg class="icon delete" aria-hidden="true" (click)="deleteUapp(info)">
+        <svg class="icon delete" aria-hidden="true" *ngIf="appsInstalled.uappInstalled[info.id]" (click)="deleteUapp(info);$event.stopPropagation();">
             <use xlink:href="#icon-deleteicon1"></use>
         </svg>
         <span class="status-btn" *ngIf="info.type == 0 || appsInstalled.uappInstalled[info.id]">{{ global.L('Open') }} </span>
-        <span class="status-btn" *ngIf="info.type != 0 && !appsInstalled.uappInstalled[info.id]">{{ global.L('Get') }} </span>
+        <span class="status-btn" *ngIf="info.type != 0 && !appsInstalled.uappInstalled[info.id] && info.progress == undefined">{{ global.L('Get') }} </span>
+        <span class="status-btn" *ngIf="info.type != 0 && !appsInstalled.uappInstalled[info.id] && info.progress > 0">{{ global.Lf('Getting', info.progress) }} </span>    
     </div>
 </ion-content>

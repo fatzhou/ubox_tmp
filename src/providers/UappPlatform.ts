@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { AppsInterface } from './AppsInterface';
 import { AppsInstalled } from './AppsInstalled';
 import { GlobalService } from './GlobalService';
-import { Util } from './Util';
 import { File } from '@ionic-native/file';
 
 declare var cordova;
@@ -19,7 +18,6 @@ export class UappPlatform {
 
     constructor(private api: AppsInterface,
         private global: GlobalService,
-        private util: Util,
         private file: File,
         private appsInstalled: AppsInstalled) {
         UappPlatform._this = this;

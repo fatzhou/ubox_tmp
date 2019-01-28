@@ -15,6 +15,8 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { File } from '@ionic-native/file';
 import { FileOpener } from '@ionic-native/file-opener';
 import { Clipboard } from '@ionic-native/clipboard';
+import { AppsInstalled } from './AppsInstalled';
+import { UappPlatform } from "./UappPlatform";
 
 declare var chcp: any;
 declare var createObjectURL: any;
@@ -37,6 +39,8 @@ export class Util {
         private fileOpener: FileOpener,
         public barcodeScanner: BarcodeScanner,
         private global: GlobalService,
+        private uappPlatform: UappPlatform,
+        private appsInstalled: AppsInstalled,
         private clipboard: Clipboard,
     ) {
         GlobalService.consoleLog("Util构造函数。。")
@@ -354,6 +358,62 @@ export class Util {
         })
     }
 
+    openUapp(item, goProgress) {
+        if(item.type === 0) {
+            //网页应用或者已
+            this.openUrl(item.xml);
+        } else if(this.appsInstalled.uappInstalled[item.id]) {
+            //应用已安装, 直接打开
+            this.uappPlatform.openApp(item.id);
+        } else {
+            //应用未安装，先安装
+            if(item.box) {
+                //依赖盒子，但是没有盒子
+                if(!this.global.centerUserInfo.bind_box_count) {
+                    this.global.createGlobalToast(this, {
+                        message: this.global.L('BindBoxFirst')
+                    })
+                    return false;                    
+                } else if(!this.global.deviceSelected) {
+                    this.global.createGlobalToast(this, {
+                        message: this.global.L('BoxOffline')
+                    })
+                    return false;                     
+                }
+            }
+            //下载安装, 安装中则直接返回
+            if(item.progress === undefined) {
+                this.global.createGlobalToast(this, {
+                    message: this.global.Lf('AppInstalling', item.title)
+                })
+                item.progress = 1;
+                //尚未安装
+                this.appsInstalled.installUapp({
+                    id: item.id,
+                    xml: item.xml,
+                    type: item.type,
+                    box: item.box,
+                    enter: item.enter,
+                    version: item.version
+                }, (res) => {
+                    console.log("安装进度：" + JSON.stringify(res));
+                    let processProgress = this.getUappProgress(item, res);
+                    goProgress(processProgress);
+                })    
+                .then(res => {
+                    //安装完成.....
+                    console.log("APP已安装成功.......");
+                    this.global.createGlobalToast(this, {
+                        message: this.global.Lf('UappInstallSucceed', item.title)
+                    })
+                })    
+                .catch(e => {
+                    item.progress = undefined;
+                })            
+            }
+        }
+    }
+
     public getUappProgress(item, progress) {
         let processRate = 0;
         switch(progress.process) {
@@ -373,7 +433,7 @@ export class Util {
                 processRate = 85;
                 break;
             case 'boxDownloading':
-                let rate = Math.floor(progress.finish / progress.total * 55) + 30;
+                let rate = Math.floor(progress.finish / progress.total * 45) + 30;
                 processRate = rate;
                 break;
             case 'installFinished':
