@@ -19,13 +19,13 @@
 		<img src="assets/img/success@2x.png" *ngIf="status == '2' || status == '5'" alt="">
 		<img src="assets/img/warning@2x.png" *ngIf="status == '3' || status == '4'" alt="">
 		 -->
-		<svg class="icon delete" *ngIf="status == '2'" aria-hidden="true">
+		<svg class="icon delete icon-new" *ngIf="status == '2'" aria-hidden="true">
 				<use xlink:href="#icon-success"></use>
 		</svg>
-		<svg class="icon delete" *ngIf="status == '2' || status == '5'" aria-hidden="true">
+		<svg class="icon delete icon-new" *ngIf="status == '3' || status == '4'" aria-hidden="true">
 				<use xlink:href="#icon-transactionfailed"></use>
 		</svg>
-		<svg class="icon delete" *ngIf="status == '3' || status == '4'" aria-hidden="true">
+		<svg class="icon delete icon-new" *ngIf="status == '1' || status == '5'" aria-hidden="true">
 				<use xlink:href="#icon-wait"></use>
 		</svg>
 		<p class="amount">{{ amount }}<span class="unit">UBBEY</span></p>
