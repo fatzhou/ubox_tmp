@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uapp>
+  <name>PVR</name>
+  <bundleid>com.pvr.www</bundleid>
+  <version>1.2</version> 
+  <versionlog>1.2version...</versionlog>
+  <box>  
+    <packageurl>./box/pvr-1.0.0.tar</packageurl>
+    <md5>9cab6f5420d641e65dcb389ef2fddf38</md5>
+    <dependences>
+        <dependence>1</dependence>
+    </dependences>
+    <permissions>
+        <permission>ccc</permission>
+    </permissions>
+  </box> 
+    <www> 
+    <packageurl>./www/pvr-1.0.0.zip</packageurl>  
+    <md5>ababababababaabababa</md5> 
+    <dependences>
+        <dependence>1</dependence>
+    </dependences>
+    <permissions>
+        <permission>ccc</permission>
+    </permissions>
+  </www>
+ </uapp>

@@ -17,6 +17,7 @@ import { Storage } from '@ionic/storage';
 import { Md5 } from 'ts-md5/dist/md5';
 import { Events } from 'ionic-angular';
 import { Lang } from '../../providers/Language';
+import { AppsInstalled } from '../../providers/AppsInstalled';
 import { FileOpener } from '@ionic-native/file-opener';
 
 declare var window;
@@ -83,6 +84,7 @@ export class TabsPage {
         public storage: Storage,
         private util: Util,
         private platform: Platform,
+        private appInstalled: AppsInstalled,
         private fileOpener: FileOpener,
         public navParams: NavParams) {
         GlobalService.consoleLog("tabs页面构造函数");
@@ -137,8 +139,6 @@ export class TabsPage {
                 GlobalService.consoleLog(e.stack);
             })
         })
-
-        
 
         //外部要求升级app
         events.subscribe('update-app', () => {
@@ -244,15 +244,6 @@ export class TabsPage {
         })
     }
 
-    ionViewWillEnter() {
-        // let index = this.navParams.get('tabIndex');
-        // console.log("需要跳转到第" + index + "tab");
-        // if(index != undefined) {
-        //     // this.selectedIndex = index;
-        //     this.tabRef.select(index);
-        // }
-    }
-
     loginFirst(index) {
         // this.selectedIndex = 0;
         if(!this.global.centerUserInfo.uname) {
@@ -318,7 +309,7 @@ export class TabsPage {
     }
 
     ionViewDidLoad() {
-        GlobalService.consoleLog('ionViewDidLoad TabsPage');
+        GlobalService.consoleLog('进入TabsPage...');
         //初始化connection组件
         // this.connection.status = this.global.useWebrtc ? this.global.L('RemoteNetwork')
     }

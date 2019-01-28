@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { AppsInterface } from './AppsInterface';
 import { AppsInstalled } from './AppsInstalled';
 import { GlobalService } from './GlobalService';
-
+import { Util } from './Util';
+import { File } from '@ionic-native/file';
 
 declare var cordova;
 declare var window;
@@ -18,11 +19,13 @@ export class UappPlatform {
 
     constructor(private api: AppsInterface,
         private global: GlobalService,
+        private util: Util,
+        private file: File,
         private appsInstalled: AppsInstalled) {
         UappPlatform._this = this;
     }
 
-    public openapp(uappName) {
+    public openApp(id) {
         let self = this;
 
         if(!window.cordova) {
@@ -30,42 +33,37 @@ export class UappPlatform {
             return false;
         }
 
-        if (this.global.platformName == "android"){
-            UAPPROOT = this.global.fileSavePath + "www/uapp/";
-            UAPPROOT = UAPPROOT.replace('file://', "");
-            this.api.createDir(UAPPROOT);
-        } else {
-            UAPPROOT = "uapp/";
+        if(!UAPPROOT) {
+            // UAPPROOT = "uapp/";
+            UAPPROOT = (this.global.fileSavePath + "www/uapp/").replace("file://", "");
         }
-        console.log("openapp:" + uappName);
+        console.log("openapp:" + id);
 
-        if(!AppsInstalled.uappInstalled[uappName].local_url) {
+        if(!this.appsInstalled.uappInstalled[id].localUrl) {
             this.global.createGlobalToast(this, {
-                message: "UAPP '" + uappName + "' not exist."
+                message: "UAPP '" + id + "' not exist."
             });
             return;
         }
 
         if (!httpd){
             httpd = ( cordova && cordova.plugins && cordova.plugins.CorHttpd ) ? cordova.plugins.CorHttpd : null;
-            console.log("cordova:" + JSON.stringify(cordova));
-            console.log("cordova.plugins:" + JSON.stringify(cordova.plugins));
             console.log("httpd:" + JSON.stringify(httpd));
             self.startServer(UAPPROOT);
-            setTimeout(self.openapp.bind(self), 1000, uappName);
+            setTimeout(self.openApp.bind(self), 1000, id);
             return;
         }
         httpd.getURL((url)=> {
             if (url.length > 0) {
-                let uappStr  = AppsInstalled.uappInstalled[uappName].local_url;
-                let uappUrl  = url + (url[url.length-1]=='/' ? uappStr.substr(1) : uappStr);//'https://www.baidu.com/';//
-                console.log("httpd服务正在运行: uapurl=" + uappUrl);
+                let uappStr  = this.appsInstalled.uappInstalled[id].localUrl;
+                let uappUrl  = url + (url[url.length-1]=='/' ? uappStr.substr(1) : uappStr);
+                console.log("httpd服务正在运行: uappurl=" + uappUrl);
                 setTimeout(self.openbrowser.bind(self), 100, uappUrl);
             } else{
                 console.log('httpd没有启动，请稍候重启');
             }
         });
-        console.log("done openapp:" + uappName);
+        console.log("done openapp:" + id);
     }
 
     public openbrowser(uappUrl){
@@ -146,11 +144,32 @@ export class UappPlatform {
         console.log("loadStopCallBack called");
 
         if (this.inAppBrowserRef != undefined) {
-            this.inAppBrowserRef.insertCSS({file: "/uapp.css"}, console.log);
-            this.inAppBrowserRef.executeScript({file: "/uapp.js"}, console.log);
-            this.inAppBrowserRef.show();
-            console.log("loadStopCallBack called done");
-        }
+            let root = "file://" + UAPPROOT;
+            console.log("文件存储目录：" + root);
+            return this.file.checkFile(root, "uapp.js")
+            .then(res => {
+                console.log("公共库文件已存在");
+                return true;
+            }, res => {
+                console.log("公共库文件不存在，需要拷贝");
+                let promises = [
+                    this.file.copyFile(cordova.file.applicationDirectory + "www/uapp/", "uapp.js", root, "uapp.js"),
+                    this.file.copyFile(cordova.file.applicationDirectory + "www/uapp/", "uapp.css", root, "uapp.css")
+                ];
+                return Promise.all(promises);                
+            })
+            .then(res => {
+                console.log("公共库拷贝完成，显示网页...");
+                this.inAppBrowserRef.insertCSS({file: "/uapp.css"}, console.log);
+                this.inAppBrowserRef.executeScript({file: "/uapp.js"}, console.log);
+                //加载完毕。。。。
+                this.inAppBrowserRef.show();
+            })
+            .catch(e => {
+                console.log("公共库文件拷贝失败:" + e.stack);
+            })
+        }            
+        console.log("loadStopCallBack called done");
     }
 
     execMessageCallback(params) {

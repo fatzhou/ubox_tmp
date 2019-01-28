@@ -354,6 +354,39 @@ export class Util {
         })
     }
 
+    public getUappProgress(item, progress) {
+        let processRate = 0;
+        switch(progress.process) {
+            case 'start':
+                processRate = 1;
+                break;
+            case 'folderCreated':
+                processRate = 3;
+                break;
+            case 'xmlDownloaded':
+                processRate = 6;
+                break;
+            case 'pkgZipped':
+                processRate = item.box ? 20 : 80;
+                break;
+            case 'boxAppInstalled':
+                processRate = 85;
+                break;
+            case 'boxDownloading':
+                let rate = Math.floor(progress.finish / progress.total * 55) + 30;
+                processRate = rate;
+                break;
+            case 'installFinished':
+                processRate = 90;
+                break;
+                case 'installFinished':
+            case 'finished':
+                processRate = 100;
+                break;
+        }
+        return processRate;
+    }
+
     _checkLocalBoxAvailable(boxId) {
         let errorCallback = () => {
             setTimeout(()=>{

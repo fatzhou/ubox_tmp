@@ -33,9 +33,13 @@ export class AppDetailPage {
         this.labelList = this.global.SearchData.labelList;
     }
 
+    deleteUapp(item) {
+
+    }
+
     openApp() {
     	// this.util.openUrl('https://ubbeyscan.io/');
-        this.uappPlatform.openapp('pvr');
+        this.uappPlatform.openApp(this.info.id);
     }
 
 }

@@ -19,6 +19,7 @@ page-search {
             }
         }
     }
+
     .slides-box {
         height: 180px;
         margin-bottom: 20px;
@@ -155,17 +156,52 @@ page-search {
             .info-status {
                 float: left;
                 margin: 0;
+                position: relative;
+                margin-top: -28px;
+                background: #F0F1FF;
+                height: 24px;
+                width: 54px;
+                border: 1px solid #5D75F7;
+                box-sizing: border-box;
+                border-radius: 4px;
+                overflow: hidden;
+                text-align: center;                  
+                
                 .status-btn {
-                    margin-top: -28px;
-                    height: 24px;
-                    width: 54px;
-                    background: #F0F1FF;
-                    border: 1px solid #5D75F7;
-                    text-align: center;
+                    margin: 0;
                     color: #5D75F7;
-                    line-height: 24px;
+                    line-height: 22px;
                     font-size: 12px;
-                    border-radius: 4px;
+                    &.in-progress {
+                        color: #fff;
+                    }
+                }
+                .progress-bar {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    .button-txt {
+                        margin: 0;
+                        width: 52px;
+                        font-size: 12px;
+                        line-height: 22px;
+                        position: relative;
+                        z-index: 99;
+                        color: #fff;
+                        text-align: center;          
+                    }
+                    .progress-bar-inner {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        width: 0;
+                        overflow: hidden;
+                        height: 100%;
+                        background: #5D75F7;
+                    }
                 }
             }
         }

@@ -105,7 +105,7 @@ export class UserPage {
     }
 
     goDeviceListPage() {
-       this.app.getRootNav().push(DeviceListPage);   
+       this.app.getRootNav().push(LoginPage);   
     }
 
     goChangePasswdPage() {

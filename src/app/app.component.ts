@@ -45,6 +45,7 @@ import { ExportKeystorePage } from '../pages/export-keystore/export-keystore';
 import { VerifyEmailPage } from '../pages/verify-email/verify-email';
 import { Web3Service } from '../providers/Web3Service';
 import { Md5 } from 'ts-md5/dist/md5';
+import { AppsInstalled } from '../providers/AppsInstalled';
 
 import { FileManager } from '../providers/FileManager';
 declare var chcp: any;
@@ -69,6 +70,7 @@ export class UboxApp {
         public platform: Platform,
         private network: Network,
         public storage: Storage,
+        private appInstalled: AppsInstalled,
         private fileManager: FileManager,
         private global: GlobalService,
         private http: HttpService,
@@ -121,7 +123,10 @@ export class UboxApp {
                     GlobalService.consoleLog('-------ios---------')
                     this.global.fileSavePath = cordova.file.dataDirectory;
                 } 
-                this.global.fileRootPath = cordova.file.externalRootDirectory;           
+                this.global.fileRootPath = cordova.file.externalRootDirectory;   
+                
+                //获取已安装应用列表
+                this.appInstalled.getInstalledApps();
             } else {
                 GlobalService.consoleLog("我不是cordova");
                 this.rootPage = SearchPage;
