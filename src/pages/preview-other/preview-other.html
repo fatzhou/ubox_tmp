@@ -29,9 +29,9 @@
             <div class="progress-box" (click)="controlDownloadFile()">
                 <button type="button" class="btn font-fff" *ngIf="downloadStatus === 'default'">{{ global.L('DownloadFile') }}</button>
                 <button type="button" class="btn font-fff" *ngIf="downloadStatus === 'finished'">{{ global.L('OpenOtherApp') }}</button>
-                <button type="button" class="btn" *ngIf="downloadStatus === 'doing' || downloadStatus === 'paused'">{{ task.pausing === 'paused' ? '恢复下载' : '暂停下载' }}</button>
+                <button type="button" class="btn" *ngIf="downloadStatus === 'doing' || downloadStatus === 'paused'">{{ task.pausing === 'paused' ? global.L('StartDownload') : global.L('StopDownload') }}</button>
                 <div class="mask" *ngIf="downloadStatus === 'doing' || downloadStatus === 'paused'" [ngStyle]="{width : computeFinished()}">
-                    <button type="button" class="btn font-fff">{{ task.pausing === 'paused' ? '恢复下载' : '暂停下载' }}</button>
+                    <button type="button" class="btn font-fff">{{ task.pausing === 'paused' ? global.L('StartDownload') : global.L('StopDownload') }}</button>
                 </div>
             </div>
         </div>

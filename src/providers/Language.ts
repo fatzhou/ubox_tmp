@@ -3786,6 +3786,17 @@ export class Lang {
         en: '',
         kr: ''
     }
+
+    static StartDownload = {
+        cn: '恢复下载',
+        en: '',
+        kr: ''
+    }
+    static StopDownload = {
+        cn: '暂停下载',
+        en: '',
+        kr: ''
+    }
     
 }
 
