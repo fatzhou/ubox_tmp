@@ -356,6 +356,18 @@ export class Lang {
         kr: ''
     }
 
+    static UappInstallSucceed = {
+        cn: "应用${name}已成功安装!"
+    }
+
+    static BindBoxFirst = {
+        cn : '该应用需先绑定盒子'
+    }
+
+    static BoxOffline = {
+        cn : '您的盒子不在线，请在盒子在线时使用'
+    }
+
     static Ok = {
         cn: "确定",
         en: "Ok",

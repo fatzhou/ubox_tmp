@@ -689,11 +689,11 @@ export class HttpService {
         }        
     }
 
-    downloadFile(remoteUrl, params, headers) {
+    downloadFile(remoteUrl, params, headers, forceLocal = false) {
         GlobalService.consoleLog("开始下载任务");
         var url = this.global.getBoxApi('downloadFile');
         GlobalService.consoleLog(`下载url: ${url}, 远端路径: ${remoteUrl}, 文件路径:${params.filePath}, 临时文件：${params.tmpFileName}`);
-        if(!this.global.useWebrtc) {
+        if(!this.global.useWebrtc || forceLocal) {
             return this.http.downloadFile(url, {
                 fullpath: remoteUrl
             }, headers, params.filePath + '/' + params.tmpFileName)

@@ -59,9 +59,10 @@
         </div>
     </div>
     <div class="body-status" (click)="openApp()">
-        <!-- <svg class="icon delete" aria-hidden="true">
+        <svg class="icon delete" aria-hidden="true" (click)="deleteUapp(info)">
             <use xlink:href="#icon-deleteicon1"></use>
-        </svg> -->
-        <span class="status-btn">{{ info.type == 0 ? global.L('Open') : global.L('Get') }} </span>
+        </svg>
+        <span class="status-btn" *ngIf="info.type == 0 || appsInstalled.uappInstalled[info.id]">{{ global.L('Open') }} </span>
+        <span class="status-btn" *ngIf="info.type != 0 && !appsInstalled.uappInstalled[info.id]">{{ global.L('Get') }} </span>
     </div>
 </ion-content>

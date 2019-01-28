@@ -27,17 +27,4 @@ export class AppsInterface {
 			})
 		})
 	}
-
-	public createDir(rootFolder) {
-		let self = this;
-		self.file.createDir(this.global.fileSavePath, "www", false).then(
-			()=>{
-				console.log("createDir UAPPROOT:[" + rootFolder + "]success");
-			}
-			).catch(()=>{
-				console.log("createDir UAPPROOT:[" + rootFolder + "] failed, maybe it already exist.");
-			}
-		);
-	}
-
 }

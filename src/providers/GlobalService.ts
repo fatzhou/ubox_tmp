@@ -395,6 +395,18 @@ export class GlobalService {
         "installPackage130": {
             url: "/updatebox/install"
         },
+        "downloadUapp": {
+            url: "/ubeybox/uapp/download"
+        },
+        "checkUappProgress": {
+            url: "/ubeybox/uapp/get_progress"
+        },
+        "installUapp": {
+            url: "/ubeybox/uapp/install"
+        },
+        "uninstallUapp": {
+            url: "/ubeybox/uapp/uninstall"
+        },
     };
 
     private static centerApiHostEnv = GlobalService.centerApiHost[GlobalService.ENV];
