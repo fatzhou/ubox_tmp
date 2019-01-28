@@ -101,7 +101,7 @@ export class SearchPage {
                     clearInterval(item.interval);
                     item.interval = null;
                 }
-            }, 100);
+            }, 300);
         }
     }
 

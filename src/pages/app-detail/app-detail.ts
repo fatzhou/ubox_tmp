@@ -56,7 +56,7 @@ export class AppDetailPage {
                     clearInterval(item.interval);
                     item.interval = null;
                 }
-            }, 1000);
+            }, 300);
         }
     }
 

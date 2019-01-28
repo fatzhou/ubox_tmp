@@ -49,7 +49,7 @@
                         <p class="info-Introduction eps">{{ item.summary }}</p>
                     </div>
                     <div class="info-status" (click)="openApp(item);$event.stopPropagation();" item-end>
-                        <div class="progress-bar" *ngIf="item.type != 0 && !appsInstalled.uappInstalled[item.id] && item.progress != undefined">
+                        <div class="progress-bar" *ngIf="item.type != 0 && !appsInstalled.uappInstalled[item.id] && item.progress">
                             <div class="progress-bar-inner" [ngStyle]="{'width': item.progress + '%'}">
                                 <p class="button-txt">{{ global.L('Get')  }}</p>
                             </div>

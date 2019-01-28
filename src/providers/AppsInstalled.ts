@@ -209,18 +209,21 @@ export class AppsInstalled {
             //盒子已安装完毕，重命名文件夹
             return this.file.checkDir(this.uappDir, info.id)
             .then(res => {
-                console.log("应用" + info.id + "文件夹已存在，需要先删除");
+                console.log(JSON.stringify(res))
+                console.log("应用" + info.id + "文件夹已存在，需要先删除..." + this.uappDir);
                 //存在
-                return this.file.removeDir(this.uappDir, info.id)
+                return this.file.removeRecursively(this.uappDir, info.id);
             }, res => {
                 console.log("应用文件夹" + info.id + "不存在，可直接moveDir")
                 return true;
             })
             .then(res => {
-                return this.file.moveDir(this.uappDir, info.id + "_tmp", this.uappDir, info.id)
+                console.log("开始移动文件夹.....");
+                return this.file.moveDir(this.uappDir, info.id + "_tmp", this.uappDir, info.id);
             })
             .catch(e => {
-                console.log("移动文件夹出错.." + (e && e.stack));
+                console.log("移动文件夹出错.." + JSON.stringify(e) + (e && e.stack));
+                throw new Error('Move file error....');
             })
         })
         .then(res => {
@@ -242,8 +245,11 @@ export class AppsInstalled {
             })           
         })
         .catch(e => {
-            console.log("安装过程出错。。。" + (e && e.stack));
+            console.log("安装过程出错。。。" + e);
             throw new Error('Install failed...');
+            this.global.createGlobalToast(this, {
+                message: this.global.Lf('InstallError', info.title)
+            })
         })
     }
 
@@ -271,10 +277,10 @@ export class AppsInstalled {
         })
         .then((res:any) => {
             //删除本地文件
-            return this.file.removeDir(this.uappDir, item.id)
+            return this.file.removeRecursively(this.uappDir, item.id);
         })
         .catch(e => {
-            console.log("应用卸载失败.." + (e && e.stack));
+            console.log("应用卸载失败.." + JSON.stringify(e));
         })
     }
 

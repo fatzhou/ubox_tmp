@@ -380,6 +380,10 @@ export class Lang {
         cn: '正在安装应用${name}'
     }
 
+    static InstallError = {
+        cn: '应用${name}安装失败'
+    }
+
     static Ok = {
         cn: "确定",
         en: "Ok",
