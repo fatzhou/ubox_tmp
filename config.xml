@@ -92,7 +92,7 @@
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <allow-navigation href="http://192.168.0.22:8100" sessionid="dc1ca46a" />
     <allow-navigation href="http://192.168.0.27:8101" sessionid="d2b0d333" />
-    <allow-navigation href="http://192.168.0.27:8100" sessionid="cdafa0e7" />
+    <allow-navigation href="http://192.168.0.27:8100" sessionid="2c927b49" />
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="4.5.5" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />

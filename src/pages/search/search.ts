@@ -10,6 +10,7 @@ import { AppDetailPage } from '../app-detail/app-detail';
 import { LoginPage } from '../login/login';
 import { AppsInstalled } from '../../providers/AppsInstalled';
 import { UappPlatform } from "../../providers/UappPlatform";
+import { AppsInterface } from "../../providers/AppsInterface";
 
 import { InternalFormsSharedModule } from '@angular/forms/src/directives';
 
@@ -37,6 +38,7 @@ export class SearchPage {
         private util: Util,
         private http: HttpService,
         private uappPlatform: UappPlatform,
+        private appsInterface: AppsInterface,
         private appsInstalled: AppsInstalled,
         private app: App) {
             events.unsubscribe('language:change');

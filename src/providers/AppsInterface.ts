@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { File } from '@ionic-native/file';
 import { GlobalService } from './GlobalService';
-
+import { UappPlatform } from './UappPlatform';
+declare var cordova;
 /*
   Generated class for the AppsInstalledProvider provider.
 
@@ -11,9 +12,12 @@ import { GlobalService } from './GlobalService';
 @Injectable()
 export class AppsInterface {
 
-	constructor(private global: GlobalService,
+    constructor(private global: GlobalService,
+                private uapp: UappPlatform,
 				private file: File) {
-		console.log('Hello AppsInstalledProvider Provider');
+        console.log('Hello AppsInstalledProvider Provider');
+        this.uapp.registerApi('closeUapp', this, this.closeUapp);
+        this.uapp.registerApi('test', this, this.test);
 	}
 
 	test(str) {
@@ -26,5 +30,11 @@ export class AppsInterface {
 				resolv(JSON.stringify("eeeeeeor"));
 			})
 		})
-	}
+    }
+    
+    closeUapp() {
+        console.log("即将关闭浏览器...");
+        // cordova.InAppBrowser.close();
+        return Promise.resolve(this.uapp.closeApp());
+    }
 }

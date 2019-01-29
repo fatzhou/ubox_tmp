@@ -246,10 +246,10 @@ export class AppsInstalled {
         })
         .catch(e => {
             console.log("安装过程出错。。。" + e);
-            throw new Error('Install failed...');
             this.global.createGlobalToast(this, {
                 message: this.global.Lf('InstallError', info.title)
             })
+            throw new Error('Install failed...');
         })
     }
 

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 // import { StatusBar } from '@ionic-native/status-bar';
-import { AppsInterface } from './AppsInterface';
+// import { AppsInterface } from './AppsInterface';
 import { AppsInstalled } from './AppsInstalled';
 import { GlobalService } from './GlobalService';
 import { File } from '@ionic-native/file';
+import { appInitializerFactory } from '@angular/platform-browser/src/browser/server-transition';
 
 declare var cordova;
 declare var window;
@@ -14,13 +15,21 @@ let UAPPROOT:string  = "";
 export class UappPlatform {
     private inAppBrowserRef:any;
     private static _this;
+    private api = {};
 
-
-    constructor(private api: AppsInterface,
+    constructor(
         private global: GlobalService,
         private file: File,
         private appsInstalled: AppsInstalled) {
         UappPlatform._this = this;
+    }
+
+    registerApi(method, obj, func) {
+        this.api[method] = func.bind(obj);
+    }
+
+    public closeApp() {
+        return this.inAppBrowserRef.close();
     }
 
     public openApp(id) {
@@ -174,6 +183,7 @@ export class UappPlatform {
         console.log("===execMessageCallback=========" + JSON.stringify(params));
         let args = params.data;
         let exportedfunc = null;
+        console.log(JSON.stringify(this.api))
         if(!args.service && this.api[args.execute]){
             exportedfunc = this.api[args.execute];
         } else {
