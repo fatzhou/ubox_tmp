@@ -1157,7 +1157,7 @@ export class Util {
     }    
 
     openUrl(url){
-        const browser = this.browser.create(url, "_blank", "location=no&hardwareback=yes&hidespinner=yes&closebuttoncaption=close&clearcache=yes&clearsessioncache=yes");
+        const browser = this.browser.create(url, "_blank", "withcookie=a%3D1%26b%3D2&location=no&hardwareback=yes&hidespinner=yes&closebuttoncaption=close&clearcache=yes&clearsessioncache=yes");
         if(browser.on('loadstop').subscribe){
             browser.on('loadstop').subscribe(event => {
             GlobalService.consoleLog("加载完毕'");
