@@ -17,21 +17,25 @@ export class AppsInterface {
 				private file: File) {
         console.log('Hello AppsInstalledProvider Provider');
         this.uapp.registerApi('closeUapp', this, this.closeUapp);
-        this.uapp.registerApi('test', this, this.test);
+        this.uapp.registerApi('getInfo', this, this.getInfo);
 	}
 
-	test(str) {
-		return new Promise((resolv, reject)=>{
-			console.log("Start test......");
-			this.file.listDir(this.global.fileSavePath, '.').then((entries)=>{
-				resolv(JSON.stringify(entries));
-			}).catch((e)=>{
-				console.log(e.stack)
-				resolv(JSON.stringify("eeeeeeor"));
-			})
-		})
-    }
-    
+	getInfo() {
+		let boxInfo = null;
+		if(this.global.deviceSelected) {
+			boxInfo = {
+				ip: this.global.deviceSelected.URLBase,
+				boxId: this.global.deviceSelected.boxId
+			}
+		}
+		return {
+			userInfo: {
+				username: this.global.centerUserInfo.uname
+			},
+			boxInfo: boxInfo
+		}
+	}
+
     closeUapp() {
         console.log("即将关闭浏览器...");
         // cordova.InAppBrowser.close();

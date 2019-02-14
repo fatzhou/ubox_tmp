@@ -3,7 +3,8 @@
     <name>Ubbey</name>
     <description>Ubbey box --- Say hello to the future of blockchain personal cloud!</description>
     <author email="keda.c@ulabs.technology" href="http://ulabs.tech/">Ulabs Technology</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.0.12:8101" />
+    <content src-original="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -93,6 +94,7 @@
     <allow-navigation href="http://192.168.0.22:8100" sessionid="dc1ca46a" />
     <allow-navigation href="http://192.168.0.27:8101" sessionid="d2b0d333" />
     <allow-navigation href="http://192.168.0.27:8100" sessionid="2c927b49" />
+    <allow-navigation href="http://192.168.0.12:8101" />
     <engine name="android" spec="6.3.0" />
     <engine name="ios" spec="4.5.5" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
@@ -120,7 +122,6 @@
     <plugin name="cordova-plugin-photo-library" spec="https://github.com/ubbey/cordova-plugin-photo-library.git">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
-    <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
     <plugin name="com.rjfun.cordova.httpd" spec="https://github.com/floatinghotpot/cordova-httpd.git" />
     <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
         <variable name="URL_SCHEME" value="ubbeybox" />
@@ -129,4 +130,5 @@
         <variable name="ANDROID_PATHPREFIX" value="/" />
     </plugin>
     <plugin name="cordova-plugin-zip" spec="^3.1.0" />
+    <plugin name="cordova-plugin-inappbrowser" spec="https://github.com/ubbey/cordova-plugin-inappbrowser.git" />
 </widget>
