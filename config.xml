@@ -4,6 +4,7 @@
     <description>Ubbey box --- Say hello to the future of blockchain personal cloud!</description>
     <author email="keda.c@ulabs.technology" href="http://ulabs.tech/">Ulabs Technology</author>
     <content src="index.html" />
+    <content src-original="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -129,5 +130,5 @@
         <variable name="ANDROID_PATHPREFIX" value="/" />
     </plugin>
     <plugin name="cordova-plugin-zip" spec="^3.1.0" />
-    <plugin name="cordova-plugin-inappbrowser" spec="git+https://github.com/ubbey/cordova-plugin-inappbrowser.git" />
+    <plugin name="cordova-plugin-inappbrowser" spec="https://github.com/ubbey/cordova-plugin-inappbrowser.git" />
 </widget>

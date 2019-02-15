@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { AppsInstalled } from './AppsInstalled';
 import { GlobalService } from './GlobalService';
 import { File } from '@ionic-native/file';
-import { appInitializerFactory } from '@angular/platform-browser/src/browser/server-transition';
+import { HttpService } from '../providers/HttpService';
 
 declare var cordova;
 declare var window;
@@ -19,7 +19,8 @@ export class UappPlatform {
 
     constructor(
         private global: GlobalService,
-        private file: File,
+		private file: File,
+		private http: HttpService,
         private appsInstalled: AppsInstalled) {
         UappPlatform._this = this;
     }
@@ -83,9 +84,53 @@ export class UappPlatform {
         self.inAppBrowserRef.addEventListener('loadstop', UappPlatform.prototype.loadStopCallBack.bind(self));
         self.inAppBrowserRef.addEventListener('loaderror', UappPlatform.prototype.loadErrorCallBack.bind(self));
         self.inAppBrowserRef.addEventListener('message', UappPlatform.prototype.execMessageCallback.bind(self));
-        self.inAppBrowserRef.addEventListener('exit', UappPlatform.prototype.loadErrorCallBack.bind(self));
-        setTimeout(self.showbrowser.bind(self), 100, uappUrl);
-    }
+		self.inAppBrowserRef.addEventListener('exit', UappPlatform.prototype.loadErrorCallBack.bind(self));
+		
+		//android下需要种cookie, ios下会自动携带cookie
+		if(this.global.platformName === 'android') {
+			this.setCookies()
+			.then(res => {
+				console.log("cookie写入成功，即将打开浏览器.......");
+				setTimeout(self.showbrowser.bind(self), 100, uappUrl);
+			})			
+		} else {
+			setTimeout(self.showbrowser.bind(self), 100, uappUrl);
+		}
+	}
+	
+	private setCookies() {
+		let promises = [];
+		console.log("Setcookie11111.......");
+		promises.push(new Promise((resolve, reject) => {
+			let centerUrl = GlobalService.centerApiHost[GlobalService.ENV];
+			let cookie = this.http.getCookieString(centerUrl);
+			console.log("即将写入中心cookie:" + cookie);
+			this.inAppBrowserRef.setCookies({
+				url: centerUrl,
+				cookie: cookie
+			}, () => {
+				console.log("成功写入中心cookie:" + cookie);
+				resolve();
+			})
+		}))
+
+		if(this.global.deviceSelected) {
+			promises.push(new Promise((resolve, reject) => {
+				let boxUrl = "http://" + this.global.deviceSelected.URLBase;
+				let cookie = this.http.getCookieString(boxUrl);
+				console.log("即将写入盒子cookie:" + cookie);
+				this.inAppBrowserRef.setCookies({
+					url: boxUrl,
+					cookie: cookie
+				}, () => {
+					console.log("成功写入盒子cookie:" + cookie);
+					resolve();
+				})	
+			}));	
+		}
+		console.log(promises.length);
+		return Promise.all(promises)		
+	}
 
     public showbrowser(uappUrl){
         console.log("===showbrowser===");
