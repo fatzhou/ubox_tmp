@@ -3,7 +3,7 @@
     <name>Ubbey</name>
     <description>Ubbey box --- Say hello to the future of blockchain personal cloud!</description>
     <author email="keda.c@ulabs.technology" href="http://ulabs.tech/">Ulabs Technology</author>
-    <content original-src="index.html" src="http://192.168.0.12:8101" />
+    <content src="index.html" />
     <content src-original="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />

@@ -86,22 +86,28 @@ export class UappPlatform {
         self.inAppBrowserRef.addEventListener('message', UappPlatform.prototype.execMessageCallback.bind(self));
 		self.inAppBrowserRef.addEventListener('exit', UappPlatform.prototype.loadErrorCallBack.bind(self));
 		
-		this.setCookies()
-		.then(res => {
-			console.log("cookie写入成功，即将打开浏览器.......");
-        	setTimeout(self.showbrowser.bind(self), 100, uappUrl);
-		})
+		//android下需要种cookie, ios下会自动携带cookie
+		if(this.global.platformName === 'android') {
+			this.setCookies()
+			.then(res => {
+				console.log("cookie写入成功，即将打开浏览器.......");
+				setTimeout(self.showbrowser.bind(self), 100, uappUrl);
+			})			
+		} else {
+			setTimeout(self.showbrowser.bind(self), 100, uappUrl);
+		}
 	}
 	
 	private setCookies() {
 		let promises = [];
-		console.log("Setcookie.......");
+		console.log("Setcookie11111.......");
 		promises.push(new Promise((resolve, reject) => {
-			let centerUrl = GlobalService.centerApi['getUserInfo'].url;
+			let centerUrl = GlobalService.centerApiHost[GlobalService.ENV];
 			let cookie = this.http.getCookieString(centerUrl);
 			console.log("即将写入中心cookie:" + cookie);
 			this.inAppBrowserRef.setCookies({
-				url: centerUrl
+				url: centerUrl,
+				cookie: cookie
 			}, () => {
 				console.log("成功写入中心cookie:" + cookie);
 				resolve();
@@ -110,11 +116,12 @@ export class UappPlatform {
 
 		if(this.global.deviceSelected) {
 			promises.push(new Promise((resolve, reject) => {
-				let boxUrl = this.global.getBoxApi('getUserInfo');
+				let boxUrl = "http://" + this.global.deviceSelected.URLBase;
 				let cookie = this.http.getCookieString(boxUrl);
 				console.log("即将写入盒子cookie:" + cookie);
 				this.inAppBrowserRef.setCookies({
-					url: boxUrl
+					url: boxUrl,
+					cookie: cookie
 				}, () => {
 					console.log("成功写入盒子cookie:" + cookie);
 					resolve();
