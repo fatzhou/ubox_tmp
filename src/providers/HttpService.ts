@@ -204,7 +204,7 @@ export class HttpService {
         // this.global.centerAvailableBoxList = [];
     }
 
-    public get(url: string, paramObj: any, errorHandler: any = true, headers:any = {}, options:any = {}) {
+    public get(url: string, paramObj: any, errorHandler: any = true, headers:any = {}, options:any = {}, cordova = false) {
         if (!url) {
             return new Promise((resolve, reject) => {
                 resolve({
@@ -219,7 +219,8 @@ export class HttpService {
 
             headers['X-Request-Id'] = this.getXRequestId();
             if (url.startsWith('http') || !this.global.useWebrtc) {
-                if (this.platform.is('cordova')) {
+                if (cordova) {
+                // if (this.platform.is('cordova') || cordova) {
                     GlobalService.consoleLog("cordova的http请求;");
                     return this.http.get(url + this.toQueryString(paramObj), {}, headers)
                         .then(res => {
@@ -278,12 +279,12 @@ export class HttpService {
         }
     }
 
-    public post(url: string, paramObj: any, errorHandler: any = true,  headers: any = {}) {
+    public post(url: string, paramObj: any, errorHandler: any = true,  headers: any = {}, cordova = false) {
         url = url || '';
         headers['X-Request-Id'] = this.getXRequestId();
         if (url.startsWith('http') || !this.global.useWebrtc) {
             //接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
-            return this._post(url, paramObj, headers, errorHandler);
+            return this._post(url, paramObj, headers, errorHandler, cordova);
         } else {
             if (this.dataChannelOpen === 'opened') {
                 // GlobalService.consoleLog("已经连接盒子sdp，直接post'");
@@ -313,7 +314,7 @@ export class HttpService {
         return this.global.deviceID + '_' + Date.now()
     }
 
-    _post(url: string, paramObj: any, headers: any = {}, errorHandler: any = true) {
+    _post(url: string, paramObj: any, headers: any = {}, errorHandler: any = true, cordova = false) {
         if (!url) {
             GlobalService.consoleLog("无效请求");
             return new Promise((resolve, reject) => {
@@ -325,12 +326,14 @@ export class HttpService {
             GlobalService.consoleLog("发出post请求:" + url);
             GlobalService.consoleLog("请求参数:" + this.toBodyString(paramObj));
 
-            if (this.platform.is('cordova')) {
+            if (cordova) {
+            // if (this.platform.is('cordova') || cordova) {
                 return this.http.post(url, paramObj, headers)
                 .then((res:any) => {
-                    // if(res.headers && res.headers['set-cookie']) {
-                    //     this.setCookie(url, res.headers['set-cookie']);
-                    // }
+                    if(res.headers && res.headers['set-cookie']) {
+						console.log("需要设置cookie:" + res.headers['set-cookie']);
+                        this.setCookie(url, res.headers['set-cookie']);
+                    }
                     return this.handleSuccess(url, JSON.parse(res.data), errorHandler)
                 })
                 .catch(error => this.handleError(error, errorHandler));
@@ -441,10 +444,10 @@ export class HttpService {
     }
 
     public setCookie(url, cookie) {
-        document.cookie = cookie + ";Domain=" + GlobalService.centerApiDomain[GlobalService.ENV];
-        // if(this.platform.is('cordova')) {
-        //    this.http.setCookie(url, cookie);
-        // }
+        // document.cookie = cookie + ";Domain=" + GlobalService.centerApiDomain[GlobalService.ENV];
+        if(this.platform.is('cordova')) {
+           this.http.setCookie(url, cookie);
+        }
     }
 
      /**
@@ -997,7 +1000,8 @@ export class HttpService {
                     
                     this.globalRequestMap[r] = {
                         resolve: resolve,
-                        reject: reject,
+						reject: reject,
+						url: url,
                         timer: timer
                     };
                     this.sendMessage(url, method, paramObj, r, headers);
@@ -1066,13 +1070,16 @@ export class HttpService {
                 var recv: any = JSON.parse(recvStr);
                 var resultHeaders = JSON.parse(recv.header);
                 var body:any;
-                let headers = {};
+				let headers = {};
+				let session = headers["request-session"];
+                GlobalService.consoleLog("session:" + session);
                 for(let h in resultHeaders) {
                     headers[h.toLowerCase()] = resultHeaders[h][0];
                 }
                 if(headers["set-cookie"]) {
                     GlobalService.consoleLog("需要设置cookie");
-                    this.cookies[this.deviceSelected.boxId] = headers["set-cookie"];
+					this.cookies[this.deviceSelected.boxId] = headers["set-cookie"];
+					this.setCookie(this.globalRequestMap[session].url, headers["set-cookie"]);
                 }
                 //是否为文件下载
                 if(headers['content-range']) {
@@ -1090,8 +1097,7 @@ export class HttpService {
                     body = JSON.parse(dataBody);
                     GlobalService.consoleLog("响应数据：" + dataBody);
                 }
-                let session = headers["request-session"];
-                GlobalService.consoleLog("session:" + session);
+
                 GlobalService.consoleLog("接口响应耗时:" + (Date.now() - session));
                 if (session && this.globalRequestMap[session] && this.globalRequestMap[session].resolve) {
                     GlobalService.consoleLog("进入回调:" + session);
