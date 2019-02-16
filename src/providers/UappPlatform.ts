@@ -81,55 +81,52 @@ export class UappPlatform {
         let options = "location=no, hidden=yes, beforeload=yes";
         self.inAppBrowserRef = cordova.InAppBrowser.open(uappUrl, target, options);
         self.inAppBrowserRef.addEventListener('loadstart', UappPlatform.prototype.loadStartCallBack.bind(self));
-        self.inAppBrowserRef.addEventListener('loadstop', UappPlatform.prototype.loadStopCallBack.bind(self));
+        self.inAppBrowserRef.addEventListener('loadstop', UappPlatform.prototype.loadStopCallBack.bind(self, uappUrl));
         self.inAppBrowserRef.addEventListener('loaderror', UappPlatform.prototype.loadErrorCallBack.bind(self));
         self.inAppBrowserRef.addEventListener('message', UappPlatform.prototype.execMessageCallback.bind(self));
 		self.inAppBrowserRef.addEventListener('exit', UappPlatform.prototype.loadErrorCallBack.bind(self));
-		
-		//android下需要种cookie, ios下会自动携带cookie
-		if(this.global.platformName === 'android') {
-			this.setCookies()
-			.then(res => {
-				console.log("cookie写入成功，即将打开浏览器.......");
-				setTimeout(self.showbrowser.bind(self), 100, uappUrl);
-			})			
-		} else {
-			setTimeout(self.showbrowser.bind(self), 100, uappUrl);
-		}
+        
+        // setTimeout(this.showbrowser.bind(this), 100, uappUrl);		
 	}
 	
 	private setCookies() {
-		let promises = [];
-		console.log("Setcookie11111.......");
-		promises.push(new Promise((resolve, reject) => {
-			let centerUrl = GlobalService.centerApiHost[GlobalService.ENV];
-			let cookie = this.http.getCookieString(centerUrl);
-			console.log("即将写入中心cookie:" + cookie);
-			this.inAppBrowserRef.setCookies({
-				url: centerUrl,
-				cookie: cookie
-			}, () => {
-				console.log("成功写入中心cookie:" + cookie);
-				resolve();
-			})
-		}))
-
-		if(this.global.deviceSelected) {
-			promises.push(new Promise((resolve, reject) => {
-				let boxUrl = "http://" + this.global.deviceSelected.URLBase;
-				let cookie = this.http.getCookieString(boxUrl);
-				console.log("即将写入盒子cookie:" + cookie);
-				this.inAppBrowserRef.setCookies({
-					url: boxUrl,
-					cookie: cookie
-				}, () => {
-					console.log("成功写入盒子cookie:" + cookie);
-					resolve();
-				})	
-			}));	
-		}
-		console.log(promises.length);
-		return Promise.all(promises)		
+        if(this.global.platformName === 'ios') {
+            return new Promise((resolve, reject) => {
+                resolve();
+            });
+        } else {
+            let promises = [];
+            console.log("Setcookie11111.......");
+            promises.push(new Promise((resolve, reject) => {
+                let centerUrl = GlobalService.centerApiHost[GlobalService.ENV];
+                let cookie = this.http.getCookieString(centerUrl);
+                console.log("即将写入中心cookie:" + cookie);
+                this.inAppBrowserRef.setCookies({
+                    url: centerUrl,
+                    cookie: cookie
+                }, () => {
+                    console.log("成功写入中心cookie:" + cookie);
+                    resolve();
+                })
+            }))
+    
+            if(this.global.deviceSelected) {
+                promises.push(new Promise((resolve, reject) => {
+                    let boxUrl = "http://" + this.global.deviceSelected.URLBase;
+                    let cookie = this.http.getCookieString(boxUrl);
+                    console.log("即将写入盒子" + boxUrl + "cookie:" + cookie);
+                    this.inAppBrowserRef.setCookies({
+                        url: boxUrl,
+                        cookie: cookie
+                    }, () => {
+                        console.log("成功写入盒子cookie:" + cookie);
+                        resolve();
+                    })	
+                }));	
+            }
+            console.log(promises.length);
+            return Promise.all(promises)
+        }
 	}
 
     public showbrowser(uappUrl){
@@ -192,13 +189,29 @@ export class UappPlatform {
         console.log("loading please wait ...");
     }
 
-    loadStopCallBack() {
+    loadStopCallBack(uappUrl) {
         console.log("loadStopCallBack called");
 
         if (this.inAppBrowserRef != undefined) {
             let root = "file://" + UAPPROOT;
-            console.log("文件存储目录：" + root);
-            return this.file.checkFile(root, "uapp.js")
+            console.error("文件存储目录：" + root);
+            //加载完毕。。。。
+        //android下需要种cookie, ios下会自动携带cookie
+        // if(this.global.platformName === 'android') {
+        //     this.setCookies()
+        //     .then(res => {
+        //         console.log("cookie写入成功，即将打开浏览器.......");
+        //         setTimeout(this.showbrowser.bind(this), 100, uappUrl);
+        //     })			
+        // } else {
+        //     setTimeout(this.showbrowser.bind(this), 100, uappUrl);
+        // }
+            this.setCookies()
+            // return Promise.resolve(1)
+            .then(res => {
+                return this.file.checkFile(root, "uapp.js")
+                // setTimeout(this.showbrowser.bind(this), 100, uappUrl);
+            })
             .then(res => {
                 console.log("公共库文件已存在");
                 return true;
@@ -211,11 +224,12 @@ export class UappPlatform {
                 return Promise.all(promises);                
             })
             .then(res => {
-                console.log("公共库拷贝完成，显示网页...");
+                console.log("公共库拷贝完成，显示网页1...");
                 this.inAppBrowserRef.insertCSS({file: "/uapp.css"}, console.log);
+                console.log(1333322)
                 this.inAppBrowserRef.executeScript({file: "/uapp.js"}, console.log);
-                //加载完毕。。。。
-                this.inAppBrowserRef.show();
+                console.log(233)
+                //this.inAppBrowserRef.show();
             })
             .catch(e => {
                 console.log("公共库文件拷贝失败:" + e.stack);
@@ -236,22 +250,30 @@ export class UappPlatform {
             return
         }
 
-        if (!!exportedfunc) {
-            exportedfunc.apply(this.api, args.arrargs).then((ret)=> {
-                let code = "_exec_result('" + args.callbackId + "', true, " + JSON.stringify(ret) + ");";
-                console.log("exec_result code:==" + code);
-                this.inAppBrowserRef.executeScript({code: code}, (params) => {
-                    console.log("executeScript result:" + JSON.stringify(params));
+        return new Promise((resolve, reject) => {
+            if (!!exportedfunc) {
+                exportedfunc.apply(this.api, args.arrargs).then((ret)=> {
+                    let code = "_exec_result('" + args.callbackId + "', true, " + JSON.stringify(ret) + ");";
+                    console.log("exec_result code:==" + code);
+                    this.inAppBrowserRef.executeScript({code: code}, (params) => {
+                        console.log("executeScript result:" + JSON.stringify(params));
+                        resolve(params);
+                    });
+                }).catch((err)=>{
+                    let code = "_exec_result('" + args.callbackId + "', false, " + JSON.stringify(err) + ");";
+                    console.log("执行出错");
+                    console.log("exec_error_result code:==" + code);
+                    this.inAppBrowserRef.executeScript({code: code}, (params) => {
+                        console.log("executeScript result:" + JSON.stringify(params));
+                        resolve(params);
+                    });
                 });
-            }).catch((err)=>{
-                let code = "_exec_result('" + args.callbackId + "', false, " + JSON.stringify(err) + ");";
-                console.log("执行出错");
-                console.log("exec_error_result code:==" + code);
-                this.inAppBrowserRef.executeScript({code: code}, (params) => {
-                    console.log("executeScript result:" + JSON.stringify(params));
-                });
-            });
-        }
+            } else {
+                console.log("方法不存在");
+                reject({});
+            }
+        })
+
     }
 
     loadErrorCallBack(params) {
