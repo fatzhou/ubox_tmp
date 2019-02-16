@@ -17,7 +17,8 @@ export class AppsInterface {
 				private file: File) {
         console.log('Hello AppsInstalledProvider Provider');
         this.uapp.registerApi('closeUapp', this, this.closeUapp);
-        this.uapp.registerApi('getInfo', this, this.getInfo);
+		this.uapp.registerApi('getInfo', this, this.getInfo);
+		this.uapp.registerApi('log', this, this.log);
 	}
 
 	getInfo() {
@@ -28,17 +29,23 @@ export class AppsInterface {
 				boxId: this.global.deviceSelected.boxId
 			}
 		}
-		return {
+		return Promise.resolve({
 			userInfo: {
 				username: this.global.centerUserInfo.uname
 			},
 			boxInfo: boxInfo
-		}
+		})
 	}
 
     closeUapp() {
         console.log("即将关闭浏览器...");
         // cordova.InAppBrowser.close();
         return Promise.resolve(this.uapp.closeApp());
+	}
+	
+	log(text) {
+        console.log("浏览器日志： " + text);
+        // cordova.InAppBrowser.close();
+        // return Promise.resolve(this.uapp.closeApp());
     }
 }

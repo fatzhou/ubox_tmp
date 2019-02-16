@@ -11,7 +11,7 @@ function exec (service, execute, arrargs) {
   var postmsgargs = JSON.stringify ({callbackId: callbackId, service: service, execute: execute, arrargs: arrargs});
   return new Promise(function(resolve, reject){
     _callback_maps[callbackId] = [resolve, reject];
-    webkit.messageHandlers.cordova_iab.postMessage (postmsgargs);
+    webkit.messageHandlers.cordova_iab.postMessage(postmsgargs);
   });
 }
 
@@ -33,7 +33,7 @@ function _exec_result (callbackId, ret, args) {
   } else {
     console.log ('unkown callbackid:' + callbackId);
   }
-  delete _callback_maps[callbackId]
+  delete _callback_maps[callbackId];
 }
 
 console.log ('----ubbey iab: inject exec done.--by file--');
