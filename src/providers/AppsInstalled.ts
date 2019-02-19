@@ -92,7 +92,7 @@ export class AppsInstalled {
             console.log("下载xml地址:" + info.xml);
             //下载xml
             return new Promise((resolve, reject) => {
-				this.http.get(info.xml, {}, false)
+				this.http.get(info.xml, {}, false, {}, {}, true)
 	            .then(res => {
                     console.log("xml下载完毕");
 		            let parser = new xml2js.Parser({
@@ -180,6 +180,7 @@ export class AppsInstalled {
                         //md5不正确
                         reject();
                     } else {
+                        console.log("下载zip包完成：" + JSON.stringify(res))
                         zip.unzip(zipPath, zipPath.replace(/[^\/]+$/, ""), () => {
                             console.log("安装包解压完毕");
                             //删除安装包

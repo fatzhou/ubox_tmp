@@ -79,14 +79,26 @@ export class UappPlatform {
         let self = this;
         let target  = "_blank";
         let options = "location=no, hidden=yes, beforeload=yes";
-        self.inAppBrowserRef = cordova.InAppBrowser.open(uappUrl, target, options);
-        self.inAppBrowserRef.addEventListener('loadstart', UappPlatform.prototype.loadStartCallBack.bind(self));
-        self.inAppBrowserRef.addEventListener('loadstop', UappPlatform.prototype.loadStopCallBack.bind(self, uappUrl));
-        self.inAppBrowserRef.addEventListener('loaderror', UappPlatform.prototype.loadErrorCallBack.bind(self));
-        self.inAppBrowserRef.addEventListener('message', UappPlatform.prototype.execMessageCallback.bind(self));
-		self.inAppBrowserRef.addEventListener('exit', UappPlatform.prototype.loadErrorCallBack.bind(self));
+        try {
+            console.log("===openbrowser===11116666")
+            self.inAppBrowserRef = cordova.InAppBrowse.open(uappUrl, target, options);
+            console.log("===openbrowser===1111")
+        } catch(e) {
+            console.log("===openbrowser===999999" + JSON.stringify(e))
+        }
         
-        // setTimeout(this.showbrowser.bind(this), 100, uappUrl);		
+        
+        // this.setCookies()
+        // .then(res => {
+            self.inAppBrowserRef.addEventListener('loadstart', UappPlatform.prototype.loadStartCallBack.bind(self));
+            self.inAppBrowserRef.addEventListener('loadstop', UappPlatform.prototype.loadStopCallBack.bind(self, uappUrl));
+            self.inAppBrowserRef.addEventListener('loaderror', UappPlatform.prototype.loadErrorCallBack.bind(self));
+            self.inAppBrowserRef.addEventListener('message', UappPlatform.prototype.execMessageCallback.bind(self));
+            self.inAppBrowserRef.addEventListener('exit', UappPlatform.prototype.loadErrorCallBack.bind(self));
+        // })
+        // setTimeout(this.showbrowser.bind(this), 100, uappUrl);	
+        console.log("===openbrowser===2222")
+	
 	}
 	
 	private setCookies() {

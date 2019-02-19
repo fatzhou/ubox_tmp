@@ -339,11 +339,15 @@ export class HttpService {
                 .catch(error => this.handleError(error, errorHandler));
             } else {
                 headers['Content-Type'] = 'application/x-www-form-urlencoded';
-                headers['withCredentials'] = true;
+                // headers['withCredentials'] = true;
+                // headers['credentials'] = 'include';
                 let postHeaders = new Headers(headers);
-                return this.aHttp.post(url, this.toBodyString(paramObj), new RequestOptions({ headers: postHeaders }))
+                return this.aHttp.post(url, this.toBodyString(paramObj), new RequestOptions({ headers: postHeaders,withCredentials: true}))
                     .toPromise()
-                    .then(res => this.handleSuccess(url, res.json(), errorHandler))
+                    .then(res => {
+                        console.log("ahttp : + " +JSON.stringify(res))
+                        this.handleSuccess(url, res.json(), errorHandler)
+                    })
                     .catch(error => this.handleError(error, errorHandler));
             }
         }

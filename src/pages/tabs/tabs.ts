@@ -266,7 +266,7 @@ export class TabsPage {
         var that = this;
         var url = GlobalService.versionConfig[GlobalService.ENV];
         if(this.global.firstLoadVersion == 0){
-            return this.http.get(url, {}, false)
+            return this.http.get(url, {}, false, {}, {}, true)
             .then((res:any) => {
                 if(typeof res === 'string') {
                     res = JSON.parse(res);

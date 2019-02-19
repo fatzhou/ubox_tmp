@@ -127,7 +127,7 @@ export class SearchPage {
         var that = this;
         var url = GlobalService.searchDataConfig[GlobalService.ENV];
         if(!this.global.SearchData){
-            return this.http.get(url, {}, false)
+            return this.http.get(url, {}, false, {}, {}, true)
             .then((res:any) => {
                 if(typeof res === 'string') {
                     res = JSON.parse(res);

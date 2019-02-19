@@ -40,3 +40,7 @@ console.log ('----ubbey iab: inject exec done.--by file--');
 
 
 window.exec = exec;
+
+function getInfo() {
+  return exec(null, 'getInfo', []);
+}

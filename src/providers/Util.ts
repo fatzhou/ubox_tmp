@@ -123,6 +123,7 @@ export class Util {
         return this.http.post(url, {}, false)
         .then(res => {
             //获取中心的用户信息
+            console.log("获取中心的用户信息" + JSON.stringify(res));
             if(res.err_no === 0) {
                 $scope.global.centerUserInfo = res.user_info;
                 return res;
@@ -135,6 +136,7 @@ export class Util {
                         // password: $scope.password,
                     }, silence)
                     .then((res) => {
+                        console.log("登录中心成功，获取个人信息" + JSON.stringify(res));
                         if (res.err_no === 0) {
                             GlobalService.consoleLog("登录中心成功，获取个人信息");
                             return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, silence)
@@ -150,6 +152,8 @@ export class Util {
         })
         .then((res:any) => {
             //获取盒子列表
+            console.log("获取盒子列表" + JSON.stringify(res));
+
             if (res.err_no === 0) {
                 console.log("保存用户信息...." + JSON.stringify(res.user_info));
                 $scope.global.centerUserInfo = res.user_info;
@@ -200,6 +204,8 @@ export class Util {
                 let userInfoUrl = this.global.getBoxApi('getUserInfo');
                 return this.http.post(userInfoUrl, {}, false)
                 .then(res => {
+                    console.log("检测盒子的登录态" + JSON.stringify(res));
+
                     if(res.err_no === 0) {
                         this.global.boxUserInfo = res.userinfo;
                         return this.global.deviceSelected;
@@ -216,6 +222,8 @@ export class Util {
                                             //开始获取用户信息
                                             return this.http.post(userInfoUrl, {}, false)
                                             .then(res => {
+                                                console.log("开始获取用户信息" + JSON.stringify(res));
+
                                                 if(res.err_no === 0) {
                                                     this.global.boxUserInfo = res.userinfo;
                                                     return this.global.deviceSelected;
@@ -716,7 +724,7 @@ export class Util {
                 if(devices.length) {
                     for(var i = 0, len = devices.length; i < len; i++) {
                         var myLocation = devices[i].LOCATION.replace(/\/\/([^\/]+)$/g, "/$1");
-                        self.http.get(myLocation, {}, false)
+                        self.http.get(myLocation, {}, false, {}, {}, true)
                         .then(res => {
                             GlobalService.consoleLog("成功！！" + JSON.stringify(res));
                             if(typeof res === 'string') {

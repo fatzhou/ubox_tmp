@@ -1549,7 +1549,7 @@ export class Lang {
             },
             ButtonText: [{
                 cn: "取消登录",
-                en: "cancal",
+                en: "cancel",
                 kr: ""
             },
             {
