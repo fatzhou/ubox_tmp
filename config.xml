@@ -3,7 +3,7 @@
     <name>Ubbey</name>
     <description>Ubbey box --- Say hello to the future of blockchain personal cloud!</description>
     <author email="keda.c@ulabs.technology" href="http://ulabs.tech/">Ulabs Technology</author>
-    <content original-src="index.html" src="http://192.168.0.21:8100" />
+    <content src="index.html" />
     <content src-original="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -109,7 +109,7 @@
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
     <plugin name="cordova-open-native-settings" spec="^1.5.2" />
     <plugin name="cordova-plugin-barcodescanner" spec="^0.7.4" />
-    <plugin name="com-ubbey-wifiwizard" spec="https://github.com/ubbey/WifiWizard.git" />
+    <plugin name="com-ubbey-wifiwizard" spec="git+https://github.com/ubbey/WifiWizard.git" />
     <plugin name="cordova-sqlite-storage" spec="^2.6.0" />
     <plugin name="cordova-plugin-file" spec="^5.0.0" />
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
@@ -118,7 +118,7 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.3">
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="24.1.1+" />
     </plugin>
-    <plugin name="cordova-plugin-discovery" spec="https://github.com/ubbey/cordova-plugin-discovery.git" />
+    <plugin name="cordova-plugin-discovery" spec="git+https://github.com/ubbey/cordova-plugin-discovery.git" />
     <plugin name="cordova-plugin-market" spec="^1.2.0" />
     <plugin name="cordova-plugin-photo-library" spec="git+https://github.com/ubbey/cordova-plugin-photo-library.git">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
@@ -130,6 +130,6 @@
         <variable name="ANDROID_HOST" value=" " />
         <variable name="ANDROID_PATHPREFIX" value="/" />
     </plugin>
-    <plugin name="cordova-plugin-zip" spec="^3.1.0" />
     <plugin name="cordova-plugin-inappbrowser" spec="git+https://github.com/ubbey/cordova-plugin-inappbrowser.git" />
+    <plugin name="cordova-plugin-zip" spec="^3.1.0" />
 </widget>
