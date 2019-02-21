@@ -183,11 +183,14 @@ export class AppsInstalled {
                         reject();
                     } else {
                         console.log("下载zip包完成：" + JSON.stringify(res))
-                        console.log("this zip" + JSON.stringify(this.zip) + "    zipPath  " +zipPath)
+                        console.log("this zip" + JSON.stringify(this.zip))
                         let path1 = zipPath;
                         let path2 = zipPath.replace(/[^\/]+$/, "");
                         console.log("第一个参数" + path1)
                         console.log("第二个参数" + path2)
+                        
+                        console.log("this.file"  + JSON.stringify(this.file))
+                        console.log("this.zip"  + JSON.stringify(this.zip))
                         this.zip.unzip(path1, path2, (progress) => {
                             console.log('Unzipping, ');
                             // console.log('Unzipping, ' + Math.round((progress.loaded / progress.total) * 100) + '%');
@@ -201,6 +204,7 @@ export class AppsInstalled {
                             })
                             //解压完毕
                             resolve();
+                            
                         }, (data) => {
                             //进度提示
                             console.log("解压完成进度:" + JSON.stringify(data));
