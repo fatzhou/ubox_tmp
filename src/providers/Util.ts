@@ -160,18 +160,22 @@ export class Util {
                 let network = this.global.networkType === 'wifi';
                 //查询用户的盒子
                 if(res.user_info.bind_box_count > 0 && network) {
+					console.log("局域网，搜索盒子....");
                     //用户有盒子
-                    return Promise.resolve([]);
-                    // return this.searchUbbey();
+                    // return Promise.resolve([]);
+                    return this.searchUbbey();
                 } else {
+					console.log("4g或者没有盒子");
                     //用户没有盒子
                     return Promise.resolve([]);
                 }
             } else {
+				console.log("用户信息错误.......")
                 return Promise.reject("UserInfo Error");
             }             
         })
         .then((res:any) => {
+			console.log("开始建立连接.......")
             //建立盒子连接
             if(res.length) {
                 //检查盒子是否有自己的盒子

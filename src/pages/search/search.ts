@@ -43,7 +43,10 @@ export class SearchPage {
         private app: App) {
             events.unsubscribe('language:change');
             events.subscribe('language:change', () => {
-                console.log("语言变更")
+				if(!this.global.SearchData) {
+					GlobalService.consoleLog("无应用信息");
+					return false;
+				}
                 this.showList = this.global.SearchData.appList[GlobalService.applang];
                 let bannerList = this.global.SearchData.bannerList;
                 this.bannerList = [];
@@ -64,6 +67,9 @@ export class SearchPage {
         if(!this.bannerList.length) {
             this.getSearchData()
             .then((res)=> {
+				if(!this.global.SearchData) {
+					return false;
+				}
                 // console.log(JSON.stringify(res));
                 this.showList = this.global.SearchData.appList[GlobalService.applang];
                 this.labelList = this.global.SearchData.labelList;

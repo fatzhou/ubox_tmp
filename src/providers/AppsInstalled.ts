@@ -6,7 +6,7 @@ import xml2js from 'xml2js';
 import { HTTP } from '@ionic-native/http';
 import { IfObservable } from 'rxjs/observable/IfObservable';
 import { Md5 } from "ts-md5/dist/md5";
-import { Zip } from '@ionic-native/zip/ngx';
+// import { Zip } from '@ionic-native/zip/ngx';
 
 /*
   Generated class for the AppsInstalledProvider provider.
@@ -14,7 +14,7 @@ import { Zip } from '@ionic-native/zip/ngx';
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
-// declare var zip;
+declare var zip;
 
 @Injectable()
 export class AppsInstalled {
@@ -23,7 +23,8 @@ export class AppsInstalled {
 				private global: GlobalService,
                 private nativeHttp: HTTP,
                 private http: HttpService,
-                private zip: Zip) {
+				// private zip: Zip
+				) {
         console.log('Hello AppsInstalledProvider Provider');
         //this.uappDir = this.global.fileSavePath + "www/uapp/";
 	}
@@ -183,11 +184,24 @@ export class AppsInstalled {
                         reject();
                     } else {
                         console.log("下载zip包完成：" + JSON.stringify(res))
-                        console.log("this zip" + JSON.stringify(this.zip) + "    zipPath  " +zipPath)
                         let path1 = zipPath;
                         let path2 = zipPath.replace(/[^\/]+$/, "");
                         console.log("第一个参数" + path1)
-                        console.log("第二个参数" + path2)
+						console.log("第二个参数" + path2)
+						zip.unzip(path1, path2, () => {
+                            console.log("安装包解压完毕");
+                            //删除安装包
+                            this.file.removeFile(this.uappDir + info.id + "_tmp/", fileName);
+                            progress({
+                                process: 'pkgZipped'
+                            })
+                            //解压完毕
+                            resolve();
+                        }, (progress) => {
+                            console.log('Unzipping, ');
+                            // console.log('Unzipping, ' + Math.round((progress.loaded / progress.total) * 100) + '%');
+                        })
+						/*
                         this.zip.unzip(path1, path2, (progress) => {
                             console.log('Unzipping, ');
                             // console.log('Unzipping, ' + Math.round((progress.loaded / progress.total) * 100) + '%');
@@ -204,7 +218,7 @@ export class AppsInstalled {
                         }, (data) => {
                             //进度提示
                             console.log("解压完成进度:" + JSON.stringify(data));
-                        })                   
+                        })  */                 
                     }
                 })   
                 .catch(e => {
