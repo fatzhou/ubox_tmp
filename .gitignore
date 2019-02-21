@@ -31,6 +31,7 @@ plugins/ios.json
 resources/android
 resources/ios
 $RECYCLE.BIN/
+package.json
 package-lock.json
 
 

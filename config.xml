@@ -131,6 +131,6 @@
         <variable name="ANDROID_HOST" value=" " />
         <variable name="ANDROID_PATHPREFIX" value="/" />
     </plugin>
-    <plugin name="cordova-plugin-zip" spec="^3.1.0" />
     <plugin name="cordova-plugin-inappbrowser" spec="git+https://github.com/ubbey/cordova-plugin-inappbrowser.git" />
+    <plugin name="cordova-plugin-zip" spec="^3.1.0" />
 </widget>
