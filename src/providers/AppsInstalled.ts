@@ -181,6 +181,8 @@ export class AppsInstalled {
                         reject();
                     } else {
                         console.log("下载zip包完成：" + JSON.stringify(res))
+                        console.log("zip 文件" + JSON.stringify(zip))
+
                         zip.unzip(zipPath, zipPath.replace(/[^\/]+$/, ""), () => {
                             console.log("安装包解压完毕");
                             //删除安装包

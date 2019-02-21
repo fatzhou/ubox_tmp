@@ -83,20 +83,21 @@ export class HttpService {
     }
 
     private keepAlive() {
-        if(!this.aliveInterval) {
-            this.aliveInterval = setInterval(()=>{
-                if(!this.global.useWebrtc) {
-                    clearInterval(this.aliveInterval);
-                } else if(this.dataChannelOpen === 'opened') {
-                    let url = this.global.getBoxApi('keepAlive');
-                    GlobalService.consoleLog("发起保活请求发出------" + Date.now().toString());
-                    this.webrtcRequest(url, 'post', {})
-                    .catch(e => {
-                        GlobalService.consoleLog(e.stack);
-                    })
-                }
-            }, this.aliveIntervalTime);            
-        }
+        //debug
+        // if(!this.aliveInterval) {
+        //     this.aliveInterval = setInterval(()=>{
+        //         if(!this.global.useWebrtc) {
+        //             clearInterval(this.aliveInterval);
+        //         } else if(this.dataChannelOpen === 'opened') {
+        //             let url = this.global.getBoxApi('keepAlive');
+        //             GlobalService.consoleLog("发起保活请求发出------" + Date.now().toString());
+        //             this.webrtcRequest(url, 'post', {})
+        //             .catch(e => {
+        //                 GlobalService.consoleLog(e.stack);
+        //             })
+        //         }
+        //     }, this.aliveIntervalTime);            
+        // }
     }
 
     private channelStatusManager() {
@@ -114,11 +115,12 @@ export class HttpService {
             switch(this.dataChannelOpen) {
                 case 'opening':
                     // GlobalService.consoleLog("正在建立连接流程.........");
-                    if(Date.now() - this.createDataChannelPoint > this.dataChannelTimeout) {
-                        this.dataChannelOpen = 'closed';
-                    } else {
-                        break;                         
-                    }
+                    //debug
+                    // if(Date.now() - this.createDataChannelPoint > this.dataChannelTimeout) {
+                    //     this.dataChannelOpen = 'closed';
+                    // } else {
+                    //     break;                         
+                    // }
                 case 'closed':
                     GlobalService.consoleLog(".............重新建立连接流程.............");
                     this.createDataChannel()
@@ -127,34 +129,35 @@ export class HttpService {
                     })                        
                     break;                
                 case 'opened':
-                    let channelState = this.dataChannel.readyState;
-                    GlobalService.consoleLog("连接已建立：" + channelState);
-                    if(Date.now() - this.lastReceivedTime > this.aliveIntervalTime * 6) {
-                        GlobalService.consoleLog("--------连接超时，关闭信道-------" + Date.now() + "-------" + this.lastReceivedTime + '====信道状态====' + channelState);
-                        this.dataChannelOpen = 'closed';
-                        this.lastReceivedTime = Date.now();
-                        this.dataChannel && this.dataChannel.close();
-                        break;
-                    }
+                    //debug
+                    // let channelState = this.dataChannel.readyState;
+                    // GlobalService.consoleLog("连接已建立：" + channelState);
+                    // if(Date.now() - this.lastReceivedTime > this.aliveIntervalTime * 6) {
+                    //     GlobalService.consoleLog("--------连接超时，关闭信道-------" + Date.now() + "-------" + this.lastReceivedTime + '====信道状态====' + channelState);
+                    //     this.dataChannelOpen = 'closed';
+                    //     this.lastReceivedTime = Date.now();
+                    //     this.dataChannel && this.dataChannel.close();
+                    //     break;
+                    // }
 
-                    while(this.globalWaitingList.length) {
-                        let request = this.globalWaitingList.pop(); 
-                        if(Date.now() - request.time < this.requestStorageTime) {
-                            GlobalService.consoleLog("发送缓存的请求........." + request.url);
-                            //强制刷新cookie
-                            request.headers.cookie = this.getCookieString(request.url);
-                            this[request.method](request.url, request.paramObj, request.errorHandler, request.headers)
-                            .then(res => {
-                                request.resolve(res);
-                            }, res => {
-                                request.reject(res);
-                            })                             
-                        } 
-                    }
-                    while(this.globalCallbackList.length) {
-                        let callback = this.globalCallbackList.pop();
-                        callback();
-                    }
+                    // while(this.globalWaitingList.length) {
+                    //     let request = this.globalWaitingList.pop(); 
+                    //     if(Date.now() - request.time < this.requestStorageTime) {
+                    //         GlobalService.consoleLog("发送缓存的请求........." + request.url);
+                    //         //强制刷新cookie
+                    //         request.headers.cookie = this.getCookieString(request.url);
+                    //         this[request.method](request.url, request.paramObj, request.errorHandler, request.headers)
+                    //         .then(res => {
+                    //             request.resolve(res);
+                    //         }, res => {
+                    //             request.reject(res);
+                    //         })                             
+                    //     } 
+                    // }
+                    // while(this.globalCallbackList.length) {
+                    //     let callback = this.globalCallbackList.pop();
+                    //     callback();
+                    // }
                     break;
                 case 'nobox':
                     while(this.globalCallbackList.length) {
@@ -219,9 +222,9 @@ export class HttpService {
 
             headers['X-Request-Id'] = this.getXRequestId();
             if (url.startsWith('http') || !this.global.useWebrtc) {
-                if (cordova) {
+                if (cordova || this.global.platformName == "android") {
                 // if (this.platform.is('cordova') || cordova) {
-                    GlobalService.consoleLog("cordova的http请求;");
+                    GlobalService.consoleLog("native的http请求;");
                     return this.http.get(url + this.toQueryString(paramObj), {}, headers)
                         .then(res => {
                             if(options.needHeader) {
@@ -326,14 +329,14 @@ export class HttpService {
             GlobalService.consoleLog("发出post请求:" + url);
             GlobalService.consoleLog("请求参数:" + this.toBodyString(paramObj));
 
-            if (cordova) {
+            if (cordova || this.global.platformName == "android") {
             // if (this.platform.is('cordova') || cordova) {
                 return this.http.post(url, paramObj, headers)
                 .then((res:any) => {
-                    if(res.headers && res.headers['set-cookie']) {
-						console.log("需要设置cookie:" + res.headers['set-cookie']);
-                        this.setCookie(url, res.headers['set-cookie']);
-                    }
+                    // if(res.headers && res.headers['set-cookie']) {
+					// 	console.log(url + "需要设置cookie:" + res.headers['set-cookie']);
+                    //     this.setCookie(url, res.headers['set-cookie']);
+                    // }
                     return this.handleSuccess(url, JSON.parse(res.data), errorHandler)
                 })
                 .catch(error => this.handleError(error, errorHandler));
@@ -344,9 +347,17 @@ export class HttpService {
                 let postHeaders = new Headers(headers);
                 return this.aHttp.post(url, this.toBodyString(paramObj), new RequestOptions({ headers: postHeaders,withCredentials: true}))
                     .toPromise()
-                    .then(res => {
-                        console.log("ahttp : + " +JSON.stringify(res))
-                        this.handleSuccess(url, res.json(), errorHandler)
+                    .then((res:any) => {
+                        console.log(url + "ahttp : + " +JSON.stringify(res))
+                        // console.log(url +JSON.stringify(res.headers))
+
+                        //   console.log(!!res.headers)
+                        //   console.log(!!res.headers['set-cookie'])
+                        // if(res.headers && res.headers['set-cookie']) {
+                        //     console.log(url + "需要设置cookie:" + res.headers['set-cookie'][0]);
+                        //     this.setCookie(url, res.headers['set-cookie'][0]);
+                        // }
+                        return this.handleSuccess(url, res.json(), errorHandler)
                     })
                     .catch(error => this.handleError(error, errorHandler));
             }
@@ -671,25 +682,28 @@ export class HttpService {
                    "Range": "bytes=0-"
                 })
                 .then((res:any) => {
-                    GlobalService.consoleLog("webrtc结果：" + res.status)
+                    GlobalService.consoleLog("文件下载结果：" + res.status)
+                    //debug
+                    resolve(true);
                     //下载成功，需手动写文件
-                    if(res.status === 200 || res.status === 206) {
-                        this.file.writeFile(localPath, name, res.data)
-                        .then(res => {
-                            GlobalService.consoleLog("写文件：" + JSON.stringify(res));
-                            return this.file.checkFile(localPath, name)
-                        })
-                        .then(res => {
-                            GlobalService.consoleLog("CheckFIle:" + JSON.stringify(res));
-                            resolve(true);
-                        })  
-                        .catch(e => {
-                            reject(false);
-                        }) 
-                    } else {
-                        reject(false);
-                    }
+                    // if(res.status === 200 || res.status === 206) {
+                    //     this.file.writeFile(localPath, name, res.data)
+                    //     .then(res => {
+                    //         GlobalService.consoleLog("写文件：" + JSON.stringify(res));
+                    //         return this.file.checkFile(localPath, name)
+                    //     })
+                    //     .then(res => {
+                    //         GlobalService.consoleLog("CheckFIle:" + JSON.stringify(res));
+                    //         resolve(true);
+                    //     })  
+                    //     .catch(e => {
+                    //         reject(false);
+                    //     }) 
+                    // } else {
+                    //     reject(false);
+                    // }
                 }, (res:any) => {
+                    GlobalService.consoleLog("webrtc请求reject......");
                     reject(false);
                 })
             })
@@ -1070,16 +1084,18 @@ export class HttpService {
             var recvStr = this.ab2str(msg.data);
             GlobalService.consoleLog("Test:" + recvStr.slice(0, 200) + "..." + recvStr.slice(-50))
             this.lastReceivedTime = Date.now();
+            let session;
             try {
                 var recv: any = JSON.parse(recvStr);
                 var resultHeaders = JSON.parse(recv.header);
                 var body:any;
 				let headers = {};
-				let session = headers["request-session"];
-                GlobalService.consoleLog("session:" + session);
                 for(let h in resultHeaders) {
                     headers[h.toLowerCase()] = resultHeaders[h][0];
                 }
+                session = headers["request-session"];
+                GlobalService.consoleLog("session:" + session);
+
                 if(headers["set-cookie"]) {
                     GlobalService.consoleLog("需要设置cookie");
 					this.cookies[this.deviceSelected.boxId] = headers["set-cookie"];
@@ -1105,6 +1121,7 @@ export class HttpService {
                 GlobalService.consoleLog("接口响应耗时:" + (Date.now() - session));
                 if (session && this.globalRequestMap[session] && this.globalRequestMap[session].resolve) {
                     GlobalService.consoleLog("进入回调:" + session);
+                    clearTimeout(this.globalRequestMap[session].timer);
                     this.globalRequestMap[session].resolve({
                         status: recv.code,
                         headers: headers,
@@ -1115,6 +1132,14 @@ export class HttpService {
                     GlobalService.consoleLog("执行post回调异常");
                 }
             } catch (e) {
+                if (session && this.globalRequestMap[session] && this.globalRequestMap[session].reject) {
+                    clearTimeout(this.globalRequestMap[session].timer);
+                    this.globalRequestMap[session].reject({
+                        status: recv.code,
+                        data: body
+                    });
+                    delete this.globalRequestMap[session];
+                }
                 GlobalService.consoleLog("解析出错:" + JSON.stringify(e) + e.stack + e.message)
             }
         }

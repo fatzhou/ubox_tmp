@@ -642,12 +642,13 @@ export class GlobalService {
         this.boxStatus = true;
         this.diskInfoStatus = true;
     }
+    public static consoleLog = console.log;
     //日志打印
-    public static consoleLog(msg) {
-        // if(GlobalService.ENV == "dev"){
-            console.log(msg);
-        // }
-    }
+    // public static consoleLog(msg) {
+    //     // if(GlobalService.ENV == "dev"){
+    //         // console.log(msg);
+    //     // }
+    // }
 
     //无登录态初始化
     logoutInit() {
