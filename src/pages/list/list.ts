@@ -522,22 +522,22 @@ export class ListPage {
         });
     }
 
-    goNextFolder(info) {
+    goNextFolder(file) {
         if(this.allBtnsShow) {
-            this.setSelectedFiles(info);
+            this.setSelectedFiles(file);
         } else {
-            if (info.type === 1) {
+            if (file.type === 1) {
                 GlobalService.consoleLog("选择了文件夹，进入文件夹");
                 this.navCtrl.push(ListPage, {
                     type: "",
-                    path: this.currPath.replace(/\/$/g, '') + "/" + info.name
+                    path: this.currPath.replace(/\/$/g, '') + "/" + file.name
                 });
-            } else if(info.style == 'image') {
+            } else if(file.style == 'image') {
                 let test = /(\.HEIC)$/gi;
-                if(test.test(info.name)) {
+                if(test.test(file.name)) {
                     this.navCtrl.push(PreviewOtherPage, {
                         currPath: this.currPath,
-                        info: info
+                        info: file
                     });
                 } else {
                     let list = this.allFileList.filter(item => {
@@ -545,14 +545,14 @@ export class ListPage {
                     });
                     let index = 0;
                     for(let i = 0; i < list.length; i++) {
-                        if(list[i].name == info.name) {
+                        if(list[i].name == file.name) {
                             index = i;
                             break;
                         }
                     }
                     this.navCtrl.push(PreviewImagePage, {
                         currPath: this.currPath,
-                        info: info,
+                        info: file,
                         from: 'list',
                         list: list,
                         pageIndex: this.pageNo,
@@ -564,7 +564,7 @@ export class ListPage {
             } else {
                 this.navCtrl.push(PreviewOtherPage, {
                     currPath: this.currPath,
-                    info: info
+                    info: file
                 });
                 GlobalService.consoleLog("选择了文件，打开文件");
             }            
@@ -580,11 +580,11 @@ export class ListPage {
         this.navCtrl.push(TaskListPage);
     }
 
-    toggleDetailPage(info, isShow = false) {
+    toggleDetailPage(detail, isShow = false) {
         if(this.allBtnsShow) {
             this.detailInfo = this.selectedFiles[0];
-        } else if(info) {
-            this.detailInfo = info;
+        } else if(detail) {
+            this.detailInfo = detail;
         }
         if(!this.canDetail && !this.detailInfo) {
             this.isShowDetail = false;
@@ -619,8 +619,8 @@ export class ListPage {
         }
     }
 
-    noPhoto(info) {
+    noPhoto() {
         GlobalService.consoleLog('没有拿到img');
-        info.thumbnail = '';
+        // photo.thumbnail = '';
     }
 }

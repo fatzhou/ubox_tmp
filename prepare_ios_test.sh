@@ -1,0 +1,1 @@
+mkdir ./www/uapp && sudo chmod -R 777 . && scp ./src/uapp/* ./www/uapp/ && sudo ionic cordova prepare ios

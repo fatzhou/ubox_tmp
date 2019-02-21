@@ -272,7 +272,7 @@ export class FileTransfer {
         downloadTool = this.fileDownloader.createDownloader(localPath, fullPath);
         downloadTool.download(localPath, fullPath)
         .catch(err => {
-            GlobalService.consoleLog("下载失败" + JSON.stringify(err));
+            GlobalService.consoleLog("下载失败 filetransfer" + JSON.stringify(err));
             var task = this.global.fileTaskList.filter(item => item.taskId === taskId);
             if(task && task.length && task[0].isShow) {
                 this.global.createGlobalToast(this, {

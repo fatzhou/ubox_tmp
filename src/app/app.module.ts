@@ -97,7 +97,7 @@ import { Network } from '@ionic-native/network';
 import { HTTP } from '@ionic-native/http';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { SocialSharing } from '@ionic-native/social-sharing';
-// import { ImagePicker } from '@ionic-native/image-picker';
+import { Zip } from '@ionic-native/zip/ngx';
 
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { DirectivesModule } from '../directives/directives.module';
@@ -287,6 +287,7 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     BarcodeScanner,
     SocialSharing,
     FileManager,
+    Zip,
     // WebrtcService,
     CheckUpdate,
     Web3Service,

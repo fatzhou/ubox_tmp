@@ -79,13 +79,7 @@ export class UappPlatform {
         let self = this;
         let target  = "_blank";
         let options = "location=no, hidden=yes, beforeload=yes";
-        try {
-            console.log("===openbrowser===11116666")
-            self.inAppBrowserRef = cordova.InAppBrowse.open(uappUrl, target, options);
-            console.log("===openbrowser===1111")
-        } catch(e) {
-            console.log("===openbrowser===999999" + JSON.stringify(e))
-        }
+        self.inAppBrowserRef = cordova.InAppBrowser.open(uappUrl, target, options);
         
         
         // this.setCookies()
@@ -97,7 +91,6 @@ export class UappPlatform {
             self.inAppBrowserRef.addEventListener('exit', UappPlatform.prototype.loadErrorCallBack.bind(self));
         // })
         // setTimeout(this.showbrowser.bind(this), 100, uappUrl);	
-        console.log("===openbrowser===2222")
 	
 	}
 	
@@ -233,6 +226,7 @@ export class UappPlatform {
                     this.file.copyFile(cordova.file.applicationDirectory + "www/uapp/", "uapp.js", root, "uapp.js"),
                     this.file.copyFile(cordova.file.applicationDirectory + "www/uapp/", "uapp.css", root, "uapp.css")
                 ];
+                console.log("公共库文件不存在，需要拷贝 999")
                 return Promise.all(promises);                
             })
             .then(res => {
@@ -244,7 +238,7 @@ export class UappPlatform {
                 //this.inAppBrowserRef.show();
             })
             .catch(e => {
-                console.log("公共库文件拷贝失败:" + e.stack);
+                console.log("公共库文件拷贝失败:" + JSON.stringify(e));
             })
         }            
         console.log("loadStopCallBack called done");

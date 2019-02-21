@@ -161,10 +161,11 @@ export class Util {
                 //查询用户的盒子
                 if(res.user_info.bind_box_count > 0 && network) {
                     //用户有盒子
-                    return this.searchUbbey();
+                    return Promise.resolve([]);
+                    // return this.searchUbbey();
                 } else {
                     //用户没有盒子
-                    return [];
+                    return Promise.resolve([]);
                 }
             } else {
                 return Promise.reject("UserInfo Error");
@@ -312,16 +313,38 @@ export class Util {
         })
         .then(res => {
             if(res.err_no === 0) {
-                let userInfoUrl = this.global.getBoxApi('getUserInfo');
-                return this.http.post(userInfoUrl, {})
-                .then(res => {
-                    if(res.err_no === 0) {
-                        this.global.boxUserInfo = res.userinfo;
-                        return this.global.boxUserInfo;
-                    } else {
-                        return null;
-                    }
-                })
+                if(this.global.platformName == "ios") {
+                    console.log("native login")
+                    return this.http.post(url, {
+                        username: username,
+                        password: Md5.hashStr(password).toString(),
+                        // password: $scope.password,
+                    }, {}, {}, true)
+                    .then(res => {
+                        let userInfoUrl = this.global.getBoxApi('getUserInfo');
+                        return this.http.post(userInfoUrl, {})
+                        .then(res => {
+                            if(res.err_no === 0) {
+                                this.global.boxUserInfo = res.userinfo;
+                                return this.global.boxUserInfo;
+                            } else {
+                                return null;
+                            }
+                        })
+                    })
+                } else {
+                    let userInfoUrl = this.global.getBoxApi('getUserInfo');
+                    return this.http.post(userInfoUrl, {})
+                    .then(res => {
+                        if(res.err_no === 0) {
+                            this.global.boxUserInfo = res.userinfo;
+                            return this.global.boxUserInfo;
+                        } else {
+                            return null;
+                        }
+                    })
+                }
+                
             } else {
                 return null;
             }

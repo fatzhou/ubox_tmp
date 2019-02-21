@@ -122,6 +122,7 @@ class SingleFileDownloader {
     }
 
     setDownloadBlockSize() {
+        console.log("filedownloader setDownloadBlockSize")
         this.oneBlockSize = this.global.useWebrtc ? ONEBLOCKWEBRTCSIZE : ONEBLOCKSIZE;        
     }
 
@@ -129,6 +130,7 @@ class SingleFileDownloader {
     // @return Promise<any>
     ///////////////////////////////////////
     download(desturi, sourceurl) {
+        console.log("filedownload download desturi" + desturi + "   sourceurl   " + sourceurl);
         //Step 1. init cache
         let self = this;
         this.setDownloadBlockSize();
@@ -285,6 +287,7 @@ class SingleFileDownloader {
     ///////////////////////////////////////
     private _initcache(desturi, sourceurl) {
         let cache = this.cache;
+        console.log("_initcache " + JSON.stringify(cache))
         //Step 1. cache not empty, check chache.
         if (cache.status) {
             return new Promise(function(resolve, reject) {
@@ -370,7 +373,7 @@ class SingleFileDownloader {
         };
         // GlobalService.consoleLog("发起get请求:" + sourceurl);
         let url = this.global.getBoxApi('downloadFile');
-        return this.http.get(url, { fullpath: this.cache.sourceurl }, true, headers, { needHeader: true })
+        return this.http.get(url, { fullpath: this.cache.sourceurl }, true, headers, { needHeader: true }, true)
             .then((res) => {
                 let cache = this.cache;
                 // GlobalService.consoleLog("服务器返回状态码：" + res.status);
@@ -379,7 +382,7 @@ class SingleFileDownloader {
                     return output
                 }
 
-                GlobalService.consoleLog("开始从RANGE头获取文件大小");
+                GlobalService.consoleLog("开始从RANGE头获取文件大小" + JSON.stringify(res.headers));
                 if (res.headers) {
                     GlobalService.consoleLog(JSON.stringify(res.headers));
                     let rangstr = res.headers["content-range"];
@@ -436,6 +439,12 @@ class SingleFileDownloader {
     // @parameter: sourceurl 远端路径
     // @return Promise<output>
     ///////////////////////////////////////
+    ab2str(u,f) {
+           var b = new Blob([u]);
+           var r = new FileReader();
+           r.readAsText(b, 'utf-8');
+           r.onload = () =>{if(f)f.call(null,r.result)}
+    }
     public _downloadoneblock() {
         let self = this;
         let cache = this.cache;
@@ -468,8 +477,14 @@ class SingleFileDownloader {
         //追加buf到已下载文件中保存
         .then((buf:any) => {
             let length = buf.byteLength;
-            GlobalService.consoleLog("获取到文件长度：" + length);
+            GlobalService.consoleLog("获取到文件长度：" + length +  "   buf.byteLength " );
+            
             if(length !== Math.min(this.oneBlockSize, totalsize - range_start)) {
+                // for(let i=0;i<length;i++) {
+                    this.ab2str(buf,(str) => {
+                        console.log("buf 内容" + str)
+                    })
+                // }
                 GlobalService.consoleLog("下载大小不正确:" + this.oneBlockSize + "," + totalsize + "," + range_start + "," + length);
                 throw new Error("下载的文件大小不正确");
             } else {

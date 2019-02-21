@@ -61,6 +61,7 @@ export class AppDetailPage {
     }
 
     openApp() {
+        console.log("开始打开uapp......")
     	// this.util.openUrl('https://ubbeyscan.io/');
         this.util.openUapp(this.info, (pro) => {
             this.goProgress(this.info, pro);
