@@ -83,21 +83,21 @@ export class HttpService {
     }
 
     private keepAlive() {
-        //debug
-        // if(!this.aliveInterval) {
-        //     this.aliveInterval = setInterval(()=>{
-        //         if(!this.global.useWebrtc) {
-        //             clearInterval(this.aliveInterval);
-        //         } else if(this.dataChannelOpen === 'opened') {
-        //             let url = this.global.getBoxApi('keepAlive');
-        //             GlobalService.consoleLog("发起保活请求发出------" + Date.now().toString());
-        //             this.webrtcRequest(url, 'post', {})
-        //             .catch(e => {
-        //                 GlobalService.consoleLog(e.stack);
-        //             })
-        //         }
-        //     }, this.aliveIntervalTime);            
-        // }
+        // debug
+        if(!this.aliveInterval) {
+            this.aliveInterval = setInterval(()=>{
+                if(!this.global.useWebrtc) {
+                    clearInterval(this.aliveInterval);
+                } else if(this.dataChannelOpen === 'opened') {
+                    let url = this.global.getBoxApi('keepAlive');
+                    GlobalService.consoleLog("发起保活请求发出------" + Date.now().toString());
+                    this.webrtcRequest(url, 'post', {})
+                    .catch(e => {
+                        GlobalService.consoleLog(e.stack);
+                    })
+                }
+            }, this.aliveIntervalTime);            
+        }
     }
 
     private channelStatusManager() {
@@ -116,11 +116,11 @@ export class HttpService {
                 case 'opening':
                     // GlobalService.consoleLog("正在建立连接流程.........");
                     //debug
-                    // if(Date.now() - this.createDataChannelPoint > this.dataChannelTimeout) {
-                    //     this.dataChannelOpen = 'closed';
-                    // } else {
-                    //     break;                         
-                    // }
+                    if(Date.now() - this.createDataChannelPoint > this.dataChannelTimeout) {
+                        this.dataChannelOpen = 'closed';
+                    } else {
+                        break;                         
+                    }
                 case 'closed':
                     GlobalService.consoleLog(".............重新建立连接流程.............");
                     this.createDataChannel()
@@ -130,34 +130,34 @@ export class HttpService {
                     break;                
                 case 'opened':
                     //debug
-                    // let channelState = this.dataChannel.readyState;
-                    // GlobalService.consoleLog("连接已建立：" + channelState);
-                    // if(Date.now() - this.lastReceivedTime > this.aliveIntervalTime * 6) {
-                    //     GlobalService.consoleLog("--------连接超时，关闭信道-------" + Date.now() + "-------" + this.lastReceivedTime + '====信道状态====' + channelState);
-                    //     this.dataChannelOpen = 'closed';
-                    //     this.lastReceivedTime = Date.now();
-                    //     this.dataChannel && this.dataChannel.close();
-                    //     break;
-                    // }
+                    let channelState = this.dataChannel.readyState;
+                    GlobalService.consoleLog("连接已建立：" + channelState);
+                    if(Date.now() - this.lastReceivedTime > this.aliveIntervalTime * 6) {
+                        GlobalService.consoleLog("--------连接超时，关闭信道-------" + Date.now() + "-------" + this.lastReceivedTime + '====信道状态====' + channelState);
+                        this.dataChannelOpen = 'closed';
+                        this.lastReceivedTime = Date.now();
+                        this.dataChannel && this.dataChannel.close();
+                        break;
+                    }
 
-                    // while(this.globalWaitingList.length) {
-                    //     let request = this.globalWaitingList.pop(); 
-                    //     if(Date.now() - request.time < this.requestStorageTime) {
-                    //         GlobalService.consoleLog("发送缓存的请求........." + request.url);
-                    //         //强制刷新cookie
-                    //         request.headers.cookie = this.getCookieString(request.url);
-                    //         this[request.method](request.url, request.paramObj, request.errorHandler, request.headers)
-                    //         .then(res => {
-                    //             request.resolve(res);
-                    //         }, res => {
-                    //             request.reject(res);
-                    //         })                             
-                    //     } 
-                    // }
-                    // while(this.globalCallbackList.length) {
-                    //     let callback = this.globalCallbackList.pop();
-                    //     callback();
-                    // }
+                    while(this.globalWaitingList.length) {
+                        let request = this.globalWaitingList.pop(); 
+                        if(Date.now() - request.time < this.requestStorageTime) {
+                            GlobalService.consoleLog("发送缓存的请求........." + request.url);
+                            //强制刷新cookie
+                            request.headers.cookie = this.getCookieString(request.url);
+                            this[request.method](request.url, request.paramObj, request.errorHandler, request.headers)
+                            .then(res => {
+                                request.resolve(res);
+                            }, res => {
+                                request.reject(res);
+                            })                             
+                        } 
+                    }
+                    while(this.globalCallbackList.length) {
+                        let callback = this.globalCallbackList.pop();
+                        callback();
+                    }
                     break;
                 case 'nobox':
                     while(this.globalCallbackList.length) {
@@ -684,24 +684,24 @@ export class HttpService {
                 .then((res:any) => {
                     GlobalService.consoleLog("文件下载结果：" + res.status)
                     //debug
-                    resolve(true);
+                    // resolve(true);
                     //下载成功，需手动写文件
-                    // if(res.status === 200 || res.status === 206) {
-                    //     this.file.writeFile(localPath, name, res.data)
-                    //     .then(res => {
-                    //         GlobalService.consoleLog("写文件：" + JSON.stringify(res));
-                    //         return this.file.checkFile(localPath, name)
-                    //     })
-                    //     .then(res => {
-                    //         GlobalService.consoleLog("CheckFIle:" + JSON.stringify(res));
-                    //         resolve(true);
-                    //     })  
-                    //     .catch(e => {
-                    //         reject(false);
-                    //     }) 
-                    // } else {
-                    //     reject(false);
-                    // }
+                    if(res.status === 200 || res.status === 206) {
+                        this.file.writeFile(localPath, name, res.data)
+                        .then(res => {
+                            GlobalService.consoleLog("写文件：" + JSON.stringify(res));
+                            return this.file.checkFile(localPath, name)
+                        })
+                        .then(res => {
+                            GlobalService.consoleLog("CheckFIle:" + JSON.stringify(res));
+                            resolve(true);
+                        })  
+                        .catch(e => {
+                            reject(false);
+                        }) 
+                    } else {
+                        reject(false);
+                    }
                 }, (res:any) => {
                     GlobalService.consoleLog("webrtc请求reject......");
                     reject(false);
