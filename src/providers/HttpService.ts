@@ -813,10 +813,9 @@ export class HttpService {
             //     return "";
             // }, this.dataChannelTimeout);
 
-
-            return this._post(GlobalService.centerApi["getBoxList"].url, {})
+            this._post(GlobalService.centerApi["getBoxList"].url, {})
                 .then((res: any) => {
-                    GlobalService.consoleLog(res)
+                    GlobalService.consoleLog(res);
                     if (res.err_no === 0) {
                         GlobalService.consoleLog("webrtc创建盒子连接: 获取盒子列表成功");
                         let centerBoxList = res.boxinfo || [];
@@ -839,11 +838,11 @@ export class HttpService {
                             // this.userBoxCheck = true;
                             this.dataChannelOpen = 'nobox';
                             this.deviceSelected = null;
-                            throw new Error("nobox");
+                            return Promise.reject("nobox");
                         }
                     } else {
                         GlobalService.consoleLog("webrtc创建盒子连接: 获取盒子列表失败");
-                        throw new Error("Get box list error.");
+                        return Promise.reject("Get box list error.");
                     }
                 })
                 .then((res: any) => {
@@ -855,7 +854,7 @@ export class HttpService {
                         // this.userBoxCheck = true;
                         this.dataChannelOpen = 'nobox';
                         //用户没有盒子
-                        throw new Error("nobox");
+                        return Promise.reject("nobox");
                     }
                 })
                 .then((sdp: any) => {
@@ -888,11 +887,10 @@ export class HttpService {
                     }
                 })
                 .catch((e: any) => {
-                    GlobalService.consoleLog(e);
-                    GlobalService.consoleLog("webrtc创建盒子连接: 建立连接流程出错");
+                    GlobalService.consoleLog("webrtc创建盒子连接: 建立连接流程出错:" + JSON.stringify(e));
                     this.global.closeGlobalLoading(this);
                     if(this.dataChannelOpen !== 'nobox') {
-                        console.log("手动关闭远程连接.....");
+                        console.log("webrtc创建盒子连接: 手动关闭远程连接.....");
                         setTimeout(()=>{
                             this.dataChannelOpen = "closed";
                         }, this.successiveConnectGap)
@@ -929,13 +927,13 @@ export class HttpService {
                     //     gResolve && gResolve();
                     // }
                     gResolve(null);
-                }).then((res)=>{
-                    GlobalService.consoleLog("webrtc创建盒子连接: 建立连接成功.....");
-                    return res
-                }).catch((res)=>{
-                    GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败.....");
-                    return Promise.reject(res)
                 })
+        }).then((res)=>{
+            GlobalService.consoleLog("webrtc创建盒子连接: 建立连接成功.....");
+            return res
+        }).catch((res)=>{
+            GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败.....");
+            return Promise.reject(res)
         });
     }
 
@@ -944,7 +942,8 @@ export class HttpService {
             GlobalService.consoleLog("sendAnswer支持promise");
             return this.peerConnection.createAnswer()
             .then(sdp => {
-                this.peerConnection.setLocalDescription(sdp);
+                //qbing test add
+                return this.peerConnection.setLocalDescription(sdp);
                 // return this.sendLocalSdp(sdp);
             })
         } catch(e) {
@@ -953,6 +952,7 @@ export class HttpService {
                 this.peerConnection.createAnswer((sdp) => {
                     // GlobalService.consoleLog("发送应答:" + JSON.stringify(sdp));
                     this.peerConnection.setLocalDescription(sdp);
+                    //qbing ????? why delete
                     //
                     // .then(res => {
                     //     resolve(res);
@@ -1011,9 +1011,11 @@ export class HttpService {
             var __request = (_url, _paramObj) => {
                 if (this.dataChannelOpen === 'opened') {
                     var r: string = this.generateRandom();
-                    let timer = setTimeout(() => {
+                    let logprefix = "session:" + r + ",url:" + url + " :";
+
+                        let timer = setTimeout(() => {
                         if (this.globalRequestMap[r]) {
-                            GlobalService.consoleLog("超时:" + r);
+                            GlobalService.consoleLog(logprefix + "超时");
                             if(this.globalRequestMap[r]) {
                                 this.globalRequestMap[r].reject && this.globalRequestMap[r].reject("timeout");
                             }
@@ -1030,19 +1032,20 @@ export class HttpService {
                     this.sendMessage(url, method, paramObj, r, headers);
                 } else {
                     if (Date.now() - start < maxTime) {
+                        //通道未建立完成，等待200毫秒后重试
                         setTimeout(() => {
                             __request(_url, _paramObj);
                         }, 200);
                     } else {
-                        //超时
-                        GlobalService.consoleLog("Reject!!")
+                        //通道未建立完成，并且已超时
+                        GlobalService.consoleLog("通道未建立完成，请求超时:" + url + ",reject Promise")
                         reject && reject({
                             err_no: -9999,
                             err_msg: "连接超时"
                         });
                     }
                 }
-            }
+            };
             __request(url, paramObj);
         })
     }
@@ -1050,11 +1053,12 @@ export class HttpService {
     prepareDataChannel(resolve, reject) {
         let channel = this.dataChannel;
         channel.onopen = () => {
-            GlobalService.consoleLog("---------------Data channel opened----------------");
+            GlobalService.consoleLog("webrtc创建盒子连接: ---------------Data channel opened----------------");
             this.dataChannelOpen = "opened";
             this.global.useWebrtc = true;
-            let url = this.global.getBoxApi('keepAlive');
             this.global.deviceSelected = this.deviceSelected;
+            let url = this.global.getBoxApi('keepAlive');
+            GlobalService.consoleLog("webrtc创建盒子连接: 启动keepAlive");
             this.keepWebrtcAlive();
             this.webrtcRequest(url, 'post', {})
             .then((res:any) => {
@@ -1075,6 +1079,7 @@ export class HttpService {
             GlobalService.consoleLog("Data channel closed.");
             // this.clearWebrtc();
             this.dataChannelOpen = "closed";
+            this.peerConnection.close()
         }
         channel.onerror = () => {
             GlobalService.consoleLog("Data channel error!!");
@@ -1257,13 +1262,24 @@ export class HttpService {
             };
 
             var str = new Buffer(JSON.stringify(data) + "$BOUNDARY$" + body + "\n");
-            GlobalService.consoleLog("session:" + sessionId + ",数据发送长度:" + body.length + "," + str.length);
-            // GlobalService.consoleLog("datachannel状态:" + this.dataChannelOpen + "," + this.dataChannel.readyState);
+            GlobalService.consoleLog("session:" + sessionId
+                + ",数据发送长度:" + body.length + "," + str.length
+                + ",state:" + this.dataChannelOpen + "," + this.dataChannel.readyState
+                + ",bufferedAmount:" + this.dataChannel.bufferedAmount + "," + this.dataChannel.bufferedAmountLowThreshold);
             this.dataChannel.send(str);
         } catch (e) {
-            GlobalService.consoleLog("发送数据出错," + "session:" + sessionId + ", url:" + _url);
+            GlobalService.consoleLog("发送数据出错，RTCDataChannel.readyState=", this.dataChannel.readyState);
+            GlobalService.consoleLog("发送数据出错:"+ JSON.stringify(e) + ", session:" + sessionId + ", url:" + _url);
+            if (sessionId && this.globalRequestMap[sessionId] && this.globalRequestMap[sessionId].reject) {
+                GlobalService.consoleLog("发送数据出错, reject:" + sessionId);
+                clearTimeout(this.globalRequestMap[sessionId].timer);
+                this.globalRequestMap[sessionId].reject({
+                    status: -1,
+                    data: ""
+                });
+                delete this.globalRequestMap[sessionId];
+            }
         }
-
     }
 
 }

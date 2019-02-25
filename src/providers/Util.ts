@@ -144,7 +144,7 @@ export class Util {
                             // throw new Error('登录中心失败');
                             return Promise.reject(res);
                         }
-                    })                       
+                    })
                 } else {
                     return Promise.reject(res);
                 }
@@ -172,7 +172,7 @@ export class Util {
             } else {
 				console.log("用户信息错误.......")
                 return Promise.reject("UserInfo Error");
-            }             
+            }
         })
         .then((res:any) => {
 			console.log("开始建立连接.......")
@@ -199,7 +199,7 @@ export class Util {
                 //     } else {
                 //         return Promise.reject("NOBOX");
                 //     }
-                // })                   
+                // })
             }
         })
         .then((res:any) => {
@@ -259,7 +259,7 @@ export class Util {
                                     return null;
                                 }
                             })
-                        }                        
+                        }
                     }
                 })
             } else {
@@ -291,7 +291,7 @@ export class Util {
                     })
                     .catch(()=>{
                         return res;
-                    })                    
+                    })
                 } else {
                     return null;
                 }
@@ -305,7 +305,7 @@ export class Util {
             //没有盒子或者其他错误，只需登录中心即可
             // errorCallback && errorCallback();
             return Promise.reject(res);
-        })               
+        })
     }
 
     loginBox(username, password) {
@@ -348,7 +348,7 @@ export class Util {
                         }
                     })
                 }
-                
+
             } else {
                 return null;
             }
@@ -364,7 +364,7 @@ export class Util {
         let errorCallback = () => {
             setTimeout(() => {
                 this._checkRemoteBoxAvailable(boxId);
-            }, 6000);            
+            }, 6000);
         }
         //WEBRTC模式
         this.http.post(url, {})
@@ -387,7 +387,7 @@ export class Util {
             } else {
                 errorCallback();
             }
-        }) 
+        })
         .catch(e => {
             errorCallback();
         })
@@ -408,12 +408,12 @@ export class Util {
                     this.global.createGlobalToast(this, {
                         message: this.global.L('BindBoxFirst')
                     })
-                    return false;                    
+                    return false;
                 } else if(!this.global.deviceSelected) {
                     this.global.createGlobalToast(this, {
                         message: this.global.L('BoxOffline')
                     })
-                    return false;                     
+                    return false;
                 }
             }
             //下载安装, 安装中则直接返回
@@ -434,17 +434,17 @@ export class Util {
                     console.log("安装进度：" + JSON.stringify(res));
                     let processProgress = this.getUappProgress(item, res);
                     goProgress(processProgress);
-                })    
+                })
                 .then(res => {
                     //安装完成.....
                     console.log("APP已安装成功.......");
                     this.global.createGlobalToast(this, {
                         message: this.global.Lf('UappInstallSucceed', item.title)
                     })
-                })    
+                })
                 .catch(e => {
                     item.progress = undefined;
-                })            
+                })
             }
         }
     }
@@ -508,7 +508,7 @@ export class Util {
         .catch(e => {
             GlobalService.consoleLog(e);
             errorCallback();
-        }) 
+        })
     }
 
     rebootDevice($scope) {
@@ -536,11 +536,11 @@ export class Util {
                     setTimeout(() => {
                         //查询盒子是否已经重启完毕
                         if($scope.global.useWebrtc) {
-                            this._checkRemoteBoxAvailable(boxId);                  
+                            this._checkRemoteBoxAvailable(boxId);
                         } else {
                             this._checkLocalBoxAvailable(boxId);
                         }
-                    }, 6000);                    
+                    }, 6000);
                 })
             }
         })
@@ -555,7 +555,7 @@ export class Util {
                 {
                     text: Lang.L('WORD85ceea04'),
                     handler: data => {
-                       
+
                     }
                 },
                 {
@@ -568,11 +568,11 @@ export class Util {
                             Util.loginCenter($scope, ()=>{
                                 self.removeBox($scope, boxId, callback);
                             });
-                        } 
+                        }
                     }
                 }
             ]
-        })  
+        })
     }
 
     removeBox($scope, boxId, callback) {
@@ -586,7 +586,7 @@ export class Util {
                     boxid: boxId,
                     signature: res.credential
                     // signature: encodeURIComponent(res.credential)
-                })                    
+                })
             } else {
                 throw new Error(Lang.L('WORD4b3c3932'));
             }
@@ -596,17 +596,17 @@ export class Util {
                 var url = GlobalService.centerApi["unbindBoxConfirm"].url;
                 return $scope.http.post(url, {
                     boxid: boxId,
-                })                    
+                })
             } else {
                 throw new Error(Lang.L('WORD3f31fa42'));
-            }                
+            }
         })
         .then(res => {
             if(res.err_no == 0) {
                 $scope.global.deviceSelected = null;
                 $scope.global.boxUserInfo = {};
                 $scope.global.centerUserInfo.bind_box_count = 0;
-                callback && callback();                   
+                callback && callback();
             }
         })
         .catch (res => {
@@ -634,8 +634,8 @@ export class Util {
                 $scope.global.centerUserInfo = res.user_info;
                 var boxUsername = $scope.global.boxUserInfo.username;
                 GlobalService.consoleLog("中心登录成功：" + boxUsername + "," + res.user_info.uname);
-                callback && callback(res);              
-            } 
+                callback && callback(res);
+            }
         })
         .catch(res => {
             GlobalService.consoleLog(res);
@@ -713,13 +713,13 @@ export class Util {
                 } else {
                     this.global.createGlobalToast(this, {
                         message: Lang.L('SystemFileError')
-                    })                    
+                    })
                 }
             })
         })
     }
 
-    searchUbbey() {  
+    searchUbbey() {
         return new Promise((resolve, reject) => {
             var self = this;
             var flag = false;
@@ -746,7 +746,7 @@ export class Util {
                 }
             };
             let processRes = (devices) => {
-                GlobalService.consoleLog("发现接口成功回调");      
+                GlobalService.consoleLog("发现接口成功回调");
                 //ios需要手动下载xml
                 if(devices.length) {
                     for(var i = 0, len = devices.length; i < len; i++) {
@@ -787,8 +787,8 @@ export class Util {
                 reject();
             }
 
-            serviceDiscovery.getNetworkServices(serviceType, processRes, failure);           
-        }) 
+            serviceDiscovery.getNetworkServices(serviceType, processRes, failure);
+        })
 
     }
 
@@ -798,8 +798,8 @@ export class Util {
 
         let updateDeviceSelected = () => {
             this.global.deviceSelected = this.global.foundDeviceList.filter(item => {
-                return item.boxId === boxId; 
-            })[0] || null;          
+                return item.boxId === boxId;
+            })[0] || null;
         };
 
         return this.http.post(url, {}, false)
@@ -809,7 +809,7 @@ export class Util {
                 // updateDeviceSelected();
                 if(this.global.deviceSelected) {
                     this.global.deviceSelected.version = res.version;
-                }  
+                }
                 return res.version;
             } else {
                 throw new Error('GetBoxVersionError');
@@ -837,12 +837,12 @@ export class Util {
                     .catch(e => {
                         GlobalService.consoleLog(e.stack);
                         reject();
-                    })                 
+                    })
                 }
                 searchUbbey();
             })
 
-        }); 
+        });
     }
 
     getCoinbase() {
@@ -930,7 +930,7 @@ export class Util {
                 number = number + "." + suffix;
             }
             return number.substring(0, number.lastIndexOf('.') + dec + 1);
-        }  
+        }
     }
 
     computeTxStatus(status) {
@@ -971,21 +971,21 @@ export class Util {
             return this.http.post(url, {
                 storage: storage,
                 switch: obj.ifMining ? 1 : 0
-            })            
+            })
         } else {
             let setMiningUrl = this.global.getBoxApi('setChainMining');
-            
+
             if(isChangeSize == false) {
                 return this.http.post(setMiningUrl, {
                     switch: obj.ifMining ? 1 : 2
-                }) 
+                })
             } else {
                 this.global.createGlobalLoading(this, {
                     message: Lang.L('changeSize')
-                });    
+                });
                 return this.http.post(setMiningUrl, {
                     switch: obj.ifMining ? 1 : 2
-                }) 
+                })
                 .then(res => {
                     if(res.err_no === 0) {
                         let url = this.global.getBoxApi('stopShare');
@@ -1000,7 +1000,7 @@ export class Util {
                         this.global.closeGlobalLoading(this);
                         return this.http.post(setStoreUrl, {
                             sharesize: storage
-                        }) 
+                        })
                     }
                 })
             }
@@ -1016,10 +1016,10 @@ export class Util {
         var suffix = style.toLowerCase();
         if (/^(jpe?g|gif|heic)$/.test(suffix)) {
             return "image/jpeg";
-        } 
+        }
         if (/^(tif?f)$/.test(suffix)) {
             return "image/tiff";
-        }       
+        }
         if (/^png$/.test(suffix)) {
             return "image/png";
         }
@@ -1061,7 +1061,7 @@ export class Util {
     //填充汇率
     getDisplayRate() {
         if(this.global.globalRateInfo.length == 0){
-            return this.http.post(GlobalService.centerApi["getUbbeyRate"].url, {})  
+            return this.http.post(GlobalService.centerApi["getUbbeyRate"].url, {})
             .then(res => {
                 if(res.err_no === 0) {
                     if(res.rates) {
@@ -1077,7 +1077,7 @@ export class Util {
                     this.global.globalRateInfo = res.rates;
                 }
                 return this.global.globalRateInfo;
-          }) 
+          })
         } else {
             return new Promise((resolve, reject) => {
                 resolve(this.global.globalRateInfo);
@@ -1099,11 +1099,11 @@ export class Util {
                     let boxId = this.global.deviceSelected.boxId || '';
                     walletItem = this.global.walletList.find(item => {
                         return hash == item.bindUserHash && item.boxId == boxId;
-                    })                    
+                    })
                 } else {
                     walletItem = this.global.walletList.find(item => {
                         return hash == item.bindUserHash && item.boxId == 'CENTERUSER';
-                    })  
+                    })
                 }
 
                 if(!walletItem) {
@@ -1124,11 +1124,11 @@ export class Util {
         let walletItem = null;
         let boxId = 'CENTERUSER';
         if(this.global.deviceSelected) {
-            boxId = this.global.deviceSelected.boxId || '';           
-        } 
+            boxId = this.global.deviceSelected.boxId || '';
+        }
         walletItem = this.global.walletList.find(item => {
             return hash == item.bindUserHash && item.boxId === 'CENTERUSER';
-        })        
+        })
 
         if(!walletItem) {
             this.global.walletList.push({
@@ -1146,7 +1146,7 @@ export class Util {
         .catch(e => {
         })
     }
-    
+
     getUserList() {
         return new Promise((resolve, reject) => {
             this.storage.get('UserList')
@@ -1189,7 +1189,7 @@ export class Util {
         })
         .catch(e => {
         })
-    }    
+    }
 
     openUrl(url){
         const browser = this.browser.create(url, "_blank", "withcookie=a%3D1%26b%3D2&location=no&hardwareback=yes&hidespinner=yes&closebuttoncaption=close&clearcache=yes&clearsessioncache=yes");
@@ -1220,7 +1220,7 @@ export class Util {
         }).then((barcodeData) => {
             GlobalService.consoleLog("Success to get code:" + JSON.stringify(barcodeData))
             if(!barcodeData.cancelled && barcodeData.format === 'QR_CODE') {
-                return barcodeData.text;                
+                return barcodeData.text;
             } else {
                 return ''
             }
@@ -1274,18 +1274,18 @@ export class Util {
                 GlobalService.consoleLog("登录态一致，可进入首页" + !!callback);
                 if(callback) {
                     callback(res);
-                } 
+                }
             } else if(centerUsername !== undefined && boxUsername !== undefined && centerUsername != boxUsername) {
                 GlobalService.consoleLog("登录态不一致：" + centerUsername + "," + boxUsername);
                 $scope.util.logoutCenter(()=>{
                     if(callback) {
                         callback(res);
-                    }                   
+                    }
                 })
             }  else {
                 if(callback) {
                    callback(res);
-                }  
+                }
             }
         };
         $scope.http.post(url, {
@@ -1299,7 +1299,7 @@ export class Util {
 
                 if(centerLogin) {
                     GlobalService.consoleLog("自动登录中心");
-                    Util.loginCenter($scope, null, true);                    
+                    Util.loginCenter($scope, null, true);
                 }
 
                 return $scope.http.post(userInfoUrl, {})
@@ -1403,7 +1403,7 @@ export class Util {
                         } else {
                             throw new Error("Password error");
                         }
-                    })                         
+                    })
                  } else {
                      throw new Error("No username and password");
                  }
@@ -1503,14 +1503,14 @@ export class Util {
                             })
                             return Promise.all(promises)
                             .then(res => {
-                                return true;                          
-                            })    
+                                return true;
+                            })
                             .catch(e => {
                                 return true;
-                            })                        
+                            })
                         } else {
                             console.log("绑定成功，不需同步钱包");
-                            return true;                        
+                            return true;
                         }
                     } else {
                         console.log("绑定失败");
@@ -1519,7 +1519,7 @@ export class Util {
                 })
                 .catch(e => {
                     return false;
-                })                
+                })
             } else {
                 return false;
             }
@@ -1538,7 +1538,7 @@ export class Util {
         let hour = ('00' + time.getHours()).slice(-2);
         let minute = ('00' + time.getMinutes()).slice(-2);
         let second = ('00' + time.getSeconds()).slice(-2);
-        return [year, month, date].join(split) + ' ' + [hour, minute, second].join(':');      
+        return [year, month, date].join(split) + ' ' + [hour, minute, second].join(':');
     }
 
     public static getUTCTime(ts, split = "-") {
@@ -1547,7 +1547,7 @@ export class Util {
         var m = ('00' + (date.getUTCMonth() + 1)).slice(-2);
         var d = ('00' + date.getUTCDate()).slice(-2);
         return [y, m, d].join(split) + " 00:00:00";
-    }    
+    }
 
     public static getTime(ts, split = "-") {
         var date = new Date(ts);
@@ -1605,7 +1605,7 @@ export class Util {
         //     ]
         // })
     }
- 
+
      /**
       * [computeFileType 根据文件后缀，计算文件类型]
       * @param {[type]} name [文件名]
@@ -1720,7 +1720,7 @@ export class Util {
     moveFile(oldPath, oldName, newPath, newName) {
         //保证新老路径最后一定有/
         newPath = newPath.replace(/\/$/g, '') + "/";
-        oldPath = oldPath.replace(/\/$/g, '') + "/";    
+        oldPath = oldPath.replace(/\/$/g, '') + "/";
         // var oNameSuffix = matches ? matches[0] : "";
         var url = this.global.getBoxApi("moveFile");
         return this.http.post(url, {
@@ -1776,11 +1776,11 @@ export class Util {
                     this.storage.set('deviceID', this.global.deviceID);
                     resolve(this.global.deviceID);
                 })
-            });            
+            });
         } else {
             return Promise.resolve(this.global.deviceID);
         }
-    }   
+    }
 
     getDisplayTime(ts) {
         var date = new Date(ts);
@@ -1800,40 +1800,98 @@ export class Util {
             let type = this.computeFileType(item.name);
             return !item.thumbnail && (type === 'image');
         });
-        for(let i = 0, len = noThumbnailList.length; i < len; i++) {
-            setTimeout(()=>{
-                //检查本地是否存在,删除后面的重命名时添加的(2)
-                let md5;
-                if(isHasPath) {
-                    md5 = Md5.hashStr(noThumbnailList[i].path + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
-                } else {
-                    md5 = Md5.hashStr(currPath + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
-                }
-                let thumbnailName = md5 + ".png";
-                let localThumbnailPath = this.global.fileSavePath + this.global.ThumbnailSubPath + "/";
-                let localThumbnailFullPath = localThumbnailPath + thumbnailName;
-                // GlobalService.consoleLog("缩略图名字的远程路径：" + this.currPath + "---" + noThumbnailList[i].name);
-                GlobalService.consoleLog("本地路径尝试：" + localThumbnailPath + thumbnailName);
-                this.http.getFileLocalOrRemote(this.global.ThumbnailRemotePath + "/", localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath)
+
+        let downloading = {};
+        let downloadIthThumbnail = (i)=>{
+            //检查本地是否存在,删除后面的重命名时添加的(2)
+            let md5;
+            if(isHasPath) {
+                md5 = Md5.hashStr(noThumbnailList[i].path + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
+            } else {
+                md5 = Md5.hashStr(currPath + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
+            }
+            let thumbnailName = md5 + ".png";
+            let localThumbnailPath = this.global.fileSavePath + this.global.ThumbnailSubPath + "/";
+            let localThumbnailFullPath = localThumbnailPath + thumbnailName;
+            let logprefix = "缩略图下载：下载文件["+i+"]("+thumbnailName+")：";
+            GlobalService.consoleLog(logprefix + "开始下载");
+            GlobalService.consoleLog(logprefix + "本地路径尝试：" + localThumbnailPath + thumbnailName);
+            return this.http.getFileLocalOrRemote(this.global.ThumbnailRemotePath + "/", localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath)
                 .then(res => {
                     if(res) {
-                        GlobalService.consoleLog("数据获取完毕：" + JSON.stringify(res));
+                        GlobalService.consoleLog(logprefix + "数据获取完毕：" + JSON.stringify(res));
                         noThumbnailList[i].thumbnail = res;
-                        this.global.thumbnailMap[md5] = res;                        
+                        this.global.thumbnailMap[md5] = res;
                     } else {
-                        //缩略图不存在，获取原图
-                        this.http.getFileLocalOrRemote(noThumbnailList[i].path, this.global.fileSavePath + this.global.PhotoSubPath + "/", noThumbnailList[i].name, this.global.PhotoSubPath)
-                        .then(res => {
-                            GlobalService.consoleLog("数据原图获取完毕：" + JSON.stringify(res));
-                            noThumbnailList[i].thumbnail = res;
-                            this.global.thumbnailMap[md5] = res;                               
-                        })
+                        GlobalService.consoleLog(logprefix + "缩略图不存在，获取原图");
+                        return this.http.getFileLocalOrRemote(noThumbnailList[i].path, this.global.fileSavePath + this.global.PhotoSubPath + "/", noThumbnailList[i].name, this.global.PhotoSubPath)
+                            .then(res => {
+                                GlobalService.consoleLog(logprefix + "数据原图获取完毕：" + JSON.stringify(res));
+                                noThumbnailList[i].thumbnail = res;
+                                this.global.thumbnailMap[md5] = res;
+                            })
                     }
                 })
                 .catch(e => {
-                    GlobalService.consoleLog("下载异常....");
-                })                
-            }, i * 100);
-        }
+                    GlobalService.consoleLog(logprefix + "下载异常....");
+                }).then(()=>{
+                    GlobalService.consoleLog(logprefix + "下载结束[" + i + "]");
+                    delete downloading[i];
+                })
+        };
+
+        let lastindex = 0;
+        let donecount = 0;
+        let totalcount= noThumbnailList.length;
+        let looptimer = setInterval(()=> {
+            let doingcount= Object.keys(downloading).length;
+            if ( donecount + doingcount < totalcount && doingcount < 5) {
+                downloading[lastindex] = 1;
+                downloadIthThumbnail(lastindex++)
+                    .then(()=>{
+                        donecount++
+                    });
+            }
+            if (donecount >= totalcount){
+                clearInterval(looptimer)
+            }
+        }, 100);
+
+        // for(let i = 0, len = noThumbnailList.length; i < len; i++) {
+        //
+        //     setTimeout(()=>{
+        //         //检查本地是否存在,删除后面的重命名时添加的(2)
+        //         let md5;
+        //         if(isHasPath) {
+        //             md5 = Md5.hashStr(noThumbnailList[i].path + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
+        //         } else {
+        //             md5 = Md5.hashStr(currPath + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
+        //         }
+        //         let thumbnailName = md5 + ".png";
+        //         let localThumbnailPath = this.global.fileSavePath + this.global.ThumbnailSubPath + "/";
+        //         let localThumbnailFullPath = localThumbnailPath + thumbnailName;
+        //         // GlobalService.consoleLog("缩略图名字的远程路径：" + this.currPath + "---" + noThumbnailList[i].name);
+        //         GlobalService.consoleLog("本地路径尝试：" + localThumbnailPath + thumbnailName);
+        //         this.http.getFileLocalOrRemote(this.global.ThumbnailRemotePath + "/", localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath)
+        //         .then(res => {
+        //             if(res) {
+        //                 GlobalService.consoleLog("数据获取完毕：" + JSON.stringify(res));
+        //                 noThumbnailList[i].thumbnail = res;
+        //                 this.global.thumbnailMap[md5] = res;
+        //             } else {
+        //                 //缩略图不存在，获取原图
+        //                 this.http.getFileLocalOrRemote(noThumbnailList[i].path, this.global.fileSavePath + this.global.PhotoSubPath + "/", noThumbnailList[i].name, this.global.PhotoSubPath)
+        //                 .then(res => {
+        //                     GlobalService.consoleLog("数据原图获取完毕：" + JSON.stringify(res));
+        //                     noThumbnailList[i].thumbnail = res;
+        //                     this.global.thumbnailMap[md5] = res;
+        //                 })
+        //             }
+        //         })
+        //         .catch(e => {
+        //             GlobalService.consoleLog("下载异常....");
+        //         })
+        //     }, i * 100);
+        // }
     }
 }
