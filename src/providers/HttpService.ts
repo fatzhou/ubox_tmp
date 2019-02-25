@@ -815,7 +815,6 @@ export class HttpService {
             //     return "";
             // }, this.dataChannelTimeout);
 
-
             return this._post(GlobalService.centerApi["getBoxList"].url, {})
                 .then((res: any) => {
                     GlobalService.consoleLog(res)
@@ -824,11 +823,13 @@ export class HttpService {
                         let centerBoxList = res.boxinfo || [];
                         if (centerBoxList.length > 0) {
                             // GlobalService.consoleLog("用户拥有盒子，查询盒子在线状态");
-                            let centerAvailableBoxList = centerBoxList.filter(item => item.sdp_register === 1);
+                            // let centerAvailableBoxList = centerBoxList.filter(item => item.sdp_register === 1);
+							let centerAvailableBoxList = centerBoxList.filter(item => item.online_status === 1);
                             GlobalService.consoleLog("在线盒子数目：" + centerAvailableBoxList.length);
                             if (centerAvailableBoxList.length > 0) {
                                 // GlobalService.consoleLog("设定用户盒子");
-                                let deviceSelected = centerAvailableBoxList[0];
+								let deviceSelected = centerAvailableBoxList[0];
+								GlobalService.consoleLog("盒子onlineStatus:" + deviceSelected.online_status + "，sdpRegister:" + deviceSelected.sdp_register);
                                 // GlobalService.consoleLog("重新连接以后盒子是否一致：" + this.global.deviceSelected.boxId === this.global.centerBoxSelected.boxid)
                                 this.selectBox(deviceSelected);
                                 // GlobalService.consoleLog("默认选择盒子:" + this.global.centerBoxSelected.boxid);
