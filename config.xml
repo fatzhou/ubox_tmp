@@ -120,7 +120,7 @@
     </plugin>
     <plugin name="cordova-plugin-discovery" spec="https://github.com/ubbey/cordova-plugin-discovery.git" />
     <plugin name="cordova-plugin-market" spec="^1.2.0" />
-    <plugin name="cordova-plugin-photo-library" spec="git+https://github.com/ubbey/cordova-plugin-photo-library.git">
+    <plugin name="cordova-plugin-photo-library" spec="https://github.com/ubbey/cordova-plugin-photo-library.git">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
     <plugin name="com.rjfun.cordova.httpd" spec="https://github.com/floatinghotpot/cordova-httpd.git" />

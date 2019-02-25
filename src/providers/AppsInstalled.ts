@@ -215,6 +215,7 @@ export class AppsInstalled {
                             })
                             //解压完毕
                             resolve();
+                            
                         }, (data) => {
                             //进度提示
                             console.log("解压完成进度:" + JSON.stringify(data));
