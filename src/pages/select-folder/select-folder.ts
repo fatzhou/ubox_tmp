@@ -4,7 +4,7 @@ import { Lang } from '../../providers/Language';
 import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
 import { SelectUploadFolderPage } from '../select-upload-folder/select-upload-folder'
-import { FileTransfer } from '../../providers/FileTransfer';
+import { FileTransport } from '../../providers/FileTransport';
 import { FileUploader } from '../../providers/FileUploader';
 import { FileManager } from '../../providers/FileManager';
 
@@ -33,7 +33,7 @@ export class SelectFolderPage {
         public navParams: NavParams,
         private global: GlobalService,
         private util: Util,
-        private transfer: FileTransfer,
+        private transfer: FileTransport,
         private fileUploader: FileUploader,
         private fileManager: FileManager,
         ) {

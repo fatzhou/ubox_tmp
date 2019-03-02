@@ -5,7 +5,7 @@ import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
 import { Platform } from 'ionic-angular';
 import { SelectUploadFolderPage } from '../select-upload-folder/select-upload-folder'
-import { FileTransfer } from '../../providers/FileTransfer';
+import { FileTransport } from '../../providers/FileTransport';
 import { FileManager } from '../../providers/FileManager';
 import { Md5 } from "ts-md5/dist/md5";
 import { FileUploader } from '../../providers/FileUploader';
@@ -43,7 +43,7 @@ export class SelectImgPage {
     isShowFooter: boolean = false;
     constructor(public navCtrl: NavController,
         public navParams: NavParams,
-        private transfer: FileTransfer,
+        private transfer: FileTransport,
         private fileManager: FileManager,
         private fileUploader: FileUploader,
         private platform: Platform,

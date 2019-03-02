@@ -12,6 +12,7 @@ import 'rxjs/add/operator/toPromise';
 import { Events } from 'ionic-angular';
 import { Md5 } from 'ts-md5/dist/md5';
 import { File } from '@ionic-native/file';
+import { FileTransport } from './FileTransport';
 import * as FormData from 'form-data';
 // import * as base64 from 'base64-js';
 declare var window;
@@ -65,7 +66,7 @@ export class HttpService {
         private aHttp: Http,
         private file: File,
         private events: Events,
-        private platform: Platform,
+		private platform: Platform,
         private global: GlobalService
     ) {
         GlobalService.consoleLog("进入HttpService构造函数");
@@ -222,7 +223,6 @@ export class HttpService {
             if (url.startsWith('http') || !this.global.useWebrtc) {
                 if (cordova || this.global.platformName == "android") {
                 // if (this.platform.is('cordova') || cordova) {
-                    GlobalService.consoleLog("native的http请求;");
                     return this.http.get(url + this.toQueryString(paramObj), {}, headers)
                         .then(res => {
                             if(options.needHeader) {
@@ -262,7 +262,6 @@ export class HttpService {
                     .catch(error => this.handleError(error, errorHandler));
                 } else {
                     GlobalService.consoleLog("缓存请求，稍后get..." + url);
-
                     return new Promise((resolve, reject) =>{
                          this.globalWaitingList.push({
                             url: url,
@@ -294,7 +293,6 @@ export class HttpService {
                     .catch(error => this.handleError(error, errorHandler));
             } else {
                 GlobalService.consoleLog("缓存请求，稍后post..." + url);
-
                 return new Promise((resolve, reject) =>{
                     this.globalWaitingList.push({
                         url: url,
@@ -346,7 +344,7 @@ export class HttpService {
                 return this.aHttp.post(url, this.toBodyString(paramObj), new RequestOptions({ headers: postHeaders,withCredentials: true}))
                     .toPromise()
                     .then((res:any) => {
-                        console.log(url + "ahttp : + " +JSON.stringify(res))
+                        console.log(url + "angular http : + " +JSON.stringify(res))
                         // console.log(url +JSON.stringify(res.headers))
 
                         //   console.log(!!res.headers)
@@ -1167,7 +1165,7 @@ export class HttpService {
         }
 
         return this._post(GlobalService.centerApi["submitLocalSdp"].url, {
-                box_id: this.deviceSelected.boxId,
+				box_id: this.deviceSelected.boxId,
                 app_sdp: JSON.stringify(localSdp)
             })
             .then((res: any) => {

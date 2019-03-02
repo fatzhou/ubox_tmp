@@ -27,7 +27,7 @@
     "@ionic-native/core": "^4.7.0",
     "@ionic-native/file": "git+ssh://git@github.com/ubbey/file.git",
     "@ionic-native/file-opener": "^4.7.0",
-    "@ionic-native/file-transfer": "^4.7.0",
+    "@ionic-native/file-transfer": "^5.0.0",
     "@ionic-native/hot-code-push": "^4.7.0",
     "@ionic-native/http": "^4.7.0",
     "@ionic-native/image-picker": "^4.12.0",
@@ -152,7 +152,8 @@
       },
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-zip": {},
-      "cordova-plugin-device": {}
+      "cordova-plugin-device": {},
+      "cordova-plugin-file-transfer": {}
     }
   }
 }

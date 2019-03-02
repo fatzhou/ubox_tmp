@@ -47,6 +47,8 @@ import { Web3Service } from '../providers/Web3Service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { AppsInstalled } from '../providers/AppsInstalled';
 
+import { TestPage } from '../pages/test/test';
+
 import { FileManager } from '../providers/FileManager';
 declare var chcp: any;
 declare var WifiWizard: any;
@@ -61,7 +63,7 @@ export class UboxApp {
     // @ViewChild(Nav) gets a reference to the app's root nav
     @ViewChild(Nav) nav: Nav;
 
-    rootPage:any;
+    rootPage:any = LoginPage;
     needTips: Boolean = false;
     fileListString: any;
 
@@ -129,10 +131,11 @@ export class UboxApp {
                 this.appInstalled.getInstalledApps();
             } else {
                 GlobalService.consoleLog("我不是cordova");
-                this.rootPage = SearchPage;
+				this.rootPage = LoginPage;
+				// this.rootPage = TestPage;
             }
 
-            this.getUserInfo();
+            // this.getUserInfo();
             this.initReadPermitted();
             //恢复下载列表
             this.initFileTaskList();
@@ -438,7 +441,7 @@ export class UboxApp {
         //         this.http.initWebrtc();
         //     }
         // }   
-        this.getUserInfo();  
+        // this.getUserInfo();  
     }
 
     createNetworkingAlert() {

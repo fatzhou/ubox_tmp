@@ -5,6 +5,7 @@ import { File } from '@ionic-native/file';
 import { HttpService } from './HttpService';
 import { GlobalService } from './GlobalService';
 import { Util } from './Util';
+import { OutputType } from '@angular/core/src/view';
 
 // let localCache = {
     //////////file download cache///////////
@@ -207,6 +208,7 @@ class SingleFileDownloader {
     // @return undefined
     ///////////////////////////////////////
     private _progress(errstr) {
+		console.log("进度通知:" + JSON.stringify(this.cache));
         this.progress(this.cache);
     }
 
@@ -335,8 +337,8 @@ class SingleFileDownloader {
                 return cache;
             }).catch((err) => {
                 GlobalService.consoleLog("读取目录失败:" + err.stack);
-                return cache;
-            });
+				throw new Error("Folder read error...");
+			});
         }
     }
 
@@ -382,18 +384,17 @@ class SingleFileDownloader {
                     return output
                 }
 
-                GlobalService.consoleLog("开始从RANGE头获取文件大小" + JSON.stringify(res.headers));
                 if (res.headers) {
                     GlobalService.consoleLog(JSON.stringify(res.headers));
                     let rangstr = res.headers["content-range"];
                     GlobalService.consoleLog("Rangstr:" + rangstr);
                     let re = rangstr.match(/bytes\s+(\d+)-(\d+)\/(\d+)/);
                     output.downloadsize = 0;
-                    output.totalsize = parseInt(re[3]);
+					output.totalsize = parseInt(re[3]);
+					GlobalService.consoleLog("文件总大小：" + output.totalsize);
                 }
 
                 GlobalService.consoleLog("cache:" + JSON.stringify(this.cache));
-
 
                 let need_full_download = false;
                 if (cache.totalsize != output.totalsize || cache.totalsize == 0) {
@@ -414,10 +415,11 @@ class SingleFileDownloader {
                     output.downloadsize = cache.downloadsize;
                 }                    
 
-                GlobalService.consoleLog("获取文件大小成功");
+                GlobalService.consoleLog("获取文件大小成功:" + output.totalsize);
                 return output;
             }, (res) => {
-                GlobalService.consoleLog("Http请求出错" + JSON.stringify(res));
+				GlobalService.consoleLog("Http请求出错" + JSON.stringify(res));
+				throw new Error("Get file size error...");
             })
 
             //下载文件出现异常/////////////////////

@@ -10,6 +10,7 @@ import { GlobalService } from '../../providers/GlobalService';
 import { Lang } from '../../providers/Language';
 import { analyzeAndValidateNgModules, flatten } from '@angular/compiler';
 import { Events, Platform, App } from 'ionic-angular';
+import { TestPage } from '../test/test';
 // import { WebrtcService } from "../../providers/WebrtcService";
 
 // import { ChangepasswdPage } from '../changepasswd/changepasswd';
@@ -148,6 +149,7 @@ export class LoginPage {
                 if(this.popBack || index !== undefined) {
                     this.navCtrl.pop();
                 } else {
+                    // this.navCtrl.push(TestPage, {
                     this.navCtrl.push(TabsPage, {
                         tabIndex: index
                     })
@@ -196,6 +198,7 @@ export class LoginPage {
                 // })                              
             } else {
                 this.global.closeGlobalLoading(this);
+                // this.navCtrl.push(TestPage, {
                 this.navCtrl.push(TabsPage, {
                     tabIndex: index
                 });
@@ -211,7 +214,7 @@ export class LoginPage {
                 this.navCtrl.push(TabsPage); 
             }
         })
-    }
+	}
 
     loginBox() {
         let res:any = {};
@@ -247,6 +250,7 @@ export class LoginPage {
                                     handler: data => {
                                         this.util.logout(()=>{
                                             // this.events.publish('root:changed', DeviceListPage);
+                                            // this.navCtrl.push(TestPage, {
                                             this.navCtrl.push(DeviceListPage, {
                                                 refresh: true
                                             })

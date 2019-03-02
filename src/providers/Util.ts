@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GlobalService } from './GlobalService';
 import { HttpService } from './HttpService';
-// import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+// import { FileTransport, FileUploadOptions, FileTransportObject } from '@ionic-native/file-transfer';
 import { Md5 } from "ts-md5/dist/md5";
 import { ToastController } from 'ionic-angular';
 import * as Wallet from 'ethereumjs-wallet'
@@ -17,7 +17,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { Clipboard } from '@ionic-native/clipboard';
 import { AppsInstalled } from './AppsInstalled';
 import { UappPlatform } from "./UappPlatform";
-
+// import { FileTransport } from './FileTransport';
 declare var chcp: any;
 declare var createObjectURL: any;
 declare var webkitURL: any;
@@ -29,7 +29,7 @@ declare var serviceDiscovery;
 @Injectable()
 export class Util {
     constructor(
-        // private transfer: FileTransfer,
+        // private transfer: FileTransport,
         private events: Events,
         private http: HttpService,
         public storage: Storage,
@@ -40,7 +40,8 @@ export class Util {
         public barcodeScanner: BarcodeScanner,
         private global: GlobalService,
         private uappPlatform: UappPlatform,
-        private appsInstalled: AppsInstalled,
+		private appsInstalled: AppsInstalled,
+		// private fileTransport: FileTransport,
         private clipboard: Clipboard,
     ) {
         GlobalService.consoleLog("Util构造函数。。")
@@ -1792,106 +1793,5 @@ export class Util {
             m = ('00' + date.getMinutes()).slice(-2),
             s = ('00' + date.getSeconds()).slice(-2);
         return [Y, M, D].join('-') + ' ' + [h, m, s].join(':');
-    }
-
-    getThumbnail(list, isHasPath, currPath = '') {
-        //获取最新拉取的一页的缩略图
-        let noThumbnailList = list.filter(item => {
-            let type = this.computeFileType(item.name);
-            return !item.thumbnail && (type === 'image');
-        });
-
-        let downloading = {};
-        let downloadIthThumbnail = (i)=>{
-            //检查本地是否存在,删除后面的重命名时添加的(2)
-            let md5;
-            if(isHasPath) {
-                md5 = Md5.hashStr(noThumbnailList[i].path + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
-            } else {
-                md5 = Md5.hashStr(currPath + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
-            }
-            let thumbnailName = md5 + ".png";
-            let localThumbnailPath = this.global.fileSavePath + this.global.ThumbnailSubPath + "/";
-            let localThumbnailFullPath = localThumbnailPath + thumbnailName;
-            let logprefix = "缩略图下载：下载文件["+i+"]("+thumbnailName+")：";
-            GlobalService.consoleLog(logprefix + "开始下载");
-            GlobalService.consoleLog(logprefix + "本地路径尝试：" + localThumbnailPath + thumbnailName);
-            return this.http.getFileLocalOrRemote(this.global.ThumbnailRemotePath + "/", localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath)
-                .then(res => {
-                    if(res) {
-                        GlobalService.consoleLog(logprefix + "数据获取完毕：" + JSON.stringify(res));
-                        noThumbnailList[i].thumbnail = res;
-                        this.global.thumbnailMap[md5] = res;
-                    } else {
-                        GlobalService.consoleLog(logprefix + "缩略图不存在，获取原图");
-                        return this.http.getFileLocalOrRemote(noThumbnailList[i].path, this.global.fileSavePath + this.global.PhotoSubPath + "/", noThumbnailList[i].name, this.global.PhotoSubPath)
-                            .then(res => {
-                                GlobalService.consoleLog(logprefix + "数据原图获取完毕：" + JSON.stringify(res));
-                                noThumbnailList[i].thumbnail = res;
-                                this.global.thumbnailMap[md5] = res;
-                            })
-                    }
-                })
-                .catch(e => {
-                    GlobalService.consoleLog(logprefix + "下载异常....");
-                }).then(()=>{
-                    GlobalService.consoleLog(logprefix + "下载结束[" + i + "]");
-                    delete downloading[i];
-                })
-        };
-
-        let lastindex = 0;
-        let donecount = 0;
-        let totalcount= noThumbnailList.length;
-        let looptimer = setInterval(()=> {
-            let doingcount= Object.keys(downloading).length;
-            if ( donecount + doingcount < totalcount && doingcount < 5) {
-                downloading[lastindex] = 1;
-                downloadIthThumbnail(lastindex++)
-                    .then(()=>{
-                        donecount++
-                    });
-            }
-            if (donecount >= totalcount){
-                clearInterval(looptimer)
-            }
-        }, 100);
-
-        // for(let i = 0, len = noThumbnailList.length; i < len; i++) {
-        //
-        //     setTimeout(()=>{
-        //         //检查本地是否存在,删除后面的重命名时添加的(2)
-        //         let md5;
-        //         if(isHasPath) {
-        //             md5 = Md5.hashStr(noThumbnailList[i].path + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
-        //         } else {
-        //             md5 = Md5.hashStr(currPath + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
-        //         }
-        //         let thumbnailName = md5 + ".png";
-        //         let localThumbnailPath = this.global.fileSavePath + this.global.ThumbnailSubPath + "/";
-        //         let localThumbnailFullPath = localThumbnailPath + thumbnailName;
-        //         // GlobalService.consoleLog("缩略图名字的远程路径：" + this.currPath + "---" + noThumbnailList[i].name);
-        //         GlobalService.consoleLog("本地路径尝试：" + localThumbnailPath + thumbnailName);
-        //         this.http.getFileLocalOrRemote(this.global.ThumbnailRemotePath + "/", localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath)
-        //         .then(res => {
-        //             if(res) {
-        //                 GlobalService.consoleLog("数据获取完毕：" + JSON.stringify(res));
-        //                 noThumbnailList[i].thumbnail = res;
-        //                 this.global.thumbnailMap[md5] = res;
-        //             } else {
-        //                 //缩略图不存在，获取原图
-        //                 this.http.getFileLocalOrRemote(noThumbnailList[i].path, this.global.fileSavePath + this.global.PhotoSubPath + "/", noThumbnailList[i].name, this.global.PhotoSubPath)
-        //                 .then(res => {
-        //                     GlobalService.consoleLog("数据原图获取完毕：" + JSON.stringify(res));
-        //                     noThumbnailList[i].thumbnail = res;
-        //                     this.global.thumbnailMap[md5] = res;
-        //                 })
-        //             }
-        //         })
-        //         .catch(e => {
-        //             GlobalService.consoleLog("下载异常....");
-        //         })
-        //     }, i * 100);
-        // }
     }
 }

@@ -72,7 +72,7 @@ import { CopyPhotoPage } from '../pages/copy-photo/copy-photo';
 import { PermissionPage } from '../pages/permission/permission';
 import { SearchPage } from '../pages/search/search';
 import { AppDetailPage } from '../pages/app-detail/app-detail';
-
+import { TestPage } from '../pages/test/test';
 
 
 //自定义组件
@@ -98,6 +98,7 @@ import { HTTP } from '@ionic-native/http';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Zip } from '@ionic-native/zip/ngx';
+import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { DirectivesModule } from '../directives/directives.module';
@@ -110,7 +111,7 @@ import { Util } from "../providers/Util";
 import { FileDownloader } from '../providers/FileDownloader';
 import { FileUploader } from '../providers/FileUploader';
 import { Web3Service } from '../providers/Web3Service';
-import { FileTransfer } from '../providers/FileTransfer';
+import { FileTransport } from '../providers/FileTransport';
 import { FileManager } from '../providers/FileManager';
 import { AppsInstalled } from '../providers/AppsInstalled';
 import { AppsInterface } from '../providers/AppsInterface';
@@ -193,7 +194,8 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     UpdateAssitantPage,
     AdviceSubmitPage,
     SearchPage,
-    AppDetailPage
+	AppDetailPage,
+	TestPage
     // ClickAndWaitDirective,
   ],
   imports: [
@@ -269,7 +271,8 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     PermissionPage,
     UpdateAssitantPage,
     AdviceSubmitPage,
-    SearchPage,
+	SearchPage,
+	TestPage,
     AppDetailPage
   ],
   providers: [
@@ -293,12 +296,13 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     Util,
     HTTP,
     FileOpener,
-    Zip,
+	Zip,
+	FileTransfer,
     Clipboard,
     Lang,
-    FileDownloader,
-    FileUploader,
-    FileTransfer,
+	FileDownloader,
+	FileUploader,
+    FileTransport,
     PhotoLibrary,
     UappPlatform,
     AppsInstalled,
