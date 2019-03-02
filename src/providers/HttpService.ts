@@ -38,7 +38,7 @@ export class HttpService {
     sessionId = ""; //盒子会话id
     dataChannel = null; //盒子会话channel
     peerConnection: any = null; //盒子会话连接
-    dataChannelOpen = "closed"; //"closed", "opening", "opended"
+    dataChannelOpen = "closed"; //"closing", "closed", "opening", "opended"
     cookies:any = {}; //盒子cookie保存
     createDataChannelPoint:number = 0; //上一次重建连接的时间点，用于超时检测
 
@@ -125,13 +125,19 @@ export class HttpService {
                     this.createDataChannel()
                     .catch(e => {
                         GlobalService.consoleLog(e);
-                    })
+                    });
                     break;
                 case 'opened':
                     //debug
                     let channelState = this.dataChannel.readyState;
                     GlobalService.consoleLog("连接已建立：" + channelState);
-                    if(Date.now() - this.lastReceivedTime > this.aliveIntervalTime * 6) {
+                    if (channelState == "closing"){
+                        GlobalService.consoleLog("--------数据通道进入closing，关闭信道-------" + Date.now() + "-------" + this.lastReceivedTime);
+                        this.dataChannelOpen = 'closed';
+                        this.lastReceivedTime = Date.now();
+                        this.dataChannel && this.dataChannel.close();
+                        break;
+                    }else if(Date.now() - this.lastReceivedTime > this.aliveIntervalTime * 6) {
                         GlobalService.consoleLog("--------连接超时，关闭信道-------" + Date.now() + "-------" + this.lastReceivedTime + '====信道状态====' + channelState);
                         this.dataChannelOpen = 'closed';
                         this.lastReceivedTime = Date.now();
@@ -158,6 +164,8 @@ export class HttpService {
                         callback();
                     }
                     break;
+                case 'closing':
+                    break;
                 case 'nobox':
                     while(this.globalCallbackList.length) {
                         // GlobalService.consoleLog("执行全局回调");
@@ -169,8 +177,7 @@ export class HttpService {
     }
 
     public clearWebrtc() {
-        // this.global.useWebrtc = false;
-        this.dataChannelOpen = "closed";
+        this.dataChannelOpen = "closing";
         if(this.globalRequestManagerTimer) {
             clearTimeout(this.globalRequestManagerTimer);
             this.globalRequestManagerTimer = null;
@@ -185,7 +192,6 @@ export class HttpService {
             delete this.globalRequestMap[session];
         }
         this.globalCallbackList = [];
-        // this.peerConnection = null;
         this.lastReceivedTime = Date.now();
         this.sessionId = "";
         this.boxSdpRetryTimes = 0;
@@ -204,6 +210,7 @@ export class HttpService {
         // this.global.deviceSelected = null;
         // this.global.centerBoxSelected = null;
         // this.global.centerAvailableBoxList = [];
+        this.dataChannelOpen = "closed";
     }
 
     public get(url: string, paramObj: any, errorHandler: any = true, headers:any = {}, options:any = {}, cordova = false) {
@@ -879,7 +886,7 @@ export class HttpService {
                     }
                 })
                 .then((res: any) => {
-                    GlobalService.consoleLog("webrtc创建盒子连接: SDP应答成功:" + JSON.stringify(res));
+                    GlobalService.consoleLog("webrtc创建盒子连接: SDP应答成功. res:" + JSON.stringify(res));
                     if ('offer' === this.connectBoxSdp.type) {
                         return this.sendAnswer();
                     } else {
@@ -887,7 +894,7 @@ export class HttpService {
                     }
                 })
                 .catch((e: any) => {
-                    GlobalService.consoleLog("webrtc创建盒子连接: 建立连接流程出错:" + JSON.stringify(e));
+                    GlobalService.consoleLog("webrtc创建盒子连接: 建立连接流程出错:" + JSON.stringify(e) + e.toString());
                     this.global.closeGlobalLoading(this);
                     if(this.dataChannelOpen !== 'nobox') {
                         console.log("webrtc创建盒子连接: 手动关闭远程连接.....");
@@ -943,14 +950,17 @@ export class HttpService {
             return this.peerConnection.createAnswer()
             .then(sdp => {
                 //qbing test add
+                sdp.sdp = this.setApplicationBitrate(sdp.sdp, 5000);
                 return this.peerConnection.setLocalDescription(sdp);
-                // return this.sendLocalSdp(sdp);
             })
         } catch(e) {
             GlobalService.consoleLog("sendAnswer不支持promise");
             return new Promise((resolve, reject) => {
                 this.peerConnection.createAnswer((sdp) => {
                     // GlobalService.consoleLog("发送应答:" + JSON.stringify(sdp));
+                    //qbing test add
+                    sdp.sdp = this.setApplicationBitrate(sdp.sdp, 5000);
+
                     this.peerConnection.setLocalDescription(sdp);
                     //qbing ????? why delete
                     //
@@ -973,7 +983,7 @@ export class HttpService {
 
         this.peerConnection.onicecandidate = (evt) => {
             // GlobalService.consoleLog('onicecandidate.............');
-            var candidate = evt.candidate;
+            let candidate = evt.candidate;
             if (null == candidate) {
                 GlobalService.consoleLog("Finished gathering ICE candidates. Start to send local sdp.");
                 this.sendLocalSdp(this.peerConnection.localDescription);
@@ -982,35 +992,46 @@ export class HttpService {
                 GlobalService.consoleLog("addIceCandidate:" + JSON.stringify(candidate));
                 this.peerConnection.addIceCandidate(candidate);
             }
-        }
+        };
         this.peerConnection.onnegotiationneeded = () => {
             GlobalService.consoleLog('onnegotiationneeded.............')
             // this.sendOffer();
-        }
+        };
         this.peerConnection.ondatachannel = (dc) => {
             // GlobalService.consoleLog('................ondatachannel............');
+            dc.BinaryType = "arraybuffer";
+            dc.BufferedAmountLowThreshold = 65535;
+
             this.dataChannel = dc.channel;
             this.prepareDataChannel(resolve, reject);
-        }
+        };
     }
 
     ab2str(buf) {
-        var decoder = new TextDecoder("utf-8");
+        let decoder = new TextDecoder("utf-8");
         return decoder.decode(new Uint8Array(buf));
         // return Buffer.from(buf, 'binary').toString('binary');
     }
 
     generateRandom() {
-        return Date.now().toString();
+        let pad = "0000000000";
+        let str = Math.floor((Math.random()*10000000000)).toString();
+        return pad.substring(0, pad.length - str.length) + str;
     }
 
     webrtcRequest(url: string, method: string, paramObj: any, headers: any = {}) {
         var start = Date.now(),
             maxTime = 5000;
         return new Promise((resolve, reject) => {
-            var __request = (_url, _paramObj) => {
-                if (this.dataChannelOpen === 'opened') {
-                    var r: string = this.generateRandom();
+            let __request = (_url, _paramObj) => {
+                let ratelimit = false;
+                //////qbing add for test //////begin ////////////
+                if (Object.keys(this.globalRequestMap).length > 1 ){
+                    ratelimit = true;
+                }
+                //////qbing add for test //////end //////////////
+                if (!ratelimit && this.dataChannelOpen === 'opened' && this.dataChannel.readyState === "open") {
+                    let r: string = this.generateRandom();
                     let logprefix = "session:" + r + ",url:" + url + " :";
 
                         let timer = setTimeout(() => {
@@ -1027,27 +1048,65 @@ export class HttpService {
                         resolve: resolve,
 						reject: reject,
 						url: url,
-                        timer: timer
+                        start: start,
+                        timer: timer,
                     };
                     this.sendMessage(url, method, paramObj, r, headers);
+                } else if (Date.now() - start < maxTime) {
+                    //通道未建立完成或者通道正忙，等待200毫秒后重试
+                    setTimeout(() => {
+                        __request(_url, _paramObj);
+                    }, 200);
                 } else {
-                    if (Date.now() - start < maxTime) {
-                        //通道未建立完成，等待200毫秒后重试
-                        setTimeout(() => {
-                            __request(_url, _paramObj);
-                        }, 200);
-                    } else {
-                        //通道未建立完成，并且已超时
-                        GlobalService.consoleLog("通道未建立完成，请求超时:" + url + ",reject Promise")
-                        reject && reject({
-                            err_no: -9999,
-                            err_msg: "连接超时"
-                        });
-                    }
+                    //通道未建立完成或者通道正忙，并且已超时
+                    GlobalService.consoleLog("通道未建立完成，请求超时:" + url + ",reject Promise")
+                    reject && reject({
+                        err_no: -9999,
+                        err_msg: "连接超时"
+                    });
                 }
             };
             __request(url, paramObj);
         })
+    }
+
+    setApplicationBitrate(sdp, bitrate) {
+        let lines = sdp.split("\n");
+        let line = -1;
+        let media = 'application';
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].indexOf("m="+media) === 0) {
+                line = i;
+                break;
+            }
+        }
+        if (line === -1) {
+            console.debug("Could not find the m line for", media);
+            return sdp;
+        }
+        console.debug("Found the m line for", media, "at line", line);
+
+        // Pass the m line
+        line++;
+
+        // Skip i and c lines
+        while(lines[line].indexOf("i=") === 0 || lines[line].indexOf("c=") === 0) {
+            line++;
+        }
+
+        // If we're on a b line, replace it
+        if (lines[line].indexOf("b") === 0) {
+            console.debug("Replaced b line at line", line);
+            lines[line] = "b=AS:"+bitrate;
+            return lines.join("\n");
+        }
+
+        // Add a new b line
+        console.debug("Adding new b line before line", line);
+        let newLines = lines.slice(0, line);
+        newLines.push("b=AS:"+bitrate);
+        newLines = newLines.concat(lines.slice(line, lines.length));
+        return newLines.join("\n")
     }
 
     prepareDataChannel(resolve, reject) {
@@ -1090,79 +1149,110 @@ export class HttpService {
             GlobalService.consoleLog(JSON.stringify(res));
         }
         channel.onmessage = (msg) => {
-            GlobalService.consoleLog("Message received!!");
-            var recvStr = this.ab2str(msg.data);
+            GlobalService.consoleLog("webrtc收到数据...");
+            let recvStr = this.ab2str(msg.data);
             GlobalService.consoleLog("Test:" + recvStr.slice(0, 200) + "..." + recvStr.slice(-50))
             this.lastReceivedTime = Date.now();
             let session;
-            try {
-                var recv: any = JSON.parse(recvStr);
-                var resultHeaders = JSON.parse(recv.header);
-                var body:any;
-				let headers = {};
-                for(let h in resultHeaders) {
-                    headers[h.toLowerCase()] = resultHeaders[h][0];
-                }
-                session = headers["request-session"];
-                GlobalService.consoleLog("session:" + session);
+            let recv: any;
+            let resultHeaders: any;
+            let body: any;
+            let headers = {};
+            let err = "";
 
-                if(headers["set-cookie"]) {
-                    GlobalService.consoleLog("需要设置cookie");
-					this.cookies[this.deviceSelected.boxId] = headers["set-cookie"];
-					this.setCookie(this.globalRequestMap[session].url, headers["set-cookie"]);
+            do {//////////////////////////// 中断直接退出 ////// begin //////////
+
+                /////////////解析协议数据整体 //////////////////
+                try {
+                    recv = JSON.parse(recvStr);
+                } catch (e) {
+                    GlobalService.consoleLog("webrtc收到数据, 解析收到的数据出错,总体数据应该为json. 忽略收到的数据!!!");
+                    GlobalService.consoleLog("webrtc收到数据, 错误：" + JSON.stringify(e) + "\r\n" + e.stack + e.message);
+                    err = "parse reveStr error";
+                    break
                 }
-                //是否为文件下载
-                if(headers['content-range']) {
-                    // GlobalService.consoleLog("下载接口数据转换---------");
-                    // body = base64.toByteArray(recv.body);
-                    // GlobalService.consoleLog(body)
-                    let dataBody = Buffer.from(recv.body, 'base64')
-                    body = new ArrayBuffer(dataBody.length);
-                    let view = new Uint8Array(body);
-                    for(var i = 0; i < dataBody.length; i++) {
-                        view[i] = dataBody[i];
+
+                /////////////解析协议数据中的header ////////////
+                try {
+                    resultHeaders = JSON.parse(recv.header);
+                    for (let h in resultHeaders) {
+                        headers[h.toLowerCase()] = resultHeaders[h][0];
                     }
-                } else {
-                    let dataBody = Buffer.from(recv.body, 'base64').toString('utf-8');
-                    body = JSON.parse(dataBody);
-                    GlobalService.consoleLog("响应数据：" + dataBody);
+                    session = headers["request-session"];
+                    GlobalService.consoleLog("webrtc收到数据, session:" + session);
+
+                    if (headers["set-cookie"]) {
+                        GlobalService.consoleLog("webrtc收到数据, 需要设置cookie");
+                        this.cookies[this.deviceSelected.boxId] = headers["set-cookie"];
+                        this.setCookie(this.globalRequestMap[session].url, headers["set-cookie"]);
+                    }
+                } catch (e) {
+                    GlobalService.consoleLog("webrtc收到数据, 解析收到的数据出错, 数据头字段应该为json. 忽略收到的数据!!!");
+                    GlobalService.consoleLog("webrtc收到数据, 错误：" + JSON.stringify(e) + "\r\n" + e.stack + e.message)
+                    err = "parse recv.header error";
+                    break
                 }
 
-                GlobalService.consoleLog("接口响应耗时:" + (Date.now() - session));
-                if (session && this.globalRequestMap[session] && this.globalRequestMap[session].resolve) {
-                    GlobalService.consoleLog("进入成功回调:" + session + ",url:" + this.globalRequestMap[session].url);
-                    clearTimeout(this.globalRequestMap[session].timer);
+                /////////////解析协议数据中的body ////////////////
+                try {
+                    //是否为文件下载
+                    if (headers['content-range']) {
+                        // GlobalService.consoleLog("下载接口数据转换---------");
+                        // body = base64.toByteArray(recv.body);
+                        // GlobalService.consoleLog(body)
+                        let dataBody = Buffer.from(recv.body, 'base64');
+                        body = new ArrayBuffer(dataBody.length);
+                        let view = new Uint8Array(body);
+                        for (let i = 0; i < dataBody.length; i++) {
+                            view[i] = dataBody[i];
+                        }
+                    }
+                    //正常数据
+                    else {
+                        let dataBody = Buffer.from(recv.body, 'base64').toString('utf-8');
+                        body = JSON.parse(dataBody);
+                        GlobalService.consoleLog("webrtc收到数据, 响应数据：" + dataBody);
+                    }
+                } catch (e) {
+                    GlobalService.consoleLog("webrtc收到数据, 解析收到的数据出错, 数据body应该为json. 忽略收到的数据!!!");
+                    GlobalService.consoleLog("webrtc收到数据, 错误：" + JSON.stringify(e) + "\r\n" + e.stack + e.message)
+                    err = "parse recv.body error";
+                    break
+                }
+            } while (false);//////////////////////////// 中断直接退出 ////// end/////
+
+
+            //////////////////////// 处理解析后的结果信息 ///////////////////
+            if (session && this.globalRequestMap[session]) {
+                let reqobj = this.globalRequestMap[session];
+                clearTimeout(this.globalRequestMap[session].timer);
+                GlobalService.consoleLog("webrtc收到数据, 进入成功回调:" + session + ",接口响应耗时:" + (Date.now() - reqobj.start));
+                if (!err && this.globalRequestMap[session].resolve) {
                     this.globalRequestMap[session].resolve({
                         status: recv.code,
                         headers: headers,
                         data: body
                     });
-                    delete this.globalRequestMap[session];
-                } else {
-                    GlobalService.consoleLog("执行post回调异常!!!!!!!!!!!!!!");
-                }
-            } catch (e) {
-                if (session && this.globalRequestMap[session] && this.globalRequestMap[session].reject) {
-                    GlobalService.consoleLog("进入失败回调:" + session + ",url:" + this.globalRequestMap[session].url);
-                    clearTimeout(this.globalRequestMap[session].timer);
+                } else if (err && this.globalRequestMap[session].reject) {
                     this.globalRequestMap[session].reject({
                         status: recv.code,
                         data: body
                     });
-                    delete this.globalRequestMap[session];
                 }
-                GlobalService.consoleLog("解析出错:" + JSON.stringify(e) + e.stack + e.message)
+                delete this.globalRequestMap[session];
+            } else {
+                GlobalService.consoleLog("webrtc收到数据, 接受到数据响应，但是执行post回调异常!!!!!!!!!!!!!!");
             }
         }
     }
 
     sendLocalSdp(sdp) {
         GlobalService.consoleLog("开始上传本地sdp...");
-        var localSdp = {
+        let localSdp = {
             type: sdp.type,
             sdp: sdp.sdp,
             myrandsessionid: this.sessionId
-        }
+        };
 
         return this._post(GlobalService.centerApi["submitLocalSdp"].url, {
 				box_id: this.deviceSelected.boxId,
