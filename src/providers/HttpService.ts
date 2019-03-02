@@ -88,7 +88,7 @@ export class HttpService {
             this.aliveInterval = setInterval(()=>{
                 if(!this.global.useWebrtc) {
                     clearInterval(this.aliveInterval);
-                } else if(this.dataChannelOpen === 'opened') {
+                } else if(!this.rateLimit() && this.dataChannelOpen === 'opened') {
                     let url = this.global.getBoxApi('keepAlive');
                     GlobalService.consoleLog("发起保活请求发出------" + Date.now().toString());
                     this.webrtcRequest(url, 'post', {})
@@ -1019,18 +1019,23 @@ export class HttpService {
         return pad.substring(0, pad.length - str.length) + str;
     }
 
+    //////qbing add for test //////begin ////////////
+    rateLimit(){
+        let ratelimit = false;
+        if (Object.keys(this.globalRequestMap).length > 1 ){
+            ratelimit = true;
+        }
+        return ratelimit;
+    }
+    //////qbing add for test //////end //////////////
+
+
     webrtcRequest(url: string, method: string, paramObj: any, headers: any = {}) {
         var start = Date.now(),
             maxTime = 5000;
         return new Promise((resolve, reject) => {
             let __request = (_url, _paramObj) => {
-                let ratelimit = false;
-                //////qbing add for test //////begin ////////////
-                if (Object.keys(this.globalRequestMap).length > 1 ){
-                    ratelimit = true;
-                }
-                //////qbing add for test //////end //////////////
-                if (!ratelimit && this.dataChannelOpen === 'opened' && this.dataChannel.readyState === "open") {
+                if (!this.rateLimit() && this.dataChannelOpen === 'opened' && this.dataChannel.readyState === "open") {
                     let r: string = this.generateRandom();
                     let logprefix = "session:" + r + ",url:" + url + " :";
 
