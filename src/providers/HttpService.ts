@@ -734,7 +734,10 @@ export class HttpService {
             return new Promise((resolve, reject) => {
                 this.webrtcRequest(url, 'get', {
                     fullpath: remoteUrl
-                }, headers)
+                }, headers, {
+					maxTime: 8000,
+					retries: 3
+				})
                 .then((res:any) => {
                     // GlobalService.consoleLog("成功返回:" + JSON.stringify(res));
                     // GlobalService.consoleLog(typeof res.data)
@@ -786,7 +789,10 @@ export class HttpService {
                     // GlobalService.consoleLog("文件数据接收完毕");
                     this.webrtcRequest(url, 'post', buf, {
                         'Content-Type': form.getHeaders({})['content-type']
-                    })
+                    }, {
+						maxTime: 8000,
+						retries: 3
+					})
                     .then(resolve, reject);
                 })
                 form.append("range",params.range);
@@ -1017,11 +1023,25 @@ export class HttpService {
         let pad = "0000000000";
         let str = Math.floor((Math.random()*10000000000)).toString();
         return pad.substring(0, pad.length - str.length) + str;
-    }
+	}
+	
+	webrtcRequestWithRetries(url: string, method: string, paramObj: any, headers: any = {}, options:any = {}) {
+		return this.webrtcRequest(url, method, paramObj, headers, options)
+		.then(res => {
+			return res;
+		}, res => {
+			if(options.retries) {
+				options.retries--;
+				return this.webrtcRequestWithRetries(url, method, paramObj, headers, options);
+			} else {
+				return Promise.reject(res);
+			}
+		});
+	}
 
-    webrtcRequest(url: string, method: string, paramObj: any, headers: any = {}) {
+    webrtcRequest(url: string, method: string, paramObj: any, headers: any = {}, options:any = {}) {
         var start = Date.now(),
-            maxTime = 5000;
+            maxTime = options.maxTime || 5000;
         return new Promise((resolve, reject) => {
             let __request = (_url, _paramObj) => {
                 let ratelimit = false;
@@ -1049,7 +1069,7 @@ export class HttpService {
 						reject: reject,
 						url: url,
                         start: start,
-                        timer: timer,
+						timer: timer,
                     };
                     this.sendMessage(url, method, paramObj, r, headers);
                 } else if (Date.now() - start < maxTime) {
@@ -1059,7 +1079,7 @@ export class HttpService {
                     }, 200);
                 } else {
                     //通道未建立完成或者通道正忙，并且已超时
-                    GlobalService.consoleLog("通道未建立完成，请求超时:" + url + ",reject Promise")
+					GlobalService.consoleLog("通道未建立完成，请求超时:" + url + ",reject Promise")
                     reject && reject({
                         err_no: -9999,
                         err_msg: "连接超时"
@@ -1233,7 +1253,7 @@ export class HttpService {
                         headers: headers,
                         data: body
                     });
-                } else if (err && this.globalRequestMap[session].reject) {
+                } else if (this.globalRequestMap[session].reject) {
                     this.globalRequestMap[session].reject({
                         status: recv.code,
                         data: body
