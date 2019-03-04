@@ -4,7 +4,7 @@ import { Lang } from '../../providers/Language';
 import { GlobalService } from '../../providers/GlobalService';
 import { SelectUploadFolderPage } from '../select-upload-folder/select-upload-folder'
 import { Util } from '../../providers/Util';
-import { FileTransfer } from '../../providers/FileTransfer';
+import { FileTransport } from '../../providers/FileTransport';
 import { FileUploader } from '../../providers/FileUploader';
 import { Events } from 'ionic-angular';
 import { FileManager } from '../../providers/FileManager';
@@ -40,7 +40,7 @@ export class SelectAudioVideoPage {
         public navCtrl: NavController, 
         public navParams: NavParams,
         private global: GlobalService,
-        private transfer: FileTransfer,
+        private transfer: FileTransport,
         private util: Util,
         private events: Events,
         private fileManager: FileManager,

@@ -47,6 +47,8 @@ import { Web3Service } from '../providers/Web3Service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { AppsInstalled } from '../providers/AppsInstalled';
 
+import { TestPage } from '../pages/test/test';
+
 import { FileManager } from '../providers/FileManager';
 declare var chcp: any;
 declare var WifiWizard: any;
@@ -61,7 +63,7 @@ export class UboxApp {
     // @ViewChild(Nav) gets a reference to the app's root nav
     @ViewChild(Nav) nav: Nav;
 
-    rootPage:any;
+    rootPage:any = LoginPage;
     needTips: Boolean = false;
     fileListString: any;
 
@@ -86,8 +88,8 @@ export class UboxApp {
             GlobalService.consoleLog("接收到root页面更改事件......")
             try {
                 // this.rootPage = page;
-                this.nav.setRoot(page);  
-                // this.rootPage = page;               
+                this.nav.setRoot(page);
+                // this.rootPage = page;
             } catch(e) {
                 GlobalService.consoleLog("异常！！！");
                 this.rootPage = page;
@@ -108,7 +110,7 @@ export class UboxApp {
                 // this.statusBar.overlaysWebView(true);
                 // this.statusBar.backgroundColorByHexString('#000000');
                 this.splashScreen.hide();
-                
+
                 //检查更新
                 // this.checkHotUpdate();
 
@@ -117,22 +119,26 @@ export class UboxApp {
 
                 //设置文件存储路径
                 if(this.platform.is('android')) {
-                    GlobalService.consoleLog('------android-------')
+                    GlobalService.consoleLog('------android-------');
                     this.global.fileSavePath = cordova.file.externalDataDirectory;
-                } else {
-                    GlobalService.consoleLog('-------ios---------')
+                } else if(this.platform.is('ios')){
+                    GlobalService.consoleLog('-------ios---------');
                     this.global.fileSavePath = cordova.file.dataDirectory;
-                } 
-                this.global.fileRootPath = cordova.file.externalRootDirectory;   
-                
+                } else {
+                    GlobalService.consoleLog('-------others---------');
+                    this.global.fileSavePath = "/tmp/";
+                }
+                this.global.fileRootPath = cordova.file.externalRootDirectory;
+
                 //获取已安装应用列表
                 this.appInstalled.getInstalledApps();
             } else {
                 GlobalService.consoleLog("我不是cordova");
-                this.rootPage = SearchPage;
+				this.rootPage = LoginPage;
+				// this.rootPage = TestPage;
             }
 
-            this.getUserInfo();
+            // this.getUserInfo();
             this.initReadPermitted();
             //恢复下载列表
             this.initFileTaskList();
@@ -143,7 +149,7 @@ export class UboxApp {
 
             //设置语言
             this.initLanguage();
-            
+
             //注册返回按钮事件
             this.removeBackButtonAction();
             // this.util.getDeviceID();
@@ -194,7 +200,7 @@ export class UboxApp {
             this.global.wifiName = info;
         }, () => {
             GlobalService.consoleLog("获取当前连接的wifi失败！！！！！");
-        });        
+        });
     }
 
     onDeviceReady(){
@@ -232,7 +238,7 @@ export class UboxApp {
         .catch(e => {
             this.rootPage =  DeviceListPage;
         })
-    } 
+    }
 
     initLanguage() {
         this.storage.get('Lang')
@@ -250,7 +256,7 @@ export class UboxApp {
         .catch(e => {
             GlobalService.consoleLog("解析语言出错:" + JSON.stringify(e));
             GlobalService.applang = 'en';
-        })        
+        })
 
         this.storage.get('selectedRate')
         .then(res => {
@@ -372,7 +378,7 @@ export class UboxApp {
             this.createNetworkingAlert();
         }
         // this.initGuidance();
-        
+
         network.onDisconnect().subscribe(() => {
             global.networking = false;
             GlobalService.consoleLog("网络已断开");
@@ -390,7 +396,7 @@ export class UboxApp {
                     this.global.fileHandler[item.taskId].pause();
                 }
             });
-        });        
+        });
 
         network.onConnect().subscribe(() => {
             //网络连接后的相关设置
@@ -428,17 +434,17 @@ export class UboxApp {
         GlobalService.consoleLog("网络连接后的networkType   :" + this.network.type);
         //网络连接恢复，webrtc模式重置datachannel
         if(global.useWebrtc) {
-            this.http.dataChannelOpen = 'closed';                
-        }  
+            this.http.dataChannelOpen = 'closed';
+        }
         // if(global.networkType === 'wifi') {
-        //     this.getWifiName();  
-        //     //继续使用打洞模式  
+        //     this.getWifiName();
+        //     //继续使用打洞模式
         // } else if(this.check4G(global.networkType)) {
         //     if(!this.global.useWebrtc && this.global.centerUserInfo.uname) {
         //         this.http.initWebrtc();
         //     }
-        // }   
-        this.getUserInfo();  
+        // }
+        this.getUserInfo();
     }
 
     createNetworkingAlert() {
@@ -537,5 +543,5 @@ export class UboxApp {
             this.nav.pop({});
           }
         });
-    }    
+    }
 }

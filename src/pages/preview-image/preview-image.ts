@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { GlobalService } from "../../providers/GlobalService";
 import { Lang } from '../../providers/Language';
 import { FileManager } from '../../providers/FileManager';
-import { FileTransfer } from '../../providers/FileTransfer';
+import { FileTransport } from '../../providers/FileTransport';
 import { HttpService } from '../../providers/HttpService';
 import { Events } from 'ionic-angular';
 import { FileDownloader } from '../../providers/FileDownloader';
@@ -12,7 +12,6 @@ import { File } from '@ionic-native/file';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular';
-
 /**
  * Generated class for the PreviewImagePage page.
  *
@@ -50,7 +49,7 @@ export class PreviewImagePage {
         private events: Events,
         private fileManager: FileManager,
         private file: File,
-        private transfer: FileTransfer,
+        private transfer: FileTransport,
         private http: HttpService,
         private fileDownloader: FileDownloader,
         private util: Util,
@@ -90,7 +89,7 @@ export class PreviewImagePage {
     }
 
     getPhotoUrl(task) {
-        this.http.getFileLocalOrRemote(task.path, this.global.fileSavePath + this.global.PhotoSubPath + "/", task.name, this.global.PhotoSubPath)
+        this.transfer.getFileLocalOrRemote(task.path, this.global.fileSavePath + this.global.PhotoSubPath + "/", task.name, this.global.PhotoSubPath)
         .then(res => {
             task.thumbnail = res;
             let name = task.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
@@ -215,7 +214,7 @@ export class PreviewImagePage {
                     GlobalService.consoleLog("持续翻页。。。。。");
                     this.fileList = this.fileList.concat(list);
                 }
-                this.util.getThumbnail(this.fileList, this.isHasPath, this.currPath); 
+                this.transfer.getThumbnail(this.fileList, this.isHasPath, this.currPath); 
             }
             return false;
         })

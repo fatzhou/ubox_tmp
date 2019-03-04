@@ -7,7 +7,7 @@ import { HttpService } from '../../providers/HttpService';
 import { Events, App } from 'ionic-angular';
 import { Md5 } from 'ts-md5/dist/md5';
 import { Util } from '../../providers/Util';
-import { FileTransfer } from '../../providers/FileTransfer';
+import { FileTransport } from '../../providers/FileTransport';
 import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-upload-folder'
 import { SelectAudioVideoPage } from '../../pages/select-audio-video/select-audio-video';
 import { SelectFolderPage } from '../../pages/select-folder/select-folder'
@@ -49,7 +49,7 @@ export class AddFileComponent {
         private events: Events,
         private http: HttpService,
         private util: Util,
-        private transfer: FileTransfer,
+        private transfer: FileTransport,
         private global: GlobalService,
         public navCtrl: NavController,
         private app: App,

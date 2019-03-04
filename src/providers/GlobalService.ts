@@ -26,7 +26,7 @@ export class GlobalService {
     public static DISK_G_BITS:number = GlobalService.DISK_M_BITS * GlobalService.DISK_K_BITS;
     public static DISK_T_BITS:number = GlobalService.DISK_G_BITS * GlobalService.DISK_K_BITS;
 
-    static THUMBNAIL_WIDTH = 64; //缩略图宽 
+    static THUMBNAIL_WIDTH = 64; //缩略图宽
     static THUMBNAIL_HEIGHT = 64; //缩略图高
     static THNUBNAIL_QUALITY = 0.8; //缩略质量
 
@@ -36,7 +36,7 @@ export class GlobalService {
     public static DefaultChainMiningStorage = 10 * GlobalService.DISK_G_BITS;
 
     public shareFileProduced: any = 0;
-    
+
     public coinUnit: any = "USD";
     public chainSelectIndex = 0; //当前选择的链索引
     public chainSelectArray: any = ["ERC20", "TESTNET"]; //ERC20, TESTNET, MAINNET
@@ -79,7 +79,7 @@ export class GlobalService {
     public fileThumbnailPath = '';
     public fileRootPath: string = "";
 
-    public useWebrtc:any = false; //是否使用webrtc
+    public useWebrtc:any = true; //是否使用webrtc
     public boxInfo: any = {}; //当前连接的盒子信息
     // public centerBoxList:any = []; //盒子列表
     // public centerAvailableBoxList: any = []; //当前可连接的盒子ID
@@ -162,12 +162,12 @@ export class GlobalService {
     public NewVersionHead = {
         'cn': ['FOUND','NEW VERSION'],
         'en': ['FOUND','NEW VERSION'],
-        'kr': ['FOUND','NEW VERSION'],
+    'kr': ['FOUND','NEW VERSION'],
     }
 
     public static AppVersionDescription = {
         "version": "1.2.1",
-        "content": 
+        "content":
             {
                 "cn": ["1. 修复已知BUG","2. 新增文件远程访问、操作功能","3. 优化文件上传下载性能","4. 优化部分UI及使用体验"],
                 "en": ["1. Bugs fixing","2. Adding file remote access and operation functions","3. Optimize file upload and download performance","4. Optimize UI and user experience"],
@@ -265,7 +265,7 @@ export class GlobalService {
         },
         "uploadFile": {
             url: "/ubeybox/file/upload",
-        },        
+        },
         "uploadFileBreaking": {
             url: "/ubeybox/file/upload_breaking",
         },
@@ -319,7 +319,7 @@ export class GlobalService {
         },
         "formatBox": {
             url: "/ubeybox/device/format",
-        },        
+        },
         "checkFormatStatus": {
             url: "/ubeybox/device/check",
         },
@@ -328,31 +328,31 @@ export class GlobalService {
         },
         "switchFtp": {
             url: "/ubeybox/device/ftp_switch",
-        },        
+        },
         "checkRomUpdate": {
             url: "/updatebox/update",
-        },        
+        },
         "updateRom": {
             url: "/updatebox/updatedst",
-        },        
+        },
         "checkRomUpdateStatus": {
             url: "/updatebox/check",
         },
         "keepAlive": {
             url: "/ubeybox/update/get_version"
-        },        
+        },
         "changePayPassword": {
             url: "/ubeybox/user/mod_keystore"
-        },        
+        },
         "getChainProfile": {
             url: "/ubeybox/mine/get_profile"
-        },        
+        },
         "setChainMining": {
             url: "/ubeybox/mine/set_mine"
-        },        
+        },
         "setChainCoinbase": {
             url: "/ubeybox/mine/set_coinbase"
-        },        
+        },
         "setChainStorage": {
             url: "/ubeybox/mine/set_sharesize"
         },
@@ -376,22 +376,22 @@ export class GlobalService {
         },
         "uploadCopyAlbums": {
             url: "/ubeybox/backup/upload"
-        },        
+        },
         "rebootDevice": {
             url: "/ubeybox/device/reboot"
-        },        
+        },
         "reportLog": {
             url: "/collector/bug/report"
-        },        
+        },
         "checkUpdate130": {
             url: "/updatebox/check_update"
-        },        
+        },
         "downloadPackage130": {
             url: "/updatebox/download"
-        },          
+        },
         "downloadPackageProgress130": {
             url: "/updatebox/get_progress"
-        },        
+        },
         "installPackage130": {
             url: "/updatebox/install"
         },
@@ -498,34 +498,34 @@ export class GlobalService {
         },
         "getChainMiningList": {
             url: GlobalService.centerApiHostEnv + "/uchainscan/mining/get_mined_block_by_addr"
-        },  
+        },
         "getChainMiningListByDate": {
             url: GlobalService.centerApiHostEnv + "/uchainscan/mining/get_mined_block_by_addr_and_date"
-        }, 
+        },
         "getTransactionByAddress": {
             url: GlobalService.centerApiHostEnv + "/uchainscan/transaction/get_by_addr"
-        },  
+        },
         "commitTransactionPending": {
             url:  GlobalService.centerApiHostEnv + "/uchainscan//transaction/commit_pending"
-        },  
+        },
         "getTransactionPendingList": {
             url:  GlobalService.centerApiHostEnv + "/uchainscan//transaction/get_addr_pending"
-        },        
+        },
         "addKeystore": {
             url:  GlobalService.centerApiHostEnv + "/ubbey/user/keystore/add"
-        },        
+        },
         "delKeystore": {
             url:  GlobalService.centerApiHostEnv + "/ubbey/user/keystore/del"
-        },        
+        },
         "changeKeystore": {
             url:  GlobalService.centerApiHostEnv + "/ubbey/user/keystore/change"
-        },        
+        },
         "getKeystore": {
             url:  GlobalService.centerApiHostEnv + "/ubbey/user/keystore/get"
-        },        
+        },
         "modifyKeystore": {
             url:  GlobalService.centerApiHostEnv + "/ubbey/user/keystore/change_name"
-        },        
+        },
         "uploadLogAnalyser": {
             url:  GlobalService.centerApiHostEnv + "/loganalyser/user/upload_log_file"
         },
@@ -592,7 +592,7 @@ export class GlobalService {
         //     clearTimeout(this.loadingTimer);
         //     this.loadingTimer = null;
         // }
-    }    
+    }
 
     closeGlobalAlert(obj) {
         if(obj.global.alertCtrl) {

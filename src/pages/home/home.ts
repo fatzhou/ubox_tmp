@@ -25,7 +25,7 @@ import { Platform } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 
 
-// import { FileTransfer } from "../../providers/FileTransfer"
+// import { FileTransport } from "../../providers/FileTransport"
 /**
  * Generated class for the HomePage page.
  *
@@ -59,7 +59,7 @@ export class HomePage {
         private web3: Web3Service,
         public storage: Storage,
         private platform: Platform,
-        // private transfer : FileTransfer
+        // private transfer : FileTransport
         // public camera: Camera,
     ) {
         // HomePage._this = this;

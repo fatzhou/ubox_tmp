@@ -242,7 +242,7 @@ export class Lang {
         kr:''
     }
 
-    static FileTransfer = {
+    static FileTransport = {
         cn: '文件传输', 
         en: '', 
         kr: ''

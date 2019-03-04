@@ -7,14 +7,14 @@ import { ChangeDetectorRef } from '@angular/core';
 
 import { HttpService } from '../../providers/HttpService';
 import { Events, App } from 'ionic-angular';
-// import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+// import { FileTransport, FileUploadOptions, FileTransportObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { ToastController } from 'ionic-angular';
 import { Lang } from "../../providers/Language";
 import { TaskListPage } from '../task-list/task-list';
 import { Md5 } from 'ts-md5/dist/md5';
 import { Platform } from 'ionic-angular';
-import { FileTransfer } from '../../providers/FileTransfer';
+import { FileTransport } from '../../providers/FileTransport';
 import { FileDownloader } from '../../providers/FileDownloader';
 import { PreviewImagePage } from '../preview-image/preview-image';
 import { PreviewOtherPage } from '../preview-other/preview-other';
@@ -64,7 +64,7 @@ export class ClassifyListPage {
         private toastCtrl: ToastController,
         private platform: Platform,
         private file: File,
-        private transfer: FileTransfer,
+        private transfer: FileTransport,
         private downloader: FileDownloader,
         private storage: Storage,
         public navParams: NavParams) {       
@@ -250,7 +250,7 @@ export class ClassifyListPage {
                     this.fileList = this.fileList.concat(list);
                 }
                 if(this.classify === 1) {
-                    this.util.getThumbnail(this.fileList, true);
+                    this.transfer.getThumbnail(this.fileList, true);
                 }
                 // this.cd.detectChanges();
                 //获取缩略图

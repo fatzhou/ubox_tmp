@@ -10,7 +10,7 @@ import { HttpService } from './HttpService';
 import { Util } from './Util';
 import { Md5 } from "ts-md5/dist/md5";
 import { Events } from 'ionic-angular';
-
+import { FileTransport } from "./FileTransport";
 declare var cordova;
 declare var window;
 
@@ -59,6 +59,7 @@ export class FileManager {
 		private storage: Storage,
 		private events: Events,
 		private fileOpener: FileOpener,
+		private transfer: FileTransport,
 		private fileUploader: FileUploader,
 		private photoLibrary: PhotoLibrary
 	) {
@@ -376,7 +377,7 @@ export class FileManager {
 			name = matches[2];
 
 		let thumbnailName = Md5.hashStr(remotePath).toString() + ".png";
-		return this.http.getFileLocalOrRemote(this.global.ThumbnailRemotePath, this.global.fileSavePath + this.global.ThumbnailSubPath, thumbnailName, this.global.ThumbnailSubPath)
+		return this.transfer.getFileLocalOrRemote(this.global.ThumbnailRemotePath, this.global.fileSavePath + this.global.ThumbnailSubPath, thumbnailName, this.global.ThumbnailSubPath)
 
 
 		//查找缩略图

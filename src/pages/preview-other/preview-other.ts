@@ -4,7 +4,7 @@ import { GlobalService } from "../../providers/GlobalService";
 import { Util } from "../../providers/Util";
 import { Lang } from '../../providers/Language';
 import { FileManager } from '../../providers/FileManager';
-import { FileTransfer } from '../../providers/FileTransfer';
+import { FileTransport } from '../../providers/FileTransport';
 import { HttpService } from '../../providers/HttpService';
 import { Events } from 'ionic-angular';
 
@@ -33,7 +33,7 @@ export class PreviewOtherPage {
         private util: Util,
         private events: Events,
         private fileManager: FileManager,
-        private transfer: FileTransfer,
+        private transfer: FileTransport,
         private http: HttpService,
         public navParams: NavParams) {
         events.subscribe('fileName:update', (res) => {

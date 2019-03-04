@@ -5,7 +5,7 @@ import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
 import { Lang } from "../../providers/Language";
 import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-upload-folder'
-import { FileTransfer } from '../../providers/FileTransfer';
+import { FileTransport } from '../../providers/FileTransport';
 import { FileDownloader } from '../../providers/FileDownloader';
 
 /**
@@ -33,7 +33,7 @@ export class FileDetailComponent {
         private util: Util,
         public navCtrl: NavController,
         private events: Events,
-        private transfer: FileTransfer,
+        private transfer: FileTransport,
         private downloader: FileDownloader,
     ) {
         console.log('Hello FileDetailComponent Component');
