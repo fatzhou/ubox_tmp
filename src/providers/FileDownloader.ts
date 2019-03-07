@@ -482,11 +482,9 @@ class SingleFileDownloader {
             GlobalService.consoleLog("获取到文件长度：" + length +  "   buf.byteLength " );
             
             if(length !== Math.min(this.oneBlockSize, totalsize - range_start)) {
-                // for(let i=0;i<length;i++) {
-                    this.ab2str(buf,(str) => {
-                        console.log("buf 内容" + str)
-                    })
-                // }
+                    // this.ab2str(buf,(str) => {
+                    //     console.log("buf 内容" + str)
+                    // })
                 GlobalService.consoleLog("下载大小不正确:" + this.oneBlockSize + "," + totalsize + "," + range_start + "," + length);
                 throw new Error("下载的文件大小不正确");
             } else {

@@ -192,7 +192,8 @@ export class Util {
                     return Promise.reject("NOBOX");
                 }
             } else {
-                console.log("本地不存在盒子，远程登录查看")
+				console.log("本地不存在盒子，远程登录查看")
+				//同时创建3个连接，request为主连接...
                 return $scope.http.createDataChannel()
                 // .then(res => {
                 //     if($scope.global.deviceSelected) {
@@ -376,7 +377,7 @@ export class Util {
                 if(boxList.find(item => item.boxid == boxId && item.sdp_register)) {
                     //盒子已恢复,重新建立连接
                     this.http.initWebrtc();
-                    this.http.globalCallbackList.push(() => {
+                    this.http.globalCallbackList["request"].push(() => {
                         this.global.createGlobalToast(this, {
                             message: this.global.L("RebootSuccess")
                         })
@@ -1337,7 +1338,9 @@ export class Util {
             callback && callback();
         }, 0);
         if(this.global.useWebrtc) {
-            this.http.clearWebrtc();
+			this.http.channelLabels.forEach(label => {
+				this.http.clearWebrtc(label);
+			})
         } else {
             this.http.post(this.global.getBoxApi("logout"), {}, false)
         }

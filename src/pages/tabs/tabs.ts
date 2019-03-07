@@ -316,17 +316,23 @@ export class TabsPage {
 
     ionViewDidEnter() {
         if(this.global.centerUserInfo.bind_box_count > 0) {
-            this.connectionStatus =  this.global.useWebrtc ? (this.http.dataChannelOpen === 'opened' ? 'remote' : 'connecting') : (this.global.deviceSelected ? 'local' : 'connecting');
             if(this.global.useWebrtc) {
-                //远场模式
-                if(this.http.dataChannelOpen === 'opened') {
-                    this.connectionStatus = 'remote';
-                } else if(this.http.dataChannelOpen === 'opening') {
-                    //盒子在线，尚未连接
-                    this.connectionStatus = 'connecting';
-                } else {
-                    this.connectionStatus = 'error';
-                }
+				let dataChannel = this.http.channels["request"];
+				if(dataChannel) {
+					let status = dataChannel.status;
+					//远场模式
+					if(status === 'opened') {
+						this.connectionStatus = 'remote';
+					} else if(status === 'opening') {
+						//盒子在线，尚未连接
+						this.connectionStatus = 'connecting';
+					} else {
+						this.connectionStatus = 'error';
+					}					
+				} else {
+					//没有盒子在线
+					this.connectionStatus = 'error';
+				}
             } else {
                 //近场模式
                 this.connectionStatus = this.global.deviceSelected ? 'local' : 'error';

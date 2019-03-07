@@ -18,11 +18,13 @@
 		<p>下载测试：</p>
 		<button ion-button (click)="resume()">{{ downloading ? '点我暂停' : '点我下载'  }}</button>
 		<p>总大小: {{ total }}, 已下载： {{ loaded }}</p>
+		<p>下载速度； {{ downloadSpeed }}k</p>
 	</div>
 
 	<div class="upload">
 		<p>上传测试：</p>
 		<button ion-button (click)="uploadResume()">{{ uploading ? '点我暂停' : '点我上传'  }}</button>
 		<p>总大小: {{ uploadTotal }}, 已上传： {{ uploadLoaded }}</p>
+		<p>上传速度: {{ uploadSpeed }}</p>
 	</div>
 </ion-content>

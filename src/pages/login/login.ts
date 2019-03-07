@@ -143,7 +143,7 @@ export class LoginPage {
                 // this.http.initWebrtc();
                 GlobalService.consoleLog("webrtc模式--用户开始登录盒子");
                 //如果已经建立连接，则需要关闭并重新建立连接
-                this.http.keepWebrtcAlive();
+                // this.http.keepWebrtcAlive();
 
                 this.global.closeGlobalLoading(this);
                 if(this.popBack || index !== undefined) {
@@ -198,8 +198,8 @@ export class LoginPage {
                 // })                              
             } else {
                 this.global.closeGlobalLoading(this);
-                // this.navCtrl.push(TestPage, {
-                this.navCtrl.push(TabsPage, {
+                this.navCtrl.push(TestPage, {
+                // this.navCtrl.push(TabsPage, {
                     tabIndex: index
                 });
             }
@@ -220,8 +220,9 @@ export class LoginPage {
         let res:any = {};
         Util.loginBox(this, (res)=>{
             if(res.err_no === 0) {
-                GlobalService.consoleLog("登录成功！")
-                this.navCtrl.push(TabsPage)
+                GlobalService.consoleLog("登录成------------！")
+                this.navCtrl.push(TestPage)
+                // this.navCtrl.push(TabsPage)
                 .then(() => {
                     this.isLoading = false;
                 })               

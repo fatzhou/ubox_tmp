@@ -145,7 +145,7 @@ export class SearchPage {
                 return res;
             })
             .catch(e => {
-                GlobalService.consoleLog('版本配置赋值出错:' + e.stack);
+                GlobalService.consoleLog('获取应用列表失败:' + e.stack);
             })
         } else {
             return Promise.resolve(this.global.SearchData);
