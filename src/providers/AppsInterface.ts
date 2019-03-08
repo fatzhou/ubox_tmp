@@ -26,7 +26,8 @@ export class AppsInterface {
 		if(this.global.deviceSelected) {
 			boxInfo = {
 				ip: this.global.deviceSelected.URLBase,
-				boxId: this.global.deviceSelected.boxId
+				boxId: this.global.deviceSelected.boxId,
+				platform: this.global.platformName
 			}
 		}
 		return Promise.resolve({

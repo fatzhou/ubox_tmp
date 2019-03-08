@@ -431,6 +431,7 @@ export class Util {
                     type: item.type,
                     box: item.box,
                     enter: item.enter,
+                    title: item.title,
                     version: item.version
                 }, (res) => {
                     console.log("安装进度：" + JSON.stringify(res));

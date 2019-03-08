@@ -1,0 +1,70 @@
+page-search-bt {
+    .search-header {
+        height: 60px;
+        line-height: 60px;
+        position: relative;
+        padding: 10px;
+        .bt-input {
+            width: calc(100% - 20px);
+            margin: 0 auto;
+            margin-right: 0;
+            height: 40px;
+            color: #333;
+            border: 0.5px solid #ededed;
+            text-align: left;
+            text-indent: 10px;
+        }
+        .icon {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            font-size: 24px;
+            &.icon-back {
+                right: unset;
+                left: 3px;
+            }
+            &.icon-clear {
+                right: 50px;
+            }
+        }
+    }
+    .search-body {
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ededed;
+            .bt-title {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+            .p-info {
+                font-size: 12px;
+                span {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+    .search-hirtory {
+        padding: 20px 10px;
+        .history-title {
+            border-bottom: 1px solid #ededed;
+            font-size: 18px;
+            span {
+                font-size: 14px;
+                float: right;
+            }
+        }
+        .history-list {
+            span {
+                display: inline-block;
+                margin-top: 15px;
+                margin-right: 10px;
+                border: 1px solid #ddd;
+                border-radius: 20px;
+                background: #eee;
+                padding: 3px 15px;
+                font-size: 12px;
+            }
+        }
+    }
+}
