@@ -73,7 +73,11 @@ import { PermissionPage } from '../pages/permission/permission';
 import { SearchPage } from '../pages/search/search';
 import { AppDetailPage } from '../pages/app-detail/app-detail';
 import { TestPage } from '../pages/test/test';
-
+import { SearchBtPage } from '../pages/search-bt/search-bt';
+import { BtDetailPage } from '../pages/bt-detail/bt-detail';
+import { BtSetPage } from '../pages/bt-set/bt-set';
+import { BtTaskPage } from '../pages/bt-task/bt-task';
+import { BtSetPathPage } from '../pages/bt-set-path/bt-set-path';
 
 //自定义组件
 import { DropdownFolderComponent } from '../components/dropdown-folder/dropdown-folder';
@@ -194,8 +198,14 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     UpdateAssitantPage,
     AdviceSubmitPage,
     SearchPage,
-	AppDetailPage,
-	TestPage
+    AppDetailPage,
+    TestPage,
+    BtTaskPage,
+    BtSetPage, 
+    BtDetailPage, 
+    SearchBtPage,
+    BtSetPathPage
+
     // ClickAndWaitDirective,
   ],
   imports: [
@@ -271,9 +281,14 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     PermissionPage,
     UpdateAssitantPage,
     AdviceSubmitPage,
-	SearchPage,
-	TestPage,
-    AppDetailPage
+    SearchPage,
+    TestPage,
+    AppDetailPage,
+    BtTaskPage,
+    BtSetPage, 
+    BtDetailPage, 
+    SearchBtPage,
+    BtSetPathPage
   ],
   providers: [
     UboxApp,
@@ -296,12 +311,12 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     Util,
     HTTP,
     FileOpener,
-	Zip,
-	FileTransfer,
+    Zip,
+    FileTransfer,
     Clipboard,
     Lang,
-	FileDownloader,
-	FileUploader,
+    FileDownloader,
+    FileUploader,
     FileTransport,
     PhotoLibrary,
     UappPlatform,

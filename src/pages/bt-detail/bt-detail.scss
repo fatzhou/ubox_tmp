@@ -1,0 +1,60 @@
+page-bt-detail {
+    .detail-title {
+        padding: 10px;
+        p {
+            font-size: 12px;
+            line-height: 1.8;
+            &.p-title {
+                font-size: 18px;
+                line-height: 1.2;
+                margin-bottom: 5px;
+            }
+        }
+    }
+    .detail-info {
+        padding: 10px;
+        .download-box-btn {
+            overflow: hidden;
+            span {
+                display: inline-block;
+                width: 50%;
+                background: #ddd;
+                height: 40px;
+                line-height: 40px;
+                float: right;
+                text-align: center;
+            }
+        }
+        .info-box {
+            border: 1px solid #ededed;
+            padding: 10px;
+            font-size: 14px;
+            position: relative;
+        }
+        .detail-list {
+            p {
+                line-height: 1.8;
+            }
+        }
+        .detail-des {
+            margin-top: 10px;
+            p {
+                line-height: 1.3;
+                &.p-title {
+                    font-size: 16px;
+                    line-height: 24px;
+                }
+            }
+        }
+        .download-btn {
+            width: 80%;
+            margin: 10px auto;
+            height: 40px;
+            text-align: center;
+            background: blue;
+            border-radius: 4px;
+            line-height: 40px;
+            color: #fff;
+        }
+    }
+}

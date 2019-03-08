@@ -1,0 +1,41 @@
+page-bt-task {
+    .tab-list {
+        width: 100%;
+        height: 40px;
+        overflow: hidden;
+        li {
+            width: 33.3%;
+            height: 40px;
+            float: left;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+            line-height: 40px;
+            &:last-child{
+                width: 33.4%;
+            }
+            &.active {
+                color: #fff;
+                border-bottom: 1px solid #fff;
+                box-sizing: border-box;
+            }
+        }
+    }
+    .task-list {
+        overflow: hidden;
+        p {
+            color: #000;
+            &.file-name {
+                word-break: break-all;
+                word-wrap: break-word;
+                white-space: unset!important;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp:2;
+                -webkit-box-orient: vertical;
+            }
+        }
+        .teak-item {
+            border-bottom: 1px solid #ededed;
+        } 
+    }
+}

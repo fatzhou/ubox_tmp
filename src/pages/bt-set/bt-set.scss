@@ -1,0 +1,11 @@
+page-bt-set {
+    .download-num, .download-path {
+        height: 60px;
+        border-bottom: 1px solid #ededed;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+}
