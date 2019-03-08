@@ -63,7 +63,7 @@ export class UboxApp {
     // @ViewChild(Nav) gets a reference to the app's root nav
     @ViewChild(Nav) nav: Nav;
 
-    rootPage:any = LoginPage;
+    rootPage:any;
     needTips: Boolean = false;
     fileListString: any;
 
@@ -138,7 +138,7 @@ export class UboxApp {
 				// this.rootPage = TestPage;
             }
 
-            // this.getUserInfo();
+            this.getUserInfo();
             this.initReadPermitted();
             //恢复下载列表
             this.initFileTaskList();
@@ -157,11 +157,17 @@ export class UboxApp {
     }
 
     getUserInfo() {
+		if(1) {
+			console.log("设置首页........");
+			this.rootPage = LoginPage;
+			return false;			
+		}
+
         if(!this.global.networking) {
             GlobalService.consoleLog("网络异常，请先打开网络.....");
             return false;
         }
-        setTimeout(() => {
+        let timeout = setTimeout(() => {
             if(!this.rootPage) {
                 this.rootPage = LoginPage;
             }
@@ -169,19 +175,20 @@ export class UboxApp {
         let url = GlobalService.centerApi['getUserInfo'].url;
         this.http.post(url, {}, false)
         .then(res => {
+			clearTimeout(timeout);
             if(res.err_no === 0) {
                 this.global.centerUserInfo = res.user_info;
                 //获取版本号
                 this.util.loginAndCheckBox(this)
                 .then(res => {
-                    console.log("loginAndCheckBox成功进入resolve....");
+					console.log("loginAndCheckBox成功进入resolve....");
                     if(this.global.centerUserInfo.uname) {
                         this.rootPage = TabsPage;
                     } else {
                         this.rootPage = LoginPage;
                     }
                 })
-                .catch(e => {                    //没有盒子
+				.catch(e => {                    //没有盒子
                     this.rootPage = TabsPage;
                 })
             } else {
@@ -189,6 +196,7 @@ export class UboxApp {
             }
         })
         .catch(res => {
+			clearTimeout(timeout);
             this.rootPage = LoginPage;
         })
     }
@@ -434,7 +442,9 @@ export class UboxApp {
         GlobalService.consoleLog("网络连接后的networkType   :" + this.network.type);
         //网络连接恢复，webrtc模式重置datachannel
         if(global.useWebrtc) {
-            this.http.dataChannelOpen = 'closed';
+			this.http.channelLabels.forEach(label => {
+				this.http.channels[label].status = 'closed';
+			})
         }
         // if(global.networkType === 'wifi') {
         //     this.getWifiName();

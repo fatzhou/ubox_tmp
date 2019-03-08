@@ -26,6 +26,8 @@ export class TestPage {
 	uploadLoaded = 0;
 	fileTransfer;
 	uploadTransfer;
+	uploadSpeed = 0;
+	downloadSpeed = 0;
 	constructor(public navCtrl: NavController,
 		private file: File,
 		private zone: NgZone,
@@ -36,13 +38,14 @@ export class TestPage {
 
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad TestPage');
+		console.log("盒子信息：" + JSON.stringify(this.global.deviceSelected))
 	}
 
 	uploadResume() {
-		if(this.downloading) {
+		if(this.uploading) {
 			console.log("暂停上传..")
 			this.uploading = false;
-			this.uploadTransfer.abort();
+			this.uploadTransfer.abortUpload();
 		} else {
 			console.log("恢复上传...");
 			this.uploading = true;
@@ -67,9 +70,13 @@ export class TestPage {
 		let fileURL = cordova.file.externalDataDirectory + "qq.exe";
 		let self = this
 		this.uploadTransfer = new FileTransfer();
+		let start = Date.now();
 		this.uploadTransfer.onprogress = (prog) => {
-			console.log("进度更新：" + prog.loaded)
+			console.log("进度更新：" + prog.loaded + "," + prog.total)
 			this.zone.run(()=> {
+				let now = Date.now()
+				this.uploadSpeed = (prog.loaded - this.uploadLoaded) / (now - start);
+				start = now;
 				this.uploadLoaded = prog.loaded;
 				this.uploadTotal = prog.total;
 			})
@@ -78,7 +85,7 @@ export class TestPage {
 			fileURL,
 			url,
 			function(entry) {
-				console.log("upload complete: " + entry.toURL());
+				console.log("complete entry:" + JSON.stringify(entry));
 				self.uploading = false;
 			},
 			function(error) {
@@ -113,9 +120,13 @@ export class TestPage {
 		let fileURL = cordova.file.externalDataDirectory + "qq.exe";
 		let self = this
 		this.fileTransfer = new FileTransfer();
+		let start = 0;
 		this.fileTransfer.onprogress = (prog) => {
 			console.log("进度更新：" + prog.loaded)
 			this.zone.run(()=> {
+				let now = Date.now()
+				this.downloadSpeed = (prog.loaded - this.loaded) / (now - start);
+				start = now;
 				this.loaded = prog.loaded;
 				this.total = prog.total;
 			})
@@ -124,7 +135,7 @@ export class TestPage {
 			url,
 			fileURL,
 			function(entry) {
-				console.log("download complete: " + entry.toURL());
+				console.log("download complete: " + JSON.stringify(entry));
 				self.downloading = false;
 			},
 			function(error) {
