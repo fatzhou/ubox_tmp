@@ -45,7 +45,7 @@ export class TestPage {
 		if(this.uploading) {
 			console.log("暂停上传..")
 			this.uploading = false;
-			this.uploadTransfer.abortUpload();
+			this.uploadTransfer.pause();
 		} else {
 			console.log("恢复上传...");
 			this.uploading = true;
@@ -57,7 +57,7 @@ export class TestPage {
 		if(this.downloading) {
 			console.log("暂停下载..")
 			this.downloading = false;
-			this.fileTransfer.abort();
+			this.fileTransfer.pause();
 		} else {
 			console.log("恢复下载...");
 			this.downloading = true;
@@ -72,21 +72,23 @@ export class TestPage {
 		this.uploadTransfer = new FileTransfer();
 		let start = Date.now();
 		this.uploadTransfer.onprogress = (prog) => {
-			console.log("进度更新：" + prog.loaded + "," + prog.total)
+			// console.log("进度更新：" + prog.loaded + "," + prog.total)
 			this.zone.run(()=> {
 				let now = Date.now()
-				this.uploadSpeed = (prog.loaded - this.uploadLoaded) / (now - start);
+				this.uploadSpeed = Math.ceil((prog.loaded - this.uploadLoaded) / (now - start));
 				start = now;
 				this.uploadLoaded = prog.loaded;
 				this.uploadTotal = prog.total;
 			})
 		}
+		console.log("从开始处传输:" + this.uploadLoaded);
 		this.uploadTransfer.upload(
 			fileURL,
 			url,
 			function(entry) {
 				console.log("complete entry:" + JSON.stringify(entry));
 				self.uploading = false;
+				self.uploadLoaded = entry.rangend || 0;
 			},
 			function(error) {
 				console.log("upload error source " + error.source);
@@ -108,6 +110,7 @@ export class TestPage {
 				params: {
 					path: "/",
 					name: "qq.exe",
+					transfer: 'chunked',
 					offset: this.uploadLoaded
 				}
 			},
@@ -122,10 +125,10 @@ export class TestPage {
 		this.fileTransfer = new FileTransfer();
 		let start = 0;
 		this.fileTransfer.onprogress = (prog) => {
-			console.log("进度更新：" + prog.loaded)
+			// console.log("进度更新：" + prog.loaded)
 			this.zone.run(()=> {
 				let now = Date.now()
-				this.downloadSpeed = (prog.loaded - this.loaded) / (now - start);
+				this.downloadSpeed = Math.floor((prog.loaded - this.loaded) / (now - start));
 				start = now;
 				this.loaded = prog.loaded;
 				this.total = prog.total;
