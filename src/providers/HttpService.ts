@@ -1206,7 +1206,7 @@ export class HttpService {
 			//request信道建立完成，则立即获取版本号
 			//也用于其他信道的请求连接测试
 			GlobalService.consoleLog("请求连接测试开始：" + label)
-			if(label == "request") {
+			if(label == "request" || label == "webrtcdc") {
 				this.webrtcRequest(url, 'post', {}, {})
 				.then((res: any) => {
 					if (res.status === 200 && res.data.err_no === 0) {
@@ -1220,7 +1220,7 @@ export class HttpService {
 				.catch(e => {
 					reject && reject(this.global.deviceSelected);
 				})				
-			}
+			} 
 		}
 		channel.onclose = () => {
 			GlobalService.consoleLog("Data channel closed.");

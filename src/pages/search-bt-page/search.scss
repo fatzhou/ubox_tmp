@@ -1,0 +1,50 @@
+page-search {
+    .search-header {
+        height: 60px;
+        line-height: 60px;
+        position: relative;
+        padding: 10px;
+        .bt-input {
+            width: 100%;
+            margin: 0 auto;
+            height: 40px;
+            color: #333;
+            border: 0.5px solid #ededed;
+            text-align: left;
+            text-indent: 10px;
+        }
+        .icon {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            font-size: 24px;
+        }
+    }
+    .search-body {
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ededed;
+            .bt-title {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+            .p-info {
+                font-size: 12px;
+                span {
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+    .bt-task-btn {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        bottom: 50px;
+        right: 30px;
+        background: rebeccapurple;
+        border-radius: 50%;
+        overflow: hidden;
+        color: #fff;
+    }
+}
