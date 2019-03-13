@@ -120,7 +120,6 @@ import { FileManager } from '../providers/FileManager';
 import { AppsInstalled } from '../providers/AppsInstalled';
 import { AppsInterface } from '../providers/AppsInterface';
 import { UappPlatform } from '../providers/UappPlatform';
-import { DownloadAppsProvider } from '../providers/DownloadApps';
 
 import { ComputeCoinbasePipe } from '../pipes/compute-coinbase/compute-coinbase'
 import { ComputeFileSizePipe } from '../pipes/compute-file-size/compute-file-size'
@@ -322,7 +321,6 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     UappPlatform,
     AppsInstalled,
     AppsInterface,
-    DownloadAppsProvider
   ]
 })
 export class AppModule {}

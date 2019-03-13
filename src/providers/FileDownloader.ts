@@ -91,12 +91,17 @@ export class FileDownloader {
 
     onFailure(fileId, listener) {
         this.downloaders[fileId].failure = listener;
+	}
+	
+	onSuccess(fileId, listener) {
+        this.downloaders[fileId].success = listener;
     }
 }
 
 class SingleFileDownloader {
     public progress: any;
-    public failure: any;
+	public failure: any;
+	public success: any;
     public cache: any;
 
     private isAbort: boolean;
@@ -119,6 +124,7 @@ class SingleFileDownloader {
         this.cache = {};
         this.progress = function(res) {}
         this.failure = function(res) {}
+        this.success = function(res) {}
         this.setDownloadBlockSize();
     }
 
@@ -209,7 +215,10 @@ class SingleFileDownloader {
     ///////////////////////////////////////
     private _progress(errstr) {
 		console.log("进度通知:" + JSON.stringify(this.cache));
-        this.progress(this.cache);
+        this.progress({
+			loaded: this.cache.downloadsize,
+			total: this.cache.totalsize
+		});
     }
 
     ///// 循环获取文件剩余文件////////////////
@@ -260,12 +269,16 @@ class SingleFileDownloader {
                         cache.status = "LOOP";
                         
 
-                        cache.speed =(cache.speed * self.global.speedMax) + (self.oneBlockSize * 1000 / (Date.now() - start)) * (1 - self.global.speedMax);
+                        // cache.speed =(cache.speed * self.global.speedMax) + (self.oneBlockSize * 1000 / (Date.now() - start)) * (1 - self.global.speedMax);
                         self._progress("");
                     } else {
                         cache.downloadsize = cache.totalsize;
                         // GlobalService.consoleLog("循环：单块下载后，下载完成(" + downloadsize + "/" + cache.totalsize + ")");
-                        cache.status = "DONE";
+						cache.status = "DONE";
+						self.success({
+							complete: 1,
+							rangend: cache.totalsize
+						});
                     }
                     self.timer = setTimeout(()=>{
                         self._loopdownload();

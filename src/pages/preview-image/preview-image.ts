@@ -66,9 +66,9 @@ export class PreviewImagePage {
 
     ionViewDidLoad() {
         PreviewImagePage._this = this;
-        this.global.createGlobalLoading(this, {
-            message: Lang.L("Loading")
-        });
+        // this.global.createGlobalLoading(this, {
+        //     message: Lang.L("Loading")
+        // });
         GlobalService.consoleLog('ionViewDidLoad PreviewImagePage');
         this.imageInfo = this.navParams.get('info') || {};
         this.currPath = this.navParams.get('currPath');
@@ -91,12 +91,14 @@ export class PreviewImagePage {
     getPhotoUrl(task) {
         this.transfer.getFileLocalOrRemote(task.path, this.global.fileSavePath + this.global.PhotoSubPath + "/", task.name, this.global.PhotoSubPath)
         .then(res => {
-            task.thumbnail = res;
-            let name = task.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
-            let md5 = Md5.hashStr(task.path + "/" + name).toString();
-            if(!this.global.thumbnailMap[md5]) {
-                this.global.thumbnailMap[md5] = res;
-            }
+			if(res) {
+				task.thumbnail = res;
+				let name = task.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+				let md5 = Md5.hashStr(task.path + "/" + name).toString();
+				if(!this.global.thumbnailMap[md5]) {
+					this.global.thumbnailMap[md5] = res;
+				}				
+			}
             this.global.closeGlobalLoading(this);  
         })
         .catch(e => {

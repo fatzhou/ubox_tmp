@@ -87,7 +87,7 @@ export class TaskListPage {
     getThumbnail() {
         for(let i = 0, len = this.fileTaskList.length; i < len; i++) {
             let task = this.fileTaskList[i];
-            if(task.fileStyle === 'image' && !task.thumbnail) {
+            if(task.style === 'image' && !task.thumbnail) {
                 //图片上传下载需显示缩略图
                 setTimeout(()=>{
                     GlobalService.consoleLog("获取缩略图：" + task.localPath + "***" + task.path + "***" + task.name);

@@ -26,9 +26,9 @@ export class GlobalService {
     public static DISK_G_BITS:number = GlobalService.DISK_M_BITS * GlobalService.DISK_K_BITS;
     public static DISK_T_BITS:number = GlobalService.DISK_G_BITS * GlobalService.DISK_K_BITS;
 
-    static THUMBNAIL_WIDTH = 64; //缩略图宽
-    static THUMBNAIL_HEIGHT = 64; //缩略图高
-    static THNUBNAIL_QUALITY = 0.8; //缩略质量
+    static THUMBNAIL_WIDTH = 512; //缩略图宽
+    static THUMBNAIL_HEIGHT = 512; //缩略图高
+    static THNUBNAIL_QUALITY = 1; //缩略质量
 
     static LoadingDisplayPeriod = 6000; //Loading持续最长时间
 
