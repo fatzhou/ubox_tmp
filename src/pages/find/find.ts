@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Item } from 'ionic-angular';
 import { SearchBtPage } from '../search-bt/search-bt';
 import { BtDetailPage } from '../bt-detail/bt-detail';
 import { BtTaskPage } from '../bt-task/bt-task';
@@ -24,11 +24,13 @@ import { InternalFormsSharedModule } from '@angular/forms/src/directives';
  */
 
 @Component({
-    selector: 'page-search',
-    templateUrl: 'search.html',
+    selector: 'page-find',
+    templateUrl: 'find.html',
 })
-export class SearchPage {
+export class FindPage {
 
+    feedList: any = [];
+    loading: boolean = false;
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         private events: Events,
@@ -41,10 +43,15 @@ export class SearchPage {
         private app: App) {
     }
 
-    ionViewDidLoad() {
-        console.log('ionViewDidLoad SearchPage');
+    ionViewDidEnter() {
+        console.log('ionViewDidLoad FindPage');
+        this.getFeedTop();
+        this.getFeedList();
     }
-
+    ionViewWillLeave() {
+        console.log("leave")
+        this.feedList = [];
+    }
     goSearchBtPage() {
         console.log("gosearchbt");
         this.navCtrl.push(SearchBtPage);
@@ -82,4 +89,60 @@ export class SearchPage {
         console.log("go BtTaskPage");
         this.navCtrl.push(BtTaskPage);
     }
+
+    getFeedTop() {
+        var url = GlobalService.centerApi["getFeedTop"].url;
+        this.http.post(url, {})
+        .then((res) => {
+            if (res.err_no === 0) {
+                var list = [];
+                var index = 0;
+                if (res.list && res.list.length > 0) {
+                    
+                    console.log(JSON.stringify(res.list));
+                    
+                    this.feedList.unshift(res.list[0]);
+                    
+                }
+                
+            }
+        })
+    }
+    getFeedList() {
+        if(this.loading == true) {
+            return false;
+        }
+        this.loading = true;
+        var url = GlobalService.centerApi["getFeedList"].url;
+        this.http.post(url, {
+            id:0
+        })
+        .then((res) => {
+            if (res.err_no === 0) {
+                var list = [];
+                var index = 0;
+                if (res.list && res.list.length > 0) {
+                    let hash = {}; 
+                    this.feedList = this.feedList.concat(res.list);
+                    this.feedList = this.feedList.reduce((preVal, curVal) => {
+                        hash[curVal.resid] ? '' : hash[curVal.resid] = true && preVal.push(curVal); 
+                        return preVal 
+                    }, [])
+                }
+                setTimeout(()=>{
+                    this.loading = false;
+                },500);
+            }
+        })
+    }
+
+    refreshFeedList(infiniteScroll) {
+        GlobalService.consoleLog("上滑加载")
+        this.getFeedList();
+        infiniteScroll.complete();     
+    }
+    downloadBt(feedId) {
+        console.log("下载" + feedId);
+    }
+
 }

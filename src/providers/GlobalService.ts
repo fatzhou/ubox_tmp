@@ -529,6 +529,15 @@ export class GlobalService {
         "uploadLogAnalyser": {
             url:  GlobalService.centerApiHostEnv + "/loganalyser/user/upload_log_file"
         },
+        "getFeedList": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/btfeed/feedlist"
+        },
+        "getFeedTop": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/btfeed/feedtop"
+        },
+        "getSearchList": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/btfeed/searchlist"
+        },
     }
 
     constructor(

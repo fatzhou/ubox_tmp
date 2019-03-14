@@ -31,7 +31,7 @@ export class HttpService {
 	successiveConnectGap = 15000; //连续两次重试的间隔
 
 	deviceSelected = null;
-	channelLabels = ["request", "upload", "download"];
+	channelLabels = ["webrtcdc", "upload", "download"];
 	boxSdpRetryTimes = 0; //获取盒子sdp已重试的次数
 	connectBoxSdp: any = null; //连接的盒子的sdp
 	// userBoxCheck: Boolean = false; //是否已查询过用户有无盒子
@@ -279,7 +279,7 @@ export class HttpService {
 						.catch(error => this.handleError(error, errorHandler));
 				}
 			} else {
-				let label = options.channelLabel || "request",
+				let label = options.channelLabel || this.channelLabels[0],
 					channel = this.channels[label].channel,
 					status = this.channels[label].status;
 				//Webrtc
@@ -320,7 +320,7 @@ export class HttpService {
 			//接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
 			return this._post(url, paramObj, headers, errorHandler, cordova);
 		} else {
-			let label = options.channelLabel || "request",
+			let label = options.channelLabel || this.channelLabels[0],
 				channel = this.channels[label].channel,
 				status = this.channels[label].status;
 			if (status === 'opened') {
@@ -381,7 +381,7 @@ export class HttpService {
 				return this.aHttp.post(url, this.toBodyString(paramObj), new RequestOptions({ headers: postHeaders, withCredentials: true }))
 					.toPromise()
 					.then((res: any) => {
-						console.log(url + "angular http : + " + JSON.stringify(res))
+						// console.log(url + "angular http : + " + JSON.stringify(res))
 						// console.log(url +JSON.stringify(res.headers))
 
 						//   console.log(!!res.headers)
@@ -767,7 +767,7 @@ export class HttpService {
 				}, headers, {
 						maxTime: 8000,
 						retries: 3,
-						channelLabel: 'download'
+						channelLabel: this.channels['download'] ? 'download' : this.channelLabels[0]
 					})
 					.then((res: any) => {
 						// GlobalService.consoleLog("成功返回:" + JSON.stringify(res));
@@ -823,7 +823,7 @@ export class HttpService {
 					}, {
 							maxTime: 8000,
 							retries: 3,
-							channelLabel: 'upload'
+							channelLabel: this.channels['upload'] ? 'upload' : this.channelLabels[0]
 						})
 						.then(resolve, reject);
 				})
@@ -1096,7 +1096,7 @@ export class HttpService {
 	webrtcRequest(url: string, method: string, paramObj: any, headers: any = {}, options: any = {}) {
 		var start = Date.now(),
 			maxTime = options.maxTime || 5000;
-		let label = options.channelLabel || "request",
+		let label = options.channelLabel || this.channelLabels[0],
 			dataChannel = this.channels[label];
 
 		//通道尚未建立时，选择其他可用通道
@@ -1206,7 +1206,8 @@ export class HttpService {
 			//request信道建立完成，则立即获取版本号
 			//也用于其他信道的请求连接测试
 			GlobalService.consoleLog("请求连接测试开始：" + label)
-			if(label == "request" || label == "webrtcdc") {
+			if(label == this.channelLabels[0]) {
+				console.log("请求webrtc请求")
 				this.webrtcRequest(url, 'post', {}, {})
 				.then((res: any) => {
 					if (res.status === 200 && res.data.err_no === 0) {

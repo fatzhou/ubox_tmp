@@ -27,7 +27,6 @@ import { Util } from '../providers/Util';
 import { TaskListPage } from '../pages/task-list/task-list';
 import { GuidancePage } from '../pages/guidance/guidance';
 import { PermissionPage } from '../pages/permission/permission';
-import { SearchPage } from '../pages/search/search';
 
 import { AgreementPage } from '../pages/agreement/agreement'
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy'
