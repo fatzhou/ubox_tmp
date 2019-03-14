@@ -116,12 +116,17 @@ export class FileUploader {
 
     onFailure(fileId, failure) {
         this.uploaders[fileId].failure = failure;
+	}
+	
+	onSuccess(fileId, failure) {
+        this.uploaders[fileId].success = failure;
     }
 }
 
 class SingleFileUploader {
     public progress: any; //进度
-    public failure: any; //失败
+	public failure: any; //失败
+	public success: any;
     public cache: any;
     public uploadUrl;
     // private http: HTTP;
@@ -144,6 +149,7 @@ class SingleFileUploader {
         this.isPause = false;
         this.progress = function(res) {}
         this.failure = function(res) {}
+        this.success = function(res) {}
         this.setBlockUploadSize();
     }
 
@@ -218,7 +224,10 @@ class SingleFileUploader {
     ///////////////////////////////////////
     private _progress(errstr) {
         GlobalService.consoleLog("_progree开始调用..." + errstr);
-        this.progress(this.cache);
+        this.progress({
+			loaded: this.cache.uploadSize,
+			total: this.cache.totalSize
+		});
     }
 
     ///// 循环获取文件剩余文件////////////////
@@ -268,12 +277,16 @@ class SingleFileUploader {
                         GlobalService.consoleLog("循环：单块上传后大小不够，继续上传");
                         cache.uploadSize = uploadSize;
                         cache.status = "LOOP";
-                        cache.speed =(cache.speed * self.global.speedMax) +  (this.oneBlockSize * 1000 / (Date.now() - start)) * (1 - self.global.speedMax);
+                        // cache.speed =(cache.speed * self.global.speedMax) +  (this.oneBlockSize * 1000 / (Date.now() - start)) * (1 - self.global.speedMax);
                         self._progress("");
                     } else {
                         cache.uploadSize = cache.totalSize;
                         GlobalService.consoleLog("循环：单块上传后，上传完成(" + uploadSize + "/" + cache.totalSize + ")");
-                        cache.status = "DONE";
+						cache.status = "DONE";
+						self.success({
+							complete: 1,
+							rangend: cache.totalSize
+						});
                     }
                     self.timer = setTimeout(()=>{
                         self._loopUpload();

@@ -329,7 +329,16 @@ export class ListPage {
         })
         var flag = false;
         for (var i = 0, len = this.selectedFiles.length; i < len; i++) {
-            this.transfer.downloadFile(this.selectedFiles[i], this.currPath);
+			let selected = this.selectedFiles[i];
+			let subFoldPath = {
+				'image': this.global.PhotoSubPath,
+				'video': this.global.VideoSubPath,
+				'music': this.global.MusicSubPath
+			}[selected.style] || this.global.DocSubPath;
+			this.transfer.downloadFile({
+				name: selected.name,
+				style: selected.style
+			}, this.currPath + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
         }
         
         this.allBtnsShow = false;

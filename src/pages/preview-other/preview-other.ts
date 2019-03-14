@@ -108,16 +108,25 @@ export class PreviewOtherPage {
     }
 
     downloadFile() {
-        this.downloadStatus = 'doing';
-        this.transfer.downloadFile(this.fileInfo, this.global.currPath);
+		this.downloadStatus = 'doing';
+		let subFoldPath = {
+			'image': this.global.PhotoSubPath,
+			'video': this.global.VideoSubPath,
+			'music': this.global.MusicSubPath
+		}[this.fileInfo.style] || this.global.DocSubPath;
+		let localFullPath = this.global.fileSavePath + subFoldPath + '/' + this.fileInfo.name;
+		let remoteFullPath = this.global.currPath.replace(/\/$/g, '') + "/" + this.fileInfo.name;
+		this.transfer.downloadFile({
+			name: this.fileInfo.name,
+			style: this.fileInfo.style
+		}, remoteFullPath, localFullPath);
+		
         setTimeout(()=>{
-            var localPath = this.global.fileSavePath + this.fileInfo.name;
-            var fullPath = this.global.currPath.replace(/\/$/g, '') + "/" + this.fileInfo.name;
-            var fileId = this.util.generateFileID(localPath, fullPath, 'download');
-            this.task = this.global.fileTaskList.filter(item => {
-                return item.fileId == fileId;
-            })[0];
-        },1000);
+            var fileId = this.util.generateFileID(localFullPath, remoteFullPath, 'download');
+            this.task = this.global.fileTaskList.find(item => {
+                return item.fileId == fileId && item.action == 'download';
+            }) || {};
+        },200);
     }
 
     computeFinished() {

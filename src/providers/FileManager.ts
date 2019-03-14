@@ -271,7 +271,7 @@ export class FileManager {
 							// GlobalService.consoleLog("Chunk数据：" + JSON.stringify(chunk));
 							this.photoLibraryReady = true;
 							if(this.global.platformName === 'android') {
-								GlobalService.consoleLog("过滤大小为0的文件");
+								// GlobalService.consoleLog("过滤大小为0的文件");
 								library = library.filter(item => item.size > 0);
 							}
 							library = library.concat(chunk);

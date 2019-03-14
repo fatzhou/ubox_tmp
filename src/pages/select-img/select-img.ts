@@ -87,7 +87,7 @@ export class SelectImgPage {
      * [filterUploadFlag 计算图片是否上传的标记]
      */
     filterUploadFlag() {
-        let globalTask = this.global.fileTaskList.filter(item => item.action === 'upload' && item.fileStyle == 'image');
+        let globalTask = this.global.fileTaskList.filter(item => item.action === 'upload' && item.style == 'image');
         let count = 0;
         let content = this.albums.content;
 

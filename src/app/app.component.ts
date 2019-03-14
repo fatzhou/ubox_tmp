@@ -156,11 +156,11 @@ export class UboxApp {
     }
 
     getUserInfo() {
-		if(1) {
-			console.log("设置首页........");
-			this.rootPage = LoginPage;
-			return false;			
-		}
+		// if(1) {
+		// 	console.log("设置首页........");
+		// 	this.rootPage = LoginPage;
+		// 	return false;			
+		// }
 
         if(!this.global.networking) {
             GlobalService.consoleLog("网络异常，请先打开网络.....");

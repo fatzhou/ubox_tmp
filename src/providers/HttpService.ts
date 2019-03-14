@@ -612,41 +612,41 @@ export class HttpService {
      * @param {[type]} name      [文件名称]
      * @param {[type]} fileSubPath [本地文件夹下的文件类型的子目录名字]
      */
-	getFileLocalOrRemote(remoteUrl, localPath, name, fileSubPath) {
-		remoteUrl = remoteUrl.replace(/\/$/, '') + "/";
-		localPath = localPath.replace(/\/$/, '') + "/";
-		//第1步，判断本地是否存在，若存在则直接使用
-		return this.file.checkFile(localPath, name)
-			.then(res => {
-				GlobalService.consoleLog("目标文件存在:" + name + JSON.stringify(res));
-				//文件已存在
-				return localPath + name;
-			}, res => {
-				GlobalService.consoleLog("目标文件不存在:" + name + JSON.stringify(res));
-				//文件不存在，尝试远程下载
-				return this.downloadRemoteFile(remoteUrl, localPath, name, fileSubPath)
-					.then(res => {
-						if (res) {
-							//下载成功，直接返回本地路径
-							return localPath + name;
-						} else {
-							return "";
-						}
-					})
-					.then(res => {
-						return this.file.checkFile(localPath, name)
-							.then(res => {
-								return localPath + name;
-							})
-							.catch(e => {
-								return "";
-							})
-					})
-					.catch(e => {
-						return "";
-					})
-			})
-	}
+	// getFileLocalOrRemote(remoteUrl, localPath, name, fileSubPath) {
+	// 	remoteUrl = remoteUrl.replace(/\/$/, '') + "/";
+	// 	localPath = localPath.replace(/\/$/, '') + "/";
+	// 	//第1步，判断本地是否存在，若存在则直接使用
+	// 	return this.file.checkFile(localPath, name)
+	// 		.then(res => {
+	// 			GlobalService.consoleLog("目标文件存在:" + name + JSON.stringify(res));
+	// 			//文件已存在
+	// 			return localPath + name;
+	// 		}, res => {
+	// 			GlobalService.consoleLog("目标文件不存在:" + name + JSON.stringify(res));
+	// 			//文件不存在，尝试远程下载
+	// 			return this.downloadRemoteFile(remoteUrl, localPath, name, fileSubPath)
+	// 				.then(res => {
+	// 					if (res) {
+	// 						//下载成功，直接返回本地路径
+	// 						return localPath + name;
+	// 					} else {
+	// 						return "";
+	// 					}
+	// 				})
+	// 				.then(res => {
+	// 					return this.file.checkFile(localPath, name)
+	// 						.then(res => {
+	// 							return localPath + name;
+	// 						})
+	// 						.catch(e => {
+	// 							return "";
+	// 						})
+	// 				})
+	// 				.catch(e => {
+	// 					return "";
+	// 				})
+	// 		})
+	// }
 
     /**
      * [downloadRemoteFile 从服务器上下载文件]
@@ -654,24 +654,24 @@ export class HttpService {
      * @param {[type]} localPath [本地地址，不包含文件名]
      * @param {[type]} name      [文件名]
      */
-	downloadRemoteFile(remoteUrl, localPath, name, fileSubPath) {
-		return this.downloadRemoteFileData(remoteUrl, localPath, name)
-			.catch(e => {
-				//文件夹不存在
-				GlobalService.consoleLog("写文件失败，创建文件夹");
-				return this.file.createDir(this.global.fileSavePath, fileSubPath, false)
-					.then((res: any) => {
-						//创建文件夹成功..
-						GlobalService.consoleLog("创建文件夹成功，重新写文件");
-						return this.downloadRemoteFileData(remoteUrl, localPath, name);
-					})
-					.catch(e => {
-						GlobalService.consoleLog("文件夹已存在，直接写文件");
-						//文件夹正在创建...
-						return this.downloadRemoteFileData(remoteUrl, localPath, name);
-					})
-			})
-	}
+	// downloadRemoteFile(remoteUrl, localPath, name, fileSubPath) {
+	// 	return this.downloadRemoteFileData(remoteUrl, localPath, name)
+	// 		.catch(e => {
+	// 			//文件夹不存在
+	// 			GlobalService.consoleLog("写文件失败，创建文件夹");
+	// 			return this.file.createDir(this.global.fileSavePath, fileSubPath, false)
+	// 				.then((res: any) => {
+	// 					//创建文件夹成功..
+	// 					GlobalService.consoleLog("创建文件夹成功，重新写文件");
+	// 					return this.downloadRemoteFileData(remoteUrl, localPath, name);
+	// 				})
+	// 				.catch(e => {
+	// 					GlobalService.consoleLog("文件夹已存在，直接写文件");
+	// 					//文件夹正在创建...
+	// 					return this.downloadRemoteFileData(remoteUrl, localPath, name);
+	// 				})
+	// 		})
+	// }
 
     /**
      * [downloadRemoteFileData 从远程获取文件的数据]

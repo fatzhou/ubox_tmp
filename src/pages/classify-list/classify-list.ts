@@ -90,11 +90,11 @@ export class ClassifyListPage {
         let _this = ClassifyListPage._this;
 
         if(task && task.taskId) {
-            GlobalService.consoleLog(_this.classify + "," + task.fileStyle);
+            GlobalService.consoleLog(_this.classify + "," + task.style);
             let fileTypeMatch = true;
             if(_this.classify !== 4) {
                 //临时改法，类型识别比较麻烦，目前只有doc需要分类型，其他类型为统一类型
-                fileTypeMatch = (task.fileStyle === {2: 'video', 1: 'image', 3: 'music'}[_this.classify]);
+                fileTypeMatch = (task.style === {2: 'video', 1: 'image', 3: 'music'}[_this.classify]);
             }
             //传入任务
             if(task.action === 'upload' && fileTypeMatch) {
@@ -260,7 +260,6 @@ export class ClassifyListPage {
         })
     }
 
-
     judgeBusy() {
         return this.global.fileTaskList.some(item => {
             return !item.finished && item.pausing != 'paused' && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash;
@@ -322,7 +321,16 @@ export class ClassifyListPage {
             message: this.global.L('StartDownloading')
         })
         for (var i = 0, len = this.selectedFiles.length; i < len; i++) {
-            this.transfer.downloadFile(this.selectedFiles[i], this.selectedFiles[i].path);
+			let selected = this.selectedFiles[i];
+			let subFoldPath = {
+				'image': this.global.PhotoSubPath,
+				'video': this.global.VideoSubPath,
+				'music': this.global.MusicSubPath
+			}[selected.style] || this.global.DocSubPath;
+			this.transfer.downloadFile({
+				name: selected.name,
+				style: selected.style
+			}, selected.path + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
         }
 
         this.allBtnsShow = false;

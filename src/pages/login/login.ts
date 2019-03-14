@@ -126,7 +126,6 @@ export class LoginPage {
             //远程登录
             this.loginCenter();
         }
-
     }
 
     loginCenter() {
@@ -149,8 +148,8 @@ export class LoginPage {
                 if(this.popBack || index !== undefined) {
                     this.navCtrl.pop();
                 } else {
-                    // this.navCtrl.push(TestPage, {
-                    this.navCtrl.push(TabsPage, {
+                    this.navCtrl.push(TestPage, {
+                    // this.navCtrl.push(TabsPage, {
                         tabIndex: index
                     })
                     .then(() => { 
@@ -198,8 +197,8 @@ export class LoginPage {
                 // })                              
             } else {
                 this.global.closeGlobalLoading(this);
-                this.navCtrl.push(TestPage, {
-                // this.navCtrl.push(TabsPage, {
+                // this.navCtrl.push(TestPage, {
+                this.navCtrl.push(TabsPage, {
                     tabIndex: index
                 });
             }

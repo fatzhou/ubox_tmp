@@ -49,7 +49,11 @@ export class TestPage {
 		} else {
 			console.log("恢复上传...");
 			this.uploading = true;
-			this.upload();
+			if(this.uploadTotal) {
+				this.uploadTransfer.resume();
+			} else {
+				this.upload();
+			}
 		}
 	}
 
@@ -61,28 +65,20 @@ export class TestPage {
 		} else {
 			console.log("恢复下载...");
 			this.downloading = true;
-			this.download();
+			if(this.total) {
+				this.fileTransfer.resume();
+			} else {
+				this.download();
+			}
 		}
 	}
 
 	upload() {
+		console.log("upload-1")
 		let url = this.global.getBoxApi('uploadFileBreaking');
 		let fileURL = cordova.file.externalDataDirectory + "qq.exe";
 		let self = this
-		this.uploadTransfer = new FileTransfer();
-		let start = Date.now();
-		this.uploadTransfer.onprogress = (prog) => {
-			// console.log("进度更新：" + prog.loaded + "," + prog.total)
-			this.zone.run(()=> {
-				let now = Date.now()
-				this.uploadSpeed = Math.ceil((prog.loaded - this.uploadLoaded) / (now - start));
-				start = now;
-				this.uploadLoaded = prog.loaded;
-				this.uploadTotal = prog.total;
-			})
-		}
-		console.log("从开始处传输:" + this.uploadLoaded);
-		this.uploadTransfer.upload(
+		this.uploadTransfer = new FileTransfer(
 			fileURL,
 			url,
 			function(entry) {
@@ -116,25 +112,30 @@ export class TestPage {
 			},
 			false
 		);
+		let start = Date.now();
+		this.uploadTransfer.onprogress = (prog) => {
+			let now = Date.now();
+			if(now - start < 100 && prog.loaded < prog.total) {
+				return false;
+			}
+			// console.log("进度更新：" + prog.loaded + "," + prog.total)
+			this.zone.run(()=> {
+				this.uploadSpeed = Math.ceil((prog.loaded - this.uploadLoaded) / (now - start) * .1 + this.uploadSpeed * .9);
+				start = now;
+				this.uploadLoaded = prog.loaded;
+				this.uploadTotal = prog.total;
+			})
+			return true;
+		}
+		console.log("从开始处传输:" + this.uploadLoaded);
+		this.uploadTransfer.upload();
 	}
 
 	download() {
 		let url = "http://dldir1.qq.com/qqfile/qq/QQ8.4/18380/QQ8.4.exe";
 		let fileURL = cordova.file.externalDataDirectory + "qq.exe";
 		let self = this
-		this.fileTransfer = new FileTransfer();
-		let start = 0;
-		this.fileTransfer.onprogress = (prog) => {
-			// console.log("进度更新：" + prog.loaded)
-			this.zone.run(()=> {
-				let now = Date.now()
-				this.downloadSpeed = Math.floor((prog.loaded - this.loaded) / (now - start));
-				start = now;
-				this.loaded = prog.loaded;
-				this.total = prog.total;
-			})
-		}
-		this.fileTransfer.download(
+		this.fileTransfer = new FileTransfer(
 			url,
 			fileURL,
 			function(entry) {
@@ -152,13 +153,29 @@ export class TestPage {
 				// 5 = FileTransferError.NOT_MODIFIED_ERR
 				console.log("upload error code " + error.code);
 			},
-			false,
 			{
 				headers: {
 					// add custom headers if needed
 					cookie: this.http.getCookieString(url)
 				}
-			}
+			},
+			false
 		);
+		let start = 0;
+		this.fileTransfer.onprogress = (prog) => {
+			let now = Date.now()
+			if(now - start < 100 && prog.loaded < prog.total) {
+				return false;
+			}
+			// console.log("进度更新：" + prog.loaded)
+			this.zone.run(()=> {
+				this.downloadSpeed = Math.ceil((prog.loaded - this.loaded) / (now - start) * .1 + this.downloadSpeed * .9);
+				start = now;
+				this.loaded = prog.loaded;
+				this.total = prog.total;
+			})
+			return true;
+		}
+		this.fileTransfer.download();
 	}
 }
