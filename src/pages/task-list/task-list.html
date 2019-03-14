@@ -46,6 +46,7 @@
 						<div class="file-type" item-start *ngIf="task.style != 'image'|| !task.thumbnail" [ngClass]="task.style"></div>
 						<img class="file-type" item-start [src]="task.thumbnail" *ngIf="task.style == 'image' && task.thumbnail">
 						<div class="info">
+							<p>缩略图地址:{{task.thumbnail}}</p>
 							<p class="file-name eps">{{ pretify(task.name) }}</p>
 							<p class="file-info eps text-left"><em [ngClass]="task.action == 'download' ? 'file-down' : 'file-up'"></em>{{ computeFinished(task) }}</p>
 						</div>

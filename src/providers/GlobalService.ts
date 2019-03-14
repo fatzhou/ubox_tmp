@@ -120,7 +120,8 @@ export class GlobalService {
     public autoBackupAlbums = []; //自动备份的相册
     // public copyedAlbumsList = {}; //已备份相册
     private loadingTimer = null; //加载loading的关闭计时器
-    public thumbnailMap = {}; //文件远程路径到缩略图的映射
+	public thumbnailMap = {}; //文件远程路径到缩略图的映射
+	public photoMap = {};
     public platformName = 'android'; //平台名
     public readPermitted = false; //读取权限
     public static getUbbeyContract() {

@@ -91,8 +91,9 @@ export class TaskListPage {
                 //图片上传下载需显示缩略图
                 setTimeout(()=>{
                     GlobalService.consoleLog("获取缩略图：" + task.localPath + "***" + task.path + "***" + task.name);
-                    this.fileManager.getThumbnail(task.localPath, task.path + '/' + task.name)
+                    this.fileManager.getThumbnail(task.localPath, task.path)
                     .then(res => {
+						console.log("获取缩略图成功：" + res)
                         task.thumbnail = res;
                     })
                     .catch(e => {

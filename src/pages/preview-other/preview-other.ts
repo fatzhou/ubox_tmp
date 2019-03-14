@@ -7,6 +7,7 @@ import { FileManager } from '../../providers/FileManager';
 import { FileTransport } from '../../providers/FileTransport';
 import { HttpService } from '../../providers/HttpService';
 import { Events } from 'ionic-angular';
+import { TaskListPage } from '../task-list/task-list';
 
 /**
  * Generated class for the PreviewOtherPage page.
@@ -38,7 +39,7 @@ export class PreviewOtherPage {
         public navParams: NavParams) {
         events.subscribe('fileName:update', (res) => {
             this.fileName = res;
-        })
+		})
     }
 
     ionViewDidLoad() {
@@ -62,7 +63,8 @@ export class PreviewOtherPage {
             } else {
                 this.downloadStatus = this.task.pausing;
             }
-        }
+		}
+		
     }
 
     toggleDetailPage(isShow = false, isPop = null) {
@@ -122,7 +124,8 @@ export class PreviewOtherPage {
 		}, remoteFullPath, localFullPath);
 		
         setTimeout(()=>{
-            var fileId = this.util.generateFileID(localFullPath, remoteFullPath, 'download');
+			var fileId = this.util.generateFileID(localFullPath, remoteFullPath, 'download');
+			console.log("本次fileId:" + fileId)
             this.task = this.global.fileTaskList.find(item => {
                 return item.fileId == fileId && item.action == 'download';
             }) || {};
@@ -135,12 +138,11 @@ export class PreviewOtherPage {
         if(this.task && this.task.loaded !== undefined) {
             downloadSize = this.task.loaded;
             allSize = this.task.total;
-        }
-        var progress =  Math.floor(downloadSize / allSize * 100 || 0);
-        if(downloadSize == allSize) {
+		}
+		var progress =  Math.floor(downloadSize / allSize * 100 || 0);
+        if(this.task.finished) {
             this.downloadStatus = 'finished';
         }
-        // GlobalService.consoleLog("Progress:" + progress);
         return progress + '%';
     }
 

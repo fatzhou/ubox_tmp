@@ -13,7 +13,7 @@
     </div>
     <ion-slides (ionSlideDidChange)="slideChanged()">
         <ion-slide *ngFor="let info of fileList">
-            <img [src]="info.thumbnail">
+            <img [src]="info.photo || info.thumbnail">
         </ion-slide>
     </ion-slides>
     

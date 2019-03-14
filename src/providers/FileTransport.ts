@@ -311,7 +311,7 @@ export class FileTransport {
 			let localThumbnailPath = this.global.fileSavePath + this.global.ThumbnailSubPath + "/";
 			let localThumbnailFullPath = localThumbnailPath + thumbnailName;
 			let logprefix = "缩略图下载：(" + thumbnailName + ")：";
-			GlobalService.consoleLog(logprefix + "开始下载");
+			GlobalService.consoleLog(logprefix + "开始下载" + i);
 			GlobalService.consoleLog(logprefix + "本地路径尝试：" + localThumbnailPath + thumbnailName);
 			return this.getFileLocalOrRemote(this.global.ThumbnailRemotePath + "/", localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath)
 				.then(res => {
@@ -342,9 +342,10 @@ export class FileTransport {
 		let lastindex = 0;
 		let donecount = 0;
 		let totalcount = noThumbnailList.length;
+		let limit = this.global.useWebrtc ? 5 : 100;
 		let looptimer = setInterval(() => {
 			let doingcount = Object.keys(downloading).length;
-			if (donecount + doingcount < totalcount && doingcount < 5) {
+			if (donecount + doingcount < totalcount && doingcount < limit) {
 				downloading[lastindex] = 1;
 				downloadIthThumbnail(lastindex++)
 					.then(() => {
@@ -501,10 +502,13 @@ export class FileTransport {
 		let success = (res: any) => {
 			GlobalService.consoleLog("下载完成！！" + task.localPath);
 			this.zone.run(() => {
+				console.log('a1s1')
 				task.finished = true;
+				console.log('a2a2')
 				task.finishedTime = new Date().getTime();
+				console.log('a3a3a3')
 			});
-
+			console.log('aaaaa')
 			let taskId = task.taskId;
 			// if(!this.global.fileTaskList.some(item => item.action === 'download' && !item.finished )) {
 			//     this.global.createGlobalToast(this, {
@@ -512,7 +516,9 @@ export class FileTransport {
 			//     })                           
 			// }
 			if (this.global.fileHandler[taskId]) {
+				console.log('bbbb')
 				delete this.global.fileHandler[taskId];
+				console.log('cccccc')
 			}
 			if (createTask) {
 				this.events.publish('file:updated', task);

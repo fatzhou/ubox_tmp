@@ -713,6 +713,8 @@ export class HttpService {
 					fullpath: remoteUrl + name
 				}, {
 						"Range": "bytes=0-"
+					}, {
+						label: 'download'
 					})
 					.then((res: any) => {
 						GlobalService.consoleLog("文件下载结果：" + res.status)
@@ -1101,7 +1103,7 @@ export class HttpService {
 
 		//通道尚未建立时，选择其他可用通道
 		if(!dataChannel || dataChannel.status != 'opened') {
-			['request', 'upload', 'download'].some((item) => {
+			this.channelLabels.some((item) => {
 				let status = this.channels[item] && this.channels[item].status == 'opened';
 				if(status) {
 					label = item;
@@ -1110,10 +1112,11 @@ export class HttpService {
 				return status;
 			})
 		}
-
+console.log("数据通道:" + label)
 		return new Promise((resolve, reject) => {
 			let __request = (_url, _paramObj) => {
 				if (!this.rateLimit(label) && dataChannel.status === 'opened' && dataChannel.channel.readyState === "open") {
+					console.log("开始发送请求.....")
 					let r: string = this.generateRandom();
 					let logprefix = "session:" + r + ",url:" + url + " :";
 
@@ -1207,7 +1210,9 @@ export class HttpService {
 			//也用于其他信道的请求连接测试
 			GlobalService.consoleLog("请求连接测试开始：" + label)
 			if(label == this.channelLabels[0]) {
-				this.webrtcRequest(url, 'post', {}, {})
+				this.webrtcRequest(url, 'post', {}, {}, {
+					channelLabel: label
+				})
 				.then((res: any) => {
 					if (res.status === 200 && res.data.err_no === 0) {
 						this.global.deviceSelected.version = res.data.version;
@@ -1432,7 +1437,7 @@ export class HttpService {
 			headers[h] = [headers[h]];
 		}
 		// GlobalService.consoleLog("请求头部:" + JSON.stringify(headers));
-		let label = options.channelLabel || "request",
+		let label = options.channelLabel || this.channelLabels[0],
 			dataChannel = this.channels[label].channel,
 			openStatus = this.channels[label].status;
 		try {

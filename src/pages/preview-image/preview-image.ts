@@ -92,17 +92,21 @@ export class PreviewImagePage {
         this.transfer.getFileLocalOrRemote(task.path, this.global.fileSavePath + this.global.PhotoSubPath + "/", task.name, this.global.PhotoSubPath)
         .then(res => {
 			if(res) {
-				task.thumbnail = res;
+				if(!task.thumbnail) {
+					task.thumbnail = res;
+				}
+				task.photo = res;
 				let name = task.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
 				let md5 = Md5.hashStr(task.path + "/" + name).toString();
 				if(!this.global.thumbnailMap[md5]) {
 					this.global.thumbnailMap[md5] = res;
 				}				
+				this.global.photoMap[md5] = res;
 			}
-            this.global.closeGlobalLoading(this);  
+            // this.global.closeGlobalLoading(this);  
         })
         .catch(e => {
-            this.global.closeGlobalLoading(this); 
+            // this.global.closeGlobalLoading(this); 
         })
 
         // this.file.checkFile(this.global.fileSavePath + this.global.PhotoSubPath + "/", task.name)
@@ -199,6 +203,7 @@ export class PreviewImagePage {
                                 style: this.util.computeFileType(item.name, item.type),
                                 selected: false,
                                 thumbnail: this.global.thumbnailMap[md5] || "",
+                                photo: this.global.photoMap[md5] || "",
                                 index: index++,
                                 path: item.path || ""
                             }
