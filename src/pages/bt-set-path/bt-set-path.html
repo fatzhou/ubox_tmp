@@ -1,37 +1,51 @@
 <!--
-  Generated template for the BtSetPathPage page.
+  Generated template for the SelectfolderPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
 <ion-header>
-
-    <ion-navbar>
-        <ion-title>bt-set-path</ion-title>
-    </ion-navbar>
-
-</ion-header>
-
-
-<ion-content>
-    <div class="set-path-box">
-        <p class="p-set-path">Ubbey Box / J / download</p>
-        <ul class="file-list">
-            <li tappable>
-                <div class="file-type"></div>
-                <div class="info">
-                    <h2 class="eps">返回上一层</h2>
-                    <p></p>
-                </div>
-            </li>
-            <li tappable >
-                <div class="file-type"></div>
-                <div class="info">
-                    <h2 class="eps">返回上一层</h2>
-                    <p></p>
-                </div>
-            </li>
-        </ul>
-    </div>
-    <div class="save-path">保存当前路径</div>
-</ion-content>
+        <ion-navbar>
+          <ion-title>
+              {{ global.L('SelectUploadPath') }}
+              <div class="list-header">
+                  <div class="back-nav">
+                      <div class="back-btn" (click)="goBack(0)">  
+                          <span tappable>{{ global.L('Cancel') }}</span>               
+                      </div>     
+                  </div>    
+              </div>
+          </ion-title>
+        </ion-navbar>
+      </ion-header>
+      
+      
+      <ion-content>
+          <div class="main-content">
+              <div class="second-content">
+              <div class="show-path">
+                  <p>
+                      <span *ngFor="let item of pathList" (click)="goNextFolder(item, '1')">{{ item }}<em></em></span>
+                  </p>
+              </div>
+              <ul class="file-list">
+                  <li tappable *ngFor="let folder of fileList" (click)="goNextFolder(folder.name,'2')">
+                      <div class="file-type"></div>
+                      <div class="info">
+                          <h2 class="eps">{{ folder.name }}</h2>
+                          <p></p>
+                      </div>
+                  </li>
+              </ul>
+              </div>
+              <div class="footer">
+                  <!-- <div class="btn left-btn" (click)="makeFolder()">
+                      <svg class="icon icon-right" aria-hidden="true">
+                          <use xlink:href="#icon-Newicon"></use>
+                      </svg>
+                  </div> -->
+                  <button type="button" class="right-btn" (click)="goBack(1)">保存当前路径</button>
+              </div>
+          </div>
+      </ion-content>
+      

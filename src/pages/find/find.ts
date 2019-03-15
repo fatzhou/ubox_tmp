@@ -141,8 +141,13 @@ export class FindPage {
         this.getFeedList();
         infiniteScroll.complete();     
     }
-    downloadBt(feedId) {
-        console.log("下载" + feedId);
+
+    downloadBt(url) {
+        console.log("download" + url)
+        this.util.downloadBt(url)
+        .then(res => {
+            console.log("正在下载bt")
+        })
     }
 
 }

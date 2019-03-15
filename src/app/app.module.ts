@@ -79,6 +79,7 @@ import { BtSetPage } from '../pages/bt-set/bt-set';
 import { BtTaskPage } from '../pages/bt-task/bt-task';
 import { BtSetPathPage } from '../pages/bt-set-path/bt-set-path';
 import { FindPage } from '../pages/find/find';
+import { BtPlayPage } from '../pages/bt-play/bt-play';
 
 
 //自定义组件
@@ -206,7 +207,8 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     BtDetailPage, 
     SearchBtPage,
     BtSetPathPage,
-    FindPage
+    FindPage,
+    BtPlayPage
 
     // ClickAndWaitDirective,
   ],
@@ -291,7 +293,8 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     BtDetailPage, 
     SearchBtPage,
     BtSetPathPage,
-    FindPage
+    FindPage,
+    BtPlayPage
   ],
   providers: [
     UboxApp,

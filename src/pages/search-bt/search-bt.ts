@@ -76,7 +76,9 @@ export class SearchBtPage {
         var url = GlobalService.centerApi["getSearchList"].url;
         let keyword = key || this.inputValue;
         this.inputValue = keyword;
-        this.searchKeyList.unshift(keyword);
+        if(!key) {
+            this.searchKeyList.unshift(keyword);
+        }
         console.log(JSON.stringify(this.searchKeyList));
         if(this.searchKeyList.length > 10) {
             this.searchKeyList = this.searchKeyList.slice(0,10);
@@ -93,8 +95,12 @@ export class SearchBtPage {
             if (res.err_no === 0) { 
                 this.session = res.session;
                 let hash = {}; 
-                res.list = res.list || [];
-                this.searchFeedList = this.searchFeedList.concat(res.list);
+                let list = res.list || [];
+                if(key) {
+                    this.searchFeedList = this.searchFeedList.concat(list);
+                } else {
+                    this.searchFeedList = list;
+                }
                 this.searchFeedList = this.searchFeedList.reduce((preVal, curVal) => {
                     hash[curVal.resid] ? '' : hash[curVal.resid] = true && preVal.push(curVal); 
                     return preVal 
@@ -110,9 +116,20 @@ export class SearchBtPage {
         this.searchKeyList = [];
     }
 
+    clearKey() {
+        this.inputValue = '';
+    }
     refreshFeedList(infiniteScroll) {
         GlobalService.consoleLog("上滑加载")
-        this.searchList();
+        this.searchList(this.inputValue);
         infiniteScroll.complete();     
+    }
+
+    downloadBt(url) {
+        console.log("download" + url)
+        this.util.downloadBt(url)
+        .then(res => {
+            console.log("正在下载bt")
+        })
     }
 }

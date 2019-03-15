@@ -7,5 +7,38 @@ page-bt-set {
         align-items: center;
         padding: 10px;
         box-sizing: border-box;
+        position: relative;
+    }
+    .download-num{
+        .num-box {
+            float: right;
+            position: absolute;
+            right: 16px;
+            input {
+                text-align: center;
+            }
+            em{
+                display: inline-block;
+                height: 20px;
+                width: 20px;
+                border: 1px solid #ededed;
+                text-align: center;
+            }
+        }
+    }
+    .download-path {
+        .icon-ellipsis {
+
+            position: absolute;
+            right: 16px;
+        }
+    }
+    .save-box{
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+        margin-top: 40px;
+        background: #4d62f8;
+        color: #fff;
     }
 }
