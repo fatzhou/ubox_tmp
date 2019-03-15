@@ -117,7 +117,7 @@ export class BtTaskPage {
     goBtPlayPage(item) {
         console.log("go goBtPlayPage");
         this.navCtrl.push(BtPlayPage, {
-            path:  'http://192.168.0.14:37867/ubeybox/file/download?fullpath=' + item.dir + '/' + item.name + '/' + item.name + '.mp4'
+            path:  'http://192.168.0.14:37867/ubeybox/file/download?fullpath=' + item.dir + '/' + item.name
         });
     }
     
