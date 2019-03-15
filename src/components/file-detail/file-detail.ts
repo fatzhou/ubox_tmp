@@ -215,6 +215,6 @@ export class FileDetailComponent {
 		this.transfer.downloadFile({
 			name: this.info.name,
 			style: this.info.style
-		}, this.path + this.info.name, this.global.fileSavePath + subFoldPath + '/' + this.info.name);
+		}, this.path.replace(/\/$/g, '') + "/" + this.info.name, this.global.fileSavePath + subFoldPath + '/' + this.info.name);
 	}
 }

@@ -533,7 +533,19 @@ export class UboxApp {
             });
             alert.present();
         }
-    }
+	}
+	
+	stopAllTask() {
+		this.global.fileTaskList.filter(item => {
+			return item.finished == false && item.pausing == 'doing';
+		}).forEach(item => {
+			let taskId = item.taskId;
+			let handler = this.global.fileHandler[taskId];
+			if(handler) {
+				handler.pause();
+			}
+		})
+	}
 
     removeBackButtonAction() {
         var start = Date.now();
@@ -544,7 +556,10 @@ export class UboxApp {
           if(view.component == TabsPage) {
             var end = Date.now();
             if(end - start < 1500) {
-                this.platform.exitApp();
+				this.stopAllTask();
+				setTimeout(() => {
+					this.platform.exitApp();
+				}, 300);
             } else {
                 start = end;
             }
