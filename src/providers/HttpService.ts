@@ -148,7 +148,7 @@ export class HttpService {
 				case 'opened':
 					//debug
 					let channelState = channel.readyState;
-					GlobalService.consoleLog("连接已建立：" + channelState);
+					// GlobalService.consoleLog("连接已建立：" + channelState);
 					if (channelState == "closing") {
 						GlobalService.consoleLog("--------数据通道进入closing，关闭信道-------" + Date.now() + "-------" + dataChannel.lastReceivedTime);
 						dataChannel.status = 'closed';
@@ -329,7 +329,7 @@ export class HttpService {
 					.then((res: any) => this.handleSuccess(url, res.data, errorHandler))
 					.catch(error => this.handleError(error, errorHandler));
 			} else {
-				GlobalService.consoleLog("缓存请求，稍后post..." + url);
+				GlobalService.consoleLog(label + "缓存请求，稍后post..." + url);
 				return new Promise((resolve, reject) => {
 					this.globalWaitingList[label].push({
 						url: url,
@@ -1112,11 +1112,9 @@ export class HttpService {
 				return status;
 			})
 		}
-console.log("数据通道:" + label)
 		return new Promise((resolve, reject) => {
 			let __request = (_url, _paramObj) => {
 				if (!this.rateLimit(label) && dataChannel.status === 'opened' && dataChannel.channel.readyState === "open") {
-					console.log("开始发送请求.....")
 					let r: string = this.generateRandom();
 					let logprefix = "session:" + r + ",url:" + url + " :";
 

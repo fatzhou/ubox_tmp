@@ -9,6 +9,7 @@ import { Util } from '../../providers/Util';
 import { FileManager } from '../../providers/FileManager';
 import { ItemSliding } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
+import { ChangeDetectorRef } from '@angular/core';
 
 /**
  * Generated class for the TaskListPage page.
@@ -44,7 +45,8 @@ export class TaskListPage {
         private platform: Platform,
         private fileOpener: FileOpener,
         private fileManager: FileManager,
-        private util: Util,
+		private util: Util,
+		private cd: ChangeDetectorRef,
         public navParams: NavParams) {
         let self = this;
         TaskListPage._this = this;
@@ -53,8 +55,7 @@ export class TaskListPage {
         GlobalService.consoleLog("监听file:updated事件");
         events.unsubscribe('file:updated',TaskListPage.filterTaskList)       
 
-        events.subscribe('file:updated',TaskListPage.filterTaskList)       
-        
+        events.subscribe('file:updated',TaskListPage.filterTaskList)        
     }
 
     ionViewDidLoad() {
@@ -80,14 +81,16 @@ export class TaskListPage {
             return Number(b.finishedTime) - Number(a.finishedTime);
         });
         _that.getThumbnail();
-        _that.doingTaskList.reverse();
+		_that.doingTaskList.reverse();
+		GlobalService.consoleLog("任务列表过滤完毕....");
+		_that.cd.detectChanges();
         // this.doneTaskList.reverse();
     }
 
     getThumbnail() {
         for(let i = 0, len = this.fileTaskList.length; i < len; i++) {
             let task = this.fileTaskList[i];
-            if(task.style === 'image' && !task.thumbnail) {
+            if(task.fileStyle === 'image' && !task.thumbnail) {
                 //图片上传下载需显示缩略图
                 setTimeout(()=>{
                     GlobalService.consoleLog("获取缩略图：" + task.localPath + "***" + task.path + "***" + task.name);

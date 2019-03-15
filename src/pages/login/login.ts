@@ -148,8 +148,8 @@ export class LoginPage {
                 if(this.popBack || index !== undefined) {
                     this.navCtrl.pop();
                 } else {
-                    this.navCtrl.push(TestPage, {
-                    // this.navCtrl.push(TabsPage, {
+                    // this.navCtrl.push(TestPage, {
+                    this.navCtrl.push(TabsPage, {
                         tabIndex: index
                     })
                     .then(() => { 
@@ -220,8 +220,8 @@ export class LoginPage {
         Util.loginBox(this, (res)=>{
             if(res.err_no === 0) {
                 GlobalService.consoleLog("登录成------------！")
-                this.navCtrl.push(TestPage)
-                // this.navCtrl.push(TabsPage)
+                // this.navCtrl.push(TestPage)
+                this.navCtrl.push(TabsPage)
                 .then(() => {
                     this.isLoading = false;
                 })               
