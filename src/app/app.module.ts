@@ -78,6 +78,9 @@ import { BtDetailPage } from '../pages/bt-detail/bt-detail';
 import { BtSetPage } from '../pages/bt-set/bt-set';
 import { BtTaskPage } from '../pages/bt-task/bt-task';
 import { BtSetPathPage } from '../pages/bt-set-path/bt-set-path';
+import { FindPage } from '../pages/find/find';
+import { BtPlayPage } from '../pages/bt-play/bt-play';
+
 
 //自定义组件
 import { DropdownFolderComponent } from '../components/dropdown-folder/dropdown-folder';
@@ -203,7 +206,9 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     BtSetPage, 
     BtDetailPage, 
     SearchBtPage,
-    BtSetPathPage
+    BtSetPathPage,
+    FindPage,
+    BtPlayPage
 
     // ClickAndWaitDirective,
   ],
@@ -287,7 +292,9 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     BtSetPage, 
     BtDetailPage, 
     SearchBtPage,
-    BtSetPathPage
+    BtSetPathPage,
+    FindPage,
+    BtPlayPage
   ],
   providers: [
     UboxApp,

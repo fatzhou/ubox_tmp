@@ -1,4 +1,4 @@
-page-search-bt {
+page-find {
     .main-content {
         position: relative;
         width: 100%;
@@ -10,9 +10,8 @@ page-search-bt {
         position: relative;
         padding: 10px;
         .bt-input {
-            width: calc(100% - 20px);
+            width: 100%;
             margin: 0 auto;
-            margin-right: 0;
             height: 40px;
             color: #333;
             border: 0.5px solid #ededed;
@@ -24,13 +23,6 @@ page-search-bt {
             top: 18px;
             right: 20px;
             font-size: 24px;
-            &.icon-back {
-                right: unset;
-                left: 3px;
-            }
-            &.icon-clear {
-                right: 50px;
-            }
         }
     }
     .search-body {
@@ -49,27 +41,17 @@ page-search-bt {
             }
         }
     }
-    .search-hirtory {
-        padding: 20px 10px;
-        .history-title {
-            border-bottom: 1px solid #ededed;
-            font-size: 18px;
-            span {
-                font-size: 14px;
-                float: right;
-            }
-        }
-        .history-list {
-            span {
-                display: inline-block;
-                margin-top: 15px;
-                margin-right: 10px;
-                border: 1px solid #ddd;
-                border-radius: 20px;
-                background: #eee;
-                padding: 3px 15px;
-                font-size: 12px;
-            }
-        }
+    .bt-task-btn {
+        position: fixed;
+        width: 40px;
+        height: 40px;
+        bottom: 50px;
+        right: 30px;
+        background: #5c73ff;
+        border-radius: 50%;
+        overflow: hidden;
+        color: #fff;
+        line-height: 40px;
+        text-align: center;
     }
 }

@@ -6,9 +6,9 @@
 -->
 <ion-header>
 
-    <ion-navbar >
+    <ion-navbar class="text-right">
         <svg class="icon icon-right" (click)="goBtSetPage()" aria-hidden="true">
-            <use xlink:href="#icon-gouxuanicon"></use>
+            <use xlink:href="#icon-Setting"></use>
         </svg>
     </ion-navbar>
 
@@ -23,16 +23,19 @@
     </ul>
     <div class="task-box">
         <ul class="task-list">
-            <li class="teak-item" tappable ion-item>
-                <div class="info">
-                    <p class="file-name">Hunter Killer (2018) [BluRay] [720p] [YTS] [YTS] [YTS] [YIFY].torrent</p>
-                    <p class="file-info eps">0B／1.2GB   25.1%</p>
+            <li class="teak-item" tappable ion-item *ngFor="let item of btTaskList">
+                <div class="info" (click)="goBtPlayPage(item)">
+                    <p class="file-name">{{ item.name }}</p>
+                    <p class="file-info eps">{{ item.finish | computeFileSize }}／{{ item.total | computeFileSize }}  {{ getComputed(item.finish, item.total) }}</p>
                 </div>
                 <div class="speed clear" item-end>
                     <div class="progress fl circle btn">
-                        <svg class="icon icon-right" aria-hidden="true">
+                        <i *ngIf="item.status == -1 || item.status == 0 || item.status == 1" (click)="changeTaskStatus(item, 2)">暂停</i>
+                        <i (click)="deleteTask(item)">删除</i>
+                        <i *ngIf="item.status == 2 || item.status == 4" (click)="changeTaskStatus(item, 1)">继续下载</i>
+                        <!-- <svg class="icon icon-right" aria-hidden="true">
                             <use xlink:href="#icon-gouxuanicon"></use>
-                        </svg>
+                        </svg> -->
                     </div>
                 </div>
             </li>

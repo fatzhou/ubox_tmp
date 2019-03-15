@@ -381,7 +381,7 @@ export class HttpService {
 				return this.aHttp.post(url, this.toBodyString(paramObj), new RequestOptions({ headers: postHeaders, withCredentials: true }))
 					.toPromise()
 					.then((res: any) => {
-						console.log(url + "angular http : + " + JSON.stringify(res))
+						// console.log(url + "angular http : + " + JSON.stringify(res))
 						// console.log(url +JSON.stringify(res.headers))
 
 						//   console.log(!!res.headers)
@@ -1223,7 +1223,7 @@ export class HttpService {
 				.catch(e => {
 					reject && reject(this.global.deviceSelected);
 				})				
-			}
+			} 
 		}
 		channel.onclose = () => {
 			GlobalService.consoleLog("Data channel closed.");

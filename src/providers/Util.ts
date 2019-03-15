@@ -158,7 +158,7 @@ export class Util {
             if (res.err_no === 0) {
                 console.log("保存用户信息...." + JSON.stringify(res.user_info));
                 $scope.global.centerUserInfo = res.user_info;
-                let network = this.global.networkType === 'wifi';
+                let network = this.global.networkType === 'wifi' || !this.platform.is('cordova');
                 //查询用户的盒子
                 if(res.user_info.bind_box_count > 0 && network) {
 					console.log("局域网，搜索盒子....");
@@ -724,6 +724,10 @@ export class Util {
 
     searchUbbey() {
         return new Promise((resolve, reject) => {
+            if(!this.platform.is('cordova')) {
+                resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
+                return
+            }
             var self = this;
             var flag = false;
             var serviceType = "upnp:ubbeybox";
@@ -1797,5 +1801,20 @@ export class Util {
             m = ('00' + date.getMinutes()).slice(-2),
             s = ('00' + date.getSeconds()).slice(-2);
         return [Y, M, D].join('-') + ' ' + [h, m, s].join(':');
+    }
+
+    downloadBt(bturl) {
+        var url = this.global.getBoxApi("btDownlaod");
+        return this.http.post(url, {
+            magnet: bturl
+        })
+        .then((res)=>{
+            if(res.err_no === 0) {
+                GlobalService.consoleLog("下载bt成功");
+                this.global.createGlobalToast(this, {
+                    message: this.global.L('StartDownloading')
+                })
+            }
+        })
     }
 }

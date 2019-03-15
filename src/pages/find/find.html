@@ -1,39 +1,24 @@
 <!--
-  Generated template for the SearchBtPage page.
+  Generated template for the SearchPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
 <ion-content>
     <div class="main-content">
+
+    
         <div class="search-header">
             <div>
-                <svg class="icon icon-ellipsis icon-back"  (click)="goBack()" aria-hidden="true">
-                    <use xlink:href="#icon-Backicon"></use>
-                </svg>
-                <input type="text" [(ngModel)]="inputValue" class="common-general-button bt-input">
-                <svg class="icon icon-ellipsis icon-clear" (click)="clearKey()" aria-hidden="true">
-                    <use xlink:href="#icon-transactionfailed"></use>
-                </svg>
-                <svg class="icon icon-ellipsis" (click)="searchList()" aria-hidden="true">
+                <input type="text" (click)="goSearchBtPage()" class="common-general-button bt-input" readonly>
+                <svg class="icon icon-ellipsis" aria-hidden="true">
                     <use xlink:href="#icon-success"></use>
                 </svg>
             </div>
         </div>
-        <div class="search-hirtory">
-            <p class="history-title">搜索历史 <span (click)="clearSearchKeys()">清空</span></p>
-            <p class="history-list">
-                <span *ngFor="let item of searchKeyList" (click)="inputValue = item;searchList()">{{ item }}</span>
-                <!-- <span>钢铁侠3</span>
-                <span>钢铁侠4</span>
-                <span>钢铁侠5</span>
-                <span>钢铁侠6666</span>
-                <span>钢铁侠999</span> -->
-            </p>
-        </div>
         <div class="search-body">
             <ul>
-                <li (click)="goBtDetailPage()" *ngFor="let item of searchFeedList">
+                <li (click)="goBtDetailPage()" *ngFor="let item of feedList">
                     <div class="bt-box defalut-box">
                         <p class="bt-title">{{ item.title }}</p>
                         <p class="p-imglist"></p>
@@ -56,6 +41,7 @@
                 </li> -->
             </ul>
         </div>
+        <div class="bt-task-btn" (click)="goBtTaskPage()">BT</div>
     </div>
     <ion-infinite-scroll (ionInfinite)="refreshFeedList($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

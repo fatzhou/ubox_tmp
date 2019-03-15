@@ -408,6 +408,24 @@ export class GlobalService {
         "uninstallUapp": {
             url: "/ubeybox/uapp/uninstall"
         },
+        "btDownlaod": {
+            url: "/ubeybox/bt/task/start_magnet"
+        },
+        "getBtTaskList": {
+            url: "/ubeybox/bt/task/list"
+        },
+        "changeBtTaskStatus": {
+            url: "/ubeybox/bt/task/change_status"
+        },
+        "deleteBtTask": {
+            url: "/ubeybox/bt/task/delete"
+        },
+        "getBtTaskConfig": {
+            url: "/ubeybox/bt/conf/get"
+        },
+        "changeBtTaskConfig": {
+            url: "/ubeybox/bt/conf/modify"
+        }
     };
 
     private static centerApiHostEnv = GlobalService.centerApiHost[GlobalService.ENV];
@@ -529,6 +547,15 @@ export class GlobalService {
         },
         "uploadLogAnalyser": {
             url:  GlobalService.centerApiHostEnv + "/loganalyser/user/upload_log_file"
+        },
+        "getFeedList": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/btfeed/feedlist"
+        },
+        "getFeedTop": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/btfeed/feedtop"
+        },
+        "getSearchList": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/btfeed/searchlist"
         },
     }
 
