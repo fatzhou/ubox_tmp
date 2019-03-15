@@ -115,12 +115,12 @@ export class PreviewOtherPage {
 			'image': this.global.PhotoSubPath,
 			'video': this.global.VideoSubPath,
 			'music': this.global.MusicSubPath
-		}[this.fileInfo.style] || this.global.DocSubPath;
+		}[this.fileInfo.fileStyle] || this.global.DocSubPath;
 		let localFullPath = this.global.fileSavePath + subFoldPath + '/' + this.fileInfo.name;
 		let remoteFullPath = this.global.currPath.replace(/\/$/g, '') + "/" + this.fileInfo.name;
 		this.transfer.downloadFile({
 			name: this.fileInfo.name,
-			style: this.fileInfo.style
+			fileStyle: this.fileInfo.fileStyle
 		}, remoteFullPath, localFullPath);
 		
         setTimeout(()=>{

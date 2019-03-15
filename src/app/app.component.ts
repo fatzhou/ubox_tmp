@@ -46,8 +46,6 @@ import { Web3Service } from '../providers/Web3Service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { AppsInstalled } from '../providers/AppsInstalled';
 
-import { TestPage } from '../pages/test/test';
-
 import { FileManager } from '../providers/FileManager';
 declare var chcp: any;
 declare var WifiWizard: any;
@@ -170,7 +168,7 @@ export class UboxApp {
             if(!this.rootPage) {
                 this.rootPage = LoginPage;
             }
-        }, 3000);
+        }, 5000);
         let url = GlobalService.centerApi['getUserInfo'].url;
         this.http.post(url, {}, false)
         .then(res => {
@@ -311,6 +309,11 @@ export class UboxApp {
         });
 
         this.events.subscribe('file:updated', ()=>{
+            GlobalService.consoleLog("收到完成任务事件，立即写入缓存");
+            this.saveFileTask();
+		});
+		
+		this.events.subscribe('file:savetask', ()=>{
             GlobalService.consoleLog("收到完成任务事件，立即写入缓存");
             this.saveFileTask();
         });

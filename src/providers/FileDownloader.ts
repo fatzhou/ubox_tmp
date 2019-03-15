@@ -277,6 +277,8 @@ class SingleFileDownloader {
 						cache.status = "DONE";
 						self.success({
 							complete: 1,
+							loaded: cache.totalsize,
+							total: cache.totalsize,
 							rangend: cache.totalsize
 						});
                     }
@@ -311,8 +313,10 @@ class SingleFileDownloader {
         }
         //Step 2. cache is empty, init from disk
         else {
-            let self = this;
-            let re = desturi.match(/^(.*)\/([^\/^\?]+)(\?[^\?]+)?$/);
+			let self = this;
+			let re = desturi.match(/^(.*)\/([^\/^\?]+)(\?[^\?]+)?$/);
+			console.log("desturi:" + desturi)
+			console.log("re:" + re[1] + "," + re[2])
             cache.filepath = re[1];
             cache.filename = re[2];
             cache.sourceurl = sourceurl;
@@ -388,7 +392,7 @@ class SingleFileDownloader {
         };
         // GlobalService.consoleLog("发起get请求:" + sourceurl);
         let url = this.global.getBoxApi('downloadFile');
-        return this.http.get(url, { fullpath: this.cache.sourceurl }, true, headers, { needHeader: true }, true)
+        return this.http.get(url, { fullpath: this.cache.sourceurl }, true, headers, { needHeader: true, label: 'download' }, true)
             .then((res) => {
                 let cache = this.cache;
                 // GlobalService.consoleLog("服务器返回状态码：" + res.status);

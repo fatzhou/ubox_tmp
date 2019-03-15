@@ -248,7 +248,7 @@ export class ListPage {
                             type: item.type,
                             path: this.currPath,
                             displayTime: this.util.getDisplayTime(item.modify_time * 1000),
-                            style: this.util.computeFileType(item.name, item.type),
+                            fileStyle: this.util.computeFileType(item.name, item.type),
                             selected: false,
                             thumbnail: this.global.thumbnailMap[md5] || "",
                             index: index++
@@ -334,10 +334,10 @@ export class ListPage {
 				'image': this.global.PhotoSubPath,
 				'video': this.global.VideoSubPath,
 				'music': this.global.MusicSubPath
-			}[selected.style] || this.global.DocSubPath;
+			}[selected.fileStyle] || this.global.DocSubPath;
 			this.transfer.downloadFile({
 				name: selected.name,
-				style: selected.style
+				fileStyle: selected.fileStyle
 			}, this.currPath + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
         }
         
@@ -541,7 +541,7 @@ export class ListPage {
                     type: "",
                     path: this.currPath.replace(/\/$/g, '') + "/" + file.name
                 });
-            } else if(file.style == 'image') {
+            } else if(file.fileStyle == 'image') {
                 let test = /(\.HEIC)$/gi;
                 if(test.test(file.name)) {
                     this.navCtrl.push(PreviewOtherPage, {
@@ -550,7 +550,7 @@ export class ListPage {
                     });
                 } else {
                     let list = this.allFileList.filter(item => {
-                        return item.style == 'image' && !test.test(item.name)
+                        return item.fileStyle == 'image' && !test.test(item.name)
                     });
                     let index = 0;
                     for(let i = 0; i < list.length; i++) {

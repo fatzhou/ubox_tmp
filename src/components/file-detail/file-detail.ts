@@ -90,7 +90,7 @@ export class FileDetailComponent {
 		var selectedFile = this.info;
 		var self = this;
 		var sn = selectedFile.name;
-		if (selectedFile.style == 'folder' && (selectedFile.name == 'Images' || selectedFile.name == 'Musics' || selectedFile.name == 'Documents' || selectedFile.name == 'Videos')) {
+		if (selectedFile.fileStyle == 'folder' && (selectedFile.name == 'Images' || selectedFile.name == 'Musics' || selectedFile.name == 'Documents' || selectedFile.name == 'Videos')) {
 			this.global.selectFolderType = 'upload';
 			this.global.createGlobalToast(this, {
 				message: Lang.L('CannotRename')
@@ -159,9 +159,9 @@ export class FileDetailComponent {
 					this.global.alertCtrl && this.global.alertCtrl.dismiss();
 					let message = "";
 					this.info.name = newName;
-					if (this.info.style == 'image') {
+					if (this.info.fileStyle == 'image') {
 						this.events.publish("image:update", this.info.name);
-					} else if (this.info.style != 'folder') {
+					} else if (this.info.fileStyle != 'folder') {
 						this.events.publish("fileName:update", this.info.name);
 					}
 					if (type === 'rename') {
@@ -183,7 +183,7 @@ export class FileDetailComponent {
 	}
 
 	moveFilePath() {
-		// if(this.info.style == 'folder') {
+		// if(this.info.fileStyle == 'folder') {
 		//     this.global.selectFolderType = 'upload';
 		//     this.global.createGlobalToast(this, {
 		//         message: Lang.L('CannotMove')
@@ -211,10 +211,10 @@ export class FileDetailComponent {
 			'image': this.global.PhotoSubPath,
 			'video': this.global.VideoSubPath,
 			'music': this.global.MusicSubPath
-		}[this.info.style] || this.global.DocSubPath;
+		}[this.info.fileStyle] || this.global.DocSubPath;
 		this.transfer.downloadFile({
 			name: this.info.name,
-			style: this.info.style
+			fileStyle: this.info.fileStyle
 		}, this.path.replace(/\/$/g, '') + "/" + this.info.name, this.global.fileSavePath + subFoldPath + '/' + this.info.name);
 	}
 }

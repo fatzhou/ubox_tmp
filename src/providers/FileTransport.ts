@@ -107,7 +107,7 @@ export class FileTransport {
 				action: 'upload',
 				confirmLoaded: 0,
 				finished: false,
-				style: this.util.computeFileType(fileName, 2),
+				fileStyle: this.util.computeFileType(fileName, 2),
 				boxId: this.global.deviceSelected.boxId,
 				bindUserHash: this.global.deviceSelected.bindUserHash,
 				selected: false,
@@ -160,6 +160,8 @@ export class FileTransport {
 			GlobalService.consoleLog("上传完成！更新finish状态并发射file:updated事件:" + JSON.stringify(res));
 			this.zone.run(() => {
 				task.finished = !!res.complete;
+				task.loaded = res.rangend;
+				// task.confirmLoaded = res.rangend;
 				if (task.finished) {
 					task.finishedTime = new Date().getTime();
 					let taskId = task.taskId;
@@ -168,9 +170,9 @@ export class FileTransport {
 					}
 					this.fileUploader.clearUploaderTask(task.fileId);
 					this.events.publish('file:updated', task);
+				} else {
+					this.events.publish('file:savetask');
 				}
-				task.loaded = res.rangend;
-				task.confirmLoaded = res.rangend;
 			})
 			//如果没有同类型文件任务，则弹窗.....
 			// if(!this.global.fileTaskList.some(item => item.action === 'upload' && !item.finished)) {
@@ -207,14 +209,14 @@ export class FileTransport {
 					path: fileTask.path,
 					name: fileTask.name,
 					transfer: 'chunked',
-					offset: fileTask.confirmLoaded
+					offset: fileTask.loaded
 				}
 			});
 		let start = Date.now();
 		uploadTransfer.onProgress(progress);
 		uploadTransfer.onSuccess(success);
 		uploadTransfer.onFailure(failure)
-		console.log("上传起始位置:" + fileTask.confirmLoaded);
+		console.log("上传起始位置:" + fileTask.loaded);
 		console.log(`本地url:${fileURL}, 传输url: ${url}`);
 		uploadTransfer.upload();
 		return uploadTransfer;
@@ -254,7 +256,7 @@ export class FileTransport {
      * @param {[type]} remoteUrl [远程文件夹路径，不包含文件名]
      * @param {[type]} localPath [本地文件夹路径，不包含文件名]
      */
-	getFileLocalOrRemote(remoteUrl, localPath, name, fileSubPath, style = 'image') {
+	getFileLocalOrRemote(remoteUrl, localPath, name, fileSubPath, fileStyle = 'image') {
 		remoteUrl = remoteUrl.replace(/\/$/, '') + "/";
 		localPath = localPath.replace(/\/$/, '') + "/";
 		console.log(`查询${localPath}下是否存在文件${name}`)
@@ -267,7 +269,7 @@ export class FileTransport {
 			}, res => {
 				GlobalService.consoleLog("目标文件不存在:" + localPath + name);
 				//文件不存在，尝试远程下载
-				return this.downloadRemoteFile(remoteUrl, localPath, name, fileSubPath, style)
+				return this.downloadRemoteFile(remoteUrl, localPath, name, fileSubPath, fileStyle)
 					.then(res => {
 						if (res) {
 							//下载成功，直接返回本地路径
@@ -367,34 +369,46 @@ export class FileTransport {
      * @param {[type]} name      [文件名]
      * @param {[type]} fileSubPath [文件子路径]
      */
-	downloadRemoteFile(remoteUrl, localPath, name, fileSubPath, style) {
+	downloadRemoteFile(remoteUrl, localPath, name, fileSubPath, fileStyle) {
 		let localFullPath = localPath + name,
 			remoteFullPath = remoteUrl + name;
 		let fileInfo = {
 			name: name,
-			style: style
+			fileStyle: fileStyle
 		};
 		console.log(`从${remoteUrl}处下载${localPath}...........`);
-		return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false)
-			.catch(e => {
-				//文件夹不存在
-				GlobalService.consoleLog("写文件失败，创建文件夹");
-				return this.file.createDir(this.global.fileSavePath, fileSubPath, false)
-					.then((res: any) => {
-						//创建文件夹成功..
-						GlobalService.consoleLog("创建文件夹成功，重新写文件");
-						return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false)
-					})
-					.catch(e => {
-						GlobalService.consoleLog("文件夹已存在，直接写文件");
-						//文件夹正在创建...
-						return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false)
-					})
-			})
+		// return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false)
+		// 	.catch(e => {
+		// 		//文件夹不存在
+		// 		GlobalService.consoleLog("写文件失败，创建文件夹");
+		// 		return this.file.createDir(this.global.fileSavePath, fileSubPath, false)
+		// 			.then((res: any) => {
+		// 				//创建文件夹成功..
+		// 				GlobalService.consoleLog("创建文件夹成功，重新写文件");
+		// 				return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false)
+		// 			})
+		// 			.catch(e => {
+		// 				GlobalService.consoleLog("文件夹已存在，直接写文件");
+		// 				//文件夹正在创建...
+		// 				return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false)
+		// 			})
+		// 	})
+		return this.file.checkDir(this.global.fileSavePath, fileSubPath)
+		.then(res => {
+			return Promise.resolve(true);
+		}, res => {
+			return this.file.createDir(this.global.fileSavePath, fileSubPath, false);
+		})
+		.then(res => {
+			return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false);		
+		})
+		.catch(e => {
+			return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false);
+		})
 	}
 
 	/**
-	 * @param remoteFullPath 携带
+	 * @param remoteFullPath 
 	 * @param localFullPath
 	 * @param createTask
 	 */
@@ -421,12 +435,11 @@ export class FileTransport {
 					pausing = 'waiting';
 				}
 			}
-
 			let fileTask = this.global.fileTaskList.find(item => item.fileId === fileId && item.finished === false);
 			if (createTask && fileTask && this.global.fileHandler[fileTask.taskId]) {
 				if (pausing === 'doing') {
 					let taskId = fileTask.taskId;
-					fileTask[0].pausing = pausing;
+					fileTask.pausing = pausing;
 					this.global.fileHandler[taskId].resume();
 				}
 			} else {
@@ -436,7 +449,7 @@ export class FileTransport {
 					name: fileInfo.name,
 					path: remoteFullPath,
 					localPath: localFullPath,
-					style: fileInfo.style,
+					fileStyle: fileInfo.fileStyle,
 					total: 0,
 					pausing: pausing,
 					loaded: 0,
@@ -489,39 +502,40 @@ export class FileTransport {
 			}
 			// GlobalService.consoleLog("更新任务进度");
 			let now = Date.now();
-			if (now > start + 600) {
+			if (now > start + 500) {
 				this.zone.run(() => {
 					task.speed = Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5);
 					task.loaded = res.loaded;
 					task.total = res.total;
 					start = now;
 				});
-			}
+			} 
 			return true;
 		}
 		let success = (res: any) => {
-			GlobalService.consoleLog("下载完成！！" + task.localPath);
-			this.zone.run(() => {
-				console.log('a1s1')
-				task.finished = true;
-				console.log('a2a2')
-				task.finishedTime = new Date().getTime();
-				console.log('a3a3a3')
-			});
-			console.log('aaaaa')
-			let taskId = task.taskId;
-			// if(!this.global.fileTaskList.some(item => item.action === 'download' && !item.finished )) {
-			//     this.global.createGlobalToast(this, {
-			//         message: Lang.Lf('DownloadFileToBoxSuccess', myTask.name)
-			//     })                           
-			// }
-			if (this.global.fileHandler[taskId]) {
-				console.log('bbbb')
-				delete this.global.fileHandler[taskId];
-				console.log('cccccc')
+			if(res.loaded == res.total) {
+				GlobalService.consoleLog("下载完成！！" + task.localPath);
+				this.zone.run(() => {
+					task.finished = true;
+					task.finishedTime = new Date().getTime();
+				});
+				let taskId = task.taskId;
+				// if(!this.global.fileTaskList.some(item => item.action === 'download' && !item.finished )) {
+				//     this.global.createGlobalToast(this, {
+				//         message: Lang.Lf('DownloadFileToBoxSuccess', myTask.name)
+				//     })                           
+				// }
+				if (this.global.fileHandler[taskId]) {
+					delete this.global.fileHandler[taskId];
+				}				
 			}
+			task.loaded = res.loaded;
 			if (createTask) {
-				this.events.publish('file:updated', task);
+				if(res.loaded == res.total) {
+					this.events.publish('file:updated', task);
+				} else {
+					this.events.publish('file:savetask');
+				}
 				this.startWaitTask('download');
 			}
 			console.log("resolve... " + task.localPath);
@@ -557,6 +571,10 @@ export class FileTransport {
 			headers: {
 				// add custom headers if needed
 				cookie: this.http.getCookieString(url)
+			},
+			params: {
+				offset: fileTask.loaded || -1,
+				total: fileTask.total || -1
 			}
 		}, false);
 		let start = 0;
@@ -577,7 +595,7 @@ export class FileTransport {
 		downloadTool = this.fileDownloader.createDownloader(task.localPath, task.path);
 		downloadTool.download(task.localPath, task.path + task.name)
 			.catch(err => {
-				GlobalService.consoleLog("下载失败 FileTransport" + JSON.stringify(err));
+				// GlobalService.consoleLog("下载失败 FileTransport" + JSON.stringify(err));
 				var task = this.global.fileTaskList.filter(item => item.taskId === taskId);
 				if (task && task.length && task[0].isShow) {
 					this.global.createGlobalToast(this, {

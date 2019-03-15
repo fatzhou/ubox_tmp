@@ -90,11 +90,11 @@ export class ClassifyListPage {
         let _this = ClassifyListPage._this;
 
         if(task && task.taskId) {
-            GlobalService.consoleLog(_this.classify + "," + task.style);
+            GlobalService.consoleLog(_this.classify + "," + task.fileStyle);
             let fileTypeMatch = true;
             if(_this.classify !== 4) {
                 //临时改法，类型识别比较麻烦，目前只有doc需要分类型，其他类型为统一类型
-                fileTypeMatch = (task.style === {2: 'video', 1: 'image', 3: 'music'}[_this.classify]);
+                fileTypeMatch = (task.fileStyle === {2: 'video', 1: 'image', 3: 'music'}[_this.classify]);
             }
             //传入任务
             if(task.action === 'upload' && fileTypeMatch) {
@@ -234,7 +234,7 @@ export class ClassifyListPage {
                                 size: item.size,
                                 type: 0,
                                 displayTime: this.util.getDisplayTime(item.modify_time * 1000),
-                                style: this.util.computeFileType(item.name),
+                                fileStyle: this.util.computeFileType(item.name),
                                 selected: false,
                                 thumbnail: this.global.thumbnailMap[md5] || "",
                                 index: this.index + index++,
@@ -326,10 +326,10 @@ export class ClassifyListPage {
 				'image': this.global.PhotoSubPath,
 				'video': this.global.VideoSubPath,
 				'music': this.global.MusicSubPath
-			}[selected.style] || this.global.DocSubPath;
+			}[selected.fileStyle] || this.global.DocSubPath;
 			this.transfer.downloadFile({
 				name: selected.name,
-				style: selected.style
+				fileStyle: selected.fileStyle
 			}, selected.path + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
         }
 
@@ -536,7 +536,7 @@ export class ClassifyListPage {
         if(this.allBtnsShow) {
             this.setSelectedFiles(info);
         } else {
-            if(info.style == 'image') {
+            if(info.fileStyle == 'image') {
                 let test = /(\.HEIC)$/gi;
                 if(test.test(info.name)) {
                     this.navCtrl.push(PreviewOtherPage, {

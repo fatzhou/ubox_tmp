@@ -89,6 +89,7 @@ export class PreviewImagePage {
     }
 
     getPhotoUrl(task) {
+		console.log("即将下载文件：" + JSON.stringify(task))
         this.transfer.getFileLocalOrRemote(task.path, this.global.fileSavePath + this.global.PhotoSubPath + "/", task.name, this.global.PhotoSubPath)
         .then(res => {
 			if(res) {
@@ -200,7 +201,7 @@ export class PreviewImagePage {
                                 size: item.size,
                                 type: item.type,
                                 displayTime: this.util.getDisplayTime(item.modify_time * 1000),
-                                style: this.util.computeFileType(item.name, item.type),
+                                fileStyle: this.util.computeFileType(item.name, item.type),
                                 selected: false,
                                 thumbnail: this.global.thumbnailMap[md5] || "",
                                 photo: this.global.photoMap[md5] || "",
@@ -237,7 +238,11 @@ export class PreviewImagePage {
 
     slideChanged() {
         let currentIndex = this.slides.getActiveIndex();
-        console.log('Current index is' + currentIndex);
+		console.log('Current index is' + currentIndex);
+		if(currentIndex == this.imageInfo.index) {
+			//正在下载中....
+			return false;
+		}
         this.imageName = this.fileList[currentIndex].name;
         this.imageInfo = this.fileList[currentIndex];
         if(this.fromType != 'list') {
@@ -251,7 +256,8 @@ export class PreviewImagePage {
                     this.getFileList();
                 }
             }
-        }
+		}
+		return true;
     }
 
 }

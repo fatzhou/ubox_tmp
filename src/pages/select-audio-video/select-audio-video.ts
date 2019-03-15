@@ -90,9 +90,9 @@ export class SelectAudioVideoPage {
     filterUploadFlag() {
         let globalTask = this.global.fileTaskList.filter(item => {
             if(this.dataType == 'video' || this.dataType == 'music') {
-                return item.style === {'video':'video','audio':'music','document':'doc'}[this.dataType] && item.action === 'upload';
+                return item.fileStyle === {'video':'video','audio':'music','document':'doc'}[this.dataType] && item.action === 'upload';
             } else {
-                return item.style != ('video' || 'music' || 'image') && item.action === 'upload';
+                return item.fileStyle != ('video' || 'music' || 'image') && item.action === 'upload';
             }
         });
         let count = 0;

@@ -49,8 +49,8 @@
                 <!-- <div *ngIf="dataAcquired && fileList.length > 0"> -->
                     <!-- <ion-list class="file-list" [virtualScroll]="fileList" approxItemHeight="73px" bufferRatio="10" > -->
                         <li class="file-list-item" tappable *ngFor="let info of fileList" (click)="goNextFolder(info);$event.stopPropagation();">
-                            <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.style)" [ngClass]="info.style"></div>
-                            <img class="file-thumbnail"  [src]="info.thumbnail" *ngIf="info.thumbnail && hasThumbnail(info.style)">
+                            <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
+                            <img class="file-thumbnail"  [src]="info.thumbnail" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
                             <div class="info">
                                 <h2 class="eps">{{ pretify(info.name) }}</h2>
                                 <p>{{ info.displayTime }}</p>
