@@ -20,7 +20,7 @@
             <ul>
                 <li (click)="goBtDetailPage()" *ngFor="let item of feedList">
                     <div class="bt-box defalut-box">
-                        <p class="bt-title">{{ item.title  + item.mgurl}}</p>
+                        <p class="bt-title">{{ item.title }}</p>
                         <p class="p-imglist"></p>
                         <p class="p-info"><span (click)="downloadBt(item.mgurl);$event.stopPropagation();">下载</span><span>{{ item.size }}</span><span>下载{{ item.heat }}</span><span>{{ item.mgdate }}</span></p>
                     </div>

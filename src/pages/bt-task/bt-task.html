@@ -26,7 +26,7 @@
             <li class="teak-item" tappable ion-item *ngFor="let item of btTaskList">
                 <div class="info" (click)="goBtPlayPage(item)">
                     <p class="file-name">{{ item.name }}</p>
-                    <p class="file-info eps">{{ item.finish | computeFileSize }} B／{{ item.total | computeFileSize }} GB  {{ getComputed(item.finish, item.total) }}</p>
+                    <p class="file-info eps">{{ item.finish | computeFileSize }}／{{ item.total | computeFileSize }}  {{ getComputed(item.finish, item.total) }}</p>
                 </div>
                 <div class="speed clear" item-end>
                     <div class="progress fl circle btn">
