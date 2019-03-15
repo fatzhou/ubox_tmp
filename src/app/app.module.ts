@@ -72,7 +72,6 @@ import { CopyPhotoPage } from '../pages/copy-photo/copy-photo';
 import { PermissionPage } from '../pages/permission/permission';
 import { SearchPage } from '../pages/search/search';
 import { AppDetailPage } from '../pages/app-detail/app-detail';
-import { TestPage } from '../pages/test/test';
 import { SearchBtPage } from '../pages/search-bt/search-bt';
 import { BtDetailPage } from '../pages/bt-detail/bt-detail';
 import { BtSetPage } from '../pages/bt-set/bt-set';
@@ -201,7 +200,6 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     AdviceSubmitPage,
     SearchPage,
     AppDetailPage,
-    TestPage,
     BtTaskPage,
     BtSetPage, 
     BtDetailPage, 
@@ -286,7 +284,6 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     UpdateAssitantPage,
     AdviceSubmitPage,
     SearchPage,
-    TestPage,
     AppDetailPage,
     BtTaskPage,
     BtSetPage, 

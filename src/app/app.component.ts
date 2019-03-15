@@ -46,8 +46,6 @@ import { Web3Service } from '../providers/Web3Service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { AppsInstalled } from '../providers/AppsInstalled';
 
-import { TestPage } from '../pages/test/test';
-
 import { FileManager } from '../providers/FileManager';
 declare var chcp: any;
 declare var WifiWizard: any;

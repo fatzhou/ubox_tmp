@@ -10,7 +10,6 @@ import { GlobalService } from '../../providers/GlobalService';
 import { Lang } from '../../providers/Language';
 import { analyzeAndValidateNgModules, flatten } from '@angular/compiler';
 import { Events, Platform, App } from 'ionic-angular';
-import { TestPage } from '../test/test';
 // import { WebrtcService } from "../../providers/WebrtcService";
 
 // import { ChangepasswdPage } from '../changepasswd/changepasswd';
