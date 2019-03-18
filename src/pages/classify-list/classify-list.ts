@@ -52,7 +52,8 @@ export class ClassifyListPage {
     hideAddBtn: boolean = false;
     classify: number = 0;
     index: number = 0;
-    count: number = 0;
+	count: number = 0;
+	lastDate:string = '';
     static _this;
 
     constructor(public navCtrl: NavController,
@@ -221,25 +222,38 @@ export class ClassifyListPage {
             if (res.err_no === 0) {
                 var list = [];
                 var index = 0;
-                this.count = res.count;
+				this.count = res.count;
+				
                 if (res.list && res.list.length > 0) {
                     let md5 = '';
-                    list = res.list.map((item) => {
+                    res.list.forEach((item) => {
                         let test = /(\.HEIC)$/gi;
-                        let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+						let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+						//计算日期
+						let date = Util.getTime(item.modify_time * 1000, "-", true);
+						if(date != this.lastDate) {
+							//需插入日期
+							list.push({
+								type: 2,
+								name: date,
+								selected: false
+							})
+							this.lastDate = date;
+						}
                         this.classify === 1 && (md5 = Md5.hashStr(item.path + "/" + name).toString());
                         if(!test.test(item.name)) { 
-                            return {
+                            list.push({
                                 name: item.name,
                                 size: item.size,
-                                type: 0,
+								type: 0,
+								date: date,
                                 displayTime: this.util.getDisplayTime(item.modify_time * 1000),
                                 fileStyle: this.util.computeFileType(item.name),
                                 selected: false,
                                 thumbnail: this.global.thumbnailMap[md5] || "",
                                 index: this.index + index++,
                                 path: item.path
-                            }
+                            });
                         }
                     })
                 }
@@ -330,7 +344,7 @@ export class ClassifyListPage {
 			this.transfer.downloadFile({
 				name: selected.name,
 				fileStyle: selected.fileStyle
-			}, selected.path + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
+			}, selected.path.replace(/\/$/g, '') + "/" + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
         }
 
         this.allBtnsShow = false;

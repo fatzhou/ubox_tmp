@@ -52,7 +52,7 @@ export class FileUploader {
 	// @return undefined
 	///////////////////////////////////////
 	upload(file, boxUploadUrl) {
-		let sourceurl = file.path + '/' + file.name;
+		let sourceurl = file.path;
 		let desturl = file.localPath;
 		// let fileId = this.generateFileID(file);
 		let fileId = file.fileId;
@@ -60,7 +60,7 @@ export class FileUploader {
 	}
 
 	createUploader(file, boxUploadUrl) {
-		let sourceurl = file.path + '/' + file.name;
+		let sourceurl = file.path;
 		let desturl = file.localPath;
 		// let fileId = this.generateFileID(file);
 		// let fileId = "";
@@ -163,8 +163,8 @@ class SingleFileUploader {
 	upload(file, boxUploadUrl) {
 		let self = this;
 		this.uploadUrl = boxUploadUrl;
-		this.remotePath = file.path;
-		GlobalService.consoleLog("开始调用singleFileUploader");
+		this.remotePath = file.path.replace(/\/[^\/]+$/, '');
+		GlobalService.consoleLog("开始调用singleFileUploader,远程路径(不含文件名)：" + this.remotePath);
 		this.setBlockUploadSize();
 		return this._initcache(file)
 			//Step 3. loop for download
@@ -211,9 +211,25 @@ class SingleFileUploader {
 			this.cache.status = "LOOP";
 			this.isPause = false;
 			this.isAbort = false;
-			this.timer = setTimeout(() => {
-				this._loopUpload();
-			}, 0);
+			new Promise((resolve, reject) => {
+				if(this.cache.totalsize) {
+					resolve(this.cache.totalsize);
+				} else {
+					this._initcache({
+						name: this.cache.filename,
+						localPath: this.cache.localpath
+					})
+					.then(res => {
+						this.cache.totalsize = res;
+						resolve(res);
+					})
+				}
+			})
+			.then(res => {
+				this.timer = setTimeout(() => {
+					this._loopUpload();
+				}, 0);				
+			})
 		} else {
 			GlobalService.consoleLog("不在暂停状态，不能继续");
 		}
@@ -392,7 +408,6 @@ class SingleFileUploader {
 		let range = range_start + "-" + (range_end - 1) + "-" + cache.totalSize;
 		GlobalService.consoleLog("range:" + range);
 		let re = cache.localPath.match(/^(.*)\/([^\/^\?]+)(\?[^\?]+)?$/);
-		GlobalService.consoleLog("111:");
 		let filePath = re[1];
 		// let fileName = re[2].replace(/(\s)/g, "\\$1");
 		let fileName = re[2];

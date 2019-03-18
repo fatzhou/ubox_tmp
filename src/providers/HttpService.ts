@@ -74,7 +74,6 @@ export class HttpService {
 			this.channels[item] = {};
 			this.globalCallbackList[item] = {};
 			this.globalWaitingList[item] = {};
-			this.globalRequestMap[item] = {};
 		})
 	}
 
@@ -205,15 +204,13 @@ export class HttpService {
 		}
 		clearInterval(dataChannel.aliveInterval);
 		dataChannel.aliveInterval = null;
-		for(label in this.globalRequestMap) {
-			for (let session in this.globalRequestMap[label]) {
-				let mySession = this.globalRequestMap[label][session];
-				mySession.reject && mySession.reject("Channel closed");
-				clearTimeout(mySession.timer);
-				mySession.timer = null;
-				delete this.globalRequestMap[label][session];
-			}			
-		}
+		for (let session in this.globalRequestMap) {
+			let mySession = this.globalRequestMap[session];
+			mySession.reject && mySession.reject("Channel closed");
+			clearTimeout(mySession.timer);
+			mySession.timer = null;
+			delete this.globalRequestMap[session];
+		}			
 
 		this.globalCallbackList[label] = [];
 		dataChannel.lastReceivedTime = Date.now();
@@ -252,7 +249,7 @@ export class HttpService {
 
 			headers['X-Request-Id'] = this.getXRequestId();
 			if (url.startsWith('http') || !this.global.useWebrtc) {
-				if (cordova && this.platform.is('cordova') || this.global.platformName == "android") {
+				if (cordova && this.platform.is('cordova') || this.platform.is('cordova') && this.global.platformName == "android") {
 					// if (this.platform.is('cordova') || cordova) {
 					return this.http.get(url + this.toQueryString(paramObj), {}, headers)
 						.then(res => {
@@ -362,7 +359,7 @@ export class HttpService {
 			GlobalService.consoleLog("发出post请求:" + url);
 			GlobalService.consoleLog("请求参数:" + this.toBodyString(paramObj));
 
-			if (cordova || this.global.platformName == "android") {
+			if (cordova || this.platform.is('android')) {
 				// if (this.platform.is('cordova') || cordova) {
 				return this.http.post(url, paramObj, headers)
 					.then((res: any) => {
@@ -807,17 +804,20 @@ export class HttpService {
 					throw new Error("Write file failed");
 				})
 		} else {
+			console.log("1111111")
 			//webrtc
 			return new Promise((resolve, reject) => {
+				console.log('aaaaaa')
 				var form = new FormData();
+				console.log('bbbb')
 				var buf = new Buffer('');
 				let r = Date.now();
-
+console.log('ccccc')
 				form.on("data", (d) => {
 					// GlobalService.consoleLog("文件数据接收事件:" + (d.length || d.byteLength));
 					buf = Buffer.concat([buf, new Buffer(d)]);
 				})
-
+console.log("222222")
 				form.on("end", () => {
 					// GlobalService.consoleLog("文件数据接收完毕");
 					this.webrtcRequest(url, 'post', buf, {
@@ -829,10 +829,11 @@ export class HttpService {
 						})
 						.then(resolve, reject);
 				})
+				console.log("333333")
 				form.append("range", params.range);
 				form.append("path", params.path);
 				form.append("name", params.name);
-
+console.log("44444")
 				form.append("file", new Buffer(data), {
 					filename: params.name
 				});
@@ -1087,7 +1088,7 @@ export class HttpService {
 	//////qbing add for test //////begin ////////////
 	rateLimit(label) {
 		let ratelimit = false;
-		if (Object.keys(this.globalRequestMap[label]).length > 1) {
+		if (Object.keys(this.globalRequestMap).length > 1) {
 			ratelimit = true;
 		}
 		return ratelimit;
@@ -1119,18 +1120,19 @@ export class HttpService {
 					let logprefix = "session:" + r + ",url:" + url + " :";
 
 					let timer = setTimeout(() => {
-						if (this.globalRequestMap[label][r]) {
+						if (this.globalRequestMap[r]) {
 							GlobalService.consoleLog(logprefix + "超时");
-							if (this.globalRequestMap[label][r]) {
-								this.globalRequestMap[label][r].reject && this.globalRequestMap[label][r].reject("timeout");
+							if (this.globalRequestMap[r]) {
+								this.globalRequestMap[r].reject && this.globalRequestMap[r].reject("timeout");
 							}
-							delete this.globalRequestMap[label][r];
+							delete this.globalRequestMap[r];
 						}
 					}, this.networkTimeout);
 
-					this.globalRequestMap[label][r] = {
+					this.globalRequestMap[r] = {
 						resolve: resolve,
 						reject: reject,
+						label: label,
 						url: url,
 						start: start,
 						timer: timer,
@@ -1275,7 +1277,7 @@ export class HttpService {
 					if (headers["set-cookie"]) {
 						GlobalService.consoleLog("webrtc收到数据, 需要设置cookie");
 						this.cookies[this.deviceSelected.boxId] = headers["set-cookie"];
-						this.setCookie(this.globalRequestMap[label][session].url, headers["set-cookie"]);
+						this.setCookie(this.globalRequestMap[session].url, headers["set-cookie"]);
 					}
 				} catch (e) {
 					GlobalService.consoleLog("webrtc收到数据, 解析收到的数据出错, 数据头字段应该为json. 忽略收到的数据!!!");
@@ -1314,7 +1316,7 @@ export class HttpService {
 
 
 			//////////////////////// 处理解析后的结果信息 ///////////////////
-			let sessionMap = this.globalRequestMap[label][session];
+			let sessionMap = this.globalRequestMap[session];
 			if (session && sessionMap) {
 				clearTimeout(sessionMap.timer);
 				GlobalService.consoleLog("webrtc收到数据, 进入成功回调:" + session + ",接口响应耗时:" + (Date.now() - sessionMap.start));
@@ -1330,7 +1332,7 @@ export class HttpService {
 						data: body
 					});
 				}
-				delete this.globalRequestMap[label][session];
+				delete this.globalRequestMap[session];
 			} else {
 				GlobalService.consoleLog("webrtc收到数据, 接受到数据响应，但是执行post回调异常!!!!!!!!!!!!!!");
 			}
@@ -1455,7 +1457,7 @@ export class HttpService {
 		} catch (e) {
 			GlobalService.consoleLog("发送数据出错，RTCDataChannel.readyState=", dataChannel.readyState);
 			GlobalService.consoleLog("发送数据出错:" + JSON.stringify(e) + ", session:" + sessionId + ", url:" + _url);
-			let requestMap = this.globalRequestMap[label][sessionId];
+			let requestMap = this.globalRequestMap[sessionId];
 			if (sessionId && requestMap && requestMap.reject) {
 				GlobalService.consoleLog("发送数据出错, reject:" + sessionId);
 				clearTimeout(requestMap.timer);
@@ -1463,7 +1465,7 @@ export class HttpService {
 					status: -1,
 					data: ""
 				});
-				delete this.globalRequestMap[label][sessionId];
+				delete this.globalRequestMap[sessionId];
 			}
 		}
 	}

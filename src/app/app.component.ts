@@ -60,7 +60,7 @@ export class UboxApp {
     // @ViewChild(Nav) gets a reference to the app's root nav
     @ViewChild(Nav) nav: Nav;
 
-    rootPage:any = LoginPage;
+    rootPage:any;
     needTips: Boolean = false;
     fileListString: any;
 

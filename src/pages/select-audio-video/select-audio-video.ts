@@ -162,7 +162,6 @@ export class SelectAudioVideoPage {
         .then(res => {
             let fileUrl = res;
             GlobalService.consoleLog("即将上传文件：" + fileUrl);
-
             this.transfer.uploadSingleFile(fileUrl, this.global.currPath, uploadItem.id);
 
             index++;
