@@ -12,6 +12,8 @@ import { File } from '@ionic-native/file';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular';
+import { FileDetailPage } from '../../pages/file-detail/file-detail'
+
 /**
  * Generated class for the PreviewImagePage page.
  *
@@ -35,6 +37,7 @@ export class PreviewImagePage {
     fileList: any = [];
     fromType: string;
     pageIndex: number = 0;
+
     pageSize: number = 10;
     apiUrl: string;
     apiData: any;
@@ -158,9 +161,11 @@ export class PreviewImagePage {
         // })
     }
 
-    toggleDetailPage(isShow = false, isPop = null) {
-        GlobalService.consoleLog("toggleDetailPage + " + isShow);
-        this.isShowDetail = isShow;
+
+    goDetailPage() {
+        this.navCtrl.push(FileDetailPage, {
+            info: this.imageInfo
+        })
     }
 
     getApiData() {

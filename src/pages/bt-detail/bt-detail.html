@@ -14,29 +14,29 @@
 <ion-content>
 
     <div class="detail-title">
-        <p class="p-title">Hunter Killer (2018) [BluRay] [720p] [YTS] [YIFY].torrent</p>
-        <p>热度：5208（下载次数）</p>
-        <p>磁力链接：7bc6da62688338b590acc9c5197562516b710646</p>
+        <p class="p-title">{{ title }}</p>
+        <p>热度：{{ heat }}（下载次数）</p>
+        <p>磁力链接：{{ link }}</p>
     </div>
     <div class="detail-info">
         <p class="download-box-btn"><span>下载至盒子</span></p>
         <div class="info-box">
             
             <div class="detail-list">
-                <p>创建时间：2019年1月7日 12:49</p>
-                <p>文件格式：2019年1月7日 12:49</p>
-                <p>语言：2019年1月7日 12:49</p>
-                <p>文件大小：2019年1月7日 12:49</p>
-                <p>文件数：2019年1月7日 12:49</p>
-                <p>种子数（seeder）：2019年1月7日 12:49</p>
-                <p>文件hash：2019年1月7日 12:49</p>
-                <p>7bc6da62688338b590acc9c5197562516b71021</p>
+                <p>创建时间：{{ createdTime | computeFileTime }}</p>
+                <p>文件格式：{{ fileType }}</p>
+                <p>语言：{{ language }}</p>
+                <p>文件大小：{{ size | computeFileSize }}</p>
+                <p>文件数：{{ file_number }}</p>
+                <p>种子数（seeder）：{{ btNum }}</p>
+                <p>文件hash：</p>
+                <p>{{ hash }}</p>
             </div>
             <div class="detail-des">
                 <p class="p-title">描述</p>
-                <p>Hunter Killer (2018) [BluRay] [720p] [YTS] [YIFY]A U.S. submarine, the USS Tampa Bay, vanishes while shadowing a Russian Akula-class submarine in the Arctic. Rear Admiral John Fisk sends a Virginia-class submarine, the USS Arkansas, under the command of newly-promoted and unorthodox Commander Joe Glass to investigate. At the same time, a Navy SEAL team under the command of Lieutenant Bill Beaman is sent in to discreetly observe a Russian naval base, but their mission is swiftly complicated when Martinelli, the team's new DM recruit, is rendered unconscious during the HALO drop. When they arrive at the naval base, they witness defense minister Dmitri Durov conducting a coup d'eta and taking Russian President Zakarin prisoner, and swiftly realize that Durov intends to trigger a war..</p>
+                <div [innerHTML]="detailDesc"></div>
             </div>
-            <div class="download-btn">下载</div>
+            <div class="download-btn" (click)="downloadBt()">下载</div>
         </div>
     </div>
 </ion-content>

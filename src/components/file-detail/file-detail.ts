@@ -28,7 +28,7 @@ export class FileDetailComponent {
 	@Input() path: any;
 	@Input() citePage: any;
 	@Output() goPop = new EventEmitter<any>();
-
+	@Output() goDetailPage = new EventEmitter<any>();
 	constructor(
 		private global: GlobalService,
 		private util: Util,
@@ -61,6 +61,10 @@ export class FileDetailComponent {
 
 	closeBox() {
 		this.closeDetailBox.emit();
+	}
+
+	goImgDetailPage() {
+		this.goDetailPage.emit();
 	}
 
 	deleteFile() {

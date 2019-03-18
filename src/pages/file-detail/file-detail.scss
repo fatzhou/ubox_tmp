@@ -1,0 +1,20 @@
+page-file-detail {
+    .content, .content-ios {
+		background: $newThreeColor;
+    }
+    .toolbar-background {
+        background: $newFirstColor;
+    }
+    
+    .info-item {
+        color: #6F6F6F;
+        font-size: 13px;
+        margin-top: 20px;
+        line-height: 22px;
+        padding-left: 30px;
+        .info-p {
+            color: #fff;
+            font-size: 16px;
+        }
+    }
+}

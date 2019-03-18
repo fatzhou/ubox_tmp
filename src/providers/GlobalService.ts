@@ -557,6 +557,13 @@ export class GlobalService {
         "getSearchList": {
             url:  GlobalService.centerApiHostEnv + "/ubbey/btfeed/searchlist"
         },
+        "getFeedDetail": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/btfeed/feeddetail"
+        },
+        "getSearchDetail": {
+            url:  GlobalService.centerApiHostEnv + "/ubbey/btfeed/searchdetail"
+        },
+        
     }
 
     constructor(

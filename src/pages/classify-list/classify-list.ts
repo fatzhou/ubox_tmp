@@ -20,6 +20,8 @@ import { PreviewImagePage } from '../preview-image/preview-image';
 import { PreviewOtherPage } from '../preview-other/preview-other';
 import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-upload-folder'
 import { Storage } from '@ionic/storage';
+import { FileDetailPage } from '../../pages/file-detail/file-detail'
+
 
 
 declare var cordova;
@@ -596,8 +598,10 @@ export class ClassifyListPage {
             this.isShowDetail = false;
             return false;
         }
+        
         GlobalService.consoleLog("toggleDetailPage + " +isShow + 'this.DetailInfo' + this.DetailInfo);
         this.isShowDetail = isShow;
+        
     }
 
     moveSingleFile() {
@@ -618,5 +622,11 @@ export class ClassifyListPage {
             this.listFiles();
         }
         infiniteScroll.complete();     
+    }
+
+    goDetailPage() {
+        this.navCtrl.push(FileDetailPage, {
+            info: this.DetailInfo
+        })
     }
 }

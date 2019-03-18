@@ -63,7 +63,10 @@ export class ListPage {
     // fileSavePath:string = '';
     isShowType: boolean = false;
     static _this;
-
+    type0List: any = [];
+    type1List: any = [];
+    isShowType0List: boolean = true;
+    isShowType1List: boolean = true;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -144,11 +147,15 @@ export class ListPage {
     
     static moveChangeList(selectedFile) {
         let _this = ListPage._this;
-        let index = _this.fileList.findIndex(item => {
+        let index0 = _this.type0List.findIndex(item => {
+            return item.name == selectedFile.name
+        })
+        let index1 = _this.type1List.findIndex(item => {
             return item.name == selectedFile.name
         })
         GlobalService.consoleLog('返回移动的元素的索引');
-        _this.fileList.splice(index,1);
+        _this.type0List.splice(index0, 1);
+        _this.type1List.splice(index1, 1);
         _this.events.publish(_this.global.currPath + ':succeed');
     }
     
@@ -221,8 +228,11 @@ export class ListPage {
         this.showFileSelect = false;
         this.selectAllStatus = false;
         // this.selectAllStatus = false;
-        for(let i = 0, len = this.fileList.length; i < len; i++) {
-            this.fileList[i].selected = false;
+        for(let i = 0, len = this.type0List.length; i < len; i++) {
+            this.type0List[i].selected = false;
+        } 
+        for(let i = 0, len = this.type1List.length; i < len; i++) {
+            this.type1List[i].selected = false;
         } 
         GlobalService.consoleLog("按钮显示状态：" + this.allBtnsShow);
     }
@@ -239,21 +249,38 @@ export class ListPage {
                 var list = [];
                 var index = 0;
                 if (res.list && res.list.length > 0) {
-                    list = res.list.map((item) => {
+                    this.type0List = [];
+                    this.type1List = [];
+                    res.list.filter((item) => {
                         let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
                         let md5 = Md5.hashStr(this.currPath + "/" + name).toString();
-                        return {
-                            name: item.name,
-                            size: item.size,
-                            type: item.type,
-                            path: this.currPath,
-                            displayTime: this.util.getDisplayTime(item.modify_time * 1000),
-                            fileStyle: this.util.computeFileType(item.name, item.type),
-                            selected: false,
-                            thumbnail: this.global.thumbnailMap[md5] || "",
-                            index: index++
+                        if(item.type == 1) {
+                            this.type0List.push({
+                                name: item.name,
+                                size: item.size,
+                                type: item.type,
+                                path: this.currPath,
+                                displayTime: this.util.getDisplayTime(item.modify_time * 1000),
+                                fileStyle: this.util.computeFileType(item.name, item.type),
+                                selected: false,
+                                thumbnail: this.global.thumbnailMap[md5] || "",
+                                index: index++
+                            });
+                        } else {
+                            this.type1List.push({
+                                name: item.name,
+                                size: item.size,
+                                type: item.type,
+                                path: this.currPath,
+                                displayTime: this.util.getDisplayTime(item.modify_time * 1000),
+                                fileStyle: this.util.computeFileType(item.name, item.type),
+                                selected: false,
+                                thumbnail: this.global.thumbnailMap[md5] || "",
+                                index: index++
+                            });
                         }
                     })
+                    list = this.type0List.concat(this.type1List);
                 }
 
                 this.allFileList = list;
@@ -301,15 +328,22 @@ export class ListPage {
         this.selectedFiles = [];
         if(!this.selectAllStatus) {
             GlobalService.consoleLog("当前已经全选");
-            for(let i = 0, len = this.fileList.length; i < len; i++) {
-                this.fileList[i].selected = true;
-                this.selectedFiles.push(this.fileList[i]);
-            }            
+            for(let i = 0, len = this.type0List.length; i < len; i++) {
+                this.type0List[i].selected = true;
+                this.selectedFiles.push(this.type0List[i]);
+            } 
+            for(let i = 0, len = this.type1List.length; i < len; i++) {
+                this.type1List[i].selected = true;
+                this.selectedFiles.push(this.type1List[i]);
+            }           
         } else {
-            for(let i = 0, len = this.fileList.length; i < len; i++) {
-                this.fileList[i].selected = false;
-                this.selectedFiles = [];
-            }              
+            for(let i = 0, len = this.type0List.length; i < len; i++) {
+                this.type0List[i].selected = false;
+            }   
+            for(let i = 0, len = this.type1List.length; i < len; i++) {
+                this.type1List[i].selected = false;
+            }         
+            this.selectedFiles = [];     
         }
         this.selectAllStatus = !this.selectAllStatus;
         this.setBtnsStatus();
@@ -631,5 +665,13 @@ export class ListPage {
     noPhoto() {
         GlobalService.consoleLog('没有拿到img');
         // photo.thumbnail = '';
+    }
+
+    toggleListStatus(status) {
+        if(status == 0) {
+            this.isShowType0List = !this.isShowType0List
+        } else {
+            this.isShowType1List = !this.isShowType1List
+        }
     }
 }

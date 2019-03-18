@@ -1,0 +1,47 @@
+<!--
+  Generated template for the FileDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>{{ title }}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <div>
+        <div class="info-item">
+            <p class="info-p">{{ type }}</p>
+            <p>类型</p>
+        </div>
+        <div class="info-item">
+            <p class="info-p">{{ size | computeFileSize}}</p>
+            <p>大小</p>
+        </div>
+        <div class="info-item">
+            <p class="info-p">{{ place }}</p>
+            <p>位置</p>
+        </div>
+        <div class="info-item">
+            <p class="info-p">{{ owner }}</p>
+            <p>所有者</p>
+        </div>
+        <div class="info-item">
+            <p class="info-p">{{ createdTime }}</p>
+            <p>创建时间</p>
+        </div>
+        <div class="info-item">
+            <p class="info-p">{{ changeTime }}</p>
+            <p>最近修改</p>
+        </div>
+        <div class="info-item">
+            <p class="info-p">{{ changeUser }}</p>
+            <p>修改成员</p>
+        </div>
+    </div>
+</ion-content>

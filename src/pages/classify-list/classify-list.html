@@ -98,11 +98,11 @@
     </ion-infinite-scroll>
 </ion-content>
 
-<div class="add" tappable *ngIf="!allBtnsShow" [ngClass]="[allBtnsShow ? 'at-bottom' : '', hideAddBtn ? 'hidden' : '']"  (click)="openFileSelect()">
+<!-- <div class="add" tappable *ngIf="!allBtnsShow" [ngClass]="[allBtnsShow ? 'at-bottom' : '', hideAddBtn ? 'hidden' : '']"  (click)="openFileSelect()">
     <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-add"></use>
     </svg>
-</div>   
+</div>    -->
 
 <div class="operation-btns" *ngIf="allBtnsShow && !isShowDetail">
     <div class="btn download" tappable (click)="downloadFileList()" [ngClass]="canDownload?'':'disable'">
@@ -132,5 +132,5 @@
 </div>
 
 
-<add-file *ngIf="showFileSelect" [currPath]="currPath" eventType="list" [allBtnsShow]="allBtnsShow" (selectFileDone)="closeFileSelect()" (closeFileSelect)="closeFileSelect()"></add-file>
-<file-detail *ngIf="isShowDetail" [path]='DetailInfo.path' (closeDetailBox)="toggleDetailPage()" citePage="list" (goPop)="goBack()" [info]="DetailInfo"></file-detail>
+<!-- <add-file *ngIf="showFileSelect" [currPath]="currPath" eventType="list" [allBtnsShow]="allBtnsShow" (selectFileDone)="closeFileSelect()" (closeFileSelect)="closeFileSelect()"></add-file> -->
+<file-detail *ngIf="isShowDetail" (closeDetailBox)="toggleDetailPage()" [path]='DetailInfo.path' (goDetailPage)="goDetailPage()" citePage="list" (goPop)="goBack()" [info]="DetailInfo"></file-detail>

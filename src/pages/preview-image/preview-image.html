@@ -7,9 +7,6 @@
             {{global.L("Back")}}
         </div>
         <span>{{ imageName }}</span>
-        <svg class="icon more-icon" aria-hidden="true" (click)="toggleDetailPage(true);$event.stopPropagation();">
-            <use xlink:href="#icon-Moreicon"></use>
-        </svg>
     </div>
     <ion-slides (ionSlideDidChange)="slideChanged()">
         <ion-slide *ngFor="let info of fileList">
@@ -18,5 +15,5 @@
     </ion-slides>
     
 </ion-content>
-<file-detail *ngIf="isShowDetail" [path]='currPath' (closeDetailBox)="toggleDetailPage()" citePage="preview" (goPop)="goBack()" [info]="imageInfo"></file-detail>
+<file-detail *ngIf="isShowTitle" (closeDetailBox)="toggleTitle()" [path]='currPath' (goDetailPage)="goDetailPage()" citePage="preview" (goPop)="goBack()" [info]="imageInfo"></file-detail>
     
