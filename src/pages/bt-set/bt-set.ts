@@ -42,7 +42,9 @@ export class BtSetPage {
 
     goBtSetPathPage() {
         console.log("go BtSetPathPage");
-        // this.navCtrl.push(BtSetPathPage);
+        this.navCtrl.push(BtSetPathPage, {
+            currPath: this.path
+        });
     }
 
     changeTaskNum(type) {

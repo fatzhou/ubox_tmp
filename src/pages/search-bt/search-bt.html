@@ -33,7 +33,7 @@
         </div>
         <div class="search-body">
             <ul>
-                <li (click)="goBtDetailPage()" *ngFor="let item of searchFeedList">
+                <li (click)="goBtDetailPage(item.resid);" *ngFor="let item of searchFeedList">
                     <div class="bt-box defalut-box">
                         <p class="bt-title">{{ item.title }}</p>
                         <p class="p-imglist"></p>

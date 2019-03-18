@@ -57,9 +57,12 @@ export class FindPage {
         this.navCtrl.push(SearchBtPage);
     }
 
-    goBtDetailPage() {
+    goBtDetailPage(id) {
         console.log("go BtDetailPage");
-        this.navCtrl.push(BtDetailPage);
+        this.navCtrl.push(BtDetailPage, {
+            type: 'feed',
+            id: id
+        });
     }
     //远程获取配置
     getSearchData() {

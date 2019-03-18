@@ -42,9 +42,12 @@ export class SearchBtPage {
         this.setSearchKey();
     }
 
-    goBtDetailPage() {
+    goBtDetailPage(id) {
         console.log("go BtDetailPage");
-        this.navCtrl.push(BtDetailPage);
+        this.navCtrl.push(BtDetailPage, {
+            type: 'search',
+            id: id
+        });
     }
 
     goBack() {
