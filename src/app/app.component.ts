@@ -236,7 +236,7 @@ export class UboxApp {
                     this.rootPage =  DeviceListPage;//DeviceListPage;
                 }
             } else {
-                this.rootPage = PermissionPage;//GuidancePage;
+                this.rootPage = PermissionPage;//PermissionPage;
                 // this.rootPage =  SelectfolderPage;
             }
         })

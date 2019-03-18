@@ -35,7 +35,7 @@
 
 <ion-content>
 <div class="main-content" (click)="cancalDelete()">
-	<div class="main" [ngClass]="doingTaskList.length === 0 && doneTaskList.length === 0 ? 'white' : 'gray'">
+	<div class="main">
 		<div class="doing task-list" *ngIf="doingTaskList.length > 0">
 			<p ion-item class="title">{{global.L('WORD64e13621')}} ({{ doingTaskList.length }})
 				<span item-end tappable (click)="toggleAllStatus()" *ngIf="!allBtnsShow"><i>{{ taskStatus === 'doing' ? global.L('ALLSTART') : global.L('ALLPAUSE') }}</i></span>

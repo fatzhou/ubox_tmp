@@ -8,6 +8,7 @@ import { FileTransport } from '../../providers/FileTransport';
 import { HttpService } from '../../providers/HttpService';
 import { Events } from 'ionic-angular';
 import { TaskListPage } from '../task-list/task-list';
+import { FileDetailPage } from '../../pages/file-detail/file-detail'
 
 /**
  * Generated class for the PreviewOtherPage page.
@@ -69,7 +70,10 @@ export class PreviewOtherPage {
 
     toggleDetailPage(isShow = false, isPop = null) {
         GlobalService.consoleLog("toggleDetailPage + " + isShow);
-        this.isShowDetail = isShow;
+        // // this.isShowDetail = isShow;
+        // this.navCtrl.push(FileDetailPage, {
+        //     info: this.fileInfo
+        // })
     }
 
     goBack() {

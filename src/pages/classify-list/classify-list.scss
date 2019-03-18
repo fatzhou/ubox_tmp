@@ -1,4 +1,13 @@
 page-classify-list {
+    .content, .content-ios {
+		background: $newThreeColor;
+    }
+    .toolbar-background {
+        background: $newFirstColor;
+    }
+    .toolbar-title {
+        color: #fff;
+    }
     .back-button-ios {
 		z-index: 0;
 	}
@@ -42,7 +51,6 @@ page-classify-list {
             color: #5D75F7;
             font-size: 18px;
             padding: 0 10px;
-            background: #f7f7f7;
             font-weight: normal;
             min-width: 88px;
             .back-btn {
@@ -101,22 +109,15 @@ page-classify-list {
 		}
     }
 
-    .fix-header {
-        width: 100%;
-        background: $bgColor;
-        .eps{
-            font-weight: normal;
-        }
-    }
-
     .file-list {
         /*padding-top: 98px;*/
         // padding-bottom: 100px;
         .file-list-item {
-            border-bottom: 1px solid #ededed;
+            border-bottom: 1px solid $newThreeColor;
             padding: 12px $padding - 3px;
             overflow: hidden;
             width: 100%;
+            background: $newFourColor;
             .file-thumbnail {
                 width: 48px;
                 height: 48px;
@@ -127,8 +128,8 @@ page-classify-list {
                 margin-left: 8px;
                 max-width: 220px;
                 h2 {
-                    color: #1B1B1B;
-                    font-size: 18px;
+                    color: #fff;
+                    font-size: 14px;
                     font-weight: bold;
                     line-height: 24px;
                 }

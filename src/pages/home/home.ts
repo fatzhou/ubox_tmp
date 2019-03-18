@@ -160,7 +160,7 @@ export class HomePage {
             .then(res => {
                 this.getFileInfo();
             }, () => {
-                this.isShowBox = true;
+                this.isShowBox = false; //true
             })
         } 
     }

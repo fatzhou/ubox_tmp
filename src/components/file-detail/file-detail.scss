@@ -6,23 +6,23 @@ file-detail {
     }
     .info-box {
         width: 100%;
-        height: 100%;
+        height: calc(100% - 60px);
         position: fixed;
-        background: rgba(0,0,0,0.3);
-        top: 0;
+        background: rgba(0,0,0,0);
+        bottom: 0;
         left: 0;
         z-index: 999;
         .box-bg {
             width: 100%;
             height: 100%;
             position: absolute;
-            top: 0;
+            bottom: 0;
             left: 0;
             z-index: 0;
             background: transparent;
         }
         .content-box {
-            height: 399px;
+            height: 54px;
             width: 100%;
             position: absolute;
             bottom: 0;
@@ -104,44 +104,31 @@ file-detail {
                 line-height: 30px;
             }
             .info-operation {
-                padding-top: 4px;
+                height: 54px;
+                width: 100%;
+                background: $newThreeColor;
                 ul {
                     overflow: hidden;
+                    padding: 5px 0;
                     li {
                         width: 20%;
                         float: left;
                         text-align: center;
                         span {
                             display: inline-block;
-                            width: 48px;
                             margin: 0 auto;
                             display: inline-block;
-                            line-height: 30px;
-                            color: #6F6F6F;
+                            color: #fff;
                             font-size: 12px;
                             &.iconspan {
-                                height: 48px;
                                 border-radius: 50%;
                                 color: #fff;
-                                background: #3FCD67;
                                 font-size: 23px;
-                                line-height: 48px;
                                 text-align: center;
-                                &.download {
-                                    background: #F5A623;
-                                }
-                                &.move {
-                                    background: #5D75F7;
-                                }
-                                &.rename {
-                                    background: #586D97;
-                                }
-                                &.delete {
-                                    background: #FF4747;
-                                }
                             }
                             &.font-span {
                                 width: 100%;
+                                font-size: 11px;
                             }
                         }
                        

@@ -7,6 +7,13 @@ page-preview-other {
         font-size: 43px;
         top: 0px;
     }
+    .toolbar-background {
+        background: $newFirstColor;
+    }
+    .scroll-content {
+        background: $newThreeColor;
+        color: #78777C;
+    }
     .file-box {
         padding-bottom: 50px;
         padding-top: 50px;
@@ -18,7 +25,7 @@ page-preview-other {
             float: unset;
         }
         h5 {
-            color: #1b1b1b;
+            color: #fff;
             font-size: 17px;
             font-weight: 400;
             clear: both;
@@ -69,7 +76,7 @@ page-preview-other {
                 left: 0;
                 &.font-fff {
                     color: #fff;
-                    background: #5D75F7;
+                    background: $newSecondColor;
                 }
             }
         }
