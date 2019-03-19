@@ -724,9 +724,11 @@ export class Util {
 
     searchUbbey() {
         return new Promise((resolve, reject) => {
+            // if(1) {
             if(!this.platform.is('cordova')) {
                 resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
-                return
+				// resolve([]);
+				return
             }
             var self = this;
             var flag = false;
@@ -1558,12 +1560,16 @@ export class Util {
         return [y, m, d].join(split) + " 00:00:00";
     }
 
-    public static getTime(ts, split = "-") {
+    public static getTime(ts, split = "-", onlyDay = false) {
         var date = new Date(ts);
         var y = date.getFullYear();
         var m = ('00' + (date.getMonth() + 1)).slice(-2);
-        var d = ('00' + date.getDate()).slice(-2);
-        return [y, m, d].join(split) + " 00:00:00";
+		var d = ('00' + date.getDate()).slice(-2);
+		let ret = [y, m, d].join(split);
+		if(!onlyDay) {
+			ret += " 00:00:00";
+		}
+        return ret;
     }
 
     public static askForLogin($scope, needBack, callback) {

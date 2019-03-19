@@ -13,7 +13,7 @@ export class GlobalService {
     public static CoinDecimalBlockchain = 1e18;
     public static MaxEarnPerDay = 600;
     public static ChainMaxEarnPerDay = 8000;
-    public static ToastTime = 1500; //toast弹窗时间控制
+    public static ToastTime = 1000; //toast弹窗时间控制
     public static webrtcFileControl = 2;
     public static boxFileControl = 3;
     public static AppVersion = '1.3.0';

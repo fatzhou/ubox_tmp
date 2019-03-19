@@ -69,7 +69,7 @@ export class FileTransport {
 		var taskId = 'Upload_' + Date.now();
 		var newTask = this.global.fileTaskList.filter(item => item.fileId === fileId && item.finished === false);
 		var currentTask;
-		var pausing = 'paused';
+		var pausing = 'waiting';
 		var fileTask = this.global.fileTaskList.filter(item => item.action == "upload" && item.pausing == 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
 		this.taskUploadListAmount = fileTask.length;
 		//已包含3个任务，任务不开启
@@ -98,7 +98,7 @@ export class FileTransport {
 				fileId: fileId,
 				taskId: taskId,
 				name: fileName,
-				path: remotePath,
+				path: remotePath + "/" + fileName,
 				localPath: localPath,
 				speed: 0,
 				total: 0,
@@ -168,12 +168,15 @@ export class FileTransport {
 					if (this.global.fileHandler[taskId]) {
 						delete this.global.fileHandler[taskId];
 					}
+					console.log("sdfsfdsddddddd")
 					this.fileUploader.clearUploaderTask(task.fileId);
 					this.events.publish('file:updated', task);
+					console.log("event published......")
 				} else {
 					this.events.publish('file:savetask');
 				}
 			})
+			console.log("进的点点滴滴")
 			//如果没有同类型文件任务，则弹窗.....
 			// if(!this.global.fileTaskList.some(item => item.action === 'upload' && !item.finished)) {
 			//     //通知任务列表页刷新            
@@ -183,11 +186,16 @@ export class FileTransport {
 			// }
 			//查找等待中的任务，每完成一个自动通知新任务
 			this.startWaitTask('upload');
-		}
-		if (this.global.useWebrtc) {
-			tool = this.createUploadHandlerRemote(task, progress, success, failure);
+		};
+		if (this.taskUploadListAmount >= this.global.fileMaxUpload) {
+			GlobalService.consoleLog('先加入队列，且先暂停，后面再上传:' + this.taskUploadListAmount + "," + this.global.fileMaxUpload);
+			task.pausing = 'waiting';
 		} else {
-			tool = this.createUploadHandlerLocal(task, progress, success, failure);
+			if (this.global.useWebrtc) {
+				tool = this.createUploadHandlerRemote(task, progress, success, failure);
+			} else {
+				tool = this.createUploadHandlerLocal(task, progress, success, failure);
+			}			
 		}
 		return tool;
 	}
@@ -195,7 +203,8 @@ export class FileTransport {
 	createUploadHandlerLocal(fileTask: any, progress, success, failure) {
 		let url = this.global.getBoxApi('uploadFileBreaking');
 		let fileURL = fileTask.localPath;
-		let self = this
+		let self = this;
+		console.log("终极上传路径：" + fileTask.path.replace(/\/[^\/]+$/, ''));
 		let uploadTransfer = new FileTransfer(
 			fileURL,
 			url,
@@ -206,7 +215,7 @@ export class FileTransport {
 				},
 				chunkedMode: true,
 				params: {
-					path: fileTask.path,
+					path: fileTask.path.replace(/\/[^\/]+$/, ''),
 					name: fileTask.name,
 					transfer: 'chunked',
 					offset: fileTask.loaded
@@ -241,10 +250,6 @@ export class FileTransport {
 			.catch(err => {
 				GlobalService.consoleLog("上传失败:" + err.stack);
 			})
-		if (this.taskUploadListAmount >= this.global.fileMaxUpload) {
-			GlobalService.consoleLog('先加入队列，且先暂停，后面再上传');
-			uploadTool.pause();
-		}
 		this.fileUploader.onProgress(fileTask.fileId, progress);
 		this.fileUploader.onFailure(fileTask.fileId, failure)
 		this.fileUploader.onSuccess(fileTask.fileId, success)
@@ -414,7 +419,7 @@ export class FileTransport {
 	 */
 	downloadFile(fileInfo, remoteFullPath, localFullPath, createTask: boolean = true) {
 		return new Promise((resolve, reject) => {
-			GlobalService.consoleLog("下载文件到本地:" + localFullPath);
+			GlobalService.consoleLog("下载文件到本地:" + localFullPath + ",远程路径：" + remoteFullPath);
 			// this.global.createGlobalToast(this, {
 			//     message: Lang.Lf('StartDownloadFile', file.name),
 			// });
@@ -428,7 +433,7 @@ export class FileTransport {
 			if (createTask) {
 				var taskList = this.global.fileTaskList.filter(item => item.action === 'download' && item.pausing === 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
 				// this.tasklistlen = tasklist.length;
-				this.taskUploadListAmount = taskList.length;
+				this.taskDownloadListAmount = taskList.length;
 				if (taskList.length < this.global.fileMaxDownload) {
 					pausing = 'doing';
 				} else {
@@ -464,7 +469,7 @@ export class FileTransport {
 				var downloadTool = this.createDownloadHandler(resolve, reject, task, createTask);
 
 				//创建文件下载，需添加至文件列表
-				if (createTask) {
+				if (createTask && downloadTool) {
 					this.global.fileTaskList.push(task);
 					GlobalService.consoleLog("新加的文件列表" + JSON.stringify(this.global.fileTaskList));
 					this.global.fileHandler[taskId] = downloadTool;
@@ -513,7 +518,7 @@ export class FileTransport {
 			return true;
 		}
 		let success = (res: any) => {
-			if(res.loaded == res.total) {
+			if(res.complete || res.loaded == res.total) {
 				GlobalService.consoleLog("下载完成！！" + task.localPath);
 				this.zone.run(() => {
 					task.finished = true;
@@ -539,6 +544,8 @@ export class FileTransport {
 				this.startWaitTask('download');
 			}
 			console.log("resolve... " + task.localPath);
+			this.taskDownloadListAmount--;
+			this.startWaitTask('download');
 			resolve && resolve(task.localPath);
 		};
 		let failure = (res) => {
@@ -549,20 +556,22 @@ export class FileTransport {
 			}
 			resolve && resolve('');
 		};
-		if (this.global.useWebrtc) {
-			tool = this.createDownloadHandlerRemote(task, createTask ? progress : null, success, failure);
+		// let amount = this.global.fileTaskList.filter(item => item.action == '')
+		//立即开始
+		if(!createTask || this.taskUploadListAmount < this.global.fileMaxDownload) {
+			if (this.global.useWebrtc) {
+				tool = this.createDownloadHandlerRemote(task, createTask ? progress : null, success, failure);
+			} else {
+				tool = this.createDownloadHandlerLocal(task, createTask ? progress : null, success, failure);
+			}
 		} else {
-			tool = this.createDownloadHandlerLocal(task, createTask ? progress : null, success, failure);
-		}
+			GlobalService.consoleLog('先加入队列，且先暂停，后面再下载' + this.taskUploadListAmount + "," + this.global.fileMaxDownload);
+			task.pausing = "waiting";
+		}	
 		return tool;
 	}
 
 	createDownloadHandlerLocal(fileTask, progress, success, failure) {
-		if (this.taskUploadListAmount >= this.global.fileMaxDownload) {
-			GlobalService.consoleLog('先加入队列，且先暂停，后面再下载');
-			fileTask.pausing = "waiting";
-			return false;
-		}
 		let url = this.global.getBoxApi('downloadFile') + '?fullpath=' + fileTask.path;
 		let fileURL = fileTask.localPath;
 		console.log("下载url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
@@ -585,7 +594,7 @@ export class FileTransport {
 		return fileTransfer;
 	}
 
-	createDownloadHandlerRemote(task, progress, success, failure) {
+	createDownloadHandlerRemote(task, progress, success, failure, createTask = true) {
 		// var uri = encodeURI(this.global.getBoxApi("downloadFile"));
 		// var downloadTool = new FileDownloader();
 		/*code start*/
@@ -593,7 +602,7 @@ export class FileTransport {
 		let taskId = task.taskId;
 
 		downloadTool = this.fileDownloader.createDownloader(task.localPath, task.path);
-		downloadTool.download(task.localPath, task.path + task.name)
+		downloadTool.download(task.localPath, task.path)
 			.catch(err => {
 				// GlobalService.consoleLog("下载失败 FileTransport" + JSON.stringify(err));
 				var task = this.global.fileTaskList.filter(item => item.taskId === taskId);
@@ -615,7 +624,9 @@ export class FileTransport {
 	}
 
 	startWaitTask(action) {
+		console.log("开始等待的任务.......")
 		let continueTaskList = this.global.fileTaskList.filter(item => item.action == action && item.pausing == 'waiting' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
+		console.log("等待任务数目：" + continueTaskList.length);
 		if (continueTaskList.length > 0) {
 			let newTask = continueTaskList[0];
 			newTask.pausing = 'doing';

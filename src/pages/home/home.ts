@@ -163,16 +163,19 @@ export class HomePage {
         // this.getMiningInfo();
         this.setLastDayEarn();
         this.getChainTypeList();
-        this.util.getWalletList();   
-        if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
-            // this.isShowBox = true;
-            this.fileManager.getPermission()
-            .then(res => {
-                this.getFileInfo();
-            }, () => {
-                this.isShowBox = false; //true
-            })
-        } 
+		this.util.getWalletList();  
+		//检查是否需要获取权限并弹出窗口...
+		if(this.platform.is('cordova')) {
+			if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
+				// this.isShowBox = true;
+				this.fileManager.getPermission()
+				.then(res => {
+					this.getFileInfo();
+				}, () => {
+					this.isShowBox = true;
+				})
+			} 			
+		} 
     }
     
     ionViewDidLeave() {

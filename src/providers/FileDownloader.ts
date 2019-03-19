@@ -201,7 +201,17 @@ class SingleFileDownloader {
             this.setDownloadBlockSize();
             this.cache.status = "LOOP";
             this.isPause = false;
-            this.isAbort = false;
+			this.isAbort = false;
+			new Promise((resolve, reject) => {
+				if(this.cache.totalsize) {
+					resolve(this.cache.totalsize);
+				} else {
+					this._getfilesize()
+					.then(res => {
+						this.cache.totalsize = res.totalsize;
+					})
+				}
+			})
             this.timer = setTimeout(()=>{
               this._loopdownload();
             }, 100);
@@ -215,10 +225,12 @@ class SingleFileDownloader {
     ///////////////////////////////////////
     private _progress(errstr) {
 		console.log("进度通知:" + JSON.stringify(this.cache));
-        this.progress({
-			loaded: this.cache.downloadsize,
-			total: this.cache.totalsize
-		});
+		if(this.progress) {
+			this.progress({
+				loaded: this.cache.downloadsize,
+				total: this.cache.totalsize
+			});			
+		}
     }
 
     ///// 循环获取文件剩余文件////////////////
