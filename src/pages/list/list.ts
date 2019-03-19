@@ -4,6 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
 import { ChangeDetectorRef } from '@angular/core';
+import { FileManager } from '../../providers/FileManager';
 
 import { HttpService } from '../../providers/HttpService';
 import { Events, App } from 'ionic-angular';
@@ -20,6 +21,7 @@ import { PreviewImagePage } from '../preview-image/preview-image';
 import { PreviewOtherPage } from '../preview-other/preview-other';
 import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-upload-folder'
 import { Storage } from '@ionic/storage';
+import { FileDetailPage } from '../../pages/file-detail/file-detail'
 
 // import { AddFileComponent } from '../../components/add-file/add-file';
 // import { Util } from '../../providers/Util';
@@ -67,6 +69,8 @@ export class ListPage {
     type1List: any = [];
     isShowType0List: boolean = true;
     isShowType1List: boolean = true;
+    isShowBox: boolean = false;
+    isShowClassifyNav: boolean = false;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -77,6 +81,7 @@ export class ListPage {
         private platform: Platform,
         private file: File,
         private storage: Storage,
+        private fileManager: FileManager,
         private transfer: FileTransport,
         private downloader: FileDownloader,
         public navParams: NavParams) {
@@ -92,7 +97,18 @@ export class ListPage {
     }
 
     ionViewDidEnter() {
-        
+        GlobalService.consoleLog("获取磁盘信息");
+        // this.getDiskStatus();
+        // this.getMiningInfo();
+        if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
+            // this.isShowBox = true;
+            this.fileManager.getPermission()
+            .then(res => {
+                this.getFileInfo();
+            }, () => {
+                this.isShowBox = false; //true
+            })
+        } 
         this.global.currPath = this.currPath;
         if(this.currPath == '/') {
             setTimeout(()=>{
@@ -116,7 +132,6 @@ export class ListPage {
     }
 
     ionViewDidLoad() {
-        this.pageNo = 1;
         
         GlobalService.consoleLog('ionViewDidLoad ListPage');
         if (this.global.deviceSelected) {
@@ -527,7 +542,7 @@ export class ListPage {
             this.pageTitle = config[type].title;
             this.currPath = config[type].path;
         } else {
-            var path = this.navParams.get('path');
+            var path = this.navParams.get('path') || '/';
             var myItem = "";
             for (var item in config) {
                 if (config[item].path === path) {
@@ -646,16 +661,6 @@ export class ListPage {
         this.navCtrl.push(SelectUploadFolderPage)
     }
 
-    refreshFileList(infiniteScroll) {
-        GlobalService.consoleLog("上滑加载")
-        if(this.fileList.length < this.allFileList.length) {
-            this.pageNo++;
-            this.fileList = this.allFileList.slice(0, this.pageNo * this.pageSize);  
-            this.transfer.getThumbnail(this.fileList, false, this.currPath);
-        } 
-        infiniteScroll.complete();
-    }
-
     closeTypeList() {
         if(this.isShowType) {
             this.events.publish('type-list:close',false);
@@ -673,5 +678,45 @@ export class ListPage {
         } else {
             this.isShowType1List = !this.isShowType1List
         }
+    }
+
+    getFileInfo() {
+        // HomePage._this = this;
+        if(this.fileManager.readPermitted) {
+            if(!this.fileManager.photoLibraryReady) {
+                this.fileManager.initFileList();
+            }
+            if(this.global.deviceSelected) {
+                console.log(JSON.stringify(this.global.deviceSelected))
+                let config = this.fileManager.resourceStorage['image'];
+                console.log("图片配置：" + JSON.stringify(config));
+                if(config.finished) {
+                    console.log("图片获取已完成，直接备份");
+                    setTimeout(() => {
+                        this.fileManager.startBackUp();
+                    }, 1000)
+                } else if(this.platform.is('cordova')) {
+                    console.log("图片获取尚未完成，需要先拉配置");
+                    this.fileManager.getBackupInfo()
+                    .then(res => {
+                        this.fileManager.fetchAlbums('image')
+                    })
+                    .catch(e => {
+                        //不需要备份
+                    })
+                }            
+            }            
+        }
+    }
+
+
+    goDetailPage(info) {
+        this.navCtrl.push(FileDetailPage, {
+            info: info
+        })
+    }
+
+    toggleClassifyNav() {
+        this.isShowClassifyNav = !this.isShowClassifyNav;
     }
 }

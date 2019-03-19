@@ -1,13 +1,12 @@
 <!-- Generated template for the AddFileComponent component -->
 <div class="file-type-select">
     <div class="file-type-select-wrap">
-        <p class="title">{{global.L('WORD6f79290c')}}Ubbey Box</p>
-        <p class="content">{{global.L('WORD789efc55')}}{{ totalSize }}GB</p>
+        <p class="title">{{global.L('WORD6f79290c') }} <span> {{global.currPath}} </span></p>
         <ul class="type-list">
             <li tappable (click)="goSelectPage('image','/Images')">
                 <div class="folderbox FF4747">
                     <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-file-image"></use>
+                        <use xlink:href="#iconshangchuantupianicon"></use>
                     </svg>
                 </div>
                 <h2>{{global.L('DirImages')}}</h2>
@@ -15,28 +14,20 @@
             <li tappable (click)="goSelectPage('video','/Videos')">
                 <div class="folderbox F5A623">
                     <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-file-video"></use>
+                        <use xlink:href="#iconshangchuanshipinicon"></use>
                     </svg>
                 </div>
                 <h2>{{global.L('DirVideos')}}</h2>
-            </li>
-            <li *ngIf="plat==='android'" tappable (click)="goSelectPage('audio','/Musics')">
-                <div class="folderbox D5D75F7">
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-file-music"></use>
-                    </svg>
-                </div>
-                <h2>{{global.L('DirMusics')}}</h2>
-            </li>            
+            </li>           
             <li *ngIf="plat==='android'" tappable (click)="goSelectPage('document','/Documents')">
                 <div class="folderbox D3FCD67">
                     <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-file-document"></use>
+                        <use xlink:href="#iconshangchuanwendangicon"></use>
                     </svg>
                 </div>
                 <h2>{{global.L('DirDocuments')}}</h2>
             </li>
-            <li *ngIf="plat==='android'" tappable (click)="goSelectPage('all','/')">
+            <li *ngIf="plat==='android'"  tappable (click)="goSelectPage('all','/')">
                     <div class="folderbox A90E2">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-fileicon"></use>
@@ -44,13 +35,21 @@
                     </div>
                     <h2>{{global.L('AllFiles')}}</h2>
                 </li>
-            <li tappable (click)="makeFolder()">
+            <li tappable (click)="makeFolder()" class="border-top">
                 <div class="folderbox D586D97">
                     <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-file-folder"></use>
+                        <use xlink:href="#iconxinjianwenjianjiaicon"></use>
                     </svg>
                 </div>
                 <h2>{{global.L('DirFolders')}}</h2>
+            </li>
+            <li tappable (click)="makeFolder()" class="bgBlack">
+                <div class="folderbox D586D97">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#iconbeifentupianicon"></use>
+                    </svg>
+                </div>
+                <h2>一键备份图片</h2>
             </li>
         </ul>
         <div class="close" [ngClass]="allBtnsShow ? '' : 'at-close'" tappable (click)="closeFileSelectEvent()">

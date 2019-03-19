@@ -38,7 +38,7 @@ page-task-list {
             width: 88px;
         }
         p {
-            color: #5D75F7;
+            color: #78777C;
             line-height: 4;
         }
 	}
@@ -53,7 +53,7 @@ page-task-list {
         .back-nav {
             height: 44px;
             line-height: 44px;
-            color: #5D75F7;
+            color: #78777C;
             font-size: 18px;
             padding: 0 10px;
 			font-weight: normal;
@@ -69,8 +69,9 @@ page-task-list {
 				position: relative;
                 span{
                     display: inline-block;
-                    width: 60px;
+                    // width: 60px;
 					text-align: left;
+					color: #fff;
 					&.select-all-icon {
 						width: 44px;
 						height: 44px;
@@ -99,9 +100,7 @@ page-task-list {
 			}
 		}
 		.select-box {
-			position: fixed;
 			left: 0;
-			background: #f7f7f7;
 			z-index: 100;
 			min-width: 74px;
 		}
@@ -112,7 +111,7 @@ page-task-list {
 	.task-list {
 		// background: #fff;
 		.title {
-			color: #1B1B1B;
+			color: $newFourColor;
 			font-size: 12px;
 			height: 44px;
 			line-height: 44px;
@@ -123,9 +122,9 @@ page-task-list {
 				margin: 0;
 				padding: 0 10px;
 				margin-right: -14px;
-				color: #5D75F7;
+				color: $newFourColor;
 				i {
-					border: 1px solid #5d75f5;
+					border: 1px solid $newFourColor;
 					font-style: normal;
 					padding: 3px 5px;
 					border-radius: 4px;
@@ -135,7 +134,7 @@ page-task-list {
 		.task-ul {
 			.task-li {
 				padding-left: 10px;
-				border-bottom: 1px solid #f8f8f8;
+				border-bottom: 1px solid $newThreeColor;
 				position: relative;
 			}
 			img {
@@ -143,13 +142,13 @@ page-task-list {
 				height: 48px;
 			}
 			.file-name {
-				color: #1B1B1B;
-				// font-size: 14px;
+				color: #fff;
+				font-size: 14px;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				line-height: 24px;
-				font-size: 18px;
-                font-weight: bold;
+				// font-size: 18px;
+                // font-weight: bold;
 			}
 			.file-type {
 				margin-right: 8px;
@@ -159,13 +158,28 @@ page-task-list {
 			}
 
 			.file-info {
-				color: #9B9B9B;
+				color: #78777C;
 				font-size: 12px;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				position: relative;
 				line-height: 1.5;
 				margin-top: 4px;
+				.progress-box {
+					display: inline-block;
+					width: 175px;
+					height: 6px;
+					background: #404040;
+					position: relative;
+					em {
+						display: inline-block;
+						height: 6px;
+						position: absolute;
+						top: 0;
+						left: 0;
+						background: #00C77D;
+					}
+				}
 				.file-down , .file-up{
 					display: inline-block;
 					width: 10px;
@@ -194,10 +208,10 @@ page-task-list {
 					margin-right: 6px;
 				}
 				.light {
-					border: 2px solid #5D75F7;
+					border: 2px solid #78777C;
 				}
 				.gray {
-					border: 2px solid #E9E9E9;
+					border: 2px solid #78777C;
 				}
 				.circle {
 					width: 36px;
@@ -227,7 +241,7 @@ page-task-list {
 
 					.center {
 						position: absolute;
-					    background: #fff;
+					    background: $newThreeColor;
 					    width: 32px;
 					    height: 32px;
 					    top: 0;
@@ -277,7 +291,7 @@ page-task-list {
 							color: #E9E9EA;
 						}
 						&.slight {
-							color: #5D75F7;
+							color: #00C77D;
 						}
 					}
 				}
@@ -308,20 +322,25 @@ page-task-list {
 	}
 	.operation-btns {
         position: fixed;
-        bottom: -3px;
+        bottom: 10px;
         width: 100%;
         height: 50px;
         z-index: 9999;
         line-height: 48px;
         text-align: center;
-        background: #000000;
+        background: rgba(0,0,0,0);
         overflow: hidden;
         color: #fff;
 		font-weight: bold;
         .btn {
             float: left;
-            width: 100%;
+			width: calc(100% - 20px);
+			height: 48px;
+			line-height: 48px;
+			background: $newSecondColor;
+			border-radius: 4px;
 			color: #fff;
+			margin-left: 10px;
             &.disable {
                 color: #fff;
 			}

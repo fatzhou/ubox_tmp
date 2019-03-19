@@ -416,7 +416,7 @@ textarea::-webkit-input-placeholder {
     height: 48px;
     float: left;
     background: url(../assets/img/default.svg) center center no-repeat;
-    background-size: cover;
+    background-size: 22px 22px;
     &.default {
         background-image: url(../assets/img/default.svg);
     }                
@@ -456,12 +456,19 @@ textarea::-webkit-input-placeholder {
     clear: both;
     height: 50px;
 }
+.toolbar-background {
+    background: $newThreeColor;
+}
 .toolbar-title {
     color: #fff;
+    text-align: left;
 }
 .button-effect {
     color: #fff;
 }
 .bar-button-default-ios, .bar-button-default.bar-button-ios-default, .bar-button-clear-ios-default {
     color: #fff;
+}
+.toolbar-ios ion-title {
+    padding: 0 40px 1px;
 }

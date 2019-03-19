@@ -30,7 +30,7 @@ export class TaskListPage {
     allBtnsShow: Boolean = false;
     canDelete: Boolean = false;
     selectAllStatus: Boolean = false;
-
+    selectFileNum: any = 0;
     showFileSelect: Boolean = false;
     deteleSingle: boolean = false;
     singleTask: any;
@@ -120,6 +120,7 @@ export class TaskListPage {
     }
 
     computeFinished(task) {
+        task.percent = task.loaded === 0 ? 0 : Math.ceil(task.loaded * 100 / task.total);
         var str = '';
         if(task.loaded > GlobalService.DISK_M_BITS) {
             str += (task.loaded / GlobalService.DISK_M_BITS).toFixed(2) + 'M';
@@ -312,19 +313,19 @@ export class TaskListPage {
             this.setSelectedFiles(info);
         } 
     }
-     //勾选文件
+    //勾选文件
     setSelectedFiles(file) {
         GlobalService.consoleLog("选择了文件:" + JSON.stringify(file));
         var taskId = file.taskId;
         //反选
         file.selected = !file.selected;
-
         this.setBtnsStatus();
     }
     setBtnsStatus() {
         let doingTask = this.doingTaskList.filter(item => item.selected === true);
         let doneTask = this.doneTaskList.filter(item => item.selected === true);
         let len = doingTask.length + doneTask.length;
+        this.selectFileNum = len;
         //只要选中至少1个文件，就可删除
         this.canDelete = len > 0;
     }
