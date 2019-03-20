@@ -170,10 +170,10 @@ class SingleFileUploader {
 			//Step 3. loop for download
 			.then((size) => {
 				if (size) {
-					this.cache.totalSize = size;
+					this.cache.totalsize = size;
 				}
 				this.cache.status = "LOOP";
-				this.cache.uploadSize = file.loaded || 0;
+				this.cache.uploadsize = file.loaded || 0;
 				this._progress("");
 				this.timer = setTimeout(() => {
 					this._loopUpload();
@@ -241,8 +241,8 @@ class SingleFileUploader {
 	private _progress(errstr) {
 		GlobalService.consoleLog("_progree开始调用..." + errstr);
 		this.progress({
-			loaded: this.cache.uploadSize,
-			total: this.cache.totalSize
+			loaded: this.cache.uploadsize,
+			total: this.cache.totalsize
 		});
 	}
 
@@ -289,19 +289,19 @@ class SingleFileUploader {
 							code: -2,
 							message: err,
 						});
-					} else if (cache.totalSize > uploadSize) {
+					} else if (cache.totalsize > uploadSize) {
 						GlobalService.consoleLog("循环：单块上传后大小不够，继续上传");
-						cache.uploadSize = uploadSize;
+						cache.uploadsize = uploadSize;
 						cache.status = "LOOP";
 						// cache.speed =(cache.speed * self.global.speedMax) +  (this.oneBlockSize * 1000 / (Date.now() - start)) * (1 - self.global.speedMax);
 						self._progress("");
 					} else {
-						cache.uploadSize = cache.totalSize;
-						GlobalService.consoleLog("循环：单块上传后，上传完成(" + uploadSize + "/" + cache.totalSize + ")");
+						cache.uploadsize = cache.totalsize;
+						GlobalService.consoleLog("循环：单块上传后，上传完成(" + uploadSize + "/" + cache.totalsize + ")");
 						cache.status = "DONE";
 						self.success({
 							complete: 1,
-							rangend: cache.totalSize
+							rangend: cache.totalsize
 						});
 					}
 					self.timer = setTimeout(() => {
@@ -349,14 +349,14 @@ class SingleFileUploader {
 		let self = this;
 		let fileObj = new File();
 		cache.status = "INIT"; //INIT->START->LOOP->DOWNLOADING->DONE|ERROR
-		cache.uploadSize = 0;
+		cache.uploadsize = 0;
 		cache.speed = 0;
 		cache.filename = file.name;
-		cache.localPath = file.localPath;
+		cache.localpath = file.localPath;
 		return new Promise(function (resolve, reject) {
 			let urlResolve = window.resolveLocalFileSystemURL || window.webkitResolveLocalFileSystemURL;
-			GlobalService.consoleLog("开始resolve文件的entry：" + cache.localPath);
-			urlResolve(cache.localPath, function (fileEntry) {
+			GlobalService.consoleLog("开始resolve文件的entry：" + cache.localpath);
+			urlResolve(cache.localpath, function (fileEntry) {
 				// GlobalService.consoleLog("获取本地url:" + JSON.stringify(fileEntry));
 				fileEntry.getMetadata(function (metadata) {
 					GlobalService.consoleLog("getMetadata成功返回:" + JSON.stringify(metadata));
@@ -403,11 +403,11 @@ class SingleFileUploader {
 	public _uploadoneblock() {
 		let self = this;
 		let cache = this.cache;
-		let range_start = parseInt(cache.uploadSize);
-		let range_end = Math.min(range_start + this.oneBlockSize, cache.totalSize);
-		let range = range_start + "-" + (range_end - 1) + "-" + cache.totalSize;
+		let range_start = parseInt(cache.uploadsize);
+		let range_end = Math.min(range_start + this.oneBlockSize, cache.totalsize);
+		let range = range_start + "-" + (range_end - 1) + "-" + cache.totalsize;
 		GlobalService.consoleLog("range:" + range);
-		let re = cache.localPath.match(/^(.*)\/([^\/^\?]+)(\?[^\?]+)?$/);
+		let re = cache.localpath.match(/^(.*)\/([^\/^\?]+)(\?[^\?]+)?$/);
 		let filePath = re[1];
 		// let fileName = re[2].replace(/(\s)/g, "\\$1");
 		let fileName = re[2];

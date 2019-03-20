@@ -40,7 +40,7 @@ export class BtDetailPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad BtDetailPage');
+        // console.log('ionViewDidLoad BtDetailPage');
         this.type = this.navParams.get("type");
         this.detailId = this.navParams.get("id");
         this.getDetail();
@@ -79,13 +79,13 @@ export class BtDetailPage {
                     language = GlobalService.applang;
                 }
                 this.detailDesc = JSON.parse(res.describe)[language].describe;
-                console.log("detail" + JSON.stringify(res));
+                // console.log("detail" + JSON.stringify(res));
             }
         })
     }
 
     downloadBt() {
-        console.log("download" + this.link)
+        // console.log("download" + this.link)
         this.util.downloadBt(this.link)
         .then(res => {
             console.log("正在下载bt")

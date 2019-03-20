@@ -100,7 +100,9 @@ export class SelectFolderPage {
         var uploadUrl = this.global.getBoxApi('uploadFileBreaking');
         for (let i = 0; i < uploadingList.length; i++) {
             let fileUrl = decodeURIComponent(uploadingList[i].nativeURL);
-            this.transfer.uploadSingleFile(fileUrl, this.global.currPath, uploadingList[i].id);
+            this.transfer.uploadSingleFile(fileUrl, this.global.currPath, {
+				id: uploadingList[i].id
+			});
             uploadingList[i].isSelected = false;
         }
         this.util.popToPage(this, this.count + 2);

@@ -32,11 +32,11 @@ export class AdviceSubmitPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad AdviceSubmitPage');
+        // console.log('ionViewDidLoad AdviceSubmitPage');
     }
 
     inputFileChange($event) {
-        console.log($event.target.files[0])
+        // console.log($event.target.files[0])
         let files = $event.target.files;
         for(let i = 0, len = files.length; i < len; i++) {
             this.updatedPhotos.push({
@@ -62,7 +62,7 @@ export class AdviceSubmitPage {
             data.append("uuid", uuid);
             data.append("timestamp", now); 
             this.updatedPhotos.forEach(item => {
-                console.log("上传文件........")
+                // console.log("上传文件........")
                 data.append("file", item.file);
             })
             let url = GlobalService.centerApi['uploadLogAnalyser'].url;
@@ -71,7 +71,7 @@ export class AdviceSubmitPage {
 
             xhr.addEventListener("readystatechange", function () {
                 if (this.readyState === 4) {
-                    console.log(this.responseText);
+                    // console.log(this.responseText);
                     let response = {};
                     try {
                         response = JSON.parse(this.responseText);

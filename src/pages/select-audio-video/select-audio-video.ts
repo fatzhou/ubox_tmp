@@ -162,8 +162,9 @@ export class SelectAudioVideoPage {
         .then(res => {
             let fileUrl = res;
             GlobalService.consoleLog("即将上传文件：" + fileUrl);
-            this.transfer.uploadSingleFile(fileUrl, this.global.currPath, uploadItem.id);
-
+            this.transfer.uploadSingleFile(fileUrl, this.global.currPath, {
+				id: uploadItem.id
+			});
             index++;
             if(index < uploadingList.length) {
                 setTimeout(()=>{

@@ -5,11 +5,13 @@
   Ionic pages and navigation.
 -->
 <ion-content>
-  <box-promotion *ngIf="global.centerUserInfo.bind_box_count === 0" (goBindingPage)="goBindingPage()" (goBuyBoxPage)="goBuyBoxPage()"></box-promotion>
-  <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page">
-    <header>
-      <device  (goDevicePage)="goAboutDevice()" networkStatusShow="true" (showPopup)="showNetworkPopup()" (goLoginPage)="goLoginPage()" (showPopup)="showNetworkPopup()" lastPath="home-page"></device>
-<!--       <div class="network" *ngIf="global.centerUserInfo.uname">
+	<box-promotion *ngIf="global.centerUserInfo.bind_box_count === 0" (goBindingPage)="goBindingPage()"
+		(goBuyBoxPage)="goBuyBoxPage()"></box-promotion>
+	<div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page">
+		<header>
+			<device (goDevicePage)="goAboutDevice()" networkStatusShow="true" (showPopup)="showNetworkPopup()"
+				(goLoginPage)="goLoginPage()" (showPopup)="showNetworkPopup()" lastPath="home-page"></device>
+			<!--       <div class="network" *ngIf="global.centerUserInfo.uname">
         <svg class="icon" aria-hidden="true" *ngIf="!!global.deviceSelected">
           <use xlink:href="#icon-netnormal"></use>
         </svg>        
@@ -17,79 +19,80 @@
           <use xlink:href="#icon-neterror"></use>
         </svg>
       </div> -->
-    </header>
-    <div class="info clear">
-      <div class="info-area disk" tappable (click)="goDeviceList()">
-        <div class="hard-disk"></div>
-        <img src="assets/img/disk@2x.png" alt="">
-        <h2 class="title">{{global.L('DiskFreeCapacity')}}</h2>
-        <div class="amount">
-          <span class="integer">{{ diskInterger }}</span>
-          <span class="fraction">.{{ diskFraction }}G</span>
-        </div>
-        <p class="desc">{{global.L('DiskTotalCapacity')}}: {{ totalSpace }}G</p>
-      </div>
-      <div class="info-area mining" tappable (click)="goMining()">
-        <div class="wallet"></div>
-        <img src="assets/img/dollar@2x.png" alt="">
-        <h2 class="title">{{global.L('EarningsYesterday')}}</h2>
-        <div class="amount">
-          <span class="integer">{{ miningInterger }}</span>
-          <span class="fraction">.{{ miningFraction }}UBBEY</span>
-        </div>
-        <p class="desc">{{global.Lf('TotalXYou', miningTotal)}}</p>
-      </div>
-    </div>
+		</header>
+		<div class="info clear">
+			<div class="info-area disk" tappable (click)="goDeviceList()">
+				<div class="hard-disk"></div>
+				<img src="assets/img/disk@2x.png" alt="">
+				<h2 class="title">{{global.L('DiskFreeCapacity')}}</h2>
+				<div class="amount">
+					<span class="integer">{{ diskInterger }}</span>
+					<span class="fraction">.{{ diskFraction }}G</span>
+				</div>
+				<p class="desc">{{global.L('DiskTotalCapacity')}}: {{ totalSpace }}G</p>
+			</div>
+			<div class="info-area mining" tappable (click)="goMining()">
+				<div class="wallet"></div>
+				<img src="assets/img/dollar@2x.png" alt="">
+				<h2 class="title">{{global.L('EarningsYesterday')}}</h2>
+				<div class="amount">
+					<span class="integer">{{ miningInterger }}</span>
+					<span class="fraction">.{{ miningFraction }}UBBEY</span>
+				</div>
+				<p class="desc">{{global.Lf('TotalXYou', miningTotal)}}</p>
+			</div>
+		</div>
 
-    <div class="cloud-manage">
-      <h2>Ubbey Cloud</h2>
-      <ul class="clear">
-        <li tappable (click)="goFolderPage('all')">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-allfile"></use>
-          </svg>
-          <p>{{global.L('DirAllFiles')}}</p>
-        </li>        
+		<div class="cloud-manage">
+			<h2>Ubbey Cloud</h2>
+			<ul class="clear">
+				<li tappable (click)="goFolderPage('all')">
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#iconjianshao"></use>
+					</svg>
+					<p>{{global.L('DirAllFiles')}}</p>
+				</li>
 
-        <li tappable (click)="goFolderPage('image')">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-image"></use>
-          </svg>
-            <p>{{global.L('DirImages')}}</p>
-        </li>
+				<li tappable (click)="goFolderPage('image')">
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-image"></use>
+					</svg>
+					<p>{{global.L('DirImages')}}</p>
+				</li>
 
-        <li tappable (click)="goFolderPage('video')">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-video"></use>
-          </svg>
-            <p>{{global.L('DirVideos')}}</p>
-        </li>
+				<li tappable (click)="goFolderPage('video')">
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-video"></use>
+					</svg>
+					<p>{{global.L('DirVideos')}}</p>
+				</li>
 
-        <li tappable (click)="goFolderPage('music')">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-music"></use>
-          </svg>
-            <p>{{global.L('DirMusics')}}</p>
-        </li>
+				<li tappable (click)="goFolderPage('music')">
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-music"></use>
+					</svg>
+					<p>{{global.L('DirMusics')}}</p>
+				</li>
 
-        <li tappable (click)="goFolderPage('document')">
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-document"></use>
-          </svg>
-            <p>{{global.L('DirDocuments')}}</p>
-        </li>
-      </ul>
-    </div>
+				<li tappable (click)="goFolderPage('document')">
+					<svg class="icon" aria-hidden="true">
+						<use xlink:href="#icon-document"></use>
+					</svg>
+					<p>{{global.L('DirDocuments')}}</p>
+				</li>
+			</ul>
+		</div>
 
-    <div class="add" *ngIf="!!global.deviceSelected" tappable (click)="openFileSelect()">
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#icon-add"></use>
-      </svg>
-    </div> 
+		<div class="add" *ngIf="!!global.deviceSelected" tappable (click)="openFileSelect()">
+			<svg class="icon" aria-hidden="true">
+				<use xlink:href="#icon-add"></use>
+			</svg>
+		</div>
 
-    <!-- <nav-tabs focusTab="home" (slideOtherTab)="slideOtherTab($event)"></nav-tabs>   -->
-  </div>
+		<!-- <nav-tabs focusTab="home" (slideOtherTab)="slideOtherTab($event)"></nav-tabs>   -->
+	</div>
 </ion-content>
 <permission *ngIf="isShowBox"></permission>
 
-<add-file *ngIf="showFileSelect && !!global.deviceSelected" currPath="/" eventType="home" (selectFileDone)="closeFileSelect()" (closeFileSelect)="closeFileSelect()"></add-file>
+<add-file *ngIf="showFileSelect && !!global.deviceSelected" currPath="/" eventType="home"
+	(selectFileDone)="closeFileSelect()" (closeFileSelect)="closeFileSelect()"></add-file>

@@ -21,7 +21,7 @@ export class BindBoxComponent {
         private global: GlobalService,
         private app: App
     ) {
-        console.log('Hello BindBoxComponent Component');
+        // console.log('Hello BindBoxComponent Component');
     }
 
     closeBindBoxComponent(){

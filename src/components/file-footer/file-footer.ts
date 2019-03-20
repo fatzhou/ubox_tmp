@@ -23,7 +23,7 @@ export class FileFooterComponent {
         public navCtrl: NavController,
         private events: Events,
     ) {
-        console.log('Hello FileFooterComponent Component');
+        // console.log('Hello FileFooterComponent Component');
     }
 
     goSelectUploadFolderPage() {
@@ -31,7 +31,7 @@ export class FileFooterComponent {
     }
 
     uploadEvent() {
-        console.log('点击上传')
+        // console.log('点击上传')
         if(this.canClick == false) {
             return false;
         }

@@ -166,10 +166,12 @@ export class HomePage {
 				})
 			} 			
 		} 
-    }
+	}
+	
     ionViewDidLeave() {
         this.isShowBox = false;
-    }
+	}
+	
     getFileInfo() {
         // HomePage._this = this;
         if(this.fileManager.readPermitted) {

@@ -653,7 +653,7 @@ export class FileManager {
                 throw new Error("Failed to read file");
             })
             .then((res:any) => {
-            	GlobalService.consoleLog("上传缩略图结果：" + res);
+            	GlobalService.consoleLog("上传缩略图结果：" + JSON.stringify(res));
         		try {
                     if(res.data && (typeof res.data === 'string')) {
                         res.data = JSON.parse(res.data);

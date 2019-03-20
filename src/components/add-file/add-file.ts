@@ -171,7 +171,7 @@ export class AddFileComponent {
         this.global.selectFolderType = 'upload';
         this.global.eventType = this.eventType;
         this.global.currPath = currPath;
-        console.log('type' + type);
+        // console.log('type' + type);
         this.closeFileSelect.emit();
         let selectedName = '';
         selectedName = currPath == '/' ? Lang.L('DirAllFiles') : currPath.split('/')[currPath.split('/').length -1];
