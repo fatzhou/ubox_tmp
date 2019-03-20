@@ -645,7 +645,8 @@ export class GlobalService {
                 message: opt.message || '',
                 buttons: opt.buttons || [],
                 inputs: opt.inputs || [],
-                enableBackdropDismiss: false
+                enableBackdropDismiss: false,
+                cssClass: 'ubbey-alert-class',
             };
             opt.buttons.forEach((item, index) => {
                 if (item.handler) {

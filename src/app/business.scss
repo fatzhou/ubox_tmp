@@ -472,3 +472,49 @@ textarea::-webkit-input-placeholder {
 .toolbar-ios ion-title {
     padding: 0 40px 1px;
 }
+.ubbey-alert-class {
+    align-items: center!important;
+    padding-top: 0!important;
+    .alert-wrapper{
+        background: $newFourColor;
+        text-align: left;
+        border-radius: 4px;
+        .alert-head {
+            text-align: left;
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 0px;
+            .alert-title {
+                font-weight: 500;
+            }
+        }
+        .alert-input {
+            background: $newFourColor;
+            border-color: $newFourColor;
+            border-bottom-color: $newFirstColor;
+            border-radius: 0;
+            color: #fff;
+            &:-moz-placeholder,&:-ms-input-placeholder,&::-webkit-input-placeholder {
+                color: #fff;
+            }
+        }
+        .alert-message {
+            padding-bottom: 10px;
+            color: #fff;
+            font-size: 15px;
+            text-align: left;
+        }
+        .alert-button {
+            color: $newFirstColor;
+            border: unset;
+            text-align: right;
+            &:first-child {
+                color: $newFiveColor;
+            }
+            .button-inner {
+                justify-content: flex-end;
+                padding-right: 10px;
+            }
+        }
+    }
+}

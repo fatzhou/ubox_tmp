@@ -113,7 +113,6 @@ export class AddFileComponent {
     makeFolder() {
         this.global.createGlobalAlert(this, {
             title: Lang.L('WORD7c5e25c1'),
-            message: Lang.L('WORD18239a0a'),
             inputs: [{
                 name: 'folderName',
                 type: 'text',

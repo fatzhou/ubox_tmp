@@ -35,6 +35,10 @@ page-list {
     .hidden {
         opacity: 0;
     }
+    .aside-nav-icon {
+        font-size: 20px;
+        margin-left: 10px;
+    }
     .list-header {
         overflow: hidden;
         position: absolute;
@@ -88,7 +92,7 @@ page-list {
                 line-height: normal;
                 text-align: center;
                 .icon {
-                    font-size: 24px;
+                    font-size: 20px;
                     margin-right: unset;
                 }
                 &.all-toggle-btn {
@@ -107,7 +111,96 @@ page-list {
             min-width: calc(100% - 80px);
 		}
     }
-
+    .home-title-box {
+        text-align: center;
+        position: relative;
+        overflow: unset;
+        height: 40px;
+        line-height: 37px; 
+        .list-point {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            z-index: 100;
+            transform: translate(-50%,0);
+            overflow: hidden;
+            height: 9px;
+            line-height: 0px;
+            span {
+                display: inline-block;
+                float: left;
+                width: 5px;
+                height: 5px;
+                margin-right: 3px; 
+                background: rgba(255,255,255,0.5);
+                border-radius: 50%;
+                &.active {
+                    background: #fff;
+                }
+            }
+        }
+    }
+    .disk-list {
+        width: 100%;
+        height: 165px;
+        position: relative;
+        background: $newFirstColor;
+        .disk-title {
+            color: #fff;
+            text-indent: 10px;
+            padding-top: 15px;
+        }
+        .black-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 50px;
+            z-index: 1;
+            background: $newThreeColor;
+            width: 100%;
+        }
+        .disk-list-box {
+            position: absolute;
+            z-index: 2;
+            background: transparent;
+            width: 100%;
+            height: 120px;
+            bottom: 0;
+            left: 0;
+            overflow: hidden;
+            overflow-x: scroll;
+            .disk-ul-box {
+                height: 100%;
+                padding-right: 10px;
+                box-sizing: content-box;
+            }
+            li {
+                width: 140px;
+                height: 120px;
+                float: left;
+                overflow: hidden;
+                background: $newFourColor;
+                color: $newFiveColor;
+                margin-left: 10px;
+                border-radius: 3px;
+                padding: 20px;
+                .disk-icon {
+                    width: 35px;
+                    height: 35px;
+                    border-radius: 50%;
+                    background: url(../assets/img/disk-icon.svg) 0 0 no-repeat;
+                    background-position: center center;
+                    background-size: 35px 35px;
+                    margin-bottom: 10px;
+                }
+                .disk-name {
+                    color: $newFirstColor;
+                    font-size: 16px;
+                    line-height: 25px;
+                }
+            }
+        }
+    }
     .fix-header {
         width: 100%;
         background: $bgColor;
@@ -122,7 +215,7 @@ page-list {
         padding-left: 15px;
         padding-right: 15px;
         box-sizing: border-box;
-        color: #78777C;
+        color: $newFiveColor;
         position: relative;
         .icon {
             position: absolute;
@@ -231,7 +324,7 @@ page-list {
         }
 
         .file-info {
-            color: #78777C;
+            color: $newFiveColor;
             font-size: 12px;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -281,10 +374,10 @@ page-list {
                 margin-right: 6px;
             }
             .light {
-                border: 2px solid #78777C;
+                border: 2px solid $newFiveColor;
             }
             .gray {
-                border: 2px solid #78777C;
+                border: 2px solid $newFiveColor;
             }
             .circle {
                 width: 36px;
@@ -414,68 +507,68 @@ page-list {
             transition: 1s ease;
         }
     }
-    .file-type-select {
-        position: fixed;
-        z-index: 100;
-        background: #fff;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
+    // .file-type-select {
+    //     position: fixed;
+    //     z-index: 100;
+    //     background: #fff;
+    //     width: 100%;
+    //     height: 100%;
+    //     top: 0;
+    //     left: 0;
 
-        .file-type-select-wrap {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            padding: 0 $padding;
-            height: 360px;
-        }
-        .title {
-            color: #5D75F7;
-            font-size: 17px;
-            line-height: 1.75;
-        }
-        .content {
-            color: #9B9B9B;
-            font-size: 14px;
-            line-height: 1.75;
-        }
-        .type-list {
-			overflow: hidden;
-			padding-top: 30px;
-			margin: 0px -18px;
-            li {
-                float: left;
-                width: 25%;
-                text-align: center;
-                color: #1B1B1B;
-                font-size: 14px;
-                h2 {
-                    font-size: 14px;
-                    font-weight: normal;
-                    text-align: center;
-                    text-indent: 0;
-                    margin-top: 9px;
-                }
-                .icon {
-                    position: static;
-                    font-size: 48px;
-                    display: block;
-                    margin: 0 auto;
-                }
-            }
-        }
-        .close {
-        	font-size: 54px;
-		    bottom: 50px;
-		    position: absolute;
-		    right: 8px;
-            padding: 10px;
-            &.at-close{
-                bottom:10px;
-            }
-        }
-    }
+    //     .file-type-select-wrap {
+    //         position: absolute;
+    //         bottom: 0;
+    //         width: 100%;
+    //         padding: 0 $padding;
+    //         height: 360px;
+    //     }
+    //     .title {
+    //         color: #5D75F7;
+    //         font-size: 17px;
+    //         line-height: 1.75;
+    //     }
+    //     .content {
+    //         color: #9B9B9B;
+    //         font-size: 14px;
+    //         line-height: 1.75;
+    //     }
+    //     .type-list {
+	// 		overflow: hidden;
+	// 		padding-top: 30px;
+	// 		margin: 0px -18px;
+    //         li {
+    //             float: left;
+    //             width: 25%;
+    //             text-align: center;
+    //             color: #1B1B1B;
+    //             font-size: 14px;
+    //             h2 {
+    //                 font-size: 14px;
+    //                 font-weight: normal;
+    //                 text-align: center;
+    //                 text-indent: 0;
+    //                 margin-top: 9px;
+    //             }
+    //             .icon {
+    //                 position: static;
+    //                 font-size: 48px;
+    //                 display: block;
+    //                 margin: 0 auto;
+    //             }
+    //         }
+    //     }
+    //     .close {
+    //     	font-size: 54px;
+	// 	    bottom: 50px;
+	// 	    position: absolute;
+	// 	    right: 8px;
+    //         padding: 10px;
+    //         &.at-close{
+    //             bottom:10px;
+    //         }
+    //     }
+    // }
 
     .operation-btns {
         position: fixed;
