@@ -21,13 +21,13 @@
                 <div class="select-btn" [ngClass]="showEng=='cn'?'':'eng-sel-btn'">
                     <div class="task-btn">
                         <svg class="icon" *ngIf="!allBtnsShow" tappable aria-hidden="true" (click)="goTaskPage()">
-                            <use *ngIf="!judgeBusy()" xlink:href="#icon-renwuguanli"></use>
-                            <use *ngIf="judgeBusy()" xlink:href="#icon-renwuguanli1"></use>
+                            <use *ngIf="!judgeBusy()" xlink:href="#iconrenwuguanli"></use>
+                            <use *ngIf="judgeBusy()" xlink:href="#iconrenwuguanlired"></use>
                         </svg>
                     </div>  
                     <span class="task-btn all-toggle-btn"  *ngIf="!allBtnsShow" tappable (click)="showAllBtns(null)">
                         <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-AllSelecticon"></use>
+                            <use xlink:href="#iconduoxuan"></use>
                         </svg> 
                     </span>  
                     <span *ngIf="allBtnsShow" tappable (click)="cancelSelect()">{{global.L("Cancel")}}</span>
@@ -46,7 +46,6 @@
                 <!-- <div *ngIf="dataAcquired && fileList.length > 0"> -->
                     <!-- <ion-list class="file-list" [virtualScroll]="fileList" approxItemHeight="73px" bufferRatio="10" > -->
                         <li class="file-list-item" tappable [ngClass]="classify == 1 ? 'img-li' : ''" *ngFor="let info of fileList" tappable (click)="goNextFolder(info);$event.stopPropagation();">
-							<div class="list-wrapper" *ngIf="info.type != 2">
 								<div class="file-type" *ngIf="classify != 1" [ngClass]="info.fileStyle"></div>
 								<!-- <img class="file-thumbnail" [src]="info.thumbnail" *ngIf="info.thumbnail && classify == 1"> -->
 								<div class="info" *ngIf="classify != 1">
@@ -71,7 +70,6 @@
 										</svg>
 									</div>
 								</div>								
-							</div>
 							<!-- <div class="list-wrapper" *ngIf="info.type == 2">
 								<p>{{ info.name }}</p>
 								<svg class="icon icon-right" aria-hidden="true" *ngIf="allBtnsShow" [ngClass]="info.selected?'light':''">

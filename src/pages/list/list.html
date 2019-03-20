@@ -26,7 +26,7 @@
                     <div class="task-btn" *ngIf="!allBtnsShow">
                         <svg class="icon" tappable aria-hidden="true" (click)="goTaskPage()">
                             <use *ngIf="!judgeBusy()" xlink:href="#iconrenwuguanli"></use>
-                            <use *ngIf="judgeBusy()" xlink:href="#iconrenwuguanli"></use>
+                            <use *ngIf="judgeBusy()" xlink:href="#iconrenwuguanlired"></use>
                         </svg>
                     </div>
                     <span class="task-btn all-toggle-btn" *ngIf="!allBtnsShow" tappable (click)="toggleClassifyNav()">
@@ -44,7 +44,7 @@
 
 <ion-content (ionScroll)="closeTypeList($event)">
     <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page">
-        <div class="disk-list">
+        <div class="disk-list" *ngIf="currPath == '/'">
             <p class="disk-title">其他磁盘</p>
             <div class="disk-list-box">
                 <ul class="disk-ul-box" [ngStyle]="{width: 150 * 3 + 'px'}">
