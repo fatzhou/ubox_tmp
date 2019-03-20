@@ -333,7 +333,7 @@ export class HttpService {
 						resolve: resolve,
 						reject: reject,
 						paramObj: paramObj,
-						errorHandler: errorHandler,
+						errorHandler: label == this.channelLabels[0] == label ? errorHandler : false,
 						headers: headers,
 						method: 'post',
 						time: Date.now()
@@ -804,20 +804,15 @@ export class HttpService {
 					throw new Error("Write file failed");
 				})
 		} else {
-			console.log("1111111")
 			//webrtc
 			return new Promise((resolve, reject) => {
-				console.log('aaaaaa')
 				var form = new FormData();
-				console.log('bbbb')
 				var buf = new Buffer('');
 				let r = Date.now();
-console.log('ccccc')
 				form.on("data", (d) => {
 					// GlobalService.consoleLog("文件数据接收事件:" + (d.length || d.byteLength));
 					buf = Buffer.concat([buf, new Buffer(d)]);
 				})
-console.log("222222")
 				form.on("end", () => {
 					// GlobalService.consoleLog("文件数据接收完毕");
 					this.webrtcRequest(url, 'post', buf, {
@@ -829,20 +824,16 @@ console.log("222222")
 						})
 						.then(resolve, reject);
 				})
-				console.log("333333")
 				form.append("range", params.range);
 				form.append("path", params.path);
 				form.append("name", params.name);
-console.log("44444")
 				form.append("file", new Buffer(data), {
 					filename: params.name
 				});
 				form.resume();
 				GlobalService.consoleLog("文件数据已发送");
 			})
-
 		}
-
 	}
 
 	createDataChannel() {
@@ -1087,18 +1078,18 @@ console.log("44444")
 
 	//////qbing add for test //////begin ////////////
 	rateLimit(label) {
-		let ratelimit = false;
-		if (Object.keys(this.globalRequestMap).length > 1) {
-			ratelimit = true;
+		let limit = false;
+		if (Object.keys(this.globalRequestMap).length > 5) {
+			limit = true;
 		}
-		return ratelimit;
+		return limit;
 	}
 	//////qbing add for test //////end //////////////
 
 
 	webrtcRequest(url: string, method: string, paramObj: any, headers: any = {}, options: any = {}) {
 		var start = Date.now(),
-			maxTime = options.maxTime || 5000;
+			maxTime = options.maxTime || 30000;
 		let label = options.channelLabel || this.channelLabels[0],
 			dataChannel = this.channels[label];
 

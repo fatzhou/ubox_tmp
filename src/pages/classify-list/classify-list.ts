@@ -233,15 +233,15 @@ export class ClassifyListPage {
 						let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
 						//计算日期
 						let date = Util.getTime(item.modify_time * 1000, "-", true);
-						if(date != this.lastDate) {
-							//需插入日期
-							list.push({
-								type: 2,
-								name: date,
-								selected: false
-							})
-							this.lastDate = date;
-						}
+						// if(date != this.lastDate) {
+						// 	//需插入日期
+						// 	list.push({
+						// 		type: 2,
+						// 		name: date,
+						// 		selected: false
+						// 	})
+						// 	this.lastDate = date;
+						// }
                         this.classify === 1 && (md5 = Md5.hashStr(item.path + "/" + name).toString());
                         if(!test.test(item.name)) { 
                             list.push({
@@ -285,7 +285,7 @@ export class ClassifyListPage {
     //预置目录检查：不允许用户删除该目录
     checkFixedContent() {
         var fixedContentCheck = this.selectedFiles.filter(item => {
-            return item.name === 'Images' || item.name === 'Videos' || item.name === 'Documents' || item.name === 'Musics';
+            return item.type == 1 && (item.name === 'Images' || item.name === 'Videos' || item.name === 'Documents' || item.name === 'Musics');
         })
         return fixedContentCheck.length === 0;
     }
@@ -335,9 +335,10 @@ export class ClassifyListPage {
         var flag = false;
         this.global.createGlobalToast(this, {
             message: this.global.L('StartDownloading')
-        })
-        for (var i = 0, len = this.selectedFiles.length; i < len; i++) {
-			let selected = this.selectedFiles[i];
+		});
+		let fileList = this.selectedFiles.filter(item => item.type == 1);
+        for (var i = 0, len = fileList.length; i < len; i++) {
+			let selected = fileList[i];
 			let subFoldPath = {
 				'image': this.global.PhotoSubPath,
 				'video': this.global.VideoSubPath,
@@ -362,14 +363,10 @@ export class ClassifyListPage {
             return false;
         }
         GlobalService.consoleLog("开始删除文件");
-
-        var path = [];
-        for (var i = 0, len = this.selectedFiles.length; i < len; i++) {
-            path.push(this.selectedFiles[i].path.replace(/\/$/g, '') + "/" + this.selectedFiles[i].name);
-        }
-        var hasFolder = this.selectedFiles.filter(item=>item.type === 1).length;        
-        var self = this;
-        this.util.deleteFileDialog(path, hasFolder, ()=>{
+		let path = this.selectedFiles.map(item => item.path.replace(/\/$/g, '') + "/" + item.name);
+		console.log("删除以下文件:" + path.join('------'));
+		var self = this;
+        this.util.deleteFileDialog(path, false, ()=>{
             this.resetPageParam();
             //完成删除回调
             this.listFiles();

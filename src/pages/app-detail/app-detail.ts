@@ -33,7 +33,7 @@ export class AppDetailPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad AppDetailPage');
+        // console.log('ionViewDidLoad AppDetailPage');
         this.info = this.navParams.get("info");
         this.labelList = this.global.SearchData.labelList;
     }

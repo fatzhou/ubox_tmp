@@ -45,6 +45,7 @@ import { VerifyEmailPage } from '../pages/verify-email/verify-email';
 import { Web3Service } from '../providers/Web3Service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { AppsInstalled } from '../providers/AppsInstalled';
+import { File } from '@ionic-native/file';
 
 import { FileManager } from '../providers/FileManager';
 declare var chcp: any;
@@ -72,7 +73,8 @@ export class UboxApp {
         private appInstalled: AppsInstalled,
         private fileManager: FileManager,
         private global: GlobalService,
-        private http: HttpService,
+		private http: HttpService,
+		private file: File,
         private alertCtrl: AlertController,
         // private statusBar: StatusBar,
         public splashScreen: SplashScreen,
@@ -128,7 +130,9 @@ export class UboxApp {
                 this.global.fileRootPath = cordova.file.externalRootDirectory;
 
                 //获取已安装应用列表
-                this.appInstalled.getInstalledApps();
+				this.appInstalled.getInstalledApps();
+				
+				this.createSubFolders();
             } else {
                 GlobalService.consoleLog("我不是cordova");
 				this.rootPage = LoginPage;
@@ -151,7 +155,23 @@ export class UboxApp {
             this.removeBackButtonAction();
             // this.util.getDeviceID();
         });
-    }
+	}
+	
+	createSubFolders() {
+		[this.global.ThumbnailSubPath, this.global.PhotoSubPath, this.global.VideoSubPath, this.global.MusicSubPath, this.global.DocSubPath].forEach(item => {
+			this._checkAndCreateFolder(item);
+		})
+	}
+
+	_checkAndCreateFolder(name) {
+		this.file.checkDir(this.global.fileSavePath, name)
+		.then(res => {
+			GlobalService.consoleLog("目录" + name + "已存在");
+		}, res => {
+			GlobalService.consoleLog("即将新建目录" + name);
+			this.file.createDir(this.global.fileSavePath, name, false);
+		});
+	}
 
     getUserInfo() {
 		// if(1) {
@@ -178,7 +198,7 @@ export class UboxApp {
                 //获取版本号
                 this.util.loginAndCheckBox(this)
                 .then(res => {
-					console.log("loginAndCheckBox成功进入resolve....");
+					// console.log("loginAndCheckBox成功进入resolve....");
                     if(this.global.centerUserInfo.uname) {
                         this.rootPage = TabsPage;
                     } else {

@@ -190,7 +190,10 @@ export class SelectImgPage {
             setTimeout(() => {
                 this.uploadThumbnail(uploadItem)
                 .then(res => {
-                    this.transfer.uploadSingleFile(fileUrl, this.currPath, uploadItem.id);
+                    this.transfer.uploadSingleFile(fileUrl, this.currPath, {
+						thumbnail: res,
+						id: uploadItem.id
+					});
                     callback();
                 })
                 .catch(e => {
