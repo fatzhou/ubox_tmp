@@ -95,6 +95,8 @@ import { PermissionComponent } from '../components/permission/permission';
 import { ConnectionPopupComponent } from '../components/connection-popup/connection-popup';
 import { BoxPromotionComponent } from '../components/box-promotion/box-promotion';
 import { BindBoxComponent } from '../components/bind-box/bind-box';
+import { ClassifyComponent } from '../components/classify/classify';
+
 
 //插件providers
 import { File } from '@ionic-native/file';
@@ -153,6 +155,7 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     ConnectionPopupComponent,
     BoxPromotionComponent,
     BindBoxComponent,
+    ClassifyComponent,
     UserPage,
     MiningPage,
     TabsPage,
@@ -222,7 +225,9 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
       iconMode: 'ios',
       mode: 'ios',
       // tabsPlacement: 'bottom',
-      pageTransition: 'ios-transition'
+      pageTransition: 'ios-transition',
+      backButtonText: '',
+      backButtonIcon: 'arrow-round-back'
     }),
     IonicStorageModule.forRoot(
         {

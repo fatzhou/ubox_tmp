@@ -8,22 +8,17 @@
 
   <ion-navbar (click)="cancalDelete()">
     <ion-title>
-		{{global.L('WORD9d749424')}}
+		{{ allBtnsShow ? "已选择" + selectFileNum + "项" : global.L('WORD9d749424') }}
 		<div class="list-header">
-			<div class="back-nav select-box text-left" *ngIf="allBtnsShow">
-				<div class="btn choose" tappable  tappable (click)="selectAll()">   
-					<span>{{ selectAllStatus ? global.L("CancelSelectAll") : global.L("SelectAll") }}</span>            
-				</div>  
-			</div> 
-				
 			<div class="back-nav" *ngIf="!showFileSelect">
 				<div class="select-btn" [ngClass]="showEng=='cn'?'':'eng-sel-btn'">  
 					<span *ngIf="!allBtnsShow" tappable class="select-all-icon" (click)="showAllBtns(null)">
 						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#icon-AllSelecticon"></use>
+							<use xlink:href="#iconjianshao"></use>
 						</svg>  
 					</span>  
-					<span *ngIf="allBtnsShow" class="text-right" tappable (click)="cancelSelect()">{{global.L("Cancel")}}</span>
+					<span *ngIf="allBtnsShow" class="text-right" tappable (click)="selectAll()">{{ selectAllStatus ? global.L("CancelSelectAll") : global.L("SelectAll") }}</span>
+					<span *ngIf="allBtnsShow" class="text-right" tappable (click)="cancelSelect()"> / {{global.L("Cancel")}}</span>
 				</div>     
 			</div>    
 		</div>
@@ -37,7 +32,7 @@
 <div class="main-content" (click)="cancalDelete()">
 	<div class="main">
 		<div class="doing task-list" *ngIf="doingTaskList.length > 0">
-			<p ion-item class="title">{{global.L('WORD64e13621')}} ({{ doingTaskList.length }})
+			<p ion-item class="title">{{global.L('WORD64e13621')}}
 				<span item-end tappable (click)="toggleAllStatus()" *ngIf="!allBtnsShow"><i>{{ taskStatus === 'doing' ? global.L('ALLSTART') : global.L('ALLPAUSE') }}</i></span>
 			</p>
 			<ion-list class="task-ul">
@@ -47,7 +42,7 @@
 						<img class="file-type" item-start [src]="task.thumbnail | photoSantizer" *ngIf="task.fileStyle == 'image' && task.thumbnail">
 						<div class="info">
 							<p class="file-name eps">{{ pretify(task.name) }}</p>
-							<p class="file-info eps text-left"><em [ngClass]="task.action == 'download' ? 'file-down' : 'file-up'"></em>{{ computeFinished(task) }}</p>
+							<p class="file-info eps text-left"><em [ngClass]="task.action == 'download' ? 'file-down' : 'file-up'"></em><span class="progress-box"><em [ngStyle]="{width: task.percent + '%'}"></em></span></p>
 						</div>
 						<div class="speed clear" item-end>
 							<p class="amount fl" *ngIf="task.pausing === 'doing'">{{ computeSpeed(task) }}B/S</p>
@@ -78,7 +73,7 @@
 		</div>
 		<div class="done task-list" *ngIf="doneTaskList.length > 0">
 			<p class="title" ion-item tappable (click)="removeList()">
-				{{global.L('WORD3c80409a')}} ({{ doneTaskList.length }})
+				{{global.L('WORD3c80409a')}}
 				<span item-end *ngIf="!allBtnsShow"><i>{{global.L('WORD2a006785')}}</i></span>
 			</p>
 			<ion-list class="task-ul">
@@ -116,10 +111,7 @@
 		<div class="blank-50" *ngIf="allBtnsShow"></div>
 	</div>
 	<div class="operation-btns" *ngIf="allBtnsShow">
-		<div class="btn delete" tappable (click)="deleteFile()" [ngClass]="canDelete?'':'disable'">
-			<svg class="icon" aria-hidden="true">
-				<use xlink:href="#icon-shanchuicon"></use>
-			</svg>    
+		<div class="btn delete" tappable (click)="deleteFile()" [ngClass]="canDelete?'':'disable'">   
 			<span>{{global.L("Delete")}}</span>    
 		</div>    
 	</div>

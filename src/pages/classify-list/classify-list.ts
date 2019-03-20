@@ -498,7 +498,7 @@ export class ClassifyListPage {
             this.currPath = config[type].path;
         } else {
             this.classify = 0;
-            var path = this.navParams.get('path');
+            var path = this.global.currPath || '/';
             var myItem = "";
             for (var item in config) {
                 if (config[item].path === path) {

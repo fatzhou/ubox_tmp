@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Tabs, Nav } from 'ionic-angular';
 import { FindPage } from '../find/find';
-import { HomePage } from '../home/home';
+import { ListPage } from '../list/list';
 import { MiningPage } from '../mining/mining';
 import { UserPage } from '../user/user';
 import { Util } from '../../providers/Util';
@@ -38,7 +38,7 @@ export class TabsPage {
     @ViewChild(Nav) nav: Nav;
     // selectedIndex:any = 0;
     search: any = FindPage;
-    home: any = HomePage;
+    home: any = ListPage;
     user: any = UserPage;
     mining: any = MiningPage;
     version: any = "";

@@ -13,10 +13,11 @@ import { DeviceListPage } from '../device-list/device-list';
 import { AboutDevicePage } from '../about-device/about-device';
 import { DeviceManagementPage } from '../device-management/device-management';
 import { Lang } from "../../providers/Language";
+import { FileTransport } from '../../providers/FileTransport';
 import { Storage } from '@ionic/storage';
 import { Md5 } from 'ts-md5/dist/md5';
 import { Web3Service } from '../../providers/Web3Service';
-import { ClassifyListPage } from '../classify-list/classify-list';
+import { ChangeDetectorRef } from '@angular/core';
 
 import { FileManager } from '../../providers/FileManager';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
@@ -46,7 +47,16 @@ export class HomePage {
     miningFraction: any = "00";
     miningTotal: any = 0;
     // static _this;
-    isShowBox: boolean = false; 
+    isShowBox: boolean = false;
+
+    //0319add
+    currPath: string = '/'; 
+    dataAcquired: any = false;
+    type0List: any = [];
+    type1List: any = [];
+    isShowType0List: boolean = true;
+    isShowType1List: boolean = true;
+    allFileList: any = []; //总文件数组
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
@@ -59,7 +69,8 @@ export class HomePage {
         private web3: Web3Service,
         public storage: Storage,
         private platform: Platform,
-        // private transfer : FileTransport
+        private transfer : FileTransport,
+        private cd: ChangeDetectorRef,
         // public camera: Camera,
     ) {
         // HomePage._this = this;
@@ -73,7 +84,6 @@ export class HomePage {
         this.events.unsubscribe('home:succeed');
         this.events.subscribe('home:succeed', () => {
             GlobalService.consoleLog("成功接收到事件");
-            this.goFolderPage('all');
         })
         this.events.unsubscribe('chainType:update');
         this.events.subscribe('chainType:update', () => {
@@ -166,8 +176,8 @@ export class HomePage {
 				})
 			} 			
 		} 
-	}
-	
+    }
+    
     ionViewDidLeave() {
         this.isShowBox = false;
 	}
@@ -302,45 +312,6 @@ export class HomePage {
         });            
     }
 
-    goFolderPage(type) {
-        GlobalService.consoleLog("选择文件夹类型：" + type);
-
-        if(!this.global.deviceSelected) {
-            this.global.createGlobalAlert(this, {
-                title: Lang.L('WORD2a0b753a'),
-                message: Lang.L('WORDc89b0da1'),
-                buttons: [
-                    {
-                        text: Lang.L('WORD688d7511'),
-                        handler: data => {
-                        }
-                    },
-                    {
-                        text: Lang.L('WORD0cde60d1'),
-                        handler: data => {
-                            GlobalService.consoleLog('Cancel clicked');
-                            this.app.getRootNav().push(DeviceListPage, {
-                                refresh: false
-                            });
-                        }
-                    },
-                ]
-            })            
-        } else {
-            GlobalService.consoleLog('type   ' +type)
-            if(type === "all") {
-                this.app.getRootNav().push(ListPage, {
-                    type: type
-                });
-            } else {
-                this.app.getRootNav().push(ClassifyListPage, {
-                    type: type
-                });
-            }
-               
-                     
-        }
-    }
 
     openFileSelect() {
         GlobalService.consoleLog("打开浮层");
@@ -354,7 +325,6 @@ export class HomePage {
 
     addFileDone() {
         GlobalService.consoleLog("收到文件上传成功事件");
-        this.goFolderPage('all');
     }
 
     goBindingPage() {
@@ -420,5 +390,4 @@ export class HomePage {
         })
     }
 
-    
 }
