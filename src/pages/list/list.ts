@@ -71,6 +71,7 @@ export class ListPage {
     isShowType1List: boolean = true;
     isShowBox: boolean = false;
     isShowClassifyNav: boolean = false;
+    isShowAside: boolean = false;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -718,5 +719,9 @@ export class ListPage {
 
     toggleClassifyNav() {
         this.isShowClassifyNav = !this.isShowClassifyNav;
+    }
+
+    toggleShowAside() {
+        this.isShowAside = !this.isShowAside;
     }
 }

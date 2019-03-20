@@ -95,7 +95,7 @@ page-select-folder {
                             margin-right: -4px;
                         }
                         &.active {
-                            color: #5D75F7;
+                            color: $newFiveColor;
                         }
                     }
                 }
@@ -108,7 +108,7 @@ page-select-folder {
                 width: 88px;
             }
             p {
-                color: #5D75F7;
+                color: $newFiveColor;
                 line-height: 4;
             }
         }

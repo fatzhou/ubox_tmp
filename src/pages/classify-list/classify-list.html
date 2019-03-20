@@ -54,10 +54,10 @@
 								</div>
 								<div class="btn" *ngIf="classify != 1">
 									<svg class="icon icon-ellipsis" aria-hidden="true" *ngIf="!allBtnsShow" (click)="DetailInfo = info;toggleDetailPage(true);$event.stopPropagation();">
-										<use xlink:href="#icon-more"></use>
+										<use xlink:href="#icongengduo1"></use>
 									</svg>                    
 									<svg class="icon icon-right" aria-hidden="true" *ngIf="allBtnsShow" [ngClass]="info.selected?'light':''">
-										<use xlink:href="#icon-gouxuanicon"></use>
+										<use xlink:href="#icongouxuan"></use>
 									</svg>
 								</div>
 								<div class="file-box image active" *ngIf="classify == 1">
@@ -66,7 +66,7 @@
 									<div class="btn">
 										<em class="nochoose-circle" *ngIf="!info.selected && allBtnsShow"></em>
 										<svg class="icon icon-ellipsis" *ngIf="info.selected && allBtnsShow" aria-hidden="true">
-											<use xlink:href="#icon-gouxuanicon1"></use>
+											<use xlink:href="#icongouxuan"></use>
 										</svg>
 									</div>
 								</div>								

@@ -6,12 +6,12 @@
 -->
 <ion-header>
     <ion-navbar class="clear">
-        <svg *ngIf="currPath == '/'" class="icon aside-nav-icon" aria-hidden="true">
+        <svg *ngIf="currPath == '/' || currPath == ''" class="icon aside-nav-icon" (click)="toggleShowAside()" aria-hidden="true">
             <use xlink:href="#iconcaidan"></use>
         </svg>
         <ion-title>
-        <div *ngIf="currPath != '/'">{{pageTitle}}</div>
-        <div *ngIf="currPath == '/'" class="home-title-box">
+        <div *ngIf="currPath != '/' && currPath != ''">{{pageTitle}}</div>
+        <div *ngIf="currPath == '/' || currPath == ''" class="home-title-box">
             <p class="home-title">My Files</p>
             <p class="list-point"><span class="active"></span><span></span><span></span><span></span></p>
         </div>
@@ -147,12 +147,70 @@
     </svg>
 </div>
    
-<div class="aside-nav">
-    <ul>
-        <li>
-            
-        </li>
-    </ul>
+<div class="aside-nav" *ngIf="isShowAside">
+    <div class="aside-nav-bg" (click)="toggleShowAside()"></div>
+    <div class="aside-nav-content">
+        <div class="nav-head">
+            <p class="user-head-img"></p>
+            <p class="user-email">tin**fasd@gmail.com</p>
+        </div>
+        <ul class="nav-list">
+            <li class="active">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icondownloadicon1"></use>
+                </svg>    
+                <span>My Files</span> 
+            </li>
+            <li>
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconBTdefault"></use>
+                </svg>    
+                <span>Discover</span> 
+            </li>
+            <li class="border-bottom">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconMiningdefault"></use>
+                </svg>    
+                <span>Mining</span> 
+            </li>
+            <li>
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconWalletdefault"></use>
+                </svg>    
+                <span>Wallet</span> 
+            </li>
+            <li class="border-bottom">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconDappdefault"></use>
+                </svg>    
+                <span>DAPP</span> 
+            </li>
+            <li>
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconMessagedefault"></use>
+                </svg>    
+                <span>Notices</span> 
+            </li>
+            <li>
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconSettingdefault"></use>
+                </svg>    
+                <span>Setting</span> 
+            </li>
+        </ul>
+        <div ion-item class="nav-bottom">
+            <div item-start>
+                <p class="ubbey-contact">UBBEY NeXT <span>内场连接</span></p>
+                <p>3个扩展设备</p>
+            </div>
+            <div item-end>
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconxiangyou"></use>
+                </svg>  
+            </div>
+        </div>
+    </div>
+    
 </div>
 <div class="operation-btns" *ngIf="allBtnsShow && !isShowDetail">
     <div class="operation-content">

@@ -48,7 +48,7 @@ page-classify-list {
         .back-nav {
             height: 44px;
             line-height: 44px;
-            color: #5D75F7;
+            color: #fff;
             font-size: 18px;
             padding: 0 10px;
             font-weight: normal;
@@ -160,7 +160,7 @@ page-classify-list {
                         color: #E9E9EA;
                     }
                     &.light {
-                        color: #5D75F7;
+                        color: #fff;
                     }
                 }
             }
@@ -208,7 +208,7 @@ page-classify-list {
                         line-height: 1;
                         &.icon-ellipsis {
                             font-size: 20px;
-                            color: #5D75F7;
+                            color: #fff;
                             position: absolute;
                             height: 20px;
                             border-radius: 50%;
@@ -256,7 +256,7 @@ page-classify-list {
             width: 88px;
         }
         p {
-            color: #5D75F7;
+            color: $newFiveColor;
             line-height: 4;
         }
     }
@@ -291,7 +291,7 @@ page-classify-list {
             height: 360px;
         }
         .title {
-            color: #5D75F7;
+            color: #fff;
             font-size: 17px;
             line-height: 1.75;
         }
