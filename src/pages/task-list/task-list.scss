@@ -47,13 +47,13 @@ page-task-list {
         position: absolute;
         right: 0;
         top: 0;
-        color:#000;
+        color:#fff;
         z-index: 888;
 
         .back-nav {
             height: 44px;
             line-height: 44px;
-            color: $newFiveColor;
+            color: #fff;
             font-size: 18px;
             padding: 0 10px;
 			font-weight: normal;
@@ -81,8 +81,9 @@ page-task-list {
 						text-align: center;
 						padding: 10px;
 						line-height: normal;
+
 						.icon {
-							font-size: 24px;
+							font-size: 22px;
 							margin-right: 0;
 						}
 					}
@@ -110,19 +111,22 @@ page-task-list {
     }
 	.task-list {
 		// background: #fff;
+		background: $newThreeColor;
 		.title {
-			color: $newFourColor;
+			color: $newFiveColor;
 			font-size: 12px;
 			height: 44px;
 			line-height: 44px;
 			border-bottom: 1px solid #f1f1f1;
 			padding: 0 10px;
 			min-height: auto;
+			background: $newThreeColor;
 			span {
 				margin: 0;
 				padding: 0 10px;
 				margin-right: -14px;
 				color: $newFourColor;
+				background: $newThreeColor;
 				i {
 					border: 1px solid $newFourColor;
 					font-style: normal;
@@ -136,6 +140,7 @@ page-task-list {
 				padding-left: 10px;
 				border-bottom: 1px solid $newThreeColor;
 				position: relative;
+				background: $newFourColor;
 			}
 			img {
 				width: 48px;
@@ -167,7 +172,7 @@ page-task-list {
 				margin-top: 4px;
 				.progress-box {
 					display: inline-block;
-					width: 175px;
+					width: 150px;
 					height: 6px;
 					background: #404040;
 					position: relative;
@@ -284,14 +289,28 @@ page-task-list {
 						font-size: 48px;
 						line-height: 1;
 						&.icon-right {
-							font-size: 24px;
-							right: 0;
-							margin-top: 0px;
-							margin-right: 0px;
-							color: #E9E9EA;
-						}
+                            font-size: 20px;
+                            right: 0;
+                            margin-right: 0px;
+                            color: #E9E9EA;
+                        }
 						&.slight {
 							color: #00C77D;
+						}
+					}
+					em {
+						display: inline-block;
+						width: 20px;
+						height: 20px;
+						border: 1px solid #fff;
+						position: absolute;
+						top: 6px;
+						left: 5px;
+						border-radius: 50%;
+						background: rgba(0,0,0,0);
+						box-sizing: border-box;
+						&.light {
+							border-color: rgb(0, 199, 125);
 						}
 					}
 				}

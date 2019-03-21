@@ -25,7 +25,7 @@
   <ion-content>
     <div class="main-content">
         <div class="second-content">
-            <div>
+            <div class="bg-three">
                 <ul *ngIf="listFiles.length > 0">
                     <li  tappable class="fileli" *ngFor="let info of listFiles" (click)="selectFile(info)">
                         <div class="file-type" [ngClass]="util.computeFileType(info.name, info.isFile ? 0 : 1)"></div>
@@ -35,10 +35,11 @@
                         </div>
                         <div class="btn">
                             <svg class="icon icon-ellipsis nexticon" *ngIf="info.isFile == false" aria-hidden="true" >
-                                <use xlink:href="#icon-you"></use>
+                                <use xlink:href="#iconxiangyou"></use>
                             </svg>  
-                            <svg class="icon icon-ellipsis" *ngIf="info.isFile == true" [ngClass]="info.isSelected == true ? 'active' : ''" aria-hidden="true" >
-                                <use xlink:href="#icon-gouxuanicon"></use>
+                            <em class="nochoose-circle" *ngIf="!info.isSelected && info.isFile" ></em>
+                            <svg class="icon icon-ellipsis icon-right" *ngIf="info.isFile == true && info.isSelected" [ngClass]="info.isSelected == true ? 'active' : ''" aria-hidden="true" >
+                                <use xlink:href="#icongouxuan"></use>
                             </svg>                                 
                         </div>
                     </li>

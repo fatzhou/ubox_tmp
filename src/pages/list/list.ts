@@ -84,6 +84,7 @@ export class ListPage {
         private storage: Storage,
         private fileManager: FileManager,
         private transfer: FileTransport,
+        private app: App,
         private downloader: FileDownloader,
         public navParams: NavParams) {
         
@@ -575,7 +576,7 @@ export class ListPage {
     }
 
     goFolderPage(param) {
-        this.navCtrl.push(ListPage, {
+        this.app.getRootNav().push(ListPage, {
             type: param.type,
             path: param.path
         });
@@ -587,14 +588,14 @@ export class ListPage {
         } else {
             if (file.type === 1) {
                 GlobalService.consoleLog("选择了文件夹，进入文件夹");
-                this.navCtrl.push(ListPage, {
+                this.app.getRootNav().push(ListPage, {
                     type: "",
                     path: this.currPath.replace(/\/$/g, '') + "/" + file.name
                 });
             } else if(file.fileStyle == 'image') {
                 let test = /(\.HEIC)$/gi;
                 if(test.test(file.name)) {
-                    this.navCtrl.push(PreviewOtherPage, {
+                    this.app.getRootNav().push(PreviewOtherPage, {
                         currPath: this.currPath,
                         info: file
                     });
@@ -609,7 +610,7 @@ export class ListPage {
                             break;
                         }
                     }
-                    this.navCtrl.push(PreviewImagePage, {
+                    this.app.getRootNav().push(PreviewImagePage, {
                         currPath: this.currPath,
                         info: file,
                         from: 'list',
@@ -621,7 +622,7 @@ export class ListPage {
                     });
                 }
             } else {
-                this.navCtrl.push(PreviewOtherPage, {
+                this.app.getRootNav().push(PreviewOtherPage, {
                     currPath: this.currPath,
                     info: file
                 });
@@ -636,7 +637,7 @@ export class ListPage {
     }
 
     goTaskPage() {
-        this.navCtrl.push(TaskListPage);
+        this.app.getRootNav().push(TaskListPage);
     }
 
     toggleDetailPage(detail, isShow = false) {
@@ -659,7 +660,7 @@ export class ListPage {
             return false;
         }
         this.global.selectFolderType = 'move';
-        this.navCtrl.push(SelectUploadFolderPage)
+        this.app.getRootNav().push(SelectUploadFolderPage)
     }
 
     closeTypeList() {
@@ -712,7 +713,7 @@ export class ListPage {
 
 
     goDetailPage(info) {
-        this.navCtrl.push(FileDetailPage, {
+        this.app.getRootNav().push(FileDetailPage, {
             info: info
         })
     }

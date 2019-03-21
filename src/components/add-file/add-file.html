@@ -27,14 +27,14 @@
                 </div>
                 <h2>{{global.L('DirDocuments')}}</h2>
             </li>
-            <li *ngIf="plat==='android'"  tappable (click)="goSelectPage('all','/');$event.stopPropagation()">
+            <!-- <li *ngIf="plat==='android'"  tappable (click)="goSelectPage('all','/');$event.stopPropagation()">
                     <div class="folderbox A90E2">
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-fileicon"></use>
                         </svg>
                     </div>
                     <h2>{{global.L('AllFiles')}}</h2>
-                </li>
+                </li> -->
             <li tappable (click)="makeFolder();$event.stopPropagation()" class="border-top">
                 <div class="folderbox D586D97">
                     <svg class="icon" aria-hidden="true">

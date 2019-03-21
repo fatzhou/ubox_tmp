@@ -22,6 +22,10 @@ page-select-img {
         padding-bottom: 100px;
         box-sizing: border-box;
         -webkit-overflow-scrolling: touch;
+        background: $newThreeColor;	
+        .img-box {
+            background: $newThreeColor;	
+        }
         .photo-counts {
             margin: 0;
             padding: 0;
@@ -46,6 +50,7 @@ page-select-img {
         .item-list {
             padding-bottom: 100px;
             overflow: hidden;
+            background: $newThreeColor;	
             h4 {
                 font-size: 14px;
                 padding: 10px 15px;
@@ -159,40 +164,6 @@ page-select-img {
                 display: inline-block;
                 height: 100%;
             }
-        }
-    }
-    .footer{
-        width: 100%;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        padding: 10px;
-        box-sizing: border-box;
-        border-top: 1px solid #d9d9d9;
-        background: #F9F9F9;
-        padding-top: 0;
-        z-index: 9;
-        p {
-            color: #9B9B9B;
-            font-size: 12px;
-            line-height: 30px;
-        }
-        .left-btn{
-            width: 60%;
-            float: left;
-            margin-right: 3%;
-            box-shadow: none;
-            height: 40px;
-            line-height: 40px;
-            color: #4A4A4A;
-            background: #fff;
-        }
-        .right-btn{
-            width: 37%;
-            float: left;
-            box-shadow: none;
-            height: 40px;
-            line-height: 40px;          
         }
     }
 }
