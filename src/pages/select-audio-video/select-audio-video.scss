@@ -22,6 +22,9 @@ page-select-audio-video {
         box-sizing: border-box;
         background:  $newThreeColor;	
         -webkit-overflow-scrolling: touch;
+        .bg-three {
+            background: $newThreeColor;
+        }
         h5{
             margin: 0;
             padding: 0;
@@ -47,13 +50,6 @@ page-select-audio-video {
         ul{
             padding-bottom: 100px;
             overflow: hidden;
-            h4{
-                font-size: 14px;
-                padding: 10px 15px;
-                margin: 0;
-                color: #9b9b9b;
-                clear: both;
-            }
             .fileli{
                 border-bottom: 1px solid $newThreeColor;	
                 padding: 12px $padding - 3px;
@@ -72,7 +68,7 @@ page-select-audio-video {
                     }
                     p {
                         font-size: 12px;
-                        color: #fff;
+                        color: $newFiveColor;
                         line-height: 1.5;
                         margin-top: 4px;
                         overflow: hidden;
@@ -82,18 +78,41 @@ page-select-audio-video {
                 }
                 .btn {
                     float: right;
+                    position: relative;
                     .icon {
                         font-size: 28px;
                         line-height: 1;
-                        color:  $newFourColor;	
+                        color:  $newFiveColor;
+                        position: absolute;
                         &.icon-ellipsis {
                             font-size: 28px;
                             line-height: 48px;
                             height: 48px;
                             margin-right: -4px;
                         }
+                        &.icon-right {
+                            font-size: 20px;
+                            right: 0;
+                            margin-right: 0px;
+                            color: #E9E9EA;
+                        }
                         &.active {
-                            color:  $newFourColor;	
+                            color:  $newFirstColor;	
+                        }
+                    }
+                    em {
+                        display: inline-block;
+                        width: 20px;
+                        height: 20px;
+                        border: 1px solid #fff;
+                        position: absolute;
+                        top: 14px;
+                        right: 0px;
+                        border-radius: 50%;
+                        background: rgba(0,0,0,0);
+                        box-sizing: border-box;
+                        &.light {
+                            border-color: rgb(0, 199, 125);
                         }
                     }
                 }
@@ -106,7 +125,7 @@ page-select-audio-video {
                 width: 88px;
             }
             p {
-                color: $newFourColor;	
+                color: $newFiveColor;
                 line-height: 4;
             }
         }

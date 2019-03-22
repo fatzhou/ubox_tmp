@@ -26,7 +26,7 @@
                 <span [class]="!isAllFile ? 'active' : ''" (click)="toggleAllFile(false)">{{ global.L('Unupload') }}({{ unUploadedCount }})</span>
                 <span [class]="isAllFile ? 'active' : ''"  (click)="toggleAllFile(true)">{{ global.L('All') }}({{ totalCount }})</span>
             </p>
-            <div>
+            <div class="img-box">
                 <ul class="item-list" *ngIf="photos.length > 0">
                     <li tappable class="img-li" *ngFor="let photo of photos" (click)="toggleSelectedImg(photo)">
                         <div class="file-box active">
@@ -34,7 +34,7 @@
                             <div class="btn">
                                 <em class="nochoose-circle" *ngIf="photo.isSelected == undefined || photo.isSelected == false"></em>
                                 <svg class="icon icon-ellipsis" *ngIf="photo.isSelected" aria-hidden="true">
-                                    <use xlink:href="#icon-gouxuanicon1"></use>
+                                    <use xlink:href="#icongouxuan"></use>
                                 </svg>
                             </div>
                         </div>

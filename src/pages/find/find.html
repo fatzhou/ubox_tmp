@@ -9,36 +9,29 @@
 
     
         <div class="search-header">
-            <div>
+            <div class="input-box">
                 <input type="text" (click)="goSearchBtPage()" class="common-general-button bt-input" readonly>
-                <svg class="icon icon-ellipsis" aria-hidden="true">
-                    <use xlink:href="#icon-success"></use>
-                </svg>
             </div>
+            <svg class="icon icon-ellipsis icon-search" *ngIf="false" aria-hidden="true">
+                <use xlink:href="#iconsearch"></use>
+            </svg>
+            <svg class="icon icon-ellipsis" aria-hidden="true">
+                <use xlink:href="#iconBTxiazaiguanli"></use>
+            </svg>
         </div>
         <div class="search-body">
+            <div class="recommend-title">
+                <p>推荐资源</p>
+            </div>
             <ul>
                 <li (click)="goBtDetailPage(item.resid);" *ngFor="let item of feedList">
                     <div class="bt-box defalut-box">
                         <p class="bt-title">{{ item.title }}</p>
-                        <p class="p-imglist"></p>
-                        <p class="p-info"><span (click)="downloadBt(item.mgurl);$event.stopPropagation();">下载</span><span>{{ item.size }}</span><span>下载{{ item.heat }}</span><span>{{ item.mgdate }}</span></p>
+                        <p class="p-info"><span>{{ item.mgdate + '·' + item.size }}</span></p>
+                        <span class="download-btn" (click)="downloadBt(item.mgurl);$event.stopPropagation();">GET</span>
+                        <p class="p-imglist" [ngClass]="item.images.length == 1 ? 'one-png' : ''"><img [src]="img" *ngFor="let img of item.images" alt=""></p>
                     </div>
                 </li>
-                <!-- <li (click)="goBtDetailPage()">
-                    <div class="bt-box bt-one-box">
-                        <p class="bt-title">Hunter Killer (2018) [BluRay] [720p] [YTS] [YIFY].torrent </p>
-                        <p class="p-imglist"><img src="" alt=""></p>
-                        <p class="p-info"><span>下载</span><span>1.0GB</span><span>下载8201</span><span>2018-10-13</span></p>
-                    </div>
-                </li>
-                <li (click)="goBtDetailPage()">
-                    <div class="bt-box bt-imglist-box">
-                        <p class="bt-title">Hunter Killer (2018) [BluRay] [720p] [YTS] [YIFY].torrent </p>
-                        <p class="p-imglist"><img src="" alt=""></p>
-                        <p class="p-info"><span>下载</span><span>1.0GB</span><span>下载8201</span><span>2018-10-13</span></p>
-                    </div>
-                </li> -->
             </ul>
         </div>
         <div class="bt-task-btn" (click)="goBtTaskPage()">BT</div>

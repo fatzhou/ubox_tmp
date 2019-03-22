@@ -227,7 +227,7 @@ page-wallet-detail {
 		border-radius: 0px;
 	}
 	ion-infinite-scroll {
-		background: #f5f5f5;
+		background: $newThreeColor;
 	}
 	.content-ios:not([no-bounce]) > .scroll-content::before, .content-ios:not([no-bounce]) > .scroll-content::after {
 		height: 0;

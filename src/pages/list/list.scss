@@ -489,7 +489,7 @@ page-list {
             width: 88px;
         }
         p {
-            color: #5D75F7;
+            color: $newFiveColor;
             line-height: 4;
         }
     }
@@ -625,6 +625,89 @@ page-list {
                     right: 20px;
                 }
             }
+        }
+    }
+    .aside-nav {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 99;
+        .aside-nav-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+        }
+        .aside-nav-content {
+            position: absolute;
+            width: calc(100% - 50px);
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: $newFourColor;
+            .nav-head {
+                height: 140px;
+                background: url(../assets/img/nav-bg@3x.png) 0 0 no-repeat;
+                background-size: 100% 100%;
+                padding: 20px;
+                color: #fff;
+                font-size: 16px;
+                .user-head-img {
+                    width: 50px;
+                    height: 50px;
+                    border: 3px solid #fff;
+                    border-radius: 50%;
+                    margin-bottom: 20px;
+                    margin-top: 5px;
+                    background: url(../assets/img/userhead@3x.png) 0 0 no-repeat;
+                    background-size: 100% 100%;
+                }
+            }
+            .nav-list {
+                li {
+                    line-height: 50px;
+                    color: $newFiveColor;
+                    position: relative;
+                    padding-left: 20px;
+                    font-size: 16px;
+                    &.active {
+                        color: #00C77D;
+                        background: $newFiveColor;
+                    }
+                    &.border-bottom {
+                        border-bottom: 1px solid $newFiveColor;
+                    }
+                    .icon {
+                        margin-right: 20px;
+                        font-size: 18px;
+                    }
+                }
+            }
+            .nav-bottom {
+                position: absolute;
+                bottom: 50px;
+                background: $newFiveColor;
+                color: #fff;
+                .ubbey-contact {
+                    color: #fff;
+                    font-size: 18px;
+                    font-weight: bold;
+                    span {
+                        margin-left: 21px;
+                        padding: 2px 15px;
+                        background: $newFourColor;
+                        border-radius: 20px;
+                        color: $newFiveColor;
+                        font-size: 13px;
+                        font-weight: normal;
+                    }
+                }
+            }
+
         }
     }
 }

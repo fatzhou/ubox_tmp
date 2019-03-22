@@ -5,6 +5,11 @@ page-classify-list {
     .toolbar-background {
         background: $newFirstColor;
     }
+    .select-tollbar {
+        .toolbar-background {
+            background: $newThreeColor;
+        }
+    }
     .toolbar-title {
         color: #fff;
     }
@@ -48,7 +53,7 @@ page-classify-list {
         .back-nav {
             height: 44px;
             line-height: 44px;
-            color: #5D75F7;
+            color: #fff;
             font-size: 18px;
             padding: 0 10px;
             font-weight: normal;
@@ -89,7 +94,7 @@ page-classify-list {
                 line-height: normal;
                 text-align: center;
                 .icon {
-                    font-size: 24px;
+                    font-size: 22px;
                     margin-right: unset;
                 }
                 &.all-toggle-btn {
@@ -103,7 +108,7 @@ page-classify-list {
         .select-box {
 			position: fixed;
 			left: 0;
-			background: #f7f7f7;
+			background: $newFirstColor;
             z-index: 100;
             min-width: 74px;
 		}
@@ -143,25 +148,44 @@ page-classify-list {
             .btn {
                 float: right;
                 /*margin-right: 4px;*/
+                position: relative;
+                width: 36px;
                 .icon {
                     font-size: 48px;
                     line-height: 1;
+                    position: absolute;
+                    top: 4px;
+                    left: 5px;
                     &.icon-ellipsis {
-                        font-size: 32px;
+                        font-size: 20px;
                         line-height: 48px;
                         height: 48px;
-                        margin-right: -4px;
+                        margin-right: 0px;
+                        color: $newFiveColor;
                     }
                     &.icon-right {
-                        font-size: 24px;
+                        font-size: 20px;
                         right: 0;
-                        margin-top: 12px;
                         margin-right: 0px;
+                        margin-top: 12px;
+                        line-height: 48px;
                         color: #E9E9EA;
                     }
                     &.light {
-                        color: #5D75F7;
+                        color: #fff;
                     }
+                }
+                em {
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    border: 1px solid #fff;
+                    position: absolute;
+                    top: 16px;
+                    left: 5px;
+                    border-radius: 50%;
+                    background: rgba(0,0,0,0);
+                    box-sizing: border-box;
                 }
             }
         }
@@ -208,11 +232,13 @@ page-classify-list {
                         line-height: 1;
                         &.icon-ellipsis {
                             font-size: 20px;
-                            color: #5D75F7;
-                            position: absolute;
+                            color: #fff;
                             height: 20px;
                             border-radius: 50%;
                             background: transparent;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
                         }
                     }
                     em {
@@ -256,7 +282,7 @@ page-classify-list {
             width: 88px;
         }
         p {
-            color: #5D75F7;
+            color: $newFiveColor;
             line-height: 4;
         }
     }
@@ -291,7 +317,7 @@ page-classify-list {
             height: 360px;
         }
         .title {
-            color: #5D75F7;
+            color: #fff;
             font-size: 17px;
             line-height: 1.75;
         }

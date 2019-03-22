@@ -27,7 +27,7 @@
                 <span [class]="isAllFile ? 'active' : ''" tappable (click)="toggleAllFile(true)">{{ global.L('All') }}({{totalCount}})</span>
             </h5>
 
-            <div>
+            <div class="bg-three">
                 <ul *ngIf="fileList.length > 0">
                     <li tappable class="fileli" *ngFor="let info of fileList" (click)="toggleSelect(info)">
                         <div class="file-type" [ngClass]="util.computeFileType(info.fileName)"></div>
@@ -36,8 +36,9 @@
                             <p>{{ platformName == 'android' ?  (info.size | computeFileSize) : (info.creationDate | computeFileTime) }}</p>
                         </div>
                         <div class="btn">
-                            <svg class="icon icon-ellipsis" [ngClass]="info.isSelected == true ? 'active' : ''" aria-hidden="true">
-                                <use xlink:href="#icon-gouxuanicon"></use>
+                            <em class="nochoose-circle" *ngIf="!info.isSelected" ></em>
+                            <svg class="icon icon-ellipsis icon-right" *ngIf="info.isSelected" [ngClass]="info.isSelected == true ? 'active' : ''" aria-hidden="true">
+                                <use xlink:href="#icongouxuan"></use>
                             </svg>
                         </div>
                     </li>

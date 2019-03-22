@@ -24,6 +24,7 @@ export class SearchBtPage {
     inputValue: string = '';
     loading: boolean = false;
     session: string = '';
+    isFocus: boolean = false;
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         private global: GlobalService,
@@ -78,16 +79,20 @@ export class SearchBtPage {
         this.loading = true;
         var url = GlobalService.centerApi["getSearchList"].url;
         let keyword = key || this.inputValue;
-        this.inputValue = keyword;
-        if(!key) {
-            this.searchKeyList.unshift(keyword);
+        this.inputValue = keyword.replace(/\s+/g,"");
+        if(this.inputValue == '') {
+            return false;
         }
+        if(this.searchKeyList.indexOf(this.inputValue) > -1) {
+            this.searchKeyList.splice(this.searchKeyList.indexOf(this.inputValue), 1);
+        }
+        this.searchKeyList.unshift(this.inputValue);
         console.log(JSON.stringify(this.searchKeyList));
         if(this.searchKeyList.length > 10) {
             this.searchKeyList = this.searchKeyList.slice(0,10);
         }
         let obj: any = {
-            keyword: keyword
+            keyword: this.inputValue
         };
         if(!key) {
             obj.session = this.session;
@@ -117,6 +122,7 @@ export class SearchBtPage {
 
     clearSearchKeys() {
         this.searchKeyList = [];
+        this.storage.remove('searchKeyList');
     }
 
     clearKey() {

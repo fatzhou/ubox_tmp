@@ -87,6 +87,7 @@
     "ionic-angular": "^3.9.2",
     "ionic-filelogger": "^1.3.2",
     "ionic-logger": "^0.4.1",
+    "ionic2-super-tabs": "^5.2.0",
     "ionicons": "3.0.0",
     "ngx-qrcode2": "0.0.9",
     "node-sass": "^4.10.0",

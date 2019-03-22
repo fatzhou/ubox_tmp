@@ -20,12 +20,12 @@ page-select-upload-folder {
         padding-bottom: 80px;
         box-sizing: border-box;
         -webkit-overflow-scrolling: touch;
+        background: $newThreeColor;
         .show-path{
             height: 35px;
-            background: #fff;
             line-height: 35px;
             text-indent: 15px;
-            color: #9B9B9B;
+            color: $newFiveColor;
             font-size: 12px;
             p {
                 width: 100%;
@@ -42,7 +42,6 @@ page-select-upload-folder {
                         display: inline-block;
                         width: 14px;
                         height: 14px;
-                        background: red;
                         top: 10px;
                         right: -17px;
                         background: url(../assets/img/Next.svg) center center no-repeat;
@@ -57,13 +56,15 @@ page-select-upload-folder {
             }
         }
         ul{
-            border-top: 1px solid #EDEDED;
+            border-top: 1px solid $newThreeColor;
+            background: $newFourColor;;
             li {
-                border-bottom: 1px solid #f8f8f8;
+                border-bottom: 1px solid $newThreeColor;
                 padding: 12px $padding - 3px;
+                background: $newFourColor;;
                 overflow: hidden;
                 &.active{
-                    background: #FAFAFA;
+                    background: $newFourColor;;
                 }
                 .file-type {
                     background: url(../assets/img/folder.svg) center center no-repeat;
@@ -75,7 +76,7 @@ page-select-upload-folder {
                     height: 48px;
                     line-height: 48px;
                     h2 {
-                        color: #1B1B1B;
+                        color: #fff;
                         font-size: 18px;
                         font-weight: 400;
                         line-height: 48px;
@@ -89,6 +90,7 @@ page-select-upload-folder {
                 }
                 .btn {
                     float: right;
+                    position: relative;
                     /*margin-right: 4px;*/
                     .icon {
                         font-size: 48px;

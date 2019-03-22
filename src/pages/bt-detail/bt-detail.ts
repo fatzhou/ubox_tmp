@@ -5,6 +5,7 @@ import { HttpService } from '../../providers/HttpService';
 import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
 import { Lang } from "../../providers/Language";
+import { Clipboard } from '@ionic-native/clipboard';
 
 /**
  * Generated class for the BtDetailPage page.
@@ -31,12 +32,14 @@ export class BtDetailPage {
     heat: string = '';
     link: string = '';
     detailDesc: any = null;
+    isShowDesc: boolean = false;
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         public global: GlobalService,
         public util: Util,
         public http: HttpService,
-        private events: Events,) {
+        private events: Events,
+        private clipboard: Clipboard,) {
     }
 
     ionViewDidLoad() {
@@ -78,7 +81,12 @@ export class BtDetailPage {
                 } else {
                     language = GlobalService.applang;
                 }
-                this.detailDesc = JSON.parse(res.describe)[language].describe;
+                if(this.type == 'feed') {
+                    this.detailDesc = JSON.parse(res.describe)[language].describe;
+                } else {
+                    this.detailDesc = res.describe;
+                }
+                
                 // console.log("detail" + JSON.stringify(res));
             }
         })
@@ -89,6 +97,22 @@ export class BtDetailPage {
         this.util.downloadBt(this.link)
         .then(res => {
             console.log("正在下载bt")
+        })
+    }
+
+    toggleShowDesc() {
+        this.isShowDesc = !this.isShowDesc;
+    }
+
+    copyLink() {
+        this.clipboard.copy(this.link)
+        .then(res => {
+            this.global.createGlobalToast(this, {
+                message: Lang.L('CopySucceed')
+            })
+        })
+        .catch(e => {
+            GlobalService.consoleLog(e);
         })
     }
 

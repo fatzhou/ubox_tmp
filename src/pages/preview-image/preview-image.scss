@@ -26,9 +26,9 @@ page-preview-image {
         span {
             text-align: center;
             position: absolute;
-            left: 50%;
+            left: 50px;
             top: 50%;
-            transform: translate(-50%,-50%);
+            transform: translate(0,-50%);
             font-size: 17px;
             overflow: hidden;
             white-space: nowrap;
@@ -39,7 +39,7 @@ page-preview-image {
             width: auto;
             display: inline-block;
             line-height: 22px;
-            text-indent: 22px;
+            text-indent: 777px;
             .icon {
                 position: absolute;
                 left: 10px;

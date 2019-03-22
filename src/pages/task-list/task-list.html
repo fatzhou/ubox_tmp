@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar (click)="cancalDelete()">
+  <ion-navbar (click)="cancalDelete()" [ngClass]="allBtnsShow ? 'select-tollbar' :''">
     <ion-title>
 		{{ allBtnsShow ? "已选择" + selectFileNum + "项" : global.L('WORD9d749424') }}
 		<div class="list-header">
@@ -14,7 +14,7 @@
 				<div class="select-btn" [ngClass]="showEng=='cn'?'':'eng-sel-btn'">  
 					<span *ngIf="!allBtnsShow" tappable class="select-all-icon" (click)="showAllBtns(null)">
 						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconjianshao"></use>
+							<use xlink:href="#iconduoxuan"></use>
 						</svg>  
 					</span>  
 					<span *ngIf="allBtnsShow" class="text-right" tappable (click)="selectAll()">{{ selectAllStatus ? global.L("CancelSelectAll") : global.L("SelectAll") }}</span>
@@ -54,8 +54,9 @@
 								<div class="center" ><div [ngClass]="task.pausing != 'doing' ? 'down'  : 'pause'"></div></div>
 							</div>
 							<div class="progress fl circle btn" *ngIf="allBtnsShow">
-								<svg class="icon icon-right" aria-hidden="true" [ngClass]="task.selected?'slight':''">
-									<use xlink:href="#icon-gouxuanicon"></use>
+								<em class="nochoose-circle" *ngIf="!task.selected" ></em>
+								<svg class="icon icon-right" aria-hidden="true" *ngIf="task.selected" [ngClass]="task.selected?'slight':''">
+									<use xlink:href="#icongouxuan"></use>
 								</svg>
 							</div>
 						</div>
@@ -87,8 +88,9 @@
 						</div>
 						<div class="speed clear" item-end>
 							<div class="progress fl circle btn" *ngIf="allBtnsShow">
-								<svg class="icon icon-right" aria-hidden="true" [ngClass]="task.selected?'slight':''">
-									<use xlink:href="#icon-gouxuanicon"></use>
+								<em class="nochoose-circle" *ngIf="!task.selected" ></em>
+								<svg class="icon icon-right" aria-hidden="true" *ngIf="task.selected" [ngClass]="task.selected?'slight':''">
+									<use xlink:href="#icongouxuan"></use>
 								</svg>
 							</div>
 						</div>
