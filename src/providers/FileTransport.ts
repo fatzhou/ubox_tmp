@@ -425,7 +425,9 @@ export class FileTransport {
 	 * @param createTask
 	 */
 	downloadFile(fileInfo, remoteFullPath, localFullPath, createTask: boolean = true) {
+		console.log('=========bengcibengci=========')
 		return new Promise((resolve, reject) => {
+			GlobalService.consoleLog("123")
 			GlobalService.consoleLog("下载文件到本地:" + localFullPath + ",远程路径：" + remoteFullPath);
 			// this.global.createGlobalToast(this, {
 			//     message: Lang.Lf('StartDownloadFile', file.name),
@@ -495,6 +497,7 @@ export class FileTransport {
 	// }
 
 	createDownloadHandler(resolve, reject, task: any, createTask = true) {
+		GlobalService.consoleLog("开始创建下载器.......")
 		let tool;
 		let start = Date.now();
 		let progress = (res: any) => {
@@ -600,10 +603,10 @@ export class FileTransport {
 				total: fileTask.total || -1
 			}
 		}, false);
-		let start = 0;
 		fileTransfer.onProgress(progress);
 		fileTransfer.onSuccess(success)
 		fileTransfer.onFailure(failure)
+		console.log("开始调用下载....")
 		fileTransfer.download();
 		return fileTransfer;
 	}

@@ -169,7 +169,13 @@ export class UboxApp {
 			GlobalService.consoleLog("目录" + name + "已存在");
 		}, res => {
 			GlobalService.consoleLog("即将新建目录" + name);
-			this.file.createDir(this.global.fileSavePath, name, false);
+			this.file.createDir(this.global.fileSavePath, name, false)
+			.then(res => {
+				console.log("目录创建成功：" + name + JSON.stringify(res))
+			})
+			.catch(e => {
+				console.log("目录创建失败：" + name + JSON.stringify(e))			
+			})
 		});
 	}
 

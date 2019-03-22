@@ -319,38 +319,16 @@ export class Util {
         })
         .then(res => {
             if(res.err_no === 0) {
-                if(this.global.platformName == "ios") {
-                    console.log("native login")
-                    return this.http.post(url, {
-                        username: username,
-                        password: Md5.hashStr(password).toString(),
-                        // password: $scope.password,
-                    }, {}, {}, true)
-                    .then(res => {
-                        let userInfoUrl = this.global.getBoxApi('getUserInfo');
-                        return this.http.post(userInfoUrl, {})
-                        .then(res => {
-                            if(res.err_no === 0) {
-                                this.global.boxUserInfo = res.userinfo;
-                                return this.global.boxUserInfo;
-                            } else {
-                                return null;
-                            }
-                        })
-                    })
-                } else {
-                    let userInfoUrl = this.global.getBoxApi('getUserInfo');
-                    return this.http.post(userInfoUrl, {})
-                    .then(res => {
-                        if(res.err_no === 0) {
-                            this.global.boxUserInfo = res.userinfo;
-                            return this.global.boxUserInfo;
-                        } else {
-                            return null;
-                        }
-                    })
-                }
-
+				let userInfoUrl = this.global.getBoxApi('getUserInfo');
+				return this.http.post(userInfoUrl, {})
+				.then(res => {
+					if(res.err_no === 0) {
+						this.global.boxUserInfo = res.userinfo;
+						return this.global.boxUserInfo;
+					} else {
+						return null;
+					}
+				})
             } else {
                 return null;
             }
@@ -724,12 +702,12 @@ export class Util {
 
     searchUbbey() {
         return new Promise((resolve, reject) => {
-            // if(1) {
+            if(1) {
             // if(!this.platform.is('cordova')) {
-                // resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
+                resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
 				// resolve([]);
-				// return
-            // }
+				return
+            }
             var self = this;
             var flag = false;
             var serviceType = "upnp:ubbeybox";
