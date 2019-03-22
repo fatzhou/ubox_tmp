@@ -725,11 +725,11 @@ export class Util {
     searchUbbey() {
         return new Promise((resolve, reject) => {
             // if(1) {
-            if(!this.platform.is('cordova')) {
-                resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
-				// resolve([]);
-				return
-            }
+            // if(!this.platform.is('cordova')) {
+            //     resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
+			// 	// resolve([]);
+			// 	return
+            // }
             var self = this;
             var flag = false;
             var serviceType = "upnp:ubbeybox";

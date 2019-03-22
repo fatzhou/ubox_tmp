@@ -19,7 +19,7 @@ import { Events } from 'ionic-angular';
 import { Lang } from '../../providers/Language';
 import { AppsInstalled } from '../../providers/AppsInstalled';
 import { FileOpener } from '@ionic-native/file-opener';
-
+import { SuperTabsController } from 'ionic2-super-tabs/dist/providers/super-tabs-controller';
 declare var window;
 
 /**
@@ -36,6 +36,8 @@ declare var window;
 export class TabsPage {
     @ViewChild('boxtabs') tabRef: Tabs;
     @ViewChild(Nav) nav: Nav;
+    //0322add
+    // @ViewChild('boxtabs') superTabs: SuperTabs;
     // selectedIndex:any = 0;
     search: any = FindPage;
     home: any = ListPage;
@@ -86,7 +88,7 @@ export class TabsPage {
         private platform: Platform,
         private appInstalled: AppsInstalled,
         private fileOpener: FileOpener,
-        public navParams: NavParams) {
+        public navParams: NavParams,) {
         GlobalService.consoleLog("tabs页面构造函数");
 
         this.versionControl = GlobalService.VersionControl;
@@ -502,4 +504,20 @@ export class TabsPage {
     closeBindBox() {
         this.isCloseBindBox = false;
     }
+    // ngAfterViewInit() {
+    //     // must wait for AfterViewInit if you want to modify the tabs instantly
+    //     this.superTabsCtrl.setBadge('homeTab', 5);
+    // }
+
+    // hideToolbar() {
+    //     this.superTabsCtrl.showToolbar(false);
+    // }
+
+    // showToolbar() {
+    //     this.superTabsCtrl.showToolbar(true);
+    // }
+
+    // onTabSelect(ev: any) {
+    //     console.log('Tab selected', 'Index: ' + ev.index, 'Unique ID: ' + ev.id);
+    // }
 }

@@ -3,6 +3,7 @@ import { HttpModule } from '@angular/http';
 import { NgModule, ErrorHandler } from '@angular/core';
 
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { SuperTabsModule } from 'ionic2-super-tabs';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -235,6 +236,7 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
             driverOrder: ['indexeddb', 'sqlite', 'websql']            
         }
     ),
+    SuperTabsModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [

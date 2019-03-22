@@ -15,27 +15,38 @@
 
     <div class="detail-title">
         <p class="p-title">{{ title }}</p>
-        <p>热度：{{ heat }}（下载次数）</p>
-        <p>磁力链接：{{ link }}</p>
+        <p>{{ size | computeFileSize }}<span>共下载：{{ heat }}</span></p>
+        <div class="link-box" ion-item>
+            <div class="left-link-box" item-start>{{ link }}</div>
+            <div class="right-link-box" item-end>
+                <svg class="icon icon-ellipsis" (click)="copyLink()" aria-hidden="true">
+                    <use xlink:href="#iconcopy1"></use>
+                </svg>
+            </div>
+        </div>
     </div>
     <div class="detail-info">
-        <p class="download-box-btn"><span>下载至盒子</span></p>
+        
         <div class="info-box">
-            
+            <p class="second-title">简介</p>
             <div class="detail-list">
-                <p>创建时间：{{ createdTime | computeFileTime }}</p>
-                <p>文件格式：{{ fileType }}</p>
-                <p>语言：{{ language }}</p>
-                <p>文件大小：{{ size | computeFileSize }}</p>
-                <p>文件数：{{ file_number }}</p>
-                <p>种子数（seeder）：{{ btNum }}</p>
-                <p>文件hash：</p>
-                <p>{{ hash }}</p>
+                <p>创建时间<span>{{ createdTime | computeFileTime }}</span></p>
+                <p>文件格式<span>{{ fileType }}</span></p>
+                <p>文件数<span>{{ file_number }}</span></p>
+                <p>种子数<span>{{ btNum }}</span></p>
+                <p>文件hash<span>{{ hash }}</span></p>
             </div>
+            <p class="second-title">描述</p>
             <div class="detail-des">
-                <p class="p-title">描述</p>
-                <div [innerHTML]="detailDesc"></div>
+                <div [innerHTML]="detailDesc" class="desc-box" [ngClass]="isShowDesc ? 'show-more' : ''"></div>
+                <div class="see-more" (click)="toggleShowDesc()">{{ isShowDesc ? '收起更多' : '查看更多' }}</div>
             </div>
+            <p class="second-title">相关图片</p>
+            <div class="img-list-box">
+                <p><img src="assets/img/alita.png" alt=""><img src="assets/img/alita.png" alt=""><img src="assets/img/alita.png" alt=""><img src="assets/img/alita.png" alt=""></p>
+            </div>
+            <p class="second-title">文件列表</p>
+            <div class="file-list-box"></div>
             <div class="download-btn" (click)="downloadBt()">下载</div>
         </div>
     </div>

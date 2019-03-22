@@ -6,29 +6,24 @@
 -->
 <ion-content>
     <div class="main-content">
-        <div class="search-header">
+        <div class="search-header" [ngClass]="isFocus ? 'input-focus' : ''">
             <div>
                 <svg class="icon icon-ellipsis icon-back"  (click)="goBack()" aria-hidden="true">
-                    <use xlink:href="#icon-Backicon"></use>
+                    <use xlink:href="#iconfanhui"></use>
                 </svg>
-                <input type="text" [(ngModel)]="inputValue" class="common-general-button bt-input">
-                <svg class="icon icon-ellipsis icon-clear" (click)="clearKey()" aria-hidden="true">
-                    <use xlink:href="#icon-transactionfailed"></use>
-                </svg>
-                <svg class="icon icon-ellipsis" (click)="searchList()" aria-hidden="true">
-                    <use xlink:href="#icon-success"></use>
-                </svg>
+                <div class="input-box">
+                    <input type="text" [(ngModel)]="inputValue" (focus)="isFocus = true" (blur)="isFocus = false"  (keyup.enter)="searchList()" class="common-general-button bt-input">
+                    <svg class="icon icon-ellipsis icon-clear" (click)="clearKey()" aria-hidden="true">
+                        <use xlink:href="#iconClear1"></use>
+                    </svg>
+                </div>
+                
             </div>
         </div>
         <div class="search-hirtory">
             <p class="history-title">搜索历史 <span (click)="clearSearchKeys()">清空</span></p>
             <p class="history-list">
                 <span *ngFor="let item of searchKeyList" (click)="inputValue = item;searchList()">{{ item }}</span>
-                <!-- <span>钢铁侠3</span>
-                <span>钢铁侠4</span>
-                <span>钢铁侠5</span>
-                <span>钢铁侠6666</span>
-                <span>钢铁侠999</span> -->
             </p>
         </div>
         <div class="search-body">
@@ -36,24 +31,11 @@
                 <li (click)="goBtDetailPage(item.resid);" *ngFor="let item of searchFeedList">
                     <div class="bt-box defalut-box">
                         <p class="bt-title">{{ item.title }}</p>
-                        <p class="p-imglist"></p>
-                        <p class="p-info"><span (click)="downloadBt(item.mgurl);$event.stopPropagation();">下载</span><span>{{ item.size }}</span><span>下载{{ item.heat }}</span><span>{{ item.mgdate }}</span></p>
+                        <p class="p-info"><span>{{ item.mgdate + '·' + item.size }}</span></p>
+                        <span class="download-btn" (click)="downloadBt(item.mgurl);$event.stopPropagation();">GET</span>
+                        <p class="p-imglist" [ngClass]="item.images.length == 1 ? 'one-png' : ''"><img [src]="img" *ngFor="let img of item.images" alt=""></p>
                     </div>
                 </li>
-                <!-- <li (click)="goBtDetailPage()">
-                    <div class="bt-box bt-one-box">
-                        <p class="bt-title">Hunter Killer (2018) [BluRay] [720p] [YTS] [YIFY].torrent </p>
-                        <p class="p-imglist"><img src="" alt=""></p>
-                        <p class="p-info"><span>下载</span><span>1.0GB</span><span>下载8201</span><span>2018-10-13</span></p>
-                    </div>
-                </li>
-                <li (click)="goBtDetailPage()">
-                    <div class="bt-box bt-imglist-box">
-                        <p class="bt-title">Hunter Killer (2018) [BluRay] [720p] [YTS] [YIFY].torrent </p>
-                        <p class="p-imglist"><img src="" alt=""></p>
-                        <p class="p-info"><span>下载</span><span>1.0GB</span><span>下载8201</span><span>2018-10-13</span></p>
-                    </div>
-                </li> -->
             </ul>
         </div>
     </div>
