@@ -6,6 +6,8 @@ import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
 import { Lang } from "../../providers/Language";
 import { Clipboard } from '@ionic-native/clipboard';
+import { SearchPage } from '../search/search';
+
 
 /**
  * Generated class for the BtDetailPage page.
@@ -114,6 +116,10 @@ export class BtDetailPage {
         .catch(e => {
             GlobalService.consoleLog(e);
         })
+    }
+
+    goSearchPage() {
+        this.navCtrl.push(SearchPage);
     }
 
 }

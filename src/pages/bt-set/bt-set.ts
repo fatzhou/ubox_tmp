@@ -39,6 +39,10 @@ export class BtSetPage {
         console.log('ionViewDidLoad BtSetPage');
         this.getTaskConfig();
     }
+    ionViewWillLeave() {
+        console.log('ionViewWillLeave BtSetPage');
+        // this.changeTaskConfig();
+    }
 
     goBtSetPathPage() {
         console.log("go BtSetPathPage");

@@ -7,12 +7,38 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>资源详情</ion-title>
+        <ion-title>资源详情
+            
+        </ion-title>
+        <svg class="icon icon-ellipsis" (click)="downloadBt()" aria-hidden="true">
+            <use xlink:href="#iconBTxiazaiguanli"></use>
+        </svg>
     </ion-navbar>
 
 </ion-header>
 <ion-content>
-
+    <div class="head-detail-img">
+        <div class="head-img-box"> 
+            <ion-slides spaceBetween="-30px">
+                <ion-slide >
+                    <div class="img-box">
+                        <img src="assets/img/alita-img.png" alt="">
+                    </div>
+                    
+                </ion-slide>
+                <ion-slide >
+                    <div class="img-box">
+                        <img src="assets/img/alita-img.png" alt="">
+                    </div>
+                </ion-slide>
+                <ion-slide >
+                    <div class="img-box">
+                        <img src="assets/img/alita-img.png" alt="">
+                    </div>
+                </ion-slide>
+            </ion-slides>
+        </div>
+    </div>
     <div class="detail-title">
         <p class="p-title">{{ title }}</p>
         <p>{{ size | computeFileSize }}<span>共下载：{{ heat }}</span></p>

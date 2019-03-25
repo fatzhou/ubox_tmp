@@ -2,6 +2,13 @@ page-bt-detail {
     .toolbar-background {
         background: $newFirstColor;
     }
+    .toolbar {
+        .icon-ellipsis {
+            float: right;
+            margin-right: 10px;
+            font-size: 20px;
+        }
+    }
     .scroll-content {
         background: $newThreeColor;
         color: #fff;
@@ -152,6 +159,40 @@ page-bt-detail {
             line-height: 40px;
             color: #fff;
             font-size: 16px;
+        }
+    }
+    .head-detail-img {
+        width: 100%;
+        background: $newFirstColor;
+        overflow: hidden;
+        padding: 15px 0;
+    }
+    .head-img-box {
+        width: 45%;
+        margin: 0 auto;
+        height: 220px;
+        padding: 20px 0;
+        .slides {
+            width: 100%;
+            margin: 0 auto;
+            float: left;
+        }
+        .swiper-slide {
+            width: 80%;
+        }
+        .img-box {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .swiper-container {
+            overflow: visible;
+        }
+        .swiper-slide-active {
+            width: 100%;
+            z-index: 9;
+            .img-box {
+                width: 100%;
+            }
         }
     }
 }

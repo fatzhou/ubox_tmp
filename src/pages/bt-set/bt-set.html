@@ -14,21 +14,31 @@
 
 <ion-content>
     <div class="download-num">
-        同时下载任务
+        <div>
+            <p class="p-title">同时下载任务</p>
+            <p class="p-path">同时运行的最大下载任务数</p>
+        </div>
         <span class="num-box">
-            <em class="reduce-option" (click)="changeTaskNum(0)">-</em>
+            <em class="reduce-option" (click)="changeTaskNum(0)">
+                <svg class="icon icon-ellipsis" aria-hidden="true">
+                    <use xlink:href="#iconjianshao"></use>
+                </svg>
+            </em>
             <input type="number" min="1" max="10" [(ngModel)]="taskNum" class="input-option">
-            <em class="reduce-add" (click)="changeTaskNum(1)">+</em>
+            <em class="reduce-add" (click)="changeTaskNum(1)">
+                <svg class="icon icon-ellipsis" aria-hidden="true">
+                    <use xlink:href="#iconzengjia"></use>
+                </svg>
+            </em>
         </span>
     </div>
     <div class="download-path" (click)="goBtSetPathPage()">
         <div>
-            <p class="p-title">选择存储位置</p>
-            <p class="p-path">{{ path }}</p>
+            <p class="p-title">{{ path }}</p>
+            <p class="p-path">选择存储位置</p>
         </div>
         <svg class="icon icon-ellipsis" aria-hidden="true">
-            <use xlink:href="#icon-you"></use>
+            <use xlink:href="#iconxiangyou"></use>
         </svg>
     </div>
-    <div class="save-box" (click)="changeTaskConfig()">保存</div>
 </ion-content>

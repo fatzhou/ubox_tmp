@@ -1,8 +1,22 @@
 page-bt-task {
+    .toolbar-background {
+        background: $newFirstColor;
+    }
     .text-right{
         text-align: right;
         .icon-right{
             font-size: 24px;
+        }
+    }
+    .toolbar-content {
+        text-align: left;
+        color: #fff;
+        font-size: 18px;
+        .icon {
+            float: right;
+            font-size: 20px;
+            margin-left: 3px;
+            margin-right: 10px;
         }
     }
 
@@ -11,26 +25,30 @@ page-bt-task {
         height: 40px;
         overflow: hidden;
         li {
-            width: 33.3%;
+            width: 50%;
             height: 40px;
             float: left;
             text-align: center;
-            background: rgba(0,0,0,0.5);
+            background: $newFourColor;
             line-height: 40px;
-            &:last-child{
-                width: 33.4%;
+            color: $newFiveColor;
+            &:first-child {
+                border-right: 1px solid $newThreeColor;
             }
             &.active {
                 color: #fff;
-                border-bottom: 1px solid #fff;
                 box-sizing: border-box;
             }
         }
     }
+    .task-box, .scroll-content{
+        background: $newThreeColor;
+    }
     .task-list {
         overflow: hidden;
+        margin-top: 20px;
         p {
-            color: #000;
+            color: $newFirstColor;
             &.file-name {
                 word-break: break-all;
                 word-wrap: break-word;
@@ -39,10 +57,58 @@ page-bt-task {
                 display: -webkit-box;
                 -webkit-line-clamp:2;
                 -webkit-box-orient: vertical;
+                color: #fff;
+                line-height: 22px;
+                font-size: 14px;
+                overflow: hidden;
+                margin-bottom: 8px;
+            }
+            .file-info {
+                font-size: 12px;
             }
         }
         .teak-item {
-            border-bottom: 1px solid #ededed;
+            width: calc(100% - 20px);
+            margin: 0 auto;
+            margin-bottom: 10px;
+            background: $newFourColor;
+            color: #fff;
+            padding: 10px;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+            .info {
+                width: calc(100% - 80px);
+                float: left;
+            }
+            .speed {
+                width: 80px;
+                position: absolute;
+                right: 0;
+                height: 100%;
+                top: 0;
+                .progress {
+                    width: 100%;
+                    position: absolute;
+                    right: 0;
+                    height: 100%;
+                    top: 0;
+                    font-size: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    .icon {
+                        font-size: 32px;
+                        color: $newFiveColor;
+                    }
+                    span {
+                        font-size: 12px;
+                        margin-top: 6px;
+                        color: $newFiveColor;
+                    }
+                }
+            }
         } 
     }
 }

@@ -21,6 +21,11 @@ import { Lang } from "../../providers/Language";
 export class BtTaskPage {
     btTaskList: any = [];
     setIntervalTaskList: any = null;
+    btDoneList: any = [];
+    btDoingList: any = [];
+    btDoneNum: any = 0;
+    btDoingNum: any = 0;
+    tabIndex: any = 0;
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         private global: GlobalService,
@@ -31,9 +36,9 @@ export class BtTaskPage {
     ionViewDidLoad() {
         console.log('ionViewDidLoad BtTaskPage');
         this.getTaskList();
-        this.setIntervalTaskList = setInterval(() => {
-            this.getTaskList()
-        },3000);
+        // this.setIntervalTaskList = setInterval(() => {
+        //     this.getTaskList()
+        // },3000);
     }
     ionViewWillLeave() {
         clearInterval(this.setIntervalTaskList);
@@ -44,7 +49,9 @@ export class BtTaskPage {
         console.log("go BtTaskPage");
         this.navCtrl.push(BtSetPage);
     }
-
+    changeIndex(index) {
+        this.tabIndex = index;
+    }
     getTaskList() {
         var url = this.global.getBoxApi("getBtTaskList");
         this.http.post(url, {})
@@ -52,6 +59,14 @@ export class BtTaskPage {
             if(res.err_no === 0) {
                 GlobalService.consoleLog("获取任务列表成功");
                 this.btTaskList = res.list || [];
+                this.btDoneList = this.btTaskList.filter(item => {
+                    return item.status == 3;
+                });
+                this.btDoingList = this.btTaskList.filter(item => {
+                    return item.status != 3;
+                });
+                this.btDoneNum = this.btDoneList.length;
+                this.btDoingNum = this.btDoingList.length;
             }
         })
     }
@@ -81,8 +96,8 @@ export class BtTaskPage {
 
     deleteTask(item) {
         this.global.createGlobalAlert(this, {
-            title: Lang.L('WORD0e46988a'),
-            message: Lang.L('WORD0e46988a'),
+            title: '提示',
+            message: '确认删除该任务',
             // enableBackdropDismiss: false,
             buttons: [{
                     text: Lang.L('WORD85ceea04'),
@@ -92,7 +107,7 @@ export class BtTaskPage {
                     }
                 },
                 {
-                    text: Lang.L('WORDd0ce8c46'),
+                    text: Lang.L('Delete'),
                     handler: data => {
                         var url = this.global.getBoxApi("deleteBtTask");
                         this.http.post(url, {
@@ -121,4 +136,46 @@ export class BtTaskPage {
         });
     }
     
+
+    getStatus(item) {
+        if(item.status == -1) {
+            return '等待下载'
+        } else if(item.status == 0) {
+            return '连接中'
+        } else if(item.status == 1) {
+            return '下载' + ""
+        } else if(item.status == 2) {
+            return '已暂停'
+        } else if(item.status == 3) {
+            return '已完成'
+        }else if(item.status == 4) {
+            return '下载失败'
+        }
+    }
+
+    computeSpeed(task) {
+        if(task.speed > GlobalService.DISK_M_BITS) {
+            return (task.speed / GlobalService.DISK_M_BITS).toFixed(2) + 'M';
+        } else {
+            return (task.speed / GlobalService.DISK_K_BITS).toFixed(2) + 'K';
+        }
+    }
+
+    getChangeStatus(item) {
+        if(item.status == -1 || item.status == 0 || item.status == 1) {
+            return '下载中'
+        } else if(item.status == 2) {
+            return '继续下载'
+        } else if(item.status == 3) {
+            return '查看文件'
+        }else if(item.status == 4) {
+            return '重新下载'
+        }
+    }
+
+    showPcToast() {
+        this.global.createGlobalToast(this, {
+            message: '在电脑上打开Ubbey客户端，可对您设备里的文件进行管理，下载地址：www.ubbey.org/download'
+        })
+    }
 }
