@@ -7,9 +7,14 @@
 <ion-header>
 
     <ion-navbar class="text-right">
+        下载任务
         <svg class="icon icon-right" (click)="goBtSetPage()" aria-hidden="true">
-            <use xlink:href="#icon-Setting"></use>
+            <use xlink:href="#icongengduo1"></use>
         </svg>
+        <svg class="icon icon-right" (click)="showPcToast()" aria-hidden="true">
+            <use xlink:href="#iconPCView1"></use>
+        </svg>
+        
     </ion-navbar>
 
 </ion-header>
@@ -17,25 +22,44 @@
 
 <ion-content>
     <ul class="tab-list">
-        <li class="active">下载中</li>
-        <li>已完成</li>
-        <li>分享中</li>
+        <li [ngClass]="tabIndex == 0 ? 'active' : ''" (click)="changeIndex(0)">下载中({{ btDoingNum }})</li>
+        <li [ngClass]="tabIndex == 1 ? 'active' : ''" (click)="changeIndex(1)">已完成({{ btDoneNum }})</li>
     </ul>
     <div class="task-box">
-        <ul class="task-list">
-            <li class="teak-item" tappable ion-item *ngFor="let item of btTaskList">
+        <ul class="task-list" *ngIf="tabIndex == 0">
+            <li class="teak-item" tappable *ngFor="let item of btDoingList">
                 <div class="info" (click)="goBtPlayPage(item)">
                     <p class="file-name">{{ item.name }}</p>
-                    <p class="file-info eps">{{ item.finish | computeFileSize }}／{{ item.total | computeFileSize }}  {{ getComputed(item.finish, item.total) }}</p>
+                    <p class="file-info eps">{{ item.finish | computeFileSize }}／{{ item.total | computeFileSize }} · {{ getStatus(item) }}</p>
                 </div>
-                <div class="speed clear" item-end>
+                <div class="speed clear">
                     <div class="progress fl circle btn">
-                        <i *ngIf="item.status == -1 || item.status == 0 || item.status == 1" (click)="changeTaskStatus(item, 2)">暂停</i>
-                        <i (click)="deleteTask(item)">删除</i>
-                        <i *ngIf="item.status == 2 || item.status == 4" (click)="changeTaskStatus(item, 1)">继续下载</i>
-                        <!-- <svg class="icon icon-right" aria-hidden="true">
-                            <use xlink:href="#icon-gouxuanicon"></use>
-                        </svg> -->
+                        <svg *ngIf="item.status == -1 || item.status == 0 || item.status == 1" class="icon icon-right" (click)="changeTaskStatus(item, 2)" aria-hidden="true">
+                            <use xlink:href="#iconzanting"></use>
+                        </svg>
+                        <svg *ngIf="item.status == 2" (click)="changeTaskStatus(item, 1)" class="icon icon-right" aria-hidden="true">
+                            <use xlink:href="#iconjixuxiazai"></use>
+                        </svg>
+                        <svg *ngIf="item.status == 4" (click)="changeTaskStatus(item, 1)" class="icon icon-right" aria-hidden="true">
+                            <use xlink:href="#iconchongxinxiazai1"></use>
+                        </svg>
+                        <span>{{ getChangeStatus(item) }}</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul class="task-list"  *ngIf="tabIndex == 1">
+            <li class="teak-item" tappable *ngFor="let item of btDoneList">
+                <div class="info" (click)="goBtPlayPage(item)">
+                    <p class="file-name">{{ item.name }}</p>
+                    <p class="file-info eps">{{ item.total | computeFileSize }} · {{ getStatus(item) }}</p>
+                </div>
+                <div class="speed clear">
+                    <div class="progress fl circle btn">
+                        <svg class="icon icon-right" aria-hidden="true">
+                            <use xlink:href="#iconchakanwenjian1"></use>
+                        </svg>
+                        <span>{{ getChangeStatus(item) }}</span>
                     </div>
                 </div>
             </li>

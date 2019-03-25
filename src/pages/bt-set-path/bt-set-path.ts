@@ -38,6 +38,8 @@ export class BtSetPathPage {
         }
     
         ionViewDidLoad() {
+            this.count = this.navParams.get("count") || 0;
+            console.log('this.count' + this.count);
             GlobalService.consoleLog('ionViewDidLoad SelectfolderPage');
             GlobalService.consoleLog('this.currPath  :' + this.currPath);
             this.currPath = this.navParams.get("currPath") || this.global.currPath;
@@ -102,6 +104,7 @@ export class BtSetPathPage {
     
     
         goBack() {
+            console.log('this.count' + this.count);
             this.util.popToPage(this, this.count + 2);
         }
     
@@ -157,6 +160,10 @@ export class BtSetPathPage {
                     }
                 ]
             })
+        }
+        savePath() {
+            this.events.publish('bt-path-change', this.currPath);
+            this.goBack();
         }
 
 }

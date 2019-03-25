@@ -11,7 +11,7 @@
             <device networkStatusShow="true" (goDevicePage)="goAboutDevice()" (showPopup)="showNetworkPopup()" (goLoginPage)="goLoginPage()" lastPath="home-page"></device>
         </header>
         <div class="slides-box">
-            <ion-slides pager spaceBetween="8px">
+            <ion-slides pager spaceBetween="-10px">
                 <ion-slide *ngFor="let item of bannerList;" (click)="goAppDetail(item)">
                     <div class="bg-box" [ngStyle]="{'background-image': 'url(' + bannerStyle[item.bannerStyle] + ')'}">
                         <div class="float-left">

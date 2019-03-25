@@ -14,6 +14,7 @@ import { LoginPage } from '../login/login';
 import { AppsInstalled } from '../../providers/AppsInstalled';
 import { UappPlatform } from "../../providers/UappPlatform";
 import { AppsInterface } from "../../providers/AppsInterface";
+import { Lang } from '../../providers/Language';
 
 import { InternalFormsSharedModule } from '@angular/forms/src/directives';
 /**
@@ -147,10 +148,30 @@ export class FindPage {
 
     downloadBt(url) {
         console.log("download" + url)
-        this.util.downloadBt(url)
-        .then(res => {
-            console.log("正在下载bt")
+        this.global.createGlobalAlert(this, {
+            title: '下载文件',
+            message: 'Hunter Killer-2018 [BluRay]laom [720p] [YTS] [YIFY]',
+            // enableBackdropDismiss: false,
+            buttons: [{
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.handleBack();
+                    }
+                },
+                {
+                    text: '下载',
+                    handler: data => {
+                        this.util.downloadBt(url)
+                        .then(res => {
+                            console.log("正在下载bt")
+                        })
+                        return true;
+                    }
+                }
+            ]
         })
+        
     }
 
 }

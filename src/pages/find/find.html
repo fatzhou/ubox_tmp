@@ -15,7 +15,7 @@
             <svg class="icon icon-ellipsis icon-search" *ngIf="false" aria-hidden="true">
                 <use xlink:href="#iconsearch"></use>
             </svg>
-            <svg class="icon icon-ellipsis" aria-hidden="true">
+            <svg class="icon icon-ellipsis" (click)="goBtTaskPage()" aria-hidden="true">
                 <use xlink:href="#iconBTxiazaiguanli"></use>
             </svg>
         </div>
@@ -34,7 +34,6 @@
                 </li>
             </ul>
         </div>
-        <div class="bt-task-btn" (click)="goBtTaskPage()">BT</div>
     </div>
     <ion-infinite-scroll (ionInfinite)="refreshFeedList($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

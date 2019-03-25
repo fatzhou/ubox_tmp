@@ -81,6 +81,9 @@ import { BtSetPathPage } from '../pages/bt-set-path/bt-set-path';
 import { FindPage } from '../pages/find/find';
 import { BtPlayPage } from '../pages/bt-play/bt-play';
 import { FileDetailPage } from '../pages/file-detail/file-detail';
+import { DeviceSearchPage } from '../pages/device-search/device-search';
+import { DeviceGuidancePage } from '../pages/device-guidance/device-guidance';
+import { DeviceDetailPage } from '../pages/device-detail/device-detail';
 
 
 
@@ -213,8 +216,10 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     BtSetPathPage,
     FindPage,
     BtPlayPage,
-    FileDetailPage
-
+    FileDetailPage,
+    DeviceSearchPage,
+    DeviceGuidancePage,
+    DeviceDetailPage
     // ClickAndWaitDirective,
   ],
   imports: [
@@ -302,7 +307,10 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     BtSetPathPage,
     FindPage,
     BtPlayPage,
-    FileDetailPage
+    FileDetailPage,
+    DeviceSearchPage,
+    DeviceGuidancePage,
+    DeviceDetailPage
   ],
   providers: [
     UboxApp,
