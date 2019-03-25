@@ -359,7 +359,7 @@ export class HttpService {
 			GlobalService.consoleLog("发出post请求:" + url);
 			GlobalService.consoleLog("请求参数:" + this.toBodyString(paramObj));
 
-			if (cordova || this.platform.is('android')) {
+			if (cordova || this.platform.is('cordova')) {
 				// if (this.platform.is('cordova') || cordova) {
 				return this.http.post(url, paramObj, headers)
 					.then((res: any) => {
@@ -1446,7 +1446,7 @@ export class HttpService {
 				+ ",bufferedAmount:" + dataChannel.bufferedAmount + "," + dataChannel.bufferedAmountLowThreshold);
 			dataChannel.send(str);
 		} catch (e) {
-			GlobalService.consoleLog("发送数据出错，RTCDataChannel.readyState=", dataChannel.readyState);
+			GlobalService.consoleLog("发送数据出错，RTCDataChannel.readyState=" + dataChannel.readyState);
 			GlobalService.consoleLog("发送数据出错:" + JSON.stringify(e) + ", session:" + sessionId + ", url:" + _url);
 			let requestMap = this.globalRequestMap[sessionId];
 			if (sessionId && requestMap && requestMap.reject) {

@@ -319,38 +319,16 @@ export class Util {
         })
         .then(res => {
             if(res.err_no === 0) {
-                if(this.global.platformName == "ios") {
-                    console.log("native login")
-                    return this.http.post(url, {
-                        username: username,
-                        password: Md5.hashStr(password).toString(),
-                        // password: $scope.password,
-                    }, {}, {}, true)
-                    .then(res => {
-                        let userInfoUrl = this.global.getBoxApi('getUserInfo');
-                        return this.http.post(userInfoUrl, {})
-                        .then(res => {
-                            if(res.err_no === 0) {
-                                this.global.boxUserInfo = res.userinfo;
-                                return this.global.boxUserInfo;
-                            } else {
-                                return null;
-                            }
-                        })
-                    })
-                } else {
-                    let userInfoUrl = this.global.getBoxApi('getUserInfo');
-                    return this.http.post(userInfoUrl, {})
-                    .then(res => {
-                        if(res.err_no === 0) {
-                            this.global.boxUserInfo = res.userinfo;
-                            return this.global.boxUserInfo;
-                        } else {
-                            return null;
-                        }
-                    })
-                }
-
+				let userInfoUrl = this.global.getBoxApi('getUserInfo');
+				return this.http.post(userInfoUrl, {})
+				.then(res => {
+					if(res.err_no === 0) {
+						this.global.boxUserInfo = res.userinfo;
+						return this.global.boxUserInfo;
+					} else {
+						return null;
+					}
+				})
             } else {
                 return null;
             }

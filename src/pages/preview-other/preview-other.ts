@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from "@angular/core";
 import { NavController, NavParams } from 'ionic-angular';
 import { GlobalService } from "../../providers/GlobalService";
 import { Util } from "../../providers/Util";
@@ -36,7 +36,8 @@ export class PreviewOtherPage {
         private events: Events,
         private fileManager: FileManager,
         private transfer: FileTransport,
-        private http: HttpService,
+		private http: HttpService,
+		private zone: NgZone,
         public navParams: NavParams) {
         events.subscribe('fileName:update', (res) => {
             this.fileName = res;
@@ -53,11 +54,11 @@ export class PreviewOtherPage {
         //过滤当前文件的下载任务
         GlobalService.consoleLog("所有下载任务:" + JSON.stringify(this.global.fileTaskList));
         GlobalService.consoleLog("文件信息：" + this.currPath + "," + this.fileName);
-        let task = this.global.fileTaskList.filter(item => {
+        let task = this.global.fileTaskList.find(item => {
             return item.action === 'download' && item.path === (this.currPath.replace(/\/$/, '') + "/" + item.name) && this.fileName === item.name;
         })
-        if(task.length) {
-            this.task = task[0];
+        if(task) {
+            this.task = task;
             GlobalService.consoleLog("获取到下载任务：" + JSON.stringify(this.task));
             if(this.task.loaded === this.task.total) {
                 this.downloadStatus = 'finished';
@@ -82,6 +83,7 @@ export class PreviewOtherPage {
     }
 
     controlDownloadFile() {
+		console.log("开始执行controlDwonloadFile........")
         if(this.downloadStatus === 'finished') {
             GlobalService.consoleLog("已下载，直接打开")
             //已完成，直接打开
@@ -94,7 +96,7 @@ export class PreviewOtherPage {
             GlobalService.consoleLog("下载中或者暂停中。。");
             let handler = this.global.fileHandler[this.task.taskId];
             //暂停或者恢复
-            if(!handler || !this.task) {
+            if(!handler) {
                 GlobalService.consoleLog("错误，未找到handler");
                 return false;
             }
@@ -122,32 +124,37 @@ export class PreviewOtherPage {
 		}[this.fileInfo.fileStyle] || this.global.DocSubPath;
 		let localFullPath = this.global.fileSavePath + subFoldPath + '/' + this.fileInfo.name;
 		let remoteFullPath = this.global.currPath.replace(/\/$/g, '') + "/" + this.fileInfo.name;
+		console.log("开始下载文件........" + name)
 		this.transfer.downloadFile({
 			name: this.fileInfo.name,
 			fileStyle: this.fileInfo.fileStyle
-		}, remoteFullPath, localFullPath);
-		
-        setTimeout(()=>{
-			var fileId = this.util.generateFileID(localFullPath, remoteFullPath, 'download');
-			console.log("本次fileId:" + fileId)
-            this.task = this.global.fileTaskList.find(item => {
-                return item.fileId == fileId && item.action == 'download';
-            }) || {};
-        },200);
+		}, remoteFullPath, localFullPath)
+		.then(res => {
+			console.log("下载完成........")
+		})	
+		var fileId = this.util.generateFileID(localFullPath, remoteFullPath, 'download');
+		console.log("本次fileId:" + fileId)
+		this.task = this.global.fileTaskList.find(item => {
+			return item.fileId == fileId && item.action == 'download';
+		}) || {};
+		console.log("任务是否已经生成：" + JSON.stringify(this.task));
     }
 
     computeFinished() {
-        var downloadSize = 1;
-        var allSize = 100;
-        if(this.task && this.task.loaded !== undefined) {
-            downloadSize = this.task.loaded;
-            allSize = this.task.total;
-		}
-		var progress =  Math.floor(downloadSize / allSize * 100 || 0);
-        if(this.task.finished) {
-            this.downloadStatus = 'finished';
-        }
-        return progress + '%';
+		this.zone.run(() => {
+			var downloadSize = 1;
+			var allSize = 100;
+			if(this.task && this.task.loaded !== undefined) {
+				downloadSize = this.task.loaded;
+				allSize = this.task.total;
+			}
+			var progress =  Math.floor(downloadSize / allSize * 100 || 0);
+			if(this.task.finished) {
+				this.downloadStatus = 'finished';
+			}
+			return progress + '%';			
+		})
+
     }
 
 }
