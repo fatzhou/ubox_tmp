@@ -22,4 +22,10 @@ export class DeviceSearchPage {
         console.log('ionViewDidLoad DeviceSearchPage');
     }
 
+    doRefresh(event) {
+        console.log('Begin async operation');
+        setTimeout(() => {
+          console.log('Async operation has ended');
+        }, 2000);
+    }
 }

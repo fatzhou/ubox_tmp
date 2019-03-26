@@ -14,6 +14,65 @@
 
 
 <ion-content>
+    <ion-refresher  snapbackDuration="300" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <div class="main-content">
+        <p class="update-search"><span>下拉重新搜索</span></p>
+        <div class="search-box">
+            <p class="p-title">找不到可用设备</p>
+            <svg class="icon" aria-hidden="true" item-end>
+                <use xlink:href="#iconsousuoshebei"></use>
+            </svg>
+        </div>
+        <div class="slides-box">
+            <ion-slides pager spaceBetween="12px">
+                <ion-slide>
+                    <div class="bg-box">
+                        <div class="bind-info">
+                            <svg class="icon" aria-hidden="true" item-end>
+                                <use xlink:href="#icondefaulticon"></use>
+                            </svg>
+                            <div class="device-info">
+                                <p class="name">Ubbey NeXT</p>
+                                <p>容量：1TB</p>
+                                <p>序列号：Ubox123456789900</p>
+                            </div>
+                        </div>
+                        <div class="bind-btn"><span>绑定</span></div>
+                    </div>
+                </ion-slide>
+                <ion-slide>
+                    <div class="bg-box">
+                        <div class="bind-info">
+                            <svg class="icon" aria-hidden="true" item-end>
+                                <use xlink:href="#icondefaulticon"></use>
+                            </svg>
+                            <div class="device-info">
+                                <p class="name">Ubbey NeXT</p>
+                                <p>容量：1TB</p>
+                                <p>序列号：Ubox123456789900</p>
+                            </div>
+                        </div>
+                        <div class="bind-btn"><span>绑定</span></div>
+                    </div>
+                </ion-slide>
+                <ion-slide>
+                    <div class="bg-box">
+                        <div class="bind-info">
+                            <svg class="icon" aria-hidden="true" item-end>
+                                <use xlink:href="#icondefaulticon"></use>
+                            </svg>
+                            <div class="device-info">
+                                <p class="name">Ubbey NeXT</p>
+                                <p>容量：1TB</p>
+                                <p>序列号：Ubox123456789900</p>
+                            </div>
+                        </div>
+                        <div class="bind-btn"><span>绑定</span></div>
+                    </div>
+                </ion-slide>
+            </ion-slides>
+        </div>
     </div>
 </ion-content>

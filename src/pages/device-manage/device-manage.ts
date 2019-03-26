@@ -1,27 +1,28 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import {DeviceSearchPage} from '../device-search/device-search'
-
+import {DeviceDetailPage} from '../device-detail/device-detail'
 /**
- * Generated class for the DeviceGuidancePage page.
+ * Generated class for the DeviceManagePage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
 
 @Component({
-    selector: 'page-device-guidance',
-    templateUrl: 'device-guidance.html',
+  selector: 'page-device-manage',
+  templateUrl: 'device-manage.html',
 })
-export class DeviceGuidancePage {
+export class DeviceManagePage {
 
     constructor(public navCtrl: NavController, public navParams: NavParams) {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad DeviceGuidancePage');
+        console.log('ionViewDidLoad DeviceManagePage');
     }
-    goDeviceSearchPage() {
-        this.navCtrl.push(DeviceSearchPage);
+
+    goDeviceDetailPage() {
+        this.navCtrl.push(DeviceDetailPage);
     }
+
 }
