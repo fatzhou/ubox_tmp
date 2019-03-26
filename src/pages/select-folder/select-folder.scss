@@ -96,17 +96,17 @@ page-select-folder {
                     }
                     em {
                         display: inline-block;
-                        width: 20px;
-                        height: 20px;
-                        border: 1px solid #fff;
+                        width: 22px;
+                        height: 22px;
+                        background: rgba(0,0,0,0.20);
+                        border: 1px solid #78777C;
                         position: absolute;
                         top: 14px;
                         right: 0px;
                         border-radius: 50%;
-                        background: rgba(0,0,0,0);
                         box-sizing: border-box;
                         &.light {
-                            border-color: rgb(0, 199, 125);
+                            border-color: #00a25e;
                         }
                     }
                 }

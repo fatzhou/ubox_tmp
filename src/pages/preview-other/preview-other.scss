@@ -15,31 +15,37 @@ page-preview-other {
         color: $newFiveColor
     }
     .file-box {
-        padding-bottom: 50px;
-        padding-top: 50px;
+        padding-bottom: 40px;
+        padding-top: 70px;
         .file-type {
             display: block;
             width: 50px;
             height: 50px;
             margin: 0 auto;
             float: unset;
+            background-size: 44px 44px;
         }
         h5 {
             color: #fff;
             font-size: 17px;
             font-weight: 400;
             clear: both;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            line-height: 24px;
         }
         p {
             color: #9B9B9B;
             font-size: 14px;
+            line-height: 19px;
         }
     }
     .detail-box {
         color: #9B9B9B;
         font-size: 14px;
-        padding: 20px;
+        padding: 18px;
         padding-top: 0;
+        line-height: 20px;
         .progress-box {
             width: 100%;
             border-radius: 4px;

@@ -83,14 +83,14 @@ page-select-img {
                         position: absolute;
                         right: 5px;
                         top: 5px;
-                        width: 20px;
-                        height: 20px;
+                        width: 22px;
+                        height: 22px;
                         border-radius: 50%;
                         background: transparent;
                         .icon {
                             line-height: 1;
                             &.icon-ellipsis {
-                                font-size: 20px;
+                                font-size: 22px;
                                 color: #fff;
                                 position: absolute;
                                 background: transparent;
@@ -99,14 +99,14 @@ page-select-img {
                         }
                         em {
                             display: inline-block;
-                            width: 20px;
-                            height: 20px;
-                            border: 1px solid #fff;
+                            width: 22px;
+                            height: 22px;
+                            background: rgba(0,0,0,0.20);
+                            border: 1px solid rgba(255,255,255,0.70);
                             position: absolute;
                             top: 0;
                             left: 0;
                             border-radius: 50%;
-                            background: rgba(0,0,0,0);
                             box-sizing: border-box;
                         }
                     }

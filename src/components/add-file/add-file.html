@@ -3,7 +3,7 @@
     <div class="file-type-select-wrap">
         <p class="title">{{global.L('WORD6f79290c') }} <span> {{global.currPath}} </span></p>
         <ul class="type-list">
-            <li tappable (click)="goSelectPage('image','/Images');$event.stopPropagation()">
+            <li tappable (click)="goSelectPage('image');$event.stopPropagation()">
                 <div class="folderbox FF4747">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#iconshangchuantupianicon"></use>
@@ -11,7 +11,7 @@
                 </div>
                 <h2>{{global.L('DirImages')}}</h2>
             </li>
-            <li tappable (click)="goSelectPage('video','/Videos');$event.stopPropagation()">
+            <li tappable (click)="goSelectPage('video');$event.stopPropagation()">
                 <div class="folderbox F5A623">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#iconshangchuanshipinicon"></use>
@@ -19,7 +19,7 @@
                 </div>
                 <h2>{{global.L('DirVideos')}}</h2>
             </li>           
-            <li *ngIf="plat==='android'" tappable (click)="goSelectPage('document','/Documents');$event.stopPropagation()">
+            <li *ngIf="plat==='android'" tappable (click)="goSelectPage('document');$event.stopPropagation()">
                 <div class="folderbox D3FCD67">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#iconshangchuanwendangicon"></use>

@@ -18,7 +18,7 @@
                     <use xlink:href="#icon-gouxuanicon"></use>
                 </svg>
             </p>
-            <ul class="file-list" *ngIf="dataAcquired && type0List.length > 0 && isShowType0List" (press)="showAllBtns();$event.stopPropagation();">
+            <ul class="file-list" *ngIf="dataAcquired && type0List.length > 0 && isShowType0List" (press)="showAllBtns()">
             <!-- <div *ngIf="dataAcquired && fileList.length > 0"> -->
                 <!-- <ul class="file-list" [virtualScroll]="fileList" approxItemHeight="73px" bufferRatio="10" > -->
                     <li class="file-list-item"  tappable *ngFor="let info of type0List" (click)="goNextFolder(info);$event.stopPropagation();">
@@ -46,7 +46,7 @@
                     <use xlink:href="#icon-gouxuanicon"></use>
                 </svg>
             </p>
-            <ul class="file-list" *ngIf="dataAcquired && type1List.length > 0 && isShowType1List" (press)="showAllBtns();$event.stopPropagation();">
+            <ul class="file-list" *ngIf="dataAcquired && type1List.length > 0 && isShowType1List" (press)="showAllBtns()">
                 <li class="file-list-item" tappable *ngFor="let info of type1List" (click)="goNextFolder(info);$event.stopPropagation();">
                     <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                     <img class="file-thumbnail"  [src]="info.thumbnail" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">

@@ -17,13 +17,19 @@ import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-
 export class FileFooterComponent {
     @Input() canClick: boolean;
     @Output() uploadFileEvent = new EventEmitter < any > ();
-
+    uploadFolder: string = '';
     constructor(
         private global: GlobalService,
         public navCtrl: NavController,
         private events: Events,
     ) {
         // console.log('Hello FileFooterComponent Component');
+        if(this.global.currPath == '/') {
+            this.uploadFolder = 'AllFiles';
+        } else {
+            let list = this.global.currPath.split('/');
+            this.uploadFolder = list[list.length - 1];
+        }
     }
 
     goSelectUploadFolderPage() {

@@ -119,6 +119,13 @@ export class TaskListPage {
         }
     }
 
+    computeLoading(task) {
+        if(task.loaded === 0) {
+            return 0;
+        } else {
+            return Math.ceil(task.loaded * 100 / task.total);
+        }
+    }
     computeFinished(task) {
         task.percent = task.loaded === 0 ? 0 : Math.ceil(task.loaded * 100 / task.total);
         var str = '';

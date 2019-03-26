@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { ClassifyListPage } from '../../pages/classify-list/classify-list';
@@ -18,7 +18,8 @@ import { Events, App } from 'ionic-angular';
 })
 export class ClassifyComponent {
 
-  text: string;
+    text: string;
+    @Output() closeClassify = new EventEmitter < any > ();
 
     constructor(
         private global: GlobalService,
@@ -48,6 +49,9 @@ export class ClassifyComponent {
                             GlobalService.consoleLog('Cancel clicked');
                             this.app.getRootNav().push(DeviceListPage, {
                                 refresh: false
+                            })
+                            .then(() => {
+                                this.closeClassify.emit();
                             });
                         }
                     },
@@ -57,7 +61,10 @@ export class ClassifyComponent {
             GlobalService.consoleLog('type' +type)
             this.app.getRootNav().push(ClassifyListPage, {
                 type: type
-            });        
+            })
+            .then(() => {
+                this.closeClassify.emit();
+            });  
         }
     }
 

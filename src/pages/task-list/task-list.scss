@@ -29,7 +29,7 @@ page-task-list {
 		background: #000;
 	}
 	.done {
-		margin-top: 20px;
+		// margin-top: 20px;
 	}
 	.no-file {
         text-align: center;
@@ -76,14 +76,13 @@ page-task-list {
 						width: 44px;
 						height: 44px;
 						position: absolute;
-						top: 0;
+						top: 2px;
 						right: -10px;
 						text-align: center;
 						padding: 10px;
 						line-height: normal;
-
 						.icon {
-							font-size: 22px;
+							font-size: 20px;
 							margin-right: 0;
 						}
 					}
@@ -113,11 +112,10 @@ page-task-list {
 		// background: #fff;
 		background: $newThreeColor;
 		.title {
-			color: $newFiveColor;
-			font-size: 12px;
+			font-size: 14px;
+			color: #78777C;
 			height: 44px;
 			line-height: 44px;
-			border-bottom: 1px solid #f1f1f1;
 			padding: 0 10px;
 			min-height: auto;
 			background: $newThreeColor;
@@ -125,41 +123,46 @@ page-task-list {
 				margin: 0;
 				padding: 0 10px;
 				margin-right: -14px;
-				color: $newFourColor;
 				background: $newThreeColor;
+				color: #7F8389;
+				letter-spacing: -0.29px;
+				font-size: 12px;
 				i {
-					border: 1px solid $newFourColor;
 					font-style: normal;
 					padding: 3px 5px;
-					border-radius: 4px;
+					border: 1px solid #7F8389;
+					border-radius: 3px;
 				}
 			}
 		}
 		.task-ul {
 			.task-li {
-				padding-left: 10px;
 				border-bottom: 1px solid $newThreeColor;
 				position: relative;
 				background: $newFourColor;
+				box-sizing: border-box;
+				padding-bottom: 6px;
+				padding-top: 6px;
+				padding-left: 10px;
 			}
 			img {
-				width: 48px;
-				height: 48px;
+				width: 40px;
+				height: 40px;
 			}
 			.file-name {
 				color: #fff;
 				font-size: 14px;
 				overflow: hidden;
 				text-overflow: ellipsis;
-				line-height: 24px;
+				line-height: 23px;
 				// font-size: 18px;
-                // font-weight: bold;
+                font-weight: bold;
 			}
 			.file-type {
 				margin-right: 8px;
 				overflow: hidden;
-				width: 48px;
-				height: 48px;
+				width: 40px;
+				height: 40px;
 			}
 
 			.file-info {
@@ -168,8 +171,7 @@ page-task-list {
 				overflow: hidden;
 				text-overflow: ellipsis;
 				position: relative;
-				line-height: 1.5;
-				margin-top: 4px;
+				line-height: 1;
 				.progress-box {
 					display: inline-block;
 					width: 150px;
@@ -190,7 +192,7 @@ page-task-list {
 					width: 10px;
 					height: 10px;
 					position: absolute;
-					top: 4px;
+					top: 2px;
 					left: 0px;
 					background: url(../assets/img/newdown@2x.png) 0 0 no-repeat;
 					background-size: cover;
@@ -230,19 +232,6 @@ page-task-list {
 				}
 				.progress {
 					position: relative;
-
-					.left-circle {
-						clip: rect(auto, 18px, auto, 0);
-						position: absolute;
-						top: -2px;
-						left: -2px;
-					}
-					.right-circle {
-						clip: rect(auto, auto, auto, 18px);
-						position: absolute;
-						top: -2px;
-						left: -2px;
-					}
 
 					.center {
 						position: absolute;
@@ -289,7 +278,7 @@ page-task-list {
 						font-size: 48px;
 						line-height: 1;
 						&.icon-right {
-                            font-size: 20px;
+                            font-size: 22px;
                             right: 0;
                             margin-right: 0px;
                             color: #E9E9EA;
@@ -300,14 +289,14 @@ page-task-list {
 					}
 					em {
 						display: inline-block;
-						width: 20px;
-						height: 20px;
-						border: 1px solid #fff;
+						width: 22px;
+						height: 22px;
+						background: rgba(0,0,0,0.20);
+						border: 1px solid #78777C;
 						position: absolute;
 						top: 6px;
 						left: 5px;
 						border-radius: 50%;
-						background: rgba(0,0,0,0);
 						box-sizing: border-box;
 						&.light {
 							border-color: rgb(0, 199, 125);
@@ -341,16 +330,16 @@ page-task-list {
 	}
 	.operation-btns {
         position: fixed;
-        bottom: 10px;
-        width: 100%;
-        height: 50px;
-        z-index: 9999;
-        line-height: 48px;
-        text-align: center;
-        background: rgba(0,0,0,0);
-        overflow: hidden;
-        color: #fff;
-		font-weight: bold;
+		bottom: 0;
+		width: 100%;
+		height: 60px;
+		z-index: 9999;
+		line-height: 48px;
+		text-align: center;
+		background: transparent;
+		overflow: hidden;
+		color: #fff;
+		background-image: linear-gradient(-180deg, rgba(0,0,0,0.00) 0%, rgba(48,47,52,0.50) 100%);
         .btn {
             float: left;
 			width: calc(100% - 20px);
@@ -360,6 +349,9 @@ page-task-list {
 			border-radius: 4px;
 			color: #fff;
 			margin-left: 10px;
+			box-shadow: 0 0 20px 0 rgba(0,0,0,0.50);
+			font-size: 16px;
+			letter-spacing: -0.39px;
             &.disable {
                 color: #fff;
 			}

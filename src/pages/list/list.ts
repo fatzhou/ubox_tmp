@@ -126,11 +126,12 @@ export class ListPage {
         ListPage._this = this;
     }
 
-    ionViewWillLeave() {
+    ionViewDidLeave() {
         this.hideAddBtn = true;
         //保存缩略图map到缓存
-        this.storage.set('thumbnailMap', JSON.stringify(this.global.thumbnailMap));
         this.showFileSelect = false;
+        this.isShowClassifyNav = false;
+        this.storage.set('thumbnailMap', JSON.stringify(this.global.thumbnailMap));
         // this.events.unsubscribe('file:updated', this.updateFilesEvent)
         // // events.unsubscribe('image:move');
         // this.events.unsubscribe('image:move', this.moveFilesEvent);
@@ -307,7 +308,7 @@ export class ListPage {
                 this.fileList = this.allFileList.slice(0, this.pageSize)
                 this.transfer.getThumbnail(this.fileList, false, this.currPath);                    
 
-                this.cd.detectChanges();
+                // this.cd.detectChanges();
                 //获取缩略图
                 this.clearStatus();
             }
@@ -330,7 +331,7 @@ export class ListPage {
     }
 
     // 长按，显示按钮区域，并将当前文件加入选择list，同时需要更新底部导航栏状态
-    showAllBtns(info) {
+    showAllBtns() {
         this.allBtnsShow = true;
     }
 
@@ -721,8 +722,12 @@ export class ListPage {
         })
     }
 
-    toggleClassifyNav() {
-        this.isShowClassifyNav = !this.isShowClassifyNav;
+    toggleClassifyNav(isShow = null) {
+        if(isShow != null) {
+            this.isShowClassifyNav = false;
+        } else {
+            this.isShowClassifyNav = !this.isShowClassifyNav;
+        }
     }
 
     toggleShowAside() {

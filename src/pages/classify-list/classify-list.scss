@@ -5,11 +5,6 @@ page-classify-list {
     .toolbar-background {
         background: $newFirstColor;
     }
-    .select-tollbar {
-        .toolbar-background {
-            background: $newThreeColor;
-        }
-    }
     .toolbar-title {
         color: #fff;
     }
@@ -86,22 +81,18 @@ page-classify-list {
                 width: 44px;
                 height: 44px;
                 position: absolute;
-                top: 0;
+                top: 2px;
                 right: 46px;
-                padding: 10px 0;
-                padding-left: 20px;
-                padding-right: 0;
+                padding: 10px;
                 line-height: normal;
                 text-align: center;
                 .icon {
-                    font-size: 22px;
+                    font-size: 20px;
                     margin-right: unset;
                 }
                 &.all-toggle-btn {
                     right: 0px;
-                    padding: 10px 0;
-                    padding-left: 10px;
-                    padding-right: 10px;
+                    padding: 10px;
                 }
             }
         }
@@ -119,14 +110,18 @@ page-classify-list {
         // padding-bottom: 100px;
         .file-list-item {
             border-bottom: 1px solid $newThreeColor;
-            padding: 12px $padding - 3px;
+            padding: 16px $padding - 3px;
             overflow: hidden;
             width: 100%;
             background: $newFourColor;
             .file-thumbnail {
-                width: 48px;
-                height: 48px;
+                width: 40px;
+                height: 40px;
                 float: left;                
+            }
+            .file-type {
+                width: 40px;
+                height: 40px;
             }
             .info {
                 float: left;
@@ -136,13 +131,12 @@ page-classify-list {
                     color: #fff;
                     font-size: 14px;
                     font-weight: bold;
-                    line-height: 24px;
+                    line-height: 23px;
                 }
                 p {
                     font-size: 12px;
                     color: #9B9B9B;
-                    line-height: 1.5;
-                    margin-top: 4px;
+                    line-height: 1.3;
                 }
             }
             .btn {
@@ -154,8 +148,8 @@ page-classify-list {
                     font-size: 48px;
                     line-height: 1;
                     position: absolute;
-                    top: 4px;
-                    left: 5px;
+                    top: 0px;
+                    right: 0px;
                     &.icon-ellipsis {
                         font-size: 20px;
                         line-height: 48px;
@@ -164,7 +158,7 @@ page-classify-list {
                         color: $newFiveColor;
                     }
                     &.icon-right {
-                        font-size: 20px;
+                        font-size: 22px;
                         right: 0;
                         margin-right: 0px;
                         margin-top: 12px;
@@ -177,14 +171,14 @@ page-classify-list {
                 }
                 em {
                     display: inline-block;
-                    width: 20px;
-                    height: 20px;
-                    border: 1px solid #fff;
+                    width: 22px;
+                    height: 22px;
+                    background: rgba(0,0,0,0.20);
+                    border: 1px solid #78777C;
                     position: absolute;
-                    top: 16px;
-                    left: 5px;
+                    top: 12px;
+                    right: 0;
                     border-radius: 50%;
-                    background: rgba(0,0,0,0);
                     box-sizing: border-box;
                 }
             }
@@ -224,16 +218,16 @@ page-classify-list {
                     position: absolute;
                     right: 5px;
                     top: 5px;
-                    width: 20px;
-                    height: 20px;
+                    width: 22px;
+                    height: 22px;
                     border-radius: 50%;
                     background: transparent;
                     .icon {
                         line-height: 1;
                         &.icon-ellipsis {
-                            font-size: 20px;
+                            font-size: 22px;
                             color: #fff;
-                            height: 20px;
+                            height: 22px;
                             border-radius: 50%;
                             background: transparent;
                             position: absolute;
@@ -243,14 +237,14 @@ page-classify-list {
                     }
                     em {
                         display: inline-block;
-                        width: 20px;
-                        height: 20px;
-                        border: 1px solid #fff;
+                        width: 22px;
+                        height: 22px;
+                        background: rgba(0,0,0,0.20);
+                        border: 1px solid #78777C;
                         position: absolute;
                         top: 0;
                         left: 0;
                         border-radius: 50%;
-                        background: rgba(0,0,0,0);
                         box-sizing: border-box;
                     }
                 }
@@ -367,19 +361,20 @@ page-classify-list {
         position: fixed;
         bottom: -3px;
         width: 100%;
-        height: 50px;
+        height: 54px;
         z-index: 9999;
-        line-height: 48px;
+        line-height: 54px;
         text-align: center;
-        background: #000;
         overflow: hidden;
         color: #fff;
         font-weight: bold;
-
+        background: #302F34;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+        font-size: 11px;
+        letter-spacing: 0.13px;
         .btn {
             float: left;
             width: 25%;
-            border: 1px solid #000;
             color: #fff;
             height: 48px;
             position: relative;
@@ -392,14 +387,14 @@ page-classify-list {
             span {
                 display: inline;
                 vertical-align: middle;
-                font-size: 12px;
+                font-size: 11px;
                 position: absolute;
                 left: 50%;
-                top: 10px;
+                top: 11px;
                 transform: translate(-50%);
             }
             .icon {
-                font-size: 16px;
+                font-size: 20px;
                 display: inline-block;
                 vertical-align: middle;
                 position: absolute;

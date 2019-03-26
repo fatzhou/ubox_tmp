@@ -14,6 +14,9 @@ page-list {
     .content-ios {
         background: $newThreeColor;
     }
+    .title.list-active {
+        padding: 0 10px 1px;
+    }
     .add-wrapper {
         position: absolute;
         width: 100%;
@@ -84,11 +87,9 @@ page-list {
                 width: 44px;
                 height: 44px;
                 position: absolute;
-                top: 0;
+                top: 2px;
                 right: 46px;
-                padding: 10px 0;
-                padding-left: 20px;
-                padding-right: 0;
+                padding: 10px;
                 line-height: normal;
                 text-align: center;
                 .icon {
@@ -142,9 +143,10 @@ page-list {
     }
     .disk-list {
         width: 100%;
-        height: 165px;
+        height: 185px;
         position: relative;
         background: $newFirstColor;
+        padding-top: 20px;
         .disk-title {
             color: #fff;
             text-indent: 10px;
@@ -171,7 +173,8 @@ page-list {
             overflow-x: scroll;
             .disk-ul-box {
                 height: 100%;
-                padding-right: 10px;
+                padding-left: 14px;
+                padding-right: 14px;
                 box-sizing: content-box;
             }
             li {
@@ -181,9 +184,12 @@ page-list {
                 overflow: hidden;
                 background: $newFourColor;
                 color: $newFiveColor;
-                margin-left: 10px;
+                margin-right: 6px;
                 border-radius: 3px;
                 padding: 20px;
+                &:last-child {
+                    margin-right: 0px;
+                }
                 .disk-icon {
                     width: 35px;
                     height: 35px;
@@ -220,8 +226,8 @@ page-list {
         .icon {
             position: absolute;
             top: 12px;
-            right: 14px;
-            font-size: 20px;
+            right: 15px;
+            font-size: 22px;
         }
     }
     .file-list {
@@ -230,14 +236,18 @@ page-list {
         // padding-bottom: 100px;
         .file-list-item {
             border-bottom: 1px solid $newThreeColor;
-            padding: 12px $padding - 3px;
+            padding: 16px $padding - 3px;
             overflow: hidden;
             width: 100%;
             background: $newFourColor;
             .file-thumbnail {
-                width: 48px;
-                height: 48px;
+                width: 40px;
+                height: 40px;
                 float: left;                
+            }
+            .file-type {
+                width: 40px;
+                height: 40px;
             }
             .info {
                 float: left;
@@ -247,18 +257,17 @@ page-list {
                     color: #fff;
                     font-size: 14px;
                     font-weight: bold;
-                    line-height: 24px;
+                    line-height: 23px;
                 }
                 p {
                     font-size: 12px;
                     color: #9B9B9B;
-                    line-height: 1.5;
-                    margin-top: 4px;
+                    line-height: 1.3;
                 }
             }
             .btn {
                 float: right;
-                margin-top: 18px;
+                margin-top: 12px;
                 position: relative;
                 .icon {
                     font-size: 18px;
@@ -266,32 +275,31 @@ page-list {
                     &.icon-ellipsis {
                         font-size: 18px;
                         line-height: 48px;
-                        margin-right: -4px;
                         color: #7F8389;
                     }
                     &.icon-right {
-                        font-size: 20px;
+                        font-size: 22px;
                         right: 0;
                         margin-right: 0px;
                         color: #E9E9EA;
                     }
-                    &.light {
-                        color: rgb(0, 199, 125);
-                    }
+                    // &.light {
+                    //     color: rgb(0, 199, 125);
+                    // }
                 }
                 em {
                     display: inline-block;
-                    width: 20px;
-                    height: 20px;
-                    border: 1px solid #fff;
+                    width: 22px;
+                    height: 22px;
+                    background: rgba(0,0,0,0.20);
+                    border: 1px solid #78777C;
                     position: absolute;
                     top: 0;
                     right: 0;
                     border-radius: 50%;
-                    background: rgba(0,0,0,0);
                     box-sizing: border-box;
                     &.light {
-                        border-color: rgb(0, 199, 125);
+                        border-color: #00a25e;
                     }
                 }
             }
@@ -313,8 +321,9 @@ page-list {
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 24px;
+
             // font-size: 18px;
-            // font-weight: bold;
+            font-weight: bold;
         }
         .file-type {
             margin-right: 8px;
@@ -450,7 +459,7 @@ page-list {
                     font-size: 48px;
                     line-height: 1;
                     &.icon-right {
-                        font-size: 24px;
+                        font-size: 22px;
                         right: 0;
                         margin-top: 0px;
                         margin-right: 0px;
@@ -572,14 +581,19 @@ page-list {
 
     .operation-btns {
         position: fixed;
-        bottom: 50px;
+        bottom: -3px;
         width: 100%;
-        height: 50px;
-        z-index: 99;
-        line-height: 48px;
-        background: rgba(0,0,0,0.3);
+        height: 54px;
+        z-index: 9999;
+        line-height: 54px;
+        text-align: center;
         overflow: hidden;
+        color: #fff;
         font-weight: bold;
+        background: #302F34;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+        font-size: 11px;
+        letter-spacing: 0.13px;
         .operation-content {
             background: $newFourColor;
             position: absolute;
@@ -594,23 +608,20 @@ page-list {
             position: relative;
             text-align: center;
             color: #fff;
-            &.border-bottom {
-                border-bottom: 1px solid $newThreeColor;
-            }
             &.disable {
                 color: #686868;
             }
             span {
                 display: inline;
                 vertical-align: middle;
-                font-size: 12px;
+                font-size: 11px;
                 position: absolute;
-                top: 13px;
+                top: 11px;
                 left: 50%;
                 transform: translate(-50%, 0);
             }
             .icon {
-                font-size: 16px;
+                font-size: 20px;
                 display: inline-block;
                 vertical-align: middle;
                 position: absolute;

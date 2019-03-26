@@ -1,7 +1,7 @@
 classify {
     .cloud-manage {
         position: fixed;
-        top: 40px;
+        top: 24px;
         right: 20px;
         padding: 0 10px;
         background: #302F34;
@@ -10,6 +10,6 @@ classify {
         border-radius: 4px;
         z-index: 99;
         color: $newFiveColor;
-        box-shadow: 0 0px 9px rgba(0,0,0,0.2);
+        box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
     }
 }
