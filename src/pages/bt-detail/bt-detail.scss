@@ -195,4 +195,20 @@ page-bt-detail {
             }
         }
     }
+    .file-list-box {
+        padding: 10px 20px;
+        border-radius: 2px;
+        overflow: hidden;
+        background: $newFourColor;
+        .file-list-item {
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            h2 {
+                font-size: 12px;
+                font-weight: 500;
+            }
+        }
+    }
 }

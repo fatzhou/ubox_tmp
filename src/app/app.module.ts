@@ -84,6 +84,8 @@ import { FileDetailPage } from '../pages/file-detail/file-detail';
 import { DeviceSearchPage } from '../pages/device-search/device-search';
 import { DeviceGuidancePage } from '../pages/device-guidance/device-guidance';
 import { DeviceDetailPage } from '../pages/device-detail/device-detail';
+import { DeviceManagePage } from '../pages/device-manage/device-manage';
+
 
 
 
@@ -219,7 +221,8 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     FileDetailPage,
     DeviceSearchPage,
     DeviceGuidancePage,
-    DeviceDetailPage
+    DeviceDetailPage,
+    DeviceManagePage
     // ClickAndWaitDirective,
   ],
   imports: [
@@ -310,7 +313,8 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     FileDetailPage,
     DeviceSearchPage,
     DeviceGuidancePage,
-    DeviceDetailPage
+    DeviceDetailPage,
+    DeviceManagePage
   ],
   providers: [
     UboxApp,

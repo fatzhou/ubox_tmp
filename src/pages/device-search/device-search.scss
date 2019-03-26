@@ -1,9 +1,116 @@
 page-device-search {
+    .scroll-content,.fixed-content {
+        background: $newFirstColor;
+    }
+    .has-refresher > .scroll-content {
+        border-top: unset;
+    }
     .main-content {
         position: relative;
         width: 100%;
         height: 100%;
         background: $newFirstColor;
-        
+        overflow: auto;
+    }
+    .toolbar-background {
+        background: $newFirstColor;
+    }
+    .update-search {
+        text-align: center;
+    }
+    .update-search  span{
+        padding: 5px 20px;
+        border-radius: 20px;
+        overflow: hidden;
+        line-height: 28px;
+        font-size: 14px;
+        color: #CCECE0;
+        background: rgba(255,255,255,0.1);
+    }
+    .search-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 20px;
+        flex-direction: column;
+        margin: 30px 0;
+        p {
+            margin-bottom: 28px;
+        }
+        .icon {
+            font-size: 48px;
+            margin-top: 20px;
+        }
+    }
+    .slides-box {
+        height: 420px;
+        position: relative;
+        width: calc(100% - 60px);
+        left: 30px;
+        .slides {
+            width: 100%;
+            margin: 0 auto;
+            float: left;
+        }
+        .swiper-container {
+            overflow: visible;
+        }
+        .swiper-pagination-bullet {
+            background: #fff;
+            opacity: .6;
+            width: 7px;
+            height: 7px;
+        }
+        .swiper-pagination-bullet-active {
+            background: #fff;
+            opacity: 1;
+            width: 8px;
+            height: 8px;
+        }
+        .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets {
+            bottom: -30px;
+        }
+        .bg-box {
+            width: 100%;
+            height: 380px;
+            background: #99E8CB;
+            padding: 30px;
+            border-radius: 4px;
+            margin: 0 auto;
+            .bind-info {
+                text-align: center;
+                .icon {
+                    font-size: 150px;
+                    
+                }
+                .device-info {
+                    font-size: 16px;
+                    color: $newFiveColor;
+                    .name {
+                        color: #222126;
+                        font-size: 24px;
+                        margin: 20px 0; 
+                    }
+                }
+            }
+            .bind-btn {
+                margin-top: 30px;
+            }
+            .bind-btn span{
+                display: inline-block;
+                padding: 10px 42px;
+                font-size: 18px;
+                background: $newSecondColor;
+                color: #fff;
+                border-radius: 2px;
+            }
+        }
+        .swiper-slide-active {
+            .bg-box {
+                background: #CCEBE0;
+                height: 420px;
+            }
+        }
     }
 }

@@ -22,6 +22,9 @@ import { PreviewOtherPage } from '../preview-other/preview-other';
 import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-upload-folder'
 import { Storage } from '@ionic/storage';
 import { FileDetailPage } from '../../pages/file-detail/file-detail'
+import { DeviceGuidancePage } from '../../pages/device-guidance/device-guidance'
+import { DeviceManagePage } from '../../pages/device-manage/device-manage'
+
 
 // import { AddFileComponent } from '../../components/add-file/add-file';
 // import { Util } from '../../providers/Util';
@@ -724,5 +727,14 @@ export class ListPage {
 
     toggleShowAside() {
         this.isShowAside = !this.isShowAside;
+    }
+
+
+    goDeviceGuidance() {
+        this.app.getRootNav().push(DeviceGuidancePage)
+    }
+
+    goDeviceManage() {
+        this.app.getRootNav().push(DeviceManagePage)
     }
 }
