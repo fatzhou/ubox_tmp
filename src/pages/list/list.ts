@@ -16,7 +16,6 @@ import { TaskListPage } from '../task-list/task-list';
 import { Md5 } from 'ts-md5/dist/md5';
 import { Platform } from 'ionic-angular';
 import { FileTransport } from '../../providers/FileTransport';
-import { FileDownloader } from '../../providers/FileDownloader';
 import { PreviewImagePage } from '../preview-image/preview-image';
 import { PreviewOtherPage } from '../preview-other/preview-other';
 import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-upload-folder'
@@ -24,8 +23,8 @@ import { Storage } from '@ionic/storage';
 import { FileDetailPage } from '../../pages/file-detail/file-detail'
 import { DeviceGuidancePage } from '../../pages/device-guidance/device-guidance'
 import { DeviceManagePage } from '../../pages/device-manage/device-manage'
-
-
+import { MenuController } from 'ionic-angular';
+import { TabsPage } from '../tabs/tabs';
 // import { AddFileComponent } from '../../components/add-file/add-file';
 // import { Util } from '../../providers/Util';
 /**
@@ -73,8 +72,9 @@ export class ListPage {
     isShowType0List: boolean = true;
     isShowType1List: boolean = true;
     isShowBox: boolean = false;
-    isShowClassifyNav: boolean = false;
-    isShowAside: boolean = false;
+	isShowClassifyNav: boolean = false;
+	rootPage:any = TabsPage;
+    // isShowAside: boolean = false;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -88,7 +88,7 @@ export class ListPage {
         private fileManager: FileManager,
         private transfer: FileTransport,
         private app: App,
-        private downloader: FileDownloader,
+		private menuCtrl: MenuController,
         public navParams: NavParams) {
         
         ListPage._this = this;
@@ -725,8 +725,9 @@ export class ListPage {
         this.isShowClassifyNav = !this.isShowClassifyNav;
     }
 
-    toggleShowAside() {
-        this.isShowAside = !this.isShowAside;
+    displayMenu() {
+		console.log("即将显示左侧菜单........");
+		this.menuCtrl.open();
     }
 
 

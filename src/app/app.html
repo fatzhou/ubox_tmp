@@ -1,1 +1,70 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-nav #mycontent [root]="rootPage"></ion-nav>
+
+<ion-menu type="overlay" [content]="mycontent">
+	<ion-content>
+		<div class="aside-nav">
+			<div class="aside-nav-bg"></div>
+			<div class="aside-nav-content">
+				<div class="nav-head">
+					<p class="user-head-img"></p>
+					<p class="user-email">{{ global.centerUserInfo.uname }}</p>
+				</div>
+				<ul class="nav-list">
+					<li (click)="goPage('file')">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#icondownloadicon1"></use>
+						</svg>
+						<span>My Files</span>
+					</li>
+					<li (click)="goPage('discover')">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#iconBTdefault"></use>
+						</svg>
+						<span>Discover</span>
+					</li>
+					<li class="border-bottom" (click)="goPage('mining')">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#iconMiningdefault"></use>
+						</svg>
+						<span>Mining</span>
+					</li>
+					<li (click)="goPage('wallet')">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#iconWalletdefault"></use>
+						</svg>
+						<span>Wallet</span>
+					</li>
+					<li class="border-bottom" (click)="goPage('dapp')">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#iconDappdefault"></use>
+						</svg>
+						<span>DAPP</span>
+					</li>
+					<li (click)="goPage('notice')">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#iconMessagedefault"></use>
+						</svg>
+						<span>Notices</span>
+					</li>
+					<li (click)="goPage('setting')">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#iconSettingdefault"></use>
+						</svg>
+						<span>Setting</span>
+					</li>
+				</ul>
+				<div ion-item class="nav-bottom">
+					<div item-start class="nav-bottom-top" (click)="goDeviceManage()">
+						<p class="ubbey-contact">UBBEY NeXT <span>内场连接</span></p>
+						<p>3个扩展设备</p>
+					</div>
+					<div item-end (click)="goDeviceGuidance()">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#iconxiangyou"></use>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-menu>
