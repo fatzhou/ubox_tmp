@@ -1,4 +1,3 @@
-import { Component } from '@angular/core';
 import { NavController, NavParams, Item } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
@@ -10,6 +9,7 @@ import { FileManager } from '../../providers/FileManager';
 import { ItemSliding } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import { ChangeDetectorRef } from '@angular/core';
+import { Component, NgZone } from "@angular/core";
 
 /**
  * Generated class for the TaskListPage page.
@@ -46,6 +46,7 @@ export class TaskListPage {
         private fileOpener: FileOpener,
         private fileManager: FileManager,
 		private util: Util,
+		private zone: NgZone,
 		private cd: ChangeDetectorRef,
         public navParams: NavParams) {
         let self = this;
@@ -54,8 +55,10 @@ export class TaskListPage {
         // events.unsubscribe('file:updated');
         GlobalService.consoleLog("监听file:updated事件");
         events.unsubscribe('file:updated',TaskListPage.filterTaskList)       
-
-        events.subscribe('file:updated',TaskListPage.filterTaskList)        
+		events.subscribe('file:updated',TaskListPage.filterTaskList)  
+		
+		events.unsubscribe('task:created',TaskListPage.filterTaskList)       
+        events.subscribe('task:created',TaskListPage.filterTaskList)   
     }
 
     ionViewDidLoad() {
@@ -72,18 +75,21 @@ export class TaskListPage {
     }
     
     static filterTaskList() { 
-        let _that = TaskListPage._this;
-        _that.fileTaskList = _that.global.fileTaskList.filter(item=> item.boxId == _that.global.deviceSelected.boxId && item.bindUserHash == _that.global.deviceSelected.bindUserHash ) || [];
-        GlobalService.consoleLog("任务列表总长度   :  " + _that.fileTaskList.length);
-        _that.doingTaskList = _that.fileTaskList.filter(item => item.finished === false) || [];
-        _that.doneTaskList = _that.fileTaskList.filter(item => item.finished === true) || [];
-        _that.doneTaskList = _that.doneTaskList.sort(function(a, b) {
-            return Number(b.finishedTime) - Number(a.finishedTime);
-        });
-        _that.getThumbnail();
-		_that.doingTaskList.reverse();
-		GlobalService.consoleLog("任务列表过滤完毕....");
-		_that.cd.detectChanges();
+		GlobalService.consoleLog("任务列表变更.......");
+		let _that = TaskListPage._this;
+		_that.zone.run(() => {
+			_that.fileTaskList = _that.global.fileTaskList.filter(item=> item.boxId == _that.global.deviceSelected.boxId && item.bindUserHash == _that.global.deviceSelected.bindUserHash ) || [];
+			_that.doingTaskList = _that.fileTaskList.filter(item => item.finished === false) || [];
+			_that.doneTaskList = _that.fileTaskList.filter(item => item.finished === true) || [];
+			_that.doneTaskList = _that.doneTaskList.sort(function(a, b) {
+				return Number(b.finishedTime) - Number(a.finishedTime);
+			});
+			_that.getThumbnail();
+			_that.doingTaskList.reverse();
+			GlobalService.consoleLog("任务列表过滤完毕....");			
+		})
+
+		// _that.cd.detectChanges();
         // this.doneTaskList.reverse();
     }
 

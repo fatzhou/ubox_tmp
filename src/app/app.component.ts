@@ -46,8 +46,9 @@ import { Web3Service } from '../providers/Web3Service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { AppsInstalled } from '../providers/AppsInstalled';
 import { File } from '@ionic-native/file';
-
+import { MenuController } from 'ionic-angular';
 import { FileManager } from '../providers/FileManager';
+import { FindPage } from '../pages/find/find';
 declare var chcp: any;
 declare var WifiWizard: any;
 declare var cordova: any;
@@ -75,6 +76,7 @@ export class UboxApp {
         private global: GlobalService,
 		private http: HttpService,
 		private file: File,
+		private menuCtrl: MenuController,
         private alertCtrl: AlertController,
         // private statusBar: StatusBar,
         public splashScreen: SplashScreen,
@@ -596,5 +598,18 @@ export class UboxApp {
             this.nav.pop({});
           }
         });
-    }
+	}
+	
+	goPage(name) {
+		switch(name) {
+			case 'file':
+				this.menuCtrl.close();
+				break;
+			case 'discover':
+				this.nav.setRoot(FindPage)
+				.then(res => {
+					console.log(res)
+				})
+		}
+	}
 }

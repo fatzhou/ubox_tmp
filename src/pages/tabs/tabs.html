@@ -1,8 +1,8 @@
-<ion-tabs (ionChange)="setIcons($event)" #boxtabs name="boxtabs">
-    <ion-tab [root]="home" [tabTitle]="HomeTitle"   [tabIcon]="fileIcon"></ion-tab>
-    <ion-tab [root]="search" [tabTitle]="DiscoverTitle"   [tabIcon]="searchIcon"></ion-tab>
-    <ion-tab [root]="mining" [tabTitle]="MiningTitle" [tabIcon]="miningIcon"></ion-tab>
-    <ion-tab [root]="user" [tabTitle]="UserTitle" [tabIcon]="userIcon"></ion-tab>
+<super-tabs selectedTabIndex="0" (ionChange)="setIcons($event)" #boxtabs [config]="{allowElementScroll: true}" name="boxtabs">
+    <super-tab [root]="home" ></super-tab>
+    <super-tab [root]="search"></super-tab>
+    <super-tab [root]="mining"></super-tab>
+    <super-tab [root]="user"></super-tab>
     <bind-box *ngIf="isCloseBindBox" (closeBindBox)="closeBindBox()"></bind-box>
     <news-notice *ngIf="isClose" [isVersion]="isVersion" [isShowAction]="isShowAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action" (closeNotice)="closeNotice()"></news-notice>
     <connection-popup *ngIf="popupShown" (closeNetworkPopup)="showPopup(false)" [connectionStatus]="connectionStatus"></connection-popup>
@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-</ion-tabs>
+</super-tabs>
 
 <!-- <super-tabs>
     <super-tab [root]="home" title="home" [tabIcon]="fileIcon"></super-tab>

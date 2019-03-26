@@ -71,26 +71,23 @@
             <div class="img-list-box">
                 <p><img src="assets/img/alita.png" alt=""><img src="assets/img/alita.png" alt=""><img src="assets/img/alita.png" alt=""><img src="assets/img/alita.png" alt=""></p>
             </div>
-            <p class="second-title">文件列表</p>
-            <div class="file-list-box">
+            <p class="second-title" *ngIf="fileList.length > 0">文件列表</p>
+            <div class="file-list-box" *ngIf="fileList.length > 0">
                 <ul class="file-list">
-                    <li class="file-list-item" tappable>
-                        <div class="file-type"></div>
+                    <li class="file-list-item" *ngFor="let file of fileList" tappable>
+                        <div class="file-type" [ngClass]="file.style"></div>
                         <div class="info">
-                            <h2 class="eps">阿丽塔:战斗天使(Alita: Battle Angel).HD.高清无水…</h2>
-                        </div>
-                    </li>
-                    <li class="file-list-item" tappable>
-                        <div class="file-type"></div>
-                        <div class="info">
-                            <h2 class="eps">阿丽塔:战斗天使(Alita: Battle Angel).HD.高清无水…</h2>
-                        </div>
-                    </li>
-                    <li class="file-list-item" tappable>
-                        <div class="file-type" ></div>
-                        <div class="info">
-                            <h2 class="eps">阿丽塔:战斗天使(Alita: Battle Angel).HD.高清无水…</h2>
-                        </div>
+                            <h2 class="eps">{{ file.name }}</h2>
+						</div>
+						<div class="file-list" *ngIf="file.children && file.children.length > 0">
+							<div class="file-list-item sub-file-list-item" *ngFor="let f of file.children" tappable>
+								<div class="file-split"></div>
+								<div class="file-type" [ngClass]="f.style"></div>
+								<div class="info">
+									<h2 class="eps">{{ f.name }}</h2>
+								</div>
+							</div>							
+						</div>
                     </li>
                 </ul>
             </div>

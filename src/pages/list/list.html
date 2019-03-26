@@ -144,101 +144,36 @@
         <use xlink:href="#icontianjiawenjian"></use>
     </svg>
 </div>
-   
-<div class="aside-nav" *ngIf="isShowAside">
-    <div class="aside-nav-bg" (click)="toggleShowAside()"></div>
-    <div class="aside-nav-content">
-        <div class="nav-head">
-            <p class="user-head-img"></p>
-            <p class="user-email">tin**fasd@gmail.com</p>
-        </div>
-        <ul class="nav-list">
-            <li class="active">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icondownloadicon1"></use>
-                </svg>    
-                <span>My Files</span> 
-            </li>
-            <li>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#iconBTdefault"></use>
-                </svg>    
-                <span>Discover</span> 
-            </li>
-            <li class="border-bottom">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#iconMiningdefault"></use>
-                </svg>    
-                <span>Mining</span> 
-            </li>
-            <li>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#iconWalletdefault"></use>
-                </svg>    
-                <span>Wallet</span> 
-            </li>
-            <li class="border-bottom">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#iconDappdefault"></use>
-                </svg>    
-                <span>DAPP</span> 
-            </li>
-            <li>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#iconMessagedefault"></use>
-                </svg>    
-                <span>Notices</span> 
-            </li>
-            <li>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#iconSettingdefault"></use>
-                </svg>    
-                <span>Setting</span> 
-            </li>
-        </ul>
-        <div ion-item class="nav-bottom">
-            <div item-start class="nav-bottom-top" (click)="goDeviceManage()">
-                <p class="ubbey-contact">UBBEY NeXT <span>内场连接</span></p>
-                <p>3个扩展设备</p>
-            </div>
-            <div item-end (click)="goDeviceGuidance()">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#iconxiangyou"></use>
-                </svg>  
-            </div>
-        </div>
-    </div>
-    
-</div>
+
+
 <div class="operation-btns" *ngIf="allBtnsShow && !isShowDetail">
-    <div class="operation-content">
-        <div class="btn download" tappable (click)="downloadFileList()" [ngClass]="canDownload?'':'disable'">
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icondownloadicon1"></use>
-            </svg>    
-            <span>{{global.L("Download")}}</span>    
-        </div>    
-        <div class="btn move" tappable (click)="moveSingleFile()" [ngClass]="canMove?'':'disable'">
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#iconMoveicon1"></use>
-            </svg>    
-            <span>{{global.L("Move")}}</span>    
-        </div>    
-        <div class="btn rename" tappable (click)="renameFile()" [ngClass]="canRename?'':'disable'">
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#iconRenameicon1"></use>
-            </svg>    
-            <span>{{global.L("Rename")}}</span>    
-        </div>
-        <div class="btn delete" tappable (click)="deleteFile()" [ngClass]="canDelete?'':'disable'">
-            <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icondelete1"></use>
-            </svg>    
-            <span>{{global.L("Delete")}}</span>    
-        </div>   
-    </div>
+	<div class="operation-content">
+		<div class="btn download" tappable (click)="downloadFileList()" [ngClass]="canDownload?'':'disable'">
+			<svg class="icon" aria-hidden="true">
+				<use xlink:href="#icondownloadicon1"></use>
+			</svg>
+			<span>{{global.L("Download")}}</span>
+		</div>
+		<div class="btn move" tappable (click)="moveSingleFile()" [ngClass]="canMove?'':'disable'">
+			<svg class="icon" aria-hidden="true">
+				<use xlink:href="#iconMoveicon1"></use>
+			</svg>
+			<span>{{global.L("Move")}}</span>
+		</div>
+		<div class="btn rename" tappable (click)="renameFile()" [ngClass]="canRename?'':'disable'">
+			<svg class="icon" aria-hidden="true">
+				<use xlink:href="#iconRenameicon1"></use>
+			</svg>
+			<span>{{global.L("Rename")}}</span>
+		</div>
+		<div class="btn delete" tappable (click)="deleteFile()" [ngClass]="canDelete?'':'disable'">
+			<svg class="icon" aria-hidden="true">
+				<use xlink:href="#icondelete1"></use>
+			</svg>
+			<span>{{global.L("Delete")}}</span>
+		</div>
+	</div>
 </div>
 
-
-<add-file *ngIf="showFileSelect" [currPath]="currPath" eventType="list" [allBtnsShow]="allBtnsShow" (selectFileDone)="closeFileSelect()" (closeFileSelect)="closeFileSelect()"></add-file>
-
+<add-file *ngIf="showFileSelect" [currPath]="currPath" eventType="list" [allBtnsShow]="allBtnsShow"
+	(selectFileDone)="closeFileSelect()" (closeFileSelect)="closeFileSelect()"></add-file>

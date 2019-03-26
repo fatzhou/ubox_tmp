@@ -118,6 +118,7 @@ export class FileTransport {
 				finishedTime: ''
 			};
 			this.global.fileTaskList.push(currentTask);
+			this.events.publish('task:created');
 			var uploadTool = this.createUploadHandler(currentTask);
 			this.global.fileHandler[taskId] = uploadTool;
 		}
@@ -127,7 +128,7 @@ export class FileTransport {
 		let tool;
 		let start = 0;
 		let progress = (res) => {
-			// GlobalService.consoleLog("进度信息：" + JSON.stringify(res));
+			GlobalService.consoleLog("上传进度信息：" + JSON.stringify(res));
 			if (res.status === 'ERROR') {
 				task.pausing = 'paused';
 				tool.pause();
@@ -139,10 +140,10 @@ export class FileTransport {
 				tool.pause();
 				return false;
 			}
-			if (task.pausing == 'paused') {
-				GlobalService.consoleLog("文件上传已暂停，不接收进度更新");
-				return false;
-			}
+			// if (task.pausing == 'paused') {
+			// 	GlobalService.consoleLog("文件上传已暂停，不接收进度更新");
+			// 	return false;
+			// }
 			let now = Date.now();
 			if (now > start + 600) {
 				this.zone.run(() => {
@@ -172,7 +173,6 @@ export class FileTransport {
 					if (this.global.fileHandler[taskId]) {
 						delete this.global.fileHandler[taskId];
 					}
-					console.log("sdfsfdsddddddd")
 					this.fileUploader.clearUploaderTask(task.fileId);
 					this.events.publish('file:updated', task);
 					console.log("event published......")
