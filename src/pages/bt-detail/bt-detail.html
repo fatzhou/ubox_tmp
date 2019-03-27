@@ -10,30 +10,19 @@
         <ion-title>资源详情
             
         </ion-title>
-        <svg class="icon icon-ellipsis" (click)="downloadBt()" aria-hidden="true">
+        <svg class="icon icon-ellipsis" (click)="goBtTaskPage()" aria-hidden="true">
             <use xlink:href="#iconBTxiazaiguanli"></use>
         </svg>
     </ion-navbar>
 
 </ion-header>
 <ion-content>
-    <div class="head-detail-img">
+    <div class="head-detail-img" *ngIf="titleImgList.length > 0">
         <div class="head-img-box"> 
             <ion-slides spaceBetween="-30px">
-                <ion-slide >
+                <ion-slide *ngFor="let img of titleImgList">
                     <div class="img-box">
-                        <img src="assets/img/alita-img.png" alt="">
-                    </div>
-                    
-                </ion-slide>
-                <ion-slide >
-                    <div class="img-box">
-                        <img src="assets/img/alita-img.png" alt="">
-                    </div>
-                </ion-slide>
-                <ion-slide >
-                    <div class="img-box">
-                        <img src="assets/img/alita-img.png" alt="">
+                        <img [src]="img" alt="">
                     </div>
                 </ion-slide>
             </ion-slides>
@@ -41,7 +30,7 @@
     </div>
     <div class="detail-title">
         <p class="p-title">{{ title }}</p>
-        <p>{{ size | computeFileSize }}<span>共下载：{{ heat }}</span></p>
+        <p>{{ size }}<span>共下载：{{ heat }}</span></p>
         <div class="link-box" ion-item>
             <div class="left-link-box" item-start>{{ link }}</div>
             <div class="right-link-box" item-end>
@@ -56,20 +45,22 @@
         <div class="info-box">
             <p class="second-title">简介</p>
             <div class="detail-list">
-                <p>创建时间<span>{{ createdTime | computeFileTime }}</span></p>
-                <p>文件格式<span>{{ fileType }}</span></p>
-                <p>文件数<span>{{ file_number }}</span></p>
-                <p>种子数<span>{{ btNum }}</span></p>
-                <p>文件hash<span>{{ hash }}</span></p>
+                <p *ngIf="createdTime != ''">创建时间<span>{{ createdTime | computeFileTime }}</span></p>
+                <p *ngIf="fileType != ''">文件格式<span>{{ fileType }}</span></p>
+                <p *ngIf="file_number != ''">文件数<span>{{ file_number }}</span></p>
+                <p *ngIf="btNum != ''">种子数<span>{{ btNum }}</span></p>
+                <p *ngIf="hash != ''">文件hash<span>{{ hash }}</span></p>
             </div>
-            <p class="second-title">描述</p>
-            <div class="detail-des">
+            <p class="second-title" *ngIf="detailDesc != ''">描述</p>
+            <div class="detail-des" *ngIf="detailDesc != ''">
                 <div [innerHTML]="detailDesc" class="desc-box" [ngClass]="isShowDesc ? 'show-more' : ''"></div>
                 <div class="see-more" (click)="toggleShowDesc()">{{ isShowDesc ? '收起更多' : '查看更多' }}</div>
             </div>
-            <p class="second-title">相关图片</p>
-            <div class="img-list-box">
-                <p><img src="assets/img/alita.png" alt=""><img src="assets/img/alita.png" alt=""><img src="assets/img/alita.png" alt=""><img src="assets/img/alita.png" alt=""></p>
+            <p class="second-title" *ngIf="desImgList.length > 0">相关图片</p>
+            <div class="img-list-box" *ngIf="desImgList.length > 0">
+                <p>
+                    <img [src]="file"  *ngFor="let file of desImgList" alt="">
+                </p>
             </div>
             <p class="second-title" *ngIf="fileList.length > 0">文件列表</p>
             <div class="file-list-box" *ngIf="fileList.length > 0">

@@ -6,9 +6,9 @@
 -->
 <ion-header>
 
-    <ion-navbar class="text-right">
+    <ion-navbar class="text-right" (click)="toggleShowOptions('close');toggleShowDelete()">
         下载任务
-        <svg class="icon icon-right" (click)="goBtSetPage()" aria-hidden="true">
+        <svg class="icon icon-right" (click)="toggleShowOptions();toggleShowDelete();$event.stopPropagation();" aria-hidden="true">
             <use xlink:href="#icongengduo1"></use>
         </svg>
         <svg class="icon icon-right" (click)="showPcToast()" aria-hidden="true">
@@ -20,49 +20,69 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content (click)="toggleShowOptions('close')">
     <ul class="tab-list">
         <li [ngClass]="tabIndex == 0 ? 'active' : ''" (click)="changeIndex(0)">下载中({{ btDoingNum }})</li>
         <li [ngClass]="tabIndex == 1 ? 'active' : ''" (click)="changeIndex(1)">已完成({{ btDoneNum }})</li>
     </ul>
     <div class="task-box">
         <ul class="task-list" *ngIf="tabIndex == 0">
-            <li class="teak-item" tappable *ngFor="let item of btDoingList">
-                <div class="info" (click)="goBtPlayPage(item)">
-                    <p class="file-name">{{ item.name }}</p>
-                    <p class="file-info eps">{{ item.finish | computeFileSize }}／{{ item.total | computeFileSize }} · {{ getStatus(item) }}</p>
-                </div>
-                <div class="speed clear">
-                    <div class="progress fl circle btn">
-                        <svg *ngIf="item.status == -1 || item.status == 0 || item.status == 1" class="icon icon-right" (click)="changeTaskStatus(item, 2)" aria-hidden="true">
-                            <use xlink:href="#iconzanting"></use>
-                        </svg>
-                        <svg *ngIf="item.status == 2" (click)="changeTaskStatus(item, 1)" class="icon icon-right" aria-hidden="true">
-                            <use xlink:href="#iconjixuxiazai"></use>
-                        </svg>
-                        <svg *ngIf="item.status == 4" (click)="changeTaskStatus(item, 1)" class="icon icon-right" aria-hidden="true">
-                            <use xlink:href="#iconchongxinxiazai1"></use>
-                        </svg>
-                        <span>{{ getChangeStatus(item) }}</span>
+            <li class="task-item" tappable *ngFor="let item of btDoingList" (press)="toggleShowDelete(item, true)">
+                <div class="task-item-box">
+                    <div class="info">
+                        <p class="file-name">{{ item.name }}</p>
+                        <p class="file-info eps">{{ item.finish | computeFileSize }}／{{ item.total | computeFileSize }} · {{ getStatus(item) }}</p>
+                    </div>
+                    <div class="speed clear">
+                        <div class="progress fl circle btn">
+                            <svg *ngIf="item.status == -1 || item.status == 0 || item.status == 1" class="icon icon-right" (click)="changeTaskStatus(item, 2)" aria-hidden="true">
+                                <use xlink:href="#iconzanting"></use>
+                            </svg>
+                            <svg *ngIf="item.status == 2" (click)="changeTaskStatus(item, 1)" class="icon icon-right" aria-hidden="true">
+                                <use xlink:href="#iconjixuxiazai"></use>
+                            </svg>
+                            <svg *ngIf="item.status == 4" (click)="changeTaskStatus(item, 1)" class="icon icon-right" aria-hidden="true">
+                                <use xlink:href="#iconchongxinxiazai1"></use>
+                            </svg>
+                            <span>{{ getChangeStatus(item) }}</span>
+                        </div>
                     </div>
                 </div>
+                <div *ngIf="item.isDelete" class="delete-btn" (click)="deleteTask(item)">删除</div>
             </li>
         </ul>
         <ul class="task-list"  *ngIf="tabIndex == 1">
-            <li class="teak-item" tappable *ngFor="let item of btDoneList">
-                <div class="info" (click)="goBtPlayPage(item)">
-                    <p class="file-name">{{ item.name }}</p>
-                    <p class="file-info eps">{{ item.total | computeFileSize }} · {{ getStatus(item) }}</p>
-                </div>
-                <div class="speed clear">
-                    <div class="progress fl circle btn">
-                        <svg class="icon icon-right" aria-hidden="true">
-                            <use xlink:href="#iconchakanwenjian1"></use>
-                        </svg>
-                        <span>{{ getChangeStatus(item) }}</span>
+            <li class="task-item" tappable *ngFor="let item of btDoneList" (press)="toggleShowDelete(item, true)">
+                <div class="task-item-box">
+                    <div class="info" (click)="goListPage(item)">
+                        <p class="file-name">{{ item.name }}</p>
+                        <p class="file-info eps">{{ item.total | computeFileSize }} · {{ getStatus(item) }}</p>
+                    </div>
+                    <div class="speed clear">
+                        <div class="progress fl circle btn">
+                            <svg class="icon icon-right" aria-hidden="true">
+                                <use xlink:href="#iconchakanwenjian1"></use>
+                            </svg>
+                            <span>{{ getChangeStatus(item) }}</span>
+                        </div>
                     </div>
                 </div>
+                <div *ngIf="item.isDelete" class="delete-btn" (click)="deleteTask(item)">删除</div>
             </li>
         </ul>
     </div>
 </ion-content>
+
+<div class="task-options" *ngIf="isShowOptions">
+    <ul class="clear">      
+        <li tappable (click)="toggleAllTaskList('start')">
+            <p>全部开始</p>
+        </li>
+        <li tappable (click)="toggleAllTaskList('stop')">
+            <p>全部暂停</p>
+        </li>
+        <li tappable (click)="goBtSetPage()">
+            <p>下载设置</p>
+        </li>
+    </ul>
+</div>

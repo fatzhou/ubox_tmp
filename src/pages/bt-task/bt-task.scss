@@ -47,6 +47,7 @@ page-bt-task {
     .task-list {
         overflow: hidden;
         margin-top: 20px;
+        padding-bottom: 50px;
         p {
             color: $newFirstColor;
             &.file-name {
@@ -67,16 +68,19 @@ page-bt-task {
                 font-size: 12px;
             }
         }
-        .teak-item {
-            width: calc(100% - 20px);
-            margin: 0 auto;
-            margin-bottom: 10px;
-            background: $newFourColor;
-            color: #fff;
-            padding: 10px;
-            border-radius: 2px;
-            overflow: hidden;
+        .task-item {
             position: relative;
+            .task-item-box {
+                width: calc(100% - 20px);
+                margin: 0 auto;
+                margin-bottom: 10px;
+                background: $newFourColor;
+                color: #fff;
+                padding: 10px;
+                border-radius: 2px;
+                overflow: hidden;
+                position: relative;
+            }
             .info {
                 width: calc(100% - 80px);
                 float: left;
@@ -109,6 +113,32 @@ page-bt-task {
                     }
                 }
             }
+            .delete-btn {
+                position: absolute;
+                bottom: -29px;
+                padding: 4px 17px;
+                background: #302F34;
+                box-shadow: 0 2px 20px 0 rgba(0,0,0,0.50);
+                border-radius: 3px;
+                right: 36px;
+                font-size: 15px;
+                color: #78777C;
+                letter-spacing: 0;
+                z-index: 999;
+            }
         } 
+    }
+    .task-options {
+        position: fixed;
+        top: 24px;
+        right: 20px;
+        padding: 0 10px;
+        background: #302F34;
+        text-align: center;
+        line-height: 32px;
+        border-radius: 4px;
+        z-index: 99;
+        color: $newFiveColor;
+        box-shadow: 0 0px 10px rgba(0, 0, 0, 0.5);
     }
 }

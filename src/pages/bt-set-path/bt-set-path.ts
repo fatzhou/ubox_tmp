@@ -103,9 +103,14 @@ export class BtSetPathPage {
         }
     
     
-        goBack() {
-            console.log('this.count' + this.count);
-            this.util.popToPage(this, this.count + 2);
+        goBack(index = null) {
+            if(index) {
+                this.navCtrl.pop();
+            } else {
+                console.log('this.count' + this.count);
+                this.util.popToPage(this, this.count + 2);
+            }
+            
         }
     
         makeFolder() {

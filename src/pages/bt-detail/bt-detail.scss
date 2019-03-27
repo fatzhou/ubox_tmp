@@ -15,9 +15,13 @@ page-bt-detail {
     }
     .detail-title {
         padding: 10px;
+        padding-top: 17px;
+        padding-bottom: 0;
         p {
             font-size: 12px;         
             color: $newFiveColor;  
+            letter-spacing: 0;
+            line-height: 22px;
             span {
                 float: right;
                 padding-right: 3px;
@@ -38,8 +42,11 @@ page-bt-detail {
             background: $newFourColor;
             color: #fff;
             margin: 10px 0;
-            padding: 10px;
-            border-radius: 2px;
+            padding: 8px 13px;
+            box-shadow: 0 0 0 0 #1D1D1F, 0 0 0 0 #1D1D1F;
+            border-radius: 3px;
+            margin-top: 13px;
+            margin-bottom: 0;
             .left-link-box {
                 width: calc(100% - 40px);
                 overflow: hidden;
@@ -50,6 +57,9 @@ page-bt-detail {
                 -webkit-line-clamp:3;
                 overflow: hidden;
                 word-wrap: break-word;
+                letter-spacing: 0;
+                line-height: 16px;
+                margin: 0;
             }
             .item-inner {
                 padding-right: 0;
@@ -65,11 +75,13 @@ page-bt-detail {
     }
     .detail-info {
         padding: 10px;
+        padding-top: 0;
         .second-title {
             color: $newFiveColor;
             font-size: 16px;
             line-height: 44px;
             font-weight: 500;
+            margin-top: 8px;
         }
         .download-box-btn {
             overflow: hidden;
@@ -89,14 +101,13 @@ page-bt-detail {
         }
         .detail-list {
             padding: 10px;
-            border-radius: 2px;
+            border-radius: 3px;
             background: $newFourColor;
             font-size: 12px;
             color: $newFiveColor;
             p {
-                line-height: 20px;
+                line-height: 24px;
                 overflow: hidden;
-                padding-bottom: 5px;
                 &:last-child {
                     padding-bottom: 0;
                 }
@@ -121,7 +132,7 @@ page-bt-detail {
                 height: 36px;
                 background: $newFourColor;
                 color: #fff;
-                border-radius: 2px;
+                border-radius: 3px;
                 overflow: hidden;
                 text-align: center;
                 line-height: 36px;
@@ -146,7 +157,7 @@ page-bt-detail {
                 width: 34%;
                 overflow: hidden;
                 margin-right: 10px;
-                border-radius: 2px;
+                border-radius: 3px;
             }
         }
         .download-btn {
@@ -155,7 +166,7 @@ page-bt-detail {
             height: 40px;
             text-align: center;
             background: $newSecondColor;
-            border-radius: 4px;
+            border-radius: 3px;
             line-height: 40px;
             color: #fff;
             font-size: 16px;
@@ -165,13 +176,11 @@ page-bt-detail {
         width: 100%;
         background: $newFirstColor;
         overflow: hidden;
-        padding: 15px 0;
+        padding: 13px 0;
     }
     .head-img-box {
         width: 45%;
         margin: 0 auto;
-        height: 220px;
-        padding: 20px 0;
         .slides {
             width: 100%;
             margin: 0 auto;
@@ -183,6 +192,11 @@ page-bt-detail {
         .img-box {
             width: 80%;
             margin: 0 auto;
+            border-radius: 3px;
+            overflow: hidden;
+            img {
+                display: block;
+            }
         }
         .swiper-container {
             overflow: visible;
@@ -201,7 +215,7 @@ page-bt-detail {
 	}
     .file-list-box {
         padding: 10px 20px;
-        border-radius: 2px;
+        border-radius: 3px;
         overflow: hidden;
         background: $newFourColor;
         .file-list-item {
