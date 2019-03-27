@@ -100,7 +100,7 @@ export class UboxApp {
                 // this.rootPage = page;
             } catch(e) {
                 GlobalService.consoleLog("异常！！！");
-                this.rootPage = page;
+                // this.rootPage = page;
             }
         })
 
@@ -144,7 +144,7 @@ export class UboxApp {
 				this.createSubFolders();
             } else {
                 GlobalService.consoleLog("我不是cordova");
-				this.rootPage = LoginPage;
+				this.nav.setRoot(LoginPage);
 				// this.rootPage = TestPage;
             }
 
@@ -198,10 +198,11 @@ export class UboxApp {
         if(!this.global.networking) {
             GlobalService.consoleLog("网络异常，请先打开网络.....");
             return false;
-        }
+		}
+		let flag:Boolean = false;
         let timeout = setTimeout(() => {
-            if(!this.rootPage) {
-                this.rootPage = LoginPage;
+            if(!flag) {
+                this.nav.setRoot(LoginPage);
             }
         }, 5000);
         let url = GlobalService.centerApi['getUserInfo'].url;
@@ -209,27 +210,31 @@ export class UboxApp {
         .then(res => {
 			clearTimeout(timeout);
             if(res.err_no === 0) {
+				flag = true;
                 this.global.centerUserInfo = res.user_info;
                 //获取版本号
                 this.util.loginAndCheckBox(this)
                 .then(res => {
-					// console.log("loginAndCheckBox成功进入resolve....");
+					console.log("loginAndCheckBox成功进入resolve....");
                     if(this.global.centerUserInfo.uname) {
-                        this.rootPage = TabsPage;
+                        this.nav.setRoot(TabsPage);
                     } else {
-                        this.rootPage = LoginPage;
+                        this.nav.setRoot(LoginPage);
                     }
                 })
-				.catch(e => {                    //没有盒子
-                    this.rootPage = TabsPage;
+				.catch(e => {   
+					flag = true;                 //没有盒子
+                    this.nav.setRoot(TabsPage);
                 })
             } else {
-                this.rootPage = LoginPage;
+				flag = true;
+                this.nav.setRoot(LoginPage);
             }
         })
         .catch(res => {
 			clearTimeout(timeout);
-            this.rootPage = LoginPage;
+			flag = true;
+            this.nav.setRoot(LoginPage);
         })
     }
 
@@ -266,17 +271,17 @@ export class UboxApp {
                 // this.rootPage =  SelectfolderPage;
                 if(this.global.networking && this.network.type != "wifi") {
                     this.global.useWebrtc = true;
-                    this.rootPage =  LoginPage;//LoginPage;
+                    this.nav.setRoot(LoginPage);//LoginPage;
                 }else{
-                    this.rootPage =  DeviceListPage;//DeviceListPage;
+                    this.nav.setRoot(DeviceListPage);//DeviceListPage;
                 }
             } else {
-                this.rootPage = PermissionPage;//PermissionPage;
+                this.nav.setRoot(PermissionPage);//PermissionPage;
                 // this.rootPage =  SelectfolderPage;
             }
         })
         .catch(e => {
-            this.rootPage =  DeviceListPage;
+            this.nav.setRoot(DeviceListPage);
         })
     }
 
@@ -608,47 +613,47 @@ export class UboxApp {
 	}
 	
 	goPage(name) {
-		this.menuCtrl.close();
-		switch(name) {
-			case 'file':
-				this.nav.setRoot(TabsPage)
-				.then(res => {
-					console.log(res)
-					this.tabsController.slideTo(0);
-				});
-				break;
-			case 'discover':
-				this.nav.setRoot(TabsPage)
-				.then(res => {
-					console.log(res)
-					this.tabsController.slideTo(1);
-				});
-				break;
-			case 'mining':
-				this.nav.setRoot(TabsPage)
-				.then(res => {
-					this.tabsController.slideTo(2);
-				})
-				break;
-			case 'wallet':
-				this.nav.push(WalletSelectPage);
-				break;
-			case 'dapp':
-				this.nav.push(SearchPage);
-				break;
-			case 'notice':
-				this.nav.push(NoticeListPage);
-				break;
-			case 'setting':
-				this.nav.setRoot(TabsPage)
-				.then(res => {
-					console.log(res)
-					this.tabsController.slideTo(3);
-				});
-				break;	
-			case 'deviceguidance':
-				this.nav.push(DeviceGuidancePage);
-				break;		
-		}
+		// this.menuCtrl.close();
+		// switch(name) {
+		// 	case 'file':
+		// 		this.nav.setRoot(TabsPage)
+		// 		.then(res => {
+		// 			console.log(res)
+		// 			this.tabsController.slideTo(0);
+		// 		});
+		// 		break;
+		// 	case 'discover':
+		// 		this.nav.setRoot(TabsPage)
+		// 		.then(res => {
+		// 			console.log(res)
+		// 			this.tabsController.slideTo(1);
+		// 		});
+		// 		break;
+		// 	case 'mining':
+		// 		this.nav.setRoot(TabsPage)
+		// 		.then(res => {
+		// 			this.tabsController.slideTo(2);
+		// 		})
+		// 		break;
+		// 	case 'wallet':
+		// 		this.nav.push(WalletSelectPage);
+		// 		break;
+		// 	case 'dapp':
+		// 		this.nav.push(SearchPage);
+		// 		break;
+		// 	case 'notice':
+		// 		this.nav.push(NoticeListPage);
+		// 		break;
+		// 	case 'setting':
+		// 		this.nav.setRoot(TabsPage)
+		// 		.then(res => {
+		// 			console.log(res)
+		// 			this.tabsController.slideTo(3);
+		// 		});
+		// 		break;	
+		// 	case 'deviceguidance':
+		// 		this.nav.push(DeviceGuidancePage);
+		// 		break;		
+		// }
 	}
 }

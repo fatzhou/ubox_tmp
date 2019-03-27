@@ -34,25 +34,23 @@ declare var window;
     templateUrl: 'tabs.html',
 })
 export class TabsPage {
-    @ViewChild('boxtabs') tabRef: Tabs;
+    // @ViewChild('boxtabs') tabRef: Tabs;
     @ViewChild(Nav) nav: Nav;
-    //0322add
-    // @ViewChild('boxtabs') superTabs: SuperTabs;
     // selectedIndex:any = 0;
     search: any = FindPage;
     home: any = ListPage;
     user: any = UserPage;
     mining: any = MiningPage;
     version: any = "";
-    searchIcon: string = 'custom-home-active';
-    fileIcon: string = 'custom-file-active';
-    miningIcon: string = 'custom-mining';
-    userIcon: string = 'custom-user';
+    // searchIcon: string = 'custom-home-active';
+    // fileIcon: string = 'custom-file-active';
+    // miningIcon: string = 'custom-mining';
+    // userIcon: string = 'custom-user';
 
-    HomeTitle:string;
-    DiscoverTitle:string;
-    MiningTitle:string;
-    UserTitle:string;
+    // HomeTitle:string;
+    // DiscoverTitle:string;
+    // MiningTitle:string;
+    // UserTitle:string;
 
     info: any = [];
     head: any = [];
@@ -86,7 +84,8 @@ export class TabsPage {
         public storage: Storage,
         private util: Util,
         private platform: Platform,
-        private appInstalled: AppsInstalled,
+		private appInstalled: AppsInstalled,
+		private tabsCtrl: SuperTabsController,
         private fileOpener: FileOpener,
         public navParams: NavParams,) {
         GlobalService.consoleLog("tabs页面构造函数");
@@ -95,10 +94,10 @@ export class TabsPage {
         this.appVersionDescription = GlobalService.AppVersionDescription;
         this.boxVersionDescription = GlobalService.BoxVersionDescription;
 
-        this.HomeTitle = this.global.L('Home')
-        this.DiscoverTitle = this.global.L('Discover');
-        this.MiningTitle = this.global.L('Mining');
-        this.UserTitle = this.global.L('User');
+        // this.HomeTitle = this.global.L('Home')
+        // this.DiscoverTitle = this.global.L('Discover');
+        // this.MiningTitle = this.global.L('Mining');
+        // this.UserTitle = this.global.L('User');
 
         // window.handleOpenURL = (url) => {
         //     console.log("Url已打开...." + url);
@@ -217,9 +216,9 @@ export class TabsPage {
             if(res.action == 'cancel') {
                 let view = this.navCtrl.getActive();
                 if(view.component == TabsPage) {
-                    this.tabRef.select(0);
+                    this.tabsCtrl.slideTo(0);
                 } else {
-                    this.tabRef.select(0); 
+                    this.tabsCtrl.slideTo(0); 
                     this.navCtrl.setRoot(TabsPage);
                 }
             } else {
@@ -251,7 +250,7 @@ export class TabsPage {
         if(!this.global.centerUserInfo.uname) {
             setTimeout(() => {
                 console.log("跳转发现页");
-                this.tabRef.select(0);
+                this.tabsCtrl.slideTo(0);
             }, 1000);               
             this.navCtrl.push(LoginPage, {
                 tabIndex: index
@@ -312,68 +311,81 @@ export class TabsPage {
 
     ionViewDidLoad() {
 		GlobalService.consoleLog('进入TabsPage...');
-		this.global.tabsLoaded = true;
         //初始化connection组件
         // this.connection.status = this.global.useWebrtc ? this.global.L('RemoteNetwork')
-    }
+	}
+	
+	ionViewCanEnter():boolean {
+		//解决tabspage进入两次的问题
+		if(!this.navCtrl) {
+			return true;
+		} else {
+			let view = this.navCtrl.getActive();
+			if(view.component == TabsPage) {
+				return false;
+			} else {
+				return true;
+			}			
+		}
+	}
 
     ionViewDidEnter() {
-        if(this.global.centerUserInfo.bind_box_count > 0) {
-            if(this.global.useWebrtc) {
-				let dataChannel = this.http.channels["request"];
-				if(dataChannel) {
-					let status = dataChannel.status;
-					//远场模式
-					if(status === 'opened') {
-						this.connectionStatus = 'remote';
-					} else if(status === 'opening') {
-						//盒子在线，尚未连接
-						this.connectionStatus = 'connecting';
-					} else {
-						this.connectionStatus = 'error';
-					}					
-				} else {
-					//没有盒子在线
-					this.connectionStatus = 'error';
-				}
-            } else {
-                //近场模式
-                this.connectionStatus = this.global.deviceSelected ? 'local' : 'error';
-            }
-        } else {
-            this.connectionStatus = 'local';
-        }
-
-        let events = this.events;
-        GlobalService.consoleLog('ionViewDidEnter TabsPage');
-        // if(this.tabRef.getSelected() !== null){
-        //     if((this.selectedIndex == 1 || this.selectedIndex == 2) && !this.global.centerUserInfo.uname){
-        //         this.selectedIndex = 0;
-        //         this.navCtrl.push(LoginPage)
+        // if(this.global.centerUserInfo.bind_box_count > 0) {
+        //     if(this.global.useWebrtc) {
+		// 		let dataChannel = this.http.channels["request"];
+		// 		if(dataChannel) {
+		// 			let status = dataChannel.status;
+		// 			//远场模式
+		// 			if(status === 'opened') {
+		// 				this.connectionStatus = 'remote';
+		// 			} else if(status === 'opening') {
+		// 				//盒子在线，尚未连接
+		// 				this.connectionStatus = 'connecting';
+		// 			} else {
+		// 				this.connectionStatus = 'error';
+		// 			}					
+		// 		} else {
+		// 			//没有盒子在线
+		// 			this.connectionStatus = 'error';
+		// 		}
         //     } else {
-        //         this.events.publish('tab:enter', {
-        //             pageId: this.tabRef.getSelected().index
-        //         });
+        //         //近场模式
+        //         this.connectionStatus = this.global.deviceSelected ? 'local' : 'error';
         //     }
+        // } else {
+        //     this.connectionStatus = 'local';
         // }
-        this.isClose = false;
-        if (this.global.deviceSelected) {
-            this.version = this.global.deviceSelected.version;
 
-            this.isClose = false;
+        // let events = this.events;
+        // GlobalService.consoleLog('ionViewDidEnter TabsPage');
+        // // if(this.tabRef.getSelected() !== null){
+        // //     if((this.selectedIndex == 1 || this.selectedIndex == 2) && !this.global.centerUserInfo.uname){
+        // //         this.selectedIndex = 0;
+        // //         this.navCtrl.push(LoginPage)
+        // //     } else {
+        // //         this.events.publish('tab:enter', {
+        // //             pageId: this.tabRef.getSelected().index
+        // //         });
+        // //     }
+        // // }
+        // this.isClose = false;
+        // if (this.global.deviceSelected) {
+        //     this.version = this.global.deviceSelected.version;
 
-            this.getVersionControl()
-            .then(res => {
-                this.checkVersion();
-            })
-            .catch(e => {
-                GlobalService.consoleLog(e.stack);
-                this.global.closeGlobalLoading(this);
-                this.initNoticeList();
-            })
-        } else {
-            this.getVersionControl();
-        }
+        //     this.isClose = false;
+
+        //     this.getVersionControl()
+        //     .then(res => {
+        //         this.checkVersion();
+        //     })
+        //     .catch(e => {
+        //         GlobalService.consoleLog(e.stack);
+        //         this.global.closeGlobalLoading(this);
+        //         this.initNoticeList();
+        //     })
+        // } else {
+        //     this.getVersionControl();
+        // }
     }
 
     setIcons(e) {
@@ -390,28 +402,28 @@ export class TabsPage {
         //         pageId: this.tabRef.getSelected().index
         //     });
         // }
-        let index = e.index;
-        if (index === 0) {
-            this.searchIcon = 'custom-home';
-            this.fileIcon = 'custom-file-active';
-            this.miningIcon = 'custom-mining';
-            this.userIcon = 'custom-user';
-        } else if (index === 1) {
-            this.searchIcon = 'custom-home-active';
-            this.fileIcon = 'custom-file';
-            this.miningIcon = 'custom-mining';
-            this.userIcon = 'custom-user';
-        } else if (index === 2) {
-            this.searchIcon = 'custom-home';
-            this.fileIcon = 'custom-file';
-            this.miningIcon = 'custom-mining-active';
-            this.userIcon = 'custom-user';
-        } else if (index === 3) {
-            this.searchIcon = 'custom-home';
-            this.fileIcon = 'custom-file';
-            this.miningIcon = 'custom-mining';
-            this.userIcon = 'custom-user-active';
-        }
+        // let index = e.index;
+        // if (index === 0) {
+        //     this.searchIcon = 'custom-home';
+        //     this.fileIcon = 'custom-file-active';
+        //     this.miningIcon = 'custom-mining';
+        //     this.userIcon = 'custom-user';
+        // } else if (index === 1) {
+        //     this.searchIcon = 'custom-home-active';
+        //     this.fileIcon = 'custom-file';
+        //     this.miningIcon = 'custom-mining';
+        //     this.userIcon = 'custom-user';
+        // } else if (index === 2) {
+        //     this.searchIcon = 'custom-home';
+        //     this.fileIcon = 'custom-file';
+        //     this.miningIcon = 'custom-mining-active';
+        //     this.userIcon = 'custom-user';
+        // } else if (index === 3) {
+        //     this.searchIcon = 'custom-home';
+        //     this.fileIcon = 'custom-file';
+        //     this.miningIcon = 'custom-mining';
+        //     this.userIcon = 'custom-user-active';
+        // }
     }
 
     goUpdatePage() {

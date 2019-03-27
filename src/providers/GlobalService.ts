@@ -130,7 +130,6 @@ export class GlobalService {
             return GlobalService.UBBEY_CONTRACT;
         }
 	}
-	public tabsLoaded = false;
     public SearchData = null;
 
     public static VersionControl = {

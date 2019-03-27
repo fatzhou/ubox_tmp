@@ -137,10 +137,6 @@ export class ListPage {
 	}
 
     ionViewDidLoad() {
-        if(!this.global.tabsLoaded) {
-			console.log("Tabs尚未加载.....");
-			return false;
-		}
         GlobalService.consoleLog('ionViewDidLoad ListPage');
         if (this.global.deviceSelected) {
             this.initPage();
@@ -735,9 +731,12 @@ export class ListPage {
         }
     }
 
-    displayMenu() {
+    displayMenu($event) {
 		console.log("即将显示左侧菜单........");
 		this.menuCtrl.open();
+		if($event.stopPropagation) {
+			$event.stopPropagation();
+		}
     }
 
 
