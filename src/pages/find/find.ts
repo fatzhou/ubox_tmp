@@ -32,6 +32,7 @@ export class FindPage {
 
     feedList: any = [];
     loading: boolean = false;
+    isShowTitle: boolean = true;
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         private events: Events,
@@ -171,7 +172,18 @@ export class FindPage {
                 }
             ]
         })
-        
     }
+
+    onPageScroll(e) {
+        console.log(e.scrollTop)
+        if(e.scrollTop > 60 && this.isShowTitle == true) {
+            this.isShowTitle = false;
+            console.log(this.isShowTitle)
+        }
+        if(e.scrollTop < 60 && this.isShowTitle == false) {
+            this.isShowTitle = true;
+            console.log(this.isShowTitle)
+        }
+	}
 
 }

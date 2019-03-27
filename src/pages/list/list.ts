@@ -725,12 +725,9 @@ export class ListPage {
         })
 	}
 	
-	onPageScroll(e) {
-		console.log(e.scrollTop)
-	}
+	
 
-    toggleClassifyNav($event, isShow = null) {
-		this.onPageScroll($event);
+    toggleClassifyNav(isShow = null) {
         if(isShow != null) {
             this.isShowClassifyNav = false;
         } else {

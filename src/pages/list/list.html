@@ -40,7 +40,7 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content (ionScroll)="toggleClassifyNav($event, 'close')" (click)="toggleClassifyNav('close')">
+<ion-content (click)="toggleClassifyNav('close')">
     <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page">
         <div class="disk-list" *ngIf="currPath == '/'">
             <p class="disk-title">其他磁盘</p>

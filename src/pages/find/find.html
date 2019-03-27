@@ -6,7 +6,7 @@
 -->
 <ion-header>
     <ion-navbar class="search-header">
-        <ion-title>
+        <ion-title *ngIf="isShowTitle">
             <div class="home-title-box">
                 <p class="home-title">Discovery</p>
                 <p class="list-point"><span></span><span class="active"></span><span></span><span></span></p>
@@ -15,10 +15,10 @@
         <svg class="icon aside-nav-icon" aria-hidden="true">
                 <use xlink:href="#iconcaidan"></use>
         </svg>
-        <div class="input-box">
+        <div class="input-box"  *ngIf="!isShowTitle">
             <input type="text" (click)="goSearchBtPage()" class="common-general-button bt-input" readonly>
         </div>
-        <svg class="icon icon-ellipsis icon-search" *ngIf="false" aria-hidden="true">
+        <svg class="icon icon-ellipsis icon-search" *ngIf="isShowTitle" aria-hidden="true">
             <use xlink:href="#iconsearch"></use>
         </svg>
         <svg class="icon icon-ellipsis" (click)="goBtTaskPage()" aria-hidden="true">
@@ -26,7 +26,7 @@
         </svg>
     </ion-navbar>
 </ion-header>
-<ion-content>
+<ion-content (ionScroll)="onPageScroll($event)">
     <div class="main-content">
         <div class="search-body">
             <div class="recommend-title">
