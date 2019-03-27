@@ -1,4 +1,4 @@
-<super-tabs (ionChange)="setIcons($event)" #boxtabs [config]="{allowElementScroll: true}" name="boxtabs">
+<super-tabs #boxtabs [config]="{allowElementScroll: true}" name="boxtabs">
     <super-tab [root]="home" ></super-tab>
     <super-tab [root]="search"></super-tab>
     <super-tab [root]="mining"></super-tab>
@@ -38,9 +38,3 @@
         </div>
     </div>
 </super-tabs>
-
-<!-- <super-tabs>
-    <super-tab [root]="home" title="home" [tabIcon]="fileIcon"></super-tab>
-    <super-tab [root]="search" title="search" [tabIcon]="searchIcon"></super-tab>
-    <super-tab [root]="user" title="user" [tabIcon]="userIcon"></super-tab>
-</super-tabs> -->

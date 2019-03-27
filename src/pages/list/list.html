@@ -6,7 +6,7 @@
 -->
 <ion-header (click)="toggleClassifyNav('close')">
     <ion-navbar class="clear" [ngClass]="allBtnsShow ? 'select-tollbar' :''">
-        <svg *ngIf="(currPath == '/' || currPath == '') && !allBtnsShow" class="icon aside-nav-icon" (click)="displayMenu()" tappable aria-hidden="true">
+        <svg *ngIf="(currPath == '/' || currPath == '') && !allBtnsShow" class="icon aside-nav-icon" (click)="displayMenu($event)" tappable aria-hidden="true">
             <use xlink:href="#iconcaidan"></use>
         </svg>
         <ion-title [ngClass]="allBtnsShow && (currPath == '/' || currPath == '') ? 'list-active' : ''">
