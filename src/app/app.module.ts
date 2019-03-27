@@ -53,7 +53,6 @@ import { WalletSettingPage } from '../pages/wallet-setting/wallet-setting';
 import { ChangePayPasswordPage } from '../pages/change-pay-password/change-pay-password';
 import { UpdateAssitantPage } from '../pages/update-assitant/update-assitant';
 import { AdviceSubmitPage } from '../pages/advice-submit/advice-submit';
-
 import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy';
 import { CoinGetPage } from '../pages/coin-get/coin-get';
 import { CoinSendPage } from '../pages/coin-send/coin-send';
@@ -85,9 +84,6 @@ import { DeviceSearchPage } from '../pages/device-search/device-search';
 import { DeviceGuidancePage } from '../pages/device-guidance/device-guidance';
 import { DeviceDetailPage } from '../pages/device-detail/device-detail';
 import { DeviceManagePage } from '../pages/device-manage/device-manage';
-
-
-
 
 //自定义组件
 import { DropdownFolderComponent } from '../components/dropdown-folder/dropdown-folder';
@@ -222,7 +218,7 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     DeviceSearchPage,
     DeviceGuidancePage,
     DeviceDetailPage,
-    DeviceManagePage
+	DeviceManagePage,
     // ClickAndWaitDirective,
   ],
   imports: [
@@ -314,7 +310,7 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     DeviceSearchPage,
     DeviceGuidancePage,
     DeviceDetailPage,
-    DeviceManagePage
+	DeviceManagePage,
   ],
   providers: [
     UboxApp,

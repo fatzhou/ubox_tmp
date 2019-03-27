@@ -1,5 +1,11 @@
 page-list {
-    $homePadding: 10px;
+	$homePadding: 10px;
+	.hide-list {
+		max-height: 0;
+	}
+	.show-list {
+		max-height: 9999px;
+	}
     .back-button-ios {
 		z-index: 0;
     }
@@ -231,7 +237,8 @@ page-list {
         }
     }
     .file-list {
-        
+		transition: all .5s ease;
+		overflow: hidden;
         /*padding-top: 98px;*/
         // padding-bottom: 100px;
         .file-list-item {
