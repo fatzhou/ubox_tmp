@@ -7,6 +7,7 @@ import { Util } from '../../providers/Util';
 import { Lang } from "../../providers/Language";
 import { Clipboard } from '@ionic-native/clipboard';
 import { SearchPage } from '../search/search';
+import { BtTaskPage } from '../bt-task/bt-task';
 
 
 /**
@@ -36,6 +37,8 @@ export class BtDetailPage {
 	detailDesc: any = null;
 	isShowDesc: boolean = false;
 	fileList = [];
+	titleImgList: any = [];
+	desImgList: any = [];
 
 	constructor(public navCtrl: NavController,
 		public navParams: NavParams,
@@ -71,7 +74,7 @@ export class BtDetailPage {
 				if (res.err_no === 0) {
 					this.title = res.title;
 					this.size = res.size;
-					this.createdTime = res.build_time;
+					this.createdTime = res.mgdate;
 					this.fileType = res.format;
 					this.language = res.feedid;
 					this.file_number = res.file_number;
@@ -79,6 +82,8 @@ export class BtDetailPage {
 					this.hash = res.hash;
 					this.heat = res.heat;
 					this.link = res.mgurl;
+					this.titleImgList = res.title_images || [];
+					this.desImgList = res.des_images || [];
 					let language = 'en';
 					if (GlobalService.applang == 'cn') {
 						language = 'zh';
@@ -90,6 +95,7 @@ export class BtDetailPage {
 					} else {
 						this.detailDesc = res.describe;
 					}
+					
 					this.setFileList(JSON.parse(res.file_list));
 					// console.log("detail" + JSON.stringify(res));
 				}
@@ -104,7 +110,7 @@ export class BtDetailPage {
 		//解析pid
 		let idIndex = 1;
 		let filesObj = {};
-console.log(list)
+		console.log(list)
 		list.forEach(item => {
 			let path = item.path;
 			// console.log("sss" + path)
@@ -190,5 +196,10 @@ console.log(list)
 	goSearchPage() {
 		this.navCtrl.push(SearchPage);
 	}
+
+	goBtTaskPage() {
+        console.log("go BtTaskPage");
+        this.navCtrl.push(BtTaskPage);
+    }
 
 }

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { BtSetPathPage } from '../bt-set-path/bt-set-path';
 import { Events, App } from 'ionic-angular';
 import { HttpService } from '../../providers/HttpService';
 import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
 import { Lang } from "../../providers/Language";
+import { BtSetPathPage } from '../bt-set-path/bt-set-path';
+import { BtSetDiskPage } from '../bt-set-disk/bt-set-disk';
 
 /**
  * Generated class for the BtSetPage page.
@@ -29,7 +30,6 @@ export class BtSetPage {
         public util: Util,
         public http: HttpService,
         private events: Events,) {
-        BtSetPathPage._this = this;
         events.subscribe('bt-path-change', (path) => {
             this.path = path;
         })
@@ -49,6 +49,7 @@ export class BtSetPage {
         this.navCtrl.push(BtSetPathPage, {
             currPath: this.path
         });
+        // this.navCtrl.push(BtSetDiskPage);
     }
 
     changeTaskNum(type) {

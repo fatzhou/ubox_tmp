@@ -51,7 +51,7 @@ export class FindPage {
     }
     ionViewWillLeave() {
         console.log("leave")
-        this.feedList = [];
+        // this.feedList = [];
     }
     goSearchBtPage() {
         console.log("gosearchbt");

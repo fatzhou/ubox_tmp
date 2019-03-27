@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { BtSetPage } from '../bt-set/bt-set';
-import { BtPlayPage } from '../bt-play/bt-play';
+import { ListPage } from '../list/list';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { Util } from '../../providers/Util';
@@ -26,6 +26,7 @@ export class BtTaskPage {
     btDoneNum: any = 0;
     btDoingNum: any = 0;
     tabIndex: any = 0;
+    isShowOptions: boolean = false;
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         private global: GlobalService,
@@ -43,7 +44,7 @@ export class BtTaskPage {
     ionViewWillLeave() {
         clearInterval(this.setIntervalTaskList);
         this.setIntervalTaskList = null;
-        
+        this.isShowOptions = false;
     }
     goBtSetPage() {
         console.log("go BtTaskPage");
@@ -60,9 +61,11 @@ export class BtTaskPage {
                 GlobalService.consoleLog("获取任务列表成功");
                 this.btTaskList = res.list || [];
                 this.btDoneList = this.btTaskList.filter(item => {
+                    item.isDelete = false;
                     return item.status == 3;
                 });
                 this.btDoingList = this.btTaskList.filter(item => {
+                    item.isDelete = false;
                     return item.status != 3;
                 });
                 this.btDoneNum = this.btDoneList.length;
@@ -79,6 +82,7 @@ export class BtTaskPage {
 
     changeTaskStatus(item, latter) {
         var url = this.global.getBoxApi("changeBtTaskStatus");
+        item.isDelete = false;
         this.http.post(url, {
             taskid: item.taskid,
             former_status: item.status,
@@ -129,11 +133,18 @@ export class BtTaskPage {
         
     }
 
-    goBtPlayPage(item) {
+    goListPage(item) {
         console.log("go goBtPlayPage");
-        this.navCtrl.push(BtPlayPage, {
-            path:  'http://192.168.0.14:37867/ubeybox/file/download?fullpath=' + item.dir + '/' + item.name
-        });
+        this.navCtrl.push(ListPage, {
+            type: "",
+            path: item.dir
+        })
+        .then(()=> {
+            item.isDelete = false;
+        })
+        // this.navCtrl.push(BtPlayPage, {
+        //     path:  'http://192.168.0.14:37867/ubeybox/file/download?fullpath=' + item.dir + '/' + item.name
+        // });
     }
     
 
@@ -177,5 +188,54 @@ export class BtTaskPage {
         this.global.createGlobalToast(this, {
             message: '在电脑上打开Ubbey客户端，可对您设备里的文件进行管理，下载地址：www.ubbey.org/download'
         })
+        this.toggleShowOptions('close');
+    }
+
+    toggleShowOptions(isShow = null) {
+        if(isShow != null) {
+            this.isShowOptions = false;
+        } else {
+            this.isShowOptions = !this.isShowOptions;
+        }
+    }
+
+    toggleAllTaskList(action) {
+        this.isShowOptions = false;
+        if(action == 'stop') {
+            this.btDoingList.map((item)=> {
+                if(item.status != 2 && item.status != 4) {
+                    this.changeTaskStatus(item, 2)
+                }
+            })
+        } else {
+            this.btDoingList.map((item)=> {
+                if(item.status == 2 || item.status == 4) {
+                    this.changeTaskStatus(item, 1)
+                }
+            })
+        }
+    }
+
+    toggleShowDelete(item = null, isDelete = true) {
+        if(item == null) {
+            this.btDoingList.filter(item => {
+                item.isDelete = false;
+            })
+            this.btDoneList.filter(item => {
+                item.isDelete = false;
+            })
+            return false;
+        }
+        if(item.status != 3) {
+            this.btDoingList.filter(item => {
+                item.isDelete = false;
+            })
+            item.isDelete = isDelete;
+        } else {
+            this.btDoneList.filter(item => {
+                item.isDelete = false;
+            })
+            item.isDelete = isDelete;
+        }
     }
 }

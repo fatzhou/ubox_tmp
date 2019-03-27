@@ -527,3 +527,32 @@ ion-infinite-scroll {
         box-shadow: 0 1px 2px 0 rgba(0,0,0,0.40);
     }
 }
+.home-title-box {
+    text-align: center;
+    position: relative;
+    overflow: unset;
+    height: 40px;
+    line-height: 32px; 
+    .list-point {
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        z-index: 100;
+        transform: translate(-50%,0);
+        overflow: hidden;
+        height: 9px;
+        line-height: 0px;
+        span {
+            display: inline-block;
+            float: left;
+            width: 5px;
+            height: 5px;
+            margin-right: 3px; 
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            &.active {
+                background: #fff;
+            }
+        }
+    }
+}

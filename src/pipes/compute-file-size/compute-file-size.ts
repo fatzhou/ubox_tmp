@@ -14,6 +14,9 @@ export class ComputeFileSizePipe implements PipeTransform {
    * Takes a value and makes it lowercase.
    */
   transform(size: any, ...args) {
+		if(size == '') {
+			return ''
+		}
   	if(size < GlobalService.DISK_M_BITS) {
   		return (size / GlobalService.DISK_K_BITS).toFixed(2) + "K"
   	} else if(size < GlobalService.DISK_G_BITS) {

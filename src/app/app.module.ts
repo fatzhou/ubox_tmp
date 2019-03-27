@@ -77,6 +77,7 @@ import { BtDetailPage } from '../pages/bt-detail/bt-detail';
 import { BtSetPage } from '../pages/bt-set/bt-set';
 import { BtTaskPage } from '../pages/bt-task/bt-task';
 import { BtSetPathPage } from '../pages/bt-set-path/bt-set-path';
+import { BtSetDiskPage } from '../pages/bt-set-disk/bt-set-disk';
 import { FindPage } from '../pages/find/find';
 import { BtPlayPage } from '../pages/bt-play/bt-play';
 import { FileDetailPage } from '../pages/file-detail/file-detail';
@@ -212,6 +213,7 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     BtDetailPage, 
     SearchBtPage,
     BtSetPathPage,
+    BtSetDiskPage,
     FindPage,
     BtPlayPage,
     FileDetailPage,
@@ -304,6 +306,7 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     BtDetailPage, 
     SearchBtPage,
     BtSetPathPage,
+    BtSetDiskPage,
     FindPage,
     BtPlayPage,
     FileDetailPage,
