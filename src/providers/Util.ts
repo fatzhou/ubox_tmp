@@ -701,10 +701,14 @@ export class Util {
     }
 
     searchUbbey() {
+		let start = Date.now();
+		let minSearchTime = 3000;
         return new Promise((resolve, reject) => {
             // if(1) {
             if(!this.platform.is('cordova')) {
-                resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
+				setTimeout(() => {
+					resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
+				}, minSearchTime);
 				// resolve([]);
 				return ;
             // 
@@ -721,17 +725,19 @@ export class Util {
             var setSearchFinish = (devices) => {
                 console.log("盒子扫描完毕!" + devices.length);
                 clearTimeout(timeout);
-                timeout = null;
-                if (devices.length) {
-                    // GlobalService.consoleLog("解析并获取设备列表" + JSON.stringify(devices));
-                    self.parseDeviceList(devices, deviceList => {
-                        // GlobalService.consoleLog("解析完毕" + JSON.stringify(deviceList));
-                        self.global.foundDeviceList = deviceList;
-                        resolve(deviceList);
-                    });
-                } else {
-                    resolve([]);
-                }
+				timeout = null;
+				setTimeout(() => {
+					if (devices.length) {
+						// GlobalService.consoleLog("解析并获取设备列表" + JSON.stringify(devices));
+						self.parseDeviceList(devices, deviceList => {
+							// GlobalService.consoleLog("解析完毕" + JSON.stringify(deviceList));
+							self.global.foundDeviceList = deviceList;
+							resolve(deviceList);
+						});
+					} else {
+						resolve([]);
+					}					
+				}, Math.max(0, minSearchTime - (Date.now() - start)));
             };
             let processRes = (devices) => {
                 GlobalService.consoleLog("发现接口成功回调");
@@ -1334,8 +1340,8 @@ export class Util {
         this.global.deviceSelected = null;
         this.global.foundDeviceList = [];
         this.global.albumBackupSwitch = undefined;
-    }
-
+	}
+	
     public bindBox($scope) {
         var boxInfo = $scope.global.deviceSelected;
         GlobalService.consoleLog(boxInfo.URLBase)

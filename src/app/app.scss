@@ -151,32 +151,49 @@
 		}
 		.nav-bottom {
 			position: absolute;
-			bottom: 50px;
+			bottom: 0;
 			background: #302F34;
 			color: #fff;
 			.nav-bottom-top {
 				margin: 15px 20px 15px 0;
+				.extentions {
+				}
 			}
 			.ubbey-contact {
 				color: #fff;
 				font-size: 18px;
 				font-weight: 500;
 				line-height: 25px;
-				span {
-					margin-left: 21px;
-					padding: 4px 15px;
-					background: #222126;
-					border-radius: 20px;
-					color: #78777C;
-					font-size: 13px;
-					font-weight: normal;
-				}
+				max-width: 140px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				padding-right: 20px;
+			}
+			.connection-type {
+				padding: 4px 15px;
+				background: #222126;
+				border-radius: 20px;
+				color: #78777C;
+				font-size: 13px;
+				font-weight: normal;
 			}
 			.icon {
 				color: #78777C;
 			}
 		}
-
+		.add-device {
+			text-align: center;
+			position: absolute;
+			bottom: 0;
+			height: 64px;
+			width: 100%;
+			color: #00C77D;
+			line-height: 64px;
+			font-size: 18px;
+			span {
+				margin-left: 8px;
+			}
+		}
 	}
 }
 

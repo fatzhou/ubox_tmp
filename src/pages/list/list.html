@@ -6,7 +6,7 @@
 -->
 <ion-header (click)="toggleClassifyNav('close')">
     <ion-navbar class="clear" [ngClass]="[allBtnsShow ? 'select-tollbar' :'',(currPath == '/' || currPath == '') ? 'search-header' : '']" >
-        <svg *ngIf="(currPath == '/' || currPath == '') && !allBtnsShow" class="icon aside-nav-icon" (click)="toggleShowAside()" aria-hidden="true">
+        <svg *ngIf="(currPath == '/' || currPath == '') && !allBtnsShow" class="icon aside-nav-icon" (click)="displayMenu()" tappable aria-hidden="true">
             <use xlink:href="#iconcaidan"></use>
         </svg>
         <ion-title [ngClass]="allBtnsShow && (currPath == '/' || currPath == '') ? 'list-active' : ''">
@@ -40,7 +40,7 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content (ionScroll)="toggleClassifyNav('close')" (click)="toggleClassifyNav('close')">
+<ion-content (ionScroll)="toggleClassifyNav($event, 'close')" (click)="toggleClassifyNav('close')">
     <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page">
         <div class="disk-list" *ngIf="currPath == '/'">
             <p class="disk-title">其他磁盘</p>
@@ -71,7 +71,7 @@
         </div>
         <div class="main-content">
             <div class="file-content">
-                    <p class="file-num" *ngIf="dataAcquired && type0List.length > 0" (click)="toggleListStatus(0)">
+                    <p class="file-num" *ngIf="dataAcquired && type0List.length > 0" tappable (click)="toggleListStatus(0)">
                         <span>文件夹 ({{ type0List.length }})</span> 
                         <svg *ngIf="!isShowType0List" class="icon icon-right" aria-hidden="true" >
                             <use xlink:href="#iconzhankaiicon"></use>
@@ -80,7 +80,7 @@
                             <use xlink:href="#iconshousuoicon"></use>
                         </svg>
                     </p>
-                    <ul class="file-list" *ngIf="dataAcquired && type0List.length > 0 && isShowType0List" (press)="showAllBtns()">
+                    <ul class="file-list" *ngIf="dataAcquired && type0List.length > 0"  [ngClass]="isShowType0List?'show-list':'hide-list'" (press)="showAllBtns()">
                         <li class="file-list-item"  tappable *ngFor="let info of type0List" (click)="goNextFolder(info);$event.stopPropagation();">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
@@ -99,7 +99,7 @@
                             </div>
                         </li>
                     </ul>
-                    <p class="file-num" *ngIf="dataAcquired && type1List.length > 0" (click)="toggleListStatus(1)">
+                    <p class="file-num" *ngIf="dataAcquired && type1List.length > 0" tappable (click)="toggleListStatus(1)">
                         <span>文件 ({{ type1List.length }})</span> 
                         <svg *ngIf="!isShowType1List" class="icon icon-right" aria-hidden="true" >
                             <use xlink:href="#iconzhankaiicon"></use>
@@ -108,7 +108,7 @@
                             <use xlink:href="#iconshousuoicon"></use>
                         </svg>
                     </p>
-                    <ul class="file-list" *ngIf="dataAcquired && type1List.length > 0" [ngClass]="isShowType1List ? '' : 'hide-list'" (press)="showAllBtns()">
+                    <ul class="file-list" *ngIf="dataAcquired && type1List.length > 0" [ngClass]="isShowType1List?'show-list':'hide-list'" (press)="showAllBtns()">
                         <li class="file-list-item" tappable *ngFor="let info of type1List" (click)="goNextFolder(info);$event.stopPropagation();">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">

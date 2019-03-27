@@ -73,7 +73,6 @@ export class ListPage {
     isShowType1List: boolean = true;
     isShowBox: boolean = false;
 	isShowClassifyNav: boolean = false;
-	rootPage:any = TabsPage;
     // isShowAside: boolean = false;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
@@ -135,10 +134,13 @@ export class ListPage {
         // this.events.unsubscribe('file:updated', this.updateFilesEvent)
         // // events.unsubscribe('image:move');
         // this.events.unsubscribe('image:move', this.moveFilesEvent);
-    }
+	}
 
     ionViewDidLoad() {
-        
+        if(!this.global.tabsLoaded) {
+			console.log("Tabs尚未加载.....");
+			return false;
+		}
         GlobalService.consoleLog('ionViewDidLoad ListPage');
         if (this.global.deviceSelected) {
             this.initPage();
@@ -146,7 +148,8 @@ export class ListPage {
             this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
             this.listFiles();
         }
-        GlobalService.consoleLog("this.currPath" + this.currPath)
+		GlobalService.consoleLog("this.currPath" + this.currPath);
+		return true;
     }
 
     static updateFilesEvent(task) {
@@ -720,9 +723,14 @@ export class ListPage {
         this.app.getRootNav().push(FileDetailPage, {
             info: info
         })
-    }
+	}
+	
+	onPageScroll(e) {
+		console.log(e.scrollTop)
+	}
 
-    toggleClassifyNav(isShow = null) {
+    toggleClassifyNav($event, isShow = null) {
+		this.onPageScroll($event);
         if(isShow != null) {
             this.isShowClassifyNav = false;
         } else {

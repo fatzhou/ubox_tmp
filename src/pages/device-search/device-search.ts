@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-
+import { Util } from '../../providers/Util';
+import { GlobalService } from '../../providers/GlobalService';
+import { TabsPage } from '../tabs/tabs';
 /**
  * Generated class for the DeviceSearchPage page.
  *
@@ -8,24 +10,57 @@ import { NavController, NavParams } from 'ionic-angular';
  * Ionic pages and navigation.
  */
 
-
 @Component({
   selector: 'page-device-search',
   templateUrl: 'device-search.html',
 })
 export class DeviceSearchPage {
+	searchResult:any = null;
+	bindStatus = 0;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+	constructor(public navCtrl: NavController, 
+				public util: Util,
+				private global: GlobalService,
+				public navParams: NavParams) {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad DeviceSearchPage');
-    }
+		console.log('ionViewDidLoad DeviceSearchPage');
+		this.searchUbbey();
+	}
+	
+	searchUbbey() {
+		return this.util.searchUbbey()
+		.then(res => {
+			console.log("已搜索到以下盒子：" + JSON.stringify(res));
+			this.searchResult = res;
+			return res;
+		})
+	}
+
+	bindBox(box) {
+		this.global.deviceSelected = box;
+		this.util.bindBox(this)
+		.then(res => {
+			if(res) {
+				this.bindStatus = 1;
+			} else {
+				this.bindStatus = 2;
+			}
+		})
+	}
+
+	goNext() {
+		this.navCtrl.setRoot(TabsPage);
+	}
 
     doRefresh(event) {
-        console.log('Begin async operation');
-        setTimeout(() => {
-          console.log('Async operation has ended');
-        }, 2000);
+		console.log('Begin async operation');
+		//状态复原
+		this.searchResult = null;
+		this.searchUbbey()
+		.then(res => {
+			event.complete();
+		})
     }
 }

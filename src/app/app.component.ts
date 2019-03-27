@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { Events, Nav, Platform } from 'ionic-angular';
+import { Events, Nav, Platform, Tabs } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 // import { StatusBar } from '@ionic-native/status-bar';
 
@@ -9,15 +9,17 @@ import { AlertController } from 'ionic-angular';
 
 import { DeviceListPage } from '../pages/device-list/device-list';
 import { TabsPage } from '../pages/tabs/tabs';
-import { RegisterPage } from '../pages/register/register';
-import { ResetPasswdPage } from '../pages/reset-passwd/reset-passwd';
-import { UserPage } from '../pages/user/user';
-import { HomePage } from '../pages/home/home';
-import { MiningPage } from '../pages/mining/mining';
+// import { RegisterPage } from '../pages/register/register';
+// import { ResetPasswdPage } from '../pages/reset-passwd/reset-passwd';
+// import { UserPage } from '../pages/user/user';
+// import { HomePage } from '../pages/home/home';
+// import { MiningPage } from '../pages/mining/mining';
+import { WalletSelectPage } from '../pages/wallet-select/wallet-select';
+import { SearchPage } from '../pages/search/search';
 
 import { LoginPage } from '../pages/login/login';
-import { ResultPage } from '../pages/result/result';
-import { ListPage } from '../pages/list/list';
+// import { ResultPage } from '../pages/result/result';
+// import { ListPage } from '../pages/list/list';
 
 import { GlobalService } from '../providers/GlobalService';
 import { HttpService } from '../providers/HttpService';
@@ -28,10 +30,10 @@ import { TaskListPage } from '../pages/task-list/task-list';
 import { GuidancePage } from '../pages/guidance/guidance';
 import { PermissionPage } from '../pages/permission/permission';
 
-import { AgreementPage } from '../pages/agreement/agreement'
-import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy'
-import { NoticeListPage } from '../pages/notice-list/notice-list'
-import { NoticeDetailPage } from '../pages/notice-detail/notice-detail'
+// import { AgreementPage } from '../pages/agreement/agreement'
+// import { PrivacyPolicyPage } from '../pages/privacy-policy/privacy-policy'
+// import { NoticeListPage } from '../pages/notice-list/notice-list'
+// import { NoticeDetailPage } from '../pages/notice-detail/notice-detail'
 
 import { Network } from '@ionic-native/network';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
@@ -49,6 +51,10 @@ import { File } from '@ionic-native/file';
 import { MenuController } from 'ionic-angular';
 import { FileManager } from '../providers/FileManager';
 import { FindPage } from '../pages/find/find';
+import { SuperTabsController } from 'ionic2-super-tabs/dist/providers/super-tabs-controller';
+import { NoticeListPage } from '../pages/notice-list/notice-list';
+import { DeviceGuidancePage } from '../pages/device-guidance/device-guidance';
+
 declare var chcp: any;
 declare var WifiWizard: any;
 declare var cordova: any;
@@ -80,7 +86,8 @@ export class UboxApp {
         private alertCtrl: AlertController,
         // private statusBar: StatusBar,
         public splashScreen: SplashScreen,
-        private util: Util,
+		private util: Util,
+		private tabsController: SuperTabsController,
         private web3: Web3Service
     ) {
         GlobalService.consoleLog("开始全局构造。。。");
@@ -601,15 +608,47 @@ export class UboxApp {
 	}
 	
 	goPage(name) {
+		this.menuCtrl.close();
 		switch(name) {
 			case 'file':
-				this.menuCtrl.close();
-				break;
-			case 'discover':
-				this.nav.setRoot(FindPage)
+				this.nav.setRoot(TabsPage)
 				.then(res => {
 					console.log(res)
+					this.tabsController.slideTo(0);
+				});
+				break;
+			case 'discover':
+				this.nav.setRoot(TabsPage)
+				.then(res => {
+					console.log(res)
+					this.tabsController.slideTo(1);
+				});
+				break;
+			case 'mining':
+				this.nav.setRoot(TabsPage)
+				.then(res => {
+					this.tabsController.slideTo(2);
 				})
+				break;
+			case 'wallet':
+				this.nav.push(WalletSelectPage);
+				break;
+			case 'dapp':
+				this.nav.push(SearchPage);
+				break;
+			case 'notice':
+				this.nav.push(NoticeListPage);
+				break;
+			case 'setting':
+				this.nav.setRoot(TabsPage)
+				.then(res => {
+					console.log(res)
+					this.tabsController.slideTo(3);
+				});
+				break;	
+			case 'deviceguidance':
+				this.nav.push(DeviceGuidancePage);
+				break;		
 		}
 	}
 }

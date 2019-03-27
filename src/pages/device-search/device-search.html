@@ -6,73 +6,59 @@
 -->
 <ion-header>
 
-    <ion-navbar>
-        <ion-title></ion-title>
-    </ion-navbar>
+	<ion-navbar>
+		<ion-title></ion-title>
+	</ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-    <ion-refresher  snapbackDuration="300" (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-    <div class="main-content">
-        <p class="update-search"><span>下拉重新搜索</span></p>
-        <div class="search-box">
-            <p class="p-title">找不到可用设备</p>
-            <svg class="icon" aria-hidden="true" item-end>
-                <use xlink:href="#iconsousuoshebei"></use>
-            </svg>
-        </div>
-        <div class="slides-box">
-            <ion-slides pager spaceBetween="12px">
-                <ion-slide>
-                    <div class="bg-box">
-                        <div class="bind-info">
-                            <svg class="icon" aria-hidden="true" item-end>
-                                <use xlink:href="#icondefaulticon"></use>
-                            </svg>
-                            <div class="device-info">
-                                <p class="name">Ubbey NeXT</p>
-                                <p>容量：1TB</p>
-                                <p>序列号：Ubox123456789900</p>
-                            </div>
-                        </div>
-                        <div class="bind-btn"><span>绑定</span></div>
-                    </div>
-                </ion-slide>
-                <ion-slide>
-                    <div class="bg-box">
-                        <div class="bind-info">
-                            <svg class="icon" aria-hidden="true" item-end>
-                                <use xlink:href="#icondefaulticon"></use>
-                            </svg>
-                            <div class="device-info">
-                                <p class="name">Ubbey NeXT</p>
-                                <p>容量：1TB</p>
-                                <p>序列号：Ubox123456789900</p>
-                            </div>
-                        </div>
-                        <div class="bind-btn"><span>绑定</span></div>
-                    </div>
-                </ion-slide>
-                <ion-slide>
-                    <div class="bg-box">
-                        <div class="bind-info">
-                            <svg class="icon" aria-hidden="true" item-end>
-                                <use xlink:href="#icondefaulticon"></use>
-                            </svg>
-                            <div class="device-info">
-                                <p class="name">Ubbey NeXT</p>
-                                <p>容量：1TB</p>
-                                <p>序列号：Ubox123456789900</p>
-                            </div>
-                        </div>
-                        <div class="bind-btn"><span>绑定</span></div>
-                    </div>
-                </ion-slide>
-            </ion-slides>
-        </div>
-    </div>
+	<ion-refresher snapbackDuration="300" *ngIf="bindStatus == 0" (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content></ion-refresher-content>
+	</ion-refresher>
+	<div class="main-content" *ngIf="bindStatus != 0">
+		<div class="search-box">
+			<p class="p-title">{{ bindStatus == 1 ? '绑定成功' : '绑定失败' }}</p>
+			<svg class="icon search-icon" aria-hidden="true" item-end>
+				<use xlink:href="#iconchenggong"></use>
+			</svg>
+		</div>
+		<button class="go-next" tappable (click)="goNext()">
+			前往首页
+		</button>
+	</div>
+	<div class="main-content">
+		<p class="update-search" style="display:none;"><span>下拉重新搜索</span></p>
+		<div class="search-box">
+			<p class="p-title">
+				{{ searchResult ? searchResult.length > 0 ? '找到' + searchResult.length + '台可用设备' : '找不到可用设备' : '正在搜索可用设备...' }}
+			</p>
+			<svg class="icon search-icon" [ngClass]="searchResult ? '' : 'search-animation'" aria-hidden="true"
+				item-end>
+				<use xlink:href="#iconsousuoshebei"></use>
+			</svg>
+		</div>
+		<div class="slides-box" *ngIf="searchResult && searchResult.length > 0">
+			<ion-slides pager spaceBetween="12px">
+				<ion-slide *ngFor="let device of searchResult">
+					<div class="bg-box">
+						<div class="bind-info">
+							<svg class="icon" aria-hidden="true" item-end>
+								<use xlink:href="#icondefaulticon"></use>
+							</svg>
+							<div class="device-info">
+								<p class="name">{{ device.friendlyName }}</p>
+								<p>容量：1TB</p>
+								<p *ngIf="!!device.bindUserHash">序列号：{{ device.boxId }}</p>
+								<p *ngIf="!device.bindUserHash">已绑定：{{ device.bindUser }}</p>
+							</div>
+						</div>
+						<button class="bind-btn" (click)="bindBox(device)"
+							[disabled]="device.bindUser"><span>绑定</span></button>
+					</div>
+				</ion-slide>
+			</ion-slides>
+		</div>
+	</div>
 </ion-content>

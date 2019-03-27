@@ -214,16 +214,16 @@ export class TabsPage {
             GlobalService.consoleLog("登录态失效!!!");
             res.that.global.centerUserInfo = {};
             res.that.global.boxUserInfo = {};
-            if(res.action == 'cancal') {
+            if(res.action == 'cancel') {
                 let view = this.navCtrl.getActive();
                 if(view.component == TabsPage) {
                     this.tabRef.select(0);
                 } else {
                     this.tabRef.select(0); 
-                    this.navCtrl.push(TabsPage);
+                    this.navCtrl.setRoot(TabsPage);
                 }
             } else {
-                this.navCtrl.push(LoginPage); 
+                this.navCtrl.setRoot(LoginPage); 
             }
         });
     }
@@ -311,7 +311,8 @@ export class TabsPage {
     }
 
     ionViewDidLoad() {
-        GlobalService.consoleLog('进入TabsPage...');
+		GlobalService.consoleLog('进入TabsPage...');
+		this.global.tabsLoaded = true;
         //初始化connection组件
         // this.connection.status = this.global.useWebrtc ? this.global.L('RemoteNetwork')
     }

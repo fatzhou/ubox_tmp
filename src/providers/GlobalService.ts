@@ -52,7 +52,6 @@ export class GlobalService {
     public wifiName: String = ""; //wifi名字
 
     public fileHandler: any = {};
-    public ClickHandler: any = {};
 
     public boxUserInfo: any = {}; //盒子端个人信息
     public centerUserInfo: any = {}; //中心端个人信息
@@ -130,7 +129,8 @@ export class GlobalService {
         } else {
             return GlobalService.UBBEY_CONTRACT;
         }
-    }
+	}
+	public tabsLoaded = false;
     public SearchData = null;
 
     public static VersionControl = {
