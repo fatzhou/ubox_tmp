@@ -11,6 +11,7 @@ import { Lang } from '../../providers/Language';
 import { analyzeAndValidateNgModules, flatten } from '@angular/compiler';
 import { Events, Platform, App } from 'ionic-angular';
 // import { WebrtcService } from "../../providers/WebrtcService";
+import { AlertController, ToastController, LoadingController } from 'ionic-angular';
 
 // import { ChangepasswdPage } from '../changepasswd/changepasswd';
 /**
@@ -39,7 +40,8 @@ export class LoginPage {
     constructor(public navCtrl: NavController,
         private global: GlobalService,
         private http: HttpService,
-        private events: Events,
+		private events: Events,
+		private alertCtrl: AlertController,
         private util: Util,
         private app: App,
         public navParams: NavParams) {
@@ -50,9 +52,9 @@ export class LoginPage {
     ionViewDidLoad() {
         GlobalService.consoleLog('ionViewDidLoad LoginPage');
         this.popBack = this.navParams.get('popBack');
-        if(this.global.deviceSelected == null){
-            this.showDes = false;
-        }
+        // if(this.global.deviceSelected == null){
+        //     this.showDes = false;
+        // }
 
         if(GlobalService.ENV === 'dev') {
             this.username = '1@qq.com';
@@ -69,7 +71,6 @@ export class LoginPage {
                 }
             })             
         }
-
     }
 
     ionViewDidLeave(){
