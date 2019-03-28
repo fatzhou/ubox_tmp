@@ -1,20 +1,40 @@
 page-result {
-	.result-content {
-		padding: $padding;
-		background: $bgColor;
+	.main-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: $newFirstColor;
+		// overflow: auto;
 		text-align: center;
-		min-height: 100%;
-		.icon {
-    		display: block;
-			color: $mainColor;
-			font-size: 54px;
-			margin: 100px - $padding auto 0;
+    }
+    .toolbar-background {
+        background: $newFirstColor;
+    }
+    .search-box {
+        // display: flex;
+        // align-items: center;
+        // justify-content: center;
+        color: #fff;
+        // font-size: 20px;
+        // flex-direction: column;
+        padding: 30px 0;
+        p {
+			margin-bottom: 20px;
+			font-size: 20px;
+        }
+        .search-icon {
+            font-size: 48px;
 		}
-		p {
-			font-size: 16px;
-		    color: #4A4A4A;
-		    margin-top: 14px;
-		    margin-bottom: 41px;
+		.search-animation {
+			animation: rotating .5s linear infinite;
 		}
+	}
+	.go-next {
+		width: 200px;
+		height: 48px;
+		border-radius: 4px;
+		background: #fff;
+		font-size: 16px;
+		color: $newFirstColor;
 	}
 }

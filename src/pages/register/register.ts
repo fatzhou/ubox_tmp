@@ -54,32 +54,29 @@ export class RegisterPage {
         if (uCheck) {
             this.uError = true;
             this.uErrorText = ["", Lang.L('WORDa33756a9'), Lang.L('WORD7b2271a4')][uCheck];
-            GlobalService.consoleLog(this.uErrorText);
+			GlobalService.consoleLog(this.uErrorText);
+			this.global.createGlobalToast(this, this.uErrorText);
             return false;
         }
         var pError = Util.validator.passwd(this.passwd);
         if (pError) {
             this.pError = true;
-            this.pErrorText = ["", Lang.L('WORD758b56bc'), Lang.L('PasswordRuleDesc')][pError];
+			this.pErrorText = ["", Lang.L('WORD758b56bc'), Lang.L('PasswordRuleDesc')][pError];
+			this.global.createGlobalToast(this, this.pErrorText);
             return false;
         }
         if (this.passwd2 !== this.passwd) {
             this.pError2 = true;
-            this.pErrorText2 = Lang.L('WORDaa3d0f8d');
+			this.pErrorText2 = Lang.L('WORDaa3d0f8d');
+			this.global.createGlobalToast(this, this.pErrorText2);
             return false;
         }
-        if (this.global.passwdType === 'register') {
-            if (!this.privacyCheck) {
-                let toast = this.toastCtrl.create({
-                    message: Lang.L('WORDd2f6ca9b'),
-                    duration: GlobalService.ToastTime,
-                    position: 'middle',
-                    cssClass: 'toast-error'
-                });
-                toast.present();
-                return false;
-            }
-        }
+        // if (this.global.passwdType === 'register') {
+        //     if (!this.privacyCheck) {
+        //         this.global.createGlobalToast(this, Lang.L('WORDd2f6ca9b'));
+        //         return false;
+        //     }
+        // }
         this.getVerifyCode();
     }
 

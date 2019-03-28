@@ -99,33 +99,35 @@ export class LoginPage {
             GlobalService.consoleLog("用户名验证不通过");
             this.uError = true;
             this.uErrorText = ["", Lang.L('WORDa33756a9'), Lang.L('WORD7b2271a4')][uCheck];
-            this.isLoading = false;
+			this.isLoading = false;
+			this.global.createGlobalToast(this, this.uErrorText);
             return false;
         }
         if (!this.password) {
             GlobalService.consoleLog("密码为空，验证不通过");
             this.pError = true;
-            this.pErrorText = Lang.L('WORD758b56bc');
-            this.isLoading = false;
+			this.pErrorText = Lang.L('WORD758b56bc');
+			this.isLoading = false;
+			this.global.createGlobalToast(this, this.pErrorText);
             return false;
         }
         GlobalService.consoleLog("参数校验通过，开始登录盒子");
-
-        var boxSelected = this.global.deviceSelected;
-        // debugger
-        if(boxSelected && !this.global.useWebrtc) {
-            GlobalService.consoleLog("已选择盒子，查看绑定情况");
-            if(boxSelected.bindUser) {
-                GlobalService.consoleLog("盒子已绑定用户，此时直接登录盒子:" + boxSelected.bindUser);
-                this.loginBox();
-            } else {
-                GlobalService.consoleLog("盒子未绑定用户，需执行绑定逻辑");
-                this.bindBox();                
-            }
-        } else {
-            //远程登录
-            this.loginCenter();
-        }
+		this.loginCenter();
+        // var boxSelected = this.global.deviceSelected;
+        // // debugger
+        // if(boxSelected && !this.global.useWebrtc) {
+        //     GlobalService.consoleLog("已选择盒子，查看绑定情况");
+        //     if(boxSelected.bindUser) {
+        //         GlobalService.consoleLog("盒子已绑定用户，此时直接登录盒子:" + boxSelected.bindUser);
+        //         this.loginBox();
+        //     } else {
+        //         GlobalService.consoleLog("盒子未绑定用户，需执行绑定逻辑");
+        //         this.bindBox();                
+        //     }
+        // } else {
+        //     //远程登录
+        //     this.loginCenter();
+        // }
     }
 
     loginCenter() {

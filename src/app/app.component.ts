@@ -54,6 +54,7 @@ import { FindPage } from '../pages/find/find';
 import { SuperTabsController } from 'ionic2-super-tabs/dist/providers/super-tabs-controller';
 import { NoticeListPage } from '../pages/notice-list/notice-list';
 import { DeviceGuidancePage } from '../pages/device-guidance/device-guidance';
+import { ResultPage } from '../pages/result/result';
 
 declare var chcp: any;
 declare var WifiWizard: any;
@@ -144,7 +145,7 @@ export class UboxApp {
 				this.createSubFolders();
             } else {
                 GlobalService.consoleLog("我不是cordova");
-				this.nav.setRoot(LoginPage);
+				this.nav.setRoot(VerifyEmailPage);
 				// this.rootPage = TestPage;
             }
 
@@ -191,7 +192,7 @@ export class UboxApp {
     getUserInfo() {
 		if(!this.platform.is('cordova')) {
 			console.log("设置首页........");
-			this.nav.setRoot(LoginPage);
+			this.nav.setRoot(ResultPage);
 			return false;			
 		}
 

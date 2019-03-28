@@ -587,7 +587,7 @@ export class GlobalService {
 
     createGlobalToast(obj, opt) {
         let toast = obj.global.toastCtrl.create({
-            message: opt.message,
+            message: opt.message || opt,
             duration: GlobalService.ToastTime,
             position: opt.position || 'middle',
             cssClass: 'toast-error',

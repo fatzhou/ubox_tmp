@@ -4,34 +4,33 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
-
+<ion-header class="black-header">
   <ion-navbar>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content>
-	<div class="verify-content">
-		<h2 class="verify-title">{{global.L("InputVerifyCode")}}</h2>
-		<p class="verify-desc">{{global.Lf("VerifyCodeSend", username)}}</p>	
+	<div class="form-content">
+		<h2 class="form-title">{{global.L("InputVerifyCode")}}</h2>
+		<p class="form-desc">{{global.Lf("VerifyCodeSend", username)}}</p>
+	
 		<div class="input-list">
 			<label for="" class="input-wrap">
-				<input maxlength="1" [ngClass]="verifyCode[0]!==''?'focus':''" [name]="'input'+0" [id]="'input'+0" [(ngModel)]="verifyCode[0]" (input)="changeInput(0)" #input0 type="tel">
-				<input maxlength="1" [ngClass]="verifyCode[1]!==''?'focus':''" [name]="'input'+1" [id]="'input'+1" [(ngModel)]="verifyCode[1]" (input)="changeInput(1)" #input1 type="tel">
-				<input maxlength="1" [ngClass]="verifyCode[2]!==''?'focus':''" [name]="'input'+2" [id]="'input'+2" [(ngModel)]="verifyCode[2]" (input)="changeInput(2)" #input2 type="tel">
-				<input maxlength="1" [ngClass]="verifyCode[3]!==''?'focus':''" [name]="'input'+3" [id]="'input'+3" [(ngModel)]="verifyCode[3]" (input)="changeInput(3)" #input3 type="tel">
-				<input maxlength="1" [ngClass]="verifyCode[4]!==''?'focus':''" [name]="'input'+4" [id]="'input'+4" [(ngModel)]="verifyCode[4]" (input)="changeInput(4)" #input4 type="tel">
-				<input maxlength="1" [ngClass]="verifyCode[5]!==''?'focus':''" [name]="'input'+5" [id]="'input'+5" [(ngModel)]="verifyCode[5]" (input)="changeInput(5)" #input5 type="tel">
+				<input maxlength="1" placeholder="-" [ngClass]="verifyCode[0]!==''?'focus':''" [name]="'input'+0" [id]="'input'+0" [(ngModel)]="verifyCode[0]" (input)="changeInput(0)" #input0 type="tel">
+				<input maxlength="1" placeholder="-" [ngClass]="verifyCode[1]!==''?'focus':''" [name]="'input'+1" [id]="'input'+1" [(ngModel)]="verifyCode[1]" (input)="changeInput(1)" #input1 type="tel">
+				<input maxlength="1" placeholder="-" [ngClass]="verifyCode[2]!==''?'focus':''" [name]="'input'+2" [id]="'input'+2" [(ngModel)]="verifyCode[2]" (input)="changeInput(2)" #input2 type="tel">
+				<input maxlength="1" placeholder="-" [ngClass]="verifyCode[3]!==''?'focus':''" [name]="'input'+3" [id]="'input'+3" [(ngModel)]="verifyCode[3]" (input)="changeInput(3)" #input3 type="tel">
 			</label>
 		</div>
-		<p class="tips" *ngIf="tickCount>0">{{global.Lf("NSecondRetryGet", tickCount)}}</p>
-		<p class="tips" *ngIf="tickCount===0" tappable (click)="getVerifyCode()">{{ tickTips }}</p>
-		<div class="rules">
-			<h3>{{global.L("WarmRemind")}}</h3>
-			<p>{{global.Lf("WarmRemindContend1",30)}}</p>
-			<p>{{global.L("WarmRemindContend2")}}</p>
+
+		<div class="label-tips">
+			<h2 class="title">温馨提示：</h2>
+			<p class="label">· 验证码有效期为30分钟，超时请重新获取</p>	
+			<p class="label">· 如收不到邮件，请检查邮件地址或者检查邮件是否被归类于垃圾邮件</p>
 		</div>
+
+		<p class="tips" *ngIf="tickCount>0">{{ tickCount }}S</p>
+		<p class="tips" *ngIf="tickCount===0" tappable (click)="getVerifyCode()">{{ tickTips }}</p>
 	</div>
 </ion-content>
