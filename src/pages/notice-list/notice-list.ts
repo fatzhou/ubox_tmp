@@ -81,6 +81,6 @@ export class NoticeListPage {
     m = parseInt(m) < 10 ? ('0' + m) : m;
     let s = date.getSeconds().toString();
     s = parseInt(s) < 10 ? ('0' + s) : s;
-    return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+    return y + '-' + MM + '-' + d;
   }
 }

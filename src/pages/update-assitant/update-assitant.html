@@ -15,21 +15,13 @@
 
 <ion-content>
 	<div class="page-content about-us-content">
-		<div class="logo-wrap">
-			<div class="logo">
-				<svg class="icon update-icon" aria-hidden="true">
-	                <use xlink:href="#icon-UpgradeAssistant"></use>
-	            </svg>
-			</div>			
-		</div>
-
 		<div class="info-list">
 			<button class="info" (click)="updateApp()" ion-item>
 				<p class="key" item-start>
 					<span class="label">{{global.L('APP')}}</span>
 					<span class="for">{{ global.L('CurrentVersion') }} {{ appVersion }}</span>
 				</p>
-				<p class="value" item-end>{{ appNewstVersion }}</p>
+				<p class="value" item-end><em *ngIf="appNewstVersion != ''"></em>{{ appNewstVersion }}</p>
 			</button>
 
 			<button class="info" *ngIf="global.deviceSelected" (click)="updateBox()" ion-item>
@@ -37,11 +29,16 @@
 					<span class="label">{{global.L("ROM")}}</span>
 					<span class="for">{{ global.L('CurrentVersion') }} {{ global.deviceSelected ? global.deviceSelected.version : '' }}</span>
 				</p>
-				<p class="value" item-end>{{ romNewestVersion }}</p>
+				<p class="value" item-end><em *ngIf="romNewestVersion != ''"></em>{{ romNewestVersion }}</p>
 			</button>
-		</div>
+        </div>
+        <div class="rights-bottom">
+            <p>ubbey.org</p>
+            <p>Copyright © 2018 Universal Labs. </p>
+            <p>All Rights Reserved</p>
+        </div>
 	</div>
-
+	
 </ion-content>
 <news-notice *ngIf="showDialog" [isVersion]="currentVersion" [isShowAction]="showAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action"  (closeNotice)="closeNotice()"></news-notice>
 

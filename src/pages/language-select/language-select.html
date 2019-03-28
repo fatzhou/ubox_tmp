@@ -19,22 +19,22 @@
 <ion-content>
 	<div class="page-content language-select-page">
 		<div class="language-list">
-			<div class="language" tappable (click)="selectLanguage('en')" ion-item>
+			<div class="language bor-btm" tappable (click)="selectLanguage('en')" ion-item>
 				English
 				<svg class="icon" aria-hidden="true" item-end *ngIf="global.getAppLang()==='en'">
-			        <use xlink:href="#icon-right"></use>
+			        <use xlink:href="#icondanxuan"></use>
 			    </svg>
 			</div>
-			<div class="language" tappable (click)="selectLanguage('kr')" ion-item>
+			<div class="language bor-btm" tappable (click)="selectLanguage('kr')" ion-item>
 				한국어
 				<svg class="icon" aria-hidden="true" item-end *ngIf="global.getAppLang()==='kr'">
-			        <use xlink:href="#icon-right"></use>
+			        <use xlink:href="#icondanxuan"></use>
 			    </svg>
 			</div>
 			<div class="language" tappable (click)="selectLanguage('cn')" ion-item>
 				简体中文
 				<svg class="icon" aria-hidden="true" item-end *ngIf="global.getAppLang()==='cn'">
-			        <use xlink:href="#icon-right"></use>
+			        <use xlink:href="#icondanxuan"></use>
 			    </svg>
 			</div>
 		</div>

@@ -50,16 +50,20 @@
 			</ul>
 			<label for="upload-btn" class="upload-label" *ngIf="updatedPhotos.length < 3">
 				<svg class="icon" aria-hidden="true">
-				    <use xlink:href="#icon-ADD"></use>
+				    <use xlink:href="#icontianjiashebei1"></use>
 				</svg>
 				<input style="display: none;" type="file" name="upload-btn"  (change)="inputFileChange($event)" class="upload-btn" id="upload-btn" />
 			</label>
 		</div>
 
 		<div class="items upload-log">
-			<label for="system-log">
+			<label>
+				<span  for="system-log" [ngClass]="systemLogNeeded ? 'choose-span' : 'unchoose-span'"><em></em></span>
 				<input type="checkbox" name="submitBoxLog" id="system-log" [(ngModel)]="systemLogNeeded" class="checkbox">
-				<span>{{global.L('UploadSystemLog')}}</span>			
+				<span  for="system-log">{{global.L('UploadSystemLog')}}</span>
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#iconDetailsicon1"></use>
+				</svg>	
 			</label>
 		</div>
 

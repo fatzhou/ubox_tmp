@@ -19,10 +19,10 @@
 <ion-content>
 	<div class="page-content language-select-page">
 		<div class="language-list">
-			<div class="language" *ngFor="let unit of global.globalRateInfo" tappable (click)="selectCoinUnit(unit.curreycy)" ion-item>
+			<div class="language bor-btm" *ngFor="let unit of global.globalRateInfo" tappable (click)="selectCoinUnit(unit.curreycy)" ion-item>
 				{{ unit.curreycy }}
 				<svg class="icon" aria-hidden="true" item-end *ngIf="global.coinUnit === unit.curreycy">
-			        <use xlink:href="#icon-right"></use>
+			        <use xlink:href="#icondanxuan"></use>
 			    </svg>
 			</div>
 		</div>

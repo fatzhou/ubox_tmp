@@ -4,4 +4,34 @@ page-system-setting {
         color: #999;
         float: right;
     }
+    .set-title {
+        font-size: 12px;
+        color: #78777C;
+        letter-spacing: 0;
+        padding-left: 25px;
+        padding-top: 15px;
+    }
+    .language-list {
+        padding-top: 15px;
+    }
+    .language {
+        background: unset;
+        font-size: 15px;
+        color: #FFFFFF;
+        padding-left: 25px;
+        .item-inner {
+            background-image: url(../assets/img/xiangyou.svg)!important;
+        }
+        &.bor-btm {
+            .item-inner {
+                border-bottom: 1px solid rgba(255,255,255,0.1)!important;
+            }
+        } 
+        &.item-block {
+            min-height: 5.2rem;
+        }
+        &.activated {
+            background-color: unset;
+        }
+    }
 }
