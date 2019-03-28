@@ -53,7 +53,7 @@
 						<span>Setting</span>
 					</li>
 				</ul>
-				<div ion-item *ngIf="global.centerUserInfo.bind_box_count == 0" class="nav-bottom">
+				<div ion-item *ngIf="global.centerUserInfo.bind_box_count > 0" class="nav-bottom">
 					<div item-start class="nav-bottom-top" (click)="goDeviceManage()">
 						<p class="ubbey-contact fl eps">{{ global.deviceSelected ? global.deviceSelected.boxId : '' }}</p>
 						<p class="connection-type fl">{{ global.useWebrtc ? '远场连接' : '内场连接' }}</p>
@@ -65,7 +65,7 @@
 						</svg>
 					</div>
 				</div>
-				<div *ngIf="global.centerUserInfo.bind_box_count > 0" class="add-device" (click)="goPage('deviceguidance');">
+				<div *ngIf="global.centerUserInfo.bind_box_count == 0" class="add-device" (click)="goPage('deviceguidance');">
 					<svg class="icon" aria-hidden="true">
 						<use xlink:href="#icontianjiashebei1"></use>
 					</svg>

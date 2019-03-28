@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { BtSetPathPage } from '../bt-set-path/bt-set-path';
 
 /**
  * Generated class for the BtSetDiskPage page.
@@ -19,6 +20,11 @@ export class BtSetDiskPage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad BtSetDiskPage');
-    }
+	}
+	
+	goNext() {
+		let path = this.navParams.get('currPath');
+		this.navCtrl.push(BtSetPathPage);
+	}
 
 }

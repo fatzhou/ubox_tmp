@@ -46,7 +46,7 @@ export class BtSetPage {
 
     goBtSetPathPage() {
         console.log("go BtSetPathPage");
-        this.navCtrl.push(BtSetPathPage, {
+        this.navCtrl.push(BtSetDiskPage, {
             currPath: this.path
         });
         // this.navCtrl.push(BtSetDiskPage);

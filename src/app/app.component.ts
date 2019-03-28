@@ -189,11 +189,11 @@ export class UboxApp {
 	}
 
     getUserInfo() {
-		// if(1) {
-		// 	console.log("设置首页........");
-		// 	this.rootPage = LoginPage;
-		// 	return false;			
-		// }
+		if(!this.platform.is('cordova')) {
+			console.log("设置首页........");
+			this.nav.setRoot(LoginPage);
+			return false;			
+		}
 
         if(!this.global.networking) {
             GlobalService.consoleLog("网络异常，请先打开网络.....");
@@ -613,47 +613,47 @@ export class UboxApp {
 	}
 	
 	goPage(name) {
-		// this.menuCtrl.close();
-		// switch(name) {
-		// 	case 'file':
-		// 		this.nav.setRoot(TabsPage)
-		// 		.then(res => {
-		// 			console.log(res)
-		// 			this.tabsController.slideTo(0);
-		// 		});
-		// 		break;
-		// 	case 'discover':
-		// 		this.nav.setRoot(TabsPage)
-		// 		.then(res => {
-		// 			console.log(res)
-		// 			this.tabsController.slideTo(1);
-		// 		});
-		// 		break;
-		// 	case 'mining':
-		// 		this.nav.setRoot(TabsPage)
-		// 		.then(res => {
-		// 			this.tabsController.slideTo(2);
-		// 		})
-		// 		break;
-		// 	case 'wallet':
-		// 		this.nav.push(WalletSelectPage);
-		// 		break;
-		// 	case 'dapp':
-		// 		this.nav.push(SearchPage);
-		// 		break;
-		// 	case 'notice':
-		// 		this.nav.push(NoticeListPage);
-		// 		break;
-		// 	case 'setting':
-		// 		this.nav.setRoot(TabsPage)
-		// 		.then(res => {
-		// 			console.log(res)
-		// 			this.tabsController.slideTo(3);
-		// 		});
-		// 		break;	
-		// 	case 'deviceguidance':
-		// 		this.nav.push(DeviceGuidancePage);
-		// 		break;		
-		// }
+		this.menuCtrl.close();
+		switch(name) {
+			case 'file':
+				this.nav.setRoot(TabsPage)
+				.then(res => {
+					console.log(res)
+					this.tabsController.slideTo(0);
+				});
+				break;
+			case 'discover':
+				this.nav.setRoot(TabsPage)
+				.then(res => {
+					console.log(res)
+					this.tabsController.slideTo(1);
+				});
+				break;
+			case 'mining':
+				this.nav.setRoot(TabsPage)
+				.then(res => {
+					this.tabsController.slideTo(2);
+				})
+				break;
+			case 'wallet':
+				this.nav.push(WalletSelectPage);
+				break;
+			case 'dapp':
+				this.nav.push(SearchPage);
+				break;
+			case 'notice':
+				this.nav.push(NoticeListPage);
+				break;
+			case 'setting':
+				this.nav.setRoot(TabsPage)
+				.then(res => {
+					console.log(res)
+					this.tabsController.slideTo(3);
+				});
+				break;	
+			case 'deviceguidance':
+				this.nav.push(DeviceGuidancePage);
+				break;		
+		}
 	}
 }
