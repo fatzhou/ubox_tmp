@@ -103,6 +103,13 @@ export class BtTaskPage {
             title: '提示',
             message: '确认删除该任务',
             // enableBackdropDismiss: false,
+            inputs: [{
+                name: 'checkbox1',
+                type: 'checkbox',
+                label: '同时删除硬盘本地文件',
+                value: 'value1',
+                checked: false
+            }],
             buttons: [{
                     text: Lang.L('WORD85ceea04'),
                     handler: data => {
@@ -113,10 +120,14 @@ export class BtTaskPage {
                 {
                     text: Lang.L('Delete'),
                     handler: data => {
+                        let isDelete = 0;
+                        if(data.indexOf('value1') > -1) {
+                            isDelete = 1;
+                        }
                         var url = this.global.getBoxApi("deleteBtTask");
                         this.http.post(url, {
                             taskid: item.taskid,
-                            del_file: 1
+                            del_file: isDelete
                         })
                         .then((res)=>{
                             if(res.err_no === 0) {

@@ -457,7 +457,7 @@ textarea::-webkit-input-placeholder {
     height: 50px;
 }
 .toolbar-background {
-    background: $newThreeColor;
+    background: $newFirstColor;
 }
 .toolbar-title {
     color: #fff;
@@ -483,7 +483,7 @@ textarea::-webkit-input-placeholder {
             text-align: left;
             color: #fff;
             font-size: 18px;
-            margin-bottom: 0px;
+            margin-bottom: 18px;
             .alert-title {
                 font-weight: 500;
             }
@@ -504,16 +504,54 @@ textarea::-webkit-input-placeholder {
             font-size: 15px;
             text-align: left;
         }
+        .alert-button-group {
+            text-align: right;
+            flex-direction: row-reverse;
+        }
         .alert-button {
             color: $newFirstColor;
             border: unset;
             text-align: right;
-            &:first-child {
+            margin-left: 14px;
+            flex: unset;
+            min-width: unset;
+            -webkit-flex: unset;
+            -webkit-box-flex: unset;
+            &:last-child {
                 color: $newFiveColor;
             }
             .button-inner {
                 justify-content: flex-end;
                 padding-right: 10px;
+            }
+        }
+        .alert-checkbox-group {
+            border-top: unset;
+            .alert-checkbox-label {
+                color: $newFiveColor;
+                padding: 10px;
+            }
+        }
+        .alert-checkbox-icon {
+            width: 22px;
+            height: 22px;
+            background: #302F34;
+            border: 2px solid #78777C;
+            margin: 7px 6px 7px 16px;
+        }
+        .alert-tappable {
+            min-height: 40px;
+        }
+        [aria-checked=true] .alert-checkbox-icon {
+            border: 2px solid #00C77D;
+            .alert-checkbox-inner {
+                border: unset;
+                width: 10px;
+                height: 10px;
+                background: #00C77D;
+                border-radius: 50%;
+                left: 4px;
+                top: 4px;
             }
         }
     }

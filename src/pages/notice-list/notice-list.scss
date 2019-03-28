@@ -5,9 +5,10 @@ page-notice-list {
     .header-ios .toolbar-background{
         border-bottom:1px solid #D8D8D8;
     }
-    .main{
-        background: #fff;
-       
+    .scroll-content {
+        background: $newThreeColor;
+    }
+    .main{       
         ul li{
             padding: 10px;
             overflow: hidden;
