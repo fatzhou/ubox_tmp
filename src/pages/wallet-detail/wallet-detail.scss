@@ -133,9 +133,11 @@ page-wallet-detail {
 						// background: #FBFBFB;
 					}
 					img {
-						width: 32px;
+						width: 20px;
 						float: left;
-						margin: 11px 10px;
+						margin: 11px 14px;
+						margin-top: 18px;
+						margin-left: 18px;
 					}
 					.trade-info {
 						width: 100%;
@@ -225,6 +227,9 @@ page-wallet-detail {
 		background: $newFourColor;
 		border-top: unset;
 		color: $newFirstColor;
+		&:active {
+			color: $newFirstColor;
+		}
 	}
 	ion-infinite-scroll {
 		background: $newThreeColor;

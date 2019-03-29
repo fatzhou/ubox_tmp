@@ -14,24 +14,24 @@
 
 
 <ion-content class="my-content">
-	<div class="wallet-address shadow-after">
+    <div class="transfer-warning">
+        <img src="assets/img/tishi.svg" class="fl" alt="">
+        <span>{{global.L("EnterAddressPrompt")}}</span>
+    </div>
+	<div class="wallet-address">
 		<div class="address-area">
 			<div class="desc clear">
 		       <p class="label fl">{{global.L("WalletAddress")}}</p>
 		       <div class="scan-qrcode fr" (click)="scanWallet()">
 	            <svg class="icon qrcode-icon" aria-hidden="true">
-	                <use xlink:href="#icon-qrcode"></use>
+	                <use xlink:href="#iconsaoma"></use>
 	            </svg>		       	
 		       </div>
 			</div>
 			<input type="text" name="toWallet" [(ngModel)]="toWallet" placeholder="{{global.L('EnterAddress')}}" />
 	  </div>	
-		<div class="transfer-warning">
-			<img src="assets/img/warning@2x.png" class="fl" alt="">
-			<span>{{global.L("EnterAddressPrompt")}}</span>
-		</div>
 	</div>
-	<div class="transfer-amount shadow-after">
+	<div class="transfer-amount">
 		<div class="desc clear">
 			<p class="label fl">{{global.L("TransferAmount")}}</p>
 			<span class="label fr" (click)="transferAll()" *ngIf="chainType === 'ERC20'">{{global.L("AllTurnOut")}}</span>
@@ -39,7 +39,7 @@
 		<!-- <input class="transfer-input" name="sendAmount" type="number" [(ngModel)]="sendAmount"  /> -->
 
 		<input class="transfer-input" name="sendAmount" type="number" [(ngModel)]="sendAmount" placeholder="{{global.L('InputFullAmount')}}" />
-		<p class="total">{{global.L("AvailableBalance")}}<span>{{ total }}</span>UBBEY</p>
+		<p class="total">{{global.L("AvailableBalance")}}<span> {{ total }} UBBEY</span></p>
 	</div>
 	<div class="mining-fees">
 		<div class="desc clear">

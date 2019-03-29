@@ -7,52 +7,42 @@
 <ion-header>
     <ion-toolbar>
         <ion-navbar>
-    
+            <ion-title>{{global.L("MiningSetting")}}</ion-title>
         </ion-navbar>
     </ion-toolbar>
 </ion-header>
 <ion-content>
 	<div class="mining-setting-content">
-	    <h2 class="title">{{global.L("MiningSetting")}}</h2>	
 	    <div class="items">
-	      <label class="fl">{{global.chainSelectIndex == 0 ? global.L("OpenMining") : global.L("OpenChainMining")}}</label>
-	      <ion-toggle class="toggle fr" color="secondary" [(ngModel)]="ifMining" [checked]="ifMining"></ion-toggle>
+	      <label class="fl">{{global.chainSelectIndex == 0 ? global.L("OpenMining") : global.L("OpenChainMining")}}<br/><span class="gray">打开挖矿获取UBBEY奖励</span></label>
+          <ion-toggle class="toggle fr" color="secondary" [(ngModel)]="ifMining" [checked]="ifMining"></ion-toggle>
 	    </div>	
 	    <div class="items">
 	    	<div class="capacity clear">
-	    		<label class="fl">{{global.L("ShareStorage")}}<span class="gray">({{global.Lf("AvailableStorage", totalSize)}})</span></label>
+	    		<label class="fl">{{global.L("ShareStorage")}}<br/><span class="gray">({{global.Lf("AvailableStorage", totalSize)}})</span></label>
 	    		<p class="capacity-amount fr">{{ computeShareSize() }}<span class="unit">GB</span></p>
 	    	</div>
 	    	
 			<div class="progress-info">
 			  <ion-range class="my-range-bar" [max]="maxRange" [min]="minRange" [(ngModel)]="brightness">
-			    <span class="left-tips" range-left>{{global.L("RewardLess")}}</span>
-			    <span class="right-tips" range-right>{{global.L("RewardMore")}}</span>
+			    <span class="left-tips" range-left></span>
+			    <span class="right-tips" range-right></span>
 			  </ion-range>
-			</div>
+            </div>
 	    </div>
-	    <div class="items">
+	    <div class="items wallet-set">
 	    	<div class="label with-border clear">
-						<svg class="icon fl" aria-hidden="true">
-		            <use xlink:href="#icon-qianbaoguanli"></use>
-		        </svg> 
-	    		<label class="fl">{{global.L("MiningRewardAddress")}}</label>
+	    		<label class="fl">{{global.L("MiningRewardAddress")}}<br/><span>{{ global.L("setMiningAddr") }}</span></label>
 	    	</div>
 	    	<div class="wallet clear" (click)="setCoinbase()">
 		        <div class="wallet-info fl">
-							<p *ngIf="coinbase"><b class="test-b" *ngIf="global.chainSelectIndex == 1">
-									<svg class="icon back-icon " aria-hidden="true">
-											<use xlink:href="#icon-Test"></use>
-									</svg>
-							</b>{{ coinbase | computeCoinbase }}</p>
-							<p *ngIf="!coinbase">{{ global.L("setMiningAddr") }}</p>
-							<svg class="icon fl" aria-hidden="true">
-									<use xlink:href="#icon-you"></use>
-							</svg> 
-						</div>
-				</div>
+                    <p *ngIf="coinbase">{{ coinbase | computeCoinbase }}</p>
+                    <svg class="icon fl" aria-hidden="true">
+                        <use xlink:href="#iconxiangyou"></use>
+                    </svg> 
+                </div>
+            </div>
 	    </div>
-
 		<div class="save-btn-wrap">
 		    <div class="common-focus-button save-btn" tappable click-and-wait (click)="saveModify()">
 		    	{{global.L("SaveModify")}}

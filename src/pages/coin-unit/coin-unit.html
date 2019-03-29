@@ -23,7 +23,10 @@
 				{{ unit.curreycy }}
 				<svg class="icon" aria-hidden="true" item-end *ngIf="global.coinUnit === unit.curreycy">
 			        <use xlink:href="#icondanxuan"></use>
-			    </svg>
+                </svg>
+                <svg class="icon no-choose" aria-hidden="true" item-end *ngIf="global.coinUnit !== unit.curreycy">
+                    <use xlink:href="#iconweixuanzhong"></use>
+                </svg>
 			</div>
 		</div>
 	</div>

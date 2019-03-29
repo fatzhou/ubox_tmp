@@ -58,7 +58,13 @@
 
 		<div class="items upload-log">
 			<label>
-				<span  for="system-log" [ngClass]="systemLogNeeded ? 'choose-span' : 'unchoose-span'"><em></em></span>
+				<svg class="icon icon-select" *ngIf="!systemLogNeeded" aria-hidden="true">
+					<use xlink:href="#iconweixuanzhong"></use>
+				</svg>
+				<svg class="icon icon-select choose-icon" *ngIf="systemLogNeeded" aria-hidden="true">
+					<use xlink:href="#icondanxuan"></use>
+				</svg>
+				<!-- <span  for="system-log" [ngClass]="systemLogNeeded ? 'choose-span' : 'unchoose-span'"><em></em></span> -->
 				<input type="checkbox" name="submitBoxLog" id="system-log" [(ngModel)]="systemLogNeeded" class="checkbox">
 				<span  for="system-log">{{global.L('UploadSystemLog')}}</span>
 				<svg class="icon" aria-hidden="true">

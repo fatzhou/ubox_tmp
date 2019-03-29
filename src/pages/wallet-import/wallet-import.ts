@@ -5,6 +5,7 @@ import { GlobalService } from '../../providers/GlobalService';
 import { Clipboard } from '@ionic-native/clipboard';
 import { Lang } from '../../providers/Language';
 import { Util } from '../../providers/Util';
+import { WalletGeneratorPage } from '../wallet-generator/wallet-generator';
 
 /**
  * Generated class for the WalletImportPage page.
@@ -123,5 +124,9 @@ export class WalletImportPage {
                 }
             }
         })
+    }
+    doCreate() {
+        GlobalService.consoleLog("创建钱包");
+        this.navCtrl.push(WalletGeneratorPage);
     }
 }

@@ -19,21 +19,15 @@
 			<p class="month">{{ avenueInfo.key }}</p>
 			<div class="reward-day">
 				<div class="reward-info clear" *ngFor="let dayInfo of avenueInfo.value;">
-					<svg class="icon fl" aria-hidden="true">
-	                    <use xlink:href="#icon-mining"></use>
-	                </svg>
 	                <div class="fl desc">
-	                	<p class="tips">{{global.L("MiningReward")}}</p>
+	                	<!-- <p class="tips">{{global.L("MiningReward")}}</p> -->
 	                	<p class="date">{{ dayInfo.date }}</p>
 	                </div>
 					<div class="fr reward-amount">
-						<span>+{{ dayInfo.earn }}</span>
-						UBBEY
+						<span>+{{ dayInfo.earn }} UBBEY</span>
+						
 					</div>	                
 				</div>		
-
-
-
 			</div>
 		</li>				
 	</ul>

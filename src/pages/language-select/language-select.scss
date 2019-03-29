@@ -24,7 +24,11 @@ page-language-select {
 					font-size: 22px;
 					color: $newFirstColor;
 					margin-right: -2px;
+					&.no-choose {
+						color: $newFiveColor;
+					}
 				}
+				
 				&.bor-btm {
 					.item-inner {
 						border-bottom: 1px solid rgba(255,255,255,0.1)!important;

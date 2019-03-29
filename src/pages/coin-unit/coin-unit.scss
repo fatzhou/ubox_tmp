@@ -24,6 +24,9 @@ page-coin-unit {
 					font-size: 22px;
 					color: $newFirstColor;
 					margin-right: -2px;
+					&.no-choose {
+						color: $newFiveColor;
+					}
 				}
 				&.bor-btm {
 					.item-inner {
