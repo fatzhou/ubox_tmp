@@ -37,7 +37,7 @@
 		<p class="title erc20Title">{{global.L("RecentTransactionRecords")}}</p>
 		<ul class="trade-ul" *ngIf="(recordList.length > 0 || walletInfo.earn_this_month > 0)">
 			<li class="gray" *ngIf="walletInfo.earn_this_month > 0">
-				<img class="fl" src="assets/img/record@2x.png" alt="">
+				<img class="fl" src="assets/img/daijiesuo.svg" alt="">
 				<div class="trade-info clear">
 					<div class="trade-desc fl">
 						<p class="trade-type">{{global.L("MiningReward")}}</p>
@@ -49,7 +49,7 @@
 				</div>
 			</li>
 			<li class="" *ngFor="let list of recordList" (click)="goTransactionPage(list)">
-				<img class="fl" src="assets/img/record@2x.png" alt="">
+				<img class="fl" src="assets/img/zhuanru.svg" alt="">
 				<div class="trade-info clear">
 					<div class="trade-desc fl">
 						<p class="trade-type">{{ list.displayAddr }}</p>

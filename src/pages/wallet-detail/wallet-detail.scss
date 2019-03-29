@@ -3,12 +3,6 @@ page-wallet-detail {
 		color: #fff;
 		position: relative;
 		border: none;
-		.toolbar-background {
-			background: $mainThemeColor;			
-		}
-		.toolbar {
-			border-bottom: 1px solid transparent;
-		}
 		.toolbar-title {
 			color: #fff;
 		}
@@ -28,25 +22,27 @@ page-wallet-detail {
 		}
 	}
 	.has-refresher > .scroll-content {
-		border-color: $mainThemeColor;
+		border-color: $newFirstColor;
 	}
 
 	.my-content {
-		background: #f5f5f5;
+		background: $newThreeColor;
 		.fixed-content {
-			background: $mainThemeColor;
+			background: $newFirstColor;
 		}
-		/*background: $mainThemeColor;*/
+		/*background: $newFirstColor;*/
 		.wallet-assets {
-			background: $mainThemeColor;		
+			background: $newFirstColor;		
 			color: #fff;
 			text-align: center;
 			padding-bottom: 10px;
 
 			.wallet-value {
 				padding-top: 14px;
+				text-align: left;
+				padding-left: 10px;
 				.key {
-					color: #92A3FF;
+					color: #fff;
 					font-size: 12px;
 					line-height: 1.5;
 				}
@@ -56,7 +52,8 @@ page-wallet-detail {
 				    color: #fff;
 				    font-size: 32px;
 				    padding: 0 20px;
-				    padding: 4px 20px;
+					padding: 4px 20px;
+					padding-left: unset;
 					span {
 						font-size: 16px;
 					}
@@ -93,14 +90,12 @@ page-wallet-detail {
 			}			
 		}
 		.trade-list {
-			background: #f5f5f5;
 			.title {
-				font-size: 12px;
-				color: #9B9B9B;
-				background: #f5f5f5;
-				height: 43px;
-				line-height: 43px;
-				border-bottom: 1px solid #ededed;
+				font-size: 14px;
+				color: #78777C;
+				line-height: 20px;
+				padding-top: 25px;
+				padding-bottom: 13px;
 				&.erc20Title{
 					text-indent: 10px;
 				}
@@ -112,7 +107,6 @@ page-wallet-detail {
 					text-align: center;
 					float: left;
 					&.active{
-						background: #fff;
 						color: #5D75F7;
 						position: relative;
 						&:after {
@@ -132,10 +126,11 @@ page-wallet-detail {
 			.trade-ul {
 				li {
 					height: 54px;
-					background: #fff;
-					border-bottom: 1px solid #f8f8f8;
+					background: $newFourColor;
+					box-shadow: 0 0 0 0 #1D1D1F;
+					margin-bottom: 1px;
 					&.gray {
-						background: #FBFBFB;
+						// background: #FBFBFB;
 					}
 					img {
 						width: 32px;
@@ -148,27 +143,27 @@ page-wallet-detail {
 						margin-left: -36px;
 						padding-top: 10px;
 						.trade-type {
-							color: #4A4A4A;
+							color: #fff;
 							font-size: 14px;
 							line-height: 18px;
 							margin-bottom: 2px;
 						}
 						.trade-date {
-							color: #9B9B9B;
+							color: $newFiveColor;
 							font-size: 10px;
 						}
 						.trade-amount {
 							margin-right: -26px;
-							color: #5D75F7;
+							color: $newFirstColor;
 							font-size: 14px;
 							line-height: 34px;
 							max-width: 140px;
 							.red {
-								color: #FF4F4F;
+								color: $newSecondColor;
 							}
 							&.error {
 								p {
-									color: #FF4F4F;
+									color: $newSecondColor;
 									line-height: 20px;
 								}
 								span {
@@ -191,7 +186,6 @@ page-wallet-detail {
 		line-height: 2;
 		padding: 6px 0;
 		text-align: center;
-		background: #f5f5f5;
 	}
 	.wallet-create {
 		position: fixed;
@@ -202,21 +196,24 @@ page-wallet-detail {
 		height: 98px;
 		padding-top: 50px;
 		box-sizing: border-box;
-		background: linear-gradient(rgba(245, 245, 245, 0) 0%, rgba(245, 245, 245, 1) 80%);
+		// background: linear-gradient(rgba(245, 245, 245, 0) 0%, rgba(245, 245, 245, 1) 80%);
 		.common-focus-button {
 			display: inline-block;
 			width: 50%;
 			height: 48px;
 			line-height: 48px;
 			border-radius: 0;
-			border-top: 1px solid #f1f1f1;
+			background: $newFourColor;
+			font-size: 17px;
+			letter-spacing: 0.2px;
 			&.get-ubbey-btn {
 				border-radius: none;
-				border-right: 1px solid #b8b8b8;
 				left: 0;
+				color: $newFirstColor;
 			}
 			&.send-ubbey-btn {
 				right: 0;
+				color: $newSecondColor;
 			}
 			position: absolute;
 			z-index: 9999;
@@ -225,6 +222,9 @@ page-wallet-detail {
 	}
 	.common-unfocus-button {
 		border-radius: 0px;
+		background: $newFourColor;
+		border-top: unset;
+		color: $newFirstColor;
 	}
 	ion-infinite-scroll {
 		background: $newThreeColor;
