@@ -14,23 +14,29 @@
 
 
 <ion-content>
-	<div class="tx-account shadow-after">
+	<div class="tx-account">
 		<!-- <img src="assets/img/success@2x.png" *ngIf="status == '2'" alt="">
 		<img src="assets/img/success@2x.png" *ngIf="status == '2' || status == '5'" alt="">
 		<img src="assets/img/warning@2x.png" *ngIf="status == '3' || status == '4'" alt="">
-		 -->
-		<svg class="icon delete icon-new" *ngIf="status == '2'" aria-hidden="true">
-				<use xlink:href="#icon-success"></use>
-		</svg>
-		<svg class="icon delete icon-new" *ngIf="status == '3' || status == '4'" aria-hidden="true">
-				<use xlink:href="#icon-transactionfailed"></use>
-		</svg>
-		<svg class="icon delete icon-new" *ngIf="status == '1' || status == '5'" aria-hidden="true">
-				<use xlink:href="#icon-wait"></use>
-		</svg>
-		<p class="amount">{{ amount }}<span class="unit">UBBEY</span></p>
-		<p class="desc">{{ displayStatus }}</p>
+         -->
+        <div class="status-box">
+            <p class="desc">{{ displayStatus }}</p>
+            <svg class="icon delete icon-new success-icon" *ngIf="status == '2'" aria-hidden="true">
+                    <use xlink:href="#iconchenggong1"></use>
+            </svg>
+            <svg class="icon delete icon-new fail-icon" *ngIf="status == '3' || status == '4'" aria-hidden="true">
+                    <use xlink:href="#iconshibai1"></use>
+            </svg>
+            <svg class="icon delete icon-new waiting-icon" *ngIf="status == '1' || status == '5'" aria-hidden="true">
+                    <use xlink:href="#icondengdai"></use>
+            </svg>
+        </div>
+        
 		<div class="address">
+            <div ion-item>
+                <p item-start>交易金额</p>
+                <p item-end>{{ amount }} UBBEY</p>
+            </div>
 			<div ion-item>
 				<p item-start>{{global.L("CollectionAddress")}}</p>
 				<p item-end>{{ to }}</p>

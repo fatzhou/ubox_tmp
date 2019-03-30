@@ -369,7 +369,7 @@ textarea::-webkit-input-placeholder {
 
 .page-content {
     min-height: 100%;
-    background: $bgColor;
+    background: $newThreeColor;
 }
 
 .h2-title {
@@ -567,6 +567,9 @@ textarea::-webkit-input-placeholder {
             }
         }
     }
+    .alert-button.activated {
+        background-color: unset;
+    }
 }
 ion-infinite-scroll {
     background: $newThreeColor;
@@ -656,4 +659,26 @@ ion-infinite-scroll {
 		font-size: 13px;
 		background: transparent;
 	}
+.popover-arrow {
+    display: none!important;
+}
+.popover-ios .popover-content,.popover-android .popover-content,.popover-content{
+    width: calc(100% - 36px);
+    left: 18px!important;
+    background: $newFourColor;
+    border-radius: 4px;
+    .item {
+        background: $newFourColor;
+        color: $newFiveColor;
+        ion-label {
+            font-size: 14px;
+        }
+    }
+    .radio-checked .radio-inner {
+        border: unset;
+    }
+    .item-radio-checked ion-label {
+        color: #fff;
+    }
+    
 }

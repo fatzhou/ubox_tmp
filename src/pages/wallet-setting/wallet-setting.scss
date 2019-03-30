@@ -1,15 +1,79 @@
 page-wallet-setting {
+	.scroll-content {
+		background: $newThreeColor;
+	}
 	.remove-btn-wrap {
 		margin: 140px 18px 0;
 	}
-	// .main-content{
-	// 	.item{
-	// 		.item-inner {
-	// 			border-bottom: 1px solid #f1f1f1;
-	// 		}	
-	// 	}
-	// }
+	.main-content{
+		padding-left: 17px;
+		width: 100%;
+		height: 100%;
+		position: relative;
+		.item{
+			background: unset;
+			font-size: 15px;
+			padding-left: 0;
+			color: #FFFFFF;
+			background: unset;
+			.key {
+				.label {
+					display: block;
+					color: #fff;
+					font-size: 15px;
+					letter-spacing: 0;	
+					line-height: 24px;				
+				}
+				.for {
+					display: block;
+					font-size: 12px;
+					color: $newFiveColor;
+					letter-spacing: 0;
+					line-height: 17px;
+				}
+			}
+			&:last-child {
+				border-bottom: none;
+			}
+			.icon {
+				font-size: 22px;
+				color: $newFirstColor;
+				margin-right: -2px;
+			}
+			.item-inner {
+				background-image: url(../assets/img/xiangyou.svg)!important;
+			}
+			&.item-block {
+				min-height: 6rem;
+			}
+			.item-inner {
+				padding-right: 18px;
+			}	
+		}
+	}
 	.bor-btm{
-		border-bottom: 1px solid #f1f1f1;
+		border-bottom: 1px solid rgba(255,255,255,0.1);
+	}
+	.remove-btn-wrap {
+		margin: unset;
+		position: absolute;
+		bottom: 0px;
+		left: 0px;
+		width: 100%;
+		padding: 12px 15px;
+		.remove-btn {
+			background: #F35530;
+			border-radius: 4px;
+			font-size: 16px;
+			color: #FFFFFF;
+			letter-spacing: -0.39px;
+			text-align: center;
+			border: unset;
+			box-shadow: unset;
+			&::after {
+				border: unset;
+			}
+		}
+
 	}
 }

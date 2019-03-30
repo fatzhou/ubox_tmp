@@ -1,59 +1,66 @@
 page-update-assitant {
 	.about-us-content {
 		position: relative;
-		.logo-wrap {
-			padding: 20px 0;
-			.logo {
-				text-align: center;
-				border: 1px solid #DFE3FD;
-				width: 100px;
-				height: 100px;
-				margin: 0 auto;
-				border-radius: 50%;
-				.update-icon {
-				    font-size: 52px;
-				    margin-top: 24px;
-				}
-			}				
-		}
-
 		.info-list {
-			background: #fff;
-			border-top: 1px solid #f1f1f1;
-			border-bottom: 1px solid #f1f1f1;
+			border-top: 1px solid $newThreeColor;
+			border-bottom: 1px solid $newThreeColor;
 			// padding: 0 $padding;
-			padding-left: $padding;
+			padding-left: 25px;
 			.key {
 				.label {
 					display: block;
-					color: #000;
-					font-size: 16px;	
+					color: #fff;
+					font-size: 15px;
+					letter-spacing: 0;	
 					line-height: 1.25;				
 				}
 				.for {
 					margin-top: 4px;
 					display: block;
-					color: #666;
 					font-size: 12px;
+					color: $newFiveColor;
+					letter-spacing: 0;
 					line-height: 1.25;
 				}
 			}
 			.value {
-				color: #999;
-				font-size: 13px;
+				font-size: 12px;
+				color: $newFiveColor;
 				margin-right: 0;
 				margin-top: 0;
+				em {
+					display: inline-block;
+					background: #F35530;
+					width: 8px;
+					height: 8px;
+					border-radius: 50%;
+					overflow: hidden;
+					margin-right: 4px;
+				}
 			}
 			.info {
-				border-bottom: 1px solid #f1f1f1;
-				&:last-child {
-					border: none;
-				}
+				background: unset;
+				padding: 9px 0;
+				border-bottom: 1px solid rgba(255,255,255,0.1);
 			}
 			.item {
 				padding-left: 0;
 			}
+			.item-inner {
+				background-image: unset;
+				padding-right: 24px;
+			}
 		}	
+		.rights-bottom {
+			font-size: 12px;
+			color: $newFiveColor;
+			text-align: center;
+			position: absolute;
+			bottom: 19px;
+			left: 0;
+			width: 100%;
+			line-height: 17px;
+		}
 	}
 
 	.download-progress {
@@ -100,4 +107,5 @@ page-update-assitant {
 		    }
 	    }
 	}
+	
 }

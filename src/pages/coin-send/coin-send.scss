@@ -1,4 +1,7 @@
 page-coin-send {
+	.scroll-content {
+		background: $newThreeColor;
+	}
 	.my-content {
 		color: #444;
 		input {
@@ -15,80 +18,152 @@ page-coin-send {
 			line-height: 44px;
 			font-size: 16px;
 		}
+		.mining-fees .desc, .transfer-amount  .desc{
+			border-bottom: 1px solid $newThreeColor;
+			padding: 0 15px;
+			font-size: 15px;
+			.fl {
+				color: #FFFFFF;
+			}
+			.fr {
+				color: $newFiveColor;
+			}
+		}
+		.transfer-warning {
+			font-size: 12px;
+			color: #F35530;
+			letter-spacing: 0.14px;
+			background: $newFourColor;
+			height: 36px;
+			padding-left: 13px;
+			margin: 0;
+			img {
+				width: 22px;
+				margin-top: 7px;
+			}
+			span {
+				display: inline-block;
+				margin-left: -24px;
+				font-size: 12px;
+				width: 100%;
+				padding-left: 30px;
+				line-height: 36px;
+				box-sizing: border-box;
+				letter-spacing: -0.9px;
+			}
+		}
 		.wallet-address {
-			padding: 0 10px;
+			padding: 14px 13px 19px;
 			.address-area {
+				background: #302F34;
+				box-shadow: 0 0 0 0 #1D1D1F;
+				border-radius: 4px;
 				.desc {
+					height: 54px;
+					text-indent: 15px;
+					border-bottom: 1px solid $newThreeColor;
+					p {
+						font-size: 15px;
+						color: #FFFFFF;
+						line-height: 54px;
+					}
 					.scan-qrcode {
 						padding: 11px;
+						padding-top: 14px;
 					}
 					.icon {
 						font-size: 22px;
 					}
 				}
 				input {
+					padding: 10px 15px;
+					height: 54px;
 					font-size: 14px;
-					padding: 12px 0;
+					background: transparent;
+					color: $newFiveColor;
 				}				
 			}
-			.transfer-warning {
-				background: #F0F0F0;
-				color: #FF4848;
-				height: 32px;
-				padding-left: 10px;
-				margin: 0 -10px;
-				img {
-					width: 16px;
-					margin-top: 8px;
-				}
-				span {
-				    display: inline-block;
-				    margin-left: -24px;
-					font-size: 12px;
-				    width: 100%;
-				    padding-left: 30px;
-				    line-height: 32px;
-					box-sizing: border-box;
-					letter-spacing: -0.9px;
-				}
+			&:after {
+				background: unset;
 			}
+			
 		}
 		.transfer-amount {
-			padding: 0 10px;
+			padding: 0;
+			background: #302F34;
+			box-shadow: 0 0 0 0 #1D1D1F;
+			border-radius: 4px;
+			width: calc(100% - 26px);
+			margin:  0 auto;
+			margin-bottom: 10px;
+			
 			.transfer-input {
-				margin-top: 8px;
+				margin-top: 16px;
 				font-size: 24px;
 				padding: 4px 0;
+				background: transparent;
+				text-indent: 15px;
+				color: $newFiveColor;
 			}
 			.total {
 				margin-top: 4px;
 				font-size: 12px;
-				color: #999;
+				color: $newFiveColor;
 				line-height: 18px;
+				padding: 0 15px;
 				padding-bottom: 10px;
 				span {
-					color: #4A4A4A;
+					color: $newFirstColor;
 					margin: 0 2px;
 				}
 			}
 		}
 		.mining-fees {
-			padding: 0 10px;
+			padding: 0;
+			background: #302F34;
+			box-shadow: 0 0 0 0 #1D1D1F;
+			border-radius: 4px;
+			width: calc(100% - 26px);
+			margin:  0 auto;
 			.desc {
 				span {
 					line-height: 44px;
 				}
 			}
+			.progress-info, .tips {
+				padding: 10px 15px 0;
+			}
 			.left-tips, .right-tips {
-				color: #9B9B9B;
+				color: $newFiveColor;
 			}
 			.tips {
 				font-size: 12px;
-				color: #999;
+				color: $newFiveColor;
+				padding-bottom: 10px;
+				line-height: 17px;
+				padding-top: 4px;
 			}
+			.range .range-bar {
+				background: #404040;
+				height: 4px;
+			}
+			.range .range-knob-handle {
+				top: 22px;
+			}
+			.my-range-bar.range .range-knob {
+				background: $newFirstColor;
+			}
+			.range .range-bar-active {
+				height: 4px;
+				background: $newFirstColor;
+			}
+			
 		}
 		.confirm-btn {
 			margin: 40px 10px 20px;
+			box-shadow: unset;
+			background: $newSecondColor;
+			border-radius: 4px;
 		}
 	}
 

@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title></ion-title>
+    <ion-title><span class="import-btn" tappable click-and-wait (click)="goImportPage()">{{global.L("ImportWallet")}}</span></ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -17,30 +17,35 @@
 		<p class="register-desc">{{global.L("PayPasswordRemind")}}</p>
 		<form class="register-form" action="">
 			<div class="form-input">
+                <p class="label-title">钱包名称</p>
 				<input type="text" [(ngModel)]="walletname" name="walletname" class="common-input normal-input" placeholder="Ubbey Box {{global.L('NewWalletName')}}">
-				<label class="borderline"></label>
 				<p class="error-input" *ngIf="uError">{{ uErrorText }}</p>
 			</div>
 			<div class="form-input">
+                <p class="label-title">设置支付密码</p>
 				<input type="password" [(ngModel)]="passwd" name="passwd"  class="common-input normal-input" placeholder="{{global.L('SetPayPassword')}}" />
-				<label class="borderline"></label>
 				<p class="error-input" *ngIf="pError">{{ pErrorText }}</p>
 			</div>
 
 			<div class="form-input">
+                <p class="label-title">再次输入</p>
 				<input type="password" [(ngModel)]="passwd2" name="passwd2" class="common-input normal-input" placeholder="{{global.L('PlsInputAgain')}}"/>
-				<label class="borderline"></label>
 				<p class="error-input" *ngIf="pError2">{{ pErrorText2 }}</p>
 			</div>
 		</form>
 
 		<label class="terms" for="service-privacy-terms">
+            <svg class="icon" *ngIf="!privacyCheck" aria-hidden="true">
+                <use xlink:href="#iconweixuanzhong"></use>
+            </svg>
+            <svg class="icon choose-icon" *ngIf="privacyCheck" aria-hidden="true">
+                <use xlink:href="#icondanxuan"></use>
+            </svg>
 			<input type="checkbox" name="privacyCheck" [(ngModel)]="privacyCheck" id="service-privacy-terms">
 			<span>{{global.L("UserAgreementLable")}}<a href="javascript:;">{{global.L("UserAgreementButton")}}</a></span>
 		</label>
 
 		<div class="common-focus-button create-btn" tappable (click)="doCreate()">{{global.L("CreateWallet")}}</div>
-		<div class="common-general-button import-btn  defalutline blueline" tappable click-and-wait (click)="goImportPage()">{{global.L("ImportWallet")}}</div>
 	</div>
 
 </ion-content>

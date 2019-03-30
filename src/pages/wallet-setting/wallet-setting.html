@@ -18,9 +18,24 @@
 
 <ion-content>
 	<div class="main-content">
-		<button (click)="goModifyNamePage()" class="bor-btm" ion-item>{{ global.L("WalletName") }}<span item-end>{{ name }}</span></button>
-		<button (click)="goChangePayPasswordPage()" class="bor-btm" ion-item>{{ global.L("ChangePayPassword") }}</button>
-		<button (click)="goExportKeystorePage()" class="bor-btm" ion-item>{{ global.L("ExportKeystore") }}</button>
+		<button (click)="goModifyNamePage()" class="bor-btm" ion-item>
+            <p class="key" item-start>
+                <span class="label">{{ name }}</span>
+                <span class="for"> {{ global.L("WalletName") }}</span>
+            </p>
+        </button>
+		<button (click)="goChangePayPasswordPage()" class="bor-btm" ion-item>
+            <p class="key" item-start>
+                <span class="label">{{ global.L("ChangePayPassword") }}</span>
+                <span class="for">点击修改支付密码</span>
+            </p>
+        </button>
+		<button (click)="goExportKeystorePage()" class="bor-btm" ion-item>
+            <p class="key" item-start>
+                <span class="label">{{ global.L("ExportKeystore") }}</span>
+                <span class="for">为保障资产安全，请备份Keystore文件</span>
+            </p>
+        </button>
 
     <div class="remove-btn-wrap">
       <div class="common-general-button defalutline blueline lightbackground remove-btn" click-and-wait tappable (click)="doRemove()">{{global.L("DeleteWallet")}}</div>     

@@ -6,53 +6,87 @@ page-wallet-import {
 	.page-padding {
 		padding: 0 $pagePadding;
 	}
+	.toolbar-background {
+		background: $newThreeColor;
+	}
+	.toolbar ion-title {
+		padding: 0 20px 1px;
+	}
+	.toolbar-title {
+		text-align: right;
+	}
 	.main-content {
-		background: $bgColor;
+		background: $newThreeColor;
 		min-height: 100%;
 		padding: 0 $padding;
+		font-size: 14px;
+		color: #78777C;
+		position: relative;
 		.title {
 			font-weight: bold;
-			color: #1B1B1B;
-			font-size: 34px;
+			color: #fff;
+			font-size: 27px;
 			line-height: 40px;
 			padding: 12px 0 18px;
 		}
 		.desc {
-			color: #4A4A4A;
-			font-size: 16px;
 			line-height: 22px;
-			margin-bottom: 26px;
+			margin-bottom: 37px;
+			padding-left: 2px;
 		}
 		.keystore {
 			display: block;
 			width: 100%;
-			border-radius: 4px;
-			border: 1px solid #d8d8d8;
 			resize: none;
-			padding: 10px 8px;
-			line-height: 1.5;
+			padding: 12px 13px;
+			background: #302F34;
+			box-shadow: 0 2px 6px 0 rgba(0,0,0,0.10);
+			border-radius: 4px;
+			height: 180px;
+			font-size: 14px;
+			color: #8E8E93;
+			letter-spacing: -0.34px;
 		}
 		.terms {
 			display: block;
     		margin-top: 23px;
     		margin-bottom: 26px;
-    		width: 100%;
+			width: 100%;
+			display: flex;
+			.icon {
+				font-size: 22px;
+				color: $newFiveColor;
+				margin-right: 5px;
+				&.choose-icon {
+					color: $newFirstColor;
+				}
+			}
     		input[type="checkbox"] {
     			display: inline-block;
 			    vertical-align: middle;
-			    font-size: 14px;
-			    color: #4A4A4A;
+				font-size: 14px;
+				opacity: 0;
+				position: absolute;
     		}
     		span {
 			    vertical-align: middle;
-			    color: #4A4A4A;
 			    a {
 			    	margin-left: 2px;
 			    	text-decoration: none;
-				    color: $mainColor;
-				    line-height: 20px;
+				    color: #fff;
+				    line-height: 22px;
 			    }
-    		}
+			}
+		}
+		.import-btn {
+			background: #F35530;
+			border-radius: 4px;
+			box-shadow: unset;
+			position: absolute;
+			width: calc(100% - 30px);
+			left: 15px;
+			bottom: 12px;
 		}
 	}
+
 }

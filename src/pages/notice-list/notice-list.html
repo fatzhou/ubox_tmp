@@ -14,22 +14,22 @@
 
 
 <ion-content>
-  <div class="main" *ngIf="messageList.length != 0">
-    <ul>
-      <li (click)="goNoticeDetailPage(item.id)" *ngFor="let item of messageList;" >
-        <img *ngIf="item.type == 1" src="assets/img/message.png" alt="">
-        <img *ngIf="item.type == 2" src="assets/img/matketmessage.png" alt="">
-        <div>
-          <p>
-              {{ item.name }}
-          </p>
-          <h4>{{ item.type == 1 ? global.L("SystemNotice") : global.L("ActiveNotice")}}<span>{{ item.time }}</span></h4>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="nomsg"  *ngIf="messageList.length == 0">
-      <img src="assets/img/file@2x.png" alt="">
-      <p>{{ global.L("NoticeDefault") }}</p>
-  </div>
+    <div class="main" *ngIf="messageList.length != 0">
+        <ul>
+        <li (click)="goNoticeDetailPage(item.id)" *ngFor="let item of messageList;" >
+            <img *ngIf="item.type == 1" src="assets/img/message.png" alt="">
+            <img *ngIf="item.type == 2" src="assets/img/matketmessage.png" alt="">
+            <div>
+                <h4>{{ item.type == 1 ? global.L("SystemNotice") : global.L("ActiveNotice")}}<span>{{ item.time }}</span></h4>
+            <p>
+                {{ item.name }}
+            </p>
+            </div>
+        </li>
+        </ul>
+    </div>
+    <div class="nomsg"  *ngIf="messageList.length == 0">
+        <img src="assets/img/file@2x.png" alt="">
+        <p>{{ global.L("NoticeDefault") }}</p>
+    </div>
 </ion-content>

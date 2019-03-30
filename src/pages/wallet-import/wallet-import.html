@@ -7,11 +7,10 @@
 <ion-header>
 
   <ion-navbar class="page-padding clear">
-
-	    <svg class="icon qrcode-icon fr" aria-hidden="true" (click)="scanKeystore()" end>
+        <ion-title><span class="import-btn" tappable click-and-wait (click)="doCreate()">{{global.L("CreateNewWallet")}}</span></ion-title>
+	    <!-- <svg class="icon qrcode-icon fr" aria-hidden="true" (click)="scanKeystore()" end>
 	        <use xlink:href="#icon-qrcode"></use>
-	    </svg>
-
+	    </svg> -->
   </ion-navbar>
 
 </ion-header>
@@ -21,8 +20,14 @@
     <h2 class="title">{{global.L("ImportWallet")}}</h2>
     <p class="desc">{{global.L("ImportWalletRemind")}}</p>
     <textarea class="keystore defalutline" name="keystore" [(ngModel)]="keystore" rows="5" placeholder="keystore{{global.L('WalletTextContend')}}"></textarea>
-    <label class="terms" for="service-privacy-terms">
-      <input type="checkbox" name="privacyCheck" [(ngModel)]="privacyCheck" id="service-privacy-terms">
+    <label class="terms" for="serviceinput">
+        <svg class="icon" *ngIf="!privacyCheck" aria-hidden="true">
+            <use xlink:href="#iconweixuanzhong"></use>
+        </svg>
+        <svg class="icon choose-icon" *ngIf="privacyCheck" aria-hidden="true">
+            <use xlink:href="#icondanxuan"></use>
+        </svg>
+        <input type="checkbox" name="privacyCheck" [(ngModel)]="privacyCheck" id="serviceinput">
       <span>{{global.L("UserAgreementLable")}}<a href="javascript:;">{{global.L("UserAgreementButton")}}</a></span>
     </label>
 

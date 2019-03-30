@@ -9,19 +9,36 @@ page-language-select {
 	}	
 
 	.language-select-page {
-		border-top: 1px solid #d8d8d8;		
 		.language-list {
-			padding: 0 10px;
-			background: #fff;
-			margin-top: 20px;
+			padding: 0;
+			padding-top: 14px;
 			.language {
-				border-bottom: 1px solid #f1f1f1;
+				font-size: 15px;
+				padding-left: 25px;
+				color: #FFFFFF;
+				background: unset;
 				&:last-child {
 					border-bottom: none;
 				}
 				.icon {
-					font-size: 24px;
+					font-size: 22px;
+					color: $newFirstColor;
 					margin-right: -2px;
+					&.no-choose {
+						color: $newFiveColor;
+					}
+				}
+				
+				&.bor-btm {
+					.item-inner {
+						border-bottom: 1px solid rgba(255,255,255,0.1)!important;
+					}
+				}
+				&.item-block {
+					min-height: 5rem;
+				}
+				.item-inner {
+					padding-right: 18px;
 				}
 			}			
 		}

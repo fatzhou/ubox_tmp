@@ -1,14 +1,39 @@
 page-coin-transaction {
+	.scroll-content,.item {
+		background: $newThreeColor;
+	}
+
+
 	.tx-account {
-		padding-top: 26px;
+		.status-box {
+			height: 156px;
+			border-bottom: 1px solid $newFourColor;
+			.desc {
+				font-size: 20px;
+				color: #FFFFFF;
+				padding-top: 39px;
+				margin-bottom: 11px;
+				line-height: 28px;
+			}
+			
+		}
 		.icon-new {
 			font-size: 54px;
 		    display: block;
-		    margin: 0 auto;
+			margin: 0 auto;
+			&.success-icon {
+				color: $newFirstColor;
+			}
+			&.fail-icon {
+				color: $newSecondColor;
+			}
+			&.waiting-icon {
+				color: $newFiveColor;
+			}
 		}
 		.amount {
 			text-align: center;
-		    color: #1B1B1B;
+		    color: #fff;
 		    font-size: 24px;
 		    line-height: 30px;
 		    margin-top: 16px;
@@ -20,21 +45,37 @@ page-coin-transaction {
 		}
 		.desc {
 			text-align: center;
-		    color: #9B9B9B;
+		    color: $newFiveColor;
 		    font-size: 14px;
 		    line-height: 20px;
 		    margin-bottom: 20px;
 		}
 		p:last-child {
-			text-align: right;
-			color: #4A4A4A;
+			color: #fff;
+			width: 100%;
+			text-align: left;
+			margin-top: 8px;
 		}
+		
+	}
+	.item [item-left], .item [item-start] {
+		margin: 8px 0px 8px 0;
+		width: 100px;
+		font-size: 12px;
 	}
 	.tx-hash {
 		padding-bottom: 40px;
 		p:last-child {
-			text-align: right;
-			color: #4A4A4A;
+			color: #fff;
+			width: 100%;
+			text-align: left;
+			margin-top: 8px;
 		}
+	}
+	.item[detail-push] .item-inner, button.item:not([detail-none]) .item-inner, a:not([detail-none]) .item-inner {
+		background-image: url(../assets/img/xiangyou.svg)!important;
+	}
+	.item-block {
+		min-height: 4.5rem;
 	}
 }

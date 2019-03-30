@@ -1,49 +1,89 @@
 page-wallet-generator {
+	.toolbar-background {
+		background: $newThreeColor;
+	}
+	.toolbar ion-title {
+		padding: 0 20px 1px;
+	}
+	.toolbar-title {
+		text-align: right;
+	}
 	.wallet-content {
-		background: $bgColor;
-		padding: $padding;
+		background: $newThreeColor;
+		padding: 12px 20px;
 		min-height: 100%;
 		.register-title {
-			font-size: 34px;
+			font-size: 27px;
 			font-weight: bold;
-			color: #1B1B1B;
-			letter-spacing: 0.41px;
-			line-height: 41px;
-			margin-top: 26px - $padding;
+			color: #fff;
+			letter-spacing: 0;
+			line-height: 38px;
 		}
 		.register-desc {
 			margin-top: 6px;
 			font-size: 14px;
-			color: #4A4A4A;
-			line-height: 22px;
+			color: $newFiveColor;
+			line-height: 20px;
 		}
 		.register-form {
 			margin-top: 27px;
 		}
+		.form-input {
+			display: block;
+			height: 79px;
+			margin: 0;
+			.normal-input {
+				border: unset;
+				background: unset;
+				text-indent: 0;
+				padding: 10px 0;
+				margin: 0;
+				border-bottom: 1px solid rgba(255,255,255,0.2);
+    			border-radius: unset;
+				&:focus {
+					color: $newFiveColor;
+				}
+			}
+			.label-title {
+				font-size: 14px;
+				color: #FFFFFF;
+				line-height: 20px;
+			}
+		}
 		.terms {
 			display: block;
-    		margin-top: 23px;
+			margin-top: 23px;
+			position: relative;
+			display: flex;
+			.icon {
+				font-size: 22px;
+				color: $newFiveColor;
+				margin-right: 5px;
+				&.choose-icon {
+					color: $newFirstColor;
+				}
+			}
     		input[type="checkbox"] {
-    			display: inline-block;
-			    vertical-align: middle;
-			    font-size: 14px;
-			    color: #4A4A4A;
+    			opacity: 0;
+				position: absolute;
     		}
     		span {
     			/*display: inline-block;*/
 			    /*vertical-align: middle;*/
-			    color: #4A4A4A;
+				color: $newFiveColor;
+				line-height: 22px;
 			    a {
 			    	margin-left: 2px;
 			    	text-decoration: none;
-				    color: $mainColor;
-				    line-height: 20px;
+				    color: #fff;
 			    }
     		}
 		}
 		.create-btn {
-			margin-top: 44px;
-			margin-bottom: 15px;
+			margin: 120px 0px 0px;
+			box-shadow: unset;
+			background: $newSecondColor;
+			border-radius: 4px;
 		}
 	}
 }
