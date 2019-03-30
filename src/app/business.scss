@@ -231,14 +231,14 @@ button ion-label, div ion-label {
 	}
 	.input-v2 {
 		display: block;
-		background: $newThreeColor;
+		background: #000;
 		border: none;
 		border-bottom: 1px solid rgba(255, 255, 255,.5);
 		padding-top: 8px;
 		padding-bottom: 10px;
 		width: 100%;
 		font-size: 16px;
-		color: #fff;
+		color: $newFirstColor;
 		line-height: 22px;
 	}
 }
@@ -350,7 +350,7 @@ textarea::-webkit-input-placeholder {
 }
 
 .black-header .toolbar-background {
-	background: $newThreeColor;
+	background: #000;
 }
 
 .eps {
@@ -608,7 +608,7 @@ ion-infinite-scroll {
 }
 
 .form-content {
-	background: $bgColor;
+	background: #000;
 	padding: $padding;
 	min-height: 100%;
 	.form-title {

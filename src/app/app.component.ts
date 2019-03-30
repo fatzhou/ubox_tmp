@@ -145,7 +145,7 @@ export class UboxApp {
 				this.createSubFolders();
             } else {
                 GlobalService.consoleLog("我不是cordova");
-				this.nav.setRoot(VerifyEmailPage);
+				this.nav.setRoot(LoginPage);
 				// this.rootPage = TestPage;
             }
 
@@ -192,7 +192,7 @@ export class UboxApp {
     getUserInfo() {
 		if(!this.platform.is('cordova')) {
 			console.log("设置首页........");
-			this.nav.setRoot(ResultPage);
+			this.nav.setRoot(LoginPage);
 			return false;			
 		}
 
