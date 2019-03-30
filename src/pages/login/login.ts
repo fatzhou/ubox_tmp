@@ -57,19 +57,22 @@ export class LoginPage {
         // }
 
         if(GlobalService.ENV === 'dev') {
+			console.log("aaaa")
             this.username = '1@qq.com';
             this.password = 'A123456789';       
         } else {
-            this.util.getUserList()
-            .then(res => {
-                if(this.global.userLoginInfo){
-                    this.username = this.global.userLoginInfo.username;
-                    this.password = this.global.userLoginInfo.password;
-                } else {
-                    this.username = '';
-                    this.password = '';
-                }
-            })             
+			this.username = 'wenshuozhou@yqtc.com';
+			this.password = 'A123456789';
+            // this.util.getUserList()
+            // .then(res => {
+            //     if(this.global.userLoginInfo){
+            //         this.username = this.global.userLoginInfo.username;
+            //         this.password = this.global.userLoginInfo.password;
+            //     } else {
+            //         this.username = '';
+            //         this.password = '';
+            //     }
+            // })             
         }
     }
 

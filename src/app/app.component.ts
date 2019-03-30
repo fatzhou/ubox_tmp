@@ -163,7 +163,10 @@ export class UboxApp {
 
             //注册返回按钮事件
             this.removeBackButtonAction();
-            // this.util.getDeviceID();
+			// this.util.getDeviceID();
+			
+			//获取汇率
+			this.util.getDisplayRate();
         });
 	}
 	
@@ -225,7 +228,7 @@ export class UboxApp {
                 })
 				.catch(e => {   
 					flag = true;                 //没有盒子
-                    this.nav.setRoot(TabsPage);
+                    this.nav.setRoot(LoginPage);
                 })
             } else {
 				flag = true;
