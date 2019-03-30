@@ -5,6 +5,13 @@ page-wallet-detail {
 		border: none;
 		.toolbar-title {
 			color: #fff;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			.icon {
+				padding: 14px;
+				font-size: 40px;
+			}
 		}
 		.set-btn-wrap {
 			position: absolute;
@@ -35,12 +42,13 @@ page-wallet-detail {
 			background: $newFirstColor;		
 			color: #fff;
 			text-align: center;
-			padding-bottom: 10px;
-
+			min-height: 176px;
+			position: relative;
 			.wallet-value {
-				padding-top: 14px;
+				padding-top: 25px;
 				text-align: left;
 				padding-left: 10px;
+				
 				.key {
 					color: #fff;
 					font-size: 12px;
@@ -48,12 +56,12 @@ page-wallet-detail {
 				}
 				.value {
 				    margin-top: 2px;
-				    line-height: 1;
 				    color: #fff;
 				    font-size: 32px;
 				    padding: 0 20px;
 					padding: 4px 20px;
 					padding-left: unset;
+					line-height: 43px;
 					span {
 						font-size: 16px;
 					}
@@ -61,27 +69,39 @@ page-wallet-detail {
 			}
 
 			.assets-info {
-				background: #fff;
 				margin: 26px 10px 0;
 				border-radius: 4px;
+				height: 120px;
+				position: absolute;
+				width: calc(100% - 20px);
+				background: $newFourColor;
+				box-shadow: 0 2px 6px 0 rgba(0,0,0,0.10);
+				border-radius: 3px;
+				bottom: -60px;
+				color: $newFiveColor;
 				.assets {
 					width: 50%;
 					box-sizing: border-box;
-					border-right: 1px solid rgba(93, 117, 247, .1);
-					padding: 10px 0 10px 14px;
+					border-right: 1px solid $newThreeColor;
+					padding: 12px 0 10px 19px;
 					text-align: left;
+					height: 100%;
+					.icon {
+						font-size: 35px;
+						margin-bottom: 20px;
+					}
 					&:last-child {
 						border-right: none;
 					}
 					.key {
-						color: #999;
+						color: $newFiveColor;
 						font-size: 12px;
-						line-height: 18px;
+						line-height: 16px;
+						margin-top: 4px;
 					}
 					.value {
-						color: #444;
-						margin-top: 4px;
 						font-size: 18px;
+						color: #FFFFFF;
 						line-height: 22px;
 						height: 22px;
 						width: 100%;
@@ -90,12 +110,14 @@ page-wallet-detail {
 			}			
 		}
 		.trade-list {
+			padding-top: 60px;
 			.title {
 				font-size: 14px;
 				color: #78777C;
 				line-height: 20px;
 				padding-top: 25px;
 				padding-bottom: 13px;
+				border-bottom: 1px solid #1D1D1E;
 				&.erc20Title{
 					text-indent: 10px;
 				}
@@ -237,6 +259,48 @@ page-wallet-detail {
 	.content-ios:not([no-bounce]) > .scroll-content::before, .content-ios:not([no-bounce]) > .scroll-content::after {
 		height: 0;
 	}
+	.wallat-select-box {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		top: 0;
+		z-index: 999;
+		.wallet-bg {
+			width: 100%;
+			height: 100%;
+			background: transparent;
+		}
+		.wallat-list-box {
+			position: absolute;
+			background: #302F34;
+			box-shadow: 0 2px 20px 0 rgba(0,0,0,0.50);
+			border-radius: 3px;
+			font-size: 15px;
+			color: #78777C;
+			padding-left: 13px;
+			line-height: 44px;
+			top: 46px;
+			max-height: 176px;
+			overflow-y: scroll;
+			left: 51px;
+			min-width: 160px;
+			z-index: 99;
+			.add-new-wallat {
+				display: flex;
+				align-items: center;
+			}
+			.icon {
+				font-size: 12px;
+				margin-right: 7px;
+			}
+			li {
+				color: #fff;
+				font-size: 15px;
+			}
+		}
+	}
+	
 }
 @media only screen and (max-width: 320px) {  
 	page-wallet-detail .my-content .trade-list .trade-ul li .trade-info .trade-amount {

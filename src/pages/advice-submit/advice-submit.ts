@@ -24,6 +24,7 @@ export class AdviceSubmitPage {
     problemDetail:string = "";
     contactEmail:string = "";
     systemLogNeeded:boolean = false;
+    isShowInfo: boolean = false;
     constructor(public navCtrl: NavController, 
         private global: GlobalService,
         private http: HttpService,
@@ -187,5 +188,13 @@ export class AdviceSubmitPage {
         this.updatedPhotos = this.updatedPhotos.filter(item => {
             return item.url != photo.url
         });
+    }
+
+    toggleShowInfo(action = null) {
+        if(action) {
+            this.isShowInfo = false;
+        } else {
+            this.isShowInfo = !this.isShowInfo;
+        }
     }
 }

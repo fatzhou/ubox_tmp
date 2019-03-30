@@ -40,7 +40,7 @@ export class WalletDetailPage {
     public chainRecordIndex:number = 0;
     public chainFirstLoad:number = 0;//第一次切换到交易记录
     public totalSpent:number = 0; //pending总花费
-
+    isShowWalletList: boolean = false;
     constructor(public navCtrl: NavController, 
                 private http: HttpService,
                 private global: GlobalService,
@@ -451,5 +451,9 @@ export class WalletDetailPage {
             GlobalService.consoleLog(e.stack);
         })
         return true;
+    }
+
+    toggleShowWalletList(action) {
+        this.isShowWalletList = action;
     }
 }
