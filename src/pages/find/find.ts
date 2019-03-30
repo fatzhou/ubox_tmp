@@ -15,6 +15,7 @@ import { AppsInstalled } from '../../providers/AppsInstalled';
 import { UappPlatform } from "../../providers/UappPlatform";
 import { AppsInterface } from "../../providers/AppsInterface";
 import { Lang } from '../../providers/Language';
+import { MenuController } from 'ionic-angular';
 
 import { InternalFormsSharedModule } from '@angular/forms/src/directives';
 /**
@@ -42,6 +43,7 @@ export class FindPage {
         private uappPlatform: UappPlatform,
         private appsInterface: AppsInterface,
         private appsInstalled: AppsInstalled,
+        private menuCtrl: MenuController,
         private app: App) {
     }
 
@@ -184,6 +186,14 @@ export class FindPage {
             this.isShowTitle = true;
             console.log(this.isShowTitle)
         }
-	}
+    }
+    
+    displayMenu($event) {
+		console.log("即将显示左侧........");
+		this.menuCtrl.open();
+		if($event.stopPropagation) {
+			$event.stopPropagation();
+		}
+    }
 
 }

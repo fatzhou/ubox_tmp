@@ -13,7 +13,7 @@
         <div *ngIf="currPath != '/' && currPath != '' && !allBtnsShow">{{pageTitle}}</div>
         <div *ngIf="(currPath == '/' || currPath == '') && !allBtnsShow" class="home-title-box">
             <p class="home-title">My Files</p>
-            <p class="list-point"><span class="active"></span><span></span><span></span><span></span></p>
+            <p class="list-point"><span class="active"></span><span></span><span></span></p>
         </div>
         <div *ngIf="allBtnsShow">{{"已选择" + selectedFiles.length + "项"}}</div>
         
