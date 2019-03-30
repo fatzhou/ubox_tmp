@@ -687,7 +687,7 @@ ion-infinite-scroll {
 
 .toggle {
 	.toggle-icon {
-		background: unset;
+		background: unset!important;
 	}
 	
 	.toggle-icon::before {

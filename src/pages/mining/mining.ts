@@ -14,6 +14,7 @@ import { Lang } from '../../providers/Language';
 import { DeviceManagementPage } from '../device-management/device-management';
 import { LoginPage } from '../login/login';
 import { AboutDevicePage } from '../about-device/about-device';
+import { MenuController } from 'ionic-angular';
 
 /**
  * Generated class for the MiningPage page.
@@ -71,6 +72,7 @@ export class MiningPage {
         private web3: Web3Service,
         private events: Events,
         private app: App,
+        private menuCtrl: MenuController,
         public navParams: NavParams) {
 
         GlobalService.consoleLog("进入Mining构造函数...");
@@ -718,5 +720,13 @@ export class MiningPage {
             this.global.shareFileProduced = '--';
         }
         
+    }
+
+    displayMenu($event) {
+		console.log("即将显示左侧菜单........");
+		this.menuCtrl.open();
+		if($event.stopPropagation) {
+			$event.stopPropagation();
+		}
     }
 }

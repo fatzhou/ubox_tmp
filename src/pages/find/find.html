@@ -9,10 +9,10 @@
         <ion-title *ngIf="isShowTitle">
             <div class="home-title-box">
                 <p class="home-title">Discovery</p>
-                <p class="list-point"><span></span><span class="active"></span><span></span><span></span></p>
+                <p class="list-point"><span></span><span class="active"></span><span></span></p>
             </div>
         </ion-title>
-        <svg class="icon aside-nav-icon" aria-hidden="true">
+        <svg class="icon aside-nav-icon" (click)="displayMenu($event)" aria-hidden="true">
                 <use xlink:href="#iconcaidan"></use>
         </svg>
         <div class="input-box"  *ngIf="!isShowTitle">
