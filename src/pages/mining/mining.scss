@@ -1,395 +1,116 @@
 page-mining {
-    $pagePadding: 10px;
-    .mining-page {
-        padding: 0 $pagePadding 20px;
-        /*background: $bgColor;*/
-        min-height: 100%;
-        position: relative;
-    }
-    header {
-        overflow: hidden;
-        position: relative;
-        .mydevice {
-            float: left;
-        }
-        .mining-setting {
-            color: #444;
-            font-size: 18px;
-            line-height: 44px;
-            float: right;
-            position: absolute;
-            right: 10px;
-            top: 0px;
-            .icon {
-                font-size: 22px;
-            }
-        }
-        .generate-files {
-            position: absolute;
-            width: 44px;
-            height: 44px;
-            padding: 10px 0;
-            padding-left: 20px;
-            padding-right: 0;
-            top: 9px;
-            right: 36px;
-            text-align: center; 
-            .icon {
-                font-size: 24px;
-            }      
-        }
-        .set-btn-wrap {
-			position: absolute;
-            width: 44px;
-            height: 44px;
-            padding: 10px 0;
-            padding-left: 10px;
-            padding-right: 10px;
-            top: 9px;
-            right: -10px;
-			.set-btn {
-				width: 100%;
-			}			
-		}
-        @keyframes rotate {
-            0% {
-                transfrom: rotate(0);
-            }
-            50% {
-                transform: rotate(180deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }        
-        .rotate {
-            animation: rotate 1s linear infinite;
-        }
-
-    }
-    .chain-select {
-        background: #F1F2FD;
-        overflow: hidden;
-        margin: 0 -10px;
-        padding: 5px 12px;
-        border-top: 1px solid #ddd;
-        &.test-net {
-            background: #F7F7F8;
-        }
-        .icon {
-            background: url(../assets/img/ERC.png) center center no-repeat;
-            background-size: cover;
-            float: left;
-            width: 42px;
-            height: 42px;
-            &.test-net {
-                background-image: url(../assets/img/TEST.png);
-            }
-        }
-        .info {
-            float: left;
-            margin-left: 2px;
-            h2 {
-                padding-top: 2px;
-                padding-bottom: 2px;
-                line-height: 20px;
-                color: #444;
-                font-size: 14px;
-            }
-            p {
-                color: #4E65EF;
-                font-size: 10px;
-                line-height: 16px;
-                white-space: nowrap;
-            }
-        }
-        .btn {
-            float: right;
-            padding: 0 10px;
-            font-size: 12px;
-            margin-top: 7px;
-            color: #4E65EF;
-            border: 1px solid #4E65EF;
-            height: 28px;
-            line-height: 28px;
-            border-radius: 4px;
-        }
-    }
-    .mining-reward {
-        height: 180px;
-        margin: 0 (-$pagePadding);
-        background: url(../assets/img/mining-bg@2x.png) center center no-repeat;
-        background-size: cover;
-        color: #fff;
-        text-align: center;
-        position: relative;
-
-        &.test-net {
-            background-image: url(../assets/img/test-chain@2x.png);
-            .chain-type {
-                background: #4C64EC;
-                color: #fff;
-            }
-        }
-        .chain-type {
-            position: absolute;
-            right: 0;
-            top: 10px;
-            color: #fff;
-            fonbt-size: 16px;
-            line-height: 36px;
-            height: 36px;
-            background: #251369;
-            padding: 0 10px 0 16px;
-            border-top-left-radius: 20px;
-            border-bottom-left-radius: 20px;
-        }
-        /*overflow: hidden;*/
-        .last-reward-tips {
-            color: #A6B2F7;
-            font-size: 14px;
-            line-height: 20px;
-            padding-top: 15px;
-        }
-        .last-reward-amount {
-            font-size: 36px;
-            font-weight: bolder;
-            line-height: 40px;
-            margin-top: 10px;
-        }
-        .reward-total {
-            overflow: hidden;
-            margin: 3px auto 0;
-            padding: 16px 0;
-            width: 350px;
-            max-width: 100%;
-        }
-        .reward-total-accumulate {
-            border-right: 1px solid #A6B2F7;
-        }
-        .reward-total-accumulate,
-        .reward-not-send {
-            float: left;
-            width: 50%;
-            height: 35px;
-            .tips {
-                color: #A6B2F7;
-                font-size: 12px;
-                line-height: 18px;
-                margin-top: -6px;
-            }
-            .amount {
-                font-size: 18px;
-                line-height: 22px;
-                margin-top: 5px;
-            }
-        }
-        .coinbase {
-            width: 100%;
-            position: absolute;
-            height: 48px;
-            bottom: -24px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 16px;
-            color: #444;
-            overflow: hidden;
-
-            .coinbase-wrap {
-                margin: 0 $pagePadding;
-                border-radius: 5px;
-                background: #fff;
-                padding: 0 12px;
-                height: 100%;
-                text-align: left;
-
-                .coinbase-addr {
-                    color: #4E65EF;
-                    font-size: 14px;
-                    height: 24px;
-                    line-height: 22px;
-                    border: 1px solid #4E65EF;
-                    border-radius: 11px;
-                    padding: 0 11px;
-                    margin-top: 12px;
-                    margin-left: 4px;
-                    display: inline-block;
-                }
-                .coinbase-none {
-                    height: 24px;
-                    line-height: 24px;
-                    font-size: 14px;
-                    color: #666;
-                    margin-top: 12px;
-                    margin-left: 4px;
-                    display: inline-block;
-                }
-                .toggle {
-                    float: right;
-                    margin-top: 12px;
-                }
-            }
-        }
-    }
-
-    .mining-total {
-        margin-top: 35px;
-		height: 80px;
-        .mining-time,
-        .mining-storage {
-            float: left;
-            background: #fff;
-            text-align: center;
-            width: 48%;
-            height: 100%;
-            box-shadow: 0 0 16px rgba(0, 0, 0, .1);
-            border-radius: 5px;
-        }
-        .mining-time {
-            margin-right: 4%;
-        }
-        .amount {
-        	color: #444;
-        	font-size: 14px;
-        	font-weight: bold;
-        	margin-top: 18px;
-        	span {
-        		font-size: 24px;
-        	}
-        }
-        .desc {
-        	color: #9B9B9B;
-        	font-size: 12px;
-        	margin-top: 4px;
-        }
-    }
-
-    .last-30-days {
-    	margin-top: 20px;
-    	color: #444;
-    	font-size: 14px;
-    	padding-bottom: 10px;
-    	border-bottom: 1px solid #EDEDED;
-    	.award-tips {
-	    	.icon {
-	    		font-size: 22px;
-	    		vertical-align: middle;
-	    		margin-right: 2px;
-	    	}    		
-    	}
-		.award-30-total {
-			color: #444;
-			margin-top: 6px;
-			margin-left: 8px;
-			span {
-				font-size: 24px;
-				font-weight: bold;
-				margin-right: 4px;
+	.page-content {
+		padding: 0 12px;
+	}
+	.mining-info {
+		height: 136px;
+		padding: 21px 12px 0;
+		background: $newFirstColor;
+		.revenue {
+			height: 212px;
+			background: #302F34;
+			border-radius: 3px;
+			position: relative;
+			.icon-wrapper {
+				position: absolute;
+				top: 23px;
+				left: 18px;
+				background: $newFirstColor;
+				border: 3px;
+				width: 44px;
+				height: 44px;
+				padding: 10px;
+				.icon {
+					width: 24px;
+					height: 24px;
+					color: #fff;
+				}								
+			}
+			.revenue-detail {
+				position: absolute;
+				left: 74px;
+				top: 18px;
+				.amount {
+					display: flex;
+					.main {
+						flex: 1;
+						color: $newFirstColor;
+						font-size: 30px;
+						line-height: 36px;
+					}
+					.second {
+						flex: 1;
+						font-size: 16px;
+						line-height: 20px;
+						position: relative;
+						top: 12px;
+						margin-left: 4px;
+						color: #78777C;
+					}
+				}
+				.yesterday-avenue {
+					font-size: 14px;
+					color: #78777C;
+					line-height: 18px;
+				}
+			}
+			.toggle {
+				position: absolute;
+				top: 30px;
+				right: 18px;
+			}
+			.curve {
+				// background-image: linear-gradient(-192deg, rgba(37,206,218,0.12) 0%, rgba(14,209,152,0.08) 100%);
 			}
 		}
-    }
-
-    .last-7-days {
-    	height: 126px;
-    	overflow: hidden;
-    	li {
-    		float: left;
-    		text-align: center;
-    		color: #444;
-    		width: 14%;
-    		padding: 0 1%;
-			font-size: 10px;
-			position: relative;
-    		height: 100%;
-    		.li-wrap {
-    			position: absolute;
-    			bottom: 0;
-    			left: 0;
-    			width: 100%;
-    			text-align: center;
-				.coins {
-					line-height: 32px;
-                    height: 32px;
-                    white-space: nowrap;
-                    overflow: hidden;
+	}
+	.main-area {
+		padding-top: 120px;
+		.info-list {
+			overflow: hidden;
+			margin-right: -10px;
+			.info-li {
+				box-shadow: 0 2px 6px 0 rgba(0,0,0,0.10);
+				border-radius: 3px;
+				width: 50%;
+				padding-right: 10px;
+				padding-bottom: 10px;
+				height: 130px;				
+			}
+			.info-wrapper {
+				background: #302F34;
+				height: 100%;
+				width: 100%;
+				padding: 10px 16px;
+				.icon {
+					width: 35px;
+					height: 35px;
 				}
-	    		.pillar {
-	    			background: linear-gradient(#839DF6, #4A64ED);
-	    			width: 10px;
-	    			max-height: 52px;
-	    			margin: 0 auto;
-	    			border-top-left-radius: 5px;
-	    			border-top-right-radius: 5px;
-                    min-height: 1px;
-	    		}   
-	    		.date {
-	    			color: #9B9B9B;
-	    			height: 34px;
-	    			line-height: 34px;
-	    			color: #9B9B9B;
-				    height: 34px;
-				    line-height: 34px;
-	    		}	    		 			
-    		}
-    	}
-    }
-
-    .no-avenue {
-        text-align: center;
-        padding-top: 26px;
-        img {
-            width: 64px;
-        }
-        p {
-            color: #5D75F7;
-            font-size: 12px;
-            line-height: 2.5;
-        }
-    }
-    .test-b {
-        width: 30px;
-        text-align: right;
-        display: inline-block;
-        .icon {
-            font-size: 32px;
-            height: .5em;
-            line-height: 1;
-            position: relative;
-            top: 0px;
-            right: -6px;
-            &.icon-test {
-                right: -1px;
-                top: -1px;
-            }
-        }
-    }
-    .common-general-button {
-        &:active {
-            &:after {
-                width: 100%;
-                height: 100%;
-            }
-        }
-    }
-    .content-ios:not([no-bounce]) > .scroll-content::before, .content-ios:not([no-bounce]) > .scroll-content::after {
-        height: 0;
-    }
+				.value {
+					margin-top: 20px;
+					font-size: 18px;
+					line-height: 22px;
+					color: #FFFFFF;
+				}
+				.label {
+					font-size: 13px;
+					line-height: 17px;
+					color: #78777C;
+					margin-top: 3px;
+				}
+			}
+		}
+	}
+	.slide-more {
+		margin-top: 16px;
+		font-size: 14px;
+		color: #78777C;
+		height: 44px;
+		line-height: 44px;
+		text-align: center;
+		padding: 0 16px;
+		background: #302F34;
+		box-shadow: 0 2px 6px 0 rgba(0,0,0,0.10);
+	}
 }
 
-@media only screen and (max-width: 320px) { 
-    page-mining {
-        .mining-total {
-            .amount {
-                font-size: 12px;
-                span {
-                    font-size: 22px;
-                }
-            }
-        } 
-        .chain-select .info {
-            max-width: 164px;
-            overflow: hidden;
-        }
-    }
-    
-}

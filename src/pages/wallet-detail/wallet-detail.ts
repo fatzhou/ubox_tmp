@@ -114,9 +114,6 @@ export class WalletDetailPage {
                 GlobalService.consoleLog(e.stack);
             })
         }
-        
-        
-
     }
 
     getAccumulateMining() {

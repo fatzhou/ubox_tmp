@@ -963,17 +963,17 @@ export class Lang {
     };
     static Day = {
         cn: "天",
-        en: "Days",
+        en: "D",
         kr: "일"
     };
     static Hour = {
         cn: "小时",
-        en: "Hours",
+        en: "H",
         kr: "시간"
     };    
     static Minute = {
         cn: "分钟",
-        en: "Minutes",
+        en: "M",
         kr: "분"
     };
     static MinedTime = {

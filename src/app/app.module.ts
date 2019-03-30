@@ -134,6 +134,7 @@ import { ComputeCoinbasePipe } from '../pipes/compute-coinbase/compute-coinbase'
 import { ComputeFileSizePipe } from '../pipes/compute-file-size/compute-file-size'
 import { ComputeFileTimePipe } from '../pipes/compute-file-time/compute-file-time'
 import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
+import { PretifyNumberPipe } from '../pipes/pretify-number/pretify-number'
 
 @NgModule({
   declarations: [
@@ -197,7 +198,8 @@ import { PhotoSantizerPipe } from '../pipes/photo-santizer/photo-santizer'
     ComputeCoinbasePipe,
     ComputeFileSizePipe,
     ComputeFileTimePipe,
-    PhotoSantizerPipe,
+	PhotoSantizerPipe,
+	PretifyNumberPipe,
     SelectImgPage,
     SelectAudioVideoPage,
     SelectAlbumPage,

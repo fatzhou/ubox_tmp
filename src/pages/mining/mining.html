@@ -4,103 +4,94 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+<ion-header>
+	<ion-navbar class="clear">
+	</ion-navbar>
+</ion-header>
+
 <ion-content>
-    <div class="page-content mining-page">
-        <header>
-            <device (goDevicePage)="goDeviceList()" networkStatusShow="false" (goLoginPage)="goLoginPage()" lastPath="mining-page"  (showPopup)="showNetworkPopup()"></device>
-            <div class="generate-files" *ngIf="chainType != 'ERC20'" (click)="showShareData()">
-                <svg class="icon back-icon " *ngIf="!isEnoughSpace" [ngClass]="(ifMining && isChainMining)? 'rotate' : ''" aria-hidden="true">
-                    <use xlink:href="#icon-Miningicon"></use>
-                </svg>
-                <svg class="icon back-icon " *ngIf="isEnoughSpace" aria-hidden="true">
-                    <use xlink:href="#icon-miningicon2"></use>
-                </svg>
-            </div>
-            <div class="set-btn-wrap" (click)="setMining()">
-                <img class="set-btn" src="assets/img/miningset@2x.png" alt="">
-            </div>
-            <!-- <p class="mining-setting" tappable (click)="setMining()">{{global.L("MiningSetting")}}</p> -->
-        </header>
-        <div class="chain-select" [ngClass]="chainType === 'ERC20' ? 'erc-20' : 'test-net'">
-            <div class="icon" [ngClass]="chainType !== 'ERC20' ? 'erc-20' : 'test-net'"></div>
-            <div class="info">
-                <h2>{{ chainType !== 'ERC20' ? global.L('ERCChainTitle') : global.L('TestChainTitle') }}</h2>
-                <p>{{ chainType !== 'ERC20' ? global.L('ERCChainDescription') : global.L('TestChainDescription') }}</p>
-            </div>
-            <div class="btn" (click)="setChainType()">
-                {{ global.L('LookNow') }}
-            </div>
-        </div>
-        <div class="mining-reward" [ngClass]="chainType === 'ERC20' ? 'erc-20' : 'test-net'">
-            <p class="last-reward-tips">
-                <em class="test-b">
-                    <svg class="icon back-icon icon-test" aria-hidden="true" *ngIf="global.chainSelectIndex == 1">
-                        <use xlink:href="#icon-Test"></use>
-                    </svg>                  
-                    <svg class="icon back-icon icon-erc" aria-hidden="true" *ngIf="global.chainSelectIndex == 0">
-                        <use xlink:href="#icon-ERC"></use>
-                    </svg>    
-                </em>
-                {{global.L("YesterdayReward")}}(UBBEY)
-            </p>
-            <p class="last-reward-amount">{{ ifMining || coinbase ? lastDayEarn : global.L("MiningClosed") }}</p>
-<!--             <div class="chain-type" (click)="setChainType()">
-                {{ global.chainSelectIndex == 0 ? global.chainSelectArray[1] : global.chainSelectArray[0] }}
-            </div> -->
-            <div class="reward-total">
-                <div class="reward-total-accumulate">
-                    <p class="tips">{{global.L("TotalReward")}}(UBBEY)</p>
-                    <p class="amount">{{ totalEarn }}</p>
-                </div>
-                <div class="reward-not-send">
-                    <p class="tips">{{global.L("LockedReward")}}(UBBEY)</p>
-                    <p class="amount">{{ unlockEarn }}</p>
-                </div>
-            </div>
-            <div class="coinbase">
-                <div class="coinbase-wrap" tappable (click)="showErrorTips()">
-                    {{global.L("IsMining")}}
-                    <p class="coinbase-addr">{{ (coinbase | computeCoinbase) || global.L("NotSetWallet") }}</p>
-                    <ion-toggle class="toggle" color="secondary" [(ngModel)]="ifMining" (ionChange)="changeIfMining()" [disabled]="!global.deviceSelected || !this.coinbase" [checked]="!!ifMining"></ion-toggle>
-                </div>
-            </div>
-        </div>
-        <div class="mining-total">
-            <div class="mining-time">
-                <p class="amount" *ngIf="(ifMining || coinbase) && miningDays"><span>{{ miningDays }}</span>{{global.L("Day")}}<span>{{ miningHours }}</span>{{global.L("Hour")}}</p>
-                <p class="amount" *ngIf="(ifMining || coinbase) && !miningDays && miningHours"><span>{{ miningHours }}</span>{{global.L("Hour")}}<span>{{ miningMinutes }}</span>{{global.L("Minute")}}</p>
-                <p class="amount" *ngIf="(ifMining || coinbase) && !miningDays && !miningHours"><span>{{ miningMinutes }}</span>{{global.L("Minute")}}</p>
-                <p class="amount" *ngIf="!ifMining && !coinbase"><span>--</span></p>
-                <p class="desc">{{ chainType === 'ERC20' ? global.L("MinedTime") : global.L("MinedChainTime")}}</p>
-            </div>
-            <div class="mining-storage">
-                <p class="amount" *ngIf="ifMining"><span>{{ shareSize }}</span>GB</p>
-                <p class="amount" *ngIf="!ifMining"><span>--</span></p>
-                <p class="desc">{{global.L("ShareStorage")}}</p>
-            </div>
-        </div>
-        <div class="last-30-days">
-            <div class="award-tips">
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-miningfocus"></use>
-                </svg>
-                {{global.Lf("LastNumDayReward", 30)}}
-            </div>
-            <p class="award-30-total" *ngIf="loading"><span>{{ monthEarned }}</span>UBBEY</p>
-        </div>
-        <ul class="last-7-days" *ngIf="lastSevenEarnings.length > 0 && loading">
-            <li *ngFor="let day of lastSevenEarnings;">
-                <div class="li-wrap">
-                    <p class="coins">{{ day.amount }}</p>
-                    <div class="pillar" [ngStyle]="{ 'height': day.height }"></div>
-                    <p class="date">{{ day.date }}</p>
-                </div>
-            </li>            
-        </ul>
-        <div class="no-avenue" *ngIf="lastSevenEarnings.length == 0 && loading">
-            <img src="assets/img/avenue@2x.png" alt="">
-            <p>{{global.Lf("LastNumDayNoReward", 30)}}</p>
-        </div>
-        <div  *ngIf="lastSevenEarnings.length > 0 && loading" tappable class="common-general-button view-btn" (click)="goMiningList()">{{global.L("ViewRewardList")}}</div>
-    </div>
+	<div class="mining-info">
+		<div class="revenue">
+			<div class="icon-wrapper">
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#iconwakuangicon"></use>
+				</svg>				
+			</div>
+
+			<div class="revenue-detail">
+				<div class="amount">
+					<p class="main">{{ lastDayEarn | pretifyNumber }}</p>
+					<p class="second">≈$</p>
+				</div>
+				<p class="yesterday-avenue">{{ global.L("YesterdayReward") }}</p>
+			</div>
+			<ion-toggle class="toggle" color="secondary" [(ngModel)]="ifMining" (ionChange)="changeIfMining()"
+				[disabled]="!global.deviceSelected || !this.coinbase" [checked]="!!ifMining">
+			</ion-toggle>
+
+			<div class="curve">
+
+			</div> 
+		</div>
+	</div>
+
+	<div class="page-content">
+
+		<div class="main-area">
+			<ul class="info-list">
+				<li class="info-li fl">
+					<div class="info-wrapper">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#iconleijiwakuang"></use>
+						</svg>
+						<p class="value">{{ totalEarn | pretifyNumber }}</p>
+						<p class="label">{{ global.L("TotalReward") }}</p>
+					</div>
+				</li>
+				<li class="info-li fl">
+					<div class="info-wrapper">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#iconsuodingshouyi"></use>
+						</svg>
+						<p class="value">{{ unlockEarn | pretifyNumber }}</p>
+						<p class="label">{{ global.L("LockedReward") }}</p>
+					</div>
+				</li>
+				<li class="info-li fl">
+					<div class="info-wrapper">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#iconwakuangshichang"></use>
+						</svg>
+						<p class="value" *ngIf="(ifMining || coinbase) && miningDays">
+							<span>{{ miningDays | pretifyNumber }}</span>{{global.L("Day")}}
+							<span>{{ miningHours }}</span>{{global.L("Hour")}}
+						</p>
+						<p class="value" *ngIf="(ifMining || coinbase) && !miningDays && miningHours">
+							<span>{{ miningHours }}</span>{{global.L("Hour")}}
+							<span>{{ miningMinutes }}</span>{{global.L("Minute")}}
+						</p>
+						<p class="value" *ngIf="(ifMining || coinbase) && !miningDays && !miningHours">
+							<span>{{ miningMinutes }}</span>{{global.L("Minute")}}</p>
+						<p class="value" *ngIf="!ifMining && !coinbase"><span>--</span></p>
+						<p class="label">{{ global.L("MinedTime") }}</p>
+					</div>
+				</li>
+				<li class="info-li fl">
+					<div class="info-wrapper">
+						<svg class="icon" aria-hidden="true">
+							<use xlink:href="#iconDiskicon"></use>
+						</svg>
+						<p class="value">2222888</p>
+						<p class="label">{{ global.L("ShareStorage") }}</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="slide-more">
+			<div class="slide-more-wrapper">
+				继续滑动查看历史收益
+			</div>
+		</div>
+	</div>
 </ion-content>
