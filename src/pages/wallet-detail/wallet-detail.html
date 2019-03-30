@@ -1,7 +1,11 @@
 
 <ion-header class="my-header">
     <ion-navbar>
-		<ion-title>{{ walletInfo.name }}</ion-title>
+		<ion-title>{{ walletInfo.name }}
+			<svg class="icon" aria-hidden="true" (click)="toggleShowWalletList(true)">
+				<use xlink:href="#iconxiala"></use>
+			</svg> 
+		</ion-title>
 		<div class="set-btn-wrap" (click)="goWalletSettingPage()">
 			<img class="set-btn" src="assets/img/setting@2x.png" alt="">
 		</div>
@@ -23,12 +27,18 @@
 
 		<div class="assets-info clear">
 			<div class="assets fl">
-				<p class="key">{{global.L("TotalValue")}}({{ rateInfo.curreycy }})</p>
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#iconleijiwakuang"></use>
+				</svg> 
 				<p class="value"><span>{{ rateInfo.symbol }}</span>{{ evaluteWealth() }}</p>
+				<p class="key">{{global.L("TotalValue")}}({{ rateInfo.curreycy }})</p>
 			</div>
 			<div class="assets fl">
-				<p class="key">{{global.L("CumulativeDig")}}(UBBEY)</p>
+				<svg class="icon" aria-hidden="true">
+					<use xlink:href="#iconleijiwakuang"></use>
+				</svg> 
 				<p class="value">{{ walletInfo.totalMining }}</p>
+				<p class="key">{{global.L("CumulativeDig")}}(UBBEY)</p>
 			</div>
 		</div>
 	</div>
@@ -129,4 +139,20 @@
 <div class="wallet-create">
 	<span class="common-unfocus-button get-ubbey-btn" tappable  (click)="getUbbey()">{{global.L("Collection")}}</span>
 	<span class="common-focus-button send-ubbey-btn no-shadow" tappable (click)="sendUbbey()">{{global.L("Transfer")}}</span>
+</div>
+<div  class="wallat-select-box" *ngIf="isShowWalletList">
+	<div class="wallet-bg" (click)="toggleShowWalletList(false)"></div>
+	<div class="wallat-list-box">
+		<ul>
+			<li>Collection</li>
+			<li>Collection</li>
+		</ul>
+		<div class="add-new-wallat">
+			<svg class="icon" aria-hidden="true">
+				<use xlink:href="#icontianjiashebei1"></use>
+			</svg> 
+			新建钱包
+		</div>
+	</div>
+	
 </div>	

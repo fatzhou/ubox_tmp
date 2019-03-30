@@ -58,3 +58,13 @@
 	<div class="common-focus-button confirm-btn" tappable (click)="startPay()">{{global.L("Next")}}</div>
 
 </ion-content>
+<div class="coin-send-box" *ngIf="isShowPayBox">
+    <div class="coin-send-bg" (click)="toggleShowPayBox(false)"></div>
+    <div class="coin-send-content">
+        <p class="p-title">{{global.L('Pay')}}</p>
+        <p class="p-send-num">{{sendAmount}}<span> UBBEY</span></p>
+        <p class="p-send-addr">{{ global.L('TransferTo') }}<span class="p-addr">{{toWallet}}</span></p>
+        <p class="p-input"><input type="password" [placeholder]="global.L('PayPasswordPlaceholder')" [(ngModel)]="payPassword" /></p>
+        <p class="p-btn-box"><span class="cancel-btn" (click)="toggleShowPayBox(false)">{{ global.L('Cancel') }}</span><span class="ok-btn" (click)="getPayPassword()">{{ global.L('Ok') }}</span></p>
+    </div>
+</div>

@@ -39,6 +39,8 @@ export class CoinSendPage {
     private privateKey: string = "";
     private publicKey: string = "";
     chainType: string;
+    isShowPayBox: boolean = false;
+    payPassword: any = "";
     constructor(public navCtrl: NavController,
         private alertCtrl: AlertController,
         private web3: Web3Service,
@@ -135,7 +137,8 @@ export class CoinSendPage {
         return this.checkPay()
         .then(b => {
             if(b) {
-                this.getPayPassword();                
+                this.toggleShowPayBox(true);
+                // this.getPayPassword();                
             }
         })
         .catch(e => {
@@ -143,61 +146,40 @@ export class CoinSendPage {
         })
     }
 
+    toggleShowPayBox(action) {
+        this.isShowPayBox = action;
+    }
+    
     getPayPassword() {
-        let alert = this.alertCtrl.create({
-            title: Lang.L('Pay'),
-            message: this.sendAmount + ' UBBEY',
-            subTitle: Lang.L('TransferTo') + this.toWallet,
-            inputs: [{
-                name: "password",
-                placeholder: Lang.L('PayPasswordPlaceholder'),
-                type: "password"
-            }],
-            buttons: [{
-                    text: Lang.L('Cancel'),
-                    role: 'cancel',
-                    handler: data => {
-                        GlobalService.consoleLog("用户取消");
-                    }
-                },
-                {
-                    text: Lang.L('Ok'),
-                    handler: data => {
-                        GlobalService.consoleLog(data);
-                        if (data.password !== '') {
-                            GlobalService.consoleLog("开始解密-----");
-                            this.global.createGlobalLoading(this, {
-                                message: Lang.L("transerSending")
-                            });
-                            setTimeout(()=>{
-                                let result = this.web3.decryptPrivateKey(this.keystore, data.password);
-                                if (!result.flag) {
-                                    GlobalService.consoleLog("解密失败");
-                                    this.global.closeGlobalLoading(this);
-                                    this.global.createGlobalToast(this, {
-                                        message: Lang.L('IncorrectPaymentPassword')
-                                    })
-                                    return false;
-                                } else {
-                                    GlobalService.consoleLog("解密成功")
-                                    this.privateKey = result.privKey;
-                                    this.publicKey = result.publicKey;
-                                    this.doPay();                                    
+        if (this.payPassword !== '') {
+            GlobalService.consoleLog("开始解密-----");
+            this.global.createGlobalLoading(this, {
+                message: Lang.L("transerSending")
+            });
+            setTimeout(()=>{
+                let result = this.web3.decryptPrivateKey(this.keystore, this.payPassword);
+                if (!result.flag) {
+                    GlobalService.consoleLog("解密失败");
+                    this.global.closeGlobalLoading(this);
+                    this.global.createGlobalToast(this, {
+                        message: Lang.L('IncorrectPaymentPassword')
+                    })
+                    return false;
+                } else {
+                    GlobalService.consoleLog("解密成功")
+                    this.privateKey = result.privKey;
+                    this.publicKey = result.publicKey;
+                    this.doPay();                                    
 
-                                }
-                            },100)
-                            return true;
-                        } else {
-                            this.global.createGlobalToast(this, {
-                                message: Lang.L('PayPasswordCannotEmpty')
-                            })                            
-                            return false;
-                        }
-                    }
                 }
-            ]
-        });
-        alert.present();
+            },100)
+            return true;
+        } else {
+            this.global.createGlobalToast(this, {
+                message: Lang.L('PayPasswordCannotEmpty')
+            })                            
+            return false;
+        }
     }
 
     checkPay() {

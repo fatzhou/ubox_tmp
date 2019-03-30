@@ -13,7 +13,7 @@
 </ion-header>
 
 
-<ion-content>
+<ion-content (click)="toggleShowInfo('close')">
 	<form #form="ngForm" (ngSubmit)="reportFeedback()">
 		<div class="items">
 			<ion-label for="">{{ global.L("ProblemCategory") }}</ion-label>
@@ -57,7 +57,7 @@
 		</div>
 
 		<div class="items upload-log">
-			<label>
+			<label (click)="toggleShowInfo('close')">
 				<svg class="icon icon-select" *ngIf="!systemLogNeeded" aria-hidden="true">
 					<use xlink:href="#iconweixuanzhong"></use>
 				</svg>
@@ -67,10 +67,11 @@
 				<!-- <span  for="system-log" [ngClass]="systemLogNeeded ? 'choose-span' : 'unchoose-span'"><em></em></span> -->
 				<input type="checkbox" name="submitBoxLog" id="system-log" [(ngModel)]="systemLogNeeded" class="checkbox">
 				<span  for="system-log">{{global.L('UploadSystemLog')}}</span>
-				<svg class="icon" aria-hidden="true">
-					<use xlink:href="#iconDetailsicon1"></use>
-				</svg>	
 			</label>
+			<svg class="icon system-log-icon" aria-hidden="true" (click)="toggleShowInfo();$event.stopPropagation()">
+				<use xlink:href="#iconDetailsicon1"></use>
+			</svg>	
+			<div class="system-log-box" *ngIf="isShowInfo">上传的系统日志包括版本信息、固件信息、系统时间、磁盘信息等，上传的日志受到隐私保护，只用于定位问题，不会对外泄漏。勾选此项表示您同意提供日志信息定位问题。<em></em></div>
 		</div>
 
 		<div class="btns">
