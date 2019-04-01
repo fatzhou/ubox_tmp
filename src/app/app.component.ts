@@ -640,7 +640,7 @@ export class UboxApp {
 				})
 				break;
 			case 'wallet':
-				this.nav.push(WalletSelectPage);
+				this.nav.push(WalletDetailPage);
 				break;
 			case 'dapp':
 				this.nav.push(SearchPage);

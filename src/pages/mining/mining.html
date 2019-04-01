@@ -92,7 +92,7 @@
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconDiskicon"></use>
 						</svg>
-						<p class="value">2222888</p>
+						<p class="value">{{ deviceSelected ? deviceSelected.shareSize + 'G' : '--' }}</p>
 						<p class="label">{{ global.L("ShareStorage") }}</p>
 					</div>
 				</li>
@@ -100,8 +100,8 @@
 		</div>
 
 		<div class="slide-more">
-			<div class="slide-more-wrapper">
-				继续滑动查看历史收益
+			<div class="slide-more-wrapper" (click)="goMiningList()">
+				查看历史收益
 			</div>
 		</div>
 	</div>

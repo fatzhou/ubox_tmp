@@ -63,7 +63,7 @@ export class MiningPage {
     isEnoughSpace: boolean = false;
 	loading: boolean = false;
 	
-	ubbeyToDollar = 0;
+	ubbeyToDollar;
 
     constructor(public navCtrl: NavController,
         private global: GlobalService,
@@ -117,14 +117,13 @@ export class MiningPage {
 		this.refreshData();
 		let USDRate = this.global.globalRateInfo.find(item => item.curreycy == "USD");
 		if(USDRate) {
-			console.log(this.ubbeyToDollar + "sssssdsfs")
-			this.ubbeyToDollar = USDRate.rate * this.lastDayEarn;
+			this.ubbeyToDollar = (USDRate.rate * this.lastDayEarn).toFixed(2);
 		}
         if(this.chainType !== 'ERC20'){
             GlobalService.consoleLog("getprocess")
             this.getShareStorage();
         }
-    }
+	}
 
     ionViewDidLeave(){
         this.loading = false;
@@ -319,74 +318,34 @@ export class MiningPage {
         let chainShareSize = 0;
         GlobalService.consoleLog("更新盒子信息")
         return new Promise((resolve, reject) => {
-            if(chainType === 'ERC20') {
-                //没有盒子，获取中心接口的信息
-                this.http.post(GlobalService.centerApi["getBoxList"].url, {})
-                .then(res => {  
-                    if(res.err_no === 0) {
-                        GlobalService.consoleLog("中心登录，使用中心数据 ");
-                        this.boxInfo = res.boxinfo && res.boxinfo[0] || {};
-                        if(this.global.deviceSelected){
-                            var boxUserInfo = this.global.boxUserInfo;
-                            this.setIfMining(!!boxUserInfo.share_switch);
-                            shareSize = boxUserInfo.share_storage;
-                            coinbase = boxUserInfo.coinbase;    
-                        } else {
-                            var boxInfo = this.boxInfo;
-                            if(boxInfo) {
-                                this.setIfMining(boxInfo.mining);
-                                shareSize = boxInfo.share_size || 0;
-                                coinbase = boxInfo.coinbase;   
-                            } else {
-                                this.setIfMining(false);
-                                shareSize = 0;
-                                coinbase = '';   
-                            }
-                        }
-                        resolve();                   
-                    } else {
-                        reject();
-                    }
-                })   
-            } else {
-                if(this.global.deviceSelected){
-                    GlobalService.consoleLog("请求测试链数据" + this.global.getBoxApi('getChainProfile'));
-                    this.http.post(this.global.getBoxApi('getChainProfile'), {})
-                    .then(res => {
-                        if(res.err_no === 0) {
-                            GlobalService.consoleLog("测试数据")
-                            this.setIfMining(res.if_mine === 1);
-                            shareSize = res.set_sharesize;
-                            chainShareSize = res.set_sharesize;
-                            coinbase = res.coinbase;
-                            this.shareStorage = res.sharesize;
-                            let url = this.global.getBoxApi('getChainOnlineTime');
-                            this.http.post(url, {})
-                            .then(res => {
-                                if(res.err_no == 0){
-                                    this.boxInfo.online_mining = res.time;
-                                }
-                                resolve();
-                            })
-                            .catch(e => {
-                                GlobalService.consoleLog(e.stack);
-                                reject();
-                            })
-                        } else {
-                            reject();
-                        }
-                    })
-                    .catch(e => {
-                        GlobalService.consoleLog(e.stack);
-                        reject();
-                    })
-
-                } else {
-                    GlobalService.consoleLog("没有盒子啊");
-                    reject();
-                }
-
-            }          
+			//没有盒子，获取中心接口的信息
+			this.http.post(GlobalService.centerApi["getBoxList"].url, {})
+			.then(res => {  
+				if(res.err_no === 0) {
+					GlobalService.consoleLog("中心登录，使用中心数据 ");
+					this.boxInfo = res.boxinfo && res.boxinfo[0] || {};
+					if(this.global.deviceSelected){
+						var boxUserInfo = this.global.boxUserInfo;
+						this.setIfMining(!!boxUserInfo.share_switch);
+						shareSize = boxUserInfo.share_storage;
+						coinbase = boxUserInfo.coinbase;    
+					} else {
+						var boxInfo = this.boxInfo;
+						if(boxInfo) {
+							this.setIfMining(boxInfo.mining);
+							shareSize = boxInfo.share_size || 0;
+							coinbase = boxInfo.coinbase;   
+						} else {
+							this.setIfMining(false);
+							shareSize = 0;
+							coinbase = '';   
+						}
+					}
+					resolve();                   
+				} else {
+					reject();
+				}
+			})   
         })
         .then(()=>{
             GlobalService.consoleLog("分享内存大小：" + shareSize);

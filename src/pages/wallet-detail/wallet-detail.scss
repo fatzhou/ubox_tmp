@@ -13,6 +13,11 @@ page-wallet-detail {
 				font-size: 40px;
 			}
 		}
+		.wallet-wrapper {
+			display: flex;
+			height: 40px;		
+			line-height: 40px;
+		}
 		.set-btn-wrap {
 			position: absolute;
 			width: 44px;

@@ -122,7 +122,9 @@ export class GlobalService {
 	public thumbnailMap = {}; //文件远程路径到缩略图的映射
 	public photoMap = {};
     public platformName = 'android'; //平台名
-    public readPermitted = false; //读取权限
+	public readPermitted = false; //读取权限
+	public focusWallet = null; //用户当前使用的默认钱包
+
     public static getUbbeyContract() {
         if(GlobalService.ENV === 'dev') {
             return GlobalService.UBBEY_CONTRACT_TEST;
