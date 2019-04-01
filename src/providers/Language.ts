@@ -3595,32 +3595,32 @@ export class Lang {
         kr: '파일 다운로드'
     }
     static Type = {
-        cn: '类型: ',
+        cn: '类型',
         en: 'Type',
         kr: '유형'
     }
     static Size = {
-        cn: '大小: ',
+        cn: '大小',
         en: 'Size',
         kr: '크기'
     }
     static Owner = {
-        cn: '所有者: ',
+        cn: '所有者',
         en: 'Owner',
         kr: '주인'
     }
     static CreatTime = {
-        cn: '创建时间: ',
+        cn: '创建时间',
         en: ' Creat time',
         kr: '창조 시간'
     }
     static EditTime = {
-        cn: '最近修改: ',
+        cn: '最近修改',
         en: 'Latest editing',
         kr: '최신 편집'
     }
     static Editor = {
-        cn: '修改成员: ',
+        cn: '修改成员',
         en: 'Editor',
         kr: '편집장'
     }
@@ -3825,6 +3825,409 @@ export class Lang {
         en: '',
         kr: ''
     }
+
+    static AKeyBackup = {
+        cn: '一键备份图片',
+        en: '',
+        kr: ''
+    }
+
+    static BTSeeds = {
+        cn: 'BT种子',
+        en: '',
+        kr: ''
+    }
+
+    static UploadTo = {
+        cn: '上传至',
+        en: '',
+        kr: ''
+    }
+
+    static AdviceSubmitInfo = {
+        cn: '上传的系统日志包括版本信息、固件信息、系统时间、磁盘信息等，上传的日志受到隐私保护，只用于定位问题，不会对外泄漏。勾选此项表示您同意提供日志信息定位问题。',
+        en: '',
+        kr: ''
+    }
+
+    static BTDetail = {
+        cn: '资源详情',
+        en: '',
+        kr: ''
+    }
+    static AllDownload = {
+        cn: '共下载：',
+        en: '',
+        kr: ''
+    }
+    static Introduction = {
+        cn: '简介',
+        en: '',
+        kr: ''
+    }
+    static FileType = {
+        cn: '文件格式',
+        en: '',
+        kr: ''
+    }
+    static FileNumber = {
+        cn: '文件数',
+        en: '',
+        kr: ''
+    }
+    static BTNumber = {
+        cn: '种子数',
+        en: '',
+        kr: ''
+    }
+    static FileHash = {
+        cn: '文件hash',
+        en: '',
+        kr: ''
+    }
+    static FileDescription = {
+        cn: '描述',
+        en: '',
+        kr: ''
+    }
+    static PutMore = {
+        cn: '收起更多',
+        en: '',
+        kr: ''
+    }
+    static ViewMore = {
+        cn: '查看更多',
+        en: '',
+        kr: ''
+    }
+    static RelatedImages = {
+        cn: '相关图片',
+        en: '',
+        kr: ''
+    }
+    static FileList = {
+        cn: '文件列表',
+        en: '',
+        kr: ''
+    }
+    static PlayError = {
+        cn: '您的浏览器不支持 video 标签。',
+        en: '',
+        kr: ''
+    }
+    static DownloadSet = {
+        cn: '下载设置',
+        en: '',
+        kr: ''
+    }
+    static MeanwhileDownloadTask = {
+        cn: '同时下载任务',
+        en: '',
+        kr: ''
+    }
+    static MeanwhileDownloadTaskNum = {
+        cn: '同时运行的最大下载任务数',
+        en: '',
+        kr: ''
+    }
+    static SelectSavePath = {
+        cn: '选择存储位置',
+        en: '',
+        kr: ''
+    }
+    static ChangeTaskConfigSuccess = {
+        cn: '更改任务配置成功',
+        en: '',
+        kr: ''
+    }
+    static CanUse = {
+        cn: '可用',
+        en: '',
+        kr: ''
+    }
+    static SaveNowPath = {
+        cn: '保存当前路径',
+        en: '',
+        kr: ''
+    }
+    static GoBack = {
+        cn: '返回上一层',
+        en: '',
+        kr: ''
+    }
+    static DownloadTask = {
+        cn: '下载任务',
+        en: '',
+        kr: ''
+    }
+    static DownloadingNum = {
+        cn: '下载中',
+        en: '',
+        kr: ''
+    }
+    static AllStop = {
+        cn: '全部暂停',
+        en: '',
+        kr: ''
+    }
+    static AllStart = {
+        cn: '全部开始',
+        en: '',
+        kr: ''
+    }
+    static ChangeBtTaskStatusSuccess = {
+        cn: '更改任务状态成功',
+        en: '',
+        kr: ''
+    }
+    static Prompt = {
+        cn: '提示',
+        en: '',
+        kr: ''
+    }
+    static SureDeleteTask = {
+        cn: '确认删除该任务',
+        en: '',
+        kr: ''
+    }
+    static DeleteBoxFile = {
+        cn: '同时删除硬盘本地文件',
+        en: '',
+        kr: ''
+    }
+    static DeleteTaskSuccess = {
+        cn: '删除任务成功',
+        en: '',
+        kr: ''
+    }
+    static OldPayPassword = {
+        cn: '原支付密码',
+        en: '',
+        kr: ''
+    }
+    static NewPayPassword = {
+        cn: '新支付密码',
+        en: '',
+        kr: ''
+    }
+    static SurePayPassword = {
+        cn: '确认支付密码',
+        en: '',
+        kr: ''
+    }
+    static TransactionAmount = {
+        cn: '交易金额',
+        en: '',
+        kr: ''
+    }
+    static EquipmentModel = {
+        cn: '设备型号',
+        en: '',
+        kr: ''
+    }
+    static SystemVersion = {
+        cn: '系统版本',
+        en: '',
+        kr: ''
+    }
+    static PrepareUbbeyEquipment = {
+        cn: '准备 Ubbey 设备',
+        en: '',
+        kr: ''
+    }
+    static EquipmentUbbeyInfo = {
+        cn: '将 Ubbey 设备接通电源和插入网线，确认你的手机与 Ubbey 设备处于同一网络（连接同一Wi-Fi）',
+        en: '',
+        kr: ''
+    }
+    static EquipmentUbbeyImg = {
+        cn: '此处有一副设备连接电源和网线的插图',
+        en: '',
+        kr: ''
+    }
+    static Continue = {
+        cn: '继续',
+        en: '',
+        kr: ''
+    }
+    static Used = {
+        cn: '已使用',
+        en: '',
+        kr: ''
+    }
+    static ConnectErr = {
+        cn: '连接异常',
+        en: '',
+        kr: ''
+    }
+    static TheDisc = {
+        cn: '主盘',
+        en: '',
+        kr: ''
+    }
+    static TheSecondDisc = {
+        cn: '扩展',
+        en: '',
+        kr: ''
+    }
+    static BindFail = {
+        cn: '绑定失败',
+        en: '',
+        kr: ''
+    }
+    static DropDownAndSearchAgain = {
+        cn: '下拉重新搜索',
+        en: '',
+        kr: ''
+    }
+    static Capacity = {
+        cn: '容量：',
+        en: '',
+        kr: ''
+    }
+    static SerialNumber = {
+        cn: '序列号：',
+        en: '',
+        kr: ''
+    }
+    static Binded = {
+        cn: '已绑定：',
+        en: '',
+        kr: ''
+    }
+    static Bind = {
+        cn: '绑定',
+        en: '',
+        kr: ''
+    }
+    static Find = {
+        cn: '找到',
+        en: '',
+        kr: ''
+    }
+    static CanUseEquipment = {
+        cn: '台可用设备',
+        en: '',
+        kr: ''
+    }
+    static CanotUseEquipment = {
+        cn: '找不到可用设备',
+        en: '',
+        kr: ''
+    }
+    static ScaningEquipment = {
+        cn: '正在搜索可用设备...',
+        en: '',
+        kr: ''
+    }
+    static Place = {
+        cn: '位置',
+        en: '',
+        kr: ''
+    }
+    static RecommendedResources = {
+        cn: '推荐资源',
+        en: '',
+        kr: ''
+    }
+    static Discovery = {
+        cn: '',
+        en: 'Discovery',
+        kr: ''
+    }
+    static MyFiles = {
+        cn: '',
+        en: 'My Files',
+        kr: ''
+    }
+    static OtherDisk = {
+        cn: '其他磁盘',
+        en: '',
+        kr: ''
+    }
+    static File = {
+        cn: '文件',
+        en: '',
+        kr: ''
+    }
+    static WonderfulWorld = {
+        cn: '精彩你眼中世界',
+        en: '',
+        kr: ''
+    }
+    static Email = {
+        cn: '邮箱',
+        en: '',
+        kr: ''
+    }
+    static LoginPassword = {
+        cn: '登录密码',
+        en: '',
+        kr: ''
+    }
+    static RegisterNow = {
+        cn: '没有账号？立即注册',
+        en: '',
+        kr: ''
+    }
+
+    static SeeMoreMining = {
+        cn: '查看历史收益',
+        en: '',
+        kr: ''
+	}
+	
+	static AddNewDevice = {
+		cn: '添加新设备',
+		en: '',
+		kr: ''
+	}
+
+	static Extentions = {
+		cn: '{num}个扩展设备',
+		en: '',
+		kr: ''
+	}
+
+	static RemoteConnection = {
+		cn: '远场连接',
+		en: '',
+		kr: ''
+	}
+
+	static LocalConnection = {
+		cn: '近场连接',
+		en: '',
+		kr: ''
+	}
+
+    // static SystemVersion = {
+    //     cn: '系统版本',
+    //     en: '',
+    //     kr: ''
+    // }
+    // static SystemVersion = {
+    //     cn: '系统版本',
+    //     en: '',
+    //     kr: ''
+    // }
+    // static SystemVersion = {
+    //     cn: '系统版本',
+    //     en: '',
+    //     kr: ''
+    // }
+    // static SystemVersion = {
+    //     cn: '系统版本',
+    //     en: '',
+    //     kr: ''
+    // }
+    // static SystemVersion = {
+    //     cn: '系统版本',
+    //     en: '',
+    //     kr: ''
+    // }
+
+
     
 }
 

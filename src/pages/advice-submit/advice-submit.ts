@@ -163,25 +163,6 @@ export class AdviceSubmitPage {
                 message: this.global.L("SystemError")
             })
         })
-
-        // let url = this.global.getBoxApi('reportLog');
-        // url = url.replace(/\:(\d+)/g, ':37869');
-        // let params:any = {
-        //     category: +this.problemCategory,
-        //     detail: this.problemDetail,
-        //     contact_email: this.contactEmail,
-        //     if_upload: this.systemLogNeeded ? 1 : 0
-        // };
-        // this.http.post(url, params)
-        // .then(res => {
-        //     if(res.err_no === 0) {
-        //         //上传成功
-        //         this.global.createGlobalToast(this, {
-        //             message: this.global.L("FeedbackSucceeded")
-        //         });
-        //         this.navCtrl.pop();
-        //     }
-        // })
     }
 
     removePhoto(photo) {

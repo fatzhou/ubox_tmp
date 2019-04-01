@@ -54,6 +54,7 @@ import { FindPage } from '../pages/find/find';
 import { SuperTabsController } from 'ionic2-super-tabs/dist/providers/super-tabs-controller';
 import { NoticeListPage } from '../pages/notice-list/notice-list';
 import { DeviceGuidancePage } from '../pages/device-guidance/device-guidance';
+import { DeviceManagePage } from '../pages/device-manage/device-manage';
 import { ResultPage } from '../pages/result/result';
 
 declare var chcp: any;
@@ -657,7 +658,11 @@ export class UboxApp {
 				break;	
 			case 'deviceguidance':
 				this.nav.push(DeviceGuidancePage);
-				break;		
+                break;
+            case 'device-manage':
+				this.nav.push(DeviceManagePage);
+                break;
+                		
 		}
 	}
 }

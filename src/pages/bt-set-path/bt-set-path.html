@@ -7,7 +7,7 @@
 <ion-header>
     <ion-navbar>
         <ion-title>
-            选择存储位置
+            {{ global.L("SelectSavePath") }}
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -23,7 +23,7 @@
             <svg class="icon icon-ellipsis" aria-hidden="true">
                 <use xlink:href="#iconfanhuishangceng"></use>
             </svg>
-            返回上一层
+            {{ global.L("GoBack") }}
         </div>
         <ul class="file-list">
             <li tappable *ngFor="let folder of fileList" (click)="goNextFolder(folder.name,'2')">
@@ -36,7 +36,7 @@
         </ul>
         </div>
         <div class="footer">
-            <button type="button" class="right-btn" (click)="savePath()">保存当前路径</button>
+            <button type="button" class="right-btn" (click)="savePath()">{{ global.L("SaveNowPath") }}</button>
         </div>
     </div>
 </ion-content>

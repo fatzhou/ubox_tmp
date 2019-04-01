@@ -15,13 +15,13 @@
 <ion-content>
     <div class="main-content">
         <div class="device-head">
-            <p class="p-title">准备 Ubbey 设备</p>
-            <p>将 Ubbey 设备接通电源和插入网线，确认你的手机与 Ubbey 设备处于同一网络（连接同一Wi-Fi）</p>
+            <p class="p-title">{{ global.L("PrepareUbbeyEquipment") }}</p>
+            <p>{{ global.L("EquipmentUbbeyInfo") }}</p>
         </div>
         <div class="devide-img">
             <img src="assets/img/device.png" alt="">
-            <p>此处有一副设备连接电源和网线的插图</p>
+            <p>{{ global.L("EquipmentUbbeyImg") }}</p>
         </div>
-        <div class="device-btn" (click)="goDeviceSearchPage()">继续</div>
+        <div class="device-btn" (click)="goDeviceSearchPage()">{{ global.L("Continue") }}</div>
     </div>
 </ion-content>

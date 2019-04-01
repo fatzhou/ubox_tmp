@@ -93,6 +93,10 @@ page-device-manage {
                         border-radius: 50%;
                         left: 0;
                         top: 2px;
+                        background: $newFirstColor;
+                        &.error {
+                            background: $newSecondColor;
+                        }
                     }
                 }
             }

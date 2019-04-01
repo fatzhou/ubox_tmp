@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>下载设置</ion-title>
+    <ion-title>{{ global.L("DownloadSet") }}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,8 +15,8 @@
 <ion-content>
     <div class="download-num">
         <div>
-            <p class="p-title">同时下载任务</p>
-            <p class="p-path">同时运行的最大下载任务数</p>
+            <p class="p-title">{{ global.L("MeanwhileDownloadTask") }}</p>
+            <p class="p-path">{{ global.L("MeanwhileDownloadTaskNum") }}</p>
         </div>
         <span class="num-box">
             <em class="reduce-option" (click)="changeTaskNum(0)">
@@ -35,7 +35,7 @@
     <div class="download-path" (click)="goBtSetPathPage()">
         <div>
             <p class="p-title">{{ path }}</p>
-            <p class="p-path">选择存储位置</p>
+            <p class="p-path">{{ global.L("SelectSavePath") }}</p>
         </div>
         <svg class="icon icon-ellipsis" aria-hidden="true">
             <use xlink:href="#iconxiangyou"></use>

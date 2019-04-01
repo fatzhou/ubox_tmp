@@ -13,12 +13,24 @@ import { NavController, NavParams } from 'ionic-angular';
     templateUrl: 'device-detail.html',
 })
 export class DeviceDetailPage {
-
+    disk: any = {};
+    diskName: any = '';
+    diskStatus: any = '';
+    diskNo: any = '';
+    diskModel: any = '';
+    diskVersion: any = '';
     constructor(public navCtrl: NavController, public navParams: NavParams) {
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad DeviceDetailPage');
+        this.disk = this.navParams.get('disk') || {};
+        this.diskName = this.disk.label;
+        this.diskName = this.disk.label;
+        this.diskName = this.disk.label;
+        this.diskName = this.disk.label;
+        this.diskName = this.disk.label;
+
     }
 
 }

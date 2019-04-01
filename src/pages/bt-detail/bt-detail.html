@@ -7,7 +7,7 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title>资源详情
+        <ion-title>{{ global.L("BTDetail") }}
             
         </ion-title>
         <svg class="icon icon-ellipsis" (click)="goBtTaskPage()" aria-hidden="true">
@@ -30,7 +30,7 @@
     </div>
     <div class="detail-title">
         <p class="p-title">{{ title }}</p>
-        <p>{{ size }}<span>共下载：{{ heat }}</span></p>
+        <p>{{ size }}<span>{{ global.L("AllDownload") }} {{ heat }}</span></p>
         <div class="link-box" ion-item>
             <div class="left-link-box" item-start>{{ link }}</div>
             <div class="right-link-box" item-end>
@@ -43,26 +43,26 @@
     <div class="detail-info">
         
         <div class="info-box">
-            <p class="second-title">简介</p>
+            <p class="second-title">{{ global.L("Introduction") }}</p>
             <div class="detail-list">
-                <p *ngIf="createdTime != ''">创建时间<span>{{ createdTime | computeFileTime }}</span></p>
-                <p *ngIf="fileType != ''">文件格式<span>{{ fileType }}</span></p>
-                <p *ngIf="file_number != ''">文件数<span>{{ file_number }}</span></p>
-                <p *ngIf="btNum != ''">种子数<span>{{ btNum }}</span></p>
-                <p *ngIf="hash != ''">文件hash<span>{{ hash }}</span></p>
+                <p *ngIf="createdTime != ''">{{ global.L("CreatTime") }}<span>{{ createdTime | computeFileTime }}</span></p>
+                <p *ngIf="fileType != ''">{{ global.L("FileType") }}<span>{{ fileType }}</span></p>
+                <p *ngIf="file_number != ''">{{ global.L("FileNumber") }}<span>{{ file_number }}</span></p>
+                <p *ngIf="btNum != ''">{{ global.L("BTNumber") }}<span>{{ btNum }}</span></p>
+                <p *ngIf="hash != ''">{{ global.L("FileHash") }}<span>{{ hash }}</span></p>
             </div>
-            <p class="second-title" *ngIf="detailDesc != ''">描述</p>
+            <p class="second-title" *ngIf="detailDesc != ''">{{ global.L("FileDescription") }}</p>
             <div class="detail-des" *ngIf="detailDesc != ''">
                 <div [innerHTML]="detailDesc" class="desc-box" [ngClass]="isShowDesc ? 'show-more' : ''"></div>
-                <div class="see-more" (click)="toggleShowDesc()">{{ isShowDesc ? '收起更多' : '查看更多' }}</div>
+                <div class="see-more" (click)="toggleShowDesc()">{{ isShowDesc ? global.L("PutMore") : global.L("ViewMore") }}</div>
             </div>
-            <p class="second-title" *ngIf="desImgList.length > 0">相关图片</p>
+            <p class="second-title" *ngIf="desImgList.length > 0">{{ global.L("RelatedImages") }}</p>
             <div class="img-list-box" *ngIf="desImgList.length > 0">
                 <p>
                     <img [src]="file"  *ngFor="let file of desImgList" alt="">
                 </p>
             </div>
-            <p class="second-title" *ngIf="fileList.length > 0">文件列表</p>
+            <p class="second-title" *ngIf="fileList.length > 0">{{ global.L("FileList") }}</p>
             <div class="file-list-box" *ngIf="fileList.length > 0">
                 <ul class="file-list">
                     <li class="file-list-item" *ngFor="let file of fileList" tappable>
@@ -82,7 +82,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="download-btn" (click)="downloadBt()">下载</div>
+            <div class="download-btn" (click)="downloadBt()">{{ global.L("Download") }}</div>
         </div>
     </div>
 </ion-content>

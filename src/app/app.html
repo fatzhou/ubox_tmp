@@ -54,12 +54,12 @@
 					</li>
 				</ul>
 				<div ion-item *ngIf="global.centerUserInfo.bind_box_count > 0" class="nav-bottom">
-					<div item-start class="nav-bottom-top" (click)="goDeviceManage()">
-						<p class="ubbey-contact fl eps">{{ global.deviceSelected ? (global.diskInfo.hardware ? 'Ubbey Next': 'Ubbey Box') : '' }}</p>
-						<p class="connection-type fl">{{ global.useWebrtc ? '远场连接' : '内场连接' }}</p>
-						<!-- <p class="extentions fl" *ngIf="global.deviceSelected">{{ global.diskInfo.disks.length }}个扩展设备</p> -->
+					<div item-start class="nav-bottom-top" (click)="goPage('device-manage')">
+						<p class="ubbey-contact fl eps">{{ global.deviceSelected ? (global.diskInfo.hardware == 'UbbeyNext' ? 'Ubbey Next': 'Ubbey Box') : '' }}</p>
+						<p class="connection-type fl">{{ global.useWebrtc ? global.L('RemoteConnection') : global.L('LocalConnection') }}</p>
+						<p class="extentions fl" *ngIf="global.deviceSelected">{{ global.Lf('Extentions', global.diskInfo.disks && global.diskInfo.disks.length - 1) }}</p>
 					</div>
-					<div item-end (click)="goDeviceGuidance()">
+					<div item-end (click)="goPage('device-manage')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconxiangyou"></use>
 						</svg>
@@ -69,7 +69,7 @@
 					<svg class="icon" aria-hidden="true">
 						<use xlink:href="#icontianjiashebei1"></use>
 					</svg>
-					<span>添加新设备</span>
+					<span>{{ global.L('AddNewDevice') }}</span>
 				</div>
 			</div>
 		</div>
