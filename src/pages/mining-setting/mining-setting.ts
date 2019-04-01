@@ -49,7 +49,11 @@ export class MiningSettingPage {
             shareSize: this.navParams.get('shareSize'),
             coinbase: this.coinbase,
         });
-    }
+	}
+	
+	goCreateWalletPage() {
+		
+	}
 
 
     saveModify() {

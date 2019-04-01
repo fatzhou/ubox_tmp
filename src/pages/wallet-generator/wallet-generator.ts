@@ -104,7 +104,12 @@ export class WalletGeneratorPage {
                 if(res.err_no === 0) {
                     this.global.createGlobalToast(this, {
                         message: Lang.L('WORD97e2a1c5'),
-                    });
+					});
+					this.global.walletList.unshift({
+						name: this.walletname,
+						addr: address,
+						keystore: JSON.stringify(keystore),
+					});
                     setTimeout(()=>{
                         this.navCtrl.pop()
                         .then(()=>{

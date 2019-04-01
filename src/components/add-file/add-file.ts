@@ -59,9 +59,13 @@ export class AddFileComponent {
         GlobalService.consoleLog("文件筛选构造:" + this.currPath);
         try {
             var box = this.global.diskInfo;
-            var disk = box.disks && box.disks[0];
-            if (disk) {
-                this.totalSize = this.util.cutFloat((disk.total - disk.usage) / GlobalService.DISK_G_BITS, 2);
+            var disks = box.disks;
+            if (disks && disks.length) {
+				let total = 0;
+				disks.forEach(item => {
+					total += item.size - item.used;
+				})
+                this.totalSize = this.util.cutFloat(total / GlobalService.DISK_G_BITS, 2);
             } else {
                 this.totalSize = '--';
             }
