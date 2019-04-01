@@ -18,6 +18,7 @@ import { Lang } from '../../providers/Language';
 })
 export class DeviceManagePage {
     disks: any = [];
+    isShowOptions: boolean = false;
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         public http: HttpService,
@@ -30,10 +31,8 @@ export class DeviceManagePage {
         this.disks = this.global.diskInfo.disks;
     }
 
-    goDeviceDetailPage(disk) {
-        this.navCtrl.push(DeviceDetailPage, {
-            disk: disk
-        });
+    goDeviceDetailPage() {
+        this.navCtrl.push(DeviceDetailPage);
     }
 
 }
