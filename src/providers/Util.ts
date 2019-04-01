@@ -17,6 +17,7 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { Clipboard } from '@ionic-native/clipboard';
 import { AppsInstalled } from './AppsInstalled';
 import { UappPlatform } from "./UappPlatform";
+import { getLocaleWeekEndRange } from '@angular/common';
 // import { FileTransport } from './FileTransport';
 declare var chcp: any;
 declare var createObjectURL: any;
@@ -1079,37 +1080,77 @@ export class Util {
         }
     }
 
-    getWalletList(){
-        this.storage.get('walletList')
-        .then(res => {
-            // GlobalService.consoleLog("缓存钱包状态：" + JSON.stringify(res));
-            if(res) {
-                this.global.walletList = JSON.parse(res);
-                let uname = this.global.centerUserInfo.uname;
-                let hash = Md5.hashStr(uname.toLowerCase()).toString();
-                let boxId = 'CENTERUSER',
-                    walletItem = null;
-                if(this.global.deviceSelected) {
-                    let boxId = this.global.deviceSelected.boxId || '';
-                    walletItem = this.global.walletList.find(item => {
-                        return hash == item.bindUserHash && item.boxId == boxId;
-                    })
-                } else {
-                    walletItem = this.global.walletList.find(item => {
-                        return hash == item.bindUserHash && item.boxId == 'CENTERUSER';
-                    })
-                }
+    getWalletList(force = false){
+		if(this.global.walletList.length > 0 && !force) {
+			return Promise.resolve(this.global.walletList);
+		}
+		let url = "";
+        if(!!this.global.deviceSelected) {
+            //已连接盒子，直接
+            url = this.global.getBoxApi("getWalletList"); 
+        } else if(this.global.centerUserInfo && this.global.centerUserInfo.bind_box_count === 0) {
+            //未绑定盒子
+            url = GlobalService.centerApi['getKeystore'].url;
+        } else {
+            throw new Error("Wrong case in getWalletData");
+        }
+        return this.http.post(url, {
+            type: this.global.chainSelectArray[this.global.chainSelectIndex] == 'ERC20' ? 0 : 1
+		})
+		.then((res:any) => {
+			if (res.err_no === 0) {
+				this.global.walletList = res.wallets;
+				let wallet = res.wallets.map(w => w.addr);
+				return this.http.post(GlobalService.centerApi["getWalletBalance"].url, {
+					wallet: wallet.join(',')
+				})
+			} else {
+				return []
+			}		
+		})
+		.then((res:any) => {
+			if(res.err_no == 0) {
+				for(let i = 0, len = this.global.walletList.length; i < len; i++) {
+					this.global.walletList[i].earn_this_month = this.cutFloat(res.wallet[i].earn_this_month / GlobalService.CoinDecimal, 2);
+				}
+			}
+		
+		})    
 
-                if(!walletItem) {
-                    this.global.nowUserWallet = {};
-                } else {
-                    this.global.nowUserWallet = walletItem.walletList;
-                }
-            }
-        })
-        .catch(e => {
-            this.global.nowUserWallet = {};
-        })
+		// this.storage.get('walletList')
+        // .then(res => {
+        //     // GlobalService.consoleLog("缓存钱包状态：" + JSON.stringify(res));
+        //     if(res) {
+		// 		this.global.walletList = JSON.parse(res);
+		// 		// return this.global.walletList;
+        //         let uname = this.global.centerUserInfo.uname;
+        //         let hash = Md5.hashStr(uname.toLowerCase()).toString();
+        //         let boxId = 'CENTERUSER',
+        //             walletItem = null;
+        //         if(this.global.deviceSelected) {
+        //             let boxId = this.global.deviceSelected.boxId || '';
+        //             walletItem = this.global.walletList.find(item => {
+        //                 return hash == item.bindUserHash && item.boxId == boxId;
+        //             })
+        //         } else {
+        //             walletItem = this.global.walletList.find(item => {
+        //                 return hash == item.bindUserHash && item.boxId == 'CENTERUSER';
+        //             })
+        //         }
+
+        //         if(!walletItem) {
+        //             this.global.nowUserWallet = {};
+        //         } else {
+        //             this.global.nowUserWallet = walletItem.walletList;
+        //         }
+        //     } else {
+		// 		return {};
+		// 	}
+        // })
+        // .catch(e => {
+		// 	return {};
+        //     // this.global.nowUserWallet = {};
+        // })
     }
 
     setWalletList(){

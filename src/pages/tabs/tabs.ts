@@ -311,6 +311,7 @@ export class TabsPage {
 
     ionViewDidLoad() {
 		GlobalService.consoleLog('进入TabsPage...');
+		this.util.getWalletList();
         //初始化connection组件
         // this.connection.status = this.global.useWebrtc ? this.global.L('RemoteNetwork')
 	}
@@ -356,36 +357,36 @@ export class TabsPage {
         //     this.connectionStatus = 'local';
         // }
 
-        // let events = this.events;
-        // GlobalService.consoleLog('ionViewDidEnter TabsPage');
-        // // if(this.tabRef.getSelected() !== null){
-        // //     if((this.selectedIndex == 1 || this.selectedIndex == 2) && !this.global.centerUserInfo.uname){
-        // //         this.selectedIndex = 0;
-        // //         this.navCtrl.push(LoginPage)
-        // //     } else {
-        // //         this.events.publish('tab:enter', {
-        // //             pageId: this.tabRef.getSelected().index
-        // //         });
-        // //     }
-        // // }
-        // this.isClose = false;
-        // if (this.global.deviceSelected) {
-        //     this.version = this.global.deviceSelected.version;
-
-        //     this.isClose = false;
-
-        //     this.getVersionControl()
-        //     .then(res => {
-        //         this.checkVersion();
-        //     })
-        //     .catch(e => {
-        //         GlobalService.consoleLog(e.stack);
-        //         this.global.closeGlobalLoading(this);
-        //         this.initNoticeList();
-        //     })
-        // } else {
-        //     this.getVersionControl();
+        let events = this.events;
+        GlobalService.consoleLog('ionViewDidEnter TabsPage');
+        // if(this.tabRef.getSelected() !== null){
+        //     if((this.selectedIndex == 1 || this.selectedIndex == 2) && !this.global.centerUserInfo.uname){
+        //         this.selectedIndex = 0;
+        //         this.navCtrl.push(LoginPage)
+        //     } else {
+        //         this.events.publish('tab:enter', {
+        //             pageId: this.tabRef.getSelected().index
+        //         });
+        //     }
         // }
+        this.isClose = false;
+        if (this.global.deviceSelected) {
+            this.version = this.global.deviceSelected.version;
+
+            this.isClose = false;
+
+            this.getVersionControl()
+            .then(res => {
+                this.checkVersion();
+            })
+            .catch(e => {
+                GlobalService.consoleLog(e.stack);
+                this.global.closeGlobalLoading(this);
+                this.initNoticeList();
+            })
+        } else {
+            this.getVersionControl();
+        }
     }
 
     setIcons(e) {
