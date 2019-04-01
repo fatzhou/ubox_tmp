@@ -27,6 +27,9 @@ export class PretifyNumberPipe implements PipeTransform {
 		let match = value.toString().match(/^(\d+)(\.\d+)?$/);
 		let fragment = match && match[1],
 			fraction = match && match[2] || "";
+		if(fragment.length <= splitLen) {
+			return value;
+		}
 		let start = fragment.length % splitLen;
 		let reg = new RegExp("(\\d{" + splitLen + "})", 'g');
 		let ret = fragment.slice(0, start) + splitToken + fragment.slice(start).replace(reg, "$1" + splitToken).replace(/\s+$/, '');

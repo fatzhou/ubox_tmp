@@ -61,7 +61,9 @@ export class MiningPage {
     shareStorage: any = 0;
     isChainMining: boolean = false;
     isEnoughSpace: boolean = false;
-    loading: boolean = false;
+	loading: boolean = false;
+	
+	ubbeyToDollar = 0;
 
     constructor(public navCtrl: NavController,
         private global: GlobalService,
@@ -106,13 +108,18 @@ export class MiningPage {
                 }
             }
         });
-    }
+	}
 
     ionViewDidEnter() {
         GlobalService.consoleLog('ionViewDidEnter MiningPage');
         this.pageNo = 1;
         this.needCommit = true;
-        this.refreshData();
+		this.refreshData();
+		let USDRate = this.global.globalRateInfo.find(item => item.curreycy == "USD");
+		if(USDRate) {
+			console.log(this.ubbeyToDollar + "sssssdsfs")
+			this.ubbeyToDollar = USDRate.rate;
+		}
         if(this.chainType !== 'ERC20'){
             GlobalService.consoleLog("getprocess")
             this.getShareStorage();
