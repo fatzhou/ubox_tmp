@@ -283,6 +283,7 @@ export class Util {
                     .then((data) => {
                         if (data.err_no === 0) {
                             this.global.diskInfo = data.box;
+                            this.global.diskInfo.disks = data.disks || [];
                             if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
                                 this.global.diskInfoStatus = false;
                             }else{

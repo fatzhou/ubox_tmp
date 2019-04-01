@@ -84,7 +84,7 @@ export class BtSetPage {
         .then((res)=>{
             if(res.err_no === 0) {
                 this.global.createGlobalToast(this, {
-                    message: "更改任务配置成功",
+                    message: Lang.L('ChangeTaskConfigSuccess'),
                 });
             }
         })

@@ -12,10 +12,10 @@
         <ion-title [ngClass]="allBtnsShow && (currPath == '/' || currPath == '') ? 'list-active' : ''">
         <div *ngIf="currPath != '/' && currPath != '' && !allBtnsShow">{{pageTitle}}</div>
         <div *ngIf="(currPath == '/' || currPath == '') && !allBtnsShow" class="home-title-box">
-            <p class="home-title">My Files</p>
+            <p class="home-title">{{global.L("MyFiles")}}</p>
             <p class="list-point"><span class="active"></span><span></span><span></span></p>
         </div>
-        <div *ngIf="allBtnsShow">{{"已选择" + selectedFiles.length + "项"}}</div>
+        <div *ngIf="allBtnsShow">{{ global.Lf('Downloading', selectedFiles.length) }}</div>
         
         <div class="list-header">
             <div class="back-nav" *ngIf="!showFileSelect">
@@ -43,7 +43,7 @@
 <ion-content (click)="toggleClassifyNav('close')">
     <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page">
         <div class="disk-list" *ngIf="currPath == '/'">
-            <p class="disk-title">其他磁盘</p>
+            <p class="disk-title">{{global.L("OtherDisk")}}</p>
             <div class="disk-list-box">
                 <ul class="disk-ul-box" [ngStyle]="{width: 150 * 3 + 'px'}">
                     <li>
@@ -72,7 +72,7 @@
         <div class="main-content">
             <div class="file-content">
                     <p class="file-num" *ngIf="dataAcquired && type0List.length > 0" tappable (click)="toggleListStatus(0)">
-                        <span>文件夹 ({{ type0List.length }})</span> 
+                        <span>{{global.L("DirFolders")}}  ({{ type0List.length }})</span> 
                         <svg *ngIf="!isShowType0List" class="icon icon-right" aria-hidden="true" >
                             <use xlink:href="#iconzhankaiicon"></use>
                         </svg>
@@ -100,7 +100,7 @@
                         </li>
                     </ul>
                     <p class="file-num" *ngIf="dataAcquired && type1List.length > 0" tappable (click)="toggleListStatus(1)">
-                        <span>文件 ({{ type1List.length }})</span> 
+                        <span>{{global.L("File")}} ({{ type1List.length }})</span> 
                         <svg *ngIf="!isShowType1List" class="icon icon-right" aria-hidden="true" >
                             <use xlink:href="#iconzhankaiicon"></use>
                         </svg>

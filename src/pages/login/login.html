@@ -11,10 +11,10 @@
 <ion-content>
 	<div class="form-content">
 		<h2 class="form-title">{{global.L("Login")}}({{global.L("InnerTestVersion")}})</h2>
-		<p class="form-desc">精彩你眼中世界</p>
+		<p class="form-desc">{{ global.L("WonderfulWorld") }}</p>
 		<form class="form-form" action="">
 			<div class="form-input">
-				<label class="label" for="username-login">邮箱</label>
+				<label class="label" for="username-login">{{ global.L("Email") }}</label>
 				<input type="text" id="username-login" name="username" [(ngModel)]="username" class="input-v2"
 					placeholder="{{global.L('PlsInputEmail')}}" />
 				<!-- <label class="borderline"></label> -->
@@ -22,7 +22,7 @@
 			</div>
 
 			<div class="form-input passwd-wrap {{eyeshow?'open-eye':'close-eye'}}">
-				<label class="label" for="password-login">登录密码</label>
+				<label class="label" for="password-login">{{ global.L("LoginPassword") }}</label>
 				<input id="password-login" type="{{eyeshow?'text':'password'}}" name="password" [(ngModel)]="password"
 					class="input-v2" placeholder="{{global.L('PlsInputPassword')}}" />
 				<!-- <label class="borderline"></label> -->
@@ -36,7 +36,7 @@
 			</div>
 		</form>
 
-		<div class="forget-password" (click)="goForgetPasswdPage()">忘记密码?</div>
+		<div class="forget-password" (click)="goForgetPasswdPage()">{{ global.L("ForgotPassword") }}?</div>
 
 		<!-- <div class="common-focus-button login-btn" tappable (click)="doLogin()">{{global.L("Login")}}({{global.L("InnerTestVersion")}})</div>
 		<div class="buttons">
@@ -46,7 +46,7 @@
 	</div>
 
 	<div class="form-area">
-		<p class="second-btn" (click)="goRegisterPage()">没有账号？立即注册</p>
-		<button class="main-btn" (click)="doLogin()">登录</button>
+		<p class="second-btn" (click)="goRegisterPage()">{{ global.L("RegisterNow") }}</p>
+		<button class="main-btn" (click)="doLogin()">{{ global.L("Login") }}</button>
 	</div>
 </ion-content>

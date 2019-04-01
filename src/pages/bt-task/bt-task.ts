@@ -91,7 +91,7 @@ export class BtTaskPage {
         .then((res)=>{
             if(res.err_no === 0) {
                 this.global.createGlobalToast(this, {
-                    message: "更改任务状态成功",
+                    message: Lang.L('ChangeBtTaskStatusSuccess'),
                 });
                 item.status = latter;
             }
@@ -100,13 +100,13 @@ export class BtTaskPage {
 
     deleteTask(item) {
         this.global.createGlobalAlert(this, {
-            title: '提示',
-            message: '确认删除该任务',
+            title: Lang.L('Prompt'),
+            message: Lang.L('SureDeleteTask'),
             // enableBackdropDismiss: false,
             inputs: [{
                 name: 'checkbox1',
                 type: 'checkbox',
-                label: '同时删除硬盘本地文件',
+                label: Lang.L('DeleteBoxFile'),
                 value: 'value1',
                 checked: false
             }],
@@ -132,7 +132,7 @@ export class BtTaskPage {
                         .then((res)=>{
                             if(res.err_no === 0) {
                                 this.global.createGlobalToast(this, {
-                                    message: "删除任务成功",
+                                    message: Lang.L('DeleteTaskSuccess'),
                                 });
                                 this.getTaskList();
                             }

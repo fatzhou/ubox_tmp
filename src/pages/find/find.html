@@ -8,7 +8,7 @@
     <ion-navbar class="search-header">
         <ion-title *ngIf="isShowTitle">
             <div class="home-title-box">
-                <p class="home-title">Discovery</p>
+                <p class="home-title">{{global.L("Discovery")}}</p>
                 <p class="list-point"><span></span><span class="active"></span><span></span></p>
             </div>
         </ion-title>
@@ -30,14 +30,14 @@
     <div class="main-content">
         <div class="search-body">
             <div class="recommend-title">
-                <p>推荐资源</p>
+                <p>{{global.L("RecommendedResources")}}</p>
             </div>
             <ul>
                 <li (click)="goBtDetailPage(item.resid);" *ngFor="let item of feedList">
                     <div class="bt-box defalut-box">
                         <p class="bt-title">{{ item.title }}</p>
                         <p class="p-info"><span>{{ item.mgdate | computeFileTime }} {{ item.size == '' ? '' : '·' }} {{ item.size }}</span></p>
-                        <span class="download-btn" (click)="downloadBt(item.mgurl);$event.stopPropagation();">GET</span>
+                        <span class="download-btn" (click)="downloadBt(item.mgurl);$event.stopPropagation();">{{global.L("Get")}}</span>
                         <p class="p-imglist" *ngIf="item.images" [ngClass]="item.images.length == 1 ? 'one-png' : ''"><span *ngFor="let img of item.images"><img [src]="img"  alt=""></span></p>
                     </div>
                 </li>
