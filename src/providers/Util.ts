@@ -283,8 +283,16 @@ export class Util {
                     return this.http.post(url, {})
                     .then((data) => {
                         if (data.err_no === 0) {
+                            let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+                            let index = 0;
                             this.global.diskInfo = data.box;
                             this.global.diskInfo.disks = data.disks || [];
+                            this.global.diskInfo.disks.map((item)=> {
+                                if(item.label == '') {
+                                    item.label = 'DISK ' + label[index];
+                                    index++;
+                                }
+                            })
                             if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
                                 this.global.diskInfoStatus = false;
                             }else{

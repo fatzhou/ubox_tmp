@@ -87,12 +87,16 @@ page-device-manage {
                 }
                 &.dd-info {
                     text-indent: 10px;
+                    padding-top: 0;
+                    margin-top: 10px;
+                    padding-left: 23px;
                     em {
-                        width: 5px;
-                        height: 5px;
+                        width: 8px;
+                        height: 8px;
                         border-radius: 50%;
-                        left: 0;
-                        top: 2px;
+                        left: 20px;
+                        top: 50%;
+                        transform: translate(0,-50%);
                         background: $newFirstColor;
                         &.error {
                             background: $newSecondColor;

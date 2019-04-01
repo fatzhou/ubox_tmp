@@ -5,14 +5,13 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
     <ion-navbar>
         <ion-title>
             {{ global.L('DeviceManagement') }}
             <svg class="icon icon-right" aria-hidden="true">
                 <use xlink:href="#icongengduo1"></use>
             </svg>
-            <svg class="icon icon-right" aria-hidden="true">
+            <svg class="icon icon-right" (click)="goDeviceDetailPage()" aria-hidden="true">
                 <use xlink:href="#iconDetailsicon1"></use>
             </svg>
         </ion-title>
@@ -34,7 +33,7 @@
                     <dd class="dd-info" *ngIf="disk.status == 2"><em class="error"></em>{{ global.L('ConnectErr') }}</dd>
                 </dl>
             </div>
-            <div class="item-right" (click)="goDeviceDetailPage(disk)">
+            <div class="item-right">
                 <svg class="icon" aria-hidden="true" item-end>
                     <use xlink:href="#icongengduo1"></use>
                 </svg>
@@ -43,3 +42,17 @@
     </div>
 
 </ion-content>
+
+<div class="manage-options" *ngIf="isShowOptions">
+    <ul class="clear">      
+        <li tappable >
+            <p>{{ global.L("AllStart") }}</p>
+        </li>
+        <li tappable >
+            <p>{{ global.L("AllStop") }}</p>
+        </li>
+        <li tappable >
+            <p>{{ global.L("DownloadSet") }}</p>
+        </li>
+    </ul>
+</div>
