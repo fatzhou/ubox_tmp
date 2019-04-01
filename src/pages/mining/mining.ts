@@ -118,7 +118,7 @@ export class MiningPage {
 		let USDRate = this.global.globalRateInfo.find(item => item.curreycy == "USD");
 		if(USDRate) {
 			console.log(this.ubbeyToDollar + "sssssdsfs")
-			this.ubbeyToDollar = USDRate.rate;
+			this.ubbeyToDollar = USDRate.rate * this.lastDayEarn;
 		}
         if(this.chainType !== 'ERC20'){
             GlobalService.consoleLog("getprocess")
