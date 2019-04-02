@@ -83,13 +83,7 @@ export class ChangePasswdPage {
                     this.global.createGlobalAlert(this, {
                         title: Lang.L('WORD8b37527e'),
                         message: Lang.L('WORD49fd48a8'),
-                        buttons: [{
-                                text: Lang.L('WORD85ceea04'),
-                                handler: data => {
-                                    GlobalService.consoleLog('Cancel clicked enhhhhhh');
-                                    this.navCtrl.pop();
-                                }
-                            },
+                        buttons: [
                             {
                                 text: Lang.L('WORD0cde60d1'),
                                 handler: data => {
@@ -100,6 +94,13 @@ export class ChangePasswdPage {
                                         const startIndex = this.navCtrl.getActive().index;
                                         this.navCtrl.remove(0, startIndex);
                                       });
+                                }
+                            },
+                            {
+                                text: Lang.L('WORD85ceea04'),
+                                handler: data => {
+                                    GlobalService.consoleLog('Cancel clicked enhhhhhh');
+                                    this.navCtrl.pop();
                                 }
                             }
                         ]

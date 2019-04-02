@@ -42,7 +42,7 @@ export class BtSetPathPage {
             console.log('this.count' + this.count);
             GlobalService.consoleLog('ionViewDidLoad SelectfolderPage');
             GlobalService.consoleLog('this.currPath  :' + this.currPath);
-            this.currPath = this.navParams.get("currPath") || this.global.currSelectPath;
+            this.currPath = this.navParams.get("currPath") || this.global.currPath;
             let path = this.currPath == '/' ? Lang.L('DirAllFiles') : Lang.L('DirAllFiles') + this.currPath;
             this.path = path.replace(/\//g, '>');
             this.pathList = this.path.split('>');
@@ -93,7 +93,6 @@ export class BtSetPathPage {
                 currPath = this.currPath.replace(/\/$/g, '') + "/" + info;
             }
             GlobalService.consoleLog('currPath' + currPath);
-            this.global.currSelectPath = currPath;
             this.navCtrl.push(BtSetPathPage, {
                 "type" : false,
                 "count" : this.count + 1,
@@ -107,14 +106,21 @@ export class BtSetPathPage {
                 this.navCtrl.pop();
             } else {
                 console.log('this.count' + this.count);
-                this.util.popToPage(this, this.count + 2);
+                this.util.popToPage(this, this.count + 3);
             }
             
         }
     
         savePath() {
             // this.events.publish('bt-path-change', this.currPath);
-            this.global.currSelectPath = this.currPath;
+            if(this.global.selectFolderType == 'move') {
+                this.global.currPath = this.currPath;
+                if(this.global.selectFolderType == 'move') {
+                    this.events.publish("image:move");
+                } 
+            } else {
+                this.events.publish('bt-path-change', this.currPath);
+            }
             this.goBack();
         }
 

@@ -48,13 +48,7 @@ export class AboutDevicePage {
 	       	this.global.createGlobalAlert(this, {
 	            title: Lang.L("WORD59b0d149"),
 	            message: Lang.L("WORDe6e1739b"),
-	            buttons: [{
-	                    text: Lang.L("WORD621202ef"),
-	                    handler: data => {
-	                        GlobalService.consoleLog('Cancel clicked');
-	                        this.navCtrl.pop();
-	                    }
-	                },
+	            buttons: [
 	                {
 	                    text: Lang.L("WORD0cde60d1"),
 	                    handler: data => {
@@ -62,7 +56,14 @@ export class AboutDevicePage {
                                 refresh: false
                             });
 	                    }
-	                }
+                    },
+                    {
+	                    text: Lang.L("WORD621202ef"),
+	                    handler: data => {
+	                        GlobalService.consoleLog('Cancel clicked');
+	                        this.navCtrl.pop();
+	                    }
+	                },
 	            ]
 	        })
         } else {
@@ -96,12 +97,7 @@ export class AboutDevicePage {
                 title: Lang.L('WORDab667a91'),
                 message: Lang.L('WORDe6e1739b'),
                 buttons: [
-                    {
-                        text: Lang.L('NotBind'),
-                        handler: data => {
-                            this.navCtrl.pop();
-                        }
-                    },
+                    
                     {
                         text: Lang.L('WORD0cde60d1'),
                         handler: data => {
@@ -109,7 +105,13 @@ export class AboutDevicePage {
                                 refresh: true
                             });
                         }
-                    }
+                    },
+                    {
+                        text: Lang.L('NotBind'),
+                        handler: data => {
+                            this.navCtrl.pop();
+                        }
+                    },
                 ]
             }) 
         })
@@ -157,13 +159,6 @@ export class AboutDevicePage {
                     message: Lang.Lf('updateTips', res.data.dstVer),
                     buttons: [
                         {
-                            text: Lang.L("Cancel"),
-                            handler: data => {
-                                // reject();
-                                GlobalService.consoleLog("用户拒绝升级");
-                            }
-                        },
-                        {
                             text: Lang.L("Update"),
                             handler: data => {
                                 GlobalService.consoleLog("升级固件:" + res.data.dstVer + "," + res.data.signature);
@@ -177,7 +172,14 @@ export class AboutDevicePage {
                                     GlobalService.consoleLog("升级异常：" + e.stack);
                                 })
                             }
-                        },                            
+                        },   
+                        {
+                            text: Lang.L("Cancel"),
+                            handler: data => {
+                                // reject();
+                                GlobalService.consoleLog("用户拒绝升级");
+                            }
+                        },                         
                     ]
                 })                 
             } else if(res.type === 'newest') {

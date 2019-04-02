@@ -74,7 +74,7 @@ export class FileTransport {
 		var newTask = this.global.fileTaskList.find(item => item.fileId === fileId && item.finished === false);
 		var currentTask;
 		var pausing = 'waiting';
-		var fileTask = this.global.fileTaskList.filter(item => item.action == "upload" && item.pausing == 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
+		var fileTask = this.global.fileTaskList.filter(item => item.action == "upload" && item.pausing == 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid);
 		this.taskUploadListAmount = fileTask.length;
 		//已包含3个任务，任务不开启
 		if (fileTask.length < this.global.fileMaxUpload) {
@@ -115,7 +115,8 @@ export class FileTransport {
 				boxId: this.global.deviceSelected.boxId,
 				bindUserHash: this.global.deviceSelected.bindUserHash,
 				selected: false,
-				finishedTime: ''
+				finishedTime: '',
+				diskUuid: this.global.currDiskUuid
 			};
 			this.global.fileTaskList.push(currentTask);
 			this.events.publish('task:created');
@@ -191,7 +192,7 @@ export class FileTransport {
 			//查找等待中的任务，每完成一个自动通知新任务
 			this.startWaitTask('upload');
 		};
-		var fileTask = this.global.fileTaskList.filter(item => item.action == "upload" && item.pausing == 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
+		var fileTask = this.global.fileTaskList.filter(item => item.action == "upload" && item.pausing == 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid);
 		this.taskUploadListAmount = fileTask.length;
 		if (this.taskUploadListAmount > this.global.fileMaxUpload) {
 			GlobalService.consoleLog('先加入队列，且先暂停，后面再上传:' + this.taskUploadListAmount + "," + this.global.fileMaxUpload);
@@ -440,7 +441,7 @@ export class FileTransport {
 			var pausing = 'paused';
 
 			if (createTask) {
-				var taskList = this.global.fileTaskList.filter(item => item.action === 'download' && item.pausing === 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
+				var taskList = this.global.fileTaskList.filter(item => item.action === 'download' && item.pausing === 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid);
 				// this.tasklistlen = tasklist.length;
 				this.taskDownloadListAmount = taskList.length;
 				if (taskList.length <= this.global.fileMaxDownload) {
@@ -473,7 +474,8 @@ export class FileTransport {
 					boxId: this.global.deviceSelected.boxId,
 					bindUserHash: this.global.deviceSelected.bindUserHash,
 					selected: false,
-					finishedTime: ''
+					finishedTime: '',
+					diskUuid: this.global.currDiskUuid
 				}
 				var downloadTool = this.createDownloadHandler(resolve, reject, task, createTask);
 
@@ -572,7 +574,7 @@ export class FileTransport {
 			}
 			resolve && resolve('');
 		};
-		var taskList = this.global.fileTaskList.filter(item => item.action === 'download' && item.pausing === 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
+		var taskList = this.global.fileTaskList.filter(item => item.action === 'download' && item.pausing === 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid);
 		this.taskDownloadListAmount = taskList.length;		
 		//立即开始
 		if(!createTask || this.taskDownloadListAmount <= this.global.fileMaxDownload) {
@@ -642,7 +644,7 @@ export class FileTransport {
 
 	startWaitTask(action) {
 		console.log("开始等待的任务......." + action)
-		let continueTaskList = this.global.fileTaskList.filter(item => item.action == action && item.pausing == 'waiting' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
+		let continueTaskList = this.global.fileTaskList.filter(item => item.action == action && item.pausing == 'waiting' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid);
 		console.log("等待任务数目：" + continueTaskList.length);
 		if (continueTaskList.length > 0) {
 			let newTask = continueTaskList[0];

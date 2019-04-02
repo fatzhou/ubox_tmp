@@ -280,12 +280,6 @@ export class WalletCoinbasePage {
                 message: Lang.L('changeWalletDetail'),
                 buttons: [
                     {
-                        text: Lang.L('WORD85ceea04'),
-                        handler: data => {
-                            
-                        }
-                    },
-                    {
                         text: Lang.L('Ok'),
                         handler: data => {
                             isChange = true; 
@@ -294,7 +288,13 @@ export class WalletCoinbasePage {
                             });      
                             this.saveCallback(isChange);                   
                         }
-                    }
+                    },
+                    {
+                        text: Lang.L('WORD85ceea04'),
+                        handler: data => {
+                            
+                        }
+                    },
                 ]
             })
         }else{

@@ -21,7 +21,13 @@
             </div>
         </div>
         <div class="search-hirtory">
-            <p class="history-title">搜索历史 <span (click)="clearSearchKeys()">清空</span></p>
+            <p class="history-title">{{ global.L('SearchHistory') }}
+                <span (click)="clearSearchKeys()">
+                    <svg class="icon icon-ellipsis icon-clear" (click)="clearKey()" aria-hidden="true">
+                        <use xlink:href="#icondelete1"></use>
+                    </svg>
+                </span>
+            </p>
             <p class="history-list">
                 <span *ngFor="let item of searchKeyList" (click)="inputValue = item;searchList()">{{ item }}</span>
             </p>
@@ -32,7 +38,7 @@
                     <div class="bt-box defalut-box">
                         <p class="bt-title">{{ item.title }}</p>
                         <p class="p-info"><span>{{ item.mgdate | computeFileTime }} {{ item.size == '' ? '' : '·' }} {{ item.size }}</span></p>
-                        <span class="download-btn" (click)="downloadBt(item.mgurl);$event.stopPropagation();">GET</span>
+                        <span class="download-btn" (click)="downloadBt(item.mgurl);$event.stopPropagation();">{{ global.L('Get') }}</span>
                         <p class="p-imglist" [ngClass]="item.images.length == 1 ? 'one-png' : ''"><img [src]="img" *ngFor="let img of item.images" alt=""></p>
                     </div>
                 </li>

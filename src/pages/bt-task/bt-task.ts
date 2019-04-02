@@ -110,13 +110,7 @@ export class BtTaskPage {
                 value: 'value1',
                 checked: false
             }],
-            buttons: [{
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
-                        // this.handleBack();
-                    }
-                },
+            buttons: [
                 {
                     text: Lang.L('Delete'),
                     handler: data => {
@@ -137,6 +131,13 @@ export class BtTaskPage {
                                 this.getTaskList();
                             }
                         })
+                    }
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.handleBack();
                     }
                 }
             ]
@@ -161,17 +162,17 @@ export class BtTaskPage {
 
     getStatus(item) {
         if(item.status == -1) {
-            return '等待下载'
+            return Lang.L("WaitingDownload")
         } else if(item.status == 0) {
-            return '连接中'
+            return Lang.L("Connecting")
         } else if(item.status == 1) {
-            return '下载' + ""
+            return Lang.L("Download") + "" 
         } else if(item.status == 2) {
-            return '已暂停'
+            return Lang.L("PAUSED")
         } else if(item.status == 3) {
-            return '已完成'
+            return Lang.L("WORD3c80409a")
         }else if(item.status == 4) {
-            return '下载失败'
+            return Lang.L("DownloadError")
         }
     }
 
@@ -185,19 +186,19 @@ export class BtTaskPage {
 
     getChangeStatus(item) {
         if(item.status == -1 || item.status == 0 || item.status == 1) {
-            return '下载中'
+            return Lang.L("Connecting")
         } else if(item.status == 2) {
-            return '继续下载'
+            return Lang.L("ContinueDownload")
         } else if(item.status == 3) {
-            return '查看文件'
+            return Lang.L("ViewFile")
         }else if(item.status == 4) {
-            return '重新下载'
+            return Lang.L("DownloadAgain")
         }
     }
 
     showPcToast() {
         this.global.createGlobalToast(this, {
-            message: '在电脑上打开Ubbey客户端，可对您设备里的文件进行管理，下载地址：www.ubbey.org/download'
+            message: Lang.L("TaskViewPC")
         })
         this.toggleShowOptions('close');
     }

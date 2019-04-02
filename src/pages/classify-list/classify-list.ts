@@ -279,7 +279,7 @@ export class ClassifyListPage {
 
     judgeBusy() {
         return this.global.fileTaskList.some(item => {
-            return !item.finished && item.pausing != 'paused' && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash;
+            return !item.finished && item.pausing != 'paused' && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid;
         });
     }
 
@@ -401,14 +401,7 @@ export class ClassifyListPage {
                 placeholder: selectedFile.type === 1 ? Lang.L('PlsInputYourDirectoryName') : Lang.L('PlsInputYourFileName')
             }, ],
             // enableBackdropDismiss: false,
-            buttons: [{
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
-                        // this.global.alertCtrl.dismiss();
-                        // this.handleBack();
-                    }
-                },
+            buttons: [
                 {
                     text: Lang.L('WORD65abf33c'),
                     handler: data => {
@@ -438,7 +431,15 @@ export class ClassifyListPage {
                         self.moveFile(prefix, oName, prefix, name, "rename");
                         return true;
                     }
-                }
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.global.alertCtrl.dismiss();
+                        // this.handleBack();
+                    }
+                },
             ]
         })
         return true;
@@ -491,6 +492,11 @@ export class ClassifyListPage {
                 title: Lang.L('DirDocuments'),
                 path: '/Documents',
                 label: 4
+            },
+            'bt': {
+                title: Lang.L('DirBT'),
+                path: '/Bittorrent',
+                label: 6
             }
         };
         if (config[type]) {
@@ -622,9 +628,9 @@ export class ClassifyListPage {
         infiniteScroll.complete();     
     }
 
-    goDetailPage() {
+    goDetailPage(info) {
         this.navCtrl.push(FileDetailPage, {
-            info: this.DetailInfo
+            info: info
         })
     }
 }

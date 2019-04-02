@@ -69,18 +69,18 @@ export class SystemSettingPage {
             message: Lang.L('WORDf6cdb0fc'),
             buttons: [
                 {
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                    }
-                },
-                {
                     text: Lang.L('WORD79e4bc03'),
                     handler: data => {
                         self.util.logout(()=>{
                             self.goDeviceListPage();
                         });
                     }
-                }
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                    }
+                },
             ]
         })
     }

@@ -33,9 +33,9 @@
 			</button>
         </div>
         <div class="rights-bottom">
-            <p>ubbey.org</p>
-            <p>Copyright © 2018 Universal Labs. </p>
-            <p>All Rights Reserved</p>
+            <p>{{global.L("UbbeyOrg")}}</p>
+            <p>{{global.L("CopyRight")}}</p>
+            <p> {{global.L("AllRights")}}</p>
         </div>
 	</div>
 	
@@ -48,6 +48,6 @@
 		<div class="progress-bar">
 			<div class="progress-bar-inner" [ngStyle]="{width: percent + '%'}"></div>
 		</div>
-		<div class="cancel" (click)="stopUpgrade()">取消</div>
+		<div class="cancel" (click)="stopUpgrade()">{{global.L("Cancel")}}</div>
 	</div>
 </div>

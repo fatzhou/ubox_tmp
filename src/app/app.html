@@ -14,43 +14,43 @@
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#icondownloadicon1"></use>
 						</svg>
-						<span>My Files</span>
+						<span>{{global.L('MyFiles')}}</span>
 					</li>
 					<li (click)="goPage('discover')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconBTdefault"></use>
 						</svg>
-						<span>Discover</span>
+						<span>{{global.L('Discover')}}</span>
 					</li>
 					<li class="border-bottom" (click)="goPage('mining')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconMiningdefault"></use>
 						</svg>
-						<span>Mining</span>
+						<span>{{global.L('Mining')}}</span>
 					</li>
 					<li (click)="goPage('wallet')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconWalletdefault"></use>
 						</svg>
-						<span>Wallet</span>
+						<span>{{global.L('Wallet')}}</span>
 					</li>
 					<li class="border-bottom" (click)="goPage('dapp')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconDappdefault"></use>
 						</svg>
-						<span>DAPP</span>
+						<span>{{global.L('DAPP')}}</span>
 					</li>
 					<li (click)="goPage('notice')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconMessagedefault"></use>
 						</svg>
-						<span>Notices</span>
+						<span>{{global.L('Notices')}}</span>
 					</li>
 					<li (click)="goPage('setting')">
 						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconSettingdefault"></use>
+							<use xlink:href="#iconSettingdefault1"></use>
 						</svg>
-						<span>Setting</span>
+						<span>{{global.L('Setting')}}</span>
 					</li>
 				</ul>
 				<div ion-item *ngIf="global.centerUserInfo.bind_box_count > 0" class="nav-bottom">

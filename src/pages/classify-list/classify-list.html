@@ -49,7 +49,7 @@
 									<p>{{ info.displayTime }}</p>
 								</div>
 								<div class="btn" *ngIf="classify != 1">
-									<svg class="icon icon-ellipsis" aria-hidden="true" *ngIf="!allBtnsShow" (click)="DetailInfo = info;toggleDetailPage(true);$event.stopPropagation();">
+									<svg class="icon icon-ellipsis" aria-hidden="true" *ngIf="!allBtnsShow" (click)="goDetailPage(info);$event.stopPropagation();">
 										<use xlink:href="#icongengduo1"></use>
                                     </svg>                    
                                     <em class="nochoose-circle" *ngIf="!info.selected && allBtnsShow"></em>

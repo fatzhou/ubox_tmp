@@ -155,13 +155,7 @@ export class FindPage {
             title: '下载文件',
             message: 'Hunter Killer-2018 [BluRay]laom [720p] [YTS] [YIFY]',
             // enableBackdropDismiss: false,
-            buttons: [{
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
-                        // this.handleBack();
-                    }
-                },
+            buttons: [
                 {
                     text: '下载',
                     handler: data => {
@@ -171,7 +165,14 @@ export class FindPage {
                         })
                         return true;
                     }
-                }
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.handleBack();
+                    }
+                },
             ]
         })
     }

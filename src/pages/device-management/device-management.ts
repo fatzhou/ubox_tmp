@@ -45,13 +45,7 @@ export class DeviceManagementPage {
 	       	this.global.createGlobalAlert(this, {
 	            title: Lang.L('WORD59b0d149'),
 	            message: Lang.L('WORDe6e1739b'),
-	            buttons: [{
-	                    text: Lang.L('WORD621202ef'),
-	                    handler: data => {
-	                        GlobalService.consoleLog('Cancel clicked');
-	                        this.navCtrl.pop();
-	                    }
-	                },
+	            buttons: [
 	                {
 	                    text: Lang.L('WORD0cde60d1'),
 	                    handler: data => {
@@ -59,7 +53,14 @@ export class DeviceManagementPage {
                                 refresh: false
                             });
 	                    }
-	                }
+                    },
+                    {
+	                    text: Lang.L('WORD621202ef'),
+	                    handler: data => {
+	                        GlobalService.consoleLog('Cancel clicked');
+	                        this.navCtrl.pop();
+	                    }
+	                },
 	            ]
 	        })
         } else {
@@ -136,23 +137,6 @@ export class DeviceManagementPage {
 				    	}) 
 				    	.then(res => {
 				    		if(res.err_no === 0) {
-					            // this.global.createGlobalAlert(this, {
-					            //     title: Lang.L('WORDaa10600b'),
-					            //     message: Lang.L('WORDbe8f94ca'),
-					            //     buttons: [
-					            //         {
-					            //             text: Lang.L('WORDd6291d38'),
-					            //             handler: data => {
-					            //                 this.navCtrl.push(TabsPage)
-                 //                                .then(() => {
-                 //                                  const startIndex = this.navCtrl.getActive().index;
-                 //                                  GlobalService.consoleLog("即将删除历史记录：" + startIndex);
-                 //                                  this.navCtrl.remove(0, startIndex);
-                 //                                });
-					            //             }
-					            //         }
-					            //     ]
-					            // })	
                                 this.setLoadingStatus();
 				    		}
 				    	})                         
@@ -175,19 +159,19 @@ export class DeviceManagementPage {
                 message: Lang.L('WORDe6e1739b'),
                 buttons: [
                     {
-                        text: Lang.L('NotBind'),
-                        handler: data => {
-                            this.navCtrl.pop();
-                        }
-                    },
-                    {
                         text: Lang.L('WORD0cde60d1'),
                         handler: data => {
                             this.navCtrl.push(DeviceListPage, {
                                 refresh: true
                             });
                         }
-                    }
+                    },
+                    {
+                        text: Lang.L('NotBind'),
+                        handler: data => {
+                            this.navCtrl.pop();
+                        }
+                    },
                 ]
             }) 
         })

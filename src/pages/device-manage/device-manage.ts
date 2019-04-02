@@ -74,19 +74,19 @@ export class DeviceManagePage {
                 message: Lang.L('WORDe6e1739b'),
                 buttons: [
                     {
-                        text: Lang.L('NotBind'),
-                        handler: data => {
-                            this.isShowOptions = false;
-                        }
-                    },
-                    {
                         text: Lang.L('WORD0cde60d1'),
                         handler: data => {
                             this.navCtrl.push(DeviceSearchPage, {
                                 refresh: true
                             });
                         }
-                    }
+                    },
+                    {
+                        text: Lang.L('NotBind'),
+                        handler: data => {
+                            this.isShowOptions = false;
+                        }
+                    },
                 ]
             }) 
         })

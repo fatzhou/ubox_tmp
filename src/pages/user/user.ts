@@ -139,21 +139,24 @@ export class UserPage {
                     title: Lang.L('WORD997457d4'),
                     message: Lang.L('WORDebb0158d'),
                     enableBackdropDismiss: false,
-                    buttons: [{
-                        "text": Lang.L('Cancel')
-                    }, {
-                        "text": Lang.L('Ok'),
-                        "handler": () => {
-                            chcp.installUpdate(error => {
-                                if (error) {
-                                    GlobalService.consoleLog('Failed to install the update with error code: ' + error.code);
-                                    GlobalService.consoleLog(error.description);
-                                } else {
-                                    GlobalService.consoleLog('Update installed!');
-                                }
-                            });
-                        }
-                    }]
+                    buttons: [
+                        {
+                            "text": Lang.L('Ok'),
+                            "handler": () => {
+                                chcp.installUpdate(error => {
+                                    if (error) {
+                                        GlobalService.consoleLog('Failed to install the update with error code: ' + error.code);
+                                        GlobalService.consoleLog(error.description);
+                                    } else {
+                                        GlobalService.consoleLog('Update installed!');
+                                    }
+                                });
+                            }
+                        },
+                        {
+                            "text": Lang.L('Cancel')
+                        },
+                    ]
                 });
             }
         }, 3000 - (Date.now() - this.updateTime))
@@ -183,18 +186,18 @@ export class UserPage {
             message: Lang.L('WORDf6cdb0fc'),
             buttons: [
                 {
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                    }
-                },
-                {
                     text: Lang.L('WORD79e4bc03'),
                     handler: data => {
                         self.util.logout(()=>{
                             self.goDeviceListPage();
                         });
                     }
-                }
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                    }
+                },
             ]
         })
     }

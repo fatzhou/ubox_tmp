@@ -123,13 +123,6 @@ export class AddFileComponent {
             }, ],
             // enableBackdropDismiss: false,
             buttons: [{
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
-                        // this.handleBack();
-                    }
-                },
-                {
                     text: Lang.L('WORDd0ce8c46'),
                     handler: data => {
                         var name = data.folderName.replace(/(^\s+|\s+$)/g,'');
@@ -165,8 +158,14 @@ export class AddFileComponent {
                         }
                         return true;
                     }
-                }
-            ]
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.handleBack();
+                    }
+                }]
         })
     }
 
