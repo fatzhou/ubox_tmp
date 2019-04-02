@@ -682,7 +682,8 @@ export class HttpService {
 		GlobalService.consoleLog(`远程目录${remoteUrl},本地目录${localPath},文件名${name}`)
 		if (!this.global.useWebrtc) {
 			return this.http.downloadFile(url, {
-				fullpath: remoteUrl + name
+				fullpath: remoteUrl + name,
+				disk_uuid: this.global.currDiskUuid
 			}, {}, localPath + name)
 				.then(data => {
 					//检查文件是否合法
@@ -749,7 +750,8 @@ export class HttpService {
 		GlobalService.consoleLog(`下载url: ${url}, 远端路径: ${remoteUrl}, 文件路径:${params.filePath}, 临时文件：${params.tmpFileName}`);
 		if (!this.global.useWebrtc || forceLocal) {
 			return this.http.downloadFile(url, {
-				fullpath: remoteUrl
+				fullpath: remoteUrl,
+				disk_uuid: this.global.currDiskUuid
 			}, headers, params.filePath + '/' + params.tmpFileName)
 				.then((res) => {
 					// GlobalService.consoleLog("下载成功，读取下载的文件到buf：" + JSON.stringify(res));
@@ -763,7 +765,8 @@ export class HttpService {
 			GlobalService.consoleLog("webrtc下载");
 			return new Promise((resolve, reject) => {
 				this.webrtcRequest(url, 'get', {
-					fullpath: remoteUrl
+					fullpath: remoteUrl,
+					disk_uuid: this.global.currDiskUuid
 				}, headers, {
 						maxTime: 8000,
 						retries: 3,

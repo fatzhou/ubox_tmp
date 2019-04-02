@@ -58,7 +58,8 @@ export class SelectUploadFolderPage {
         let _that = SelectUploadFolderPage._this
         var url = _that.global.getBoxApi("listFolder");
         _that.http.post(url, {
-            path: _that.currPath
+            path: _that.currPath,
+            disk_uuid: _that.global.currDiskUuid
         })
         .then((res) => {
             if (res.err_no === 0) {
@@ -147,7 +148,8 @@ export class SelectUploadFolderPage {
                             var url = this.global.getBoxApi("createFolder");
                             var prefix = this.currPath.replace(/\/$/g, '') + "/";
                             this.http.post(url, {
-                                fullpath: prefix + name
+                                fullpath: prefix + name,
+                                disk_uuid: this.global.currDiskUuid
                             })
                             .then((res)=>{
                                 if(res.err_no === 0) {

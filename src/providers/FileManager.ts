@@ -648,6 +648,7 @@ export class FileManager {
                         range: `0-${length-1}-${length}`,
                         path: remotePath,
                         name: fileName,
+						disk_uuid: this.global.currDiskUuid
                 }, filePath, fileName, buf)
             }, res => {
                 throw new Error("Failed to read file");
@@ -669,7 +670,8 @@ export class FileManager {
 		            		GlobalService.consoleLog("开始创建远程目录...");
 		            		var url = this.global.getBoxApi("createFolder");
 	                        this.http.post(url, {
-	                            fullpath: this.global.ThumbnailRemotePath
+	                            fullpath: this.global.ThumbnailRemotePath,
+								disk_uuid: this.global.currDiskUuid
 	                        })
 	                        .then(res => {
 	                        	if(res.err_no === 0) {

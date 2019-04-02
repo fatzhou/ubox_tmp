@@ -298,6 +298,9 @@ export class Util {
                                     item.label = 'DISK ' + label[index];
                                     index++;
                                 }
+                                if(item.position == 'base') {
+                                    this.global.currDiskUuid = item.uuid;
+                                }
                             })
                             if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
                                 this.global.diskInfoStatus = false;
@@ -1527,7 +1530,19 @@ export class Util {
                     //盒子状态获取错误的出错率较高，目前出错继续保存钱包
                     if(res.err_no === 0) {
                         //获取到盒子状态信息
+                        let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+                        let index = 0;
                         $scope.global.diskInfo = res.box;
+                        $scope.global.diskInfo.disks = res.disks || [];
+                        $scope.global.diskInfo.disks.map((item)=> {
+                            if(item.label == '') {
+                                item.label = 'DISK ' + label[index];
+                                index++;
+                            }
+                            if(item.position == 'base') {
+                                $scope.global.currDiskUuid = item.uuid;
+                            }
+                        })
                         $scope.global.diskInfoStatus = !!($scope.global.diskInfo.disks && $scope.global.diskInfo.disks.length);
                         return $scope.http.post(url, {type: 0});
                     } else {
@@ -1725,7 +1740,8 @@ export class Util {
         //调用远程接口删除,暂不删除缩略图文件
         var url = this.global.getBoxApi("removeFile");
         return this.http.post(url, {
-            fullpath: JSON.stringify(path)
+            fullpath: JSON.stringify(path),
+            disk_uuid: this.global.currDiskUuid
         })
     }
 
@@ -1780,7 +1796,9 @@ export class Util {
         var url = this.global.getBoxApi("moveFile");
         return this.http.post(url, {
             src_path: oldPath + oldName,
-            dst_path: newPath + newName
+            dst_path: newPath + newName,
+            src_diskuuid: this.global.currDiskUuid,
+            dst_diskuuid: this.global.currSelectDiskUuid
         })
         .then(res => {
             if(res.err_no !== 0) {

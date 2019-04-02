@@ -172,7 +172,8 @@ export class PreviewImagePage {
         if(this.fromType == 'list') {
             this.apiUrl = this.global.getBoxApi("listFolder");
             this.apiData = {
-                path: this.currPath
+                path: this.currPath,
+                disk_uuid: this.global.currDiskUuid
             }
         } else {
             this.apiUrl = this.global.getBoxApi("listClassFolder");
@@ -180,7 +181,8 @@ export class PreviewImagePage {
                 path: '/',
                 label: 1,
                 index: this.pageIndex,
-                limit: this.pageSize
+                limit: this.pageSize,
+                disk_uuid: this.global.currDiskUuid
             };
         }
     }

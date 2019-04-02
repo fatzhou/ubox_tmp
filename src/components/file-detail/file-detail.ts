@@ -4,9 +4,9 @@ import { Events } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
 import { Lang } from "../../providers/Language";
-import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-upload-folder'
 import { FileTransport } from '../../providers/FileTransport';
 import { FileDownloader } from '../../providers/FileDownloader';
+import { BtSetDiskPage } from '../../pages/bt-set-disk/bt-set-disk';
 
 /**
  * Generated class for the FileDetailComponent component.
@@ -194,8 +194,8 @@ export class FileDetailComponent {
 		//     })
 		//     return false;
 		// }
-		this.global.selectFolderType = 'move';
-		this.navCtrl.push(SelectUploadFolderPage);
+		// this.global.selectFolderType = 'move';
+		this.navCtrl.push(BtSetDiskPage);
 	}
 
 	shareFile() {

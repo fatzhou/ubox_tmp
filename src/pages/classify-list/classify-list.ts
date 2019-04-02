@@ -18,7 +18,7 @@ import { FileTransport } from '../../providers/FileTransport';
 import { FileDownloader } from '../../providers/FileDownloader';
 import { PreviewImagePage } from '../preview-image/preview-image';
 import { PreviewOtherPage } from '../preview-other/preview-other';
-import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-upload-folder'
+import { BtSetDiskPage } from '../../pages/bt-set-disk/bt-set-disk'
 import { Storage } from '@ionic/storage';
 import { FileDetailPage } from '../../pages/file-detail/file-detail'
 
@@ -217,7 +217,8 @@ export class ClassifyListPage {
             path: '/',
             label: this.classify,
             index: this.index,
-            limit: this.pageSize
+            limit: this.pageSize,
+            disk_uuid: this.global.currDiskUuid
         })
         .then((res) => {
             this.dataAcquired = true;
@@ -607,7 +608,7 @@ export class ClassifyListPage {
             return false;
         }
         this.global.selectFolderType = 'move';
-        this.navCtrl.push(SelectUploadFolderPage)
+        this.navCtrl.push(BtSetDiskPage)
     }
 
     refreshFileList(infiniteScroll) {

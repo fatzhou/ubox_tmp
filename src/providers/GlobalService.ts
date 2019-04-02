@@ -112,6 +112,9 @@ export class GlobalService {
     public localDocLibrary = [];
     public eventType = '';
     public currPath = '';
+    public currSelectPath = '';
+    public currDiskUuid = '';
+    public currSelectDiskUuid = '';
     public selectFolderType = 'upload';
     // public selectDataType = 'music';
     public albumBackupSwitch = undefined; //是否自动备份
@@ -324,6 +327,12 @@ export class GlobalService {
         },
         "checkFormatStatus": {
             url: "/ubeybox/device/check",
+        },
+        "renameDisk": {
+            url: "/ubeybox/device/rename_disk",
+        },
+        "renameHost": {
+            url: "/ubeybox/device/rename_host",
         },
         "switchSamba": {
             url: "/ubeybox/device/samba_switch",

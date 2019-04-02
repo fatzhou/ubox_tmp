@@ -589,7 +589,7 @@ export class FileTransport {
 	}
 
 	createDownloadHandlerLocal(fileTask, progress, success, failure) {
-		let url = this.global.getBoxApi('downloadFile') + '?fullpath=' + fileTask.path;
+		let url = this.global.getBoxApi('downloadFile') + '?fullpath=' + fileTask.path + '&disk_uuid=' + this.global.currDiskUuid;
 		let fileURL = fileTask.localPath;
 		console.log("下载url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
 		let self = this

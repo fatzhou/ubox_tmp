@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { BtSetPathPage } from '../bt-set-path/bt-set-path';
-
+import { GlobalService } from '../../providers/GlobalService';
+import { Util } from '../../providers/Util';
 /**
  * Generated class for the BtSetDiskPage page.
  *
@@ -14,15 +15,19 @@ import { BtSetPathPage } from '../bt-set-path/bt-set-path';
   templateUrl: 'bt-set-disk.html',
 })
 export class BtSetDiskPage {
-
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    disks: any = [];
+    constructor(public navCtrl: NavController, 
+        public navParams: NavParams,
+        public global: GlobalService,) {
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad BtSetDiskPage');
+        this.disks = this.global.diskInfo.disks;
 	}
 	
-	goNext() {
+	goNext(disk) {
+        this.global.currSelectDiskUuid = disk.uuid;
 		let path = this.navParams.get('currPath');
 		this.navCtrl.push(BtSetPathPage);
 	}

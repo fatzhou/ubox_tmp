@@ -46,23 +46,11 @@
             <p class="disk-title">{{global.L("OtherDisk")}}</p>
             <div class="disk-list-box">
                 <ul class="disk-ul-box" [ngStyle]="{width: 150 * 3 + 'px'}">
-                    <li>
+                    <li *ngFor="let disk of disks">
                         <p class="disk-icon">
                         </p>
-                        <p class="disk-name">My disk01</p>
-                        <p>601GB / 981GB</p>
-                    </li>
-                    <li>
-                        <p class="disk-icon">
-                        </p>
-                        <p class="disk-name">My disk01</p>
-                        <p>601GB / 981GB</p>
-                    </li>
-                    <li>
-                        <p class="disk-icon">
-                        </p>
-                        <p class="disk-name">My disk01</p>
-                        <p>601GB / 981GB</p>
+                        <p class="disk-name">{{ disk.label }}</p>
+                        <p>{{ disk.used }}/{{ disk.size }}</p>
                     </li>
                 </ul>
             </div>
