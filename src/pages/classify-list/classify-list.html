@@ -7,7 +7,7 @@
 <ion-header>
     <ion-navbar class="clear" [ngClass]="allBtnsShow ? 'select-tollbar' :''">
         <ion-title>
-        {{ allBtnsShow ? global.Lf('Downloading', selectedFiles.length) : pageTitle }}
+        {{ allBtnsShow ? global.Lf('SelectUploadNum', selectedFiles.length) : pageTitle }}
         <div class="list-header">
             <div class="back-nav" *ngIf="!showFileSelect">
                 <!-- <div class="back-btn"  *ngIf="allBtnsShow">  
