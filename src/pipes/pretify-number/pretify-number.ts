@@ -13,6 +13,9 @@ export class PretifyNumberPipe implements PipeTransform {
 	 * Takes a value and makes it lowercase.
 	 */
 	transform(value, ...args) {
+		if(!value) {
+			return "";
+		}
 		let splitLen = 3,
 			splitToken = ' ';
 		value = value.toString();

@@ -7,7 +7,7 @@ import { WalletCoinbasePage } from '../wallet-coinbase/wallet-coinbase';
 import { Events } from 'ionic-angular';
 import { Lang } from '../../providers/Language';
 import { Util } from '../../providers/Util';
-
+import { WalletGeneratorPage } from '../wallet-generator/wallet-generator';
 /**
  * Generated class for the MiningSettingPage page.
  *
@@ -28,7 +28,8 @@ export class MiningSettingPage {
     minRange:any = 1;
     chainType:string = "ERC20";
     oldShareSize:any = 0;
-    coinbase:string;
+	coinbase:string;
+
     constructor(public navCtrl: NavController,
         private global: GlobalService,
         private util: Util,
@@ -36,7 +37,7 @@ export class MiningSettingPage {
         private events: Events,
         public navParams: NavParams) {
             this.events.subscribe('coinbase:change', (res) => {
-                this.coinbase = res.coinbase;
+				this.coinbase = res.coinbase;
                 this.chainType = this.global.chainSelectArray[this.global.chainSelectIndex];
                 if(this.chainType === 'ERC20') {
                     this.global.deviceSelected && (this.global.deviceSelected.coinbase = res.coinbase);
@@ -50,9 +51,13 @@ export class MiningSettingPage {
             coinbase: this.coinbase,
         });
 	}
+
+	selectCoinbase(addr) {
+		this.coinbase = addr;
+	}
 	
 	goCreateWalletPage() {
-		
+		this.navCtrl.push(WalletGeneratorPage);
 	}
 
 
@@ -107,7 +112,8 @@ export class MiningSettingPage {
         GlobalService.consoleLog('ionViewDidLoad MiningSettingPage');
         if(!this.coinbase){
             this.coinbase = this.navParams.get('coinbase');
-        }
+		}
+
         if (!!this.global.deviceSelected) {
             GlobalService.consoleLog("已选择盒子");
             var shareSize = 0;

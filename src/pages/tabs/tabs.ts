@@ -312,6 +312,8 @@ export class TabsPage {
     ionViewDidLoad() {
 		GlobalService.consoleLog('进入TabsPage...');
 		this.util.getWalletList();
+		//获取汇率
+		this.util.getDisplayRate();
         //初始化connection组件
         // this.connection.status = this.global.useWebrtc ? this.global.L('RemoteNetwork')
 	}

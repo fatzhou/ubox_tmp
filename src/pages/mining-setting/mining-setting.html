@@ -5,50 +5,71 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-    <ion-toolbar>
-        <ion-navbar>
-            <ion-title>{{global.L("MiningSetting")}}</ion-title>
-        </ion-navbar>
-    </ion-toolbar>
+	<ion-toolbar>
+		<ion-navbar>
+			<ion-title>{{global.L("MiningSetting")}}</ion-title>
+		</ion-navbar>
+	</ion-toolbar>
 </ion-header>
 <ion-content>
 	<div class="mining-setting-content">
-	    <div class="items">
-	      <label class="fl">{{global.chainSelectIndex == 0 ? global.L("OpenMining") : global.L("OpenChainMining")}}<br/><span class="gray">{{ global.L("OpenUbbeyGetUbbey") }}</span></label>
-          <ion-toggle class="toggle fr" color="secondary" [(ngModel)]="ifMining" [checked]="ifMining"></ion-toggle>
-	    </div>	
-	    <div class="items">
-	    	<div class="capacity clear">
-	    		<label class="fl">{{global.L("ShareStorage")}}<br/><span class="gray">({{global.Lf("AvailableStorage", totalSize)}})</span></label>
-	    		<p class="capacity-amount fr">{{ computeShareSize() }}<span class="unit">GB</span></p>
-	    	</div>
-	    	
-			<div class="progress-info">
-			  <ion-range class="my-range-bar" [max]="maxRange" [min]="minRange" [(ngModel)]="brightness">
-			  </ion-range>
-            </div>
-	    </div>
-	    <div class="items wallet-set">
-	    	<div class="label with-border clear">
-	    		<label class="fl">{{global.L("MiningRewardAddress")}}<br/><span>{{ global.L("setMiningAddr") }}</span></label>
-	    	</div>
-	    	<div class="wallet clear">
-		        <div class="wallet-info fl">
-					<p *ngIf="coinbase">{{ coinbase | computeCoinbase }}</p>
-					<div (click)="goCreateWalletPage()" *ngIf="!global.walldetList.length">
-						<p>{{ global.L('CreateNewWallet') }}</p>
-						<svg  class="icon fl" aria-hidden="true">
-							<use xlink:href="#iconxiangyou"></use>
-						</svg> 
-					</div>
-                </div>
-			</div>			
+		<div class="items">
+			<label
+				class="fl">{{global.chainSelectIndex == 0 ? global.L("OpenMining") : global.L("OpenChainMining")}}<br /><span
+					class="gray">{{ global.L("OpenUbbeyGetUbbey") }}</span></label>
+			<ion-toggle class="toggle fr" color="secondary" [(ngModel)]="ifMining" [checked]="ifMining"></ion-toggle>
 		</div>
-		
+		<div class="items">
+			<div class="capacity clear">
+				<label class="fl">{{global.L("ShareStorage")}}<br /><span
+						class="gray">({{global.Lf("AvailableStorage", totalSize)}})</span></label>
+				<p class="capacity-amount fr">{{ computeShareSize() }}<span class="unit">GB</span></p>
+			</div>
+
+			<div class="progress-info">
+				<ion-range class="my-range-bar" [max]="maxRange" [min]="minRange" [(ngModel)]="brightness">
+				</ion-range>
+			</div>
+		</div>
+		<div class="items wallet-set">
+			<div class="label with-border clear">
+				<label
+					class="fl">{{global.L("MiningRewardAddress")}}<br /><span>{{ global.L("setMiningAddr") }}</span></label>
+			</div>
+			<div class="wallet clear">
+				<div class="wallet-info fl">
+					<p *ngIf="coinbase">{{ coinbase | computeCoinbase }}</p>
+					<div (click)="goCreateWalletPage()" *ngIf="!global.walletList.length">
+						<p>{{ global.L('CreateNewWallet') }}</p>
+						<svg class="icon fl" aria-hidden="true">
+							<use xlink:href="#iconxiangyou"></use>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<ul class="wallet-list" *ngIf="global.walletList.length > 0">
+			<li class="wallet-li" *ngFor="let wallet of global.walletList" (click)="selectCoinbase(wallet.addr);">
+				<div class="wallet-info">
+					<p class="title">{{ wallet.name }}</p>
+					<p class="address">{{ wallet.addr }}</p>
+				</div>
+				<div class="select">
+					<svg class="icon selected" aria-hidden="true" item-end *ngIf="wallet.addr == coinbase">
+						<use xlink:href="#icondanxuan"></use>
+					</svg>
+					<svg class="icon" aria-hidden="true" item-end *ngIf="wallet.addr != coinbase">
+						<use xlink:href="#iconweixuanzhong"></use>
+					</svg>
+				</div>
+			</li>
+		</ul>
+
 		<div class="save-btn-wrap">
-		    <div class="common-focus-button save-btn" tappable click-and-wait (click)="saveModify()">
-		    	{{global.L("SaveModify")}}
-		    </div>			
+			<div class="common-focus-button save-btn" tappable click-and-wait (click)="saveModify()">
+				{{global.L("SaveModify")}}
+			</div>
 		</div>
 
 	</div>

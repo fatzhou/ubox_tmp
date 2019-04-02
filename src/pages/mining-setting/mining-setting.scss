@@ -117,6 +117,43 @@ page-mining-setting {
 	    	}
 	    }
 	}	
+	.wallet-list {
+		background: #302F34;
+		box-shadow: 0 2px 20px 0 rgba(0,0,0,0.50);
+		border-radius: 3px;
+		margin: 0 10px;
+		overflow: hidden;
+		margin: 13px 10px;
+		.wallet-li {
+			display: flex;
+			
+			.wallet-info {
+				flex: 1;
+				
+				.title {
+					font-size: 15px;
+					color: #FFFFFF;
+					line-height: 21px;
+				}
+				.address {
+					font-size: 12px;
+					color: #78777C;
+					line-height: 16px;
+				}
+			}
+			.select {
+				width: 40px;
+				text-align: right;
+				.icon {
+					font-size: 20px;
+					margin-top: 6px;
+					&.selected {
+						color: $newFirstColor; 
+					}
+				}
+			}
+		}
+	}
 }
 @media only screen and (max-width: 320px) {  
     page-mining-setting .mining-setting-content{

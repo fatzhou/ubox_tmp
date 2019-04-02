@@ -4261,6 +4261,38 @@ export class Lang {
         en: '',
         kr: ''
     }
+	static NOBOX = {
+		cn: "盒子离线",
+		en: '',
+		kr: ''
+	}
+
+    // static SystemVersion = {
+    //     cn: '系统版本',
+    //     en: '',
+    //     kr: ''
+    // }
+    // static SystemVersion = {
+    //     cn: '系统版本',
+    //     en: '',
+    //     kr: ''
+    // }
+    // static SystemVersion = {
+    //     cn: '系统版本',
+    //     en: '',
+    //     kr: ''
+    // }
+    // static SystemVersion = {
+    //     cn: '系统版本',
+    //     en: '',
+    //     kr: ''
+    // }
+    // static SystemVersion = {
+    //     cn: '系统版本',
+    //     en: '',
+    //     kr: ''
+    // }
+
 
     static ClickChangePassword = {
         cn: '点击修改支付密码',

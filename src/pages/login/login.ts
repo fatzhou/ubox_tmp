@@ -12,6 +12,7 @@ import { analyzeAndValidateNgModules, flatten } from '@angular/compiler';
 import { Events, Platform, App } from 'ionic-angular';
 // import { WebrtcService } from "../../providers/WebrtcService";
 import { AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { DeviceGuidancePage } from '../device-guidance/device-guidance';
 
 // import { ChangepasswdPage } from '../changepasswd/changepasswd';
 /**
@@ -158,46 +159,7 @@ export class LoginPage {
                     .then(() => { 
                         this.isLoading = false;
                     })                    
-                }
-                // this.http.globalCallbackList.push(() => {
-                //     GlobalService.consoleLog("开始执行建立连接回调");
-                //     if(this.global.centerBoxSelected) {
-                //         GlobalService.consoleLog("有盒子，直接登录盒子");
-                //         //当前有盒子在线，调用盒子登录接口
-                //         Util.loginBox(this, (res)=>{
-                //             this.global.closeGlobalLoading(this);
-                //             if(res.err_no === 0) {
-                //                 this.global.resetWebrtc('webrtc');
-                //                 this.global.boxUserInfo = res.userinfo || {};
-                //                 this.util.getBoxVersion()
-                //                 .then(version => {
-                //                     GlobalService.consoleLog("查询版本号:" + version);
-                //                     this.global.deviceSelected.version = version;
-                //                     let device = this.global.foundDeviceList.filter(item => item.boxId === this.global.deviceSelected.boxId);
-                //                     device.version = version;
-                //                     GlobalService.consoleLog('第一个push')
-                //                     this.global.closeGlobalLoading(this);
-                //                     this.navCtrl.push(TabsPage)
-                //                     .then(() => {
-                //                         this.isLoading = false;
-                //                     })
-                //                 })
-                //             } else {
-                //                 this.global.closeGlobalLoading(this);
-                //                 this.isLoading = false;
-                //             }
-                //         }, false)                      
-                //     } else {
-                //         GlobalService.consoleLog("没有可用盒子的情况下跳转首页");
-                //         //当前没有盒子在线
-                //         this.global.closeGlobalLoading(this);
-                //         GlobalService.consoleLog('第二个push')
-                //         this.navCtrl.push(TabsPage)
-                //         .then(() => {
-                //             this.isLoading = false;
-                //         })
-                //     }
-                // })                              
+                }                             
             } else {
                 this.global.closeGlobalLoading(this);
                 // this.navCtrl.push(TestPage, {
@@ -207,14 +169,11 @@ export class LoginPage {
             }
         })
         .catch(e => {
-            console.log("获取盒子失败:" + JSON.stringify(e))
-            this.global.closeGlobalLoading(this);
-            this.isLoading = false;    
-            console.log("即将进入首页...");
-            console.log(e)
-            if(!e.err_no) {
-                this.navCtrl.push(TabsPage); 
-            }
+            if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
+				this.navCtrl.push(DeviceGuidancePage);
+			} else {
+				//其他问题导致登录失败，不处理...
+			}
         })
 	}
 

@@ -55,7 +55,7 @@
 				</ul>
 				<div ion-item *ngIf="global.centerUserInfo.bind_box_count > 0" class="nav-bottom">
 					<div item-start class="nav-bottom-top" (click)="goPage('device-manage')">
-						<p class="ubbey-contact fl eps">{{ global.deviceSelected ? (global.diskInfo.hardware == 'UbbeyNext' ? 'Ubbey Next': 'Ubbey Box') : '' }}</p>
+						<p class="ubbey-contact fl eps">{{ global.deviceSelected ? (global.diskInfo.hardware == 'UbbeyNext' ? 'Ubbey Next': 'Ubbey Box') : global.L('NOBOX') }}</p>
 						<p class="connection-type fl">{{ global.useWebrtc ? global.L('RemoteConnection') : global.L('LocalConnection') }}</p>
 						<p class="extentions fl" *ngIf="global.deviceSelected">{{ global.Lf('Extentions', global.diskInfo.disks && global.diskInfo.disks.length - 1) }}</p>
 					</div>
