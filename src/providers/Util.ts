@@ -66,10 +66,7 @@ export class Util {
             if (str.length < 8 || str.length > 18) {
                 return 2;
             }
-            if (!/^[a-zA-Z0-9]+$/g.test(str)) {
-                return 2;
-            }
-            if (!/^(?![a-zA-Z]+$)(?![0-9]+$)[a-zA-Z0-9]+$/g.test(str)) {
+            if (!/^[a-zA-Z0-9!\@\#\$\%\^\&\*\(\)\-_\=\+\\\|\[\]\{\};:\/\?\.\>]+$/g.test(str)) {
                 return 2;
             }
             return 0;
