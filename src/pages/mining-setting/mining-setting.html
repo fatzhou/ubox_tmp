@@ -32,15 +32,19 @@
 	    	<div class="label with-border clear">
 	    		<label class="fl">{{global.L("MiningRewardAddress")}}<br/><span>{{ global.L("setMiningAddr") }}</span></label>
 	    	</div>
-	    	<div class="wallet clear" (click)="setCoinbase()">
+	    	<div class="wallet clear">
 		        <div class="wallet-info fl">
-                    <p *ngIf="coinbase">{{ coinbase | computeCoinbase }}</p>
-                    <svg class="icon fl" aria-hidden="true">
-                        <use xlink:href="#iconxiangyou"></use>
-                    </svg> 
+					<p *ngIf="coinbase">{{ coinbase | computeCoinbase }}</p>
+					<div (click)="goCreateWalletPage()" *ngIf="!global.walldetList.length">
+						<p>{{ global.L('CreateNewWallet') }}</p>
+						<svg  class="icon fl" aria-hidden="true">
+							<use xlink:href="#iconxiangyou"></use>
+						</svg> 
+					</div>
                 </div>
-            </div>
-	    </div>
+			</div>			
+		</div>
+		
 		<div class="save-btn-wrap">
 		    <div class="common-focus-button save-btn" tappable click-and-wait (click)="saveModify()">
 		    	{{global.L("SaveModify")}}

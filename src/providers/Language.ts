@@ -4172,10 +4172,35 @@ export class Lang {
     }
 
     static SeeMoreMining = {
-        cn: '继续滑动查看历史收益',
+        cn: '查看历史收益',
         en: '',
         kr: ''
-    }
+	}
+	
+	static AddNewDevice = {
+		cn: '添加新设备',
+		en: '',
+		kr: ''
+	}
+
+	static Extentions = {
+		cn: '{num}个扩展设备',
+		en: '',
+		kr: ''
+	}
+
+	static RemoteConnection = {
+		cn: '远场连接',
+		en: '',
+		kr: ''
+	}
+
+	static LocalConnection = {
+		cn: '近场连接',
+		en: '',
+		kr: ''
+	}
+
     // static SystemVersion = {
     //     cn: '系统版本',
     //     en: '',
