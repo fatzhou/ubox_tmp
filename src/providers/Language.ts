@@ -4184,7 +4184,7 @@ export class Lang {
 	}
 
 	static Extentions = {
-		cn: '{num}个扩展设备',
+		cn: '${num}个扩展设备',
 		en: '',
 		kr: ''
 	}
@@ -4197,6 +4197,12 @@ export class Lang {
 
 	static LocalConnection = {
 		cn: '近场连接',
+		en: '',
+		kr: ''
+	}
+
+	static NOBOX = {
+		cn: "盒子离线",
 		en: '',
 		kr: ''
 	}

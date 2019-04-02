@@ -408,11 +408,11 @@ export class HttpService {
 		}
 		if (result.err_no === 20010 || result.err_no === 1103) {
 			var cookie = this.getCookieString(url);
-			console.error("接口报错登录态失效:" + JSON.stringify(result));
+			console.error("接口" + url + "报错登录态失效:" + JSON.stringify(result) + "是否处理：" + errorHandler);
 			GlobalService.consoleLog("cookie:" + cookie);
 			// this.global.logger("丢失cookie的URL:" + url);
 			// this.global.logger("获取用户信息失败cookie:" + cookie);
-			GlobalService.consoleLog("localStorage:" + JSON.stringify(window.localStorage));
+			// GlobalService.consoleLog("localStorage:" + JSON.stringify(window.localStorage));
 		}
 		//   result.err_no = 1503;
 		if (result.err_no === 1502) {
@@ -531,6 +531,7 @@ export class HttpService {
 	}
 
 	private handleError(error: Response | any = {}, errorHandler = true) {
+		console.log("是否handleError:" + errorHandler)
 		// GlobalService.consoleLog("==================");
 		var l = this.global.getAppLang();
 		if (!errorHandler) {

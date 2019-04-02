@@ -84,7 +84,18 @@ page-mining {
 				right: 18px;
 			}
 			.curve {
-				// background-image: linear-gradient(-192deg, rgba(37,206,218,0.12) 0%, rgba(14,209,152,0.08) 100%);
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				height: 130px;
+				.max-earn {
+					position: absolute;
+					color: $newFirstColor;
+					font-size: 12px;
+					line-height: 24px;
+					height: 24px;
+					transform: translate(-50%, -50%);
+				}			
 			}
 		}
 	}

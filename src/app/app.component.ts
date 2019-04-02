@@ -165,9 +165,6 @@ export class UboxApp {
             //注册返回按钮事件
             this.removeBackButtonAction();
 			// this.util.getDeviceID();
-			
-			//获取汇率
-			this.util.getDisplayRate();
         });
 	}
 	
@@ -217,7 +214,7 @@ export class UboxApp {
             if(res.err_no === 0) {
 				flag = true;
                 this.global.centerUserInfo = res.user_info;
-                //获取版本号
+                //登录盒子
                 this.util.loginAndCheckBox(this)
                 .then(res => {
 					console.log("loginAndCheckBox成功进入resolve....");
@@ -228,8 +225,13 @@ export class UboxApp {
                     }
                 })
 				.catch(e => {   
-					flag = true;                 //没有盒子
-                    this.nav.setRoot(LoginPage);
+					flag = true; //没有盒子
+					if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
+						//没有盒子，进入绑定流程
+						this.nav.push(DeviceGuidancePage);
+					} else {
+						this.nav.setRoot(LoginPage);
+					}
                 })
             } else {
 				flag = true;

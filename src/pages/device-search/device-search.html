@@ -48,8 +48,8 @@
 								<use xlink:href="#icondefaulticon"></use>
 							</svg>
 							<div class="device-info">
-								<p class="name">{{ device.friendlyName }}</p>
-								<p>{{ global.L("Capacity") }}1TB</p>
+								<p class="name">{{ device.boxType == 'UbbeyNext' ? 'UbbeyNext': 'UbbeyBox' }}</p>
+								<p>{{ global.L("Capacity") }} {{ device.storage | computeFileSize }}</p>
 								<p *ngIf="!!device.bindUserHash">{{ global.L("SerialNumber") }}{{ device.boxId }}</p>
 								<p *ngIf="!device.bindUserHash">{{ global.L("Binded") }}{{ device.bindUser }}</p>
 							</div>

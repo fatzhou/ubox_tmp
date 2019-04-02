@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { Web3Service } from '../../providers/Web3Service';
@@ -28,6 +28,10 @@ import { MenuController } from 'ionic-angular';
     templateUrl: 'mining.html',
 })
 export class MiningPage {
+	@ViewChild('canvas') canvasEl : ElementRef;
+	private _CANVAS  : any;
+	private _CONTEXT : any;
+
     boxInfo:any = {
         mining: true,
         share_size: 0
@@ -64,6 +68,9 @@ export class MiningPage {
 	loading: boolean = false;
 	
 	ubbeyToDollar;
+	maxEarnLeft = "0px";
+	maxEarnTop = "0px";
+	maxEarn = "";
 
     constructor(public navCtrl: NavController,
         private global: GlobalService,
@@ -71,7 +78,8 @@ export class MiningPage {
         private http: HttpService,
         private web3: Web3Service,
         private events: Events,
-        private app: App,
+		private app: App,
+		private platform: Platform,
         private menuCtrl: MenuController,
         public navParams: NavParams) {
 
@@ -122,7 +130,7 @@ export class MiningPage {
         if(this.chainType !== 'ERC20'){
             GlobalService.consoleLog("getprocess")
             this.getShareStorage();
-        }
+		}
 	}
 
     ionViewDidLeave(){
@@ -459,7 +467,10 @@ export class MiningPage {
                 this.unlockEarn = this.util.cutFloat(unlockEarn / unit, 2);
                 this.monthEarned = this.util.cutFloat(monthEarned / unit, 2);
                 this.lastDayEarn = this.util.cutFloat(lastDayEarn / unit, 2);
-                this.lastSevenEarnings = lastSevenEarnings; 
+				this.lastSevenEarnings = lastSevenEarnings; 
+				
+				//开始绘制30天数据
+				this.drawCanvas(dayInfo, unit);
             } else {
                 this.totalEarn = 0;
                 this.monthEarned = 0;
@@ -467,9 +478,72 @@ export class MiningPage {
                 this.unlockEarn = 0;
                 this.lastSevenEarnings = [];
             }     
-            this.loading = true;
+            // this.loading = false;
         }) 
-    }
+	}
+	
+	drawCanvas(data, unit) {
+		//所有数据先正规化到0-100之间
+		let d = data.map(item => (item.earn / unit));
+		console.log(d)
+		let min = d[0], max = d[0];
+		let maxIndex = -1;
+		for(let i = 1, len = d.length; i < len; i++) {
+			if(d[i] < min) {
+				min = d[i];
+			} else if(d[i] >= max ) {
+				console.log(d[i], max, i)
+				max = d[i];
+				maxIndex = i;
+			}
+		}
+		d = d.map(item => 130 - 80 * (item - min) / (max - min));
+		console.log(min, max, d)
+		this._CANVAS 	    = this.canvasEl.nativeElement;
+		this._CANVAS.width  	= this.platform.width() - 24;
+		this._CANVAS.height 	= 130;
+		if(this._CANVAS.getContext) {
+			this._CONTEXT = this._CANVAS.getContext('2d');
+			this._CONTEXT.clearRect(0, 0, this._CANVAS.width, this._CANVAS.beight);
+			this._CONTEXT.beginPath();
+			var grd = this._CONTEXT.createLinearGradient(0, 0, this._CANVAS.width, this._CANVAS.height);
+			grd.addColorStop(0, 'rgba(37, 206, 218, .2)');
+			grd.addColorStop(1, 'rgba(14, 209, 152, .2)');
+			this._CONTEXT.fillStyle = grd;
+			this._CONTEXT.lineWidth = 4;
+			this._CONTEXT.lineJoin = this._CONTEXT.lineCap = 'round';
+			this._CONTEXT.strokeStyle = '#23CC9D';
+			this._CONTEXT.globalCompositeOperation = 'source-over';
+			let widthBase = Math.floor(this._CANVAS.width / (d.length - 1));
+			this._CONTEXT.moveTo(0, d[0]);
+
+			for(let i = 1, len = d.length; i < len; i++) {
+				let x = (i - 1) * widthBase;
+				// console.log('---------')
+				// console.log(x, d[i]);
+				this._CONTEXT.quadraticCurveTo(x, d[i - 1], x + .5 * widthBase, (d[i - 1] + d[i]) / 2);
+				this._CONTEXT.stroke();
+				// let x = i * widthBase;
+				// this._CONTEXT.lineTo(x, d[i]);
+				// this._CONTEXT.moveTo(x, d[i]);
+			}
+			this._CONTEXT.lineTo(this._CANVAS.width, d[d.length - 1]);
+			this._CONTEXT.fill();
+			this._CONTEXT.stroke();
+			//画最大值
+			let img = new Image(48, 48);
+			img.src = 'assets/img/dian@2x.png';
+			// img.crossOrigin = "anonymous";
+			img.onload = () => {
+				this._CONTEXT.globalCompositeOperation = 'source-over';
+				this._CONTEXT.drawImage(img, maxIndex * widthBase - 24, d[maxIndex] - 18, 48, 48);
+				// this._CONTEXT.stroke();
+			}
+			this.maxEarnLeft = (maxIndex * widthBase) + 'px';
+			this.maxEarnTop = (d[maxIndex] - 20) + 'px';
+			this.maxEarn = max.toFixed(2);
+		}
+	}
 
     getAvenueData(last30Day, lastDay, addr) {
         let chain = this.chainType;

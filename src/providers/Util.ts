@@ -161,15 +161,21 @@ export class Util {
                 $scope.global.centerUserInfo = res.user_info;
                 let network = this.global.networkType === 'wifi' || !this.platform.is('cordova');
                 //查询用户的盒子
-                if(res.user_info.bind_box_count > 0 && network) {
+                if(res.user_info.bind_box_count > 0) {
 					console.log("局域网，搜索盒子....");
                     //用户有盒子
-                    // return Promise.resolve([]);
-                    return this.searchUbbey();
+					// return Promise.resolve([]);
+					if(network) {
+						//wifi
+						return this.searchUbbey();
+					} else {
+						//4g
+						return Promise.resolve([]);
+					}
                 } else {
-					console.log("4g或者没有盒子");
+					console.log("没有盒子");
                     //用户没有盒子
-                    return Promise.resolve([]);
+                    return Promise.reject('No box');
                 }
             } else {
 				console.log("用户信息错误.......")

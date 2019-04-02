@@ -41,7 +41,8 @@
 			</ion-toggle>
 
 			<div class="curve">
-
+				<p class="max-earn" [ngStyle]="{'left': maxEarnLeft, 'top': maxEarnTop}">{{ maxEarn | pretifyNumber }} UBBEY</p>
+				<canvas #canvas></canvas>
 			</div> 
 		</div>
 	</div>
