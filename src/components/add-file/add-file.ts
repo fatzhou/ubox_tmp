@@ -8,7 +8,6 @@ import { Events, App } from 'ionic-angular';
 import { Md5 } from 'ts-md5/dist/md5';
 import { Util } from '../../providers/Util';
 import { FileTransport } from '../../providers/FileTransport';
-import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-upload-folder'
 import { SelectAudioVideoPage } from '../../pages/select-audio-video/select-audio-video';
 import { SelectFolderPage } from '../../pages/select-folder/select-folder'
 import { SelectAlbumPage } from '../../pages/select-album/select-album'
@@ -141,7 +140,8 @@ export class AddFileComponent {
                             var url = this.global.getBoxApi("createFolder");
                             var prefix = this.currPath.replace(/\/$/g, '') + "/";
                             this.http.post(url, {
-                                fullpath: prefix + name
+                                fullpath: prefix + name,
+                                disk_uuid: this.global.currDiskUuid
                             })
                             .then((res)=>{
                                 if(res.err_no === 0) {
@@ -187,13 +187,6 @@ export class AddFileComponent {
         } else if(type == 'all') {
             this.app.getRootNav().push(SelectFolderPage, {
                 url: this.global.fileRootPath
-            });
-        } else if(type == 'create') {
-            this.app.getRootNav().push(SelectUploadFolderPage,{
-                "type" : true,
-                "count" : 0,
-                "currPath" : this.currPath,
-                // "selectedName": selectedName
             });
         }
     }

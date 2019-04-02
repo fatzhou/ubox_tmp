@@ -18,7 +18,7 @@ import { Platform } from 'ionic-angular';
 import { FileTransport } from '../../providers/FileTransport';
 import { PreviewImagePage } from '../preview-image/preview-image';
 import { PreviewOtherPage } from '../preview-other/preview-other';
-import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-upload-folder'
+import { BtSetDiskPage } from '../../pages/bt-set-disk/bt-set-disk'
 import { Storage } from '@ionic/storage';
 import { FileDetailPage } from '../../pages/file-detail/file-detail'
 import { DeviceGuidancePage } from '../../pages/device-guidance/device-guidance'
@@ -74,6 +74,7 @@ export class ListPage {
     isShowBox: boolean = false;
 	isShowClassifyNav: boolean = false;
     // isShowAside: boolean = false;
+    disks: any = [];
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -123,6 +124,11 @@ export class ListPage {
         }
         
         ListPage._this = this;
+        this.disks = this.global.diskInfo.disks.filter(item => {
+            item.used = this.util.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+            item.size = this.util.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+            return item;
+        });
     }
 
     ionViewDidLeave() {
@@ -261,7 +267,8 @@ export class ListPage {
         GlobalService.consoleLog("开始加载列表数据...");
         var url = this.global.getBoxApi("listFolder");
         return this.http.post(url, {
-            path: this.currPath
+            path: this.currPath,
+            disk_uuid: this.global.currDiskUuid
         })
         .then((res) => {
             this.dataAcquired = true;
@@ -663,7 +670,7 @@ export class ListPage {
             return false;
         }
         this.global.selectFolderType = 'move';
-        this.app.getRootNav().push(SelectUploadFolderPage)
+        this.app.getRootNav().push(BtSetDiskPage)
     }
 
     closeTypeList() {

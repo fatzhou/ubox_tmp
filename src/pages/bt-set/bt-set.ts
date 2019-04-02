@@ -30,9 +30,9 @@ export class BtSetPage {
         public util: Util,
         public http: HttpService,
         private events: Events,) {
-        events.subscribe('bt-path-change', (path) => {
-            this.path = path;
-        })
+        // events.subscribe('bt-path-change', (path) => {
+        //     this.path = path;
+        // })
     }
 
     ionViewDidLoad() {
@@ -70,6 +70,7 @@ export class BtSetPage {
         .then((res)=>{
             if(res.err_no === 0) {
                 this.path = res.dir;
+                this.global.currSelectPath = res.dir;
                 this.taskNum = res.task_num;
             }
         })
@@ -79,7 +80,7 @@ export class BtSetPage {
         var url = this.global.getBoxApi("changeBtTaskConfig");
         this.http.post(url, {
             task_num: this.taskNum,
-            dir: this.path
+            dir: this.global.currSelectPath
         })
         .then((res)=>{
             if(res.err_no === 0) {

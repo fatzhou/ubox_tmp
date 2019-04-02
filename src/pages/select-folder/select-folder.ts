@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Lang } from '../../providers/Language';
 import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
-import { SelectUploadFolderPage } from '../select-upload-folder/select-upload-folder'
+import { BtSetDiskPage } from '../bt-set-disk/bt-set-disk'
 import { FileTransport } from '../../providers/FileTransport';
 import { FileUploader } from '../../providers/FileUploader';
 import { FileManager } from '../../providers/FileManager';
@@ -52,8 +52,8 @@ export class SelectFolderPage {
         this.getFolderList();
         GlobalService.consoleLog(JSON.stringify(this.listFiles));
     }
-    goSelectUploadFolderPage() {
-        this.navCtrl.push(SelectUploadFolderPage);
+    goBtSetDiskPage() {
+        this.navCtrl.push(BtSetDiskPage);
     }
 
     selectFile(info) {

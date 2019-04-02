@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, App, Events } from 'ionic-angular';
-import {DeviceDetailPage} from '../device-detail/device-detail';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { Lang } from '../../providers/Language';
+import { Util } from '../../providers/Util';
+import {DeviceDetailPage} from '../device-detail/device-detail';
+import {DeviceSearchPage} from '../device-search/device-search';
 
 /**
  * Generated class for the DeviceManagePage page.
@@ -19,20 +21,166 @@ import { Lang } from '../../providers/Language';
 export class DeviceManagePage {
     disks: any = [];
     isShowOptions: boolean = false;
+    boxId:any = "";
+
+
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         public http: HttpService,
         private lang: Lang,
-        private global: GlobalService,) {
+        private global: GlobalService,
+        private util: Util) {
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad DeviceManagePage');
         this.disks = this.global.diskInfo.disks;
+        this.disks.map(item => {
+            item.isShowOptions = false;
+        })
+        this.boxId = this.global.diskInfo.boxid;
     }
 
     goDeviceDetailPage() {
         this.navCtrl.push(DeviceDetailPage);
     }
 
+    toggleShowOptions(action = null) {
+        this.isShowOptions = !this.isShowOptions;
+        this.disks.map(item => {
+            if(item.isShowOptions) {
+                item.isShowOptions = false;
+            }
+        })
+    }
+
+    showItemOptions(item) {
+        this.closeAllOptions();
+        item.isShowOptions = true;
+    }
+    closeAllOptions() {
+        this.isShowOptions = false;
+        this.disks.map(item => {
+            if(item.isShowOptions) {
+                item.isShowOptions = false;
+            }
+        })
+    }
+
+    unbindBox() {
+        this.util.unbindBox(this, this.boxId, ()=>{
+            this.global.createGlobalAlert(this, {
+                title: Lang.L('WORDab667a91'),
+                message: Lang.L('WORDe6e1739b'),
+                buttons: [
+                    {
+                        text: Lang.L('NotBind'),
+                        handler: data => {
+                            this.isShowOptions = false;
+                        }
+                    },
+                    {
+                        text: Lang.L('WORD0cde60d1'),
+                        handler: data => {
+                            this.navCtrl.push(DeviceSearchPage, {
+                                refresh: true
+                            });
+                        }
+                    }
+                ]
+            }) 
+        })
+    }
+
+    rebootDevice() {
+        this.util.rebootDevice(this);
+    }
+
+    setLoadingStatus(disk) {
+        this.global.createGlobalLoading(this, {
+            message: Lang.L('FormatDiskLoading')
+        });        
+        var interval = setInterval(()=>{
+            var url = this.global.getBoxApi('formatBox');
+            this.http.post(url, {
+                disk_uuid: disk.uuid
+            })  
+            .then(res=>{
+                if(res.err_no === 0) {
+                    GlobalService.consoleLog("格式化完成");
+                    this.global.loadingCtrl.dismiss();
+                    this.global.fileTaskList = [];
+                    disk.isShowOptions = false;
+                    if(interval) {
+                       this.global.createGlobalToast(this, {
+                            message: Lang.L('FormatFinished')
+                        });
+                        clearInterval(interval);
+                        interval = null;                        
+                    }
+                } else {
+                    GlobalService.consoleLog("仍然在格式化");
+                }
+            })
+        }, 500);
+    }
+
+    setDiskLabel(disk) {
+        this.global.createGlobalAlert(this, {
+            title: '磁盘重命名',
+            inputs: [{
+                name: 'folderName',
+                type: 'text',
+                value: disk.label
+            }, ],
+            buttons: [{
+                    text: Lang.L('WORDd0ce8c46'),
+                    handler: data => {      
+                        var name = data.folderName.replace(/(^\s+|\s+$)/g,'');
+                        if(name.length > 64) {
+                            this.global.createGlobalToast(this, {
+                                message: '命名不能超过64个字符',
+                                position: 'bottom',
+                            });
+                            return false;
+                        }
+                        if(!name) {
+                            this.global.createGlobalToast(this, {
+                                message: Lang.L('WORD284e3541'),
+                                position: 'bottom',
+                            });
+                            return false;
+                        } else {   
+                            var url = this.global.getBoxApi('renameDisk');
+                            this.http.post(url, {
+                                disk_uuid: disk.uuid,
+                                label: data.folderName
+                            })  
+                            .then(res=>{
+                                if(res.err_no === 0) {
+                                    this.global.createGlobalToast(this, {
+                                        message: '重命名成功',
+                                    })
+                                    disk.label = data.folderName;
+                                    
+                                } else {
+                                    this.global.createGlobalToast(this, {
+                                        message: '重命名失败',
+                                    })
+                                }
+                                return true;
+                            })
+                            
+                        }
+                    }
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                    }
+                }
+            ]
+        })
+    }
 }

@@ -2,7 +2,7 @@ import { Component, Output, Input, EventEmitter } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
-import { SelectUploadFolderPage } from '../../pages/select-upload-folder/select-upload-folder'
+import { BtSetDiskPage } from '../../pages/bt-set-disk/bt-set-disk';
 
 /**
  * Generated class for the FileFooterComponent component.
@@ -33,7 +33,7 @@ export class FileFooterComponent {
     }
 
     goSelectUploadFolderPage() {
-        this.navCtrl.push(SelectUploadFolderPage);
+        this.navCtrl.push(BtSetDiskPage);
     }
 
     uploadEvent() {

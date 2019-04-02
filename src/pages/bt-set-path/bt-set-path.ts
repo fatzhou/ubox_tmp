@@ -42,23 +42,21 @@ export class BtSetPathPage {
             console.log('this.count' + this.count);
             GlobalService.consoleLog('ionViewDidLoad SelectfolderPage');
             GlobalService.consoleLog('this.currPath  :' + this.currPath);
-            this.currPath = this.navParams.get("currPath") || this.global.currPath;
+            this.currPath = this.navParams.get("currPath") || this.global.currSelectPath;
             let path = this.currPath == '/' ? Lang.L('DirAllFiles') : Lang.L('DirAllFiles') + this.currPath;
             this.path = path.replace(/\//g, '>');
             this.pathList = this.path.split('>');
             this.selectedName = this.currPath == '/' ? Lang.L('DirAllFiles') : this.currPath.split('/')[this.currPath.split('/').length -1];
             this.global.selectedUploadFolderName = this.selectedName;
             BtSetPathPage.listFiles();
-            if(this.type == true) {
-                this.makeFolder();
-            }
         }
     
         static listFiles() {
             let _that = BtSetPathPage._this
             var url = _that.global.getBoxApi("listFolder");
             _that.http.post(url, {
-                path: _that.currPath
+                path: _that.currPath,
+                disk_uuid: _that.global.currSelectDiskUuid
             })
             .then((res) => {
                 if (res.err_no === 0) {
@@ -94,7 +92,8 @@ export class BtSetPathPage {
             } else {
                 currPath = this.currPath.replace(/\/$/g, '') + "/" + info;
             }
-            GlobalService.consoleLog('currPath' +currPath);
+            GlobalService.consoleLog('currPath' + currPath);
+            this.global.currSelectPath = currPath;
             this.navCtrl.push(BtSetPathPage, {
                 "type" : false,
                 "count" : this.count + 1,
@@ -113,61 +112,9 @@ export class BtSetPathPage {
             
         }
     
-        makeFolder() {
-            this.global.createGlobalAlert(this, {
-                title: Lang.L('WORD7c5e25c1'),
-                message: Lang.L('WORD18239a0a'),
-                inputs: [{
-                    name: 'folderName',
-                    type: 'text',
-                    placeholder: Lang.L('WORD5466a2d3')
-                }, ],
-                // enableBackdropDismiss: false,
-                buttons: [{
-                        text: Lang.L('WORD85ceea04'),
-                        handler: data => {
-                            GlobalService.consoleLog('Cancel clicked');
-                            // this.handleBack();
-                        }
-                    },
-                    {
-                        text: Lang.L('WORDd0ce8c46'),
-                        handler: data => {
-                            var name = data.folderName.replace(/(^\s+|\s+$)/g,'');
-                            if(!name) {
-                                this.global.createGlobalToast(this, {
-                                    message: Lang.L('WORD284e3541'),
-                                    position: 'bottom',
-                                });
-                                return false;
-                            } else {
-                                GlobalService.consoleLog("创建文件夹：" + name);
-                                var url = this.global.getBoxApi("createFolder");
-                                var prefix = this.currPath.replace(/\/$/g, '') + "/";
-                                this.http.post(url, {
-                                    fullpath: prefix + name
-                                })
-                                .then((res)=>{
-                                    if(res.err_no === 0) {
-                                        GlobalService.consoleLog("创建文件夹成功");
-                                        this.global.alertCtrl && this.global.alertCtrl.dismiss();
-                                        this.global.createGlobalToast(this, {
-                                            message: Lang.L('WORD3eca2610'),
-                                        });
-                                        this.events.publish('file:updated');
-                                        BtSetPathPage.listFiles();
-                                        this.type = false;
-                                    }
-                                })
-                            }
-                            return true;
-                        }
-                    }
-                ]
-            })
-        }
         savePath() {
-            this.events.publish('bt-path-change', this.currPath);
+            // this.events.publish('bt-path-change', this.currPath);
+            this.global.currSelectPath = this.currPath;
             this.goBack();
         }
 

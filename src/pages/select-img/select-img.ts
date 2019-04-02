@@ -4,7 +4,7 @@ import { Lang } from '../../providers/Language';
 import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
 import { Platform } from 'ionic-angular';
-import { SelectUploadFolderPage } from '../select-upload-folder/select-upload-folder'
+import { BtSetDiskPage } from '../bt-set-disk/bt-set-disk'
 import { FileTransport } from '../../providers/FileTransport';
 import { FileManager } from '../../providers/FileManager';
 import { Md5 } from "ts-md5/dist/md5";
@@ -79,8 +79,8 @@ export class SelectImgPage {
         // this.unUploadedCount = this.unUploadedCount + 1;
     }    
 
-    goSelectUploadFolderPage() {
-        this.navCtrl.push(SelectUploadFolderPage);
+    goBtSetDiskPage() {
+        this.navCtrl.push(BtSetDiskPage);
     }
     
     /**

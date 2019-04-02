@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Lang } from '../../providers/Language';
 import { GlobalService } from '../../providers/GlobalService';
-import { SelectUploadFolderPage } from '../select-upload-folder/select-upload-folder'
+import { BtSetDiskPage } from '../bt-set-disk/bt-set-disk'
 import { Util } from '../../providers/Util';
 import { FileTransport } from '../../providers/FileTransport';
 import { FileUploader } from '../../providers/FileUploader';
@@ -152,8 +152,8 @@ export class SelectAudioVideoPage {
         }
     }
 
-    goSelectUploadFolderPage() {
-        this.navCtrl.push(SelectUploadFolderPage);
+    goBtSetDiskPage() {
+        this.navCtrl.push(BtSetDiskPage);
     }
 
     uploadOneFile(uploadingList, index) {

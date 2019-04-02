@@ -6,9 +6,9 @@
 -->
 <ion-header>
     <ion-navbar>
-        <ion-title>
+        <ion-title (click)="closeAllOptions()">
             {{ global.L('DeviceManagement') }}
-            <svg class="icon icon-right" aria-hidden="true">
+            <svg class="icon icon-right" (click)="toggleShowOptions();$event.stopPropagation();" aria-hidden="true">
                 <use xlink:href="#icongengduo1"></use>
             </svg>
             <svg class="icon icon-right" (click)="goDeviceDetailPage()" aria-hidden="true">
@@ -18,7 +18,7 @@
     </ion-navbar>
 
 </ion-header>
-<ion-content>
+<ion-content (click)="closeAllOptions()">
     <div class="main-content">
         <div class="device-item" *ngFor="let disk of disks">
             <div class="item-left">
@@ -29,15 +29,23 @@
                         </svg>
                     </dt>
                     <dd class="dd-title"><em>{{ disk.position == 'base' ? global.L('TheDisc') : global.L('TheSecondDisc') }}</em>{{ disk.label }}</dd>
-                    <dd class="dd-info" *ngIf="disk.status == 1"><em></em>{{ global.L('Used') }} {{ disk.used | computeFileSize }}/{{ disk.size | computeFileSize }}</dd>
+                    <dd class="dd-info" *ngIf="disk.status == 1"><em></em>{{ global.L('Used') }} {{ disk.used }}/{{ disk.size }}</dd>
                     <dd class="dd-info" *ngIf="disk.status == 2"><em class="error"></em>{{ global.L('ConnectErr') }}</dd>
                 </dl>
             </div>
-            <div class="item-right">
+            <div class="item-right" (click)="showItemOptions(disk);$event.stopPropagation();">
                 <svg class="icon" aria-hidden="true" item-end>
                     <use xlink:href="#icongengduo1"></use>
                 </svg>
             </div>
+            <ul class="clear options-list" *ngIf="disk.isShowOptions">      
+                <li tappable (click)="setDiskLabel(disk);;$event.stopPropagation();">
+                    <p>重命名</p>
+                </li>
+                <li tappable (click)="setLoadingStatus(disk);;$event.stopPropagation();">
+                    <p>格式化磁盘</p>
+                </li>
+            </ul>
         </div>
     </div>
 
@@ -45,14 +53,14 @@
 
 <div class="manage-options" *ngIf="isShowOptions">
     <ul class="clear">      
-        <li tappable >
-            <p>{{ global.L("AllStart") }}</p>
+        <li tappable (click)="rebootDevice();">
+            <p>设备重启</p>
         </li>
-        <li tappable >
-            <p>{{ global.L("AllStop") }}</p>
+        <li tappable (click)="unbindBox();">
+            <p>解除绑定</p>
         </li>
-        <li tappable >
-            <p>{{ global.L("DownloadSet") }}</p>
-        </li>
+        <!-- <li tappable >
+            <p>关闭</p>
+        </li> -->
     </ul>
 </div>

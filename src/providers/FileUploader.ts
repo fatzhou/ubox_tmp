@@ -436,6 +436,7 @@ class SingleFileUploader {
 					range: range,
 					path: self.remotePath,
 					name: fileName,
+					disk_uuid: this.global.currDiskUuid
 				}, tmpFilePath, tmpFileName, buf)
 			}, res => {
 				// GlobalService.consoleLog("读文件失败" + JSON.stringify(res));

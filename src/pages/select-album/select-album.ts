@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
-import { SelectUploadFolderPage } from '../select-upload-folder/select-upload-folder'
+import { BtSetDiskPage } from '../bt-set-disk/bt-set-disk'
 import { SelectImgPage } from '../select-img/select-img';
 import { Lang } from '../../providers/Language';
 import { GlobalService } from '../../providers/GlobalService';
@@ -46,8 +46,8 @@ export class SelectAlbumPage {
         }) 
     }
 
-    goSelectUploadFolderPage() {
-        this.navCtrl.push(SelectUploadFolderPage);
+    goBtSetDiskPage() {
+        this.navCtrl.push(BtSetDiskPage);
     }
 
     goSelectImgPage(album) {
