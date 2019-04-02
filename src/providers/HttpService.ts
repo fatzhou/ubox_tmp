@@ -708,7 +708,8 @@ export class HttpService {
 			GlobalService.consoleLog("webrtc下载");
 			return new Promise((resolve, reject) => {
 				this.webrtcRequest(url, 'get', {
-					fullpath: remoteUrl + name
+					fullpath: remoteUrl + name,
+					disk_uuid: this.global.currDiskUuid
 				}, {
 						"Range": "bytes=0-"
 					}, {

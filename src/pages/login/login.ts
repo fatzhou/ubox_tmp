@@ -242,13 +242,6 @@ export class LoginPage {
                             message: Lang.L("AccountErrorReason"),
                             buttons: [
                                 {
-                                    text: Lang.L("ReInput"),
-                                    handler: data => {
-                                        // this.handleBack();
-                                        this.isLoading = false;
-                                    }
-                                },
-                                {
                                     text: Lang.L("ReScan"),
                                     handler: data => {
                                         this.util.logout(()=>{
@@ -262,7 +255,14 @@ export class LoginPage {
                                             })
                                         })
                                     }
-                                }
+                                },
+                                {
+                                    text: Lang.L("ReInput"),
+                                    handler: data => {
+                                        // this.handleBack();
+                                        this.isLoading = false;
+                                    }
+                                },
                             ]
                         });                        
                     }, GlobalService.ToastTime)

@@ -75,6 +75,7 @@ export class ListPage {
 	isShowClassifyNav: boolean = false;
     // isShowAside: boolean = false;
     disks: any = [];
+    isMainDisk: boolean = false;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -125,9 +126,10 @@ export class ListPage {
         
         ListPage._this = this;
         this.disks = this.global.diskInfo.disks.filter(item => {
-            item.used = this.util.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
-            item.size = this.util.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
-            return item;
+            if(item.position == 'base' && this.global.currDiskUuid == item.uuid) {
+                this.isMainDisk = true;
+            }
+            return item.position != 'base';
         });
     }
 
@@ -324,7 +326,7 @@ export class ListPage {
 
     judgeBusy() {
         return this.global.fileTaskList.some(item => {
-            return !item.finished && item.pausing != 'paused' && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash;
+            return !item.finished && item.pausing != 'paused' && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid;
         });
     }
 
@@ -456,14 +458,6 @@ export class ListPage {
             }, ],
             // enableBackdropDismiss: false,
             buttons: [{
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
-                        // this.global.alertCtrl.dismiss();
-                        // this.handleBack();
-                    }
-                },
-                {
                     text: Lang.L('WORD65abf33c'),
                     handler: data => {
                         var name = data.newName.replace(/(^\s+|\s+$)/g,'');
@@ -492,8 +486,15 @@ export class ListPage {
                         self.moveFile(prefix, oName, prefix, name, "rename");
                         return true;
                     }
-                }
-            ]
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.global.alertCtrl.dismiss();
+                        // this.handleBack();
+                    }
+                }]
         })
         return true;
     }
@@ -747,11 +748,12 @@ export class ListPage {
     }
 
 
-    goDeviceGuidance() {
-        this.app.getRootNav().push(DeviceGuidancePage)
-    }
-
-    goDeviceManage() {
-        this.app.getRootNav().push(DeviceManagePage)
+    selectDisk(disk) {
+        this.global.currDiskUuid = disk.uuid;
+        this.currPath = '/';
+        this.app.getRootNav().push(ListPage, {
+            type: "",
+            path: this.currPath
+        });
     }
 }

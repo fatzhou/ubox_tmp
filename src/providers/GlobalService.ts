@@ -112,7 +112,6 @@ export class GlobalService {
     public localDocLibrary = [];
     public eventType = '';
     public currPath = '';
-    public currSelectPath = '';
     public currDiskUuid = '';
     public currSelectDiskUuid = '';
     public selectFolderType = 'upload';

@@ -28,7 +28,6 @@ export class BtSetDiskPage {
 	
 	goNext(disk) {
         this.global.currSelectDiskUuid = disk.uuid;
-		let path = this.navParams.get('currPath');
 		this.navCtrl.push(BtSetPathPage);
 	}
 

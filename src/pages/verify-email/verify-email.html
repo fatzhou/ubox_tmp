@@ -25,9 +25,9 @@
 		</div>
 
 		<div class="label-tips">
-			<h2 class="title">温馨提示：</h2>
-			<p class="label">· 验证码有效期为30分钟，超时请重新获取</p>	
-			<p class="label">· 如收不到邮件，请检查邮件地址或者检查邮件是否被归类于垃圾邮件</p>
+			<h2 class="title">{{global.L("Tips")}}</h2>
+			<p class="label">{{global.L("ValidationCode")}}</p>	
+			<p class="label">{{global.L("EmailInfo")}}</p>
 		</div>
 
 		<p class="tips" *ngIf="tickCount>0">{{ tickCount }}S</p>

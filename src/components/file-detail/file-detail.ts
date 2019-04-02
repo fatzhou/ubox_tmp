@@ -111,14 +111,7 @@ export class FileDetailComponent {
 				placeholder: selectedFile.type === 1 ? Lang.L('PlsInputYourDirectoryName') : Lang.L('PlsInputYourFileName')
 			},],
 			// enableBackdropDismiss: false,
-			buttons: [{
-				text: Lang.L('WORD85ceea04'),
-				handler: data => {
-					GlobalService.consoleLog('Cancel clicked');
-					// this.global.alertCtrl.dismiss();
-					// this.handleBack();
-				}
-			},
+			buttons: [
 			{
 				text: Lang.L('WORD65abf33c'),
 				handler: data => {
@@ -147,7 +140,15 @@ export class FileDetailComponent {
 					self.moveFile(prefix, oName, prefix, name, "rename");
 					return true;
 				}
-			}
+			},
+			{
+				text: Lang.L('WORD85ceea04'),
+				handler: data => {
+					GlobalService.consoleLog('Cancel clicked');
+					// this.global.alertCtrl.dismiss();
+					// this.handleBack();
+				}
+			},
 			]
 		})
 		return true;

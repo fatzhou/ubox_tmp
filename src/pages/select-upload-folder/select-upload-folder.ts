@@ -126,13 +126,7 @@ export class SelectUploadFolderPage {
                 placeholder: Lang.L('WORD5466a2d3')
             }, ],
             // enableBackdropDismiss: false,
-            buttons: [{
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
-                        // this.handleBack();
-                    }
-                },
+            buttons: [
                 {
                     text: Lang.L('WORDd0ce8c46'),
                     handler: data => {
@@ -166,7 +160,14 @@ export class SelectUploadFolderPage {
                         }
                         return true;
                     }
-                }
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.handleBack();
+                    }
+                },
             ]
         })
     }

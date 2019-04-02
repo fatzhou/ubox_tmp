@@ -292,8 +292,11 @@ export class Util {
                                     item.label = 'DISK ' + label[index];
                                     index++;
                                 }
+                                item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+                                item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
                                 if(item.position == 'base') {
                                     this.global.currDiskUuid = item.uuid;
+                                    this.global.currSelectDiskUuid = item.uuid;
                                 }
                             })
                             if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
@@ -547,12 +550,6 @@ export class Util {
             message: Lang.L('WORD9f502956'),
             buttons: [
                 {
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-
-                    }
-                },
-                {
                     text: Lang.L('WORDd0ce8c46'),
                     handler: data => {
                         if($scope.global.centerUserInfo.earn !== undefined) {
@@ -564,7 +561,13 @@ export class Util {
                             });
                         }
                     }
-                }
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+
+                    }
+                },
             ]
         })
     }
@@ -959,7 +962,7 @@ export class Util {
         if(action == 'upload') {
             return id
         } else {
-            return Md5.hashStr(desturi + sourceurl + action + this.global.deviceSelected.boxId + this.global.deviceSelected.bindUserHash, false) + "";
+            return Md5.hashStr(desturi + sourceurl + action + this.global.deviceSelected.boxId + this.global.deviceSelected.bindUserHash + this.global.currDiskUuid, false) + "";
         }
         // return Md5.hashStr(file.localPath + file.path + '/' + file.name, false) + "";
     }
@@ -1535,6 +1538,7 @@ export class Util {
                             }
                             if(item.position == 'base') {
                                 $scope.global.currDiskUuid = item.uuid;
+                                $scope.global.currSelectDiskUuid = item.uuid;
                             }
                         })
                         $scope.global.diskInfoStatus = !!($scope.global.diskInfo.disks && $scope.global.diskInfo.disks.length);

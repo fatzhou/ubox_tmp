@@ -92,10 +92,7 @@ export class WalletInfoPage {
             this.global.createGlobalAlert(this, {
                 title: Lang.L('WORDed3a93fd'),
                 message: Lang.L('WORD702c7fa6'),
-                buttons: [{
-                        text: Lang.L('WORD85ceea04'),
-                        handler: data => {}
-                    },
+                buttons: [
                     {
                         text: Lang.L('WORDd0ce8c46'),
                         handler: data => {
@@ -132,6 +129,10 @@ export class WalletInfoPage {
                                 }
                             })                            
                         }
+                    },
+                    {
+                        text: Lang.L('WORD85ceea04'),
+                        handler: data => {}
                     },
                 ]
             })

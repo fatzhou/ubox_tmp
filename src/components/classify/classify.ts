@@ -39,11 +39,6 @@ export class ClassifyComponent {
                 message: Lang.L('WORDc89b0da1'),
                 buttons: [
                     {
-                        text: Lang.L('WORD688d7511'),
-                        handler: data => {
-                        }
-                    },
-                    {
                         text: Lang.L('WORD0cde60d1'),
                         handler: data => {
                             GlobalService.consoleLog('Cancel clicked');
@@ -55,6 +50,11 @@ export class ClassifyComponent {
                             });
                         }
                     },
+                    {
+                        text: Lang.L('WORD688d7511'),
+                        handler: data => {
+                        }
+                    }
                 ]
             })            
         } else {
@@ -67,5 +67,6 @@ export class ClassifyComponent {
             });  
         }
     }
+
 
 }

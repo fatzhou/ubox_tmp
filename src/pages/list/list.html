@@ -6,16 +6,16 @@
 -->
 <ion-header (click)="toggleClassifyNav('close')">
     <ion-navbar class="clear" [ngClass]="allBtnsShow ? 'select-tollbar' :''">
-        <svg *ngIf="(currPath == '/' || currPath == '') && !allBtnsShow" class="icon aside-nav-icon" (click)="displayMenu($event)" tappable aria-hidden="true">
+        <svg *ngIf="currPath == '/' && isMainDisk && !allBtnsShow" class="icon aside-nav-icon" (click)="displayMenu($event)" tappable aria-hidden="true">
             <use xlink:href="#iconcaidan"></use>
         </svg>
-        <ion-title [ngClass]="allBtnsShow && (currPath == '/' || currPath == '') ? 'list-active' : ''">
-        <div *ngIf="currPath != '/' && currPath != '' && !allBtnsShow">{{pageTitle}}</div>
-        <div *ngIf="(currPath == '/' || currPath == '') && !allBtnsShow" class="home-title-box">
+        <ion-title [ngClass]="allBtnsShow ? 'list-active' : ''">
+        <div *ngIf="(currPath != '' && currPath != '/') && !allBtnsShow">{{pageTitle}}</div>
+        <div *ngIf="currPath == '/' && !allBtnsShow" class="home-title-box">
             <p class="home-title">{{global.L("MyFiles")}}</p>
             <p class="list-point"><span class="active"></span><span></span><span></span></p>
         </div>
-        <div *ngIf="allBtnsShow">{{ global.Lf('Downloading', selectedFiles.length) }}</div>
+        <div *ngIf="allBtnsShow">{{ global.Lf('SelectUploadNum', selectedFiles.length) }}</div>
         
         <div class="list-header">
             <div class="back-nav" *ngIf="!showFileSelect">
@@ -42,11 +42,11 @@
 
 <ion-content (click)="toggleClassifyNav('close')">
     <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page">
-        <div class="disk-list" *ngIf="currPath == '/'">
+        <div class="disk-list" *ngIf="currPath == '/' && disks.length > 1">
             <p class="disk-title">{{global.L("OtherDisk")}}</p>
             <div class="disk-list-box">
-                <ul class="disk-ul-box" [ngStyle]="{width: 150 * 3 + 'px'}">
-                    <li *ngFor="let disk of disks">
+                <ul class="disk-ul-box" [ngStyle]="{ width: 150 * disks.length + 'px'}">
+                    <li *ngFor="let disk of disks" (click)="selectDisk(disk)">
                         <p class="disk-icon">
                         </p>
                         <p class="disk-name">{{ disk.label }}</p>

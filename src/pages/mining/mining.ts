@@ -220,19 +220,20 @@ export class MiningPage {
                 this.global.createGlobalAlert(this, {
                     title: title,
                     message: Lang.L("CloseMiningInfo"),
-                    buttons: [{
+                    buttons: [
+                        {
+                            text: Lang.L("Close"),
+                            handler: data => {
+                                this.changeSetMining();
+                            }
+                        },
+                        {
                             text: Lang.L("Cancel"),
                             handler: data => {
                                 GlobalService.consoleLog('Cancel clicked');
                                 this.setIfMining(true);
                             }
                         },
-                        {
-                            text: Lang.L("Close"),
-                            handler: data => {
-                                this.changeSetMining();
-                            }
-                        }
                     ]
                 })
             }else{
@@ -247,13 +248,7 @@ export class MiningPage {
                     this.global.createGlobalAlert(this, {
                         title: title,
                         message: message,
-                        buttons: [{
-                                text: Lang.L("StopMining"),
-                                handler: data => {
-                                    GlobalService.consoleLog('Cancel clicked');
-                                    this.setIfMining(false);
-                                }
-                            },
+                        buttons: [
                             {
                                 text: Lang.L("WORD899d5535"),
                                 handler: data => {
@@ -264,7 +259,14 @@ export class MiningPage {
                                         shareSize: this.chainType === 'ERC20' ? this.global.deviceSelected.shareSize : this.global.deviceSelected.chainShareSize
                                     });
                                 }
-                            }
+                            },
+                            {
+                                text: Lang.L("StopMining"),
+                                handler: data => {
+                                    GlobalService.consoleLog('Cancel clicked');
+                                    this.setIfMining(false);
+                                }
+                            },
                         ]
                     })
                 } else {
@@ -285,19 +287,19 @@ export class MiningPage {
                 message: Lang.L('WORDc9659c05'),
                 buttons: [
                     {
-                        text: Lang.L('WORD93ea7a8b'),
-                        handler: data => {
-
-                        }
-                    },
-                    {
                         text: Lang.L('WORD0cde60d1'),
                         handler: data => {
                             this.app.getRootNav().push(DeviceListPage, {
                                 refresh: false
                             });
                         }
-                    }
+                    },
+                    {
+                        text: Lang.L('WORD93ea7a8b'),
+                        handler: data => {
+
+                        }
+                    },
                 ]
             }) 
         }
@@ -586,11 +588,6 @@ export class MiningPage {
                             message: Lang.L('WORDe716466c'),
                             buttons: [
                                 {
-                                    text: Lang.L('WORD9916edcb'),
-                                    handler: data => {
-                                    }
-                                },
-                                {
                                     text: Lang.L('WORD899d5535'),
                                     handler: data => {
                                         GlobalService.consoleLog("this.global.deviceSelected.chainShareSize"+this.global.deviceSelected.chainShareSize)
@@ -601,7 +598,12 @@ export class MiningPage {
                                             shareSize: this.chainType === 'ERC20' ? this.global.deviceSelected.shareSize : this.global.deviceSelected.chainShareSize
                                         });
                                     }
-                                }
+                                },
+                                {
+                                    text: Lang.L('WORD9916edcb'),
+                                    handler: data => {
+                                    }
+                                },
                             ]
                         })
                     }else{
@@ -610,11 +612,6 @@ export class MiningPage {
                             message: Lang.L('WORDe716466c'),
                             buttons: [
                                 {
-                                    text: Lang.L('WORD9916edcb'),
-                                    handler: data => {
-                                    }
-                                },
-                                {
                                     text: Lang.L('WORD899d5535'),
                                     handler: data => {
                                         GlobalService.consoleLog("this.global.deviceSelected.chainShareSize"+this.global.deviceSelected.chainShareSize)
@@ -625,7 +622,12 @@ export class MiningPage {
                                             shareSize: this.chainType === 'ERC20' ? this.global.deviceSelected.shareSize : this.global.deviceSelected.chainShareSize
                                         });
                                     }
-                                }
+                                },
+                                {
+                                    text: Lang.L('WORD9916edcb'),
+                                    handler: data => {
+                                    }
+                                },
                             ]
                         })
                     }

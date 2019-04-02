@@ -32,7 +32,7 @@ export class DeviceDetailPage {
         console.log('ionViewDidLoad DeviceDetailPage');
         this.disk = this.global.diskInfo;
         this.diskName = this.disk.name;
-        this.diskStatus = this.global.useWebrtc ? '远场连接' : '内场连接';
+        this.diskStatus = this.global.useWebrtc ? Lang.L('RemoteConnection') : Lang.L('LocalConnection');
         this.diskNo = this.disk.boxid;
         this.diskModel = this.disk.hardware;
         this.diskVersion = this.disk.firmware;
@@ -41,7 +41,7 @@ export class DeviceDetailPage {
 
     setHostName() {
         this.global.createGlobalAlert(this, {
-            title: '主机重命名',
+            title: Lang.L('Rename'),
             inputs: [{
                 name: 'folderName',
                 type: 'text',
@@ -65,13 +65,13 @@ export class DeviceDetailPage {
                             .then(res=>{
                                 if(res.status === 0) {
                                     this.global.createGlobalToast(this, {
-                                        message: '重命名成功',
+                                        message: Lang.L('WORD1b35951f'),
                                     })
                                     this.diskName = data.folderName;
                                     
                                 } else {
                                     this.global.createGlobalToast(this, {
-                                        message: '重命名失败',
+                                        message: Lang.L('RenameError'),
                                     })
                                 }
                                 return true;

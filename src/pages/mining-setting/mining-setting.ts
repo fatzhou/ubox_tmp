@@ -135,12 +135,7 @@ export class MiningSettingPage {
             this.global.createGlobalAlert(this, {
                 title: Lang.L('WORD83fddc65'),
                 message: Lang.L('WORDc9659c05'),
-                buttons: [{
-                        text: Lang.L('WORD621202ef'),
-                        handler: data => {
-                            this.navCtrl.pop();
-                        }
-                    },
+                buttons: [
                     {
                         text: Lang.L('WORD0cde60d1'),
                         handler: data => {
@@ -148,7 +143,13 @@ export class MiningSettingPage {
                                 refresh: false
                             });
                         }
-                    }
+                    },
+                    {
+                        text: Lang.L('WORD621202ef'),
+                        handler: data => {
+                            this.navCtrl.pop();
+                        }
+                    },
                 ]
             })
         }

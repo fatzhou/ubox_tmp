@@ -78,7 +78,7 @@ export class TaskListPage {
 		GlobalService.consoleLog("任务列表变更.......");
 		let _that = TaskListPage._this;
 		_that.zone.run(() => {
-			_that.fileTaskList = _that.global.fileTaskList.filter(item=> item.boxId == _that.global.deviceSelected.boxId && item.bindUserHash == _that.global.deviceSelected.bindUserHash ) || [];
+			_that.fileTaskList = _that.global.fileTaskList.filter(item=> item.boxId == _that.global.deviceSelected.boxId && item.bindUserHash == _that.global.deviceSelected.bindUserHash && item.diskUuid == _that.global.currDiskUuid ) || [];
 			_that.doingTaskList = _that.fileTaskList.filter(item => item.finished === false) || [];
 			_that.doneTaskList = _that.fileTaskList.filter(item => item.finished === true) || [];
 			_that.doneTaskList = _that.doneTaskList.sort(function(a, b) {
@@ -172,23 +172,24 @@ export class TaskListPage {
         this.global.createGlobalAlert(this, {
             title: Lang.L('WORD37d9a2fb'),
             message: Lang.L('WORDf01a8be6'),
-            buttons: [{
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
-                        // this.handleBack();
-                    }
-                },
+            buttons: [
                 {
                     text: Lang.L('WORDd0ce8c46'),
                     handler: data => {
                         GlobalService.consoleLog("确定清空任务");
                        this.fileTaskList = this.fileTaskList.filter(item => {return item.finished === false});
                        this.doneTaskList = [];
-                       this.global.fileTaskList = this.fileTaskList.filter(item => {return item.finished === false &&item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash});
+                       this.global.fileTaskList = this.fileTaskList.filter(item => {return item.finished === false &&item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid});
                        this.clearStatus();
                     }
-                }
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.handleBack();
+                    }
+                },
             ]
         })
     }

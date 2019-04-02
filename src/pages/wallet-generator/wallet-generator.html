@@ -17,18 +17,18 @@
 		<p class="register-desc">{{global.L("PayPasswordRemind")}}</p>
 		<form class="register-form" action="">
 			<div class="form-input">
-                <p class="label-title">钱包名称</p>
+                <p class="label-title">{{global.L("MyWalletName")}}</p>
 				<input type="text" [(ngModel)]="walletname" name="walletname" class="common-input normal-input" placeholder="Ubbey Box {{global.L('NewWalletName')}}">
 				<p class="error-input" *ngIf="uError">{{ uErrorText }}</p>
 			</div>
 			<div class="form-input">
-                <p class="label-title">设置支付密码</p>
+                <p class="label-title">{{global.L("SetPayPassword")}}</p>
 				<input type="password" [(ngModel)]="passwd" name="passwd"  class="common-input normal-input" placeholder="{{global.L('SetPayPassword')}}" />
 				<p class="error-input" *ngIf="pError">{{ pErrorText }}</p>
 			</div>
 
 			<div class="form-input">
-                <p class="label-title">再次输入</p>
+                <p class="label-title">{{global.L("InputAgain")}}</p>
 				<input type="password" [(ngModel)]="passwd2" name="passwd2" class="common-input normal-input" placeholder="{{global.L('PlsInputAgain')}}"/>
 				<p class="error-input" *ngIf="pError2">{{ pErrorText2 }}</p>
 			</div>

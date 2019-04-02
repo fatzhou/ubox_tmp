@@ -8,7 +8,7 @@
 
   <ion-navbar (click)="cancalDelete()" [ngClass]="allBtnsShow ? 'select-tollbar' :''">
     <ion-title>
-		{{ allBtnsShow ? "已选择" + selectFileNum + "项" : global.L('WORD9d749424') }}
+		{{ allBtnsShow ?  global.Lf('SelectUploadNum', selectFileNum) : global.L('WORD9d749424') }}
 		<div class="list-header">
 			<div class="back-nav" *ngIf="!showFileSelect">
 				<div class="select-btn" [ngClass]="showEng=='cn'?'':'eng-sel-btn'">  

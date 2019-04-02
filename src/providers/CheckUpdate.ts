@@ -51,20 +51,20 @@ export class CheckUpdate {
                             message: Lang.Lf('updateTips', res.dstVer),
                             buttons: [
                                 {
+                                    text: Lang.L("Update"),
+                                    handler: data => {
+                                        GlobalService.consoleLog("升级固件:" + res.data.dstVer + "," + res.data.signature);
+                                        resolve(res);
+                                    }
+                                }, 
+                                {
                                     text: Lang.L("Cancel"),
                                     handler: data => {
                                         // reject();
                                         GlobalService.consoleLog("用户拒绝升级");
                                         reject(res);
                                     }
-                                },
-                                {
-                                    text: Lang.L("Update"),
-                                    handler: data => {
-                                        GlobalService.consoleLog("升级固件:" + res.data.dstVer + "," + res.data.signature);
-                                        resolve(res);
-                                    }
-                                },                            
+                                },                           
                             ]
                         })
                     } else if(res.force === 0 ) {

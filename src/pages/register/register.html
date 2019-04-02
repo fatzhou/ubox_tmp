@@ -20,13 +20,13 @@
 		<p class="form-desc">{{ global.passwdType === "register" ? global.L("RegisterSlogan") : global.L("ResetPasswordSlogan")}}</p>
 		<form class="form-form" action="">
 			<div class="form-input">
-				<label class="label" for="username-register">邮箱</label>
+				<label class="label" for="username-register">{{ global.L("Email") }}</label>
 				<input type="text" id="username-register" name="username" [(ngModel)]="username" class="input-v2"
 					placeholder="{{global.L('PlsInputEmail')}}" />
 			</div>
 
 			<div class="form-input passwd-wrap {{eyeshow?'open-eye':'close-eye'}}">
-				<label class="label" for="password-register">设置密码</label>
+				<label class="label" for="password-register">{{ global.L("SetPassword") }}</label>
 				<input id="password-register" type="{{eyeshow?'text':'password'}}" name="password" [(ngModel)]="password"
 					class="input-v2" placeholder="{{global.L('PlsInputPassword')}}" />
 				<svg aria-hidden="true" (click)="showIcon()" class="icon open">
@@ -38,7 +38,7 @@
 			</div>
 
 			<div class="form-input passwd-wrap {{eyeshow?'open-eye':'close-eye'}}">
-				<label class="label" for="password-register2">再次输入</label>
+				<label class="label" for="password-register2">{{ global.L("InputAgain") }}</label>
 				<input id="password-register2" type="{{eyeshow?'text':'password'}}" name="password" [(ngModel)]="password2"
 					class="input-v2" placeholder="{{global.L('PlsInputNewPassword1')}}" />
 				<!-- <label class="borderline"></label> -->
@@ -54,7 +54,7 @@
 	</div>
 
 	<div class="form-area">
-		<p class="second-btn" (click)="goAgreement();">点击下一步即表示接受用户协议</p>
-		<button class="main-btn" tappable click-and-wait (click)="doRegister()">下一步</button>
+		<p class="second-btn" (click)="goAgreement();"> {{ global.L("ClickNextAgree") }}</p>
+		<button class="main-btn" tappable click-and-wait (click)="doRegister()"> {{ global.L("TheNextStep") }}</button>
 	</div>
 </ion-content>

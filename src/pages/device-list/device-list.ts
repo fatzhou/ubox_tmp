@@ -318,12 +318,6 @@ export class DeviceListPage {
                 message: Lang.L('WORDd0b25fa3'),
                 buttons: [
                     {
-                        text: Lang.L('WORD85ceea04'),
-                        handler: data => {
-                            this.isClicked = false;
-                        }
-                    },
-                    {
                         text: Lang.L('WORD1b9bba37'),
                         handler: data => {
                             this.global.centerUserInfo = {};
@@ -332,7 +326,13 @@ export class DeviceListPage {
                                 this.isClicked = false;
                             })
                         }
-                    }
+                    },
+                    {
+                        text: Lang.L('WORD85ceea04'),
+                        handler: data => {
+                            this.isClicked = false;
+                        }
+                    },
                 ]
             })
         } else {

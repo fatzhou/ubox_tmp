@@ -16,11 +16,11 @@
 <ion-content>
 	<div class="page-content system-select-page">
 		<div class="language-list">
-            <p class="set-title">安全设置</p>
+            <p class="set-title">{{global.L("SecuritySettings")}}</p>
 			<button class="language" tappable (click)="goChangePasswdPage()" ion-item>
                 {{global.L("ModifyPassword")}}
             </button>			
-            <p class="set-title">系统设置</p>
+            <p class="set-title">{{global.L("SystemSet")}}</p>
 			<button class="language bor-btm"  tappable (click)="goLangSettingPage()" ion-item>
                 {{ global.L("Language") }}
 			</button>
@@ -31,7 +31,7 @@
                 {{ global.L("PhotoCopy") }}
                 <i class="status-copy">{{ global.albumBackupSwitch ? global.L("Opened") : global.L("UnOpened") }}</i>
             </button>		
-            <p class="set-title">更多</p>
+            <p class="set-title">{{ global.L("More") }}</p>
             <button class="language bor-btm"  tappable (click)="goUpdatePage()" ion-item>
                 {{ global.L("UpdateAssistant") }}
             </button>

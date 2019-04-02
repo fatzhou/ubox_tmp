@@ -72,18 +72,19 @@ export class CoinSendPage {
                     this.global.createGlobalAlert(this, {
                         title: Lang.L("UBBEYTransfer"),
                         message: Lang.L("TransferInfo") +'【' + result[0] + '】',
-                        buttons: [{
-                                text: Lang.L("Cancel"),
-                                handler: data => {
-                                    
-                                }
-                            },
+                        buttons: [
                             {
                                 text: Lang.L("ToSend"),
                                 handler: data => {
                                     this.toWallet = result[0];
                                 }
-                            }
+                            },
+                            {
+                                text: Lang.L("Cancel"),
+                                handler: data => {
+                                    
+                                }
+                            },
                         ]
                     })
                 }

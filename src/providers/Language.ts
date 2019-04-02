@@ -684,21 +684,6 @@ export class Lang {
         en: "Forgot password",
         kr: "암호를 잊어버렸습니다.",
     };
-    static RegisterSlogan = {
-        cn: "开启家庭私有云新体验",
-        en: "Start your private family cloud experience",
-        kr: "가정형 프라이빗 제품군에 대한 새로운 클라우드 경험을 시작하십시오.",
-    };
-    static ResetPasswordSlogan = {
-        cn: "请设置8-18位英文、数字组合密码",
-        en: "8-18 characters contain letters and numbers.",
-        kr: "8-18자는 문자와 숫자를 포함하여야 합니다.",
-    };
-    static PlsSetPasswordSlogan = {
-        cn: "请设置8-18位英文、数字组合密码",
-        en: "8-18 characters contain letters and numbers.",
-        kr: "8-18자는 문자와 숫자를 포함하여야 합니다.",
-    };
     static UserAgreementLable = {
         cn: "我已仔细阅读并同意",
         en: " I have read and agreed to ",
@@ -4040,11 +4025,6 @@ export class Lang {
         en: '',
         kr: ''
     }
-    static EquipmentUbbeyImg = {
-        cn: '此处有一副设备连接电源和网线的插图',
-        en: '',
-        kr: ''
-    }
     static Continue = {
         cn: '继续',
         en: '',
@@ -4151,8 +4131,8 @@ export class Lang {
         kr: ''
     }
     static WonderfulWorld = {
-        cn: '精彩你眼中世界',
-        en: '',
+        cn: '超越区块链，开启去中心化的未来',
+        en: 'Beyond blockchain, open the gate to the decentralized future',
         kr: ''
     }
     static Email = {
@@ -4184,7 +4164,7 @@ export class Lang {
 	}
 
 	static Extentions = {
-		cn: '{num}个扩展设备',
+		cn: '${num}个扩展设备',
 		en: '',
 		kr: ''
 	}
@@ -4201,33 +4181,176 @@ export class Lang {
 		kr: ''
 	}
 
-    // static SystemVersion = {
-    //     cn: '系统版本',
-    //     en: '',
-    //     kr: ''
-    // }
-    // static SystemVersion = {
-    //     cn: '系统版本',
-    //     en: '',
-    //     kr: ''
-    // }
-    // static SystemVersion = {
-    //     cn: '系统版本',
-    //     en: '',
-    //     kr: ''
-    // }
-    // static SystemVersion = {
-    //     cn: '系统版本',
-    //     en: '',
-    //     kr: ''
-    // }
-    // static SystemVersion = {
-    //     cn: '系统版本',
-    //     en: '',
-    //     kr: ''
-    // }
+    static OpenUbbeyGetUbbey = {
+        cn: '打开挖矿获取UBBEY奖励',
+        en: '',
+        kr: ''
+    }
+    static SetPassword = {
+        cn: '设置密码',
+        en: '',
+        kr: ''
+    }
+    static InputAgain = {
+        cn: '再次输入',
+        en: '',
+        kr: ''
+    }
+    static ClickNextAgree = {
+        cn: '点击下一步即表示接受用户协议',
+        en: '',
+        kr: ''
+    }
+    static TheNextStep = {
+        cn: '下一步',
+        en: '',
+        kr: ''
+    }
+    static DAPP = {
+        cn: '',
+        en: 'DAPP',
+        kr: ''
+    }
+    static SearchHistory = {
+        cn: '搜索历史',
+        en: '',
+        kr: ''
+    }
+    static SecuritySettings = {
+        cn: '安全设置',
+        en: '',
+        kr: ''
+    }
+    static SystemSet = {
+        cn: '系统设置',
+        en: '',
+        kr: ''
+    }
+    static More = {
+        cn: '更多',
+        en: '',
+        kr: ''
+    }
+    static UbbeyOrg = {
+        cn: 'ubbey.org',
+        en: '',
+        kr: ''
+    }
+    static CopyRight = {
+        cn: 'Copyright © 2018 Universal Labs. ',
+        en: '',
+        kr: ''
+    }
+    static AllRights = {
+        cn: 'All Rights Reserved',
+        en: '',
+        kr: ''
+    }
+    static Tips = {
+        cn: '温馨提示：',
+        en: '',
+        kr: ''
+    }
+    static ValidationCode = {
+        cn: '· 验证码有效期为30分钟，超时请重新获取',
+        en: '',
+        kr: ''
+    }
+    static EmailInfo = {
+        cn: '· 如收不到邮件，请检查邮件地址或者检查邮件是否被归类于垃圾邮件',
+        en: '',
+        kr: ''
+    }
 
-
+    static ClickChangePassword = {
+        cn: '点击修改支付密码',
+        en: '',
+        kr: ''
+    }
+    static CopyKeyStore = {
+        cn: '为保障资产安全，请备份Keystore文件',
+        en: '',
+        kr: ''
+    }  
     
+    static Wallet = {
+        cn: '',
+        en: 'Wallet',
+        kr: ''
+    }
+    static Notices = {
+        cn: '',
+        en: 'Notices',
+        kr: ''
+    } 
+
+    static WaitingDownload = {
+        cn: '等待下载',
+        en: '',
+        kr: ''
+    }
+    static ContinueDownload = {
+        cn: '继续下载',
+        en: '',
+        kr: ''
+    } 
+    static DownloadError = {
+        cn: '下载失败',
+        en: '',
+        kr: ''
+    } 
+
+    static ViewFile = {
+        cn: '查看文件',
+        en: '',
+        kr: ''
+    }
+    static DownloadAgain = {
+        cn: '重新下载',
+        en: '',
+        kr: ''
+    } 
+
+    static TaskViewPC = {
+        cn: '在电脑上打开Ubbey客户端，可对您设备里的文件进行管理，下载地址：www.ubbey.org/download',
+        en: '',
+        kr: ''
+    }
+
+    static RenameError = {
+        cn: '重命名失败',
+        en: '',
+        kr: ''
+    }
+    static RegisterSlogan = {
+        cn: "超越区块链，开启去中心化的未来",
+        en: "Beyond blockchain, open the gate to the decentralized future",
+        kr: "",
+    };
+    static ResetPasswordSlogan = {
+        cn: "设置8-18位字符，支持英文、数字和特殊字符的组合密码",
+        en: "",
+        kr: "",
+    };
+    static PlsSetPasswordSlogan = {
+        cn: "设置8-18位字符，支持英文、数字和特殊字符的组合密码",
+        en: "",
+        kr: "",
+    };
+     static ClearSpaceInfo = {
+        cn: "测试链挖矿活动已结束，感谢您对活动的支持。立即清除挖矿文件恢复存储空间",
+        en: "",
+        kr: "",
+    };
+    static NowClear = {
+        cn: "立即清除",
+        en: "",
+        kr: "",
+    };
+    static DirBT = {
+        cn: 'BT下载',
+        en: '',
+        kr: ''
+    }
 }
 
