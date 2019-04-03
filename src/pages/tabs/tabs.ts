@@ -318,18 +318,19 @@ export class TabsPage {
         // this.connection.status = this.global.useWebrtc ? this.global.L('RemoteNetwork')
 	}
 	
-	ionViewCanEnter():boolean {
+	ionViewCanEnter() {
 		//解决tabspage进入两次的问题
-		if(!this.navCtrl) {
-			return true;
-		} else {
-			let view = this.navCtrl.getActive();
-			if(view.component == TabsPage) {
-				return false;
-			} else {
-				return true;
-			}			
-		}
+		// if(!this.navCtrl) {
+		// 	return true;
+		// } else {
+		// 	let view = this.navCtrl.getActive();
+		// 	if(view.component == TabsPage) {
+		// 		return false;
+		// 	} else {
+		// 		return true;
+		// 	}			
+		// }
+		return true;
 	}
 
     ionViewDidEnter() {

@@ -56,6 +56,7 @@ import { NoticeListPage } from '../pages/notice-list/notice-list';
 import { DeviceGuidancePage } from '../pages/device-guidance/device-guidance';
 import { DeviceManagePage } from '../pages/device-manage/device-manage';
 import { ResultPage } from '../pages/result/result';
+import { SystemSettingPage } from '../pages/system-setting/system-setting';
 
 declare var chcp: any;
 declare var WifiWizard: any;
@@ -620,51 +621,54 @@ export class UboxApp {
 	}
 	
 	goPage(name) {
-		this.menuCtrl.close();
-		switch(name) {
-			case 'file':
-				this.nav.setRoot(TabsPage)
-				.then(res => {
-					console.log(res)
+		try {
+			this.menuCtrl.close();
+			switch(name) {
+				case 'file':
+					// this.nav.setRoot(TabsPage)
+					// .then(res => {
+					// 	console.log(res)
+					// 	this.tabsController.slideTo(0);
+					// });
 					this.tabsController.slideTo(0);
-				});
-				break;
-			case 'discover':
-				this.nav.setRoot(TabsPage)
-				.then(res => {
-					console.log(res)
+					break;
+				case 'discover':
+					// this.nav.setRoot(TabsPage)
+					// .then(res => {
+					// 	console.log(res)
+					// 	this.tabsController.slideTo(1);
+					// });
 					this.tabsController.slideTo(1);
-				});
-				break;
-			case 'mining':
-				this.nav.setRoot(TabsPage)
-				.then(res => {
+					break;
+				case 'mining':
+					// this.nav.setRoot(TabsPage)
+					// .then(res => {
+					// 	this.tabsController.slideTo(2);
+					// })
 					this.tabsController.slideTo(2);
-				})
-				break;
-			case 'wallet':
-				this.nav.push(WalletDetailPage);
-				break;
-			case 'dapp':
-				this.nav.push(SearchPage);
-				break;
-			case 'notice':
-				this.nav.push(NoticeListPage);
-				break;
-			case 'setting':
-				this.nav.setRoot(TabsPage)
-				.then(res => {
-					console.log(res)
-					this.tabsController.slideTo(3);
-				});
-				break;	
-			case 'deviceguidance':
-				this.nav.push(DeviceGuidancePage);
-                break;
-            case 'device-manage':
-				this.nav.push(DeviceManagePage);
-                break;
-                		
+					break;
+				case 'wallet':
+					this.nav.push(WalletDetailPage);
+					break;
+				case 'dapp':
+					this.nav.push(SearchPage);
+					break;
+				case 'notice':
+					this.nav.push(NoticeListPage);
+					break;
+				case 'setting':
+					this.nav.push(SystemSettingPage);
+					break;	
+				case 'deviceguidance':
+					this.nav.push(DeviceGuidancePage);
+					break;
+				case 'device-manage':
+					this.nav.push(DeviceManagePage);
+					break;
+							
+			}			
+		} catch(e) {
+			console.log(e)
 		}
 	}
 }
