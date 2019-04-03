@@ -34,28 +34,8 @@ export class ClassifyComponent {
     goFolderPage(type) {
         GlobalService.consoleLog("选择文件夹类型：" + type);
         if(!this.global.deviceSelected) {
-            this.global.createGlobalAlert(this, {
-                title: Lang.L('WORD2a0b753a'),
-                message: Lang.L('WORDc89b0da1'),
-                buttons: [
-                    {
-                        text: Lang.L('WORD0cde60d1'),
-                        handler: data => {
-                            GlobalService.consoleLog('Cancel clicked');
-                            this.app.getRootNav().push(DeviceSearchPage, {
-                                refresh: false
-                            })
-                            .then(() => {
-                                this.closeClassify.emit();
-                            });
-                        }
-                    },
-                    {
-                        text: Lang.L('WORD688d7511'),
-                        handler: data => {
-                        }
-                    }
-                ]
+            this.global.createGlobalToast(this, {
+                message: Lang.L('WORDc89b0da1')
             })            
         } else {
             GlobalService.consoleLog('type' +type)
@@ -67,6 +47,4 @@ export class ClassifyComponent {
             });  
         }
     }
-
-
 }

@@ -113,12 +113,12 @@ export class SearchPage {
         }
     }
 
-    goAppDetail(info) {
-        console.log("查看应用详情:" + JSON.stringify(info));
-        this.app.getRootNav().push(AppDetailPage, {
-            "info": info
-        });
-    }    
+    // goAppDetail(info) {
+    //     console.log("查看应用详情:" + JSON.stringify(info));
+    //     this.app.getRootNav().push(AppDetailPage, {
+    //         "info": info
+    //     });
+    // }    
 
     goLoginPage() {
         this.app.getRootNav().push(LoginPage);

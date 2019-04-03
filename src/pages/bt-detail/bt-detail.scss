@@ -76,6 +76,7 @@ page-bt-detail {
     .detail-info {
         padding: 10px;
         padding-top: 0;
+        padding-bottom: 50px;
         .second-title {
             color: $newFiveColor;
             font-size: 16px;
@@ -160,17 +161,7 @@ page-bt-detail {
                 border-radius: 3px;
             }
         }
-        .download-btn {
-            width: calc(100% - 20px);
-            margin: 10px auto;
-            height: 40px;
-            text-align: center;
-            background: $newSecondColor;
-            border-radius: 3px;
-            line-height: 40px;
-            color: #fff;
-            font-size: 16px;
-        }
+        
     }
     .head-detail-img {
         width: 100%;
@@ -265,5 +256,18 @@ page-bt-detail {
 				line-height: 22px;
             }
         }
+    }
+    .download-btn {
+        width: calc(100% - 20px);
+        height: 40px;
+        text-align: center;
+        background: #F35530;
+        border-radius: 3px;
+        line-height: 40px;
+        color: #fff;
+        font-size: 16px;
+        position: absolute;
+        left: 10px;
+        bottom: 12px;
     }
 }

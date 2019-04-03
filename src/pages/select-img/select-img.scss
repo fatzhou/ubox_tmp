@@ -33,17 +33,23 @@ page-select-img {
             height: 44px;
             overflow: hidden;
             border-bottom: 1px solid $newThreeColor;
+            border-top: 1px solid $newThreeColor;
             span {
                 display: inline-block;
-                width: 50%;
+                width: calc(50% - 1px);
                 float: left;
                 background: $newFourColor;	
                 text-align: center;
                 color: #9B9B9B;
                 font-size: 14px;
+                &:first-child {
+                    margin-right: 1px;
+                }
+                &:last-child {
+                    width: 50%;
+                }
                 &.active {
-                    color: #4A4A4A;
-                    background: $newFourColor;	
+                    color: #fff;
                 }
             }
         }

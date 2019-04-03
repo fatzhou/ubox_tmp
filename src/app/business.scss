@@ -63,7 +63,7 @@ button ion-label, div ion-label {
 .common-unfocus-button {
     display: block;
     width: 50%;
-    color: #5D75F7;
+    color: $newFirstColor;
     font-size: 16px;
     line-height: 48px;
     height: 48px;
@@ -273,12 +273,12 @@ textarea::-webkit-input-placeholder {
     color: #333;
     border-color: #B7B7B7;
     &:focus {
-        color: #4E65EF;
-        border-color: #5D75F7;
+        color: $newFirstColor;
+        border-color: $newFirstColor;
         
     }
     &:focus + .borderline{
-        border-color: #5D75F7;
+        border-color: $newFirstColor;
         
     }
 }
@@ -296,7 +296,7 @@ textarea::-webkit-input-placeholder {
 
 .qrcode {
     font-size: 22px;
-    color: #5D75F7;
+    color: $newFirstColor;
 }
 
 .header-ios .toolbar-background {
@@ -329,7 +329,7 @@ textarea::-webkit-input-placeholder {
             height: 2px;
         }
         .range-knob {
-            background: #4E65EF;
+            background: $newFirstColor;
             width: 24px;
             height: 24px;
             left: 9px;
@@ -397,7 +397,7 @@ textarea::-webkit-input-placeholder {
         width: 64px;
     }
     p {
-        color: $mainThemeColor;
+        color: $newFiveColor;
         line-height: 3;
         font-size: 12px;
     }
@@ -713,4 +713,10 @@ ion-infinite-scroll {
 			background: rgba(3,202,127,0.10);
 		}
 	}
+}
+
+.loading-wrapper {
+    color: #fff!important;
+    background: rgba(0,0,0,0.5)!important;
+    
 }

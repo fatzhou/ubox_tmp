@@ -35,7 +35,7 @@ $headings-font-weight: 300;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #5D75F7,
+  primary:    #00C77D,
   secondary:  #00C77D,
   danger:     #f53d3d,
   light:      #f4f4f4,
@@ -100,12 +100,12 @@ $toolbar-md-active-color:                 #fff;
 
 $padding: 18px;
 $bgColor: #212123;
-$mainThemeColor: #5D75F7;
-$mainColor: rgba(0, 38, 244, .6);
-$mainActiveColor: rgba(83, 105, 222, 1);
+$mainThemeColor: #00C77D;
+$mainColor: rgba(0, 199, 125, .6);
+$mainActiveColor: rgba(0, 199, 125, 1);
 
-$refresher-text-color: #93A4FD;
-$refresher-icon-color: #93A4FD;
+$refresher-text-color: #fff;
+$refresher-icon-color: #fff;
 $refresher-height: 60px;
 $refresher-icon-font-size:20px;
 $refresher-text-font-size: 12px;

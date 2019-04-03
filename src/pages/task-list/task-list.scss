@@ -48,8 +48,11 @@ page-task-list {
         right: 0;
         top: 0;
         color:#fff;
-        z-index: 888;
-
+		z-index: 888;
+		&.all-width {
+			width: 100%;
+			background: $newFourColor;
+		}
         .back-nav {
             height: 44px;
             line-height: 44px;
@@ -57,9 +60,18 @@ page-task-list {
             font-size: 18px;
             padding: 0 10px;
 			font-weight: normal;
+			float: left;
+			&.bg-black {
+				
+				padding: 0 15px;
+			}
+			&.fr-select-nav {
+				position: absolute;
+				right: 0;
+			}
 			min-width: 44px;
             .select-btn {
-                float: right;
+				float: right;
                 .icon {
                     margin-right: 6px;
                 }
@@ -102,7 +114,14 @@ page-task-list {
 		.select-box {
 			left: 0;
 			z-index: 100;
-			min-width: 74px;
+			display: flex;
+			align-items: center;
+			padding-left: 3px!important;
+			.icon {
+				width: 44px;
+				height: 44px;
+				padding: 12px;
+			}
 		}
 		.text-left {
 			text-align: left;
