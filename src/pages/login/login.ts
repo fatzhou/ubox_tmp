@@ -157,17 +157,15 @@ export class LoginPage {
                     // this.navCtrl.push(TestPage, {
                     this.navCtrl.push(TabsPage, {
                         tabIndex: index
-                    })
-                    .then(() => { 
-                        this.isLoading = false;
-                    })                    
+                    })                  
                 }                             
             } else {
                 this.global.closeGlobalLoading(this);
                 // this.navCtrl.push(TestPage, {
-                this.navCtrl.push(TabsPage, {
-                    tabIndex: index
-                });
+                // this.navCtrl.push(TabsPage, {
+                //     tabIndex: index
+				// });
+				this.navCtrl.setRoot(TabsPage);
             }
         })
         .catch(e => {
