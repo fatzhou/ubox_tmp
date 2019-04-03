@@ -7,7 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 import { AlertController } from 'ionic-angular';
 
-import { DeviceListPage } from '../pages/device-list/device-list';
+import { DeviceSearchPage } from '../pages/device-search/device-search';
 import { TabsPage } from '../pages/tabs/tabs';
 // import { RegisterPage } from '../pages/register/register';
 // import { ResetPasswdPage } from '../pages/reset-passwd/reset-passwd';
@@ -281,7 +281,7 @@ export class UboxApp {
                     this.global.useWebrtc = true;
                     this.nav.setRoot(LoginPage);//LoginPage;
                 }else{
-                    this.nav.setRoot(DeviceListPage);//DeviceListPage;
+                    this.nav.setRoot(DeviceSearchPage);//DeviceSearchPage;
                 }
             } else {
                 this.nav.setRoot(PermissionPage);//PermissionPage;
@@ -289,7 +289,7 @@ export class UboxApp {
             }
         })
         .catch(e => {
-            this.nav.setRoot(DeviceListPage);
+            this.nav.setRoot(DeviceSearchPage);
         })
     }
 

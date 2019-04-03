@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import {  NavController, NavParams, Slides } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { DeviceListPage } from '../device-list/device-list';
+import { DeviceSearchPage } from '../device-search/device-search';
 import { LoginPage } from '../login/login';
 import { GlobalService } from '../../providers/GlobalService';
 import { Lang } from "../../providers/Language";
@@ -57,7 +57,7 @@ export class GuidancePage {
             // this.global.useWebrtc = true;
             this.navCtrl.push(LoginPage);
         }else{
-            this.navCtrl.push(DeviceListPage, {
+            this.navCtrl.push(DeviceSearchPage, {
                 refresh: false
             });
         }

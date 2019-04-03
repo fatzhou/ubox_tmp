@@ -4,7 +4,7 @@ import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { WalletCoinbasePage } from '../wallet-coinbase/wallet-coinbase';
 import { DeviceManagementPage } from '../device-management/device-management';
-import { DeviceListPage } from '../device-list/device-list';
+import { DeviceSearchPage } from '../device-search/device-search';
 import { MiningSettingPage } from '../mining-setting/mining-setting';
 import { WalletSelectPage } from '../wallet-select/wallet-select';
 import { Lang } from '../../providers/Language';
@@ -52,7 +52,7 @@ export class AboutDevicePage {
 	                {
 	                    text: Lang.L("WORD0cde60d1"),
 	                    handler: data => {
-	                        this.navCtrl.push(DeviceListPage, {
+	                        this.navCtrl.push(DeviceSearchPage, {
                                 refresh: false
                             });
 	                    }
@@ -101,7 +101,7 @@ export class AboutDevicePage {
                     {
                         text: Lang.L('WORD0cde60d1'),
                         handler: data => {
-                            this.navCtrl.push(DeviceListPage, {
+                            this.navCtrl.push(DeviceSearchPage, {
                                 refresh: true
                             });
                         }

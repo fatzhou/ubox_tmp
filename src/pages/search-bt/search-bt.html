@@ -39,7 +39,7 @@
                         <p class="bt-title">{{ item.title }}</p>
                         <p class="p-info"><span>{{ item.mgdate | computeFileTime }} {{ item.size == '' ? '' : '·' }} {{ item.size }}</span></p>
                         <span class="download-btn" (click)="downloadBt(item.mgurl);$event.stopPropagation();">{{ global.L('Get') }}</span>
-                        <p class="p-imglist" [ngClass]="item.images.length == 1 ? 'one-png' : ''"><img [src]="img" *ngFor="let img of item.images" alt=""></p>
+                        <p class="p-imglist" *ngIf="item.images" [ngClass]="item.images.length == 1 ? 'one-png' : ''"><img [src]="img" *ngFor="let img of item.images" alt=""></p>
                     </div>
                 </li>
             </ul>

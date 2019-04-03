@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
-import { DeviceListPage } from '../device-list/device-list';
+import { DeviceSearchPage } from '../device-search/device-search';
 import { WalletCoinbasePage } from '../wallet-coinbase/wallet-coinbase';
 import { Events } from 'ionic-angular';
 import { Lang } from '../../providers/Language';
@@ -145,7 +145,7 @@ export class MiningSettingPage {
                     {
                         text: Lang.L('WORD0cde60d1'),
                         handler: data => {
-                            this.navCtrl.push(DeviceListPage, {
+                            this.navCtrl.push(DeviceSearchPage, {
                                 refresh: false
                             });
                         }

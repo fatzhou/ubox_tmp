@@ -1873,15 +1873,21 @@ export class Util {
 
     downloadBt(bturl) {
         var url = this.global.getBoxApi("btDownlaod");
+        this.global.createGlobalLoading(this, {
+            message: Lang.L('Creating')
+        });
         return this.http.post(url, {
             magnet: bturl
         })
         .then((res)=>{
             if(res.err_no === 0) {
+                this.global.closeGlobalLoading(this);
                 GlobalService.consoleLog("下载bt成功");
                 this.global.createGlobalToast(this, {
                     message: this.global.L('StartDownloading')
                 })
+            } else {
+                this.global.closeGlobalLoading(this);
             }
         })
     }
