@@ -3334,7 +3334,7 @@ export class Lang {
     }
     static SelectUploadNum = {
         cn: "已选择${num}项",
-        en: "{num} items selected",
+        en: "${num} items selected",
         kr: "이미${num}항목을 선택했습니다."
     }
 

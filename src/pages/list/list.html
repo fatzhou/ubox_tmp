@@ -9,7 +9,7 @@
         <svg *ngIf="currPath == '/' && isMainDisk && !allBtnsShow" class="icon aside-nav-icon" (click)="displayMenu($event)" tappable aria-hidden="true">
             <use xlink:href="#iconcaidan"></use>
         </svg>
-        <ion-title [ngClass]="allBtnsShow ? 'list-active' : ''">
+        <ion-title [ngClass]="[allBtnsShow ? 'list-active' : '', currPath != '/' && allBtnsShow ? 'list-no-home' : '']">
         <div *ngIf="(currPath != '' && currPath != '/') && !allBtnsShow">{{pageTitle}}</div>
         <div *ngIf="currPath == '/' && !allBtnsShow" class="home-title-box">
             <p class="home-title">{{global.L("MyFiles")}}</p>
