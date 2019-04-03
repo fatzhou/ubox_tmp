@@ -10,25 +10,25 @@
 					<p class="user-email">{{ global.centerUserInfo.uname }}</p>
 				</div>
 				<ul class="nav-list">
-					<li (click)="goPage('file')">
+					<li tappable (click)="goPage('file')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#icondownloadicon1"></use>
 						</svg>
 						<span>{{global.L('MyFiles')}}</span>
 					</li>
-					<li (click)="goPage('discover')">
+					<li tappable (click)="goPage('discover')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconBTdefault"></use>
 						</svg>
 						<span>{{global.L('Discover')}}</span>
 					</li>
-					<li class="border-bottom" (click)="goPage('mining')">
+					<li tappable class="border-bottom" (click)="goPage('mining')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconMiningdefault"></use>
 						</svg>
 						<span>{{global.L('Mining')}}</span>
 					</li>
-					<li class="border-bottom" (click)="goPage('wallet')">
+					<li tappable class="border-bottom" (click)="goPage('wallet')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconWalletdefault"></use>
 						</svg>
@@ -40,13 +40,13 @@
 						</svg>
 						<span>{{global.L('DAPP')}}</span>
 					</li> -->
-					<li (click)="goPage('notice')">
+					<li tappable (click)="goPage('notice')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconMessagedefault"></use>
 						</svg>
 						<span>{{global.L('Notices')}}</span>
 					</li>
-					<li (click)="goPage('setting')">
+					<li tappable (click)="goPage('setting')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconSettingdefault1"></use>
 						</svg>
@@ -54,18 +54,18 @@
 					</li>
 				</ul>
 				<div ion-item *ngIf="global.centerUserInfo.bind_box_count > 0" class="nav-bottom">
-					<div item-start class="nav-bottom-top" (click)="goPage('device-manage')">
+					<div item-start class="nav-bottom-top" tappable (click)="goPage('device-manage')">
 						<p class="ubbey-contact fl eps">{{ global.deviceSelected ? (global.diskInfo.hardware == 'UbbeyNext' ? 'Ubbey Next': 'Ubbey Box') : global.L('NOBOX') }}</p>
 						<p class="connection-type fl">{{ global.useWebrtc ? global.L('RemoteConnection') : global.L('LocalConnection') }}</p>
 						<p class="extentions fl" *ngIf="global.deviceSelected">{{ global.Lf('Extentions', global.diskInfo.disks && global.diskInfo.disks.length - 1) }}</p>
 					</div>
-					<div item-end (click)="goPage('device-manage')">
+					<div item-end tappable (click)="goPage('device-manage')">
 						<svg class="icon" aria-hidden="true">
 							<use xlink:href="#iconxiangyou"></use>
 						</svg>
 					</div>
 				</div>
-				<div *ngIf="global.centerUserInfo.bind_box_count == 0" class="add-device" (click)="goPage('deviceguidance');">
+				<div *ngIf="global.centerUserInfo.bind_box_count == 0" class="add-device" tappable (click)="goPage('deviceguidance');">
 					<svg class="icon" aria-hidden="true">
 						<use xlink:href="#icontianjiashebei1"></use>
 					</svg>

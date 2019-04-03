@@ -724,17 +724,17 @@ export class Util {
 		let minSearchTime = 3000;
         return new Promise((resolve, reject) => {
             // if(1) {
-            // if(!this.platform.is('cordova')) {
-			// 	setTimeout(() => {
-			// 		resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
-			// 	}, minSearchTime);
-			// 	// resolve([]);
-			// 	return ;
-            // }
-            if(1) {
-                resolve([]);
-                return ;
+            if(!this.platform.is('cordova')) {
+				setTimeout(() => {
+					resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
+				}, minSearchTime);
+				// resolve([]);
+				return ;
             }
+            // if(1) {
+            //     resolve([]);
+            //     return ;
+            // }
             var self = this;
             var flag = false;
             var serviceType = "upnp:ubbeybox";
@@ -1875,13 +1875,14 @@ export class Util {
         return [Y, M, D].join('-') + ' ' + [h, m, s].join(':');
     }
 
-    downloadBt(bturl) {
+    downloadBt(bturl,id) {
         var url = this.global.getBoxApi("btDownlaod");
         this.global.createGlobalLoading(this, {
             message: Lang.L('Creating')
         });
         return this.http.post(url, {
-            magnet: bturl
+            magnet: bturl,
+            resourceid: id
         })
         .then((res)=>{
             if(res.err_no === 0) {

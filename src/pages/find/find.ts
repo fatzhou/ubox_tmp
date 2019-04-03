@@ -47,7 +47,7 @@ export class FindPage {
         private app: App) {
     }
 
-    ionViewDidEnter() {
+    ionViewDidLoad() {
         console.log('ionViewDidLoad FindPage');
         this.getFeedTop();
         this.getFeedList();
@@ -149,17 +149,21 @@ export class FindPage {
         infiniteScroll.complete();     
     }
 
-    downloadBt(url) {
-        console.log("download" + url)
+    downloadBt(item) {
+        console.log("download" + item.mgurl)
+        if(item.status && item.status == 1) {
+            return false;
+        }
+        item.status = 1;
         this.global.createGlobalAlert(this, {
-            title: '下载文件',
-            message: 'Hunter Killer-2018 [BluRay]laom [720p] [YTS] [YIFY]',
+            title: Lang.L('DownloadFile'),
+            message: item.title,
             // enableBackdropDismiss: false,
             buttons: [
                 {
-                    text: '下载',
+                    text: Lang.L('Download'),
                     handler: data => {
-                        this.util.downloadBt(url)
+                        this.util.downloadBt(item.mgurl, item.resid)
                         .then(res => {
                             console.log("正在下载bt")
                         })

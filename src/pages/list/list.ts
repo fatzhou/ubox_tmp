@@ -125,12 +125,15 @@ export class ListPage {
         }
         
         ListPage._this = this;
-        this.disks = this.global.diskInfo.disks.filter(item => {
-            if(item.position == 'base' && this.global.currDiskUuid == item.uuid) {
-                this.isMainDisk = true;
-            }
-            return item.position != 'base';
-        });
+        if(this.global.diskInfo.disks) {
+            this.disks = this.global.diskInfo.disks.filter(item => {
+                if(item.position == 'base' && this.global.currDiskUuid == item.uuid) {
+                    this.isMainDisk = true;
+                }
+                return item.position != 'base';
+            });
+        }
+        
     }
 
     ionViewDidLeave() {
