@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { HttpService } from '../../providers/HttpService';
 import { GlobalService } from '../../providers/GlobalService';
 import { AlertController, ToastController } from 'ionic-angular';
-import { DeviceListPage } from '../device-list/device-list';
+import { DeviceSearchPage } from '../device-search/device-search';
 import { LoginPage } from '../login/login';
 import { TabsPage } from '../tabs/tabs';
 import { Md5 } from "ts-md5/dist/md5";
@@ -228,7 +228,7 @@ export class VerifyEmailPage {
             }, */{
 					text: Lang.L('WORD4a8bf19f'),
 					handler: () => {
-						this.navCtrl.push(DeviceListPage, {
+						this.navCtrl.push(DeviceSearchPage, {
 							refresh: false
 						})
 							.then(() => {

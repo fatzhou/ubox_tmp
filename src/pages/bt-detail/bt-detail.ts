@@ -171,10 +171,12 @@ export class BtDetailPage {
 
 	downloadBt() {
 		// console.log("download" + this.link)
+		
 		this.util.downloadBt(this.link)
-			.then(res => {
-				console.log("正在下载bt")
-			})
+		.then(res => {
+			
+			console.log("正在下载bt")
+		})
 	}
 
 	toggleShowDesc() {

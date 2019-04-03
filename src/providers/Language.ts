@@ -4384,5 +4384,11 @@ export class Lang {
         en: '',
         kr: ''
     }
+    static Creating = {
+        cn: '创建中',
+        en: '',
+        kr: ''
+    }
+    
 }
 

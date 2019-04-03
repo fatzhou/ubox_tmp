@@ -3,7 +3,7 @@ import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { ClassifyListPage } from '../../pages/classify-list/classify-list';
 import { Lang } from "../../providers/Language";
-import { DeviceListPage } from '../../pages/device-list/device-list';
+import { DeviceSearchPage } from '../../pages/device-search/device-search';
 import { Events, App } from 'ionic-angular';
 
 /**
@@ -42,7 +42,7 @@ export class ClassifyComponent {
                         text: Lang.L('WORD0cde60d1'),
                         handler: data => {
                             GlobalService.consoleLog('Cancel clicked');
-                            this.app.getRootNav().push(DeviceListPage, {
+                            this.app.getRootNav().push(DeviceSearchPage, {
                                 refresh: false
                             })
                             .then(() => {

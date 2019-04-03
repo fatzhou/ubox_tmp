@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Events, App } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
-import { DeviceListPage } from '../../pages/device-list/device-list';
+import { DeviceSearchPage } from '../../pages/device-search/device-search';
 
 /**
  * Generated class for the BindBoxComponent component.
@@ -29,8 +29,8 @@ export class BindBoxComponent {
         this.closeBindBox.emit();
     }
 
-    goDeviceListPage() {
-        this.app.getRootNav().push(DeviceListPage, {
+    goDeviceSearchPage() {
+        this.app.getRootNav().push(DeviceSearchPage, {
             refresh: true
         });
     }

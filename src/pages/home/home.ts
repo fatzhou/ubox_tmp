@@ -9,7 +9,7 @@ import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 // import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Util } from '../../providers/Util';
-import { DeviceListPage } from '../device-list/device-list';
+import { DeviceSearchPage } from '../device-search/device-search';
 import { AboutDevicePage } from '../about-device/about-device';
 import { DeviceManagementPage } from '../device-management/device-management';
 import { Lang } from "../../providers/Language";
@@ -328,7 +328,7 @@ export class HomePage {
     }
 
     goBindingPage() {
-        this.app.getRootNav().push(DeviceListPage, {
+        this.app.getRootNav().push(DeviceSearchPage, {
             refresh: true
         });
     }

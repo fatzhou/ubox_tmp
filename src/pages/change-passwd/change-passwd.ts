@@ -5,7 +5,7 @@ import { HttpService } from "../../providers/HttpService";
 import { Md5 } from "ts-md5/dist/md5";
 import { Util } from '../../providers/Util';
 import { AlertController, ToastController, LoadingController } from 'ionic-angular';
-import { DeviceListPage } from '../device-list/device-list';
+import { DeviceSearchPage } from '../device-search/device-search';
 import { LoginPage } from '../login/login';
 import { Lang } from "../../providers/Language";
 import { Events } from 'ionic-angular';
@@ -87,7 +87,7 @@ export class ChangePasswdPage {
                             {
                                 text: Lang.L('WORD0cde60d1'),
                                 handler: data => {
-                                    this.navCtrl.push(DeviceListPage, {
+                                    this.navCtrl.push(DeviceSearchPage, {
                                         refresh: false
                                     })
                                       .then(() => {

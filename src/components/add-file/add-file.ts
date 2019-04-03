@@ -12,6 +12,7 @@ import { SelectAudioVideoPage } from '../../pages/select-audio-video/select-audi
 import { SelectFolderPage } from '../../pages/select-folder/select-folder'
 import { SelectAlbumPage } from '../../pages/select-album/select-album'
 import { Platform } from 'ionic-angular';
+import { CopyPhotoPage } from '../../pages/copy-photo/copy-photo'
 
 // import { ImagePicker } from '@ionic-native/image-picker';
 // import { MediaPicker } from '@ionic-native/media-picker';
@@ -192,6 +193,11 @@ export class AddFileComponent {
                 url: this.global.fileRootPath
             });
         }
+    }
+
+    goCopyPhotoPage() {
+        this.closeFileSelect.emit();
+        this.app.getRootNav().push(CopyPhotoPage);
     }
 
     

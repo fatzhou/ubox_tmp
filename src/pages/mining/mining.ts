@@ -8,7 +8,7 @@ import { MiningSettingPage } from '../mining-setting/mining-setting';
 import { MiningListPage } from '../mining-list/mining-list';
 import { MiningTestListPage } from '../mining-test-list/mining-test-list';
 import { WalletSelectPage } from '../wallet-select/wallet-select';
-import { DeviceListPage } from '../device-list/device-list';
+import { DeviceSearchPage } from '../device-search/device-search';
 import { Events, App } from 'ionic-angular';
 import { Lang } from '../../providers/Language';
 import { DeviceManagementPage } from '../device-management/device-management';
@@ -297,7 +297,7 @@ export class MiningPage {
                     {
                         text: Lang.L('WORD0cde60d1'),
                         handler: data => {
-                            this.app.getRootNav().push(DeviceListPage, {
+                            this.app.getRootNav().push(DeviceSearchPage, {
                                 refresh: false
                             });
                         }

@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { HttpService } from '../../providers/HttpService';
 import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
-import { DeviceListPage } from '../device-list/device-list';
+import { DeviceSearchPage } from '../device-search/device-search';
 import { TabsPage } from '../tabs/tabs';
 import { AboutDevicePage } from '../about-device/about-device';
 import { Lang } from "../../providers/Language";
@@ -49,7 +49,7 @@ export class DeviceManagementPage {
 	                {
 	                    text: Lang.L('WORD0cde60d1'),
 	                    handler: data => {
-	                        this.navCtrl.push(DeviceListPage, {
+	                        this.navCtrl.push(DeviceSearchPage, {
                                 refresh: false
                             });
 	                    }
@@ -161,7 +161,7 @@ export class DeviceManagementPage {
                     {
                         text: Lang.L('WORD0cde60d1'),
                         handler: data => {
-                            this.navCtrl.push(DeviceListPage, {
+                            this.navCtrl.push(DeviceSearchPage, {
                                 refresh: true
                             });
                         }

@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { RegisterPage } from '../register/register';
 import { TabsPage } from '../tabs/tabs';
-import { DeviceListPage } from '../device-list/device-list';
+import { DeviceSearchPage } from '../device-search/device-search';
 import { Md5 } from "ts-md5/dist/md5";
 import { Util } from '../../providers/Util';
 import { HttpService } from '../../providers/HttpService';
@@ -204,9 +204,9 @@ export class LoginPage {
                                     text: Lang.L("ReScan"),
                                     handler: data => {
                                         this.util.logout(()=>{
-                                            // this.events.publish('root:changed', DeviceListPage);
+                                            // this.events.publish('root:changed', DeviceSearchPage);
                                             // this.navCtrl.push(TestPage, {
-                                            this.navCtrl.push(DeviceListPage, {
+                                            this.navCtrl.push(DeviceSearchPage, {
                                                 refresh: true
                                             })
                                             .then(() => {

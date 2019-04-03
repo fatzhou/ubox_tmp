@@ -4,7 +4,7 @@ import { Events, App } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { WalletSelectPage } from '../wallet-select/wallet-select';
-import { DeviceListPage } from '../device-list/device-list';
+import { DeviceSearchPage } from '../device-search/device-search';
 import { LoginPage } from '../login/login';
 import { TabsPage } from '../tabs/tabs';
 import { DeviceManagementPage } from '../device-management/device-management';
@@ -104,7 +104,7 @@ export class UserPage {
         }
     }
 
-    goDeviceListPage() {
+    goDeviceSearchPage() {
        this.app.getRootNav().push(LoginPage);   
     }
 
@@ -189,7 +189,7 @@ export class UserPage {
                     text: Lang.L('WORD79e4bc03'),
                     handler: data => {
                         self.util.logout(()=>{
-                            self.goDeviceListPage();
+                            self.goDeviceSearchPage();
                         });
                     }
                 },
@@ -209,7 +209,7 @@ export class UserPage {
             message: Lang.L('WORD64595209'),
         });
         setTimeout(()=>{
-            this.app.getRootNav().push(DeviceListPage, {
+            this.app.getRootNav().push(DeviceSearchPage, {
                 refresh: false
             });
         }, 200);    
