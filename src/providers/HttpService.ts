@@ -832,6 +832,7 @@ export class HttpService {
 				form.append("range", params.range);
 				form.append("path", params.path);
 				form.append("name", params.name);
+				form.append("disk_uuid", this.global.currDiskUuid);
 				form.append("file", new Buffer(data), {
 					filename: params.name
 				});

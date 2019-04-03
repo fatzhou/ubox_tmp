@@ -225,15 +225,23 @@ export class FileTransport {
 					path: fileTask.path.replace(/\/[^\/]+$/, ''),
 					name: fileTask.name,
 					transfer: 'chunked',
-					offset: fileTask.loaded
+					offset: fileTask.loaded,
+					disk_uuid: this.global.currDiskUuid
 				}
 			});
 		let start = Date.now();
+		let uploadParams = JSON.stringify({
+			path: fileTask.path.replace(/\/[^\/]+$/, ''),
+			name: fileTask.name,
+			transfer: 'chunked',
+			offset: fileTask.loaded,
+			disk_uuid: this.global.currDiskUuid
+		});
 		uploadTransfer.onProgress(progress);
 		uploadTransfer.onSuccess(success);
 		uploadTransfer.onFailure(failure)
 		console.log("上传起始位置:" + fileTask.loaded);
-		console.log(`本地url:${fileURL}, 传输url: ${url}`);
+		console.log(`本地url:${fileURL}, 传输url: ${url},传输参数: ${uploadParams}`);
 		uploadTransfer.upload();
 		return uploadTransfer;
 	}
