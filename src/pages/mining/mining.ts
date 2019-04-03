@@ -513,31 +513,38 @@ export class MiningPage {
 			grd.addColorStop(1, 'rgba(14, 209, 152, .2)');
 			this._CONTEXT.fillStyle = grd;
 			this._CONTEXT.lineWidth = 4;
-			this._CONTEXT.lineJoin = this._CONTEXT.lineCap = 'round';
-			this._CONTEXT.strokeStyle = '#23CC9D';
-			this._CONTEXT.globalCompositeOperation = 'source-over';
+			// this._CONTEXT.lineJoin = this._CONTEXT.lineCap = 'round';
 			let widthBase = Math.floor(this._CANVAS.width / (d.length - 1));
-			this._CONTEXT.moveTo(0, d[0]);
+			this._CONTEXT.moveTo(-4, this._CANVAS.height);
+			this._CONTEXT.strokeStyle = 'transparent';//'rgba(37, 206, 218, .2)';
+			this._CONTEXT.lineTo(-4, d[0]);
+			this._CONTEXT.stroke();
+			this._CONTEXT.strokeStyle = '#23CC9D';
+			// this._CONTEXT.moveTo(0, d[0]);
 
 			for(let i = 1, len = d.length; i < len; i++) {
-				let x = (i - 1) * widthBase;
+				// let x = (i - 1) * widthBase;
 				// console.log('---------')
 				// console.log(x, d[i]);
-				this._CONTEXT.quadraticCurveTo(x, d[i - 1], x + .5 * widthBase, (d[i - 1] + d[i]) / 2);
-				this._CONTEXT.stroke();
-				// let x = i * widthBase;
+				// this._CONTEXT.quadraticCurveTo(x, d[i - 1], x + .5 * widthBase, (d[i - 1] + d[i]) / 2);
+				// this._CONTEXT.stroke();
+				let x = i < len - 1 ? (i - 1) * widthBase : this._CANVAS.width + 4;
 				// this._CONTEXT.lineTo(x, d[i]);
+				this._CONTEXT.quadraticCurveTo(x, d[i - 1], x + .5 * widthBase, (d[i - 1] + d[i]) / 2);
+
 				// this._CONTEXT.moveTo(x, d[i]);
 			}
-			this._CONTEXT.lineTo(this._CANVAS.width, d[d.length - 1]);
-			this._CONTEXT.fill();
+			this._CONTEXT.lineTo(this._CANVAS.width + 4, this._CANVAS.height);
+			// this._CONTEXT.strokeStyle = 'rgba(14, 209, 152, .2)';
 			this._CONTEXT.stroke();
+			this._CONTEXT.fill();
+			this._CONTEXT.closePath();
 			//画最大值
 			let img = new Image(48, 48);
 			img.src = 'assets/img/dian@2x.png';
 			// img.crossOrigin = "anonymous";
 			img.onload = () => {
-				this._CONTEXT.globalCompositeOperation = 'source-over';
+				// this._CONTEXT.globalCompositeOperation = 'source-over';
 				this._CONTEXT.drawImage(img, maxIndex * widthBase - 24, d[maxIndex] - 18, 48, 48);
 				// this._CONTEXT.stroke();
 			}
