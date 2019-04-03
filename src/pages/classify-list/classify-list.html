@@ -7,15 +7,18 @@
 <ion-header>
     <ion-navbar class="clear" [ngClass]="allBtnsShow ? 'select-tollbar' :''">
         <ion-title>
-        {{ allBtnsShow ? global.Lf('SelectUploadNum', selectedFiles.length) : pageTitle }}
-        <div class="list-header">
+        {{ pageTitle }}
+        <div class="list-header" [ngClass]="allBtnsShow ? 'all-width' : ''">
             <div class="back-nav" *ngIf="!showFileSelect">
-                <!-- <div class="back-btn"  *ngIf="allBtnsShow">  
-                    <span tappable (click)="selectAll()">{{ selectAllStatus ? global.L("CancelSelectAll") : global.L("SelectAll") }}</span>               
-                </div> -->
-                <div class="select-btn" [ngClass]="showEng=='cn'?'':'eng-sel-btn'">
-                    <div class="task-btn">
-                        <svg class="icon" *ngIf="!allBtnsShow" tappable aria-hidden="true" (click)="goTaskPage()">
+                <div class="back-btn cancel-btn"  *ngIf="allBtnsShow"  [ngClass]="allBtnsShow ? 'bg-black' : ''"> 
+                    <svg class="icon" aria-hidden="true" (click)="cancelSelect()">
+                        <use xlink:href="#iconfanhui"></use>
+                    </svg> 
+                    <span tappable>{{ global.Lf('SelectUploadNum', selectedFiles.length) }}</span>               
+                </div>
+                <div class="select-btn" [ngClass]="[showEng=='cn'?'':'eng-sel-btn', allBtnsShow ? 'bg-black fr-select-nav' : '']">
+                    <div class="task-btn" *ngIf="!allBtnsShow">
+                        <svg class="icon" tappable aria-hidden="true" (click)="goTaskPage()">
                             <use *ngIf="!judgeBusy()" xlink:href="#iconrenwuguanli"></use>
                             <use *ngIf="judgeBusy()" xlink:href="#iconrenwuguanlired"></use>
                         </svg>
@@ -26,7 +29,7 @@
                         </svg> 
                     </span>  
                     <span *ngIf="allBtnsShow" tappable (click)="selectAll()">{{ selectAllStatus ? global.L("CancelSelectAll") : global.L("SelectAll") }}</span>   
-                    <span *ngIf="allBtnsShow" tappable (click)="cancelSelect()"> / {{global.L("Cancel")}}</span>
+                    <!-- <span *ngIf="allBtnsShow" tappable (click)="cancelSelect()"> / {{global.L("Cancel")}}</span> -->
                 </div>     
             </div>    
         </div>

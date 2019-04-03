@@ -95,9 +95,11 @@ export class BtDetailPage {
 					} else {
 						this.detailDesc = res.describe;
 					}
-					
-					this.setFileList(JSON.parse(res.file_list));
-					// console.log("detail" + JSON.stringify(res));
+					if(this.type == 'feed') {
+						this.setFileList(JSON.parse(res.file_list));
+					} else {
+						this.setFileList(res.file_list);
+					}
 				}
 			})
 	}

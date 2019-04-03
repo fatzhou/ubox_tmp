@@ -8,9 +8,17 @@
 
   <ion-navbar (click)="cancalDelete()" [ngClass]="allBtnsShow ? 'select-tollbar' :''">
     <ion-title>
-		{{ allBtnsShow ?  global.Lf('SelectUploadNum', selectFileNum) : global.L('WORD9d749424') }}
-		<div class="list-header">
-			<div class="back-nav" *ngIf="!showFileSelect">
+		{{ global.L('WORD9d749424') }}
+		<div class="list-header" [ngClass]="allBtnsShow ? 'all-width' : ''">
+			<div class="back-nav select-box text-left" [ngClass]="allBtnsShow ? 'bg-black' : ''" *ngIf="allBtnsShow">
+				<svg class="icon" aria-hidden="true" (click)="cancelSelect()">
+					<use xlink:href="#iconfanhui"></use>
+				</svg>
+				<div class="btn choose">   
+					<span>{{global.Lf('SelectUploadNum', selectFileNum)}}</span>            
+				</div>  
+			</div> 
+			<div class="back-nav" [ngClass]="allBtnsShow ? 'bg-black fr-select-nav' : ''">
 				<div class="select-btn" [ngClass]="showEng=='cn'?'':'eng-sel-btn'">  
 					<span *ngIf="!allBtnsShow" tappable class="select-all-icon" (click)="showAllBtns(null)">
 						<svg class="icon" aria-hidden="true">
@@ -18,7 +26,7 @@
 						</svg>  
 					</span>  
 					<span *ngIf="allBtnsShow" class="text-right" tappable (click)="selectAll()">{{ selectAllStatus ? global.L("CancelSelectAll") : global.L("SelectAll") }}</span>
-					<span *ngIf="allBtnsShow" class="text-right" tappable (click)="cancelSelect()"> / {{global.L("Cancel")}}</span>
+					<!-- <span *ngIf="allBtnsShow" class="text-right" tappable (click)="selectAll()"> / {{global.L("Cancel")}}</span> -->
 				</div>     
 			</div>    
 		</div>

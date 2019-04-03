@@ -34,6 +34,7 @@ export class TaskListPage {
     showFileSelect: Boolean = false;
     deteleSingle: boolean = false;
     singleTask: any;
+    showEng: any = GlobalService.applang;
     isDeleteType: any = 'android';
     isShowShadow: boolean =false;
     static _this;

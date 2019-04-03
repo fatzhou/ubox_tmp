@@ -134,14 +134,14 @@ page-wallet-detail {
 					text-align: center;
 					float: left;
 					&.active{
-						color: #5D75F7;
+						color: #fff;
 						position: relative;
 						&:after {
 							content: "";
 							display: block;
 							width: 30px;
 							height: 2px;
-							background-color: #5D75F7;
+							background-color: #fff;
 							position: absolute;
 							bottom: 0;
 							left: 50%;

@@ -16,10 +16,14 @@ page-find {
         width: 100%;
         color: #fff;
         .input-box {
-            position: relative;
+            position: absolute;
+            width: calc(100% - 100px);
+            top: 8px;
+            left: 50%;
+            transform: translate(-50%,0);
         }
         .bt-input {
-            width: calc(100% - 100px);
+            width: 100%;
             margin: 0 auto;
             height: 40px;
             color: #fff;

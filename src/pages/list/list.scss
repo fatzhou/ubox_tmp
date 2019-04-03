@@ -78,7 +78,13 @@ page-list {
         top: 0;
         color:#000;
         z-index: 888;
-
+        &.all-width {
+            width: 100%;
+            background: $newFourColor;
+            .back-nav {
+                padding-left: 0;
+            }
+		}
         .back-nav {
             height: 44px;
             line-height: 44px;
@@ -130,6 +136,15 @@ page-list {
                     padding: 10px 0;
                     padding-left: 10px;
                     padding-right: 10px;
+                }
+            }
+            .cancel-btn {
+                padding-left: 3px!important;
+                display: flex;
+                .icon {
+                    width: 44px;
+                    height: 44px;
+                    padding: 12px;
                 }
             }
         }
