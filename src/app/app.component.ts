@@ -630,7 +630,7 @@ export class UboxApp {
 					// 	console.log(res)
 					// 	this.tabsController.slideTo(0);
 					// });
-					this.tabsController.slideTo(0);
+					this.tabsController.slideTo(0, 'boxtabs');
 					break;
 				case 'discover':
 					// this.nav.setRoot(TabsPage)
@@ -638,14 +638,14 @@ export class UboxApp {
 					// 	console.log(res)
 					// 	this.tabsController.slideTo(1);
 					// });
-					this.tabsController.slideTo(1);
+					this.tabsController.slideTo(1, "boxtabs");
 					break;
 				case 'mining':
 					// this.nav.setRoot(TabsPage)
 					// .then(res => {
 					// 	this.tabsController.slideTo(2);
 					// })
-					this.tabsController.slideTo(2);
+					this.tabsController.slideTo(2, "boxtabs");
 					break;
 				case 'wallet':
 					this.nav.push(WalletDetailPage);
