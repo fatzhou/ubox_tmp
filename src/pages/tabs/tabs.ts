@@ -320,17 +320,19 @@ export class TabsPage {
 	
 	ionViewCanEnter() {
 		//解决tabspage进入两次的问题
-		// if(!this.navCtrl) {
-		// 	return true;
-		// } else {
-		// 	let view = this.navCtrl.getActive();
-		// 	if(view.component == TabsPage) {
-		// 		return false;
-		// 	} else {
-		// 		return true;
-		// 	}			
-		// }
-		return true;
+		if(!this.navCtrl) {
+			console.log("没有navctrl....")
+			return true;
+		} else {
+			let view = this.navCtrl.getActive();
+			console.log("当前view:" + JSON.stringify(view.component))
+			if(view.component == TabsPage) {
+				return false;
+			} else {
+				return true;
+			}			
+		}
+		// return true;
 	}
 
     ionViewDidEnter() {
