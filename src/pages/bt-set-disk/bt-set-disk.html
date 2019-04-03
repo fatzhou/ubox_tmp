@@ -22,7 +22,7 @@
                     </svg>    
                     <div class="info">
                         <h2 class="eps">{{ disk.label }}</h2>
-                        <p>{{ global.L("CanUse") }}  {{ disk.used }}/{{ disk.size }}</p>
+                        <p>{{ global.L("CanUse") }}  {{ disk.used | computeFileSize }}/{{ disk.size | computeFileSize }}</p>
                     </div>
                 </div>
                 <svg class="icon icon-right" aria-hidden="true">

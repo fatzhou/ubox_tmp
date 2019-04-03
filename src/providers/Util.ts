@@ -295,8 +295,8 @@ export class Util {
                                     item.label = 'DISK ' + label[index];
                                     index++;
                                 }
-                                item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
-                                item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+                                // item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+                                // item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
                                 if(item.position == 'base') {
                                     this.global.currDiskUuid = item.uuid;
                                     this.global.currSelectDiskUuid = item.uuid;
@@ -1534,11 +1534,14 @@ export class Util {
                         let index = 0;
                         $scope.global.diskInfo = res.box;
                         $scope.global.diskInfo.disks = res.disks || [];
+                        
                         $scope.global.diskInfo.disks.map((item)=> {
                             if(item.label == '') {
                                 item.label = 'DISK ' + label[index];
                                 index++;
                             }
+                            // item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+                            // item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
                             if(item.position == 'base') {
                                 $scope.global.currDiskUuid = item.uuid;
                                 $scope.global.currSelectDiskUuid = item.uuid;

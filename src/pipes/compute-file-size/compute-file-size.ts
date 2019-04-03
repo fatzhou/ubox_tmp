@@ -17,6 +17,10 @@ export class ComputeFileSizePipe implements PipeTransform {
 		if(size == '') {
 			return ''
 		}
+		let reg = /[0-9]{1,}$/;
+		if(!reg.test(size)) {
+			return size
+		}
   	if(size < GlobalService.DISK_M_BITS) {
   		return (size / GlobalService.DISK_K_BITS).toFixed(2) + "K"
   	} else if(size < GlobalService.DISK_G_BITS) {

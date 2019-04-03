@@ -50,7 +50,7 @@
                         <p class="disk-icon">
                         </p>
                         <p class="disk-name">{{ disk.label }}</p>
-                        <p>{{ disk.used }}/{{ disk.size }}</p>
+                        <p>{{ disk.used | computeFileSize }}/{{ disk.size | computeFileSize }}</p>
                     </li>
                 </ul>
             </div>

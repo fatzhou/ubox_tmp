@@ -119,7 +119,7 @@ export class MiningSettingPage {
             var shareSize = 0;
             var size = 0;
             var disk = this.global.diskInfo.disks && this.global.diskInfo.disks[0] || {};
-            size = Math.floor((disk.total - disk.usage) / GlobalService.DISK_G_BITS);            
+            size = Math.floor((disk.size - disk.used) / GlobalService.DISK_G_BITS);            
             shareSize = +this.navParams.get('shareSize') || 0;
             this.ifMining = this.navParams.get('ifMining');
             this.oldShareSize = shareSize;
