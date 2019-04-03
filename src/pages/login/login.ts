@@ -56,7 +56,7 @@ export class LoginPage {
         // if(this.global.deviceSelected == null){
         //     this.showDes = false;
         // }
-
+		this.isLoading = false;
         if(GlobalService.ENV === 'dev') {
 			console.log("aaaa")
             this.username = '1@qq.com';
@@ -142,6 +142,8 @@ export class LoginPage {
         let index = this.navParams.get('tabIndex');
         this.util.loginAndCheckBox(this, true)
         .then(res => {
+			this.isLoading = false;
+
             if(this.global.useWebrtc) {
                 // this.http.initWebrtc();
                 GlobalService.consoleLog("webrtc模式--用户开始登录盒子");
@@ -169,6 +171,7 @@ export class LoginPage {
             }
         })
         .catch(e => {
+			this.isLoading = false;
             if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
 				this.navCtrl.push(DeviceGuidancePage);
 			} else {
