@@ -72,7 +72,7 @@ export class SearchBtPage {
         });
     }
 
-    searchList(key = null) {
+    searchList(key = null, refresh = false) {
         if(this.loading == true) {
             return false;
         }
@@ -104,7 +104,7 @@ export class SearchBtPage {
                 this.session = res.session;
                 let hash = {}; 
                 let list = res.list || [];
-                if(key) {
+                if(key && !refresh) {
                     this.searchFeedList = this.searchFeedList.concat(list);
                 } else {
                     this.searchFeedList = list;
