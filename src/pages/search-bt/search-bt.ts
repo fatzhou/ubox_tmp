@@ -94,7 +94,7 @@ export class SearchBtPage {
         let obj: any = {
             keyword: this.inputValue
         };
-        if(!key) {
+        if(key && !refresh) {
             obj.session = this.session;
             obj.action = "donext";
         }
