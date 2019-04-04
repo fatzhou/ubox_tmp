@@ -120,7 +120,7 @@ export class UboxApp {
                 // this.statusBar.styleDefault();
                 // this.statusBar.overlaysWebView(true);
                 // this.statusBar.backgroundColorByHexString('#000000');
-                this.splashScreen.hide();
+                //this.splashScreen.hide();
 
                 //检查更新
                 // this.checkHotUpdate();
@@ -205,6 +205,7 @@ export class UboxApp {
 		let flag:Boolean = false;
         let timeout = setTimeout(() => {
             if(!flag) {
+				this.splashScreen.hide();
                 this.nav.setRoot(LoginPage);
             }
         }, 5000);
@@ -218,6 +219,7 @@ export class UboxApp {
                 //登录盒子
                 this.util.loginAndCheckBox(this)
                 .then(res => {
+					this.splashScreen.hide();
 					console.log("loginAndCheckBox成功进入resolve....");
                     if(this.global.centerUserInfo.uname) {
                         this.nav.setRoot(TabsPage);
@@ -226,6 +228,7 @@ export class UboxApp {
                     }
                 })
 				.catch(e => {   
+					this.splashScreen.hide();
 					flag = true; //没有盒子
 					if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
 						//没有盒子，进入绑定流程
@@ -235,11 +238,13 @@ export class UboxApp {
 					}
                 })
             } else {
+				this.splashScreen.hide();
 				flag = true;
                 this.nav.setRoot(LoginPage);
             }
         })
         .catch(res => {
+			this.splashScreen.hide();
 			clearTimeout(timeout);
 			flag = true;
             this.nav.setRoot(LoginPage);
