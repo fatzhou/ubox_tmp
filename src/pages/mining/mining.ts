@@ -548,7 +548,7 @@ export class MiningPage {
 				this._CONTEXT.drawImage(img, maxIndex * widthBase - 24, d[maxIndex] - 18, 48, 48);
 				// this._CONTEXT.stroke();
 			}
-			this.maxEarnLeft = (maxIndex * widthBase) + 'px';
+			this.maxEarnLeft = Math.min((maxIndex * widthBase), this._CANVAS.width - 100) + 'px';
 			this.maxEarnTop = (d[maxIndex] - 20) + 'px';
 			this.maxEarn = max.toFixed(2);
 		}
