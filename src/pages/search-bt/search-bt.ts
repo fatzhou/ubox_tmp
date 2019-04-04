@@ -134,11 +134,35 @@ export class SearchBtPage {
         infiniteScroll.complete();     
     }
 
-    downloadBt(url) {
-        console.log("download" + url)
-        this.util.downloadBt(url)
-        .then(res => {
-            console.log("正在下载bt")
+    downloadBt(item) {
+        console.log("download" + item.mgurl)
+        if(item.status && item.status == 1) {
+            return false;
+        }
+        item.status = 1;
+        this.global.createGlobalAlert(this, {
+            title: Lang.L('DownloadFile'),
+            message: item.title,
+            // enableBackdropDismiss: false,
+            buttons: [
+                {
+                    text: Lang.L('Download'),
+                    handler: data => {
+                        this.util.downloadBt(item.mgurl, item.resid)
+                        .then(res => {
+                            console.log("正在下载bt")
+                        })
+                        return true;
+                    }
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.handleBack();
+                    }
+                },
+            ]
         })
     }
 }

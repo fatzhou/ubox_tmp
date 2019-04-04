@@ -13,6 +13,15 @@ page-bt-detail {
         background: $newThreeColor;
         color: #fff;
     }
+    .main-content{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: $newThreeColor;
+        overflow-y: scroll;
+        padding-bottom: 20px;
+    }
     .detail-title {
         padding: 10px;
         padding-top: 17px;

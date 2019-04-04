@@ -39,7 +39,7 @@ export class BtDetailPage {
 	fileList = [];
 	titleImgList: any = [];
 	desImgList: any = [];
-
+	status: any = 0;
 	constructor(public navCtrl: NavController,
 		public navParams: NavParams,
 		public global: GlobalService,
@@ -173,10 +173,12 @@ export class BtDetailPage {
 
 	downloadBt() {
 		// console.log("download" + this.link)
-		
-		this.util.downloadBt(this.link)
+		if(this.status == 1) {
+            return false;
+        }
+        this.status = 1;
+		this.util.downloadBt(this.link, this.detailId)
 		.then(res => {
-			
 			console.log("正在下载bt")
 		})
 	}

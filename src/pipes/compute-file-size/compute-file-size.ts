@@ -10,12 +10,15 @@ import { GlobalService } from '../../providers/GlobalService';
 	name: 'computeFileSize',
 })
 export class ComputeFileSizePipe implements PipeTransform {
-	/**
-	 * Takes a value and makes it lowercase.
-	 */
-	transform(size: any, ...args) {
-		if (size == '') {
-			return ''
+  /**
+   * Takes a value and makes it lowercase.
+   */
+  transform(size: any, ...args) {
+		if(size == '') {
+			return size
+		}
+		if(size == 0) {
+			return '0B';
 		}
 		let reg = /^[0-9]{1,}$/;
 		if (!reg.test(size)) {
