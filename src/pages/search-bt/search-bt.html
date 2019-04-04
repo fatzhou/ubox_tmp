@@ -12,7 +12,7 @@
                     <use xlink:href="#iconfanhui"></use>
                 </svg>
                 <div class="input-box">
-                    <input type="text" [(ngModel)]="inputValue" (focus)="isFocus = true" (blur)="isFocus = false"  (keyup.enter)="searchList()" class="common-general-button bt-input">
+                    <input type="text" [(ngModel)]="inputValue" (focus)="isFocus = true" (blur)="isFocus = false"  (keyup.enter)="searchList(inputValue, true)" class="common-general-button bt-input">
                     <svg class="icon icon-ellipsis icon-clear" (click)="clearKey()" aria-hidden="true">
                         <use xlink:href="#iconClear1"></use>
                     </svg>
@@ -29,7 +29,7 @@
                 </span>
             </p>
             <p class="history-list">
-                <span *ngFor="let item of searchKeyList" (click)="inputValue = item;searchList()">{{ item }}</span>
+                <span *ngFor="let item of searchKeyList" (click)="inputValue = item;searchList(inputValue, true)">{{ item }}</span>
             </p>
         </div>
         <div class="search-body">
