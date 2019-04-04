@@ -25,6 +25,8 @@ import { DeviceGuidancePage } from '../../pages/device-guidance/device-guidance'
 import { DeviceManagePage } from '../../pages/device-manage/device-manage'
 import { MenuController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
+import { SuperTabsController } from 'ionic2-super-tabs/dist/providers/super-tabs-controller';
+
 // import { AddFileComponent } from '../../components/add-file/add-file';
 // import { Util } from '../../providers/Util';
 /**
@@ -90,7 +92,8 @@ export class ListPage {
         private transfer: FileTransport,
         private app: App,
 		private menuCtrl: MenuController,
-        public navParams: NavParams) {
+        public navParams: NavParams,
+        private tabsController: SuperTabsController) {
         
         ListPage._this = this;
 
@@ -103,9 +106,19 @@ export class ListPage {
     }
 
     ionViewDidEnter() {
-        GlobalService.consoleLog("获取磁盘信息");
+        GlobalService.consoleLog("获取磁盘信息" + JSON.stringify(this.global.deviceSelected));
         // this.getDiskStatus();
         // this.getMiningInfo();
+
+        if(!this.global.deviceSelected) {
+            console.log("准备离开list1")
+            setTimeout(()=>{
+                console.log("准备离开list2")
+                // console.log(JSON.stringify(this.tabsController))
+                this.tabsController.slideTo(1, "boxtabs");
+                console.log("准备离开list3")
+            },500);
+        }
         if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
             // this.isShowBox = true;
             this.fileManager.getPermission()
@@ -557,7 +570,7 @@ export class ListPage {
         if (config[type]) {
             // this.pageTitle = config[type].title;
             this.pageTitle = config[type].title;
-            this.currPath = config[type].path;
+            this.currPath = config[type].path || '/';
         } else {
             var path = this.navParams.get('path') || '/';
             var myItem = "";
@@ -736,6 +749,7 @@ export class ListPage {
 	
 
     toggleClassifyNav(isShow = null) {
+        console.log("list is Show" + isShow)
         if(isShow != null) {
             this.isShowClassifyNav = false;
         } else {

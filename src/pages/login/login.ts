@@ -155,10 +155,12 @@ export class LoginPage {
                     this.navCtrl.pop();
                 } else {
                     // this.navCtrl.push(TestPage, {
-                    this.navCtrl.push(TabsPage, {
-                        tabIndex: index
-                    })                  
-                }                             
+                    // this.navCtrl.push(TabsPage, {
+                    //     tabIndex: index
+                    // })    
+                    this.navCtrl.setRoot(TabsPage);              
+                }        
+
             } else {
                 this.global.closeGlobalLoading(this);
                 // this.navCtrl.push(TestPage, {

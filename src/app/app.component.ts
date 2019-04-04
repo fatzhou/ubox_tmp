@@ -664,8 +664,15 @@ export class UboxApp {
 					// })
 					this.tabsController.slideTo(2, "boxtabs");
 					break;
-				case 'wallet':
-					this.nav.push(WalletDetailPage);
+                case 'wallet':
+                    if(!this.global.deviceSelected) {
+                    //未选择设备则不可用
+                        this.global.createGlobalToast(this, {
+                            message: this.global.L('YouNotConnectedDev')
+                        })
+                    } else {
+                        this.nav.push(WalletDetailPage);
+                    }
 					break;
 				case 'dapp':
 					this.nav.push(SearchPage);
@@ -679,8 +686,15 @@ export class UboxApp {
 				case 'deviceguidance':
 					this.nav.push(DeviceGuidancePage);
 					break;
-				case 'device-manage':
-					this.nav.push(DeviceManagePage);
+                case 'device-manage':
+                    if(!this.global.deviceSelected) {
+                        //未选择设备则不可用
+                            this.global.createGlobalToast(this, {
+                                message: this.global.L('YouNotConnectedDev')
+                            })
+                    } else {
+                        this.nav.push(DeviceManagePage);
+                    }
 					break;
 							
 			}			
