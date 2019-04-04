@@ -725,10 +725,10 @@ export class Util {
         return new Promise((resolve, reject) => {
             // if(1) {
             if(!this.platform.is('cordova')) {
-				setTimeout(() => {
-					resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
-				}, minSearchTime);
-				// resolve([]);
+				// setTimeout(() => {
+				// 	resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
+				// }, minSearchTime);
+				resolve([]);
 				return ;
             }
             // if(1) {
@@ -1113,7 +1113,8 @@ export class Util {
             //未绑定盒子
             url = GlobalService.centerApi['getKeystore'].url;
         } else {
-            throw new Error("Wrong case in getWalletData");
+			// throw new Error("Wrong case in getWalletData");
+			return Promise.reject([]);
         }
         return this.http.post(url, {
             type: this.global.chainSelectArray[this.global.chainSelectIndex] == 'ERC20' ? 0 : 1

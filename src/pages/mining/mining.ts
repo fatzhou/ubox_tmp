@@ -487,20 +487,17 @@ export class MiningPage {
 	drawCanvas(data, unit) {
 		//所有数据先正规化到0-100之间
 		let d = data.map(item => (item.earn / unit));
-		console.log(d)
 		let min = d[0], max = d[0];
 		let maxIndex = -1;
 		for(let i = 1, len = d.length; i < len; i++) {
 			if(d[i] < min) {
 				min = d[i];
 			} else if(d[i] >= max ) {
-				console.log(d[i], max, i)
 				max = d[i];
 				maxIndex = i;
 			}
 		}
 		d = d.map(item => 130 - 80 * (item - min) / (max - min));
-		console.log(min, max, d)
 		this._CANVAS 	    = this.canvasEl.nativeElement;
 		this._CANVAS.width  	= this.platform.width() - 24;
 		this._CANVAS.height 	= 130;
