@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {DeviceSearchPage} from '../device-search/device-search'
-
+import { GlobalService } from '../../providers/GlobalService';
 /**
  * Generated class for the DeviceGuidancePage page.
  *
@@ -15,7 +15,9 @@ import {DeviceSearchPage} from '../device-search/device-search'
 })
 export class DeviceGuidancePage {
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+	constructor(public navCtrl: NavController, 
+				private global: GlobalService,
+				public navParams: NavParams) {
     }
 
     ionViewDidLoad() {

@@ -58,20 +58,21 @@ export class LoginPage {
         // }
 		this.isLoading = false;
         if(GlobalService.ENV === 'dev') {
-			console.log("aaaa")
-            this.username = '1@qq.com';
-            this.password = 'A123456789';       
+			this.username = "619912987@qq.com"
+			this.password = "dh5819413"            // this.username = '1@qq.com';
+            // this.password = 'A123456789';       
         } else {
-            this.util.getUserList()
-            .then(res => {
-                if(this.global.userLoginInfo){
-                    this.username = this.global.userLoginInfo.username;
-                    this.password = this.global.userLoginInfo.password;
-                } else {
-                    this.username = '';
-                    this.password = '';
-                }
-            })             
+
+            // this.util.getUserList()
+            // .then(res => {
+            //     if(this.global.userLoginInfo){
+            //         this.username = this.global.userLoginInfo.username;
+            //         this.password = this.global.userLoginInfo.password;
+            //     } else {
+            //         this.username = '';
+            //         this.password = '';
+            //     }
+            // })             
         }
     }
 
@@ -169,7 +170,9 @@ export class LoginPage {
             }
         })
         .catch(e => {
+			console.log("登录进入catch......");
 			this.isLoading = false;
+			console.log(this.global.centerUserInfo.uname + "," + this.global.centerUserInfo.bind_box_count)
             if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
 				this.navCtrl.push(DeviceGuidancePage);
 			} else {

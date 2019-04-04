@@ -107,7 +107,11 @@ page-device-search {
                 }
                 .device-info {
                     font-size: 16px;
-                    color: $newFiveColor;
+					color: $newFiveColor;
+					white-space: nowrap;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					max-width: 100%;
                     .name {
                         color: #222126;
                         font-size: 24px;

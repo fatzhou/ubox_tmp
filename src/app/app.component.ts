@@ -295,7 +295,7 @@ export class UboxApp {
             if(res) {
                 // this.rootPage =  SelectfolderPage;
                 if(this.global.networking && this.network.type != "wifi") {
-                    this.global.useWebrtc = true;
+                    // this.global.useWebrtc = true; ?????????
                     this.nav.setRoot(LoginPage);//LoginPage;
                 }else{
                     this.nav.setRoot(DeviceSearchPage);//DeviceSearchPage;
