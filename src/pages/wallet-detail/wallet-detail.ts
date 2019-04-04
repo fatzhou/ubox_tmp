@@ -25,7 +25,7 @@ import { Web3Service } from '../../providers/Web3Service';
 export class WalletDetailPage {
     public refreshTime = 1500; //loading动画最少显示时间
     public refreshStart: any; //下拉松手时间
-    public pageNo = 1; //当前页码
+    public pageNo = 0; //当前页码
     public pageSize = 10; //每页条数
     public pageChainNo = 0; //当前页码
     public recordList:any = []; //数据列表
@@ -72,7 +72,7 @@ export class WalletDetailPage {
     ionViewDidEnter() {
         //可能修改了汇率单位，此处需刷新
         this.getDisplayRate();
-		this.pageNo = 1;
+		this.pageNo = 0;
 		console.log("钱包列表：" + JSON.stringify(this.global.walletList));
 		if(this.global.walletList.length > 0) {
 			if(this.global.focusWallet) {

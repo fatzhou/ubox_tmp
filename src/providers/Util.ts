@@ -277,7 +277,8 @@ export class Util {
             if(res === null) {
                 console.error("没有盒子登录态，手动清除中心登录信息");
                 this.global.deviceSelected = null;
-                this.global.centerUserInfo = {};
+				this.global.centerUserInfo = {};
+				throw new Error("Error occured...");
                 return null;
             } else {
                 console.log("已链接盒子：" + this.global.deviceSelected)
