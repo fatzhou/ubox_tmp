@@ -4207,7 +4207,7 @@ export class Lang {
     }
     static ClickNextAgree = {
         cn: '点击下一步即表示接受用户协议',
-        en: 'Click Next to accept the user agreement',
+        en: 'Click Next to accept agreement',
         kr: '사용자 동의를 위해 다음을 클릭하세요'
     }
     static TheNextStep = {

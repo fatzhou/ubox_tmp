@@ -57,7 +57,7 @@ import { DeviceGuidancePage } from '../pages/device-guidance/device-guidance';
 import { DeviceManagePage } from '../pages/device-manage/device-manage';
 import { ResultPage } from '../pages/result/result';
 import { SystemSettingPage } from '../pages/system-setting/system-setting';
-
+import { Keyboard } from '@ionic-native/keyboard/ngx'
 declare var chcp: any;
 declare var WifiWizard: any;
 declare var cordova: any;
@@ -91,7 +91,8 @@ export class UboxApp {
         public splashScreen: SplashScreen,
 		private util: Util,
 		private tabsController: SuperTabsController,
-        private web3: Web3Service
+        private web3: Web3Service,
+        private keyboard: Keyboard
     ) {
         GlobalService.consoleLog("开始全局构造。。。");
 
@@ -144,7 +145,14 @@ export class UboxApp {
                 //获取已安装应用列表
 				this.appInstalled.getInstalledApps();
 				
-				this.createSubFolders();
+                this.createSubFolders();
+                this.keyboard.onKeyboardShow().subscribe(() => {
+                    document.body.classList.add('keyboard-is-open');
+                });
+                
+                this.keyboard.onKeyboardHide().subscribe(() => {
+                    document.body.classList.remove('keyboard-is-open');
+                });
             } else {
                 GlobalService.consoleLog("我不是cordova");
 				this.nav.setRoot(LoginPage);

@@ -116,6 +116,7 @@ import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { DirectivesModule } from '../directives/directives.module';
 import { PhotoLibrary } from '@ionic-native/photo-library';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 //自定义providers
 import { HttpService } from "../providers/HttpService";
@@ -349,6 +350,7 @@ import { PretifyNumberPipe } from '../pipes/pretify-number/pretify-number'
     UappPlatform,
     AppsInstalled,
     AppsInterface,
+    Keyboard
   ]
 })
 export class AppModule {}
