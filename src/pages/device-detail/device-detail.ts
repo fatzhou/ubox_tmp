@@ -63,7 +63,7 @@ export class DeviceDetailPage {
                                 hostname: data.folderName
                             })  
                             .then(res=>{
-                                if(res.status === 0) {
+                                if(res.err_no === 0) {
                                     this.global.createGlobalToast(this, {
                                         message: Lang.L('WORD1b35951f'),
                                     })

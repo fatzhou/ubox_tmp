@@ -131,6 +131,7 @@ export class ListPage {
                     this.isMainDisk = true;
                 }
                 return item.position != 'base';
+                // return item
             });
         }
         
@@ -758,5 +759,10 @@ export class ListPage {
             type: "",
             path: this.currPath
         });
+    }
+
+    computeSize(size) {
+        let showSize = (size / GlobalService.DISK_G_BITS).toFixed(0).replace('.','') + "G"
+        return showSize
     }
 }

@@ -29,7 +29,7 @@
                         </svg>
                     </dt>
                     <dd class="dd-title"><em>{{ disk.position == 'base' ? global.L('TheDisc') : global.L('TheSecondDisc') }}</em>{{ disk.label }}</dd>
-                    <dd class="dd-info" *ngIf="disk.status == 1"><em></em>{{ global.L('Used') }} {{ disk.used }}/{{ disk.size }}</dd>
+                    <dd class="dd-info" *ngIf="disk.status == 1"><em></em>{{ global.L('Used') }} {{ disk.used | computeFileSize }}/{{ disk.size | computeFileSize }}</dd>
                     <dd class="dd-info" *ngIf="disk.status == 2"><em class="error"></em>{{ global.L('ConnectErr') }}</dd>
                 </dl>
             </div>
