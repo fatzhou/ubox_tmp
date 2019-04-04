@@ -113,40 +113,42 @@ export class BtDetailPage {
 		let idIndex = 1;
 		let filesObj = {};
 		console.log(list)
-		list.forEach(item => {
-			let path = item.path;
-			// console.log("sss" + path)
-			let pathArray = path.split('/');
-			item.id = idIndex++;
-
-			if (pathArray.length == 1) {
-				//根目录下的文件
-				item.pid = 0;
-				filesObj[path] = item;
-				item.children = null;
-			} else {
-				//目录分级
-				let parent = pathArray.slice(0, pathArray.length - 1);
-				// console.log("父节点长度：" + parent)
-				//增加顶层目录
-				for (let i = 0; i < parent.length; i++) {
-					let currentName = parent.slice(0, i + 1).join('/');
-					// console.log("父节点：" + currentName);
-					if (!filesObj[currentName]) {
-						let pid = i == 0 ? 0 : filesObj[parent.slice(0, i)].id;
-						filesObj[currentName] = {
-							id: idIndex++,
-							pid: pid,
-							name: parent[parent.length - 1],
-						};
+		if(this.type == 'feed') {
+			list.forEach(item => {
+				let path = (typeof item == 'string') ? item : item.path;
+				// console.log("sss" + path)
+				let pathArray = path.split('/');
+				item.id = idIndex++;
+				if (pathArray.length == 1) {
+					//根目录下的文件
+					item.pid = 0;
+					filesObj[path] = item;
+					item.children = null;
+				} else {
+					//目录分级
+					let parent = pathArray.slice(0, pathArray.length - 1);
+					// console.log("父节点长度：" + parent)
+					//增加顶层目录
+					for (let i = 0; i < parent.length; i++) {
+						let currentName = parent.slice(0, i + 1).join('/');
+						// console.log("父节点：" + currentName);
+						if (!filesObj[currentName]) {
+							let pid = i == 0 ? 0 : filesObj[parent.slice(0, i)].id;
+							filesObj[currentName] = {
+								id: idIndex++,
+								pid: pid,
+								name: parent[parent.length - 1],
+							};
+						}
 					}
+					//当前元素
+					item.pid = filesObj[parent.join('/')].id;
+					// console.log("另一个叶节点：" + item.name);
+					filesObj[path] = item;
 				}
-				//当前元素
-				item.pid = filesObj[parent.join('/')].id;
-				// console.log("另一个叶节点：" + item.name);
-				filesObj[path] = item;
-			}
-		});
+			});
+		}
+		
 
 		let self = this;
 
@@ -155,6 +157,7 @@ export class BtDetailPage {
 		
 			for(let i in filesObj) {
 				if(filesObj[i].pid == id) {
+				
 					filesObj[i].children = findCurrPid(filesObj[i].id);
 					if(filesObj[i].children) {
 						filesObj[i].style = 'folder';
@@ -166,8 +169,11 @@ export class BtDetailPage {
 			}
 			return _arr.length ? _arr : null;
 		}
-
-		this.fileList = findCurrPid(0);
+		if(this.type == 'feed') {
+			this.fileList = findCurrPid(0);
+		} else {
+			this.fileList = list;
+		}
 		console.log("bt种子的文件列表:" + JSON.stringify(this.fileList))
 	}
 
@@ -176,8 +182,9 @@ export class BtDetailPage {
 		if(this.status == 1) {
             return false;
         }
-        this.status = 1;
-		this.util.downloadBt(this.link, this.detailId)
+		this.status = 1;
+		let url = this.link + '&dn=' + this.title;
+		this.util.downloadBt(url, this.detailId)
 		.then(res => {
 			console.log("正在下载bt")
 		})

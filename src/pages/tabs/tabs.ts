@@ -393,7 +393,30 @@ export class TabsPage {
                 this.initNoticeList();
             })
         } else {
-            this.getVersionControl();
+            this.getVersionControl()
+            .then(res => {
+                this.global.createGlobalAlert(this, {
+                    title: Lang.L('WarmRemind'),
+                    message: Lang.L('WORD2a0b753a'),
+                    buttons: [{
+                        "text": Lang.L('Close'),
+                        handler: () => {                            
+                        }
+                    }]
+                });
+            })
+            .catch(e => {
+                this.global.createGlobalAlert(this, {
+                    title: Lang.L('WarmRemind'),
+                    message: Lang.L('WORD2a0b753a'),
+                    buttons: [{
+                        "text": Lang.L('Close'),
+                        handler: () => {                            
+                        }
+                    }]
+                });
+            })
+
         }
     }
 
