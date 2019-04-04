@@ -148,7 +148,8 @@ export class SearchBtPage {
                 {
                     text: Lang.L('Download'),
                     handler: data => {
-                        this.util.downloadBt(item.mgurl, item.resid)
+                        let url = item.mgurl + '&dn=' + item.title;
+                        this.util.downloadBt(url, item.resid)
                         .then(res => {
                             console.log("正在下载bt")
                         })

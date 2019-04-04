@@ -392,14 +392,26 @@ export class TabsPage {
         } else {
             this.getVersionControl()
             .then(res => {
-                this.global.createGlobalToast(this,{
-                    message: Lang.L('WORD2a0b753a')
-                })
+                this.global.createGlobalAlert(this, {
+                    title: Lang.L('WarmRemind'),
+                    message: Lang.L('WORD2a0b753a'),
+                    buttons: [{
+                        "text": Lang.L('Close'),
+                        handler: () => {                            
+                        }
+                    }]
+                });
             })
             .catch(e => {
-                this.global.createGlobalToast(this,{
-                    message: Lang.L('WORD2a0b753a')
-                })
+                this.global.createGlobalAlert(this, {
+                    title: Lang.L('WarmRemind'),
+                    message: Lang.L('WORD2a0b753a'),
+                    buttons: [{
+                        "text": Lang.L('Close'),
+                        handler: () => {                            
+                        }
+                    }]
+                });
             })
 
         }

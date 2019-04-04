@@ -182,8 +182,9 @@ export class BtDetailPage {
 		if(this.status == 1) {
             return false;
         }
-        this.status = 1;
-		this.util.downloadBt(this.link, this.detailId)
+		this.status = 1;
+		let url = this.link + '&dn=' + this.title;
+		this.util.downloadBt(url, this.detailId)
 		.then(res => {
 			console.log("正在下载bt")
 		})
