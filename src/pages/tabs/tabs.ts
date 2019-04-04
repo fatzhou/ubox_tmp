@@ -311,7 +311,10 @@ export class TabsPage {
 
     ionViewDidLoad() {
 		GlobalService.consoleLog('进入TabsPage...');
-		this.util.getWalletList();
+		this.util.getWalletList()
+		.catch(e => {
+			console.log(e);
+		})
 		//获取汇率
 		this.util.getDisplayRate();
         //初始化connection组件

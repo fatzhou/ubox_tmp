@@ -47,6 +47,26 @@
                     "action": "this.toVersion=this.appVersionDescription.version,this.isClose=true,setTimeout(()=>{this.closeBtn=true},1000),this.isShowAction=true,this.events.publish('update-app')"
                 }      
             ]
+		},
+		"1.2.3": {
+            "versionList": [
+                {
+                    "version": "-1.2.0",
+                    "action": "this.events.publish('update-box')"
+                },
+                {
+                    "version": "-",
+                    "action": "this.toVersion=this.appVersionDescription.version,this.isClose=true,setTimeout(()=>{this.closeBtn=true},1000),this.isShowAction=true,this.events.publish('update-app')"
+                }      
+            ]
+		},
+		"2.0.0": {
+            "versionList": [
+                {
+                    "version": "-2.0.0",
+                    "action": "this.events.publish('update-box')"
+                }    
+            ]
         }
 	},
 	"boxVersionDescription": {
@@ -92,8 +112,18 @@
                 "en": ["1. Come to join us in mining with the newly launched test chain!","2. Checking the block information at any time with the new added browser.","3. Fixed the reported problems and optimised using experience."],
                 "kr": ["1. 테스트 체인이 온라인 상태가 됩니다. 테스트 체인 마이닝에 참여하십시오.","2. 언제든지 블록 정보를 볼 수 있는 새 블록체인 브라우저를 추가합니다.","3. 커뮤니티 피드백 문제 및 사용 경험을 최적화하고 알려진 시스템 버그를 수정합니다."]
             }                
-    },
-    "appVersionDescription" : {
+	},
+	"appVersionDescription" : {
+		"version": "2.0.0",
+        "content": 
+            {
+                "cn": ["1.APP界面全面升级，精简的业务流程，极致的UX体验；","2.新增BT全网搜索、下载功能，支持BT资源智能远程下载；","3.优化磁盘管理，支持二代产品多设备层叠扩充功能；","Ubbey测试链活动下线等其他辅助功能调整。"],
+                "en": ["PM made a new year wish: make a better Ubbey App for everybody.","What’s New:","1.Auto backup photo albums","2.Multiple photos preview","3.Mining earning display bug fixed","Don’t hesitate to try the New Year update!"],
+                "kr": ["저희는 회원님들께서 새해에 더욱 향상된 Ubbye App을 사용할 수 있도록 소원을 빌었습니다. 그 소원이 이루어 져서 새로운 업데이트를 하게 되었습니다.","1. 자동으로 사진첩 백업하는 기능 추가","2. 미리보기 기능 추가","3. 마이닝 수익 보기에서의 버그 수정","아직도 기다리고 계신가요? 서둘러 체험하러 가요."]
+            },
+        "downloadUrl":"https://m.yqtc.co/download/ubbey.v2.0.0.apk"
+	},
+    "appVersionDescription-1.2.3" : {
         "version": "1.2.3",
         "content": 
             {
