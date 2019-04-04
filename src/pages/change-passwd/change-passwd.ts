@@ -183,6 +183,7 @@ export class ChangePasswdPage {
     showIcon(){
         this.eyeshow = !this.eyeshow;
     }
+    
     updatePassword() {
         if(this.global.centerUserInfo.earn !== undefined) {
             this.modifyPassword();

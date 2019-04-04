@@ -32,6 +32,8 @@ export class RegisterPage {
     pError2: Boolean = false;
     pErrorText2: String = "";
     privacyCheck: Boolean = false;
+    eyeshow:Boolean = false;
+    eyeshow2:Boolean = false;
 
     constructor(public navCtrl: NavController,
         public toastCtrl: ToastController,
@@ -136,6 +138,12 @@ export class RegisterPage {
     goPrivacyPolicy(){
         this.navCtrl.push(PrivacyPolicyPage);
     }
-    
+
+    showIcon(){
+        this.eyeshow = !this.eyeshow;
+    }
+    showIcon2(){
+        this.eyeshow2 = !this.eyeshow2;
+    }
 
 }

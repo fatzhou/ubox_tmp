@@ -27,7 +27,7 @@
 
 			<div class="form-input passwd-wrap {{eyeshow?'open-eye':'close-eye'}}">
 				<label class="label" for="password-register">{{ global.L("SetPassword") }}</label>
-				<input id="password-register" type="{{eyeshow?'text':'password'}}" name="password" [(ngModel)]="password"
+				<input id="password-register" type="{{eyeshow?'text':'password'}}" name="password" [(ngModel)]="passwd"
 					class="input-v2" placeholder="{{global.L('PlsInputPassword')}}" />
 				<svg aria-hidden="true" (click)="showIcon()" class="icon open">
 					<use xlink:href="#iconeyeopen"></use>
@@ -37,15 +37,15 @@
 				</svg>
 			</div>
 
-			<div class="form-input passwd-wrap {{eyeshow?'open-eye':'close-eye'}}">
+			<div class="form-input passwd-wrap {{eyeshow2?'open-eye':'close-eye'}}">
 				<label class="label" for="password-register2">{{ global.L("InputAgain") }}</label>
-				<input id="password-register2" type="{{eyeshow?'text':'password'}}" name="password" [(ngModel)]="password2"
+				<input id="password-register2" type="{{eyeshow2?'text':'password'}}" name="password" [(ngModel)]="passwd2"
 					class="input-v2" placeholder="{{global.L('PlsInputNewPassword1')}}" />
 				<!-- <label class="borderline"></label> -->
-				<svg aria-hidden="true" (click)="showIcon()" class="icon open">
+				<svg aria-hidden="true" (click)="showIcon2()" class="icon open">
 					<use xlink:href="#iconeyeopen"></use>
 				</svg>
-				<svg aria-hidden="true" class="icon closed" (click)="showIcon()">
+				<svg aria-hidden="true" class="icon closed" (click)="showIcon2()">
 					<use xlink:href="#iconeyeclose"></use>
 				</svg>
 				<!-- <p class="error-input" *ngIf="pError">{{ pErrorText }}</p> -->
