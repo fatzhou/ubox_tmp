@@ -134,7 +134,21 @@ export class TabsPage {
                     this.action = this.updateBoxIndeed.bind(this);
                     this.isClose = true;
                     this.isShowAction = true;
-                }
+                } else if(res.type == 'force') {
+					this.checkUpdate._checkUpdateStatus(()=> {
+						this.global.closeGlobalLoading(this);
+						//升级成功
+						this.global.createGlobalToast(this, {
+							message: Lang.L('uploadFinished')
+						})
+					}, () => {
+						this.global.closeGlobalLoading(this);
+						//升级失败
+						this.global.createGlobalToast(this, {
+							message: Lang.L('updateRomError')
+						})
+					})
+				}
             })
             .catch(e => {
                 GlobalService.consoleLog(e.stack);

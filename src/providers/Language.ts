@@ -3030,6 +3030,11 @@ export class Lang {
         kr: "이미${num}항목을 선택했습니다."
     }
 
+	static FindResult = {
+		cn: "找到${num}个设备",
+		en: "Find ${num} devices",
+		kr: ''
+	}
 
     static SelfTransferNotPermitted = {
         cn: "你不能给自己转账",

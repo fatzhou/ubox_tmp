@@ -313,6 +313,7 @@ export class HttpService {
 	public post(url: string, paramObj: any, errorHandler: any = true, headers: any = {}, options: any = {}, cordova = false) {
 		url = url || '';
 		headers['X-Request-Id'] = this.getXRequestId();
+		console.log("是否使用webrtc?" + this.global.useWebrtc);
 		if (url.startsWith('http') || !this.global.useWebrtc) {
 			//接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
 			return this._post(url, paramObj, headers, errorHandler, cordova);

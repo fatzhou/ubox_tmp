@@ -376,7 +376,7 @@ export class DeviceListPage {
     goLoginPage() {
         GlobalService.consoleLog("直接登录，未设置盒子信息");
         this.global.deviceSelected = null;
-        this.global.useWebrtc = true;
+        // this.global.useWebrtc = true;
         this.navCtrl.push(LoginPage)
         .then(() => {
             this.isClicked = false;

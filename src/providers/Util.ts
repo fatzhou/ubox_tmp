@@ -321,9 +321,10 @@ export class Util {
            // return res;
         })
         .catch(res => {
+			console.log("登录并获取盒子失败........");
             GlobalService.consoleLog(res);
             $scope.global.closeGlobalLoading($scope);
-            this.global.deviceSelected = null;
+			this.global.deviceSelected = null;
             //没有盒子或者其他错误，只需登录中心即可
             // errorCallback && errorCallback();
             return Promise.reject(res);
@@ -683,7 +684,9 @@ export class Util {
                         manufacturer: dv.manufacturer[0],
                         manufacturerURL: dv.manufacturerURL[0],
                         deviceType: dv.deviceType[0],
-                        version: dv.version[0],
+						version: dv.version[0],
+						boxType: dv.boxType && dv.boxType[0] || 'UbbeyBox',
+						storage: dv.storage && dv.storage[0] || '',
                         URLBase: result.root.URLBase,
                         bindUserHash: dv.bindUserHash[0]
                     });
@@ -1416,14 +1419,20 @@ export class Util {
             password = "";
 
         GlobalService.consoleLog("弱中心预绑定，先登录");
-        GlobalService.consoleLog("用户名是:" + $scope.username + ",密码是:" + $scope.password);
 
         return new Promise((resolve, reject) => {
             if($scope.username && $scope.password) {
+				console.log("直接传入了用户名。。。")
                 username = $scope.username;
                 password = $scope.password;
                 resolve();
-            } else {
+            } else if(this.global.userLoginInfo && this.global.userLoginInfo.username) {
+				console.log("全局饮用用户名。。。")
+				username = this.global.userLoginInfo.username;
+                password = this.global.userLoginInfo.password;
+                resolve();
+			} else {
+				console.log("缓存中读取用户名......")
                  this.getUserList()
                 .then((r:any) => {
                     console.log(JSON.stringify(r))
@@ -1438,7 +1447,7 @@ export class Util {
             }
         })
         .then(res => {
-           return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {})
+           return this.http.post(GlobalService.centerApi["getUserInfo"].url, {})
         }, res => {
             $scope.global.centerUserInfo = {};
             this.events.publish('token:expired', {
@@ -1472,8 +1481,8 @@ export class Util {
         .then((res) => {
             if (res.err_no === 0) {
                 GlobalService.consoleLog("登录成功，开始预绑定");
-                $scope.global.centerUserInfo = res.user_info;
-                return $scope.http.post(GlobalService.centerApi["bindBox"].url, {
+                this.global.centerUserInfo = res.user_info;
+                return this.http.post(GlobalService.centerApi["bindBox"].url, {
                     boxid: boxInfo.boxId
                 })
             } else {
@@ -1483,7 +1492,7 @@ export class Util {
         .then((res) => {
             if (res.err_no === 0) {
                 GlobalService.consoleLog("预绑定成功，开始绑定盒子");
-                return $scope.http.post(url, {
+                return this.http.post(url, {
                     username: username,
                     password: Md5.hashStr(password).toString(),
                     boxid: boxInfo.boxId,
@@ -1497,7 +1506,7 @@ export class Util {
         .then((res) => {
             if (res.err_no === 0) {
                 GlobalService.consoleLog("盒子端绑定成功，开始中心确认");
-                return $scope.http.post(GlobalService.centerApi["bindBoxConfirm"].url, {
+                return this.http.post(GlobalService.centerApi["bindBoxConfirm"].url, {
                     boxid: boxInfo.boxId
                 })
             } else {
@@ -1508,14 +1517,14 @@ export class Util {
             if (res.err_no === 0) {
                 GlobalService.consoleLog("盒子确认成功，登录盒子");
                 //更新用户绑定盒子的数量
-                $scope.global.centerUserInfo.bind_box_count = 1;
+                this.global.centerUserInfo.bind_box_count = 1;
                 //更新盒子用户数据
                 boxInfo.bindUser = username;
                 boxInfo.bindUserHash = Md5.hashStr(username.toLowerCase()).toString();
-                return $scope.util.loginBox(username, password);
+                return this.loginBox(username, password);
             } else {
                 GlobalService.consoleLog("盒子确认失败，需解除绑定");
-                return $scope.http.post(url, {
+                return this.http.post(url, {
                     boxid: boxInfo.boxId,
                     signature: res.credential,
                 })
@@ -1530,18 +1539,18 @@ export class Util {
                 console.log("开始转移钱包");
                 //绑定成功，开始转移钱包
                 let url = GlobalService.centerApi['getKeystore'].url;
-                let boxStatusUrl = $scope.global.getBoxApi("getDiskStatus");
-                return $scope.http.post(boxStatusUrl, {})
+                let boxStatusUrl = this.global.getBoxApi("getDiskStatus");
+                return this.http.post(boxStatusUrl, {})
                 .then(res => {
                     //盒子状态获取错误的出错率较高，目前出错继续保存钱包
                     if(res.err_no === 0) {
                         //获取到盒子状态信息
                         let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
                         let index = 0;
-                        $scope.global.diskInfo = res.box;
-                        $scope.global.diskInfo.disks = res.disks || [];
+                        this.global.diskInfo = res.box;
+                        this.global.diskInfo.disks = res.disks || [];
                         
-                        $scope.global.diskInfo.disks.map((item)=> {
+                        this.global.diskInfo.disks.map((item)=> {
                             if(item.label == '') {
                                 item.label = 'DISK ' + label[index];
                                 index++;
@@ -1549,14 +1558,14 @@ export class Util {
                             // item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
                             // item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
                             if(item.position == 'base') {
-                                $scope.global.currDiskUuid = item.uuid;
-                                $scope.global.currSelectDiskUuid = item.uuid;
+                                this.global.currDiskUuid = item.uuid;
+                                this.global.currSelectDiskUuid = item.uuid;
                             }
                         })
-                        $scope.global.diskInfoStatus = !!($scope.global.diskInfo.disks && $scope.global.diskInfo.disks.length);
-                        return $scope.http.post(url, {type: 0});
+                        this.global.diskInfoStatus = !!(this.global.diskInfo.disks && this.global.diskInfo.disks.length);
+                        return this.http.post(url, {type: 0});
                     } else {
-                        return $scope.http.post(url, {type: 0});
+                        return this.http.post(url, {type: 0});
                     }
                 })
                 .then(res => {
@@ -1565,7 +1574,7 @@ export class Util {
                         if(res.wallets) {
                             console.log("绑定成功，需要同步钱包");
                             let promises = [];
-                            let url = $scope.global.getBoxApi('createWallet');
+                            let url = this.global.getBoxApi('createWallet');
                             let wallets = res.wallets || [];
                             res.wallets.forEach(item => {
                                 //盒子创建钱包，不报错...

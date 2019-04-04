@@ -3,6 +3,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Util } from '../../providers/Util';
 import { GlobalService } from '../../providers/GlobalService';
 import { TabsPage } from '../tabs/tabs';
+import { HttpService } from '../../providers/HttpService';
+import { JSONPBackend } from '@angular/http';
 /**
  * Generated class for the DeviceSearchPage page.
  *
@@ -20,6 +22,7 @@ export class DeviceSearchPage {
 
 	constructor(public navCtrl: NavController, 
 				public util: Util,
+				private http: HttpService,
 				private global: GlobalService,
 				public navParams: NavParams) {
     }
@@ -40,6 +43,7 @@ export class DeviceSearchPage {
 
 	bindBox(box) {
 		this.global.deviceSelected = box;
+		console.log("已选定盒子：" + JSON.stringify(box));
 		this.util.bindBox(this)
 		.then(res => {
 			if(res) {
