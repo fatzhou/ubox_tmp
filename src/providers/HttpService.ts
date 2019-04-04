@@ -86,8 +86,8 @@ export class HttpService {
 	}
 
 	public keepWebrtcAlive(label) {
-		// this.channelStatusManager(label);
-		// this.keepAlive(label);
+		this.channelStatusManager(label);
+		this.keepAlive(label);
 	}
 
 	private keepAlive(label) {

@@ -279,7 +279,7 @@ export class Util {
                 this.global.deviceSelected = null;
 				this.global.centerUserInfo = {};
 				throw new Error("Error occured...");
-                return null;
+                // return null;
             } else {
                 console.log("已链接盒子：" + this.global.deviceSelected)
                 if(this.global.deviceSelected) {

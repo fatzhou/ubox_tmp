@@ -57,7 +57,7 @@ import { DeviceGuidancePage } from '../pages/device-guidance/device-guidance';
 import { DeviceManagePage } from '../pages/device-manage/device-manage';
 import { ResultPage } from '../pages/result/result';
 import { SystemSettingPage } from '../pages/system-setting/system-setting';
-import { Keyboard } from '@ionic-native/keyboard/ngx'
+// import { Keyboard } from '@ionic-native/keyboard/ngx'
 declare var chcp: any;
 declare var WifiWizard: any;
 declare var cordova: any;
@@ -92,7 +92,7 @@ export class UboxApp {
 		private util: Util,
 		private tabsController: SuperTabsController,
         private web3: Web3Service,
-        private keyboard: Keyboard
+        // private keyboard: Keyboard
     ) {
         GlobalService.consoleLog("开始全局构造。。。");
 
@@ -146,11 +146,15 @@ export class UboxApp {
 				this.appInstalled.getInstalledApps();
 				
                 this.createSubFolders();
-                this.keyboard.onKeyboardShow().subscribe(() => {
+                // this.keyboard.onKeyboardShow().subscribe(() => {
+				window.addEventListener('keyboardDidShow', () => {
+					console.log("键盘已弹出......");
                     document.body.classList.add('keyboard-is-open');
                 });
                 
-                this.keyboard.onKeyboardHide().subscribe(() => {
+                // this.keyboard.onKeyboardHide().subscribe(() => {
+				window.addEventListener('keyboardDidHide', () => {
+					console.log("键盘已关闭......");
                     document.body.classList.remove('keyboard-is-open');
                 });
             } else {
