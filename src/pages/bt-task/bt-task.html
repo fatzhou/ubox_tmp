@@ -22,8 +22,8 @@
 
 <ion-content (click)="toggleShowOptions('close')">
     <ul class="tab-list">
-        <li [ngClass]="tabIndex == 0 ? 'active' : ''" (click)="changeIndex(0)">{{ global.L("DownloadingNum") }}({{ btDoingNum }})</li>
-        <li [ngClass]="tabIndex == 1 ? 'active' : ''" (click)="changeIndex(1)">{{ global.L("WORD3c80409a") }}({{ btDoneNum }})</li>
+        <li tappable [ngClass]="tabIndex == 0 ? 'active' : ''" (click)="changeIndex(0)">{{ global.L("DownloadingNum") }}({{ btDoingNum }})</li>
+        <li tappable [ngClass]="tabIndex == 1 ? 'active' : ''" (click)="changeIndex(1)">{{ global.L("WORD3c80409a") }}({{ btDoneNum }})</li>
     </ul>
     <div class="task-box">
         <ul class="task-list" *ngIf="tabIndex == 0">

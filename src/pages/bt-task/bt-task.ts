@@ -213,6 +213,7 @@ export class BtTaskPage {
 
     toggleAllTaskList(action) {
         this.isShowOptions = false;
+        // clearInterval(this.setIntervalTaskList);
         if(action == 'stop') {
             this.btDoingList.map((item)=> {
                 if(item.status != 2 && item.status != 4) {

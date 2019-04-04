@@ -731,10 +731,10 @@ export class Util {
 				// resolve([]);
 				return ;
             }
-            // if(1) {
-            //     resolve([]);
-            //     return ;
-            // }
+            if(1) {
+                resolve([]);
+                return ;
+            }
             var self = this;
             var flag = false;
             var serviceType = "upnp:ubbeybox";
@@ -1885,7 +1885,7 @@ export class Util {
             resourceid: id
         })
         .then((res)=>{
-            if(res.err_no === 0) {
+            if(res.err_no === 0 || res.err_no == 10002) {
                 this.global.closeGlobalLoading(this);
                 GlobalService.consoleLog("下载bt成功");
                 this.global.createGlobalToast(this, {

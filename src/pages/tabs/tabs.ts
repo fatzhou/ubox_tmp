@@ -390,7 +390,18 @@ export class TabsPage {
                 this.initNoticeList();
             })
         } else {
-            this.getVersionControl();
+            this.getVersionControl()
+            .then(res => {
+                this.global.createGlobalToast(this,{
+                    message: Lang.L('WORD2a0b753a')
+                })
+            })
+            .catch(e => {
+                this.global.createGlobalToast(this,{
+                    message: Lang.L('WORD2a0b753a')
+                })
+            })
+
         }
     }
 
