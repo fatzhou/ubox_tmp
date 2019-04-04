@@ -94,6 +94,13 @@ export class FindPage {
 
     goBtTaskPage() {
         console.log("go BtTaskPage");
+        if(!this.global.deviceSelected) {
+        //未选择设备则不可用
+            this.global.createGlobalToast(this, {
+                message: this.global.L('YouNotConnectedDev')
+            })
+            return false
+        }
         this.navCtrl.push(BtTaskPage);
     }
 

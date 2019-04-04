@@ -32,34 +32,48 @@ export class Lang {
         }
     }
     
-
-
     static UappInstallSucceed = {
-        cn: "应用${name}已成功安装!"
+        cn: "应用${name}已成功安装!",
+        en: 'App${name} successfully installed ',
+        kr: '${name}이 성공적으로 설치되었습니다'
     }
-
+     
     static BindBoxFirst = {
-        cn : '该应用需先绑定盒子'
+        cn : '该应用需先绑定盒子',
+        en: 'you have to bind a box first to use this app',
+        kr: '어플리케이션을 사용하기위해 먼저 박스를 바인딩해야합니다'
     }
-
+        
     static BoxOffline = {
-        cn : '您的盒子不在线，请在盒子在线时使用'
+        cn : '您的盒子不在线，请在盒子在线时使用',
+        en: 'Your box is not online, please bring your box online',
+        kr: '박스가 온라인 상태가 아닙니다. 박스를 온라인 상태로 만드십시오.'
     }
+        
 
     static UappUninstalled = {
-        cn: '应用${name}已卸载成功'
+        cn: '应用${name}已卸载成功',
+        en: 'APP successfully uninstalled ',
+        kr: '어플리케이션이 성공적으로 설치되었습니다'
     }
-
+    
     static Getting = {
-        cn: '获取中(${progress}%)'
+        cn: '获取中(${progress}%)',
+        en: 'Accessing(${progress}%)',
+        kr: '접속 중 (${progress}%)'
     }
-
+    
     static AppInstalling = {
-        cn: '正在安装应用${name}'
+        cn: '正在安装应用${name}',
+        en: 'APP installing(${progress}%)',
+        kr: '설치 중 (${progress}%)'
     }
+        
 
     static InstallError = {
-        cn: '应用${name}安装失败'
+        cn: '应用${name}安装失败',
+        en: 'APP installing fails(${progress}%)',
+        kr: '어플리케이션 설치 실패 (${progress}%)'
     }
 
     static Ok = {
@@ -3409,8 +3423,8 @@ export class Lang {
 
     static Creating = {
         cn: '创建中',
-        en: '',
-        kr: ''
+        en: 'creating',
+        kr: '생성중'
     }
     
     static Home = {
