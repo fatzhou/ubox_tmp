@@ -218,6 +218,10 @@ page-list {
                     color: $newFirstColor;
                     font-size: 16px;
                     line-height: 25px;
+                    white-space: nowrap;
+                    width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
             }
         }
