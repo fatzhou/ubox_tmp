@@ -1891,11 +1891,17 @@ export class Util {
                 this.global.closeGlobalLoading(this);
                 GlobalService.consoleLog("下载bt成功");
                 this.global.createGlobalToast(this, {
-                    message: this.global.L('StartDownloading')
+                    message: Lang.L('StartDownloading')
                 })
             } else {
                 this.global.closeGlobalLoading(this);
             }
+        })
+        .catch(e => {
+            this.global.closeGlobalLoading(this);
+            this.global.createGlobalToast(this, {
+                message: Lang.L('DownloadError')
+            })
         })
     }
 }
