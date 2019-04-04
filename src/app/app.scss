@@ -184,6 +184,10 @@
 		}
 		.item-inner {
 			flex: none;
+			position: absolute;
+			right: 0;
+			top: 16px;
+			right: -6px;
 		}
 		.add-device {
 			text-align: center;
