@@ -34,7 +34,7 @@ export class DeviceManagePage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad DeviceManagePage');
-        this.disks = this.global.diskInfo.disks;
+        this.disks = this.global.diskInfo.disks || [];
         this.disks.map(item => {
             item.isShowOptions = false;
         })

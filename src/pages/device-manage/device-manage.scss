@@ -77,14 +77,24 @@ page-device-manage {
                     text-indent: 45px;
                     color: #fff;
                     padding-top: 12px;
+                    overflow-x: auto;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                     em {
-                        width: 30px;
+                        min-width: 30px;
                         height: 18px;
                         font-size: 11px;
                         border-radius: 2px;
                         text-indent: 0;
                         text-align: center;
                         font-style: normal;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        line-height: 18px;
+                        padding: 0 2px;
+                        overflow: hidden;
                     }
                 }
                 &.dd-info {

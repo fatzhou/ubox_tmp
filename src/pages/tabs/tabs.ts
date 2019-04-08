@@ -414,7 +414,8 @@ export class TabsPage {
                     message: Lang.L('WORD2a0b753a'),
                     buttons: [{
                         "text": Lang.L('Close'),
-                        handler: () => {                            
+                        handler: () => {       
+                            this.tabsCtrl.slideTo(1); 
                         }
                     }]
                 });
@@ -425,7 +426,8 @@ export class TabsPage {
                     message: Lang.L('WORD2a0b753a'),
                     buttons: [{
                         "text": Lang.L('Close'),
-                        handler: () => {                            
+                        handler: () => {    
+                            this.tabsCtrl.slideTo(1);                     
                         }
                     }]
                 });
