@@ -81,16 +81,12 @@ export class HttpService {
 		this.global.useWebrtc = true;
 		this.channelLabels.forEach(label => {
 			this.clearWebrtc(label);
-			this.keepWebrtcAlive(label);			
+			this.keepWebrtcAlive(label);
+			this.channelStatusManager(label);
 		})
 	}
 
 	public keepWebrtcAlive(label) {
-		this.channelStatusManager(label);
-		this.keepAlive(label);
-	}
-
-	private keepAlive(label) {
 		let dataChannel = this.channels[label];
 		if (!dataChannel.aliveInterval) {
 			dataChannel.aliveInterval = setInterval(() => {
@@ -113,9 +109,6 @@ export class HttpService {
 	private channelStatusManager(label) {
 		let dataChannel = this.channels[label],
 			channel = dataChannel.channel;
-		if(!dataChannel.status == undefined) {
-			return false;
-		}
 		if (dataChannel.statusTimer) {
 			clearTimeout(dataChannel.statusTimer);
 			dataChannel.statusTimer = null;
@@ -129,6 +122,10 @@ export class HttpService {
 				this.channelStatusManager(label);
 			}, this.requestCheckGap);
 
+            if(!dataChannel.status == undefined) {
+                return false;
+            }
+
 			switch (dataChannel.status) {
 				case 'opening':
 					// GlobalService.consoleLog("正在建立连接流程.........");
@@ -138,11 +135,15 @@ export class HttpService {
 						break;
 					}
 				case 'closed':
-					GlobalService.consoleLog(".............重新建立连接流程.............");
-					this.createDataChannel()
-						.catch(e => {
-							GlobalService.consoleLog(e);
-						});
+				    if (label == this.channels[0]){
+                        GlobalService.consoleLog(".............重新建立连接流程.............");
+                        this.createDataChannel()
+                            .catch(e => {
+                                GlobalService.consoleLog(e);
+                            });
+                    } else {
+                        GlobalService.consoleLog("部分数据通道已关闭channel status of [" + label + "] is closed.");
+                    }
 					break;
 				case 'opened':
 					//debug
@@ -210,7 +211,7 @@ export class HttpService {
 			clearTimeout(mySession.timer);
 			mySession.timer = null;
 			delete this.globalRequestMap[session];
-		}			
+		}
 
 		this.globalCallbackList[label] = [];
 		dataChannel.lastReceivedTime = Date.now();
@@ -1197,18 +1198,19 @@ export class HttpService {
 		let dataChannel = this.channels[label],
 			channel = dataChannel.channel;
 		channel.onopen = () => {
-			GlobalService.consoleLog("webrtc创建盒子连接: ---------------Data channel opened----------------");
-			dataChannel.status = "opened";
-			this.global.useWebrtc = true;
-			this.global.deviceSelected = this.deviceSelected;
-			let url = this.global.getBoxApi('keepAlive');
-			GlobalService.consoleLog("webrtc创建盒子连接: 启动keepAlive");
-			this.keepWebrtcAlive(label);
-			//request信道建立完成，则立即获取版本号
-			//也用于其他信道的请求连接测试
-			GlobalService.consoleLog("请求连接测试开始：" + label)
-			if(label == this.channelLabels[0]) {
-				this.webrtcRequest(url, 'post', {}, {}, {
+            GlobalService.consoleLog("webrtc创建盒子连接: ---------------Data channel"+ label +" opened----------------");
+            dataChannel.status = "opened";
+            this.global.useWebrtc = true;
+            this.global.deviceSelected = this.deviceSelected;
+
+            if(label == this.channelLabels[0]) {
+                let url = this.global.getBoxApi('keepAlive');
+                GlobalService.consoleLog("webrtc创建盒子连接: 启动keepAlive");
+
+                //request信道建立完成，则立即获取版本号
+                //也用于其他信道的请求连接测试
+                GlobalService.consoleLog("请求连接测试开始：" + label)
+                this.webrtcRequest(url, 'post', {}, {}, {
 					channelLabel: label
 				})
 				.then((res: any) => {
@@ -1222,8 +1224,8 @@ export class HttpService {
 				})
 				.catch(e => {
 					reject && reject(this.global.deviceSelected);
-				})				
-			} 
+				})
+			}
 		}
 		channel.onclose = () => {
 			GlobalService.consoleLog("Data channel closed.");
@@ -1273,7 +1275,7 @@ export class HttpService {
 					GlobalService.consoleLog("webrtc收到数据, session:" + session);
 
 					if (headers["set-cookie"]) {
-						GlobalService.consoleLog("webrtc收到数据, 需要设置cookie");
+						GlobalService.consoleLog("webrtc收到数据, 需要设置cookie, session:" + session);
 						this.cookies[this.deviceSelected.boxId] = headers["set-cookie"];
 						this.setCookie(this.globalRequestMap[session].url, headers["set-cookie"]);
 					}
@@ -1302,7 +1304,7 @@ export class HttpService {
 					else {
 						let dataBody = Buffer.from(recv.body, 'base64').toString('utf-8');
 						body = JSON.parse(dataBody);
-						GlobalService.consoleLog("webrtc收到数据, 响应数据：" + dataBody);
+						GlobalService.consoleLog("webrtc收到数据, session:" + session + ", 响应数据：" + dataBody);
 					}
 				} catch (e) {
 					GlobalService.consoleLog("webrtc收到数据, 解析收到的数据出错, 数据body应该为json. 忽略收到的数据!!!");
@@ -1332,7 +1334,7 @@ export class HttpService {
 				}
 				delete this.globalRequestMap[session];
 			} else {
-				GlobalService.consoleLog("webrtc收到数据, 接受到数据响应，但是执行post回调异常!!!!!!!!!!!!!!");
+				GlobalService.consoleLog("webrtc收到数据, 接受到数据响应，但是执行post回调异常(session 不存在)!!!!!!!!!!!!!!");
 			}
 		}
 	}
