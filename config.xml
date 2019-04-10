@@ -138,4 +138,5 @@
     <plugin name="cordova-plugin-photo-library" spec="^2.2.1">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
+    <plugin name="cordova-plugin-file-transfer" spec="git+https://github.com/ubbey/cordova-plugin-file-transfer.git" />
 </widget>
