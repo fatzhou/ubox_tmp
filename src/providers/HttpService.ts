@@ -146,7 +146,6 @@ export class HttpService {
                     }
 					break;
 				case 'opened':
-					//debug
 					let channelState = channel.readyState;
 					// GlobalService.consoleLog("连接已建立：" + channelState);
 					if (channelState == "closing") {
@@ -162,7 +161,6 @@ export class HttpService {
 						channel.close();
 						break;
 					}
-
 					while (this.globalWaitingList[label].length) {
 						let request = this.globalWaitingList[label].pop();
 						if (Date.now() - request.time < this.requestStorageTime) {
@@ -1347,21 +1345,21 @@ export class HttpService {
 			myrandsessionid: this.sessionId
 		};
 
-		return this._post(GlobalService.centerApi["submitLocalSdp"].url, {
-			box_id: this.deviceSelected.boxId,
-			app_sdp: JSON.stringify(localSdp)
-		})
-			.then((res: any) => {
-				GlobalService.consoleLog(res);
-				if (res.err_no === 0) {
-					GlobalService.consoleLog("上传本地sdp成功:" + JSON.stringify(localSdp));
-				} else {
-					GlobalService.consoleLog("Sdp上传失败");
-					//alert(res.err_msg || "app上传sdp错误")
-					throw new Error("Send sdp file failed");
-				}
-				return res;
-			})
+        return this._post(GlobalService.centerApi["submitLocalSdp"].url, {
+            box_id: this.deviceSelected.boxId,
+            app_sdp: JSON.stringify(localSdp)
+        })
+        .then((res: any) => {
+            GlobalService.consoleLog(res);
+            if (res.err_no === 0) {
+                GlobalService.consoleLog("上传本地sdp成功:" + JSON.stringify(localSdp));
+            } else {
+                GlobalService.consoleLog("Sdp上传失败");
+                //alert(res.err_msg || "app上传sdp错误")
+                throw new Error("Send sdp file failed");
+            }
+            return res;
+        })
 	}
 
 	getBoxSdp(id) {
