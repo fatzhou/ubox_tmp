@@ -118,38 +118,34 @@ export class Util {
     }
 
     public loginAndCheckBox($scope, silence = true) {
-        let url = GlobalService.centerApi["getUserInfo"].url;
-        return this.http.post(url, {}, false)
-        .then(res => {
-            //获取中心的用户信息
-            console.log("获取中心的用户信息" + JSON.stringify(res));
-            if(res.err_no === 0) {
-                $scope.global.centerUserInfo = res.user_info;
-                return res;
-            } else {
-                if($scope.username && $scope.password) {
-                    var loginUrl = GlobalService.centerApi["login"].url;
-                    return $scope.http.post(loginUrl, {
+        return new Promise((resolve, reject)=>{
+            //用户直接输入账号密码登录
+            if($scope.username && $scope.password) {
+                let loginUrl = GlobalService.centerApi["login"].url;
+                $scope.http.post(loginUrl, {
                         uname: $scope.username,
                         password: Md5.hashStr($scope.password).toString(),
                         // password: $scope.password,
                     }, silence)
-                    .then((res) => {
-                        console.log("登录中心成功，获取个人信息" + JSON.stringify(res));
-                        if (res.err_no === 0) {
-                            GlobalService.consoleLog("登录中心成功，获取个人信息");
-                            return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, silence)
-                        } else {
-                            // throw new Error('登录中心失败');
-                            return Promise.reject(res);
-                        }
-                    })
-                } else {
-                    return Promise.reject(res);
-                }
+                .then((res) => {
+                    console.log("登录中心成功，获取个人信息" + JSON.stringify(res));
+                    if (res.err_no === 0) {
+                        GlobalService.consoleLog("登录中心成功，获取个人信息");
+                        resolve(res)
+                    } else {
+                        GlobalService.consoleLog("登录中心失败");
+                        reject(res);
+                    }
+                })
             }
-        })
-        .then((res:any) => {
+            //用户之前已有登录，直接进入APP
+            else {
+                resolve()
+            }
+        }).then(res=>{
+            //获取用户信息
+            return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, silence)
+        }).then((res:any) => {
             //获取盒子列表
             console.log("获取盒子列表" + JSON.stringify(res));
 
@@ -180,32 +176,30 @@ export class Util {
             }
         })
         .then((res:any) => {
-			console.log("开始建立连接.......")
+			console.log("开始建立连接.......");
+            let tryremote = true;
             //建立盒子连接
             if(res.length) {
                 //检查盒子是否有自己的盒子
                 let userHash = Md5.hashStr($scope.global.centerUserInfo.uname).toString();
                 let myBox = res.find(item => item.bindUserHash === userHash);
                 if(myBox) {
+                    //本地有自己的盒子, 使用近场模式
                     console.log("查找到自己的盒子：" + JSON.stringify(myBox));
                     $scope.global.useWebrtc = false;
                     $scope.global.deviceSelected = myBox;
+                    tryremote = false;
                     return $scope.global.deviceSelected.version;
                 } else {
-                    //本地没有自己的盒子
-                    return Promise.reject("NOBOX");
+                    //本地没有自己的盒子, 尝试使用远程模式
+                    tryremote = true;
                 }
-            } else {
+            }
+
+            if (tryremote){
 				console.log("本地不存在盒子，远程登录查看")
 				//同时创建3个连接，request为主连接...
-                return $scope.http.createDataChannel()
-                // .then(res => {
-                //     if($scope.global.deviceSelected) {
-                //         return this.getBoxVersion($scope.global.deviceSelected.deviceId);
-                //     } else {
-                //         return Promise.reject("NOBOX");
-                //     }
-                // })
+                return $scope.http.startWebrtcEngine()
             }
         })
         .then((res:any) => {
@@ -375,7 +369,8 @@ export class Util {
                 let boxList = res.boxinfo || [];
                 if(boxList.find(item => item.boxid == boxId && item.sdp_register)) {
                     //盒子已恢复,重新建立连接
-                    this.http.initWebrtc();
+                    this.http.startWebrtcEngine();
+
                     this.http.globalCallbackList["request"].push(() => {
                         this.global.createGlobalToast(this, {
                             message: this.global.L("RebootSuccess")
@@ -532,7 +527,7 @@ export class Util {
 
                     if($scope.global.useWebrtc) {
                         //关闭webrtc连接
-                        $scope.http.clearWebrtc();
+                        $scope.http.stopWebrtcEngine()
                     }
 
                     setTimeout(() => {
@@ -727,8 +722,8 @@ export class Util {
 		let start = Date.now();
 		let minSearchTime = 3000;
         return new Promise((resolve, reject) => {
-            // if(1) {
-            if(!this.platform.is('cordova')) {
+            if(1) {
+            // if(!this.platform.is('cordova')) {
 				setTimeout(() => {
                     // resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
                     resolve([]);
@@ -763,7 +758,7 @@ export class Util {
 						});
 					} else {
 						resolve([]);
-					}					
+					}
 				}, Math.max(0, minSearchTime - (Date.now() - start)));
             };
             let processRes = (devices) => {
@@ -1113,7 +1108,7 @@ export class Util {
 		let url = "";
         if(!!this.global.deviceSelected) {
             //已连接盒子，直接
-            url = this.global.getBoxApi("getWalletList"); 
+            url = this.global.getBoxApi("getWalletList");
         } else if(this.global.centerUserInfo && this.global.centerUserInfo.bind_box_count === 0) {
             //未绑定盒子
             url = GlobalService.centerApi['getKeystore'].url;
@@ -1133,7 +1128,7 @@ export class Util {
 				})
 			} else {
 				return []
-			}		
+			}
 		})
 		.then((res:any) => {
 			if(res.err_no == 0) {
@@ -1141,8 +1136,8 @@ export class Util {
 					this.global.walletList[i].earn_this_month = this.cutFloat(res.wallet[i].earn_this_month / GlobalService.CoinDecimal, 2);
 				}
 			}
-		
-		})    
+
+		})
 
 		// this.storage.get('walletList')
         // .then(res => {
@@ -1397,19 +1392,21 @@ export class Util {
             this.global.centerUserInfo = {};
             callback && callback();
         }, 0);
-        if(this.global.useWebrtc) {
-			this.http.channelLabels.forEach(label => {
-				this.http.clearWebrtc(label);
-			})
-        } else {
-            this.http.post(this.global.getBoxApi("logout"), {}, false)
-        }
+
+        this.http.post(this.global.getBoxApi("logout"), {}, false)
+        .then(()=>{
+            this.http.stopWebrtcEngine();
+        })
+        .catch(()=>{
+            this.http.stopWebrtcEngine();
+        });
+
         this.http.post(GlobalService.centerApi["logout"].url, {}, false)
         this.global.deviceSelected = null;
         this.global.foundDeviceList = [];
         this.global.albumBackupSwitch = undefined;
 	}
-	
+
     public bindBox($scope) {
         var boxInfo = $scope.global.deviceSelected;
         GlobalService.consoleLog(boxInfo.URLBase)
@@ -1550,7 +1547,7 @@ export class Util {
                         let index = 0;
                         this.global.diskInfo = res.box;
                         this.global.diskInfo.disks = res.disks || [];
-                        
+
                         this.global.diskInfo.disks.map((item)=> {
                             if(item.label == '') {
                                 item.label = 'DISK ' + label[index];

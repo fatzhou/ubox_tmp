@@ -144,14 +144,14 @@ export class UboxApp {
 
                 //获取已安装应用列表
 				this.appInstalled.getInstalledApps();
-				
+
                 this.createSubFolders();
                 // this.keyboard.onKeyboardShow().subscribe(() => {
 				window.addEventListener('keyboardDidShow', () => {
 					console.log("键盘已弹出......");
                     document.body.classList.add('keyboard-is-open');
                 });
-                
+
                 // this.keyboard.onKeyboardHide().subscribe(() => {
 				window.addEventListener('keyboardDidHide', () => {
 					console.log("键盘已关闭......");
@@ -180,7 +180,7 @@ export class UboxApp {
 			// this.util.getDeviceID();
         });
 	}
-	
+
 	createSubFolders() {
 		[this.global.ThumbnailSubPath, this.global.PhotoSubPath, this.global.VideoSubPath, this.global.MusicSubPath, this.global.DocSubPath].forEach(item => {
 			this._checkAndCreateFolder(item);
@@ -198,7 +198,7 @@ export class UboxApp {
 				console.log("目录创建成功：" + name + JSON.stringify(res))
 			})
 			.catch(e => {
-				console.log("目录创建失败：" + name + JSON.stringify(e))			
+				console.log("目录创建失败：" + name + JSON.stringify(e))
 			})
 		});
 	}
@@ -207,7 +207,7 @@ export class UboxApp {
 		if(!this.platform.is('cordova')) {
 			console.log("设置首页........");
 			this.nav.setRoot(LoginPage);
-			return false;			
+			return false;
 		}
 
         if(!this.global.networking) {
@@ -239,7 +239,7 @@ export class UboxApp {
                         this.nav.setRoot(LoginPage);
                     }
                 })
-				.catch(e => {   
+				.catch(e => {
 					this.splashScreen.hide();
 					flag = true; //没有盒子
 					if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
@@ -377,7 +377,7 @@ export class UboxApp {
             GlobalService.consoleLog("收到完成任务事件，立即写入缓存");
             this.saveFileTask();
 		});
-		
+
 		this.events.subscribe('file:savetask', ()=>{
             GlobalService.consoleLog("收到完成任务事件，立即写入缓存");
             this.saveFileTask();
@@ -518,7 +518,7 @@ export class UboxApp {
         //     //继续使用打洞模式
         // } else if(this.check4G(global.networkType)) {
         //     if(!this.global.useWebrtc && this.global.centerUserInfo.uname) {
-        //         this.http.initWebrtc();
+        //         this.http.startWebrtcEngine();
         //     }
         // }
         this.getUserInfo();
@@ -602,7 +602,7 @@ export class UboxApp {
             alert.present();
         }
 	}
-	
+
 	stopAllTask() {
 		this.global.fileTaskList.filter(item => {
 			return item.finished == false && item.pausing == 'doing';
@@ -636,7 +636,7 @@ export class UboxApp {
           }
         });
 	}
-	
+
 	goPage(name) {
 		try {
 			this.menuCtrl.close();
@@ -682,7 +682,7 @@ export class UboxApp {
 					break;
 				case 'setting':
 					this.nav.push(SystemSettingPage);
-					break;	
+					break;
 				case 'deviceguidance':
 					this.nav.push(DeviceGuidancePage);
 					break;
@@ -696,8 +696,8 @@ export class UboxApp {
                         this.nav.push(DeviceManagePage);
                     }
 					break;
-							
-			}			
+
+			}
 		} catch(e) {
 			console.log(e)
 		}
