@@ -206,7 +206,7 @@ export class HttpService {
 		dataChannel.aliveInterval = null;
 		for (let session in this.globalRequestMap) {
 			let mySession = this.globalRequestMap[session];
-			mySession.reject && mySession.reject("Channel closed");
+			mySession.reject && mySession.reject("ChannelClosed");
 			clearTimeout(mySession.timer);
 			mySession.timer = null;
 			delete this.globalRequestMap[session];
@@ -1290,10 +1290,7 @@ export class HttpService {
 				} else {
 					//通道未建立完成或者通道正忙，并且已超时
 					GlobalService.consoleLog("通道未建立完成，请求超时:" + url + ",reject Promise")
-					reject && reject({
-						err_no: -9999,
-						err_msg: "连接超时"
-					});
+					reject && reject("RequestTimeout");
 				}
 			};
 			__request(url, paramObj);

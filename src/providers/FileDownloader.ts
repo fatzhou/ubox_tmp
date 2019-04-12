@@ -47,16 +47,16 @@ export class FileDownloader {
         GlobalService.consoleLog("下载id:" + k);
         // localCache[k] = localCache[k] ? localCache[k] : { key: k };
         this.downloaders[k] = new SingleFileDownloader(this.http, this.file, this.global);
-        // this.downloaders[k].cache = localCache[k];        
+        // this.downloaders[k].cache = localCache[k];
         return this.downloaders[k];
     }
 
     clearDownloaderTask(fileId) {
         if(this.downloaders[fileId]) {
-            delete this.downloaders[fileId];            
+            delete this.downloaders[fileId];
         }
     }
- 
+
     // generateFileID(desturi, sourceurl) {
     //     return Md5.hashStr(desturi + sourceurl, false) + "";
     // }
@@ -92,7 +92,7 @@ export class FileDownloader {
     onFailure(fileId, listener) {
         this.downloaders[fileId].failure = listener;
 	}
-	
+
 	onSuccess(fileId, listener) {
         this.downloaders[fileId].success = listener;
     }
@@ -106,6 +106,7 @@ class SingleFileDownloader {
 
     private isAbort: boolean;
     private isPause: boolean;
+    private nRetry:  number;
     private timer: any;
 
     private http: HttpService;
@@ -121,6 +122,7 @@ class SingleFileDownloader {
         this.global = global;
         this.isAbort = false;
         this.isPause = false;
+        this.nRetry = 0;
         this.cache = {};
         this.progress = function(res) {}
         this.failure = function(res) {}
@@ -130,7 +132,7 @@ class SingleFileDownloader {
 
     setDownloadBlockSize() {
         console.log("filedownloader setDownloadBlockSize")
-        this.oneBlockSize = this.global.useWebrtc ? ONEBLOCKWEBRTCSIZE : ONEBLOCKSIZE;        
+        this.oneBlockSize = this.global.useWebrtc ? ONEBLOCKWEBRTCSIZE : ONEBLOCKSIZE;
     }
 
     ///// 开始文件下载///////////////////////
@@ -211,7 +213,7 @@ class SingleFileDownloader {
 						this.cache.totalsize = res.totalsize;
 					})
 				}
-			})
+			});
             this.timer = setTimeout(()=>{
               this._loopdownload();
             }, 100);
@@ -229,7 +231,7 @@ class SingleFileDownloader {
 			this.progress({
 				loaded: this.cache.downloadsize,
 				total: this.cache.totalsize
-			});			
+			});
 		}
     }
 
@@ -268,8 +270,12 @@ class SingleFileDownloader {
                     let err = args[0];
                     let downloadsize = args[1] || null;
 
-                    if (err) {
-                        GlobalService.consoleLog("循环：单块下载失败：" + err);
+                    if (err && self.nRetry <= 2 && (err === "channelclosed" || err === "requesttimeout" )) {
+                        self.nRetry++;
+                        GlobalService.consoleLog("循环：单块下载超时, 尝试重试[retry:" + self.nRetry + "]：" + err);
+                    } else if (err) {
+                        GlobalService.consoleLog("循环：单块下载失败, 已重试["+self.nRetry+"]：" + err);
+                        self.nRetry=0;
                         self.isAbort = true;
                         self.failure({
                             err_no: -9999,
@@ -279,7 +285,6 @@ class SingleFileDownloader {
                         // GlobalService.consoleLog("循环：单块下载后大小不够，继续下载");
                         cache.downloadsize = downloadsize;
                         cache.status = "LOOP";
-                        
 
                         // cache.speed =(cache.speed * self.global.speedMax) + (self.oneBlockSize * 1000 / (Date.now() - start)) * (1 - self.global.speedMax);
                         self._progress("");
@@ -442,7 +447,7 @@ class SingleFileDownloader {
                 } else {
                     // GlobalService.consoleLog("历史文件检查无误，不需要完全重新下载");
                     output.downloadsize = cache.downloadsize;
-                }                    
+                }
 
                 GlobalService.consoleLog("获取文件大小成功:" + output.totalsize);
                 return output;
@@ -509,16 +514,13 @@ class SingleFileDownloader {
         .then((buf:any) => {
             let length = buf.byteLength;
             GlobalService.consoleLog("获取到文件长度：" + length +  "   buf.byteLength " );
-            
+
             if(length !== Math.min(this.oneBlockSize, totalsize - range_start)) {
-                    // this.ab2str(buf,(str) => {
-                    //     console.log("buf 内容" + str)
-                    // })
                 GlobalService.consoleLog("下载大小不正确:" + this.oneBlockSize + "," + totalsize + "," + range_start + "," + length);
                 throw new Error("下载的文件大小不正确");
             } else {
                 GlobalService.consoleLog("追加buf到已下载文件中保存:" + oldFileName);
-                return this.file.writeFile(filePath, oldFileName, buf, { append: true });                
+                return this.file.writeFile(filePath, oldFileName, buf, { append: true });
             }
         })
         //追加成功，移动到新文件
@@ -528,6 +530,7 @@ class SingleFileDownloader {
                 fileName += ".[Range==bytes=0-" + range_end + "=Total==" + totalsize + "].download";
             }
             // GlobalService.consoleLog("继续下载:" + fileName);
+
             //rename file
             return this.file.moveFile(filePath, oldFileName, filePath, fileName);
         })
@@ -536,9 +539,18 @@ class SingleFileDownloader {
             return ["", range_end + 1]
         })
         //捕获异常
-        .catch(function(error) {
+        .catch(error => {
             let errstr = "";
-            try {
+            // webrtc请求超时
+            if (error && error == "RequestTimeout"){
+                errstr = "requesttimeout";
+            }
+            // webrtc信道中断
+            else if (error && error == "ChannelClosed"){
+                errstr = "channelclosed";
+            }
+            // 其他错误
+            else try {
                 errstr = JSON.stringify(error);
             } catch (e) {
                 errstr = JSON.stringify(e);
