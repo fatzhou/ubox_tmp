@@ -119,7 +119,8 @@
   },
   "cordova": {
     "platforms": [
-      "ios"
+      "ios",
+      "android"
     ],
     "plugins": {
       "cordova-plugin-whitelist": {},
@@ -153,10 +154,10 @@
       "cordova-plugin-zip": {},
       "cordova-plugin-device": {},
       "cordova-plugin-file": {},
+      "cordova-plugin-file-transfer": {},
       "cordova-plugin-photo-library": {
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": " "
-      },
-      "cordova-plugin-file-transfer": {}
+      }
     }
   }
 }

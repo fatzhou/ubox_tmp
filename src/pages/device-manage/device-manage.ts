@@ -29,7 +29,8 @@ export class DeviceManagePage {
         public http: HttpService,
         private lang: Lang,
         private global: GlobalService,
-        private util: Util) {
+        private util: Util,
+        private events: Events) {
     }
 
     ionViewDidLoad() {
@@ -106,9 +107,10 @@ export class DeviceManagePage {
         })  
         .then(res=>{
             if(res.err_no === 0) {
-                this.global.isRefreshFileList = true;
                 GlobalService.consoleLog("格式化完成");
                 this.global.fileTaskList = [];
+                this.global.currPath = '/';
+                this.events.publish('list:refresh');
                 disk.isShowOptions = false;
                 this.global.createGlobalToast(this, {
                     message: Lang.L('FormatFinished')

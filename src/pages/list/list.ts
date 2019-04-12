@@ -103,9 +103,11 @@ export class ListPage {
         this.events.subscribe('file:updated', ListPage.updateFilesEvent);
         this.events.subscribe('image:move', ListPage.moveFilesEvent);
         this.events.subscribe('list:change', ListPage.moveChangeList);
+        this.events.subscribe('list:refresh', ListPage.refreshFilesEvent);
     }
 
     ionViewDidEnter() {
+        GlobalService.consoleLog("ionViewDidEnter ListPage");
         GlobalService.consoleLog("获取磁盘信息" + JSON.stringify(this.global.deviceSelected));
         // this.getDiskStatus();
         // this.getMiningInfo();
@@ -143,13 +145,6 @@ export class ListPage {
                 // return item
             });
         }
-        if (this.global.deviceSelected && this.global.isRefreshFileList) {
-            this.global.isRefreshFileList = false;
-            this.initPage();
-            this.events.unsubscribe(this.currPath + ":succeed");
-            this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
-            this.listFiles();
-        }
 		GlobalService.consoleLog("this.currPath" + this.currPath);
 		return true;
     }
@@ -167,7 +162,7 @@ export class ListPage {
 
     ionViewDidLoad() {
         GlobalService.consoleLog('ionViewDidLoad ListPage');
-        if (this.global.deviceSelected && !this.global.isRefreshFileList) {
+        if (this.global.deviceSelected) {
             this.initPage();
             this.events.unsubscribe(this.currPath + ":succeed");
             this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
@@ -175,6 +170,13 @@ export class ListPage {
         }
 		GlobalService.consoleLog("this.currPath" + this.currPath);
 		return true;
+    }
+
+    static refreshFilesEvent() {
+        let _this = ListPage._this;
+        _this.currPath = '/';
+        _this.global.currPath = '/';
+        _this.listFiles();
     }
 
     static updateFilesEvent(task) {

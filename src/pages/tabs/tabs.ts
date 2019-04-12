@@ -324,7 +324,7 @@ export class TabsPage {
     }
 
     ionViewDidLoad() {
-		GlobalService.consoleLog('进入TabsPage...');
+		GlobalService.consoleLog('x...');
 		this.util.getWalletList()
 		.catch(e => {
 			console.log(e);

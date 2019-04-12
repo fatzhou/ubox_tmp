@@ -90,7 +90,6 @@ export class GlobalService {
     public nowNoticeList = []; //当前请求营销消息
     public allNoticeList = []; //消息列表请求消息
     public selectedUploadFolderName ='';
-    public isRefreshFileList = true;
 
 
     public walletList = []; //钱包缓存列表
