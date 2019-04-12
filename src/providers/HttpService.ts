@@ -1060,6 +1060,8 @@ export class HttpService {
             tdc.aliveInterval       = null;
             tdc.createTime          = Date.now();
             tdc.lastReceivedTime    = Date.now();
+            tdc.dataBuffered        = "";
+            tdc.dataBufferedCount   = 0;
 
 			this.prepareDataChannel(label, resolve, reject);
 		};
@@ -1272,7 +1274,7 @@ export class HttpService {
 						if (this.globalRequestMap[r]) {
 							GlobalService.consoleLog(logprefix + "超时");
 							if (this.globalRequestMap[r]) {
-								this.globalRequestMap[r].reject && this.globalRequestMap[r].reject("timeout");
+								this.globalRequestMap[r].reject && this.globalRequestMap[r].reject("RequestTimeout");
 							}
 							delete this.globalRequestMap[r];
 						}
@@ -1387,31 +1389,81 @@ export class HttpService {
 			GlobalService.consoleLog("onbufferedamountlow");
 			GlobalService.consoleLog(JSON.stringify(res));
 		};
+
 		channel.onmessage = (msg) => {
-			GlobalService.consoleLog("webrtc收到数据...");
-			let recvStr = this.ab2str(msg.data);
-			GlobalService.consoleLog("Test:" + recvStr.slice(0, 200) + "..." + recvStr.slice(-50))
-			dataChannel.lastReceivedTime = Date.now();
+            GlobalService.consoleLog("webrtc收到数据...");
+            let recvStr = this.ab2str(msg.data);
+            GlobalService.consoleLog("webrtc收到数据长度:" + msg.data.byteLength + '/' + recvStr.length + ",首尾数据:" + recvStr.slice(0, 512) + "..." + recvStr.slice(-50));
+
+            let recv: any;
+            let recv_parseerror = false;
+            let remaindStr = "";
+
+            do{
+                /////////处理两个包粘连到一起///////////////////
+                let endjson = recvStr.indexOf('"}{"');
+                if (endjson>=0){
+                    remaindStr = recvStr.slice(endjson + 2);
+                    recvStr = recvStr(0, endjson + 3)
+                }
+
+                /////////////解析协议数据整体 //////////////////
+                try {
+                    //// 第一次尝试解码////////
+                    recv_parseerror = false;
+                    recv = JSON.parse(recvStr);
+                } catch (e) {
+                    recv_parseerror = true;
+
+                    if (dataChannel.dataBuffered != ""){
+                        GlobalService.consoleLog("webrtc收到数据, 之前有缓存的数据，拼接后继续尝试解析");
+                        recvStr = dataChannel.dataBuffered + recvStr;
+
+                        try {
+                            //// 第二次尝试解码////////
+                            recv_parseerror = false;
+                            recv = JSON.parse(recvStr);
+                        } catch (ee){
+                            GlobalService.consoleLog("webrtc收到数据, 拼接上之前的数据重新解析后依然失败");
+                            recv_parseerror = true;
+                        }
+                    }
+                }
+                if (recv_parseerror == true && dataChannel.dataBufferedCount>=10){
+                    GlobalService.consoleLog("webrtc收到数据, 解析收到的数据出错, 且重试多次，已不可救药，忽略收到的数据!!!");
+                    dataChannel.dataBuffered = "";
+                    dataChannel.dataBufferedCount = 0;
+                    continue;
+                } else if (recv_parseerror == true){
+                    GlobalService.consoleLog("webrtc收到数据, 解析收到的数据出错, 继续缓存收到的数据!!!");
+                    dataChannel.dataBuffered = recvStr;
+                    dataChannel.dataBufferedCount++;
+                    continue;
+                } else {
+                    dataChannel.dataBuffered = "";
+                    dataChannel.dataBufferedCount = 0;
+                }
+
+                ////////////处理一个完整的消息 ////////////////////
+                dataChannel.onmessage(recv);
+
+                ////////////处理剩余数据 /////////////////////////
+                recvStr = remaindStr;
+            }while(recvStr != "");
+
+        };
+
+        dataChannel.onmessage = (recv) => {
 			let session;
-			let recv: any;
 			let resultHeaders: any;
 			let body: any;
 			let headers = {};
 			let err = "";
 
+            dataChannel.lastReceivedTime = Date.now();
 			do {//////////////////////////// 中断直接退出 ////// begin //////////
 
-				/////////////解析协议数据整体 //////////////////
-				try {
-					recv = JSON.parse(recvStr);
-				} catch (e) {
-					GlobalService.consoleLog("webrtc收到数据, 解析收到的数据出错,总体数据应该为json. 忽略收到的数据!!!");
-					GlobalService.consoleLog("webrtc收到数据, 错误：" + JSON.stringify(e) + "\r\n" + e.stack + e.message);
-					err = "parse reveStr error";
-					break
-				}
-
-				/////////////解析协议数据中的header ////////////
+                /////////////解析协议数据中的header ////////////
 				try {
 					resultHeaders = JSON.parse(recv.header);
 					for (let h in resultHeaders) {
