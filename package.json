@@ -75,7 +75,7 @@
     "cordova-plugin-market": "^1.2.0",
     "cordova-plugin-network-information": "^2.0.1",
     "cordova-plugin-pause-resume-download": "^1.5.5",
-    "cordova-plugin-photo-library": "^2.2.1",
+    "cordova-plugin-photo-library": "git+https://github.com/ubbey/cordova-plugin-photo-library.git",
     "cordova-plugin-screen-orientation": "^3.0.1",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
@@ -155,7 +155,8 @@
       "cordova-plugin-file": {},
       "cordova-plugin-photo-library": {
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": " "
-      }
+      },
+      "cordova-plugin-file-transfer": {}
     }
   }
 }

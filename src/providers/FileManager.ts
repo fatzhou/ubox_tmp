@@ -254,6 +254,7 @@ export class FileManager {
 				GlobalService.consoleLog("获取相册成功.......");
 				return new Promise((resolve, reject) => {
 					GlobalService.consoleLog("开始获取数据........");
+					GlobalService.consoleLog("开始获取数据1111........" + JSON.stringify(this.photoLibrary));
 					this.photoLibrary.getLibrary({ 
 						thumbnailWidth: GlobalService.THUMBNAIL_WIDTH, 
 						thumbnailHeight: GlobalService.THUMBNAIL_HEIGHT, 
@@ -785,17 +786,21 @@ export class FileManager {
 	 */
 	fetchAlbums(type) {
 		if(!this.platform.is('cordova')) {
+			GlobalService.consoleLog("相册获取000.........")
 			return Promise.reject([]);
 		}
 		// GlobalService.consoleLog("开始获取相册...")
 		let config = this.resourceStorage[type];
 		if(config.album) {
 			if(this.global[config.album] && this.global[config.album].length) {
+				GlobalService.consoleLog("相册获取111.........")
 				return Promise.resolve(this.global[config.album]);
 			} else {
 				return new Promise((resolve, reject) => {
+					GlobalService.consoleLog("相册获取222.........")
+					GlobalService.consoleLog("相册获取222........." + JSON.stringify(cordova.plugins.photoLibrary))
 					cordova.plugins.photoLibrary.getAlbums(albums => {
-						// GlobalService.consoleLog("相册获取完毕........." + JSON.stringify(albums));
+						GlobalService.consoleLog("相册获取完毕........." + JSON.stringify(albums));
 						this.global[config.album] = albums;
 						albums.forEach(function(album:any) {
 							album.content = album.content || [];
@@ -811,6 +816,7 @@ export class FileManager {
 				});				
 			}
 		} else {
+			GlobalService.consoleLog("相册获取333.........")
 			return Promise.resolve([]);
 		}
 	}

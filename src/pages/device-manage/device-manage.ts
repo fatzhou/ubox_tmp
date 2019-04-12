@@ -100,29 +100,29 @@ export class DeviceManagePage {
         this.global.createGlobalLoading(this, {
             message: Lang.L('FormatDiskLoading')
         });        
-        var interval = setInterval(()=>{
-            var url = this.global.getBoxApi('formatBox');
-            this.http.post(url, {
-                disk_uuid: disk.uuid
-            })  
-            .then(res=>{
-                if(res.err_no === 0) {
-                    GlobalService.consoleLog("格式化完成");
-                    this.global.loadingCtrl.dismiss();
-                    this.global.fileTaskList = [];
-                    disk.isShowOptions = false;
-                    if(interval) {
-                       this.global.createGlobalToast(this, {
-                            message: Lang.L('FormatFinished')
-                        });
-                        clearInterval(interval);
-                        interval = null;                        
-                    }
-                } else {
-                    GlobalService.consoleLog("仍然在格式化");
-                }
-            })
-        }, 500);
+        var url = this.global.getBoxApi('formatBox');
+        this.http.post(url, {
+            disk_uuid: disk.uuid
+        })  
+        .then(res=>{
+            if(res.err_no === 0) {
+                this.global.isRefreshFileList = true;
+                GlobalService.consoleLog("格式化完成");
+                this.global.loadingCtrl.dismiss();
+                this.global.fileTaskList = [];
+                disk.isShowOptions = false;
+                this.global.createGlobalToast(this, {
+                    message: Lang.L('FormatFinished')
+                });
+                this.global.closeGlobalLoading(this);  
+            } else {
+                this.global.closeGlobalLoading(this);
+                this.global.createGlobalToast(this, {
+                    message: Lang.L('FormatDisk') + Lang.L('UnkownError')
+                });
+                GlobalService.consoleLog("仍然在格式化");
+            }
+        })
     }
 
     setDiskLabel(disk) {

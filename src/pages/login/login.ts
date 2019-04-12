@@ -58,22 +58,22 @@ export class LoginPage {
         // }
 		this.isLoading = false;
         if(GlobalService.ENV === 'dev') {
-			this.username = "619912987@qq.com"
-			this.password = "dh5819413"            
-			// this.username = '1@qq.com';
-            // this.password = 'A123456789';       
+			// this.username = "619912987@qq.com"
+			// this.password = "dh5819413"            
+			this.username = '1@qq.com';
+            this.password = 'A123456789';       
         } else {
 
-            // this.util.getUserList()
-            // .then(res => {
-            //     if(this.global.userLoginInfo){
-            //         this.username = this.global.userLoginInfo.username;
-            //         this.password = this.global.userLoginInfo.password;
-            //     } else {
-            //         this.username = '';
-            //         this.password = '';
-            //     }
-            // })             
+            this.util.getUserList()
+            .then(res => {
+                if(this.global.userLoginInfo){
+                    this.username = this.global.userLoginInfo.username;
+                    this.password = this.global.userLoginInfo.password;
+                } else {
+                    this.username = '';
+                    this.password = '';
+                }
+            })             
         }
     }
 

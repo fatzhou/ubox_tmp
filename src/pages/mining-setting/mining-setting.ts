@@ -29,6 +29,7 @@ export class MiningSettingPage {
     chainType:string = "ERC20";
     oldShareSize:any = 0;
 	coinbase:string;
+	oldCoinbase:string;
 
     constructor(public navCtrl: NavController,
         private global: GlobalService,
@@ -44,13 +45,6 @@ export class MiningSettingPage {
                 }
             });
     }
-
-    setCoinbase() {
-        this.navCtrl.push(WalletCoinbasePage,{
-            shareSize: this.navParams.get('shareSize'),
-            coinbase: this.coinbase,
-        });
-	}
 
 	selectCoinbase(addr) {
 		this.coinbase = addr;
@@ -68,8 +62,7 @@ export class MiningSettingPage {
             })
             return false;
         }
-        
-        // var storage = Math.max(1, Math.floor(Math.min(this.brightness, this.maxRange) / 100 * this.totalSize)) * GlobalService.DISK_G_BITS;     
+        var url = this.global.getBoxApi("setCoinbase");
         var storage = this.computeShareSize() * GlobalService.DISK_G_BITS;
         this.util.toggleIfMining({chainType: this.chainType, ifMining: this.ifMining, oldSize: parseInt(this.oldShareSize) * GlobalService.DISK_G_BITS, newSize: storage})
         .then(res => {
@@ -77,20 +70,22 @@ export class MiningSettingPage {
                 this.global.createGlobalToast(this, {
                     message: Lang.L('WORD5e6d7a09'),
                 })
-
                 GlobalService.consoleLog("更新盒子数据");
                 this.http.post(this.global.getBoxApi('getUserInfo'), {}, false)
                 .then((res) => {
                     this.global.boxUserInfo = res.userinfo;
                 })
                 if(this.chainType === 'ERC20') {
+                    this.http.post(url, {coinbase: this.coinbase})
+                    .then((res) => {
+                        console.log('设置钱包地址')
+                    })
                     this.global.centerUserInfo.mining = this.ifMining;
                 }
                 this.events.publish('mining:change', {
                     ifMining: this.ifMining,
                     storage: storage
                 });
-
                 setTimeout(()=>{
                     this.navCtrl.pop();
                 }, 100)

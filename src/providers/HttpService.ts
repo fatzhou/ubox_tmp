@@ -79,10 +79,11 @@ export class HttpService {
 
 	public initWebrtc() {
 		this.global.useWebrtc = true;
-		this.channelLabels.forEach(label => {
+		let label = this.channelLabels[0];
+		// this.channelLabels.forEach(label => {
 			this.clearWebrtc(label);
 			this.keepWebrtcAlive(label);			
-		})
+		// })
 	}
 
 	public keepWebrtcAlive(label) {

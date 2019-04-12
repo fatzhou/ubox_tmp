@@ -111,12 +111,8 @@ export class ListPage {
         // this.getMiningInfo();
 
         if(!this.global.deviceSelected) {
-            console.log("准备离开list1")
             setTimeout(()=>{
-                console.log("准备离开list2")
-                // console.log(JSON.stringify(this.tabsController))
                 this.tabsController.slideTo(1, "boxtabs");
-                console.log("准备离开list3")
             },500);
         }
         if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
@@ -147,7 +143,15 @@ export class ListPage {
                 // return item
             });
         }
-        
+        if (this.global.deviceSelected && this.global.isRefreshFileList) {
+            this.global.isRefreshFileList = false;
+            this.initPage();
+            this.events.unsubscribe(this.currPath + ":succeed");
+            this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
+            this.listFiles();
+        }
+		GlobalService.consoleLog("this.currPath" + this.currPath);
+		return true;
     }
 
     ionViewDidLeave() {
@@ -163,7 +167,7 @@ export class ListPage {
 
     ionViewDidLoad() {
         GlobalService.consoleLog('ionViewDidLoad ListPage');
-        if (this.global.deviceSelected) {
+        if (this.global.deviceSelected && !this.global.isRefreshFileList) {
             this.initPage();
             this.events.unsubscribe(this.currPath + ":succeed");
             this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));

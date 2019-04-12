@@ -181,7 +181,7 @@ export class FileTransport {
 					this.events.publish('file:savetask');
 				}
 			})
-			console.log("进的点点滴滴")
+			// console.log("进的点点滴滴")
 			//如果没有同类型文件任务，则弹窗.....
 			// if(!this.global.fileTaskList.some(item => item.action === 'upload' && !item.finished)) {
 			//     //通知任务列表页刷新            

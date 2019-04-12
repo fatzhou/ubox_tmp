@@ -18,7 +18,7 @@ export class GlobalService {
     public static boxFileControl = 3;
     public static AppVersion = '2.0.0';
     public static applang: any = "en";
-    public static ENV = "prod"; //环境设定
+    public static ENV = "dev"; //环境设定
     public static UBBEY_CONTRACT: string = "0x6cB1C2B61e24aD08bF5FFF4d2b13ea987d211a88";
     public static UBBEY_CONTRACT_TEST: string = "0x76040366331dc8e4A11CfC5f0Cd4d1aD23A1eAcd";
     public static DISK_K_BITS:number = 1024;
@@ -90,6 +90,7 @@ export class GlobalService {
     public nowNoticeList = []; //当前请求营销消息
     public allNoticeList = []; //消息列表请求消息
     public selectedUploadFolderName ='';
+    public isRefreshFileList = true;
 
 
     public walletList = []; //钱包缓存列表
@@ -206,7 +207,8 @@ export class GlobalService {
     //版本控制文件
     public static versionConfig = {
         'dev': "https://www.yqtc.co/iamtest/ubox/versionControl.json",
-        'prod': "https://m.yqtc.co/ubbey/versionControl.json"
+        'prod': "https://www.yqtc.co/iamtest/ubox/versionControl.json",
+        // 'prod': "https://m.yqtc.co/ubbey/versionControl.json"
     }
 
     //发现页数据文件
