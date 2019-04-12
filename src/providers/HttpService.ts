@@ -856,6 +856,7 @@ export class HttpService {
     }
 
     stopWebrtcEngine() {
+        GlobalService.consoleLog("webrtc停止...");
         this.global.useWebrtc = false;
         this.webrtcEngineStatus = "stoped";
         if(this.webrtcEngineRestartTimer){
@@ -882,10 +883,14 @@ export class HttpService {
 
             return res
         }).catch((res) => {
-            GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，一定时间后重新启动.....");
-            this.webrtcEngineRestartTimer = setTimeout(()=>{
-                this.startWebrtcEngine();
-            }, this.successiveConnectGap);
+            if (this.webrtcEngineStatus != "stoped"){
+                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，一定时间后重新启动.....");
+                this.webrtcEngineRestartTimer = setTimeout(()=>{
+                    this.startWebrtcEngine();
+                }, this.successiveConnectGap);
+            }else{
+                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，引擎已关闭，不重新启动");
+            }
 
             return Promise.reject(res)
         });
