@@ -21,7 +21,7 @@ import { OutputType } from '@angular/core/src/view';
     //////////file download cache///////////
 // };
 const ONEBLOCKSIZE = 128 * 1024;
-const ONEBLOCKWEBRTCSIZE = 45 * 1024;
+const ONEBLOCKWEBRTCSIZE = 48 * 1024;
 
 @Injectable()
 export class FileDownloader {
