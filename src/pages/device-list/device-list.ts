@@ -55,14 +55,14 @@ export class DeviceListPage {
             if (platform.is('cordova')) {
                 GlobalService.consoleLog("开始发现盒子");
                 if(!this.global.foundDeviceList.length && !this.refresh) {
-                    this.searchUbbeyBox();                    
+                    this.searchUbbeyBox();
                 }
             } else {
                 this.deviceList = [{"boxId":"UBOXV10014294708667138ec","bindUser":"ho**o@hotmail.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV10014294708667138ec","version":"1.2.3","URLBase":["192.168.0.54:37867"],"bindUserHash":"842fa767457ee4e500aa3965467b4d4c"},{"boxId":"UBOXV1001885167250487f65","bindUser":"10**2@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001885167250487f65","version":"1.2.3","URLBase":["192.168.0.42:37867"],"bindUserHash":"56f25028a9718d0f06ed6167e7783dbe"},{"boxId":"UBOXV10010390521016732a7","bindUser":"iq**0@163.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV10010390521016732a7","version":"1.2.3","URLBase":["192.168.0.17:37867"],"bindUserHash":"0e3191ae3d8e0e48fc44a277fefb55fe"},{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.2.3","URLBase":["192.168.0.12:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"},{"boxId":"UBOXV1001936700425858b84","bindUser":"we**u@yqtc.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001936700425858b84","version":"1.2.3","URLBase":["192.168.0.46:37867"],"bindUserHash":"1f5261c7b51fe39a5169265909b96f8b"},{"boxId":"UBOXV100190154614900562d","bindUser":"3****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV100190154614900562d","version":"1.2.3","URLBase":["192.168.0.7:37867"],"bindUserHash":"69938a60b5519a50e76d597f4386f0c9"},{"boxId":"UBOXV1001799091145690066","bindUser":"61**7@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001799091145690066","version":"1.2.3","URLBase":["192.168.0.37:37867"],"bindUserHash":"fad2e4e1cf6b97113521c9b1f9a4a692"},{"boxId":"UBOXV1001566112576196c10","bindUser":"ho**c@126.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001566112576196c10","version":"1.2.3","URLBase":["192.168.0.26:37867"],"bindUserHash":"e4df2d363e002eeb1baf286763f7450b"},{"boxId":"UBOXV1001829658683969548","bindUser":"zh**i@yqtc.com","friendlyName":"32","manufacturer":"23","manufacturerURL":"23","deviceType":"UBOXV1001829658683969548","version":"1.3.0","URLBase":["192.168.0.30:37867"],"bindUserHash":"fad5425d5a71091cbe01fd6cdc978123"},{"boxId":"UBOXV1001365382808113e32","bindUser":"46**1@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001365382808113e32","version":"1.2.3","URLBase":["192.168.0.11:37867"],"bindUserHash":"2ccdb8a5df91fbb4069978c2098637c7"},{"boxId":"UBOXV1001959186708495d5e","bindUser":"li**u@yqtc.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001959186708495d5e","version":"1.2.3","URLBase":["192.168.0.51:37867"],"bindUserHash":"45f4d2cf6b45ffc0ccf2956b3b99617a"},{"boxId":"UBOXV10014304231654448d8","bindUser":"xi**i@yqtc.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV10014304231654448d8","version":"1.2.3","URLBase":["192.168.0.55:37867"],"bindUserHash":"63efa05526f5263ce8f45aa38761dfea"}]
             }
         });
     }
-    
+
     ionViewDidEnter() {
         GlobalService.consoleLog("进入发现列表页");
         this.refresh = this.navParams.get('refresh') || false;
@@ -74,7 +74,7 @@ export class DeviceListPage {
                     this.username = this.global.userLoginInfo.username;
                     this.password = this.global.userLoginInfo.password;
                 }
-            }) 
+            })
         } else {
             this.username = this.global.userLoginInfo.username;
             this.password = this.global.userLoginInfo.password;
@@ -92,7 +92,7 @@ export class DeviceListPage {
                     GlobalService.consoleLog("已经开始发现服务，不重复触发");
                 }
             }
-        } 
+        }
     }
 
     ionViewWillLeave() {
@@ -162,7 +162,7 @@ export class DeviceListPage {
                 GlobalService.consoleLog("发现超时!!!");
                 clearInterval(interval);
                 interval = null;
-            } 
+            }
             this.searched = false;
             this.scanning = false;
             this.clearTimeOutName();
@@ -175,7 +175,7 @@ export class DeviceListPage {
         if(!this.platform.is('cordova')) {
             return false;
         }
-        // this.clearTimeOutName();        
+        // this.clearTimeOutName();
         GlobalService.consoleLog(this.scanning + "是否正在扫描scanning");
         GlobalService.consoleLog(this.searched + "是否正在扫描searched");
         if(this.searched === true) {
@@ -222,7 +222,7 @@ export class DeviceListPage {
             GlobalService.consoleLog("Error calling Service Discovery Plugin");
             self.progress = 100;
             self.scanning = false;
-            self.searched = false;            
+            self.searched = false;
             self.clearTimeOutName();
             clearInterval(self.interval);
             self.interval = null;
@@ -241,7 +241,7 @@ export class DeviceListPage {
             this.isClicked = false;
         },5000)
         this.global.deviceSelected = dv;
-        
+
         GlobalService.consoleLog("用户选择盒子:" + JSON.stringify(dv));
         this.global.useWebrtc = false;
         this.global.resetWebrtc('box');
@@ -284,7 +284,7 @@ export class DeviceListPage {
                         this.global.createGlobalToast(this, {
                             message: Lang.L('BindSuccess')
                         })
-                    })                    
+                    })
                 } else {
                     //绑定失败。。。。。
                     console.log("绑定失败....");

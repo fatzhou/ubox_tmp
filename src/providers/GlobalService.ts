@@ -78,7 +78,7 @@ export class GlobalService {
     public fileThumbnailPath = '';
     public fileRootPath: string = "";
 
-    public useWebrtc:any = false; //是否使用webrtc
+    public useWebrtc:any = true; //是否使用webrtc
     public boxInfo: any = {}; //当前连接的盒子信息
     // public centerBoxList:any = []; //盒子列表
     // public centerAvailableBoxList: any = []; //当前可连接的盒子ID
@@ -574,7 +574,7 @@ export class GlobalService {
         "getSearchDetail": {
             url:  GlobalService.centerApiHostEnv + "/ubbey/btfeed/searchdetail"
         },
-        
+
     }
 
     constructor(
