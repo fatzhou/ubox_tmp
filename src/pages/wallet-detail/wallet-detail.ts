@@ -10,6 +10,7 @@ import { Util } from '../../providers/Util';
 import { WalletSettingPage } from '../wallet-setting/wallet-setting';
 import { Events } from 'ionic-angular';
 import { Web3Service } from '../../providers/Web3Service'; 
+import { WalletGeneratorPage } from '../wallet-generator/wallet-generator';
 
 /**
  * Generated class for the WalletDetailPage page.
@@ -68,6 +69,7 @@ export class WalletDetailPage {
         // this.chainRecordIndex = 0;
         // this.recordList = [];
         // this.recordChainList = [];
+        this.isShowWalletList = false;
     }
     ionViewDidEnter() {
         //可能修改了汇率单位，此处需刷新
@@ -83,13 +85,15 @@ export class WalletDetailPage {
 		}
 
         //可能创建了交易，此处需刷新
+        this.pageNo = 0;
         this.doRefresh(null);
 	}
 	
 	slideWallet(wallet) {
 		this.isShowWalletList = false;
 		this.walletInfo = wallet;
-		this.global.focusWallet = wallet;
+        this.global.focusWallet = wallet;
+        this.pageNo = 0;
 		this.doRefresh(null);
 	}
 
@@ -448,5 +452,9 @@ export class WalletDetailPage {
 
     toggleShowWalletList(action) {
         this.isShowWalletList = action;
+    }
+
+    goWalletGeneratorPage() {
+        this.navCtrl.push(WalletGeneratorPage);
     }
 }

@@ -99,12 +99,11 @@
 		<ul *ngIf="global.walletList.length > 0">
 			<li *ngFor="let wallet of global.walletList" (click)="slideWallet(wallet)">{{ wallet.name }}</li>
 		</ul>
-		<div class="add-new-wallat" *ngIf="global.walletList.length < 3">
+		<div class="add-new-wallat" *ngIf="global.walletList.length < 3" (click)="goWalletGeneratorPage()">
 			<svg class="icon" aria-hidden="true">
 				<use xlink:href="#icontianjiashebei1"></use>
 			</svg> 
 			{{ global.L("CreateNewWallet") }}		
 		</div>
 	</div>
-	
 </div>	

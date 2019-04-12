@@ -108,7 +108,6 @@ export class DeviceManagePage {
             if(res.err_no === 0) {
                 this.global.isRefreshFileList = true;
                 GlobalService.consoleLog("格式化完成");
-                this.global.loadingCtrl.dismiss();
                 this.global.fileTaskList = [];
                 disk.isShowOptions = false;
                 this.global.createGlobalToast(this, {
