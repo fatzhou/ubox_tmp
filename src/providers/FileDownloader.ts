@@ -21,7 +21,7 @@ import { OutputType } from '@angular/core/src/view';
     //////////file download cache///////////
 // };
 const ONEBLOCKSIZE = 128 * 1024;
-const ONEBLOCKWEBRTCSIZE = 40 * 1024;
+const ONEBLOCKWEBRTCSIZE = 45 * 1024;
 
 @Injectable()
 export class FileDownloader {
@@ -272,7 +272,8 @@ class SingleFileDownloader {
 
                     if (err && self.nRetry <= 2 && (err === "channelclosed" || err === "requesttimeout" )) {
                         self.nRetry++;
-                        GlobalService.consoleLog("循环：单块下载超时, 尝试重试[retry:" + self.nRetry + "]：" + err);
+                        GlobalService.consoleLog("循环：单块下载异常, 尝试重试[retry:" + self.nRetry + "]：" + err);
+                        cache.status = "LOOP";
                     } else if (err) {
                         GlobalService.consoleLog("循环：单块下载失败, 已重试["+self.nRetry+"]：" + err);
                         self.nRetry=0;
@@ -285,6 +286,7 @@ class SingleFileDownloader {
                         // GlobalService.consoleLog("循环：单块下载后大小不够，继续下载");
                         cache.downloadsize = downloadsize;
                         cache.status = "LOOP";
+                        self.nRetry=0;
 
                         // cache.speed =(cache.speed * self.global.speedMax) + (self.oneBlockSize * 1000 / (Date.now() - start)) * (1 - self.global.speedMax);
                         self._progress("");
