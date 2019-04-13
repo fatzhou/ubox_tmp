@@ -1401,7 +1401,7 @@ export class HttpService {
 
             do{
                 /////////处理两个包粘连到一起///////////////////
-                let endjson = recvStr.indexOf('"}{"');
+                let endjson = recvStr.indexOf('"}\n{"');
                 if (endjson>=0){
                     remaindStr = recvStr.slice(endjson + 2);
                     recvStr = recvStr(0, endjson + 3)
@@ -1447,9 +1447,7 @@ export class HttpService {
                 ////////////处理一个完整的消息 ////////////////////
                 dataChannel.onmessage(recv);
 
-                ////////////处理剩余数据 /////////////////////////
-                recvStr = remaindStr;
-            }while(recvStr != "");
+            }while((recvStr = remaindStr) != "");
 
         };
 

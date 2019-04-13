@@ -63,7 +63,7 @@
                     "action": "this.events.publish('update-box')"
                 }    
             ]
-        }
+		}
 	},
 	"boxVersionDescription": {
 		"1.0.1": 
