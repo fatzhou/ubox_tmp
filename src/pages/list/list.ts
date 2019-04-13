@@ -300,9 +300,9 @@ export class ListPage {
             if (res.err_no === 0) {
                 var list = [];
                 var index = 0;
+                this.type0List = [];
+                this.type1List = [];
                 if (res.list && res.list.length > 0) {
-                    this.type0List = [];
-                    this.type1List = [];
                     res.list.filter((item) => {
                         let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
                         let md5 = Md5.hashStr(this.currPath + "/" + name).toString();
@@ -447,7 +447,7 @@ export class ListPage {
         }
         var hasFolder = this.selectedFiles.filter(item=>item.type === 1).length;
         var self = this;
-        this.util.deleteFileDialog(path, hasFolder, ()=>{
+        this.util.deleteFileDialog(path, hasFolder, () => {
             //完成删除回调
             this.listFiles();
             this.allBtnsShow = false;
@@ -597,6 +597,7 @@ export class ListPage {
         }
         this.global.currPath = this.currPath;
         this.dataAcquired = false;
+        this.selectedFiles = [];
     }
 
     closeFileSelect() {

@@ -90,7 +90,7 @@ page-search-bt {
             .download-btn {
                 position: absolute;
                 padding: 5px 12px;
-                border: 1px solid $newFirstColor;
+                border: .5px solid $newFirstColor;
                 border-radius: 20px;
                 color: $newFirstColor;
                 right: 10px;
@@ -127,7 +127,7 @@ page-search-bt {
         padding: 20px 10px;
         background: $newThreeColor;
         .history-title {
-            border-bottom: 1px solid $newFourColor;
+            border-bottom: .5px solid $newFourColor;
             font-size: 18px;
             color: $newFiveColor;
             line-height: 40px;

@@ -4,7 +4,7 @@ page-device-management {
 			color: #1B1B1B;
 			line-height: 40px;
 			padding: 10px $padding;
-			border-bottom: 1px solid #d8d8d8;
+			border-bottom: .5px solid #d8d8d8;
 			font-weight: bold;
 		}
 		.no-device {
@@ -21,7 +21,7 @@ page-device-management {
 		.device-info {
 			position: relative;
 			margin: 16px $padding 0;
-			border: 1px solid #d8d8d8;
+			border: .5px solid #d8d8d8;
 			border-radius: 4px;
 			box-shadow: 0 0 5px #e8e8e8;
 			background: #fff;
@@ -42,7 +42,7 @@ page-device-management {
 			}
 			.top-area {
 				margin: 14px 14px 0;
-				border-bottom: 1px solid #f8f8f8;
+				border-bottom: .5px solid #f8f8f8;
 				.device {
 					position: relative;
 					width: 44px;
@@ -93,7 +93,7 @@ page-device-management {
 			}
 			.disk-info {
 				text-align: center;
-				border-bottom: 1px solid #d8d8d8;
+				border-bottom: .5px solid #d8d8d8;
 				.disk {
 					width: 50%;
 					padding: 10px 0;
@@ -118,7 +118,7 @@ page-device-management {
 				text-align: center;
 				.btn {
 					width: 50%;
-					border-right: 1px solid #d8d8d8;
+					border-right: .5px solid #d8d8d8;
 					height: 28px;
 					line-height: 28px;
 					&:last-child {

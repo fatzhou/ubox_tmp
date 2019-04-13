@@ -19,7 +19,7 @@ page-search {
                 padding-left: 25px;
                 padding-right: 0;
                 .item-inner {
-                    border-bottom: 1px solid rgba(255,255,255,0.1);
+                    border-bottom: .5px solid rgba(255,255,255,0.1);
                     padding: 9px 0;
                 }
             }
@@ -62,7 +62,7 @@ page-search {
                 .status-btn {
                     margin: 0;
                     background: rgba(0,199,125,0.10);
-                    border: 1px solid $newFirstColor;
+                    border: .5px solid $newFirstColor;
                     border-radius: 17px;
                     line-height: 26px;
                     box-sizing: border-box;

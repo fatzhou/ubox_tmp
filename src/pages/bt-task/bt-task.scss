@@ -36,7 +36,7 @@ page-bt-task {
             line-height: 40px;
             color: $newFiveColor;
             &:first-child {
-                border-right: 1px solid $newThreeColor;
+                border-right: .5px solid $newThreeColor;
             }
             &.active {
                 color: #fff;
