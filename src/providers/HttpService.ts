@@ -1379,7 +1379,10 @@ export class HttpService {
 		channel.onclose = () => {
 			GlobalService.consoleLog("Data channel closed.");
 			dataChannel.status = "closed";
-			this.peerConnection.close()
+			if(this.peerConnection) {
+				this.peerConnection.close()
+			}
+			
 		};
 		channel.onerror = () => {
 			GlobalService.consoleLog("Data channel error!!");

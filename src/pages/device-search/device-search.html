@@ -15,7 +15,7 @@
 
 <ion-content>
 	<ion-refresher snapbackDuration="300" *ngIf="bindStatus == 0" (ionRefresh)="doRefresh($event)">
-		<ion-refresher-content></ion-refresher-content>
+		<!-- <ion-refresher-content></ion-refresher-content> -->
 	</ion-refresher>
 	<div class="main-content" *ngIf="bindStatus != 0">
 		<div class="search-box">
@@ -34,7 +34,7 @@
 			<p class="p-title">
 				{{ searchResult ? searchResult.length > 0 ? global.Lf("FindResult", searchResult.length) : global.L("CanotUseEquipment") : global.L("ScaningEquipment") }}
 			</p>
-			<svg class="icon search-icon" [ngClass]="searchResult ? '' : 'search-animation'" aria-hidden="true"
+			<svg class="icon search-icon" [ngClass]="searchResult ? 'hide-icon' : 'search-animation'"  aria-hidden="true"
 				item-end>
 				<use xlink:href="#iconsousuoshebei"></use>
 			</svg>

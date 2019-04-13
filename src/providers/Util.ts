@@ -731,10 +731,10 @@ export class Util {
 				// resolve([]);
 				return ;
             }
-            if(1) {
-                resolve([]);
-                return ;
-            }
+            // if(1) {
+            //     resolve([]);
+            //     return ;
+            // }
             var self = this;
             var flag = false;
             var serviceType = "upnp:ubbeybox";

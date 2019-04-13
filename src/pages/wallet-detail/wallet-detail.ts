@@ -287,7 +287,8 @@ export class WalletDetailPage {
                 gas_used: this.util.cutFloat(gasUsed, 6),
                 gas_ubbey_used: gasUbbey,   
                 timestamp: list.timestamp * 1000
-            }
+            },
+            lastPage: 'detail'
         });
     }
 

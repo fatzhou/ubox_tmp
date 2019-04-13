@@ -95,6 +95,9 @@ export class CoinSendPage {
         );
         
     }
+    ionViewWillLeave() {
+        this.global.closeGlobalAlert(this);
+    }
     scanWallet() {
         this.barcodeScanner.scan({
             showFlipCameraButton: true,
@@ -329,7 +332,8 @@ export class CoinSendPage {
                         timestamp: Date.now(),
                         status: 1,
                         displayStatus: Lang.L('WaitTransactionPackage')
-                    }
+                    },
+                    lastPage: 'coinSend'
                 })
             } else {
                 throw new Error(Lang.L('commitFailure')); 

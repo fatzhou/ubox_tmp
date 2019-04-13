@@ -762,7 +762,10 @@ export class ListPage {
         } else {
             this.isShowClassifyNav = !this.isShowClassifyNav;
         }
+        console.log("点击后list Show or Hide" + this.isShowClassifyNav)
     }
+
+
 
     displayMenu($event) {
 		console.log("即将显示左侧菜单........");

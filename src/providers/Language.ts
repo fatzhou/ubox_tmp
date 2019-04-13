@@ -4135,7 +4135,7 @@ export class Lang {
     }
     static RecommendedResources = {
         cn: '推荐资源',
-        en: 'Recommended resources',
+        en: 'Recommended',
         kr: '권장 리소스'
     }
     static Discovery = {

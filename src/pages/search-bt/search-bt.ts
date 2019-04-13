@@ -25,6 +25,7 @@ export class SearchBtPage {
     loading: boolean = false;
     session: string = '';
     isFocus: boolean = false;
+    isShowLoad: boolean = false;
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         private global: GlobalService,
@@ -75,6 +76,15 @@ export class SearchBtPage {
     searchList(key = null, refresh = false) {
         if(this.loading == true) {
             return false;
+        }
+        if(this.isShowLoad == true) {
+            this.global.createGlobalLoading(this, {
+                message: Lang.L('Loading')
+            });
+            this.isShowLoad = false;
+            setTimeout(() => {
+                this.global.closeGlobalLoading(this);
+            },2000)
         }
         this.loading = true;
         var url = GlobalService.centerApi["getSearchList"].url;
