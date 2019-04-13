@@ -81,12 +81,12 @@ page-coin-send {
 					font-size: 14px;
 					background: transparent;
 					color: $newFiveColor;
-				}				
+				}
 			}
 			&:after {
 				background: unset;
 			}
-			
+
 		}
 		.transfer-amount {
 			padding: 0;
@@ -96,7 +96,7 @@ page-coin-send {
 			width: calc(100% - 26px);
 			margin:  0 auto;
 			margin-bottom: 10px;
-			
+
 			.transfer-input {
 				margin-top: 16px;
 				font-size: 24px;
@@ -157,7 +157,7 @@ page-coin-send {
 				height: 4px;
 				background: $newFirstColor;
 			}
-			
+
 		}
 		.confirm-btn {
 			margin: 40px 10px 20px;
@@ -172,6 +172,7 @@ page-coin-send {
 		height: 100%;
 		top: 0;
 		left: 0;
+        z-index: 99;
 		.coin-send-bg {
 			width: 100%;
 			height: 100%;
@@ -249,11 +250,11 @@ page-coin-send {
 				}
 			}
 		}
-	} 
+	}
 
 }
 
-@media only screen and (max-width: 320px) {  
+@media only screen and (max-width: 320px) {
     page-coin-send .my-content .wallet-address .transfer-warning {
     	height: 44px;
     	padding: 10px 6px;

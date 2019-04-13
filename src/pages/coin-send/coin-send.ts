@@ -33,7 +33,7 @@ export class CoinSendPage {
     gasTotal = 51639;
     gasUbbeyTotal = 21000;
     ERC20Rate = 1;
-    ChainRate = 1e-4;  
+    ChainRate = 1e-4;
     gasUsed;
     gasUbbeyUsed;
     private privateKey: string = "";
@@ -58,7 +58,7 @@ export class CoinSendPage {
         this.keystore = this.navParams.get('keystore');
         this.progress = 20;
         this.util.getDisplayRate().then(res => {
-            this.computeGasPrice();         
+            this.computeGasPrice();
         })
         .catch(e => {
             GlobalService.consoleLog(e.stack);
@@ -82,7 +82,7 @@ export class CoinSendPage {
                             {
                                 text: Lang.L("Cancel"),
                                 handler: data => {
-                                    
+
                                 }
                             },
                         ]
@@ -93,7 +93,7 @@ export class CoinSendPage {
                 GlobalService.consoleLog('Error: ' + reject);
             }
         );
-        
+
     }
     ionViewWillLeave() {
         this.global.closeGlobalAlert(this);
@@ -105,7 +105,7 @@ export class CoinSendPage {
         }).then((barcodeData) => {
             GlobalService.consoleLog("Success to get code:" + barcodeData.text);
             if(!barcodeData.cancelled) {
-                this.toWallet = barcodeData.text;                
+                this.toWallet = barcodeData.text;
             }
         }, (err) => {
 
@@ -120,12 +120,12 @@ export class CoinSendPage {
             let ethRate = this.global.globalRateInfo.filter(item => item.curreycy === 'ETH')[0].rate;
             let totalGas = this.gasPrice * this.gasTotal;
             this.gasUsed = this.util.cutFloat(totalGas / GlobalService.CoinDecimal, 6); //单位:ETH
-            this.gasUbbeyUsed = this.util.cutFloat(totalGas / GlobalService.CoinDecimal / ethRate, 2); 
+            this.gasUbbeyUsed = this.util.cutFloat(totalGas / GlobalService.CoinDecimal / ethRate, 2);
         } else {
             this.gasPrice = Math.max(1, this.progress) * this.ChainRate;
             let totalGas = this.gasPrice * this.gasUbbeyTotal;
-            this.gasUbbeyUsed = this.util.cutFloat(totalGas, 2); 
-        }   
+            this.gasUbbeyUsed = this.util.cutFloat(totalGas, 2);
+        }
     }
 
     transferAll() {
@@ -141,8 +141,11 @@ export class CoinSendPage {
         return this.checkPay()
         .then(b => {
             if(b) {
+                GlobalService.consoleLog("展示showPayBox");
                 this.toggleShowPayBox(true);
-                // this.getPayPassword();                
+                // this.getPayPassword();
+            }else{
+                GlobalService.consoleLog("检查支付失败");
             }
         })
         .catch(e => {
@@ -153,7 +156,7 @@ export class CoinSendPage {
     toggleShowPayBox(action) {
         this.isShowPayBox = action;
     }
-    
+
     getPayPassword() {
         if (this.payPassword !== '') {
             GlobalService.consoleLog("开始解密-----");
@@ -173,7 +176,7 @@ export class CoinSendPage {
                     GlobalService.consoleLog("解密成功")
                     this.privateKey = result.privKey;
                     this.publicKey = result.publicKey;
-                    this.doPay();                                    
+                    this.doPay();
 
                 }
             },100)
@@ -181,7 +184,7 @@ export class CoinSendPage {
         } else {
             this.global.createGlobalToast(this, {
                 message: Lang.L('PayPasswordCannotEmpty')
-            })                            
+            })
             return false;
         }
     }
@@ -209,7 +212,7 @@ export class CoinSendPage {
             }
             if(value > parseFloat(this.total)) {
                 message = Lang.L('InsufficientAccountBalance');
-            }        
+            }
         }
         if(message) {
             this.global.createGlobalToast(this, {
@@ -251,7 +254,7 @@ export class CoinSendPage {
         let amount = Math.ceil(this.web3.floatMultiple(this.sendAmount, GlobalService.CoinDecimal));
         // let amountBlockchain = Math.ceil(this.sendAmount * GlobalService.CoinDecimal * GlobalService.CoinDecimal);
         let amountBlockchain = Math.ceil(this.web3.floatMultiple(this.sendAmount, GlobalService.CoinDecimalBlockchain));
-       
+
         let thisTx = '';
 
         GlobalService.consoleLog("GasPrice:" + gasBlockchain);
@@ -277,7 +280,7 @@ export class CoinSendPage {
                     })
                     reject(err);
                 }
-            });            
+            });
         })
         .then(tx => {
             let url, value, gas_price;
@@ -336,7 +339,7 @@ export class CoinSendPage {
                     lastPage: 'coinSend'
                 })
             } else {
-                throw new Error(Lang.L('commitFailure')); 
+                throw new Error(Lang.L('commitFailure'));
             }
         })
         .catch(e => {
@@ -345,6 +348,6 @@ export class CoinSendPage {
         })
     }
 
-    
+
 
 }
