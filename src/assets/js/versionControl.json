@@ -53,21 +53,9 @@
                 {
                     "version": "-1.2.0",
                     "action": "this.events.publish('update-box')"
-                },
-                {
-                    "version": "-",
-                    "action": "this.toVersion=this.appVersionDescription.version,this.isClose=true,setTimeout(()=>{this.closeBtn=true},1000),this.isShowAction=true,this.events.publish('update-app')"
-                }      
+                }   
             ]
-		},
-		"2.0.0": {
-            "versionList": [
-                {
-                    "version": "-2.0.0",
-                    "action": "this.events.publish('update-box')"
-                }    
-            ]
-        }
+		}
 	},
 	"boxVersionDescription": {
 		"1.0.1": 
@@ -119,7 +107,7 @@
                 "kr": ["1. APP interface fully upgraded, business processes simplified, ultimate UX experience;","2. Added whole network  BT search and  BT download function, support intelligent remote BT downloading ;","3. Optimized disk management, support multi-device cascading expansion functions for second-generation products;","4. Took Ubbey test chain activities offline, other auxiliary function adjustments."]
             }           
 	},
-	"appVersionDescription" : {
+	"appVersionDescription-2.0.0" : {
 		"version": "2.0.0",
         "content": 
             {
@@ -129,7 +117,7 @@
             },
         "downloadUrl":"https://m.yqtc.co/download/ubbey.v2.0.0.apk"
 	},
-    "appVersionDescription-1.2.3" : {
+    "appVersionDescription" : {
         "version": "1.2.3",
         "content": 
             {
