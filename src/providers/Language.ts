@@ -3476,14 +3476,14 @@ export class Lang {
     }
 
     static APP = {
-        cn: 'Abbey 应用',
+        cn: 'Ubbey APP',
         en: 'Ubbey APP',
         kr: '유베이 어플리케이션(어플/앱)'
     }
 
     static ROM = {
-        cn: 'Ubbey 只读内存',
-        en: 'Ubbey ROM',
+        cn: 'Ubbey Box ROM',
+        en: 'Ubbey Box ROM',
         kr: '유베이 메모리'
     }
 

@@ -185,8 +185,10 @@ export class BtTaskPage {
     }
 
     getChangeStatus(item) {
-        if(item.status == -1 || item.status == 0 || item.status == 1) {
+        if(item.status == -1 || item.status == 0) {
             return Lang.L("Connecting")
+        } else if(item.status == 1) {
+            return Lang.L("DownloadingNum")
         } else if(item.status == 2) {
             return Lang.L("ContinueDownload")
         } else if(item.status == 3) {

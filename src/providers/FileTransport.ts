@@ -82,7 +82,7 @@ export class FileTransport {
 		} else {
 			pausing = 'waiting';
 		}
-
+		console.log('当前新建任务的状态' + pausing)
 		// GlobalService.consoleLog('fullPath   ===  ' + fullPath);
 		// GlobalService.consoleLog('localPath   ===  ' + localPath);
 
@@ -197,6 +197,7 @@ export class FileTransport {
 		if (this.taskUploadListAmount > this.global.fileMaxUpload) {
 			GlobalService.consoleLog('先加入队列，且先暂停，后面再上传:' + this.taskUploadListAmount + "," + this.global.fileMaxUpload);
 			task.pausing = 'waiting';
+			tool.pause();
 		} else {
 			if (this.global.useWebrtc) {
 				tool = this.createUploadHandlerRemote(task, progress, success, failure);
@@ -594,6 +595,7 @@ export class FileTransport {
 		} else {
 			GlobalService.consoleLog('先加入队列，且先暂停，后面再下载' + this.taskDownloadListAmount + "," + this.global.fileMaxDownload);
 			task.pausing = "waiting";
+			tool.pause();
 		}	
 		return tool;
 	}
