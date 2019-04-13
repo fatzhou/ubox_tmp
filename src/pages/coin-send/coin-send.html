@@ -28,7 +28,7 @@
 	            </svg>		       	
 		       </div>
 			</div>
-			<input type="text" name="toWallet" [(ngModel)]="toWallet" placeholder="{{global.L('EnterAddress')}}" />
+			<input type="text" name="toWallet"  autocomplete="off" [(ngModel)]="toWallet" placeholder="{{global.L('EnterAddress')}}" />
 	  </div>	
 	</div>
 	<div class="transfer-amount">
@@ -38,7 +38,7 @@
 		</div>
 		<!-- <input class="transfer-input" name="sendAmount" type="number" [(ngModel)]="sendAmount"  /> -->
 
-		<input class="transfer-input" name="sendAmount" type="number" [(ngModel)]="sendAmount" placeholder="{{global.L('InputFullAmount')}}" />
+		<input  autocomplete="off" class="transfer-input" name="sendAmount" type="number" [(ngModel)]="sendAmount" placeholder="{{global.L('InputFullAmount')}}" />
 		<p class="total">{{global.L("AvailableBalance")}}<span> {{ total }} UBBEY</span></p>
 	</div>
 	<div class="mining-fees">
@@ -64,7 +64,7 @@
         <p class="p-title">{{global.L('Pay')}}</p>
         <p class="p-send-num">{{sendAmount}}<span> UBBEY</span></p>
         <p class="p-send-addr">{{ global.L('TransferTo') }}<span class="p-addr">{{toWallet}}</span></p>
-        <p class="p-input"><input type="password" [placeholder]="global.L('PayPasswordPlaceholder')" [(ngModel)]="payPassword" /></p>
+        <p class="p-input"><input autocomplete="off" type="password" [placeholder]="global.L('PayPasswordPlaceholder')" [(ngModel)]="payPassword" /></p>
         <p class="p-btn-box"><span class="cancel-btn" (click)="toggleShowPayBox(false)">{{ global.L('Cancel') }}</span><span class="ok-btn" (click)="getPayPassword()">{{ global.L('Ok') }}</span></p>
     </div>
 </div>

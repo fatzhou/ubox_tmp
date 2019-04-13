@@ -29,12 +29,13 @@ export class DeviceManagePage {
         public http: HttpService,
         private lang: Lang,
         private global: GlobalService,
-        private util: Util) {
+        private util: Util,
+        private events: Events) {
     }
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad DeviceManagePage');
-        this.disks = this.global.diskInfo.disks;
+        this.disks = this.global.diskInfo.disks || [];
         this.disks.map(item => {
             item.isShowOptions = false;
         })
@@ -100,29 +101,29 @@ export class DeviceManagePage {
         this.global.createGlobalLoading(this, {
             message: Lang.L('FormatDiskLoading')
         });        
-        var interval = setInterval(()=>{
-            var url = this.global.getBoxApi('formatBox');
-            this.http.post(url, {
-                disk_uuid: disk.uuid
-            })  
-            .then(res=>{
-                if(res.err_no === 0) {
-                    GlobalService.consoleLog("格式化完成");
-                    this.global.loadingCtrl.dismiss();
-                    this.global.fileTaskList = [];
-                    disk.isShowOptions = false;
-                    if(interval) {
-                       this.global.createGlobalToast(this, {
-                            message: Lang.L('FormatFinished')
-                        });
-                        clearInterval(interval);
-                        interval = null;                        
-                    }
-                } else {
-                    GlobalService.consoleLog("仍然在格式化");
-                }
-            })
-        }, 500);
+        var url = this.global.getBoxApi('formatBox');
+        this.http.post(url, {
+            disk_uuid: disk.uuid
+        })  
+        .then(res=>{
+            if(res.err_no === 0) {
+                GlobalService.consoleLog("格式化完成");
+                this.global.fileTaskList = [];
+                this.global.currPath = '/';
+                this.events.publish('list:refresh');
+                disk.isShowOptions = false;
+                this.global.createGlobalToast(this, {
+                    message: Lang.L('FormatFinished')
+                });
+                this.global.closeGlobalLoading(this);  
+            } else {
+                this.global.closeGlobalLoading(this);
+                this.global.createGlobalToast(this, {
+                    message: Lang.L('FormatDisk') + Lang.L('UnkownError')
+                });
+                GlobalService.consoleLog("仍然在格式化");
+            }
+        })
     }
 
     setDiskLabel(disk) {

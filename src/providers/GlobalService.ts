@@ -18,7 +18,7 @@ export class GlobalService {
     public static boxFileControl = 3;
     public static AppVersion = '2.0.0';
     public static applang: any = "en";
-    public static ENV = "prod"; //环境设定
+    public static ENV = "dev"; //环境设定
     public static UBBEY_CONTRACT: string = "0x6cB1C2B61e24aD08bF5FFF4d2b13ea987d211a88";
     public static UBBEY_CONTRACT_TEST: string = "0x76040366331dc8e4A11CfC5f0Cd4d1aD23A1eAcd";
     public static DISK_K_BITS:number = 1024;
@@ -78,7 +78,7 @@ export class GlobalService {
     public fileThumbnailPath = '';
     public fileRootPath: string = "";
 
-    public useWebrtc:any = false; //是否使用webrtc
+    public useWebrtc:any = true; //是否使用webrtc
     public boxInfo: any = {}; //当前连接的盒子信息
     // public centerBoxList:any = []; //盒子列表
     // public centerAvailableBoxList: any = []; //当前可连接的盒子ID
@@ -206,7 +206,8 @@ export class GlobalService {
     //版本控制文件
     public static versionConfig = {
         'dev': "https://www.yqtc.co/iamtest/ubox/versionControl.json",
-        'prod': "https://m.yqtc.co/ubbey/versionControl.json"
+        'prod': "https://www.yqtc.co/iamtest/ubox/versionControl.json",
+        // 'prod': "https://m.yqtc.co/ubbey/versionControl.json"
     }
 
     //发现页数据文件
@@ -572,7 +573,7 @@ export class GlobalService {
         "getSearchDetail": {
             url:  GlobalService.centerApiHostEnv + "/ubbey/btfeed/searchdetail"
         },
-        
+
     }
 
     constructor(

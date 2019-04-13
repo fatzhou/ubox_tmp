@@ -18,7 +18,7 @@
 	<div class="form-content">
 		<h2 class="form-title">{{ global.passwdType === "register" ? global.L("Register") : global.L("ForgotPassword") }}</h2>
 		<p class="form-desc">{{ global.passwdType === "register" ? global.L("RegisterSlogan") : global.L("ResetPasswordSlogan")}}</p>
-		<form class="form-form" action="">
+		<form class="form-form" action="" autocomplete="off">
 			<div class="form-input">
 				<label class="label" for="username-register">{{ global.L("Email") }}</label>
 				<input type="text" id="username-register" name="username" [(ngModel)]="username" class="input-v2"

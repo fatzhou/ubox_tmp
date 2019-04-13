@@ -16,7 +16,7 @@
                 <use xlink:href="#iconcaidan"></use>
         </svg>
         <div class="input-box"  *ngIf="!isShowTitle">
-            <input type="text" (click)="goSearchBtPage()" class="common-general-button bt-input" readonly>
+            <input type="text" autocomplete="off" (click)="goSearchBtPage()" class="common-general-button bt-input" readonly>
         </div>
         <svg class="icon icon-ellipsis icon-search" (click)="goSearchBtPage()" *ngIf="isShowTitle" aria-hidden="true">
             <use xlink:href="#iconsearch"></use>

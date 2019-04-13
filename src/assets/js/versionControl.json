@@ -53,7 +53,15 @@
                 {
                     "version": "-1.2.0",
                     "action": "this.events.publish('update-box')"
-                }   
+                } 
+            ]
+		},
+		"2.0.0": {
+            "versionList": [
+                {
+                    "version": "-2.0.0",
+                    "action": "this.events.publish('update-box')"
+                }    
             ]
 		}
 	},

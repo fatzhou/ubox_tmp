@@ -3852,9 +3852,9 @@ export class Lang {
     }
 
     static UploadTo = {
-        cn: '上传至',
-        en: 'Upload to',
-        kr: '업로드 위치'
+        cn: '上传至 ',
+        en: 'Upload to ',
+        kr: '업로드 위치 '
     }
 
     static AdviceSubmitInfo = {

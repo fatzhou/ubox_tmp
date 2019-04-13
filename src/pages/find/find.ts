@@ -58,12 +58,12 @@ export class FindPage {
     }
     goSearchBtPage() {
         console.log("gosearchbt");
-        this.navCtrl.push(SearchBtPage);
+        this.app.getRootNav().push(SearchBtPage);
     }
 
     goBtDetailPage(id) {
         console.log("go BtDetailPage");
-        this.navCtrl.push(BtDetailPage, {
+        this.app.getRootNav().push(BtDetailPage, {
             type: 'feed',
             id: id
         });
@@ -101,7 +101,7 @@ export class FindPage {
             })
             return false
         }
-        this.navCtrl.push(BtTaskPage);
+        this.app.getRootNav().push(BtTaskPage);
     }
 
     getFeedTop() {

@@ -58,22 +58,22 @@ export class LoginPage {
         // }
 		this.isLoading = false;
         if(GlobalService.ENV === 'dev') {
-			this.username = "619912987@qq.com"
-			this.password = "dh5819413"            
-			// this.username = '1@qq.com';
-            // this.password = 'A123456789';       
+			// this.username = "619912987@qq.com"
+			// this.password = "dh5819413"            
+			this.username = '1@qq.com';
+            this.password = 'A123456789';       
         } else {
 
-            // this.util.getUserList()
-            // .then(res => {
-            //     if(this.global.userLoginInfo){
-            //         this.username = this.global.userLoginInfo.username;
-            //         this.password = this.global.userLoginInfo.password;
-            //     } else {
-            //         this.username = '';
-            //         this.password = '';
-            //     }
-            // })             
+            this.util.getUserList()
+            .then(res => {
+                if(this.global.userLoginInfo){
+                    this.username = this.global.userLoginInfo.username;
+                    this.password = this.global.userLoginInfo.password;
+                } else {
+                    this.username = '';
+                    this.password = '';
+                }
+            })             
         }
     }
 
@@ -84,7 +84,7 @@ export class LoginPage {
                 password: this.password,
                 timestamp: Date.now()
             };
-            this.util.setUserList();            
+            this.util.setUserList();
         }
     }
 
@@ -126,7 +126,7 @@ export class LoginPage {
         //         this.loginBox();
         //     } else {
         //         GlobalService.consoleLog("盒子未绑定用户，需执行绑定逻辑");
-        //         this.bindBox();                
+        //         this.bindBox();
         //     }
         // } else {
         //     //远程登录
@@ -136,7 +136,7 @@ export class LoginPage {
 
     loginCenter() {
         GlobalService.consoleLog("远程登录！！！");
-        
+
         this.global.createGlobalLoading(this, {
             message: Lang.L('SearchingBox')
         });
@@ -144,33 +144,10 @@ export class LoginPage {
         let index = this.navParams.get('tabIndex');
         this.util.loginAndCheckBox(this, true)
         .then(res => {
-			this.isLoading = false;
-
-            if(this.global.useWebrtc) {
-                // this.http.initWebrtc();
-                GlobalService.consoleLog("webrtc模式--用户开始登录盒子");
-                //如果已经建立连接，则需要关闭并重新建立连接
-                // this.http.keepWebrtcAlive();
-
-                this.global.closeGlobalLoading(this);
-                if(this.popBack || index !== undefined) {
-                    this.navCtrl.pop();
-                } else {
-                    // this.navCtrl.push(TestPage, {
-                    // this.navCtrl.push(TabsPage, {
-                    //     tabIndex: index
-                    // })    
-                    this.navCtrl.setRoot(TabsPage);              
-                }        
-
-            } else {
-                this.global.closeGlobalLoading(this);
-                // this.navCtrl.push(TestPage, {
-                // this.navCtrl.push(TabsPage, {
-                //     tabIndex: index
-				// });
-				this.navCtrl.setRoot(TabsPage);
-            }
+            console.log("登录成功完成......");
+            this.isLoading = false;
+            this.global.closeGlobalLoading(this);
+            this.navCtrl.setRoot(TabsPage);
         })
         .catch(e => {
 			console.log("登录进入catch......");
@@ -193,7 +170,7 @@ export class LoginPage {
                 this.navCtrl.push(TabsPage)
                 .then(() => {
                     this.isLoading = false;
-                })               
+                })
             } else if(res.err_no === 1101) {
                 //登录失败，可能是因为盒子重置了或者其他APP解除绑定了
                 // let view = this.navCtrl.getActive().name;
@@ -230,14 +207,14 @@ export class LoginPage {
                                     }
                                 },
                             ]
-                        });                        
+                        });
                     }, GlobalService.ToastTime)
                 } else {
                     this.isLoading = false;
-                }                 
+                }
             } else {
                 this.isLoading = false;
-            }               
+            }
         }, true, () => {
             this.isLoading = false;
         });
@@ -258,7 +235,7 @@ export class LoginPage {
                 this.navCtrl.push(TabsPage)
                 .then(() => {
                     errorCallback();
-                })                 
+                })
             } else {
                 //绑定失败，停留在绑定页，用户可以重试
             }

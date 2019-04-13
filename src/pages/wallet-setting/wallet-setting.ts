@@ -5,7 +5,7 @@ import { HttpService } from "../../providers/HttpService";
 import { WalletNameModifyPage } from "../wallet-name-modify/wallet-name-modify";
 import { ChangePayPasswordPage } from "../change-pay-password/change-pay-password";
 import { ExportKeystorePage } from "../export-keystore/export-keystore";
-import { WalletSelectPage } from '../wallet-select/wallet-select';
+import { WalletDetailPage } from '../wallet-detail/wallet-detail';
 import { Events } from 'ionic-angular';
 import { Lang } from "../../providers/Language";
 import { Util } from '../../providers/Util';
@@ -109,7 +109,12 @@ export class WalletSettingPage {
                                             })
                                         }
                                         setTimeout(() => {
-                                            this.navCtrl.push(WalletSelectPage);
+                                            this.global.focusWallet = null;
+                                            this.global.walletList = this.global.walletList.filter(item => {
+                                                return item.addr != this.addr;
+
+                                            })
+                                            this.navCtrl.pop();
                                         }, 300)
                                     }
                                 })

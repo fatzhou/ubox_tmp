@@ -14,7 +14,7 @@
 
 
 <ion-content (click)="toggleShowInfo('close')">
-	<form #form="ngForm" (ngSubmit)="reportFeedback()">
+	<form #form="ngForm" (ngSubmit)="reportFeedback()" autocomplete="off">
 		<div class="items">
 			<ion-label for="">{{ global.L("ProblemCategory") }}</ion-label>
 			<ion-select [(ngModel)]="problemCategory" name="category" interface="popover">

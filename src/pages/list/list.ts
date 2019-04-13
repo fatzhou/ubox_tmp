@@ -94,7 +94,7 @@ export class ListPage {
 		private menuCtrl: MenuController,
         public navParams: NavParams,
         private tabsController: SuperTabsController) {
-        
+
         ListPage._this = this;
 
         this.events.unsubscribe('file:updated', ListPage.updateFilesEvent);
@@ -103,20 +103,18 @@ export class ListPage {
         this.events.subscribe('file:updated', ListPage.updateFilesEvent);
         this.events.subscribe('image:move', ListPage.moveFilesEvent);
         this.events.subscribe('list:change', ListPage.moveChangeList);
+        this.events.subscribe('list:refresh', ListPage.refreshFilesEvent);
     }
 
     ionViewDidEnter() {
+        GlobalService.consoleLog("ionViewDidEnter ListPage");
         GlobalService.consoleLog("获取磁盘信息" + JSON.stringify(this.global.deviceSelected));
         // this.getDiskStatus();
         // this.getMiningInfo();
 
         if(!this.global.deviceSelected) {
-            console.log("准备离开list1")
             setTimeout(()=>{
-                console.log("准备离开list2")
-                // console.log(JSON.stringify(this.tabsController))
                 this.tabsController.slideTo(1, "boxtabs");
-                console.log("准备离开list3")
             },500);
         }
         if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
@@ -127,7 +125,7 @@ export class ListPage {
             }, () => {
                 this.isShowBox = false; //true
             })
-        } 
+        }
         this.global.currPath = this.currPath;
         if(this.currPath == '/') {
             setTimeout(()=>{
@@ -136,7 +134,7 @@ export class ListPage {
         } else {
             this.hideAddBtn = false;
         }
-        
+
         ListPage._this = this;
         if(this.global.diskInfo.disks) {
             this.disks = this.global.diskInfo.disks.filter(item => {
@@ -147,7 +145,8 @@ export class ListPage {
                 // return item
             });
         }
-        
+		GlobalService.consoleLog("this.currPath" + this.currPath);
+		return true;
     }
 
     ionViewDidLeave() {
@@ -173,6 +172,13 @@ export class ListPage {
 		return true;
     }
 
+    static refreshFilesEvent() {
+        let _this = ListPage._this;
+        _this.currPath = '/';
+        _this.global.currPath = '/';
+        _this.listFiles();
+    }
+
     static updateFilesEvent(task) {
         let _this = ListPage._this;
         GlobalService.consoleLog("文件更新，刷新列表:" + JSON.stringify(task));
@@ -187,9 +193,9 @@ export class ListPage {
 
         for(let i = 0; i < _this.selectedFiles.length; i++) {
             _this.moveFile(_this.currPath.replace(/\/$/g, '') + "/", _this.selectedFiles[i].name, _this.global.currPath.replace(/\/$/g, '') + "/", _this.selectedFiles[i].name, "move");
-        }        
+        }
     }
-    
+
     static moveChangeList(selectedFile) {
         let _this = ListPage._this;
         let index0 = _this.type0List.findIndex(item => {
@@ -203,11 +209,11 @@ export class ListPage {
         _this.type1List.splice(index1, 1);
         _this.events.publish(_this.global.currPath + ':succeed');
     }
-    
+
     setShowType(isShow) {
         this.isShowType = isShow;
     }
-    
+
     pretify(name) {
         if(name.length < 22) {
             return name;
@@ -222,7 +228,7 @@ export class ListPage {
         }
         return false;
     }
-    
+
     //勾选文件
     setSelectedFiles(file) {
         GlobalService.consoleLog("选择了文件:" + JSON.stringify(file));
@@ -275,10 +281,10 @@ export class ListPage {
         // this.selectAllStatus = false;
         for(let i = 0, len = this.type0List.length; i < len; i++) {
             this.type0List[i].selected = false;
-        } 
+        }
         for(let i = 0, len = this.type1List.length; i < len; i++) {
             this.type1List[i].selected = false;
-        } 
+        }
         GlobalService.consoleLog("按钮显示状态：" + this.allBtnsShow);
     }
 
@@ -331,7 +337,7 @@ export class ListPage {
 
                 this.allFileList = list;
                 this.fileList = this.allFileList.slice(0, this.pageSize)
-                this.transfer.getThumbnail(this.fileList, false, this.currPath);                    
+                this.transfer.getThumbnail(this.fileList, false, this.currPath);
 
                 // this.cd.detectChanges();
                 //获取缩略图
@@ -377,19 +383,19 @@ export class ListPage {
             for(let i = 0, len = this.type0List.length; i < len; i++) {
                 this.type0List[i].selected = true;
                 this.selectedFiles.push(this.type0List[i]);
-            } 
+            }
             for(let i = 0, len = this.type1List.length; i < len; i++) {
                 this.type1List[i].selected = true;
                 this.selectedFiles.push(this.type1List[i]);
-            }           
+            }
         } else {
             for(let i = 0, len = this.type0List.length; i < len; i++) {
                 this.type0List[i].selected = false;
-            }   
+            }
             for(let i = 0, len = this.type1List.length; i < len; i++) {
                 this.type1List[i].selected = false;
-            }         
-            this.selectedFiles = [];     
+            }
+            this.selectedFiles = [];
         }
         this.selectAllStatus = !this.selectAllStatus;
         this.setBtnsStatus();
@@ -418,9 +424,9 @@ export class ListPage {
 			this.transfer.downloadFile({
 				name: selected.name,
 				fileStyle: selected.fileStyle
-			}, this.currPath + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
+			}, this.currPath.replace(/\/$/g, '') + "/" + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
         }
-        
+
         this.allBtnsShow = false;
         this.clearStatus();
     }
@@ -439,7 +445,7 @@ export class ListPage {
         for (var i = 0, len = this.selectedFiles.length; i < len; i++) {
             path.push(this.currPath.replace(/\/$/g, '') + "/" + this.selectedFiles[i].name);
         }
-        var hasFolder = this.selectedFiles.filter(item=>item.type === 1).length;        
+        var hasFolder = this.selectedFiles.filter(item=>item.type === 1).length;
         var self = this;
         this.util.deleteFileDialog(path, hasFolder, ()=>{
             //完成删除回调
@@ -459,7 +465,7 @@ export class ListPage {
         GlobalService.consoleLog("开始重命名文件");
         if (this.selectedFiles.length !== 1) {
             GlobalService.consoleLog("尚未选择文件，无法删除");
-            return false; 
+            return false;
         }
         var selectedFile = this.selectedFiles[0];
         var self = this;
@@ -497,9 +503,9 @@ export class ListPage {
                         // }
                         GlobalService.consoleLog("重命名文件：" + name + "长度为" + name.length);
                         var selectedFile = this.selectedFiles[0];
-                        var prefix = this.currPath.replace(/\/$/g, '') + "/";  
+                        var prefix = this.currPath.replace(/\/$/g, '') + "/";
                         var regex = /\.([^\.])+$/;
-                        var oName = this.selectedFiles[0].name;                        
+                        var oName = this.selectedFiles[0].name;
                         self.moveFile(prefix, oName, prefix, name, "rename");
                         return true;
                     }
@@ -519,7 +525,7 @@ export class ListPage {
     moveFile(oldPath, oldName, newPath, newName, type = "rename") {
         console.log('list move   ssss' + this.selectedFiles.length)
         var selectedFile = this.selectedFiles[0];
-        
+
         this.util.moveFile(oldPath, oldName, newPath, newName)
         .then((res) => {
             if (res) {
@@ -529,7 +535,7 @@ export class ListPage {
                 this.global.alertCtrl && this.global.alertCtrl.dismiss();
                 let message = "";
                 if(type === 'rename') {
-                    message = selectedFile.type === 1 ? Lang.L('RenameDirectorySuccess') : Lang.L('RenameFileSuccess'); 
+                    message = selectedFile.type === 1 ? Lang.L('RenameDirectorySuccess') : Lang.L('RenameFileSuccess');
                 } else {
                     message = selectedFile.type === 1 ? Lang.L('MoveDirectorySuccess') : Lang.L('MoveFileSuccess');
                     ListPage.moveChangeList(selectedFile);
@@ -655,7 +661,7 @@ export class ListPage {
                     info: file
                 });
                 GlobalService.consoleLog("选择了文件，打开文件");
-            }            
+            }
         }
 
     }
@@ -734,8 +740,8 @@ export class ListPage {
                     .catch(e => {
                         //不需要备份
                     })
-                }            
-            }            
+                }
+            }
         }
     }
 
@@ -745,8 +751,8 @@ export class ListPage {
             info: info
         })
 	}
-	
-	
+
+
 
     toggleClassifyNav(isShow = null) {
         console.log("list is Show" + isShow)

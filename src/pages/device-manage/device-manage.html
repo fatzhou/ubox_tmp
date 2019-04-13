@@ -40,10 +40,10 @@
             </div>
             <ul class="clear options-list" *ngIf="disk.isShowOptions">      
                 <li tappable (click)="setDiskLabel(disk);;$event.stopPropagation();">
-                    <p>重命名</p>
+                    <p>{{global.L('Rename')}}</p>
                 </li>
                 <li tappable (click)="setLoadingStatus(disk);;$event.stopPropagation();">
-                    <p>格式化磁盘</p>
+                    <p>{{global.L('WORD652905a6')}}</p>
                 </li>
             </ul>
         </div>
@@ -54,10 +54,10 @@
 <div class="manage-options" *ngIf="isShowOptions">
     <ul class="clear">      
         <li tappable (click)="rebootDevice();">
-            <p>设备重启</p>
+            <p>{{global.L('DeviceReboot')}}</p>
         </li>
         <li tappable (click)="unbindBox();">
-            <p>解除绑定</p>
+            <p>{{global.L('DoUnbind')}}</p>
         </li>
         <!-- <li tappable >
             <p>关闭</p>

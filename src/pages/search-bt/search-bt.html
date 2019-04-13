@@ -12,7 +12,7 @@
                     <use xlink:href="#iconfanhui"></use>
                 </svg>
                 <div class="input-box">
-                    <input type="text" [(ngModel)]="inputValue" (focus)="isFocus = true" (blur)="isFocus = false"  (keyup.enter)="searchList(inputValue, true)" class="common-general-button bt-input">
+                    <input type="text" autocomplete="off" [(ngModel)]="inputValue" (focus)="isFocus = true" (blur)="isFocus = false"  (keyup.enter)="searchList(inputValue, true)" class="common-general-button bt-input">
                     <svg class="icon icon-ellipsis icon-clear" (click)="clearKey()" aria-hidden="true">
                         <use xlink:href="#iconClear1"></use>
                     </svg>
