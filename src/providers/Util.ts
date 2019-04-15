@@ -121,10 +121,17 @@ export class Util {
         //Step 1. 不是wifi， 直接失败
         let network = this.global.networkType === 'wifi' || !this.platform.is('cordova');
         if (!network) {
+            console.log("搜索自己的盒子：网络模式不匹配，返回未找到盒子");
             return Promise.reject(null)
         }
 
-        //Step 2. 搜索获取盒子列表
+        //Step 2. 中心明确显示用户无绑定的盒子
+        if (!$scope.global.centerUserInfo || $scope.global.centerUserInfo.bind_box_count < 0){
+            console.log("搜索自己的盒子：中心明确显示用户无绑定的盒子，返回未找到盒子");
+            return Promise.reject(null)
+        }
+
+        //Step 3. 搜索获取盒子列表
         return this.searchUbbey().then((boxes:any)=>{
             if(boxes && boxes.length){
                 return boxes;
@@ -133,7 +140,7 @@ export class Util {
             }
         })
 
-        //Step 3. 过滤出自己的盒子
+        //Step 4. 过滤出自己的盒子
         .then((boxes)=>{
             //检查盒子是否有自己的盒子
             let userHash = Md5.hashStr($scope.global.centerUserInfo.uname).toString();
@@ -151,217 +158,170 @@ export class Util {
 
     public loginAndCheckBox($scope, silence = true) {
         return new Promise((resolve, reject)=>{
+            //用户没有输入密码通过getUserInfo判断后续操作模式
+            if(!$scope.username || !$scope.password) {
+                resolve();
+                return
+            }
             //用户直接输入账号密码登录
-            if($scope.username && $scope.password) {
-                let loginUrl = GlobalService.centerApi["login"].url;
-                $scope.http.post(loginUrl, {
-                        uname: $scope.username,
-                        password: Md5.hashStr($scope.password).toString(),
-                        // password: $scope.password,
-                    }, silence)
-                .then((res) => {
-                    console.log("登录中心成功，获取个人信息" + JSON.stringify(res));
-                    if (res.err_no === 0) {
-                        GlobalService.consoleLog("登录中心成功，获取个人信息");
-                        resolve(res)
-                    } else {
-                        GlobalService.consoleLog("登录中心失败");
-                        reject(res);
-                    }
-                })
-            }
-            //用户之前已有登录，直接进入APP
-            else {
-                resolve()
-            }
-        }).then(res=>{
-            //获取用户信息
-            return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, silence)
-        }).then((res:any) => {
-            //获取盒子列表
-            console.log("获取盒子列表" + JSON.stringify(res));
+            let loginUrl = GlobalService.centerApi["login"].url;
+            $scope.http.post(loginUrl, {
+                    uname: $scope.username,
+                    password: Md5.hashStr($scope.password).toString(),
+                    // password: $scope.password,
+                }, silence)
+            .then((res) => {
+                console.log("登录中心成功，获取个人信息" + JSON.stringify(res));
+                if (res.err_no === 0) {
+                    GlobalService.consoleLog("登录中心成功，获取个人信息");
+                    resolve(res)
+                } else {
+                    GlobalService.consoleLog("登录中心失败");
+                    reject(res);
+                }
+            })
+        })
 
-            if (res.err_no === 0) {
-                console.log("保存用户信息...." + JSON.stringify(res.user_info));
+        //尝试从中心直接获取用户信息
+        .then(res=>{
+            return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, silence).then((res:any)=>{
+                if (res.err_no !== 0) {
+                    console.log("获取用户信息错误.......");
+                    return Promise.reject("UserInfo Error");
+                }
+
+                console.log("获取用户信息成功，保存用户信息...." + JSON.stringify(res.user_info));
                 $scope.global.centerUserInfo = res.user_info;
-                let network = this.global.networkType === 'wifi' || !this.platform.is('cordova');
-                //查询用户的盒子
-                if(res.user_info.bind_box_count > 0) {
-					console.log("局域网，搜索盒子....");
-                    //用户有盒子
-					// return Promise.resolve([]);
-					if(network) {
-						//wifi
-						return this.searchUbbey();
-					} else {
-						//4g
-						return Promise.resolve([]);
-					}
-                } else {
-					console.log("没有盒子");
-                    //用户没有盒子
-                    return Promise.reject('No box');
-                }
-            } else {
-				console.log("用户信息错误.......")
-                return Promise.reject("UserInfo Error");
-            }
+            })
         })
-        .then((res:any) => {
-			console.log("开始建立连接.......");
-            let tryremote = true;
-            //建立盒子连接
-            if(res.length) {
-                //检查盒子是否有自己的盒子
-                let userHash = Md5.hashStr($scope.global.centerUserInfo.uname).toString();
-                let myBox = res.find(item => item.bindUserHash === userHash);
-                if(myBox) {
-                    //本地有自己的盒子, 使用近场模式
-                    console.log("查找到自己的盒子：" + JSON.stringify(myBox));
-                    $scope.global.useWebrtc = false;
-                    $scope.global.deviceSelected = myBox;
-                    tryremote = false;
-                    return $scope.global.deviceSelected.version;
-                } else {
-                    //本地没有自己的盒子, 尝试使用远程模式
-                    tryremote = true;
-                }
-            }
 
-            if (tryremote){
-				console.log("本地不存在盒子，远程登录查看")
-				//同时创建3个连接，request为主连接...
-                return $scope.http.startWebrtcEngine()
-            }
+        //尽最大努力获取用户盒子信息, 获取不到返回失败
+        .then(res=> {
+            $scope.checkoutBox($scope)
         })
-        .then((res:any) => {
-            //成功连接到盒子,获取盒子登录态
-            if(this.global.deviceSelected) {
-                //检测盒子的登录态
-                let userInfoUrl = this.global.getBoxApi('getUserInfo');
-                return this.http.post(userInfoUrl, {}, false)
-                .then(res => {
-                    console.log("检测盒子的登录态" + JSON.stringify(res));
 
-                    if(res.err_no === 0) {
-                        this.global.boxUserInfo = res.userinfo;
-                        return this.global.deviceSelected;
-                    } else {
-                        if(!$scope.username || !$scope.password) {
-                            return this.getUserList()
-                            .then((r:any) => {
-                                if(r) {
-                                    //获取到用户名和密码
-                                    return $scope.util.loginBox(r.username, r.password)
-                                    .then(res => {
-                                        if(res) {
-                                            // return this.global.deviceSelected;
-                                            //开始获取用户信息
-                                            return this.http.post(userInfoUrl, {}, false)
-                                            .then(res => {
-                                                console.log("开始获取用户信息" + JSON.stringify(res));
-
-                                                if(res.err_no === 0) {
-                                                    this.global.boxUserInfo = res.userinfo;
-                                                    return this.global.deviceSelected;
-                                                } else {
-                                                    return null;
-                                                }
-                                            })
-                                        } else {
-                                            return null;
-                                        }
-                                    })
-                                } else {
-                                    //没有用户名或者密码
-                                    return null;
-                                }
-                            })
-                            .catch(e => {
-                                return null;
-                            })
-                        } else {
-                            //直接登录
-                            return $scope.util.loginBox($scope.username, $scope.password)
-                            .then(res => {
-                                //这里封装的不是很好，loginBox的返回值要么是盒子信息，要么是null，和之前不统一
-                                if(res) {
-                                    return this.global.deviceSelected;
-                                } else {
-                                    return null;
-                                }
-                            })
-                        }
-                    }
-                })
-            } else {
-                return [];
-            }
-        })
+        //成功登录&成功获取到盒子用户信息啦啦
         .then(res => {
-            //成功获取到盒子登录态，否则清除登录信息
-            if(res === null) {
-                console.error("没有盒子登录态，手动清除中心登录信息");
-                this.global.deviceSelected = null;
-				this.global.centerUserInfo = {};
-				throw new Error("Error occured...");
-                // return null;
-            } else {
-                console.log("已链接盒子：" + this.global.deviceSelected)
-                if(this.global.deviceSelected) {
-                    // var url = this.global.getBoxApi("getDiskStatus");
-                    // return this.http.post(url, {})
-                    // .then((data) => {
-                    //     if (data.err_no === 0) {
-                    //         let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-                    //         let index = 0;
-                    //         this.global.diskInfo = data.box;
-                    //         this.global.diskInfo.disks = data.disks || [];
-                    //         this.global.diskInfo.disks.map((item)=> {
-                    //             if(item.label == '') {
-                    //                 item.label = 'DISK ' + label[index];
-                    //                 index++;
-                    //             }
-                    //             // item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
-                    //             // item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
-                    //             if(item.position == 'base') {
-                    //                 this.global.currDiskUuid = item.uuid;
-                    //                 this.global.currSelectDiskUuid = item.uuid;
-                    //             }
-                    //         })
-                    //         if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
-                    //             this.global.diskInfoStatus = false;
-                    //         }else{
-                    //             this.global.diskInfoStatus = true;
-                    //         }
-                    //     }
-                    //     return res;
-                    // })
-                    // .catch(()=>{
-                    //     return res;
-                    // })
-                    return this.getDiskStatus()
-                    .then(() => {
-                        return res;
-                    })
-                    .catch(()=>{
-                        return res;
-                    })
-                } else {
-                    return null;
-                }
+            console.log("成功获取到盒子用户信息, 已链接盒子：" + this.global.deviceSelected)
+            if(!this.global.deviceSelected) {
+                GlobalService.consoleLog("成功获取到盒子用户信息, 但是选择盒子为空, ***UNREACHABLE CODE***");
+                return Promise.reject("***UNREACHABLE CODE***")
             }
-           // return res;
+
+            return this.getDiskStatus()
+            .then(() => {
+                return res;
+            })
+            .catch(()=>{
+                return res;
+            })
         })
+
         .catch(res => {
 			console.log("登录并获取盒子失败........");
             GlobalService.consoleLog(res);
             $scope.global.closeGlobalLoading($scope);
-			this.global.deviceSelected = null;
+            this.setSelectedBox(null);
             //没有盒子或者其他错误，只需登录中心即可
             // errorCallback && errorCallback();
             return Promise.reject(res);
         })
+    }
+
+    checkoutBox($scope){
+        //尝试用本地缓存中的信息ping一下本地盒子, ping不通之后再搜索
+        let doSelect =  this.getSelectedBox(true
+
+        //Case 1: 尝试ping一下本地盒子, ping不通之后再搜索
+        ).then((mybox)=> {return this.pingLocalBox(mybox)})
+
+        //Case 2: ping通之后, 直接使用缓存
+        .then((pingbox)=>{
+            GlobalService.consoleLog("ping本地盒子成功, 直接使用缓存");
+            this.setSelectedBox(pingbox);
+            return $scope.global.deviceSelected
+        })
+
+        //Case 3: ping不通之后再尝试搜索
+        .catch(()=>{
+            GlobalService.consoleLog("ping本地盒子不通, 尝试搜索....");
+            return this.searchSelfBox($scope).then(mybox => {
+                this.setSelectedBox(mybox);
+                return $scope.global.deviceSelected
+            }).catch(() => {
+                return null;
+            });
+        })
+
+        //优先尝试本地模式，无本地盒子则启动远程盒子
+        .then((localBox)=> {
+            if(localBox){
+                //本地有自己的盒子，关闭远程模式
+                $scope.http.stopWebrtcEngine();
+            } else {
+                //本地没有有自己的盒子，尝试启动远程模式
+                return $scope.http.startWebrtcEngine()
+            }
+        })
+
+        //成功选择到盒子,登录[盒子]
+        .then((res:any) => {
+
+            if (!this.global.deviceSelected) {
+                GlobalService.consoleLog("选择盒子失败, ***UNREACHABLE CODE***");
+                return Promise.reject("***UNREACHABLE CODE***")
+            }
+
+            return new Promise((resolve, reject) => {
+                if ($scope.username && $scope.password) {
+                    console.log("[用户输入]用户名和密码");
+                    return resolve({
+                        username: $scope.username,
+                        password: $scope.password,
+                    });
+                } else {
+                    console.log("[从缓存中提取]用户名和密码");
+                    return this.getUserList().then(resolve, reject);
+                }
+            }).then((user: any) => {
+                console.log("使用获取的[用户名和密码]登录盒子");
+                return $scope.util.loginBox(user.username, user.password)
+                    .then(res => {
+                        //这里封装的不是很好，loginBox的返回值要么是盒子信息，要么是null，和之前不统一
+                        if (res) {
+                            return this.global.deviceSelected;
+                        } else {
+                            return null;
+                        }
+                    })
+            });
+        })
+
+        //获取盒子的用户信息
+        .then(()=>{
+            return this.http.post(this.global.getBoxApi('getUserInfo'), {}, false).then(res => {
+                console.log("检测盒子的登录态" + JSON.stringify(res));
+                if(res.err_no === 0) {
+                    this.global.boxUserInfo = res.userinfo;
+                    return this.global.deviceSelected;
+                }else{
+                    console.error("没有盒子登录态，手动清除中心登录信息");
+                    this.setSelectedBox(null);
+                    this.global.centerUserInfo = {};
+                    return Promise.reject("Error occured...");
+                }
+            })
+        });
+
+        return new Promise((resolve, reject)=>{
+            // Case 1: timeout
+            setTimeout(()=>{
+                reject()
+            }, 2000);
+
+            // case 2: select
+            doSelect().then(resolve, reject);
+        });
     }
 
     loginBox(username, password) {
@@ -530,7 +490,7 @@ export class Util {
             if(res.length > 0) {
                 let box = res.find(item => item.boxId === boxId);
                 if(box) {
-                    this.global.deviceSelected = box;
+                    this.setSelectedBox(box);
                     this.global.createGlobalToast(this, {
                         message: this.global.L("RebootSuccess")
                     })
@@ -562,8 +522,7 @@ export class Util {
                 .then(res => {
                     //盒子即将重启.......
                     let boxId = $scope.global.deviceSelected.boxId;
-                    $scope.global.deviceSelected = null;
-
+                    this.setSelectedBox(null)
                     if($scope.global.useWebrtc) {
                         //关闭webrtc连接
                         $scope.http.stopWebrtcEngine()
@@ -852,9 +811,10 @@ export class Util {
         let count = 3;
 
         let updateDeviceSelected = () => {
-            this.global.deviceSelected = this.global.foundDeviceList.filter(item => {
+            let deviceSelected = this.global.foundDeviceList.filter(item => {
                 return item.boxId === boxId;
             })[0] || null;
+            this.setSelectedBox(deviceSelected)
         };
 
         return this.http.post(url, {}, false)
@@ -1127,7 +1087,6 @@ export class Util {
             }
 
             if (url){
-                let url = "http://" + this.global.deviceSelected.URLBase + GlobalService.boxApi["keepAlive"].url;
                 let rejected = false;
                 let pingTimer = setTimeout(()=>{
                     rejected = true;
@@ -1137,11 +1096,11 @@ export class Util {
                 this.http.post(url, {}, false, {}, {}, true)
                     .then(()=>{
                         if (!rejected){
-                            resolve()
+                            resolve(mybox || this.global.deviceSelected)
                         }
                     }, ()=>{
                         if (!rejected){
-                            clearTimeout(pingTimer)
+                            clearTimeout(pingTimer);
                             reject();
                         }
                     })
@@ -1262,7 +1221,7 @@ export class Util {
         }
         walletItem = this.global.walletList.find(item => {
             return hash == item.bindUserHash && item.boxId === 'CENTERUSER';
-        })
+        });
 
         if(!walletItem) {
             this.global.walletList.push({
@@ -1285,7 +1244,7 @@ export class Util {
         return new Promise((resolve, reject) => {
             this.storage.get('UserList')
             .then(res => {
-                // GlobalService.consoleLog("缓存UserList状态：" + JSON.stringify(res));
+                GlobalService.consoleLog("缓存UserList状态：" + JSON.stringify(res));
                 if(res) {
                     let userLoginList = JSON.parse(res);
                     let userLoginInfo;
@@ -1323,6 +1282,40 @@ export class Util {
         })
         .catch(e => {
         })
+    }
+
+    setSelectedBox(deviceSelected, nullsave=false){
+        this.global.deviceSelected = deviceSelected;
+        if (this.global.deviceSelected){
+            //忽略保存结果
+            this.storage.set('DeviceSelected', JSON.stringify(this.global.deviceSelected));
+        } else if (nullsave){
+            //忽略保存结果
+            this.storage.set('DeviceSelected', JSON.stringify(this.global.deviceSelected));
+        }
+    }
+
+    getSelectedBox(fromstorage=false){
+        if (fromstorage){
+            return new Promise((resolve, reject)=>{
+                this.storage.get('DeviceSelected')
+                    .then(res => {
+                        GlobalService.consoleLog("缓存DeviceSelected获取成功:" + JSON.stringify(res));
+                        if(res) {
+                            let deviceSelected = JSON.parse(res);
+                            resolve(deviceSelected);
+                        }else{
+                            reject(null);
+                        }
+                    })
+                    .catch(e => {
+                        GlobalService.consoleLog("缓存DeviceSelected获取失败:" + e.stack)
+                        reject(null);
+                    })
+            })
+        }else{
+            return this.global.deviceSelected;
+        }
     }
 
     openUrl(url){
@@ -1395,6 +1388,7 @@ export class Util {
     }
 
     public static loginBox($scope, callback, centerLogin:Boolean = true, errorCallback = null) {
+        GlobalService.consoleLog("开始登录盒子！！！");
         var boxInfo = $scope.global.deviceSelected;
         // var url = "http://" + boxInfo.URLBase + GlobalService.boxApi["login"].url;
         var url = $scope.global.getBoxApi('login');
@@ -1479,7 +1473,7 @@ export class Util {
         });
 
         this.http.post(GlobalService.centerApi["logout"].url, {}, false)
-        this.global.deviceSelected = null;
+        this.setSelectedBox(null, true);
         this.global.foundDeviceList = [];
         this.global.albumBackupSwitch = undefined;
 	}
@@ -2013,7 +2007,7 @@ export class Util {
                         this.global.currDiskUuid = item.uuid;
                         this.global.currSelectDiskUuid = item.uuid;
                     }
-                })
+                });
                 if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
                     this.global.diskInfoStatus = false;
                 }else{
