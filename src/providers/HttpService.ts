@@ -42,7 +42,7 @@ export class HttpService {
 	cookies: any = {}; //盒子cookie保存
 	// createDataChannelPoint: number = 0; //上一次重建连接的时间点，用于超时检测
 	channels:any = {}; //所有的datachannels
-    webrtcEngineStatus          = "";           //"closing", "closed", "opening", "opended"
+    webrtcEngineStatus          = "stoped";     //"closing", "closed", "opening", "opended"
     webrtcEngineLastAliveTime   = Date.now();   //最后活跃时间
     webrtcEngineRestartTimer    = null;         //开启重试定时器
 
@@ -135,7 +135,7 @@ export class HttpService {
                         break;
                     }
                     GlobalService.consoleLog("webrtc创建盒子连接: ....[重新]建立连接流程.............");
-                    this.startWebrtcEngine();
+                    this._createDataChannel();
                     break;
             }
 
@@ -314,7 +314,7 @@ export class HttpService {
 		url = url || '';
 		headers['X-Request-Id'] = this.getXRequestId();
 		console.log("是否使用webrtc?" + this.global.useWebrtc);
-		if (url.startsWith('http') || !this.global.useWebrtc) {
+		if (url.startsWith('http') || !this.global.useWebrtc || cordova) {
 			//接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
 			return this._post(url, paramObj, headers, errorHandler, cordova);
 		} else {
@@ -870,30 +870,17 @@ export class HttpService {
 
     startWebrtcEngine() {
         GlobalService.consoleLog("webrtc开始启动...");
+        //Step 0. 如果之前已经开启，直接返回
+        if (this.global.useWebrtc && this.webrtcEngineStatus != "stoped"){
+            GlobalService.consoleLog("webrtc创建盒子连接: 开始");
+            return Promise.resolve()
+        }
+
         //Step 1. init Engine
         this.global.useWebrtc = true;
 
         //Step 2. start createdata channel
-        return this._createDataChannel().then((res) => {
-            GlobalService.consoleLog("webrtc创建盒子连接: 建立连接成功，启动保活监控.....");
-            this.channelLabels.forEach(label => {
-                this.channelStatusManager(label);
-            });
-            this.keepWebrtcAlive(this.channelLabels[0]);
-
-            return res
-        }).catch((res) => {
-            if (this.webrtcEngineStatus != "stoped"){
-                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，一定时间后重新启动.....");
-                this.webrtcEngineRestartTimer = setTimeout(()=>{
-                    this.startWebrtcEngine();
-                }, this.successiveConnectGap);
-            }else{
-                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，引擎已关闭，不重新启动");
-            }
-
-            return Promise.reject(res)
-        });
+        return this._createDataChannel()
     }
 
     _createDataChannel() {
@@ -996,7 +983,26 @@ export class HttpService {
                 this.webrtcEngineStatus = "closed"
                 gReject(null);
             })
-        })
+        }).then((res) => {
+            GlobalService.consoleLog("webrtc创建盒子连接: 建立连接成功，启动保活监控.....");
+            this.channelLabels.forEach(label => {
+                this.channelStatusManager(label);
+            });
+            this.keepWebrtcAlive(this.channelLabels[0]);
+
+            return res
+        }).catch((res) => {
+            if (this.webrtcEngineStatus != "stoped"){
+                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，一定时间后重新启动.....");
+                this.webrtcEngineRestartTimer = setTimeout(()=>{
+                    this._createDataChannel();
+                }, this.successiveConnectGap);
+            }else{
+                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，引擎已关闭，不重新启动");
+            }
+
+            return Promise.reject(res)
+        });
     }
 
 	_createAnswer() {
@@ -1382,7 +1388,7 @@ export class HttpService {
 			if(this.peerConnection) {
 				this.peerConnection.close()
 			}
-			
+
 		};
 		channel.onerror = () => {
 			GlobalService.consoleLog("Data channel error!!");

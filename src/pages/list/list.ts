@@ -756,13 +756,13 @@ export class ListPage {
 
 
     toggleClassifyNav(isShow = null) {
-        console.log("list is Show" + isShow)
+        console.log("list is Show: " + isShow)
         if(isShow != null) {
             this.isShowClassifyNav = false;
         } else {
             this.isShowClassifyNav = !this.isShowClassifyNav;
         }
-        console.log("点击后list Show or Hide" + this.isShowClassifyNav)
+        console.log("点击后list Show or Hide: " + this.isShowClassifyNav)
     }
 
 

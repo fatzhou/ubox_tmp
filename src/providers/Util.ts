@@ -117,6 +117,38 @@ export class Util {
         }
     }
 
+    public searchSelfBox($scope) {
+        //Step 1. 不是wifi， 直接失败
+        let network = this.global.networkType === 'wifi' || !this.platform.is('cordova');
+        if (!network) {
+            return Promise.reject(null)
+        }
+
+        //Step 2. 搜索获取盒子列表
+        return this.searchUbbey().then((boxes:any)=>{
+            if(boxes && boxes.length){
+                return boxes;
+            }else{
+                return [];
+            }
+        })
+
+        //Step 3. 过滤出自己的盒子
+        .then((boxes)=>{
+            //检查盒子是否有自己的盒子
+            let userHash = Md5.hashStr($scope.global.centerUserInfo.uname).toString();
+            let myBox = boxes.find(item => item.bindUserHash === userHash);
+            if(myBox) {
+                //本地有自己的盒子, 使用近场模式
+                console.log("搜索查找到自己的盒子：" + JSON.stringify(myBox));
+                return myBox;
+            } else {
+                console.log("搜索未查找到自己的盒子");
+                return Promise.reject(null);
+            }
+        })
+    }
+
     public loginAndCheckBox($scope, silence = true) {
         return new Promise((resolve, reject)=>{
             //用户直接输入账号密码登录
@@ -1074,6 +1106,44 @@ export class Util {
         }
         return "";
     }
+
+    //ping近场盒子
+    pingLocalBox(mybox = null){
+        return new Promise((resolve, reject)=>{
+            let url = GlobalService.boxApi["keepAlive"].url;
+            if(mybox && mybox.URLBase){
+                url = "http://" + mybox.URLBase + url;
+            } else if(this.global.deviceSelected && this.global.deviceSelected.URLBase){
+                url = "http://" + this.global.deviceSelected.URLBase + url;
+            } else{
+                url = ""
+            }
+
+            if (url){
+                let url = "http://" + this.global.deviceSelected.URLBase + GlobalService.boxApi["keepAlive"].url;
+                let rejected = false;
+                let pingTimer = setTimeout(()=>{
+                    rejected = true;
+                    reject()
+                }, 2000);
+
+                this.http.post(url, {}, false, {}, {}, true)
+                    .then(()=>{
+                        if (!rejected){
+                            resolve()
+                        }
+                    }, ()=>{
+                        if (!rejected){
+                            clearTimeout(pingTimer)
+                            reject();
+                        }
+                    })
+            }else{
+                reject()
+            }
+        });
+    }
+
     //填充汇率
     getDisplayRate() {
         if(this.global.globalRateInfo.length == 0){
