@@ -242,6 +242,7 @@ export class TaskListPage {
         let handler = this.global.fileHandler[task.taskId];
         if(handler){
             handler.pause();
+            task.speed = 0;
         }
         this.checkStatus();
         if(checked === 'check'){

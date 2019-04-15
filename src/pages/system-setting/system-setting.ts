@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Nav } from 'ionic-angular';
 import { GlobalService } from "../../providers/GlobalService";
 
 import { LanguageSelectPage } from '../language-select/language-select';
@@ -11,7 +11,6 @@ import { Lang } from '../../providers/Language';
 import { Util } from '../../providers/Util';
 import { LoginPage } from '../login/login';
 import { ChangePasswdPage } from '../change-passwd/change-passwd';
-
 /**
  * Generated class for the SystemSettingPage page.
  *
@@ -28,7 +27,8 @@ export class SystemSettingPage {
     constructor(public navCtrl: NavController, 
         private global: GlobalService,
         public navParams: NavParams,
-        private util: Util,) {
+        private util: Util,
+        private nav: Nav) {
     }
 
     ionViewDidLoad() {
@@ -72,7 +72,7 @@ export class SystemSettingPage {
                     text: Lang.L('WORD79e4bc03'),
                     handler: data => {
                         self.util.logout(()=>{
-                            self.goDeviceListPage();
+                            this.nav.setRoot(LoginPage);
                         });
                     }
                 },
@@ -85,9 +85,6 @@ export class SystemSettingPage {
         })
     }
 
-    goDeviceListPage() {
-        this.navCtrl.push(LoginPage);   
-    }
 
     goChangePasswdPage() {
         if(!!this.global.deviceSelected || this.global.centerUserInfo.bind_box_count === 0) {

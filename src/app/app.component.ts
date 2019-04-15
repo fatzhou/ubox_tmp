@@ -469,6 +469,7 @@ export class UboxApp {
                 item.pausing = 'waiting';
                 if(this.global.fileHandler[item.taskId]) {
                     this.global.fileHandler[item.taskId].pause();
+                    item.speed = 0;
                 }
             });
         });
@@ -638,7 +639,8 @@ export class UboxApp {
 			let taskId = item.taskId;
 			let handler = this.global.fileHandler[taskId];
 			if(handler) {
-				handler.pause();
+                handler.pause();
+                item.speed = 0;
 			}
 		})
 	}

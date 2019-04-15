@@ -309,32 +309,39 @@ export class Util {
             } else {
                 console.log("已链接盒子：" + this.global.deviceSelected)
                 if(this.global.deviceSelected) {
-                    var url = this.global.getBoxApi("getDiskStatus");
-                    return this.http.post(url, {})
-                    .then((data) => {
-                        if (data.err_no === 0) {
-                            let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-                            let index = 0;
-                            this.global.diskInfo = data.box;
-                            this.global.diskInfo.disks = data.disks || [];
-                            this.global.diskInfo.disks.map((item)=> {
-                                if(item.label == '') {
-                                    item.label = 'DISK ' + label[index];
-                                    index++;
-                                }
-                                // item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
-                                // item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
-                                if(item.position == 'base') {
-                                    this.global.currDiskUuid = item.uuid;
-                                    this.global.currSelectDiskUuid = item.uuid;
-                                }
-                            })
-                            if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
-                                this.global.diskInfoStatus = false;
-                            }else{
-                                this.global.diskInfoStatus = true;
-                            }
-                        }
+                    // var url = this.global.getBoxApi("getDiskStatus");
+                    // return this.http.post(url, {})
+                    // .then((data) => {
+                    //     if (data.err_no === 0) {
+                    //         let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+                    //         let index = 0;
+                    //         this.global.diskInfo = data.box;
+                    //         this.global.diskInfo.disks = data.disks || [];
+                    //         this.global.diskInfo.disks.map((item)=> {
+                    //             if(item.label == '') {
+                    //                 item.label = 'DISK ' + label[index];
+                    //                 index++;
+                    //             }
+                    //             // item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+                    //             // item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+                    //             if(item.position == 'base') {
+                    //                 this.global.currDiskUuid = item.uuid;
+                    //                 this.global.currSelectDiskUuid = item.uuid;
+                    //             }
+                    //         })
+                    //         if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
+                    //             this.global.diskInfoStatus = false;
+                    //         }else{
+                    //             this.global.diskInfoStatus = true;
+                    //         }
+                    //     }
+                    //     return res;
+                    // })
+                    // .catch(()=>{
+                    //     return res;
+                    // })
+                    return this.getDiskStatus()
+                    .then(() => {
                         return res;
                     })
                     .catch(()=>{
@@ -757,8 +764,8 @@ export class Util {
             // if(1) {
             if(!this.platform.is('cordova')) {
 				setTimeout(() => {
-                    // resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.2:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
-                    resolve([]);
+                    resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.2:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
+                    // resolve([]);
 				}, minSearchTime);
 				// resolve([]);
 				return ;
@@ -1608,33 +1615,37 @@ export class Util {
                 //绑定成功，开始转移钱包
                 let url = GlobalService.centerApi['getKeystore'].url;
                 let boxStatusUrl = this.global.getBoxApi("getDiskStatus");
-                return this.http.post(boxStatusUrl, {})
-                .then(res => {
-                    //盒子状态获取错误的出错率较高，目前出错继续保存钱包
-                    if(res.err_no === 0) {
-                        //获取到盒子状态信息
-                        let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-                        let index = 0;
-                        this.global.diskInfo = res.box;
-                        this.global.diskInfo.disks = res.disks || [];
+                // return this.http.post(boxStatusUrl, {})
+                // .then(res => {
+                //     //盒子状态获取错误的出错率较高，目前出错继续保存钱包
+                //     if(res.err_no === 0) {
+                //         //获取到盒子状态信息
+                //         let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+                //         let index = 0;
+                //         this.global.diskInfo = res.box;
+                //         this.global.diskInfo.disks = res.disks || [];
 
-                        this.global.diskInfo.disks.map((item)=> {
-                            if(item.label == '') {
-                                item.label = 'DISK ' + label[index];
-                                index++;
-                            }
-                            // item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
-                            // item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
-                            if(item.position == 'base') {
-                                this.global.currDiskUuid = item.uuid;
-                                this.global.currSelectDiskUuid = item.uuid;
-                            }
-                        })
-                        this.global.diskInfoStatus = !!(this.global.diskInfo.disks && this.global.diskInfo.disks.length);
-                        return this.http.post(url, {type: 0});
-                    } else {
-                        return this.http.post(url, {type: 0});
-                    }
+                //         this.global.diskInfo.disks.map((item)=> {
+                //             if(item.label == '') {
+                //                 item.label = 'DISK ' + label[index];
+                //                 index++;
+                //             }
+                //             // item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+                //             // item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+                //             if(item.position == 'base') {
+                //                 this.global.currDiskUuid = item.uuid;
+                //                 this.global.currSelectDiskUuid = item.uuid;
+                //             }
+                //         })
+                //         this.global.diskInfoStatus = !!(this.global.diskInfo.disks && this.global.diskInfo.disks.length);
+                //         return this.http.post(url, {type: 0});
+                //     } else {
+                //         return this.http.post(url, {type: 0});
+                //     }
+                // })
+                return this.getDiskStatus()
+                .then(()=>{
+                    return this.http.post(url, {type: 0});
                 })
                 .then(res => {
                     if(res.err_no === 0) {
@@ -1979,6 +1990,39 @@ export class Util {
             this.global.createGlobalToast(this, {
                 message: Lang.L('DownloadError')
             })
+        })
+    }
+
+    getDiskStatus() {
+        var url = this.global.getBoxApi("getDiskStatus");
+        return this.http.post(url, {})
+        .then((data) => {
+            if (data.err_no === 0) {
+                let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+                let index = 0;
+                this.global.diskInfo = data.box;
+                this.global.diskInfo.disks = data.disks || [];
+                this.global.diskInfo.disks.map((item)=> {
+                    if(item.label == '') {
+                        item.label = 'DISK ' + label[index];
+                        index++;
+                    }
+                    // item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+                    // item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+                    if(item.position == 'base') {
+                        this.global.currDiskUuid = item.uuid;
+                        this.global.currSelectDiskUuid = item.uuid;
+                    }
+                })
+                if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
+                    this.global.diskInfoStatus = false;
+                }else{
+                    this.global.diskInfoStatus = true;
+                }
+            }
+        })
+        .catch(()=>{
+            return true
         })
     }
 }

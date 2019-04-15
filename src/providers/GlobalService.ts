@@ -703,6 +703,7 @@ export class GlobalService {
             if (item.finished === false) {
                 if(item.pausing == "doing"){
                     this.fileHandler[item.taskId].pause();
+                    item.speed = 0;
                 }
                 item.pausing = 'paused';
             }

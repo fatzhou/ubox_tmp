@@ -98,6 +98,7 @@ export class DeviceManagePage {
     }
 
     setLoadingStatus(disk) {
+        disk.isShowOptions = false;
         this.global.createGlobalLoading(this, {
             message: Lang.L('FormatDiskLoading')
         });        
@@ -127,6 +128,7 @@ export class DeviceManagePage {
     }
 
     setDiskLabel(disk) {
+        disk.isShowOptions = false;
         this.global.createGlobalAlert(this, {
             title: '磁盘重命名',
             inputs: [{

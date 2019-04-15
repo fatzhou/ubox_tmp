@@ -133,12 +133,14 @@ export class FileTransport {
 			if (res.status === 'ERROR') {
 				task.pausing = 'paused';
 				tool.pause();
+				task.speed = 0;
 				return false;
 			}
 
 			if (!this.global.networking) {
 				task.pausing = 'waiting';
 				tool.pause();
+				task.speed = 0;
 				return false;
 			}
 			// if (task.pausing == 'paused') {
@@ -198,6 +200,7 @@ export class FileTransport {
 			GlobalService.consoleLog('先加入队列，且先暂停，后面再上传:' + this.taskUploadListAmount + "," + this.global.fileMaxUpload);
 			task.pausing = 'waiting';
 			tool.pause();
+			task.speed = 0;
 		} else {
 			if (this.global.useWebrtc) {
 				tool = this.createUploadHandlerRemote(task, progress, success, failure);
@@ -519,12 +522,15 @@ export class FileTransport {
 				GlobalService.consoleLog("任务已出错或者终止");
 				task.pausing = 'paused';
 				tool.pause();
+				task.speed = 0;
 				return false;
 			}
 			if (!this.global.networking) {
 				GlobalService.consoleLog("网络故障");
 				task.pausing = 'waiting';
 				tool.pause();
+				task.speed = 0;
+				task.speed = 0;
 				return false;
 			}
 			// GlobalService.consoleLog("更新任务进度");
@@ -560,6 +566,7 @@ export class FileTransport {
 				//任务尚未完成
 				if (this.global.fileHandler[taskId]) {
 					this.global.fileHandler[taskId].pause();
+					task.speed = 0;
 				}
 				task.paused = 'paused';
 			}
@@ -595,6 +602,7 @@ export class FileTransport {
 		} else {
 			GlobalService.consoleLog('先加入队列，且先暂停，后面再下载' + this.taskDownloadListAmount + "," + this.global.fileMaxDownload);
 			task.pausing = "waiting";
+			task.speed = 0;
 			tool.pause();
 		}	
 		return tool;

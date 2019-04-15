@@ -6,7 +6,7 @@ page-bt-set {
         background: $newThreeColor;
     }
     .download-num, .download-path {
-        height: 72px;
+        min-height: 72px;
         overflow: hidden;
         display: flex;
         align-items: center;
@@ -23,6 +23,12 @@ page-bt-set {
         }
     }
     .download-num{
+        div {
+            padding-right: 120px;
+            .p-title {
+                padding-right: 0px;
+            }
+        }
         .num-box {
             float: right;
             position: absolute;
