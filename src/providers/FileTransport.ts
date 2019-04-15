@@ -603,7 +603,6 @@ export class FileTransport {
 			GlobalService.consoleLog('先加入队列，且先暂停，后面再下载' + this.taskDownloadListAmount + "," + this.global.fileMaxDownload);
 			task.pausing = "waiting";
 			task.speed = 0;
-			tool.pause();
 		}	
 		return tool;
 	}

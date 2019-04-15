@@ -203,6 +203,7 @@ export class ListPage {
         for(let i = 0; i < _this.selectedFiles.length; i++) {
             _this.moveFile(_this.currPath.replace(/\/$/g, '') + "/", _this.selectedFiles[i].name, _this.global.currPath.replace(/\/$/g, '') + "/", _this.selectedFiles[i].name, "move");
         }
+        _this.selectedFiles = [];
     }
 
     static moveChangeList(selectedFile) {
@@ -270,7 +271,7 @@ export class ListPage {
         //用户仅选择一个文件时，可以重命名
         this.canRename = ifContainFixedContent && this.selectedFiles.length === 1;
         this.canDetail = ifContainFixedContent && this.selectedFiles.length === 1;
-        this.canMove = ifContainFixedContent && this.selectedFiles.length === 1;
+        this.canMove = ifContainFixedContent && this.selectedFiles.length > 0;
 
         //用户选择的文件中不包含文件夹时，可以下载
         this.canDownload = ifContainFixedContent && this.selectedFiles.length > 0 && this.selectedFiles.filter((item) => item.type === 1).length === 0;
