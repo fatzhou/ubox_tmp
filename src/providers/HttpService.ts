@@ -364,10 +364,12 @@ export class HttpService {
 				// if (this.platform.is('cordova') || cordova) {
 				return this.http.post(url, paramObj, headers)
 					.then((res: any) => {
-						// if(res.headers && res.headers['set-cookie']) {
-						// 	console.log(url + "需要设置cookie:" + res.headers['set-cookie']);
-						//     this.setCookie(url, res.headers['set-cookie']);
-						// }
+						if(res.headers && res.headers['set-cookie']) {
+							if (this.global.deviceSelected && url.indexOf(GlobalService.boxApi["login"].url)>=0){
+                                console.log(url + "登录接口需要设置cookie:" + res.headers['set-cookie']);
+                                this.cookies[this.global.deviceSelected.boxId] = res.headers['set-cookie'];
+                            }
+						}
 						return this.handleSuccess(url, JSON.parse(res.data), errorHandler)
 					})
 					.catch(error => this.handleError(error, errorHandler));
