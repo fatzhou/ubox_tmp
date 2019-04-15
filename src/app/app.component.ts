@@ -214,53 +214,27 @@ export class UboxApp {
             GlobalService.consoleLog("网络异常，请先打开网络.....");
             return false;
 		}
-		let flag:Boolean = false;
-        let timeout = setTimeout(() => {
-            if(!flag) {
-				this.splashScreen.hide();
-                this.nav.setRoot(LoginPage);
-            }
-        }, 5000);
-        let url = GlobalService.centerApi['getUserInfo'].url;
-        this.http.post(url, {}, false)
-        .then(res => {
-			clearTimeout(timeout);
-            if(res.err_no === 0) {
-				flag = true;
-                this.global.centerUserInfo = res.user_info;
-                //登录盒子
-                this.util.loginAndCheckBox(this)
-                .then(res => {
-					this.splashScreen.hide();
-					console.log("loginAndCheckBox成功进入resolve....");
-                    if(this.global.centerUserInfo.uname) {
-                        this.nav.setRoot(TabsPage);
-                    } else {
-                        this.nav.setRoot(LoginPage);
-                    }
-                })
-				.catch(e => {
-					this.splashScreen.hide();
-					flag = true; //没有盒子
-					if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
-						//没有盒子，进入绑定流程
-						this.nav.push(DeviceGuidancePage);
-					} else {
-						this.nav.setRoot(LoginPage);
-					}
-                })
-            } else {
-				this.splashScreen.hide();
-				flag = true;
-                this.nav.setRoot(LoginPage);
-            }
-        })
-        .catch(res => {
-			this.splashScreen.hide();
-			clearTimeout(timeout);
-			flag = true;
-            this.nav.setRoot(LoginPage);
-        })
+
+        //登录盒子
+        this.util.loginAndCheckBox(this)
+            .then(res => {
+                this.splashScreen.hide();
+                console.log("loginAndCheckBox成功进入resolve....");
+                if(this.global.centerUserInfo.uname) {
+                    this.nav.setRoot(TabsPage);
+                } else {
+                    this.nav.setRoot(LoginPage);
+                }
+            })
+            .catch(e => {
+                this.splashScreen.hide();
+                if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
+                    //没有盒子，进入绑定流程
+                    this.nav.push(DeviceGuidancePage);
+                } else {
+                    this.nav.setRoot(LoginPage);
+                }
+            });
     }
 
     getWifiName() {
@@ -530,8 +504,8 @@ export class UboxApp {
             .then((res)=>{
                 if (res === "shouldpingagain"){
                     GlobalService.consoleLog("网络切换后为wifi，但ping近场盒子失败，打开webrtc, 同时做最后一次本地搜索盒子的尝试");
-                    this.util.searchSelfBox(this).then(res => {
-                        return this.util.pingLocalBox(res);
+                    this.util.searchSelfBox(this).then(mybox => {
+                        return this.util.pingLocalBox(mybox);
                     }).then(()=>{
                         GlobalService.consoleLog("网络切换后为wifi，[第二次]ping近场盒子成功，关闭webrtc....");
                         this.http.stopWebrtcEngine();
@@ -554,7 +528,15 @@ export class UboxApp {
     }
 
     createNetworkingAlert() {
-        // if (this.platform.is('android')) {
+        let timer = setTimeout(()=>{
+            if (!this.global.networking){
+                funcShowAlert();
+                clearTimeout(timer);
+            }
+        }, 5000);
+
+        let funcShowAlert = function () {
+            // if (this.platform.is('android')) {
             // GlobalService.consoleLog("Android设备！");
             this.global.createGlobalAlert(this, {
                 title: Lang.L('WORD94864389'),
@@ -564,7 +546,7 @@ export class UboxApp {
                     handler: () => {
                         GlobalService.consoleLog('即将设置网络');
                         OpenNativeSettings.prototype.open('wifi')
-                            // openNativeSettings.open('wifi')
+                        // openNativeSettings.open('wifi')
                             .then(() => {
                                 GlobalService.consoleLog("打开wifi设置成功");
                                 this.global.closeGlobalAlert(this);
@@ -572,23 +554,25 @@ export class UboxApp {
                             }, () => {
                                 GlobalService.consoleLog("打开wifi设置失败");
                             })
-                            // return false;
+                        // return false;
                     }
                 }]
             });
-        // } else {
-        //     GlobalService.consoleLog("IOS设备");
-        //     this.global.createGlobalAlert(this, {
-        //         title: Lang.L('WORD94864389'),
-        //         message: Lang.L('PlsCheckNetwork'),
-        //         buttons: [{
-        //             "text": Lang.L('WORDd0ce8c46'),
-        //             handler: ()=>{
-        //                 return true;
-        //             }
-        //         }]
-        //     });
-        // }
+            // } else {
+            //     GlobalService.consoleLog("IOS设备");
+            //     this.global.createGlobalAlert(this, {
+            //         title: Lang.L('WORD94864389'),
+            //         message: Lang.L('PlsCheckNetwork'),
+            //         buttons: [{
+            //             "text": Lang.L('WORDd0ce8c46'),
+            //             handler: ()=>{
+            //                 return true;
+            //             }
+            //         }]
+            //     });
+            // }
+        };
+
 
     }
 

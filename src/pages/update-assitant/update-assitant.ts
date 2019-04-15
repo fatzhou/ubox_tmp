@@ -35,7 +35,7 @@ export class UpdateAssitantPage {
 	closeBtn = false;
 	action:any;
 
-  constructor(public navCtrl: NavController, 
+  constructor(public navCtrl: NavController,
                 public http: HttpService,
   			  public global: GlobalService,
               private checkUpdate: CheckUpdate,
@@ -109,7 +109,7 @@ export class UpdateAssitantPage {
             }, () => {
                 //下载完成
                 this.progressBarShown = false;
-            })            
+            })
         } else {
             //低版本
             this.updateBoxLowVersion();
@@ -133,16 +133,16 @@ export class UpdateAssitantPage {
                     console.error("盒子版本" + version + "未配置");
                     this.showDialog = false;
                     throw new Error("Version not configed:" + version);
-                }     
+                }
                 this.boxUpdateInfo = res.data;
-                this.toVersion = version;               
+                this.toVersion = version;
                 this.info = boxVersionDescription[version][GlobalService.applang];
                 this.head = this.global.NewVersionHead[GlobalService.applang];
                 this.btnText = this.global.L('Update');
                 this.action = this.updateBoxIndeed.bind(this);
                 this.closeBtn = true;
-                this.showDialog = true;   
-                this.showAction = true;             
+                this.showDialog = true;
+                this.showAction = true;
             } else if(res.type === 'newest') {
                 this.global.createGlobalToast(this, {
                     message: Lang.L('NewestVersion')
@@ -161,7 +161,7 @@ export class UpdateAssitantPage {
         }, res => {
             this.global.createGlobalToast(this, {
                 message: Lang.L('NewestVersion')
-            })              
+            })
         })
         .catch(e => {
             GlobalService.consoleLog(e.stack);
@@ -171,8 +171,8 @@ export class UpdateAssitantPage {
 
     updateCallback() {
         //正在升级, 取消盒子的连接
-        this.global.deviceSelected = null;
-        this.global.boxUserInfo = {}; 
+        this.util.setSelectedBox(null);
+        this.global.boxUserInfo = {};
     }
 
 }
