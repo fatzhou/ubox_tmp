@@ -2002,37 +2002,71 @@ export class Util {
     }
 
     getDiskStatus() {
-        var url = this.global.getBoxApi("getDiskStatus");
-        console.log('准备获取status')
-        return this.http.post(url, {})
-        .then((data) => {
-            if (data.err_no === 0) {
-                let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-                let index = 0;
-                this.global.diskInfo = data.box;
-                this.global.diskInfo.disks = data.disks || [];
-                this.global.diskInfo.disks.map((item)=> {
-                    if(item.label == '') {
-                        item.label = 'DISK ' + label[index];
-                        index++;
-                    }
-                    // item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
-                    // item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
-                    if(item.position == 'base') {
-                        this.global.currDiskUuid = item.uuid;
-                        this.global.currSelectDiskUuid = item.uuid;
-                    }
-                });
-                if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
-                    this.global.diskInfoStatus = false;
-                }else{
-                    this.global.diskInfoStatus = true;
-                }
-                return Promise.resolve();
-            }
-        })
-        .catch((e)=>{
-            return Promise.reject(e);
-        })
+		return new Promise((resolve, reject) => {
+			let user = this.global.centerUserInfo.uname,
+				userHash = Md5.hashStr(user).toString();
+			let boxKey = userHash + "BoxDisk";
+			if(this.global.deviceSelected) {
+				var url = this.global.getBoxApi("getDiskStatus");
+				this.http.post(url, {}, true, {})		
+				.then(res => {
+					if(res.err_no == 0) {
+						//存入缓存
+						this.storage.set(boxKey, JSON.stringify({
+							box: res.box,
+							disks: res.disks
+						}));
+					}
+					resolve(res);
+				}, reject);		
+			} else {
+				this.storage.get(boxKey)
+				.then(res => {
+					try {
+						if(res) {
+							let info = JSON.parse(res);
+							resolve({
+								err_no: 0,
+								box: info.box,
+								disks: info.disks
+							})
+						} else {
+							reject();
+						}					
+					}
+					catch(e) {
+						reject();
+					}
+				})
+			}
+		})
+		.then((data:any) => {
+			if (data.err_no === 0) {
+				let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+				let index = 0;
+				this.global.diskInfo = data.box;
+				this.global.diskInfo.disks = data.disks || [];
+				this.global.diskInfo.disks.map((item)=> {
+					if(item.label == '') {
+						item.label = 'DISK ' + label[index];
+						index++;
+					}
+					// item.used = this.cutFloat(item.used / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+					// item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
+					if(item.position == 'base') {
+						this.global.currDiskUuid = item.uuid;
+						this.global.currSelectDiskUuid = item.uuid;
+					}
+				});
+				if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){
+					this.global.diskInfoStatus = false;
+				} else {
+					this.global.diskInfoStatus = true;
+				}
+			}
+		})
+		.catch(()=>{
+			return false
+		})			
     }
 }
