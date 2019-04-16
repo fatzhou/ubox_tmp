@@ -437,15 +437,7 @@ export class UboxApp {
             this.global.closeGlobalAlert(this);
             this.global.closeGlobalLoading(this);
             this.createNetworkingAlert();
-            this.global.fileTaskList.filter(item => {
-                return item.finished === false;
-            }).map(item => {
-                item.pausing = 'waiting';
-                if(this.global.fileHandler[item.taskId]) {
-                    this.global.fileHandler[item.taskId].pause();
-                    item.speed = 0;
-                }
-            });
+			this.stopAllTask(true);
         });
 
         network.onConnect().subscribe(() => {
@@ -620,14 +612,18 @@ export class UboxApp {
         }
 	}
 
-	stopAllTask() {
+	stopAllTask(delteTask = false) {
 		this.global.fileTaskList.filter(item => {
 			return item.finished == false && item.pausing == 'doing';
 		}).forEach(item => {
 			let taskId = item.taskId;
 			let handler = this.global.fileHandler[taskId];
+			item.pausing = 'waiting';
 			if(handler) {
-                handler.pause();
+				handler.pause();
+				if(delteTask) {
+					delete this.global.fileHandler[taskId];
+				}
                 item.speed = 0;
 			}
 		})
@@ -642,7 +638,7 @@ export class UboxApp {
           if(view.component == TabsPage) {
             var end = Date.now();
             if(end - start < 1500) {
-				this.stopAllTask();
+				this.stopAllTask(true);
 				setTimeout(() => {
 					this.platform.exitApp();
 				}, 300);

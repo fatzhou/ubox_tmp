@@ -48,7 +48,6 @@
     "babel-register": "^6.26.0",
     "com-ubbey-wifiwizard": "https://github.com/ubbey/WifiWizard.git",
     "com.rjfun.cordova.httpd": "https://github.com/floatinghotpot/cordova-httpd.git",
-    "com.scott.serviceDiscovery": "https://github.com/ubbey/cordova-plugin-discovery.git",
     "cordova-android": "6.3.0",
     "cordova-android-support-gradle-release": "^1.4.5",
     "cordova-browser": "^5.0.3",
@@ -158,7 +157,6 @@
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": " "
       },
       "cordova-plugin-file-transfer": {},
-      "com.scott.serviceDiscovery": {},
       "cordova-plugin-discovery": {}
     }
   }

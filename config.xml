@@ -139,6 +139,5 @@
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
     <plugin name="cordova-plugin-file-transfer" spec="git+https://github.com/ubbey/cordova-plugin-file-transfer.git" />
-    <plugin name="com.scott.serviceDiscovery" spec="https://github.com/ubbey/cordova-plugin-discovery.git" />
     <plugin name="cordova-plugin-discovery" spec="https://github.com/ubbey/cordova-plugin-discovery.git" />
 </widget>
