@@ -96,22 +96,22 @@ export class Util {
         //关闭弹窗
         GlobalService.consoleLog("即将打开链接:" + GlobalService.DownloadPath[_this.global.platformName])
         if(_this.global.platformName == 'android') {
-            console.log("Android优先使用Google Play");
+            GlobalService.consoleLog("Android优先使用Google Play");
             this.fileOpener.appIsInstalled('com.android.vending')
             .then((res) => {
-                console.log('openApp ' +JSON.stringify(res))
+                GlobalService.consoleLog('openApp ' +JSON.stringify(res))
                 if (res.status === 0) {
                     window.location.href = GlobalService.DownloadPath[_this.global.platformName];
                 } else {
-                    console.log('Google Play is installed.')
+                    GlobalService.consoleLog('Google Play is installed.')
                     window.open('market://details?id=com.ulabs.ubbeybox', '_system');
                 }
             })
             .catch(e => {
-                console.log('调用失败')
+                GlobalService.consoleLog('调用失败')
             })
         } else {
-            console.log("iOS直接使用App Store");
+            GlobalService.consoleLog("iOS直接使用App Store");
             window.location.href = GlobalService.DownloadPath[_this.global.platformName];
         }
     }
@@ -120,25 +120,28 @@ export class Util {
         //Step 1. 不是wifi， 直接失败
         let network = this.global.networkType === 'wifi' || !this.platform.is('cordova');
         if (!network) {
-            console.log("搜索自己的盒子：网络模式不匹配，返回未找到盒子");
+            GlobalService.consoleLog("搜索自己的盒子：网络模式不匹配，返回未找到盒子");
             return Promise.reject(null)
         }
 
         //Step 2. 中心明确显示用户无绑定的盒子
         if (!$scope.global.centerUserInfo || $scope.global.centerUserInfo.bind_box_count < 0){
-            console.log("搜索自己的盒子：中心明确显示用户无绑定的盒子，返回未找到盒子");
+            GlobalService.consoleLog("搜索自己的盒子：中心明确显示用户无绑定的盒子，返回未找到盒子");
             return Promise.reject(null)
         }
 
         //Step 3. 尝试获取本地缓存的盒子id
-        this.global.getSelectedBox(true)
+        return this.global.getSelectedBox(true)
         .then((res)=>{
             if(res && res.boxId){
+                GlobalService.consoleLog("搜索自己的盒子：获取到本地缓存boxid成功:" + res.boxId);
                 return res.boxId;
             }else{
+                GlobalService.consoleLog("搜索自己的盒子：获取到本地缓存boxid失败");
                 return "";
             }
         }).catch(()=>{
+            GlobalService.consoleLog("搜索自己的盒子：获取到本地缓存boxid失败");
             return "";
         })
 
@@ -160,10 +163,10 @@ export class Util {
             let myBox = boxes.find(item => item.bindUserHash === userHash);
             if(myBox) {
                 //本地有自己的盒子, 使用近场模式
-                console.log("搜索查找到自己的盒子：" + JSON.stringify(myBox));
+                GlobalService.consoleLog("搜索查找到自己的盒子：" + JSON.stringify(myBox));
                 return myBox;
             } else {
-                console.log("搜索未查找到自己的盒子");
+                GlobalService.consoleLog("搜索未查找到自己的盒子");
                 return Promise.reject(null);
             }
         })
@@ -184,7 +187,7 @@ export class Util {
                     // password: $scope.password,
                 }, silence)
             .then((res) => {
-                console.log("登录中心成功，获取个人信息" + JSON.stringify(res));
+                GlobalService.consoleLog("登录中心成功，获取个人信息" + JSON.stringify(res));
                 if (res.err_no === 0) {
                     GlobalService.consoleLog("登录中心成功，获取个人信息");
                     resolve(res)
@@ -199,11 +202,11 @@ export class Util {
         .then(res=>{
             return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, silence).then((res:any)=>{
                 if (res.err_no !== 0) {
-                    console.log("获取用户信息错误.......");
+                    GlobalService.consoleLog("获取用户信息错误.......");
                     return Promise.reject("UserInfo Error");
                 }
 
-                console.log("获取用户信息成功，保存用户信息...." + JSON.stringify(res.user_info));
+                GlobalService.consoleLog("获取用户信息成功，保存用户信息...." + JSON.stringify(res.user_info));
                 $scope.global.centerUserInfo = res.user_info;
             })
         })
@@ -221,7 +224,7 @@ export class Util {
 
         //成功登录&成功获取到盒子用户信息啦啦
         .then(res => {
-            console.log("成功获取到盒子用户信息, 已链接盒子：" + this.global.deviceSelected)
+            GlobalService.consoleLog("成功获取到盒子用户信息, 已链接盒子：" + this.global.deviceSelected)
             if(!this.global.deviceSelected) {
                 GlobalService.consoleLog("成功获取到盒子用户信息, 但是选择盒子为空, ***UNREACHABLE CODE***");
                 return Promise.reject("***UNREACHABLE CODE***")
@@ -237,7 +240,7 @@ export class Util {
         })
 
         .catch(res => {
-			console.log("登录并获取盒子失败........");
+			GlobalService.consoleLog("登录并获取盒子失败........");
             GlobalService.consoleLog(res);
             $scope.global.closeGlobalLoading($scope);
             $scope.global.setSelectedBox(null);
@@ -297,17 +300,18 @@ export class Util {
 
             return new Promise((resolve, reject) => {
                 if ($scope.username && $scope.password) {
-                    console.log("[用户输入]用户名和密码");
+                    GlobalService.consoleLog("[用户输入]用户名和密码");
                     return resolve({
                         username: $scope.username,
                         password: $scope.password,
                     });
                 } else {
-                    console.log("[从缓存中提取]用户名和密码");
+                    GlobalService.consoleLog("[从缓存中提取]用户名和密码");
                     return this.getUserList().then(resolve, reject);
                 }
             }).then((user: any) => {
-                console.log("使用获取的[用户名和密码]登录盒子");
+                GlobalService.consoleLog("使用获取的[用户名和密码]登录盒子");
+                GlobalService.consoleLog("使用获取的[用户名和密码]登录盒子xx:" + user.username + "/" + user.password);
                 return $scope.util.loginBox(user.username, user.password)
                     .then(res => {
                         //这里封装的不是很好，loginBox的返回值要么是盒子信息，要么是null，和之前不统一
@@ -323,7 +327,7 @@ export class Util {
         //获取盒子的用户信息
         .then(()=>{
             return this.http.post(this.global.getBoxApi('getUserInfo'), {}, false).then(res => {
-                console.log("检测盒子的登录态" + JSON.stringify(res));
+                GlobalService.consoleLog("检测盒子的登录态" + JSON.stringify(res));
                 if(res.err_no === 0) {
                     this.global.boxUserInfo = res.userinfo;
                     return this.global.deviceSelected;
@@ -339,11 +343,27 @@ export class Util {
         return new Promise((resolve, reject)=>{
             // Case 1: timeout
             setTimeout(()=>{
+                GlobalService.consoleLog("选取盒子超时， 引擎继续运行中...");
                 reject()
             }, 2000);
 
             // case 2: select
-            doSelect.then(resolve, reject);
+            if (0) {
+                doSelect.then(resolve, reject);
+            }
+            ////////// 持续搜索，直至成功 ///// begain ///////////////
+            else {
+                let retrycount = 0;
+                let doSelectLoop = function () {
+                    GlobalService.consoleLog("选取盒子引擎开始第"+retrycount+"次运行...");
+                    doSelect.then(resolve).catch((err)=>{
+                        retrycount++;
+                        GlobalService.consoleLog("选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + err);
+                        setTimeout(doSelectLoop, 5000)
+                    })
+                }
+            }
+            ////////// 持续搜索，直至成功 ///// end //////////////////
         });
     }
 
@@ -371,7 +391,7 @@ export class Util {
             }
         })
         .catch(e => {
-            console.log(e.stack);
+            GlobalService.consoleLog(e.stack);
             return null;
         })
     }
@@ -450,13 +470,13 @@ export class Util {
                     title: item.title,
                     version: item.version
                 }, (res) => {
-                    console.log("安装进度：" + JSON.stringify(res));
+                    GlobalService.consoleLog("安装进度：" + JSON.stringify(res));
                     let processProgress = this.getUappProgress(item, res);
                     goProgress(processProgress);
                 })
                 .then(res => {
                     //安装完成.....
-                    console.log("APP已安装成功.......");
+                    GlobalService.consoleLog("APP已安装成功.......");
                     this.global.createGlobalToast(this, {
                         message: this.global.Lf('UappInstallSucceed', item.title)
                     })
@@ -724,7 +744,7 @@ export class Util {
                 let mime = data.type;
                 if(mime) {
                     // path = 'file://' + path.replace(/^file:\/\//, '');
-                    console.log("正在打开文件..." + path + "," + mime);
+                    GlobalService.consoleLog("正在打开文件..." + path + "," + mime);
                     this.fileOpener.open(path, mime)
                     .then(res =>{
                         GlobalService.consoleLog("打开成功：" + JSON.stringify(res));
@@ -739,9 +759,10 @@ export class Util {
         })
     }
 
-    searchUbbey(imediate = false, boxid = "") {
+    searchUbbey(imediate = false, fastSearchBoxid = "") {
 		let start = Date.now();
 		let minSearchTime = 3000;
+        GlobalService.consoleLog("开始盒子扫描，imediate=" + imediate + ",fastSearchBoxid=" + fastSearchBoxid);
         return new Promise((resolve, reject) => {
             // if(1) {
             if(!this.platform.is('cordova')) {
@@ -763,7 +784,7 @@ export class Util {
             }, SEARCH_TIMEOUT);
 
             var setSearchFinish = (devices) => {
-                console.log("盒子扫描完毕!" + devices.length);
+                GlobalService.consoleLog("盒子扫描完毕! 扫描到到盒子个数：" + devices.length);
                 clearTimeout(timeout);
 				timeout = null;
 
@@ -777,10 +798,12 @@ export class Util {
 						self.parseDeviceList(devices, deviceList => {
 							// GlobalService.consoleLog("解析完毕" + JSON.stringify(deviceList));
 							self.global.foundDeviceList = deviceList;
-							resolve(deviceList);
+                            GlobalService.consoleLog("盒子扫描1共耗时:" + (Date.now() - start));
+                            resolve(deviceList);
 						});
 					} else {
-						resolve([]);
+                        GlobalService.consoleLog("盒子扫描2共耗时:" + (Date.now() - start));
+                        resolve([]);
 					}
 				}, t);
             };
@@ -826,7 +849,7 @@ export class Util {
                 reject();
             }
 
-            serviceDiscovery.getNetworkServices(serviceType, boxid, processRes, failure);
+            serviceDiscovery.getNetworkServices(serviceType, fastSearchBoxid, processRes, failure);
         })
 
     }
@@ -1482,20 +1505,20 @@ export class Util {
 
         return new Promise((resolve, reject) => {
             if($scope.username && $scope.password) {
-				console.log("直接传入了用户名。。。")
+				GlobalService.consoleLog("直接传入了用户名。。。")
                 username = $scope.username;
                 password = $scope.password;
                 resolve();
             } else if(this.global.userLoginInfo && this.global.userLoginInfo.username) {
-				console.log("全局饮用用户名。。。")
+				GlobalService.consoleLog("全局饮用用户名。。。")
 				username = this.global.userLoginInfo.username;
                 password = this.global.userLoginInfo.password;
                 resolve();
 			} else {
-				console.log("缓存中读取用户名......")
+				GlobalService.consoleLog("缓存中读取用户名......")
                  this.getUserList()
                 .then((r:any) => {
-                    console.log(JSON.stringify(r))
+                    GlobalService.consoleLog(JSON.stringify(r))
                     if(r) {
                         username = r.username;
                         password = r.password;
@@ -1596,7 +1619,7 @@ export class Util {
         })
         .then(res => {
             if(res) {
-                console.log("开始转移钱包");
+                GlobalService.consoleLog("开始转移钱包");
                 //绑定成功，开始转移钱包
                 let url = GlobalService.centerApi['getKeystore'].url;
                 let boxStatusUrl = this.global.getBoxApi("getDiskStatus");
@@ -1636,7 +1659,7 @@ export class Util {
                     if(res.err_no === 0) {
                         //获取备份在中心的钱包
                         if(res.wallets) {
-                            console.log("绑定成功，需要同步钱包");
+                            GlobalService.consoleLog("绑定成功，需要同步钱包");
                             let promises = [];
                             let url = this.global.getBoxApi('createWallet');
                             let wallets = res.wallets || [];
@@ -1658,11 +1681,11 @@ export class Util {
                                 return true;
                             })
                         } else {
-                            console.log("绑定成功，不需同步钱包");
+                            GlobalService.consoleLog("绑定成功，不需同步钱包");
                             return true;
                         }
                     } else {
-                        console.log("绑定失败");
+                        GlobalService.consoleLog("绑定失败");
                         return false;
                     }
                 })

@@ -681,13 +681,13 @@ export class GlobalService {
 
     setSelectedBox(deviceSelected, nullsave=false){
         this.deviceSelected = deviceSelected;
-        // if (this.deviceSelected){
-        //     //忽略保存结果
-        //     this.storage.set('DeviceSelected', JSON.stringify(this.deviceSelected));
-        // } else if (nullsave){
-        //     //忽略保存结果
-        //     this.storage.set('DeviceSelected', JSON.stringify(this.deviceSelected));
-        // }
+        if (this.deviceSelected){
+            //忽略保存结果
+            this.storage.set('DeviceSelected', JSON.stringify(this.deviceSelected));
+        } else if (nullsave){
+            //忽略保存结果
+            this.storage.set('DeviceSelected', JSON.stringify(this.deviceSelected));
+        }
     }
 
     getSelectedBox(fromstorage=false){

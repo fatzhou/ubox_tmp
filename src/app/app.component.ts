@@ -504,7 +504,8 @@ export class UboxApp {
             .then((res)=>{
                 if (res === "shouldpingagain"){
                     GlobalService.consoleLog("网络切换后为wifi，但ping近场盒子失败，打开webrtc, 同时做最后一次本地搜索盒子的尝试");
-                    this.util.searchSelfBox(this).then(mybox => {
+                    this.util.searchSelfBox(this)
+                    .then(mybox => {
                         return this.util.pingLocalBox(mybox);
                     }).then(()=>{
                         GlobalService.consoleLog("网络切换后为wifi，[第二次]ping近场盒子成功，关闭webrtc....");
