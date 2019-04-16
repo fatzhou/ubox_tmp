@@ -13,6 +13,8 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { File } from '@ionic-native/file';
 import { FileTransport } from './FileTransport';
 import * as FormData from 'form-data';
+import { Storage } from '@ionic/storage';
+
 // import * as base64 from 'base64-js';
 declare var window;
 declare var cordova;
@@ -69,6 +71,7 @@ export class HttpService {
 		private file: File,
 		private events: Events,
 		private platform: Platform,
+		private storage: Storage,
         private global: GlobalService,
 	) {
 		GlobalService.consoleLog("进入HttpService构造函数");
@@ -253,9 +256,9 @@ export class HttpService {
 					return this.http.get(url + this.toQueryString(paramObj), {}, headers)
 						.then(res => {
 							if (options.needHeader) {
-								return this.handleSuccess(url, res, errorHandler)
+								return this.handleSuccess(url, res, options, errorHandler)
 							} else {
-								return this.handleSuccess(url, res.data, errorHandler)
+								return this.handleSuccess(url, res.data, options, errorHandler)
 							}
 						})
 					// .catch(error => this.handleError(error, errorHandler));
@@ -267,9 +270,9 @@ export class HttpService {
 						.toPromise()
 						.then(res => {
 							if (options.needHeader) {
-								return this.handleSuccess(url, res, errorHandler)
+								return this.handleSuccess(url, res, options, errorHandler)
 							} else {
-								return this.handleSuccess(url, res.json(), errorHandler)
+								return this.handleSuccess(url, res.json(), options, errorHandler)
 							}
 						})
 						.catch(error => this.handleError(error, errorHandler));
@@ -284,9 +287,9 @@ export class HttpService {
 					return this.webrtcRequest(url, 'get', paramObj, headers, options)
 						.then((res: any) => {
 							if (options.needHeader) {
-								return this.handleSuccess(url, res, errorHandler)
+								return this.handleSuccess(url, res, options, errorHandler)
 							} else {
-								return this.handleSuccess(url, res.json(), errorHandler)
+								return this.handleSuccess(url, res.json(), options, errorHandler)
 							}
 						})
 						.catch(error => this.handleError(error, errorHandler));
@@ -313,32 +316,69 @@ export class HttpService {
 		url = url || '';
 		headers['X-Request-Id'] = this.getXRequestId();
 		console.log("是否使用webrtc?" + this.global.useWebrtc);
-		if (url.startsWith('http') || !this.global.useWebrtc || cordova) {
-			//接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
-			return this._post(url, paramObj, headers, errorHandler, cordova);
-		} else {
-			let label = options.channelLabel || this.channelLabels[0],
-				channel = this.channels[label].channel,
-				status = this.channels[label].status;
-			if (status === 'opened') {
-				// GlobalService.consoleLog("已经连接盒子sdp，直接post'");
-				return this.webrtcRequest(url, 'post', paramObj, headers, options)
-					.then((res: any) => this.handleSuccess(url, res.data, errorHandler))
-					.catch(error => this.handleError(error, errorHandler));
+		let ifBoxUrl = !url.startsWith('http');
+		if(!ifBoxUrl || ifBoxUrl && this.global.deviceSelected) {
+			//box请求必须要有盒子
+			if (!ifBoxUrl || !this.global.useWebrtc || cordova || options.forceLocal) {
+				//接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
+				return this._post(url, paramObj, headers, options, errorHandler, cordova);
 			} else {
-				GlobalService.consoleLog(label + "缓存请求，稍后post..." + url);
+				let label = options.channelLabel || this.channelLabels[0],
+					channel = this.channels[label].channel,
+					status = this.channels[label].status;
+				if (status === 'opened') {
+					// GlobalService.consoleLog("已经连接盒子sdp，直接post'");
+					return this.webrtcRequest(url, 'post', paramObj, headers, options)
+						.then((res: any) => this.handleSuccess(url, res.data, options, errorHandler))
+						.catch(error => this.handleError(error, errorHandler));
+				} else {
+					GlobalService.consoleLog(label + "缓存请求，稍后post..." + url);
+					return new Promise((resolve, reject) => {
+						this.globalWaitingList[label].push({
+							url: url,
+							resolve: resolve,
+							reject: reject,
+							paramObj: paramObj,
+							errorHandler: label == this.channelLabels[0] == label ? errorHandler : false,
+							headers: headers,
+							method: 'post',
+							time: Date.now()
+						})
+					})
+				}
+			}			
+		} else {
+			//发往盒子的请求，但是尚未连接盒子
+			if(options.storageName) {
 				return new Promise((resolve, reject) => {
-					this.globalWaitingList[label].push({
-						url: url,
-						resolve: resolve,
-						reject: reject,
-						paramObj: paramObj,
-						errorHandler: label == this.channelLabels[0] == label ? errorHandler : false,
-						headers: headers,
-						method: 'post',
-						time: Date.now()
+					this.storage.get(options.storageName)
+					.then(res => {
+						try {
+							if(res) {
+								let data = JSON.parse(res);
+								resolve({
+									err_no: 0,
+									[options.fieldName]: data
+								});								
+							} else {
+								reject({
+									err_no: -2,
+									err_msg: 'Storage not exist'
+								});
+							}
+						} catch(e) {
+							reject({
+								err_no: -3,
+								err_msg: 'Parse storage error'
+							});
+						}
 					})
 				})
+			} else {
+				return Promise.reject({
+					err_no: -1,
+					err_msg: 'Call error'
+				});
 			}
 		}
 	}
@@ -347,7 +387,7 @@ export class HttpService {
 		return this.global.deviceID + '_' + Date.now()
 	}
 
-	_post(url: string, paramObj: any, headers: any = {}, errorHandler: any = true, cordova = false) {
+	_post(url: string, paramObj: any, headers: any = {}, options = {}, errorHandler: any = true, cordova = false) {
 		if (!url) {
 			GlobalService.consoleLog("无效请求");
 			return new Promise((resolve, reject) => {
@@ -369,7 +409,7 @@ export class HttpService {
                                 this.cookies[this.global.deviceSelected.boxId] = res.headers['set-cookie'];
                             }
 						}
-						return this.handleSuccess(url, JSON.parse(res.data), errorHandler)
+						return this.handleSuccess(url, JSON.parse(res.data), options, errorHandler)
 					})
 					.catch(error => this.handleError(error, errorHandler));
 			} else {
@@ -389,14 +429,14 @@ export class HttpService {
 						//     console.log(url + "需要设置cookie:" + res.headers['set-cookie'][0]);
 						//     this.setCookie(url, res.headers['set-cookie'][0]);
 						// }
-						return this.handleSuccess(url, res.json(), errorHandler)
+						return this.handleSuccess(url, res.json(), options, errorHandler)
 					})
 					.catch(error => this.handleError(error, errorHandler));
 			}
 		}
 	}
 
-	public handleSuccess(url, result, errorHandler = true) {
+	public handleSuccess(url, result, options:any = {}, errorHandler = true) {
 		GlobalService.consoleLog("请求响应结果:" + JSON.stringify(result) + "请求url:" + url);
 
 		//使用统一出错弹窗提示，如果针对错误有特殊处理，则需手动传入errorHandler为true
@@ -474,6 +514,8 @@ export class HttpService {
 				message: Lang.SystemError[l] || "系统错误，请稍候再试",
 			});
 			return result;
+		} else if(result.err_no == 0 && options.storageName) {
+			this.storage.set(options.storageName, JSON.stringify(result[options.fieldName]));
 		}
 		return result;
 		// return new Promise

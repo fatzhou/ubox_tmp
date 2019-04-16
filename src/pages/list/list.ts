@@ -68,7 +68,7 @@ export class ListPage {
     // tasklistlen:number = 0;
     // fileSavePath:string = '';
     isShowType: boolean = false;
-    static _this;
+    // static _this;
     type0List: any = [];
     type1List: any = [];
     isShowType0List: boolean = true;
@@ -95,14 +95,12 @@ export class ListPage {
         public navParams: NavParams,
         private tabsController: SuperTabsController) {
 
-        ListPage._this = this;
-
-        this.events.unsubscribe('file:updated', ListPage.updateFilesEvent);
-        this.events.unsubscribe('image:move', ListPage.moveFilesEvent);
-        this.events.unsubscribe('list:change', ListPage.moveChangeList);
-        this.events.subscribe('file:updated', ListPage.updateFilesEvent);
-        this.events.subscribe('image:move', ListPage.moveFilesEvent);
-        this.events.subscribe('list:change', ListPage.moveChangeList);
+		// ListPage._this = this;
+		
+        this.events.subscribe('file:updated', this.updateFilesEvent.bind(this));
+        this.events.subscribe('image:move', this.moveFilesEvent.bind(this));
+		this.events.subscribe('list:change', this.moveChangeList.bind(this));
+		this.events.subscribe('connection:change', this.connectionChangeCallback.bind(this))
         console.log("List constructor...")
     }
 
@@ -112,11 +110,11 @@ export class ListPage {
         // this.getDiskStatus();
         // this.getMiningInfo();
 
-        if(!this.global.deviceSelected) {
-            setTimeout(()=>{
-                this.tabsController.slideTo(1, "boxtabs");
-            },500);
-        }
+        // if(!this.global.deviceSelected) {
+        //     setTimeout(()=>{
+        //         this.tabsController.slideTo(1, "boxtabs");
+        //     },500);
+        // }
         if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
             // this.isShowBox = true;
             this.fileManager.getPermission()
@@ -135,7 +133,6 @@ export class ListPage {
             this.hideAddBtn = false;
         }
 
-        ListPage._this = this;
         if(this.global.diskInfo.disks) {
             this.disks = this.global.diskInfo.disks.filter(item => {
                 if(item.position == 'base' && this.global.currDiskUuid == item.uuid) {
@@ -147,7 +144,11 @@ export class ListPage {
         }
 		GlobalService.consoleLog("this.currPath" + this.currPath);
 		return true;
-    }
+	}
+	
+	connectionChangeCallback() {
+		this.listFiles();
+	}
 
     ionViewDidLeave() {
         this.hideAddBtn = true;
@@ -161,63 +162,56 @@ export class ListPage {
 	}
 
     ionViewDidLoad() {
-        GlobalService.consoleLog('ionViewDidLoad ListPage');
-        if (this.global.deviceSelected) {
-            this.initPage();
+		GlobalService.consoleLog('ionViewDidLoad ListPage');
+		
+		this.initPage();
+		this.events.unsubscribe(this.currPath + ":succeed");
+		this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
 
-            this.events.unsubscribe(this.currPath + ":succeed");
-            this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
+		if(this.currPath == '/') {
+			this.events.unsubscribe('list:refresh');
+			this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
+		}
 
-            if(this.currPath == '/') {
-                this.events.unsubscribe('list:refresh');
-                this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
-            }
-
-            this.listFiles();
-        }
+        this.listFiles();
 		GlobalService.consoleLog("this.currPath" + this.currPath);
 		return true;
     }
 
     refreshFilesEvent() {
-        let _this = this;
-        console.log("Refresh file list..." + _this.global.currPath);
+        console.log("Refresh file list..." + this.global.currPath);
 
-        _this.currPath = '/';
-        _this.global.currPath = '/';
-        _this.listFiles();
+        this.global.currPath = '/';
+        this.listFiles();
     }
 
-    static updateFilesEvent(task) {
-        let _this = ListPage._this;
+    updateFilesEvent(task) {
         GlobalService.consoleLog("文件更新，刷新列表:" + JSON.stringify(task));
         if(!task || task.action === 'upload') {
-            _this.listFiles();
+            this.listFiles();
         }
     }
 
-    static moveFilesEvent() {
-        let _this = ListPage._this;
-        GlobalService.consoleLog("文件移动成功，更新数据 list" + _this.selectedFiles.length);
+    moveFilesEvent() {
+        GlobalService.consoleLog("文件移动成功，更新数据 list" + this.selectedFiles.length);
 
-        for(let i = 0; i < _this.selectedFiles.length; i++) {
-            _this.moveFile(_this.currPath.replace(/\/$/g, '') + "/", _this.selectedFiles[i].name, _this.global.currPath.replace(/\/$/g, '') + "/", _this.selectedFiles[i].name, "move");
+        for(let i = 0; i < this.selectedFiles.length; i++) {
+            this.moveFile(this.currPath.replace(/\/$/g, '') + "/", this.selectedFiles[i].name, this.global.currPath.replace(/\/$/g, '') + "/", this.selectedFiles[i].name, "move");
         }
-        _this.selectedFiles = [];
+        this.selectedFiles = [];
     }
 
-    static moveChangeList(selectedFile) {
-        let _this = ListPage._this;
-        let index0 = _this.type0List.findIndex(item => {
+    moveChangeList(selectedFile) {
+        let index0 = this.type0List.findIndex(item => {
             return item.name == selectedFile.name
         })
-        let index1 = _this.type1List.findIndex(item => {
+        let index1 = this.type1List.findIndex(item => {
             return item.name == selectedFile.name
         })
         GlobalService.consoleLog('返回移动的元素的索引');
-        _this.type0List.splice(index0, 1);
-        _this.type1List.splice(index1, 1);
-        _this.events.publish(_this.global.currPath + ':succeed');
+        this.type0List.splice(index0, 1);
+        this.type1List.splice(index1, 1);
+        this.events.publish(this.global.currPath + ':succeed');
     }
 
     setShowType(isShow) {
@@ -300,12 +294,15 @@ export class ListPage {
 
     listFiles() {
         GlobalService.consoleLog("开始加载列表数据...");
-        var url = this.global.getBoxApi("listFolder");
-        return this.http.post(url, {
-            path: this.currPath,
-            disk_uuid: this.global.currDiskUuid
-        })
-        .then((res) => {
+		var url = this.global.getBoxApi("listFolder");
+		return this.http.post(url, {
+			path: this.currPath,
+			disk_uuid: this.global.currDiskUuid
+		}, true, {
+			storageName: 'FileStorage' + decodeURIComponent(this.currPath),
+			fieldName: 'list'
+		})
+        .then((res:any) => {
             this.dataAcquired = true;
             if (res.err_no === 0) {
                 var list = [];
@@ -316,31 +313,22 @@ export class ListPage {
                 if (res.list && res.list.length > 0) {
                     res.list.filter((item) => {
                         let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
-                        let md5 = Md5.hashStr(this.currPath + "/" + name).toString();
+						let md5 = Md5.hashStr(this.currPath + "/" + name).toString();
+						let file = {
+							name: item.name,
+							size: item.size,
+							type: item.type,
+							path: this.currPath,
+							displayTime: this.util.getDisplayTime(item.modify_time * 1000),
+							fileStyle: this.util.computeFileType(item.name, item.type),
+							selected: false,
+							thumbnail: this.global.thumbnailMap[md5] || "",
+							index: index++
+						};
                         if(item.type == 1) {
-                            this.type0List.push({
-                                name: item.name,
-                                size: item.size,
-                                type: item.type,
-                                path: this.currPath,
-                                displayTime: this.util.getDisplayTime(item.modify_time * 1000),
-                                fileStyle: this.util.computeFileType(item.name, item.type),
-                                selected: false,
-                                thumbnail: this.global.thumbnailMap[md5] || "",
-                                index: index++
-                            });
+                            this.type0List.push(file);
                         } else {
-                            this.type1List.push({
-                                name: item.name,
-                                size: item.size,
-                                type: item.type,
-                                path: this.currPath,
-                                displayTime: this.util.getDisplayTime(item.modify_time * 1000),
-                                fileStyle: this.util.computeFileType(item.name, item.type),
-                                selected: false,
-                                thumbnail: this.global.thumbnailMap[md5] || "",
-                                index: index++
-                            });
+                            this.type1List.push(file);
                         }
                     })
                     list = this.type0List.concat(this.type1List);
@@ -355,7 +343,10 @@ export class ListPage {
                 this.clearStatus();
             }
             return false;
-        })
+		})
+		.catch(e => {
+			GlobalService.consoleLog("获取数据失败");
+		})
     }
 
     judgeBusy() {
@@ -549,7 +540,7 @@ export class ListPage {
                     message = selectedFile.type === 1 ? Lang.L('RenameDirectorySuccess') : Lang.L('RenameFileSuccess');
                 } else {
                     message = selectedFile.type === 1 ? Lang.L('MoveDirectorySuccess') : Lang.L('MoveFileSuccess');
-                    ListPage.moveChangeList(selectedFile);
+                    this.moveChangeList(selectedFile);
                 }
                 this.global.createGlobalToast(this, {
                     message: message

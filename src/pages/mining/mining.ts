@@ -462,7 +462,7 @@ export class MiningPage {
                         lastSevenEarnings.push({
                             date: dayInfo[i].date.replace(/^\d{4}-/,'').replace('-', '/'),
                             amount: this.util.cutFloat(amount, 2),
-                            height: Math.min(100, amount / GlobalService.MaxEarnPerDay * 100) + 'px'
+                            // height: Math.min(100, amount / GlobalService.MaxEarnPerDay * 100) + 'px'
                         })
                     }
                 } 
@@ -472,7 +472,7 @@ export class MiningPage {
 				this.lastSevenEarnings = lastSevenEarnings; 
 				
 				//开始绘制30天数据
-				this.drawCanvas(dayInfo, unit);
+				this.drawCanvas(this.lastSevenEarnings, unit);
             } else {
                 this.totalEarn = 0;
                 this.monthEarned = 0;
@@ -486,7 +486,7 @@ export class MiningPage {
 	
 	drawCanvas(data, unit) {
 		//所有数据先正规化到0-100之间
-		let d = data.map(item => (item.earn / unit));
+		let d = data.map(item => (+item.amount / unit));
 		let min = d[0], max = d[0];
 		let maxIndex = -1;
 		for(let i = 1, len = d.length; i < len; i++) {
@@ -545,9 +545,9 @@ export class MiningPage {
 				this._CONTEXT.drawImage(img, maxIndex * widthBase - 24, d[maxIndex] - 18, 48, 48);
 				// this._CONTEXT.stroke();
 			}
-			this.maxEarnLeft = Math.min((maxIndex * widthBase), this._CANVAS.width - 100) + 'px';
-			this.maxEarnTop = (d[maxIndex] - 20) + 'px';
-			this.maxEarn = max.toFixed(2);
+			// this.maxEarnLeft = Math.min((maxIndex * widthBase), this._CANVAS.width - 100) + 'px';
+			// this.maxEarnTop = (d[maxIndex] - 20) + 'px';
+			// this.maxEarn = max.toFixed(2);
 		}
 	}
 
