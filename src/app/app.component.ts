@@ -216,10 +216,10 @@ export class UboxApp {
 		}
 
         //登录盒子
-        this.util.loginAndCheckBox(this)
+        this.util.loginAndCheckBox(this, false)
             .then(res => {
                 this.splashScreen.hide();
-                console.log("loginAndCheckBox成功进入resolve....");
+                console.log("---loginAndCheckBox成功进入resolve....");
                 if(this.global.centerUserInfo.uname) {
                     this.nav.setRoot(TabsPage);
                 } else {
@@ -227,6 +227,7 @@ export class UboxApp {
                 }
             })
             .catch(e => {
+                console.log("---loginAndCheckBox成功进入catch....");
                 this.splashScreen.hide();
                 if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
                     //没有盒子，进入绑定流程
