@@ -189,12 +189,13 @@ export class SelectAudioVideoPage {
             message: this.global.L('FileUploading')
         });
         this.unUploadedCount = this.unUploadedCount - uploadingList.length;
+        console.log('uploadingList1' + JSON.stringify(uploadingList.length))
         uploadingList.forEach(item => {
             item.isSelected = false;  
             //TODO: 已上传列表需删除              
             item.uploaded = true;
         })
-
+        console.log('uploadingList2' + JSON.stringify(uploadingList.length))
         this.uploadOneFile(uploadingList, 0);
         this.util.popToPage(this,2);
     }

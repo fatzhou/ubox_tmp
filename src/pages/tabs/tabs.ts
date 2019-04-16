@@ -348,7 +348,8 @@ export class TabsPage {
 			} else {
 				return false;
 			}			
-		}
+        }
+        
 		// return true;
 	}
 
@@ -391,12 +392,13 @@ export class TabsPage {
         //         });
         //     }
         // }
+        this.global.currPath = '/';
         this.isClose = false;
         if (this.global.deviceSelected) {
             this.version = this.global.deviceSelected.version;
 
             this.isClose = false;
-
+            this.util.getDiskStatus();
             this.getVersionControl()
             .then(res => {
                 this.checkVersion();

@@ -54,7 +54,10 @@ page-device-search {
 		}
 		.search-animation {
 			animation: rotating .5s linear infinite;
-		}
+        }
+        .hide-icon {
+            display: none;
+        }
 	}
 	.go-next {
 		width: 200px;
@@ -137,5 +140,10 @@ page-device-search {
                 height: 420px;
             }
         }
+    }
+    .loading-wrapper {
+        color: $newFirstColor!important;
+        background: $newFirstColor!important;
+        
     }
 }

@@ -87,7 +87,7 @@ page-wallet-detail {
 				.assets {
 					width: 50%;
 					box-sizing: border-box;
-					border-right: 1px solid $newThreeColor;
+					border-right: .5px solid $newThreeColor;
 					padding: 12px 0 10px 19px;
 					text-align: left;
 					height: 100%;
@@ -122,7 +122,7 @@ page-wallet-detail {
 				line-height: 20px;
 				padding-top: 25px;
 				padding-bottom: 13px;
-				border-bottom: 1px solid #1D1D1E;
+				border-bottom: .5px solid #1D1D1E;
 				&.erc20Title{
 					text-indent: 10px;
 				}
@@ -155,14 +155,14 @@ page-wallet-detail {
 					height: 54px;
 					background: $newFourColor;
 					box-shadow: 0 0 0 0 #1D1D1F;
-					margin-bottom: 1px;
+					border-bottom: 0.5px solid #222126;
 					&.gray {
 						// background: #FBFBFB;
 					}
 					img {
 						width: 20px;
 						float: left;
-						margin: 11px 14px;
+						margin: 1.5px 14px;
 						margin-top: 18px;
 						margin-left: 18px;
 					}

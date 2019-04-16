@@ -7,13 +7,15 @@
 <ion-header>
 
     <ion-navbar class="text-right" (click)="toggleShowOptions('close');toggleShowDelete()">
-        {{ global.L("DownloadTask") }}
-        <svg class="icon icon-right" (click)="toggleShowOptions();toggleShowDelete();$event.stopPropagation();" aria-hidden="true">
-            <use xlink:href="#icongengduo1"></use>
-        </svg>
-        <svg class="icon icon-right" (click)="showPcToast()" aria-hidden="true">
-            <use xlink:href="#iconPCView1"></use>
-        </svg>
+        <ion-title>
+            {{ global.L("DownloadTask") }}
+            <svg class="icon icon-right" (click)="toggleShowOptions();toggleShowDelete();$event.stopPropagation();" aria-hidden="true">
+                <use xlink:href="#icongengduo1"></use>
+            </svg>
+            <svg class="icon icon-right" (click)="showPcToast()" aria-hidden="true">
+                <use xlink:href="#iconPCView1"></use>
+            </svg>
+        </ion-title>
         
     </ion-navbar>
 
@@ -53,8 +55,8 @@
         </ul>
         <ul class="task-list"  *ngIf="tabIndex == 1">
             <li class="task-item" tappable *ngFor="let item of btDoneList" (press)="toggleShowDelete(item, true)">
-                <div class="task-item-box">
-                    <div class="info" (click)="goListPage(item)">
+                <div class="task-item-box" (click)="goListPage(item)">
+                    <div class="info">
                         <p class="file-name">{{ item.name }}</p>
                         <p class="file-info eps">{{ item.total | computeFileSize }} · {{ getStatus(item) }}</p>
                     </div>

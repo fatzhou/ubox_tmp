@@ -105,6 +105,7 @@ export class PreviewOtherPage {
                 this.downloadStatus = 'paused';
                 this.task.pausing = 'paused';
                 handler.pause();
+                this.task.speed = 0;
             } else {
                 GlobalService.consoleLog("暂停中，恢复下载");
                 this.downloadStatus = 'doing';

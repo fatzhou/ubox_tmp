@@ -107,6 +107,7 @@ export class HomePage {
             // GlobalService.consoleLog("待暂停的索引：" + index);
             task.pausing = "paused";
             this.global.fileHandler[task.taskId].pause();
+            task.speed = 0;
             // if(index !== -1) {
             //     GlobalService.consoleLog("删除索引：" + index);
             //     this.global.fileTaskList.splice(index, 1);
@@ -134,6 +135,7 @@ export class HomePage {
             // GlobalService.consoleLog("待暂停的索引：" + index);
             task.pausing = "paused";
             this.global.fileHandler[task.taskId].pause();
+            task.speed = 0;
             // if(index !== -1) {
             //     GlobalService.consoleLog("删除索引：" + index);
             //     this.global.fileTaskList.splice(index, 1);

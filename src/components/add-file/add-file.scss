@@ -21,7 +21,7 @@ add-file {
             font-size: 17px;
             line-height: 54px;
             padding-left: $padding; 
-            border-bottom: 1px solid $newThreeColor; 
+            border-bottom: .5px solid $newThreeColor; 
             span {
                 color: #fff;
             }
@@ -40,7 +40,7 @@ add-file {
                 font-size: 14px;
                 position: relative;
                 &.border-top {
-                    border-top: 1px solid $newThreeColor; 
+                    border-top: .5px solid $newThreeColor; 
                 }
                 &.bgBlack {
                     background: $newThreeColor;

@@ -100,12 +100,13 @@ page-find {
             .download-btn {
                 position: absolute;
                 padding: 5px 12px;
-                border: 1px solid $newFirstColor;
+                border: .5px solid $newFirstColor;
                 border-radius: 17px;
                 color: $newFirstColor;
                 right: 10px;
                 top: 14px;
                 background: rgba(0,199,125,0.10);
+                font-size: 12px;
             }
             .p-imglist {
                 width: 100%;

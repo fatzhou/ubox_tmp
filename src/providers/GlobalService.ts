@@ -588,7 +588,7 @@ export class GlobalService {
     }
 
     getBoxApi(name) {
-        if (this.deviceSelected && !this.useWebrtc) {
+        if (this.deviceSelected && this.deviceSelected.URLBase && !this.useWebrtc) {
             return "http://" + this.deviceSelected.URLBase + GlobalService.boxApi[name].url;
         } else {
             return GlobalService.boxApi[name].url;
@@ -688,13 +688,13 @@ export class GlobalService {
         this.boxStatus = true;
         this.diskInfoStatus = true;
     }
-    // public static consoleLog = console.log;
+    public static consoleLog = console.log;
     //日志打印
-    public static consoleLog(msg) {
-        // if(GlobalService.ENV == "dev"){
-            console.log(msg);
-        // }
-    }
+    // public static consoleLog(msg) {
+    //     // if(GlobalService.ENV == "dev"){
+    //         console.log(msg);
+    //     // }
+    // }
 
     //无登录态初始化
     logoutInit() {
@@ -703,6 +703,7 @@ export class GlobalService {
             if (item.finished === false) {
                 if(item.pausing == "doing"){
                     this.fileHandler[item.taskId].pause();
+                    item.speed = 0;
                 }
                 item.pausing = 'paused';
             }

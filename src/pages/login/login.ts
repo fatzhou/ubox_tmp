@@ -53,15 +53,12 @@ export class LoginPage {
     ionViewDidLoad() {
         GlobalService.consoleLog('ionViewDidLoad LoginPage');
         this.popBack = this.navParams.get('popBack');
-        // if(this.global.deviceSelected == null){
-        //     this.showDes = false;
-        // }
 		this.isLoading = false;
         if(GlobalService.ENV === 'dev') {
 			// this.username = "619912987@qq.com"
-			// this.password = "dh5819413"            
+			// this.password = "dh5819413"
 			this.username = '1@qq.com';
-            this.password = 'A123456789';       
+            this.password = 'A123456789';
         } else {
 
             this.util.getUserList()
@@ -73,7 +70,7 @@ export class LoginPage {
                     this.username = '';
                     this.password = '';
                 }
-            })             
+            })
         }
     }
 
@@ -135,7 +132,7 @@ export class LoginPage {
     }
 
     loginCenter() {
-        GlobalService.consoleLog("远程登录！！！");
+        GlobalService.consoleLog("开始登录中心！！！");
 
         this.global.createGlobalLoading(this, {
             message: Lang.L('SearchingBox')
@@ -165,8 +162,7 @@ export class LoginPage {
         let res:any = {};
         Util.loginBox(this, (res)=>{
             if(res.err_no === 0) {
-                GlobalService.consoleLog("登录成------------！")
-                // this.navCtrl.push(TestPage)
+                GlobalService.consoleLog("盒子登录成功！！！")
                 this.navCtrl.push(TabsPage)
                 .then(() => {
                     this.isLoading = false;

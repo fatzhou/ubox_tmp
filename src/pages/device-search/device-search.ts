@@ -20,7 +20,7 @@ export class DeviceSearchPage {
 	searchResult:any = null;
 	bindStatus = 0;
 
-	constructor(public navCtrl: NavController, 
+	constructor(public navCtrl: NavController,
 				public util: Util,
 				private http: HttpService,
 				private global: GlobalService,
@@ -31,7 +31,7 @@ export class DeviceSearchPage {
 		console.log('ionViewDidLoad DeviceSearchPage');
 		this.searchUbbey();
 	}
-	
+
 	searchUbbey() {
 		return this.util.searchUbbey()
 		.then(res => {
@@ -42,7 +42,7 @@ export class DeviceSearchPage {
 	}
 
 	bindBox(box) {
-		this.global.deviceSelected = box;
+		this.util.setSelectedBox(box);
 		console.log("已选定盒子：" + JSON.stringify(box));
 		this.util.bindBox(this)
 		.then(res => {

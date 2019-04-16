@@ -214,53 +214,27 @@ export class UboxApp {
             GlobalService.consoleLog("网络异常，请先打开网络.....");
             return false;
 		}
-		let flag:Boolean = false;
-        let timeout = setTimeout(() => {
-            if(!flag) {
-				this.splashScreen.hide();
-                this.nav.setRoot(LoginPage);
-            }
-        }, 5000);
-        let url = GlobalService.centerApi['getUserInfo'].url;
-        this.http.post(url, {}, false)
-        .then(res => {
-			clearTimeout(timeout);
-            if(res.err_no === 0) {
-				flag = true;
-                this.global.centerUserInfo = res.user_info;
-                //登录盒子
-                this.util.loginAndCheckBox(this)
-                .then(res => {
-					this.splashScreen.hide();
-					console.log("loginAndCheckBox成功进入resolve....");
-                    if(this.global.centerUserInfo.uname) {
-                        this.nav.setRoot(TabsPage);
-                    } else {
-                        this.nav.setRoot(LoginPage);
-                    }
-                })
-				.catch(e => {
-					this.splashScreen.hide();
-					flag = true; //没有盒子
-					if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
-						//没有盒子，进入绑定流程
-						this.nav.push(DeviceGuidancePage);
-					} else {
-						this.nav.setRoot(LoginPage);
-					}
-                })
-            } else {
-				this.splashScreen.hide();
-				flag = true;
-                this.nav.setRoot(LoginPage);
-            }
-        })
-        .catch(res => {
-			this.splashScreen.hide();
-			clearTimeout(timeout);
-			flag = true;
-            this.nav.setRoot(LoginPage);
-        })
+
+        //登录盒子
+        this.util.loginAndCheckBox(this)
+            .then(res => {
+                this.splashScreen.hide();
+                console.log("loginAndCheckBox成功进入resolve....");
+                if(this.global.centerUserInfo.uname) {
+                    this.nav.setRoot(TabsPage);
+                } else {
+                    this.nav.setRoot(LoginPage);
+                }
+            })
+            .catch(e => {
+                this.splashScreen.hide();
+                if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
+                    //没有盒子，进入绑定流程
+                    this.nav.push(DeviceGuidancePage);
+                } else {
+                    this.nav.setRoot(LoginPage);
+                }
+            });
     }
 
     getWifiName() {
@@ -469,6 +443,7 @@ export class UboxApp {
                 item.pausing = 'waiting';
                 if(this.global.fileHandler[item.taskId]) {
                     this.global.fileHandler[item.taskId].pause();
+                    item.speed = 0;
                 }
             });
         });
@@ -500,32 +475,68 @@ export class UboxApp {
     }
 
     networkOnConnect() {
+        GlobalService.consoleLog("网络已连接: from ["+this.global.networkType+"] to ["+this.network.type+"]");
+
         let global = this.global;
+        let oldNetworkType4G = this.check4G(global.networkType);
+        let newNetworkType4G = this.check4G(this.network.type);
+        global.networkType = this.network.type;
         global.networking = true;
-        GlobalService.consoleLog("网络已连接");
         global.closeGlobalAlert(this);
         global.closeGlobalLoading(this);
-        global.networkType = this.network.type;
-        GlobalService.consoleLog("网络连接后的networkType   :" + this.network.type);
-        //网络连接恢复，webrtc模式重置datachannel
-        if(global.useWebrtc) {
-			this.http.channelLabels.forEach(label => {
-				this.http.channels[label].status = 'closed';
-			})
+
+        // Case 1：切换后网络连接为wifi
+        if(global.networkType === 'wifi') {
+            //1. 之前的盒子能够直接访问到, 直接走近程
+            this.util.pingLocalBox()
+            .then(()=>{
+                GlobalService.consoleLog("网络切换后为wifi，且ping近场盒子成功，关闭webrtc....");
+                this.http.stopWebrtcEngine();
+                return "firstpingsuccess"
+            })
+            //2. 之前无盒子或者网络访问失败，先走远程
+            .catch(()=>{
+                GlobalService.consoleLog("网络切换后为wifi，但ping近场盒子失败，打开webrtc....");
+                this.http.startWebrtcEngine();
+                return "shouldpingagain"
+            })
+            //3. 之前无盒子或者网络访问失败，先走远程，然后做最后一次搜索盒子但补救
+            .then((res)=>{
+                if (res === "shouldpingagain"){
+                    GlobalService.consoleLog("网络切换后为wifi，但ping近场盒子失败，打开webrtc, 同时做最后一次本地搜索盒子的尝试");
+                    this.util.searchSelfBox(this).then(mybox => {
+                        return this.util.pingLocalBox(mybox);
+                    }).then(()=>{
+                        GlobalService.consoleLog("网络切换后为wifi，[第二次]ping近场盒子成功，关闭webrtc....");
+                        this.http.stopWebrtcEngine();
+                    })
+                }
+            })
+
         }
-        // if(global.networkType === 'wifi') {
-        //     this.getWifiName();
-        //     //继续使用打洞模式
-        // } else if(this.check4G(global.networkType)) {
-        //     if(!this.global.useWebrtc && this.global.centerUserInfo.uname) {
-        //         this.http.startWebrtcEngine();
-        //     }
-        // }
-        this.getUserInfo();
+        // Case 2: 4G网络使用远程
+        else if(this.check4G(global.networkType)) {
+            GlobalService.consoleLog("网络切换后为4g，打开webrtc....");
+            this.http.startWebrtcEngine();
+        }
+        // Case 3: 未知类型，目前已知不会出现这种case
+        else {
+            GlobalService.consoleLog("!!!!!UNREACHABLE CODE!!!!! 网络切换后为:" + global.networkType + "，选择打开webrtc作为解决方案");
+            this.http.startWebrtcEngine();
+        }
+
     }
 
     createNetworkingAlert() {
-        // if (this.platform.is('android')) {
+        let timer = setTimeout(()=>{
+            if (!this.global.networking){
+                funcShowAlert();
+                clearTimeout(timer);
+            }
+        }, 5000);
+
+        let funcShowAlert = function () {
+            // if (this.platform.is('android')) {
             // GlobalService.consoleLog("Android设备！");
             this.global.createGlobalAlert(this, {
                 title: Lang.L('WORD94864389'),
@@ -535,7 +546,7 @@ export class UboxApp {
                     handler: () => {
                         GlobalService.consoleLog('即将设置网络');
                         OpenNativeSettings.prototype.open('wifi')
-                            // openNativeSettings.open('wifi')
+                        // openNativeSettings.open('wifi')
                             .then(() => {
                                 GlobalService.consoleLog("打开wifi设置成功");
                                 this.global.closeGlobalAlert(this);
@@ -543,23 +554,25 @@ export class UboxApp {
                             }, () => {
                                 GlobalService.consoleLog("打开wifi设置失败");
                             })
-                            // return false;
+                        // return false;
                     }
                 }]
             });
-        // } else {
-        //     GlobalService.consoleLog("IOS设备");
-        //     this.global.createGlobalAlert(this, {
-        //         title: Lang.L('WORD94864389'),
-        //         message: Lang.L('PlsCheckNetwork'),
-        //         buttons: [{
-        //             "text": Lang.L('WORDd0ce8c46'),
-        //             handler: ()=>{
-        //                 return true;
-        //             }
-        //         }]
-        //     });
-        // }
+            // } else {
+            //     GlobalService.consoleLog("IOS设备");
+            //     this.global.createGlobalAlert(this, {
+            //         title: Lang.L('WORD94864389'),
+            //         message: Lang.L('PlsCheckNetwork'),
+            //         buttons: [{
+            //             "text": Lang.L('WORDd0ce8c46'),
+            //             handler: ()=>{
+            //                 return true;
+            //             }
+            //         }]
+            //     });
+            // }
+        };
+
 
     }
 
@@ -610,7 +623,8 @@ export class UboxApp {
 			let taskId = item.taskId;
 			let handler = this.global.fileHandler[taskId];
 			if(handler) {
-				handler.pause();
+                handler.pause();
+                item.speed = 0;
 			}
 		})
 	}
@@ -640,7 +654,8 @@ export class UboxApp {
 	goPage(name) {
 		try {
 			this.menuCtrl.close();
-			switch(name) {
+            GlobalService.consoleLog('menu goPage：' + name);
+            switch(name) {
 				case 'file':
 					// this.nav.setRoot(TabsPage)
 					// .then(res => {

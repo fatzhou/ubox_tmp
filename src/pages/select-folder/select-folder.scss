@@ -37,7 +37,7 @@ page-select-folder {
                 clear: both;
             }
             .fileli{
-                border-bottom: 1px solid $newThreeColor;
+                border-bottom: .5px solid $newThreeColor;
                 padding: 12px $padding - 3px;
                 overflow: hidden;
                 background: $newThreeColor;
@@ -99,7 +99,7 @@ page-select-folder {
                         width: 22px;
                         height: 22px;
                         background: rgba(0,0,0,0.20);
-                        border: 1px solid #78777C;
+                        border: .5px solid #78777C;
                         position: absolute;
                         top: 14px;
                         right: 0px;

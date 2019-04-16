@@ -17,7 +17,7 @@ page-verify-email {
 				height: 34px;
 				background: transparent;
 				border: none;
-				border-bottom: 1px solid rgba(255, 255, 255, .5);
+				border-bottom: .5px solid rgba(255, 255, 255, .5);
 				&:last-child {
 					margin-right: 0;
 				}
@@ -40,7 +40,7 @@ page-verify-email {
 		height: 39px;
 		line-height: 37px;
 		padding: 0 27px;
-		border: 1px solid rgba(255, 255, 255, .3);
+		border: .5px solid rgba(255, 255, 255, .3);
 		color: rgba(255, 255, 255, .3);	
 		margin-top: 20px;
 		float: right;	

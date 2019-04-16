@@ -24,7 +24,7 @@ export class CoinTransactionPage {
   status: any;
   amount;
   chainType:string;
-
+  lastPage: string = 'detail';
   constructor(public navCtrl: NavController, 
               private util: Util,
               private global: GlobalService,
@@ -34,6 +34,7 @@ export class CoinTransactionPage {
   ionViewDidLoad() {
     GlobalService.consoleLog('ionViewDidLoad CoinTransactionPage');
     this.chainType = this.global.chainSelectArray[this.global.chainSelectIndex];
+    this.lastPage = this.navParams.get('lastPage') || 'detail';
     let tx = this.navParams.get('tx');
     if(tx) {
       this.txhash = tx.txhash;
@@ -54,6 +55,11 @@ export class CoinTransactionPage {
         this.time = '';
       }
       
+    }
+  }
+  ionViewWillLeave() {
+    if(this.lastPage != 'detail') {
+      this.navCtrl.pop();
     }
   }
 

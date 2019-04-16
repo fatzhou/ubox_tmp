@@ -42,7 +42,7 @@ export class HttpService {
 	cookies: any = {}; //盒子cookie保存
 	// createDataChannelPoint: number = 0; //上一次重建连接的时间点，用于超时检测
 	channels:any = {}; //所有的datachannels
-    webrtcEngineStatus          = "";           //"closing", "closed", "opening", "opended"
+    webrtcEngineStatus          = "stoped";     //"closing", "closed", "opening", "opended"
     webrtcEngineLastAliveTime   = Date.now();   //最后活跃时间
     webrtcEngineRestartTimer    = null;         //开启重试定时器
 
@@ -70,7 +70,8 @@ export class HttpService {
 		private file: File,
 		private events: Events,
 		private platform: Platform,
-		private global: GlobalService
+        private global: GlobalService,
+        private util: Util
 	) {
 		GlobalService.consoleLog("进入HttpService构造函数");
 		this.channelLabels.forEach(item => {
@@ -135,7 +136,7 @@ export class HttpService {
                         break;
                     }
                     GlobalService.consoleLog("webrtc创建盒子连接: ....[重新]建立连接流程.............");
-                    this.startWebrtcEngine();
+                    this._createDataChannel();
                     break;
             }
 
@@ -314,7 +315,7 @@ export class HttpService {
 		url = url || '';
 		headers['X-Request-Id'] = this.getXRequestId();
 		console.log("是否使用webrtc?" + this.global.useWebrtc);
-		if (url.startsWith('http') || !this.global.useWebrtc) {
+		if (url.startsWith('http') || !this.global.useWebrtc || cordova) {
 			//接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
 			return this._post(url, paramObj, headers, errorHandler, cordova);
 		} else {
@@ -364,10 +365,12 @@ export class HttpService {
 				// if (this.platform.is('cordova') || cordova) {
 				return this.http.post(url, paramObj, headers)
 					.then((res: any) => {
-						// if(res.headers && res.headers['set-cookie']) {
-						// 	console.log(url + "需要设置cookie:" + res.headers['set-cookie']);
-						//     this.setCookie(url, res.headers['set-cookie']);
-						// }
+						if(res.headers && res.headers['set-cookie']) {
+							if (this.global.deviceSelected && url.indexOf(GlobalService.boxApi["login"].url)>=0){
+                                console.log(url + "登录接口需要设置cookie:" + res.headers['set-cookie']);
+                                this.cookies[this.global.deviceSelected.boxId] = res.headers['set-cookie'];
+                            }
+						}
 						return this.handleSuccess(url, JSON.parse(res.data), errorHandler)
 					})
 					.catch(error => this.handleError(error, errorHandler));
@@ -870,30 +873,17 @@ export class HttpService {
 
     startWebrtcEngine() {
         GlobalService.consoleLog("webrtc开始启动...");
+        //Step 0. 如果之前已经开启，直接返回
+        if (this.global.useWebrtc && this.webrtcEngineStatus != "stoped"){
+            GlobalService.consoleLog("webrtc创建盒子连接: 开始");
+            return Promise.resolve()
+        }
+
         //Step 1. init Engine
         this.global.useWebrtc = true;
 
         //Step 2. start createdata channel
-        return this._createDataChannel().then((res) => {
-            GlobalService.consoleLog("webrtc创建盒子连接: 建立连接成功，启动保活监控.....");
-            this.channelLabels.forEach(label => {
-                this.channelStatusManager(label);
-            });
-            this.keepWebrtcAlive(this.channelLabels[0]);
-
-            return res
-        }).catch((res) => {
-            if (this.webrtcEngineStatus != "stoped"){
-                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，一定时间后重新启动.....");
-                this.webrtcEngineRestartTimer = setTimeout(()=>{
-                    this.startWebrtcEngine();
-                }, this.successiveConnectGap);
-            }else{
-                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，引擎已关闭，不重新启动");
-            }
-
-            return Promise.reject(res)
-        });
+        return this._createDataChannel()
     }
 
     _createDataChannel() {
@@ -940,7 +930,7 @@ export class HttpService {
                     + ", onlineStatus:" + deviceSelected.online_status
                     + "，sdpRegister:"  + deviceSelected.sdp_register);
                 this.selectBox(deviceSelected);
-                this.global.deviceSelected = this.deviceSelected;
+                this.util.setSelectedBox(deviceSelected);
                 GlobalService.consoleLog("deviceSelected:" + JSON.stringify( this.global.deviceSelected));
                 return this.deviceSelected;
             })
@@ -996,7 +986,26 @@ export class HttpService {
                 this.webrtcEngineStatus = "closed"
                 gReject(null);
             })
-        })
+        }).then((res) => {
+            GlobalService.consoleLog("webrtc创建盒子连接: 建立连接成功，启动保活监控.....");
+            this.channelLabels.forEach(label => {
+                this.channelStatusManager(label);
+            });
+            this.keepWebrtcAlive(this.channelLabels[0]);
+
+            return res
+        }).catch((res) => {
+            if (this.webrtcEngineStatus != "stoped"){
+                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，一定时间后重新启动.....");
+                this.webrtcEngineRestartTimer = setTimeout(()=>{
+                    this._createDataChannel();
+                }, this.successiveConnectGap);
+            }else{
+                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，引擎已关闭，不重新启动");
+            }
+
+            return Promise.reject(res)
+        });
     }
 
 	_createAnswer() {
@@ -1068,147 +1077,6 @@ export class HttpService {
 
         return this.peerConnection;
 	}
-
-    //createDataChannel() {
-    // 	GlobalService.consoleLog("webrtc创建盒子连接: 开始");
-    // 	let dataChannel = this.channels[label];
-    // 	dataChannel.status = "opening";
-    // 	dataChannel.createTime = Date.now();
-    //
-    // 	return new Promise((gResolve, gReject) => {
-    // 		// setTimeout(()=>{
-    // 		//     if(this.dataChannelOpen === 'opening') {
-    // 		//         this.dataChannelOpen = 'closed';
-    // 		//         gReject && gReject('closed');
-    // 		//     }
-    // 		//     return "";
-    // 		// }, this.dataChannelTimeout);
-    //
-    // 		this._post(GlobalService.centerApi["getBoxList"].url, {})
-    // 			.then((res: any) => {
-    // 				GlobalService.consoleLog(res);
-    // 				if (res.err_no === 0) {
-    // 					GlobalService.consoleLog("webrtc创建盒子连接: 获取盒子列表成功");
-    // 					let centerBoxList = res.boxinfo || [];
-    // 					if (centerBoxList.length > 0) {
-    // 						// GlobalService.consoleLog("用户拥有盒子，查询盒子在线状态");
-    // 						// let centerAvailableBoxList = centerBoxList.filter(item => item.sdp_register === 1);
-    // 						let centerAvailableBoxList = centerBoxList.filter(item => item.online_status === 1);
-    // 						GlobalService.consoleLog("在线盒子数目：" + centerAvailableBoxList.length);
-    // 						if (centerAvailableBoxList.length > 0) {
-    // 							// GlobalService.consoleLog("设定用户盒子");
-    // 							let deviceSelected = centerAvailableBoxList[0];
-    // 							GlobalService.consoleLog("盒子onlineStatus:" + deviceSelected.online_status + "，sdpRegister:" + deviceSelected.sdp_register);
-    // 							this.selectBox(deviceSelected);
-    // 						} else {
-    // 							this.deviceSelected = null;
-    // 						}
-    // 						return this.deviceSelected;
-    // 					} else {
-    // 						//用户没有盒子
-    // 						// this.userBoxCheck = true;
-    // 						// dataChannel.status = 'nobox';
-    // 						this.deviceSelected = null;
-    // 						return Promise.reject("nobox");
-    // 					}
-    // 				} else {
-    // 					GlobalService.consoleLog("webrtc创建盒子连接: 获取盒子列表失败");
-    // 					return Promise.reject("Get box list error.");
-    // 				}
-    // 			})
-    // 			.then((res: any) => {
-    // 				if (res && res.boxId) {
-    // 					GlobalService.consoleLog("webrtc创建盒子连接: 当前有盒子在线，获取盒子sdp");
-    // 					return this.getBoxSdp(res.boxId);
-    // 				} else {
-    // 					GlobalService.consoleLog("webrtc创建盒子连接: 当前没有盒子在线");
-    // 					// this.userBoxCheck = true;
-    // 					// dataChannel.status = 'nobox';
-    // 					//用户没有盒子
-    // 					return Promise.reject("nobox");
-    // 				}
-    // 			})
-    // 			.then((sdp: any) => {
-    // 				GlobalService.consoleLog("webrtc创建盒子连接: 获取sdp成功:" + JSON.stringify(sdp));
-    // 				try {
-    // 					this.connectBoxSdp = JSON.parse(sdp);
-    // 				} catch (e) {
-    // 					GlobalService.consoleLog("webrtc创建盒子连接: 解析sdp失败：" + sdp);
-    // 				}
-    // 				this.sessionId = this.getSessionIdFromSDP(this.connectBoxSdp.sdp);
-    // 				// GlobalService.consoleLog("解析sessionid:" + this.sessionId);
-    // 				this.createPeerConnection(gResolve, gReject);
-    // 				GlobalService.consoleLog("webrtc创建盒子连接: 连接对象建立完毕，开始SDP应答：" + JSON.stringify(this.connectBoxSdp));
-    // 				try {
-    // 					return this.peerConnection.setRemoteDescription(this.connectBoxSdp);
-    // 				} catch (e) {
-    // 					GlobalService.consoleLog("box sdp异常");
-    // 					let sdp = new RTCSessionDescription();
-    // 					sdp.type = this.connectBoxSdp.type;
-    // 					sdp.sdp = this.connectBoxSdp.sdp;
-    // 					return this.peerConnection.setRemoteDescription(sdp);
-    // 				}
-    // 			})
-    // 			.then((res: any) => {
-    // 				GlobalService.consoleLog("webrtc创建盒子连接: SDP应答成功. res:" + JSON.stringify(res));
-    // 				if ('offer' === this.connectBoxSdp.type) {
-    // 					return this._createAnswer();
-    // 				} else {
-    // 					throw new Error("Box sdp type not equal to offer.");
-    // 				}
-    // 			})
-    // 			.catch((e: any) => {
-    // 				GlobalService.consoleLog("webrtc创建盒子连接: 建立连接流程出错:" + JSON.stringify(e) + e.toString());
-    // 				this.global.closeGlobalLoading(this);
-    // 				if (e != 'nobox') {
-    // 					console.log("webrtc创建盒子连接: 手动关闭远程连接.....");
-    // 					setTimeout(() => {
-    // 						this.channelLabels.forEach(item => {
-    // 							this.channels[item].status = 'closed';
-    // 						})
-    // 					}, this.successiveConnectGap)
-    // 				} else {
-    // 					this.global.deviceSelected = null;
-    // 				}
-    // 				// if(this.deviceSelected) {
-    // 				//     //盒子已掉线
-    // 				//     if(this.global.centerBoxSelected === null) {
-    // 				//         this.global.deviceSelected = null;
-    // 				//         this.global.createGlobalAlert(this, {
-    // 				//             title: "您的盒子已经离线",
-    // 				//             buttons: [{
-    // 				//                 text: "重试",
-    // 				//                 handler: () => {
-    // 				//                     this.dataChannelOpen = "closed";
-    // 				//                 }
-    // 				//             }, {
-    // 				//                 text: "前往首页",
-    // 				//                 handler: () => {
-    // 				//                     this.events.publish('token:expired');
-    // 				//                 }
-    // 				//             }]
-    // 				//         });
-    // 				//     }
-    // 				// }
-    //
-    // 				// if(!this.userBoxCheck) {
-    // 				//     GlobalService.consoleLog("用户连接盒子的时候出现错误");
-    // 				//     gReject && gReject(e);
-    // 				// } else {
-    // 				//     GlobalService.consoleLog("用户没有在线的盒子");
-    // 				//     //用户没有盒子
-    // 				//     gResolve && gResolve();
-    // 				// }
-    // 				gResolve(null);
-    // 			})
-    // 	}).then((res) => {
-    // 		GlobalService.consoleLog("webrtc创建盒子连接: 建立连接成功.....");
-    // 		return res
-    // 	}).catch((res) => {
-    // 		GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败.....");
-    // 		return Promise.reject(res)
-    // 	});
-    // }
 
 	ab2str(buf) {
 		let decoder = new TextDecoder("utf-8");
@@ -1349,8 +1217,8 @@ export class HttpService {
 		channel.onopen = () => {
             GlobalService.consoleLog("webrtc创建盒子连接: ---------------Data channel"+ label +" opened----------------");
             dataChannel.status = "opened";
-            //this.global.useWebrtc = true;
-            this.global.deviceSelected = this.deviceSelected;
+
+            this.util.setSelectedBox(this.deviceSelected)
 
             if(label == this.channelLabels[0]) {
                 let url = this.global.getBoxApi('keepAlive');
@@ -1379,7 +1247,10 @@ export class HttpService {
 		channel.onclose = () => {
 			GlobalService.consoleLog("Data channel closed.");
 			dataChannel.status = "closed";
-			this.peerConnection.close()
+			if(this.peerConnection) {
+				this.peerConnection.close()
+			}
+
 		};
 		channel.onerror = () => {
 			GlobalService.consoleLog("Data channel error!!");

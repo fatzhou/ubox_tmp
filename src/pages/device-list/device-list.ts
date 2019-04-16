@@ -239,8 +239,8 @@ export class DeviceListPage {
         this.isClicked = true;
         setTimeout(()=> {
             this.isClicked = false;
-        },5000)
-        this.global.deviceSelected = dv;
+        },5000);
+        this.util.setSelectedBox(dv);
 
         GlobalService.consoleLog("用户选择盒子:" + JSON.stringify(dv));
         this.global.useWebrtc = false;
@@ -375,7 +375,7 @@ export class DeviceListPage {
 
     goLoginPage() {
         GlobalService.consoleLog("直接登录，未设置盒子信息");
-        this.global.deviceSelected = null;
+        this.util.setSelectedBox(null);
         // this.global.useWebrtc = true;
         this.navCtrl.push(LoginPage)
         .then(() => {

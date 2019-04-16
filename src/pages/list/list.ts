@@ -103,7 +103,7 @@ export class ListPage {
         this.events.subscribe('file:updated', ListPage.updateFilesEvent);
         this.events.subscribe('image:move', ListPage.moveFilesEvent);
         this.events.subscribe('list:change', ListPage.moveChangeList);
-        this.events.subscribe('list:refresh', ListPage.refreshFilesEvent);
+        console.log("List constructor...")
     }
 
     ionViewDidEnter() {
@@ -164,16 +164,25 @@ export class ListPage {
         GlobalService.consoleLog('ionViewDidLoad ListPage');
         if (this.global.deviceSelected) {
             this.initPage();
+
             this.events.unsubscribe(this.currPath + ":succeed");
             this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
+
+            if(this.currPath == '/') {
+                this.events.unsubscribe('list:refresh');
+                this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
+            }
+
             this.listFiles();
         }
 		GlobalService.consoleLog("this.currPath" + this.currPath);
 		return true;
     }
 
-    static refreshFilesEvent() {
-        let _this = ListPage._this;
+    refreshFilesEvent() {
+        let _this = this;
+        console.log("Refresh file list..." + _this.global.currPath);
+
         _this.currPath = '/';
         _this.global.currPath = '/';
         _this.listFiles();
@@ -194,6 +203,7 @@ export class ListPage {
         for(let i = 0; i < _this.selectedFiles.length; i++) {
             _this.moveFile(_this.currPath.replace(/\/$/g, '') + "/", _this.selectedFiles[i].name, _this.global.currPath.replace(/\/$/g, '') + "/", _this.selectedFiles[i].name, "move");
         }
+        _this.selectedFiles = [];
     }
 
     static moveChangeList(selectedFile) {
@@ -261,7 +271,7 @@ export class ListPage {
         //用户仅选择一个文件时，可以重命名
         this.canRename = ifContainFixedContent && this.selectedFiles.length === 1;
         this.canDetail = ifContainFixedContent && this.selectedFiles.length === 1;
-        this.canMove = ifContainFixedContent && this.selectedFiles.length === 1;
+        this.canMove = ifContainFixedContent && this.selectedFiles.length > 0;
 
         //用户选择的文件中不包含文件夹时，可以下载
         this.canDownload = ifContainFixedContent && this.selectedFiles.length > 0 && this.selectedFiles.filter((item) => item.type === 1).length === 0;
@@ -300,9 +310,10 @@ export class ListPage {
             if (res.err_no === 0) {
                 var list = [];
                 var index = 0;
+                this.type0List = [];
+                this.type1List = [];
+                console.log('列表清空了');
                 if (res.list && res.list.length > 0) {
-                    this.type0List = [];
-                    this.type1List = [];
                     res.list.filter((item) => {
                         let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
                         let md5 = Md5.hashStr(this.currPath + "/" + name).toString();
@@ -334,7 +345,7 @@ export class ListPage {
                     })
                     list = this.type0List.concat(this.type1List);
                 }
-
+                console.log('列表填充后type0List' + JSON.stringify(this.type0List) + '   列表填充后typeList' + JSON.stringify(this.type1List));
                 this.allFileList = list;
                 this.fileList = this.allFileList.slice(0, this.pageSize)
                 this.transfer.getThumbnail(this.fileList, false, this.currPath);
@@ -447,7 +458,7 @@ export class ListPage {
         }
         var hasFolder = this.selectedFiles.filter(item=>item.type === 1).length;
         var self = this;
-        this.util.deleteFileDialog(path, hasFolder, ()=>{
+        this.util.deleteFileDialog(path, hasFolder, () => {
             //完成删除回调
             this.listFiles();
             this.allBtnsShow = false;
@@ -597,6 +608,7 @@ export class ListPage {
         }
         this.global.currPath = this.currPath;
         this.dataAcquired = false;
+        this.selectedFiles = [];
     }
 
     closeFileSelect() {
@@ -610,10 +622,17 @@ export class ListPage {
     }
 
     goFolderPage(param) {
-        this.app.getRootNav().push(ListPage, {
-            type: param.type,
-            path: param.path
-        });
+        if(this.currPath == '/') {
+            this.app.getRootNav().push(ListPage, {
+                type: param.type,
+                path: param.path
+            });
+        } else {
+            this.navCtrl.push(ListPage, {
+                type: param.type,
+                path: param.path
+            });
+        }
     }
 
     goNextFolder(file) {
@@ -755,13 +774,16 @@ export class ListPage {
 
 
     toggleClassifyNav(isShow = null) {
-        console.log("list is Show" + isShow)
+        console.log("list is Show: " + isShow)
         if(isShow != null) {
             this.isShowClassifyNav = false;
         } else {
             this.isShowClassifyNav = !this.isShowClassifyNav;
         }
+        console.log("点击后list Show or Hide: " + this.isShowClassifyNav)
     }
+
+
 
     displayMenu($event) {
 		console.log("即将显示左侧菜单........");

@@ -18,7 +18,7 @@ page-select-album {
         -webkit-overflow-scrolling: touch;
         background: $newThreeColor;
         ul {
-            border-top: 1px solid $newThreeColor;
+            border-top: .5px solid $newThreeColor;
             h4 {
                 font-size: 14px;
                 padding: 10px 15px;
@@ -27,7 +27,7 @@ page-select-album {
                 clear: both;
             }
             .folder-li {
-                border-bottom: 1px solid $newThreeColor;
+                border-bottom: .5px solid $newThreeColor;
                 padding: 12px $padding - 3px;
                 overflow: hidden;
                 background: $newFourColor;

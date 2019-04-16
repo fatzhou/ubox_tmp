@@ -25,11 +25,11 @@
 		       <div class="scan-qrcode fr" (click)="scanWallet()">
 	            <svg class="icon qrcode-icon" aria-hidden="true">
 	                <use xlink:href="#iconsaoma"></use>
-	            </svg>		       	
+	            </svg>
 		       </div>
 			</div>
 			<input type="text" name="toWallet"  autocomplete="off" [(ngModel)]="toWallet" placeholder="{{global.L('EnterAddress')}}" />
-	  </div>	
+	  </div>
 	</div>
 	<div class="transfer-amount">
 		<div class="desc clear">
@@ -45,7 +45,7 @@
 		<div class="desc clear">
 			<p class="label fl">{{global.L("MinersFee")}}</p>
 			<span class="fr">{{ chainType === 'ERC20' ? gasUsed + 'ETH(' + global.L("About"): '' }}{{ chainType === 'ERC20' ? gasUbbeyUsed + 'UBBEY)' : gasUbbeyUsed + 'UBBEY'}} </span>
-		</div>		
+		</div>
 		<div class="progress-info">
 		  <ion-range class="my-range-bar" [max]="100" (ionChange)="progressChanged()" [(ngModel)]="progress">
 		    <span class="left-tips" range-left>{{global.L("TransferSlow")}}</span>

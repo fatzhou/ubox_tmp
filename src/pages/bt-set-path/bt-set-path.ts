@@ -115,9 +115,7 @@ export class BtSetPathPage {
             // this.events.publish('bt-path-change', this.currPath);
             if(this.global.selectFolderType == 'move') {
                 this.global.currPath = this.currPath;
-                if(this.global.selectFolderType == 'move') {
-                    this.events.publish("image:move");
-                } 
+                this.events.publish("image:move");
             } else {
                 this.events.publish('bt-path-change', this.currPath);
             }
