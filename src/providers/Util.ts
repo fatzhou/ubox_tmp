@@ -229,14 +229,6 @@ export class Util {
                 GlobalService.consoleLog("成功获取到盒子用户信息, 但是选择盒子为空, ***UNREACHABLE CODE***");
                 return Promise.reject("***UNREACHABLE CODE***")
             }
-
-            return this.getDiskStatus()
-            .then(() => {
-                return res;
-            })
-            .catch(()=>{
-				return Promise.reject("selectboxfailed");
-            })
         })
 
         .catch(res => {
@@ -338,7 +330,20 @@ export class Util {
                     return Promise.reject("Error occured...");
                 }
             })
+        })
+
+        //获取盒子状态
+        .then(()=> {
+            this.getDiskStatus()
+                .then(() => {
+                    console.error("获取盒子状态成功，刷新list");
+                    this.events.publish('list:refresh');
+                })
+                .catch(() => {
+                    console.error("获取盒子状态失败，!!!!!!!!");
+                })
         });
+
 
         return new Promise((resolve, reject)=>{
             // Case 1: timeout
