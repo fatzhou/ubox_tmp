@@ -672,7 +672,7 @@ export class GlobalService {
                         obj.global.alertCtrl = null;
                     }
                 }
-            })
+            });
             let prompt = obj.global.alertCreator.create(options);
             prompt.present();
             obj.global.alertCtrl = prompt;
