@@ -130,16 +130,30 @@ export class Util {
             return Promise.reject(null)
         }
 
-        //Step 3. 搜索获取盒子列表
-        return this.searchUbbey().then((boxes:any)=>{
-            if(boxes && boxes.length){
-                return boxes;
+        //Step 3. 尝试获取本地缓存的盒子id
+        this.global.getSelectedBox(true)
+        .then((res)=>{
+            if(res && res.boxId){
+                return res.boxId;
             }else{
-                return [];
+                return "";
             }
+        }).catch(()=>{
+            return "";
         })
 
-        //Step 4. 过滤出自己的盒子
+        //Step 4. 搜索获取盒子列表
+        .then((cachedBoxId)=> {
+            return this.searchUbbey(false, cachedBoxId).then((boxes: any) => {
+                if (boxes && boxes.length) {
+                    return boxes;
+                } else {
+                    return [];
+                }
+            })
+        })
+
+        //Step 5. 过滤出自己的盒子
         .then((boxes)=>{
             //检查盒子是否有自己的盒子
             let userHash = Md5.hashStr($scope.global.centerUserInfo.uname).toString();
@@ -725,7 +739,7 @@ export class Util {
         })
     }
 
-    searchUbbey(imediate = false) {
+    searchUbbey(imediate = false, boxid = "") {
 		let start = Date.now();
 		let minSearchTime = 3000;
         return new Promise((resolve, reject) => {
@@ -738,10 +752,7 @@ export class Util {
 				// resolve([]);
 				return ;
             }
-            // if(1) {
-            //     resolve([]);
-            //     return ;
-            // }
+
             var self = this;
             var flag = false;
             var serviceType = "upnp:ubbeybox";
@@ -755,6 +766,11 @@ export class Util {
                 console.log("盒子扫描完毕!" + devices.length);
                 clearTimeout(timeout);
 				timeout = null;
+
+				let t = minSearchTime - (Date.now() - start);
+				if (imediate || t<0){
+				    t = 0;
+                }
 				setTimeout(() => {
 					if (devices.length) {
 						// GlobalService.consoleLog("解析并获取设备列表" + JSON.stringify(devices));
@@ -766,7 +782,7 @@ export class Util {
 					} else {
 						resolve([]);
 					}
-				}, Math.max(0, minSearchTime - (Date.now() - start)));
+				}, t);
             };
             let processRes = (devices) => {
                 GlobalService.consoleLog("发现接口成功回调");
@@ -810,7 +826,7 @@ export class Util {
                 reject();
             }
 
-            serviceDiscovery.getNetworkServices(serviceType, processRes, failure);
+            serviceDiscovery.getNetworkServices(serviceType, boxid, processRes, failure);
         })
 
     }
@@ -842,7 +858,7 @@ export class Util {
             GlobalService.consoleLog("查看盒子版本号失败");
             return new Promise((resolve, reject) => {
                 let searchUbbey = () => {
-                    this.searchUbbey()
+                    this.searchUbbey(false, boxId)
                     .then(res => {
                         updateDeviceSelected();
                         if(this.global.deviceSelected) {
@@ -862,7 +878,7 @@ export class Util {
                         GlobalService.consoleLog(e.stack);
                         reject();
                     })
-                }
+                };
                 searchUbbey();
             })
 
