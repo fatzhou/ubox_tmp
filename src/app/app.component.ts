@@ -500,15 +500,19 @@ export class UboxApp {
                 this.http.startWebrtcEngine();
                 return "shouldpingagain"
             })
-            //3. 之前无盒子或者网络访问失败，先走远程，然后做最后一次搜索盒子但补救
+            //3. 之前无盒子或者网络访问失败，先走远程，然后做最后一次搜索盒子的补救
             .then((res)=>{
                 if (res === "shouldpingagain"){
                     GlobalService.consoleLog("网络切换后为wifi，但ping近场盒子失败，打开webrtc, 同时做最后一次本地搜索盒子的尝试");
-                    this.util.searchSelfBox(this).then(mybox => {
+                    this.util.searchSelfBox(this)
+                    .then(mybox => {
                         return this.util.pingLocalBox(mybox);
                     }).then(()=>{
                         GlobalService.consoleLog("网络切换后为wifi，[第二次]ping近场盒子成功，关闭webrtc....");
                         this.http.stopWebrtcEngine();
+                    }).catch(()=>{
+                        GlobalService.consoleLog("网络切换后为wifi，[第二次]ping近场盒子失败，打开webrtc....");
+                        this.http.startWebrtcEngine();
                     })
                 }
             })

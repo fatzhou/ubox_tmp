@@ -123,7 +123,6 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.3">
         <variable name="ANDROID_SUPPORT_V4_VERSION" value="24.1.1+" />
     </plugin>
-    <plugin name="cordova-plugin-discovery" spec="https://github.com/ubbey/cordova-plugin-discovery.git" />
     <plugin name="cordova-plugin-market" spec="^1.2.0" />
     <plugin name="com.rjfun.cordova.httpd" spec="https://github.com/floatinghotpot/cordova-httpd.git" />
     <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
@@ -140,4 +139,6 @@
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
     <plugin name="cordova-plugin-file-transfer" spec="git+https://github.com/ubbey/cordova-plugin-file-transfer.git" />
+    <plugin name="com.scott.serviceDiscovery" spec="https://github.com/ubbey/cordova-plugin-discovery.git" />
+    <plugin name="cordova-plugin-discovery" spec="https://github.com/ubbey/cordova-plugin-discovery.git" />
 </widget>

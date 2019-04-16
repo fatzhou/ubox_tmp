@@ -142,7 +142,12 @@ export class ListPage {
                 // return item
             });
         }
-		GlobalService.consoleLog("this.currPath" + this.currPath);
+        GlobalService.consoleLog("this.currPath" + this.currPath);
+        if(this.currPath == '') {
+            setTimeout(()=>{
+                this.tabsController.slideTo(1, "boxtabs");
+            },500);
+        }
 		return true;
 	}
 	

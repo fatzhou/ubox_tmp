@@ -53,7 +53,7 @@
 		</form>
 	</div>
 
-	<div class="form-area">
+	<div class="form-area" *ngIf="global.passwdType === 'register'">
 		<p class="second-btn" (click)="goAgreement();"> {{ global.L("ClickNextAgree") }}</p>
 		<button class="main-btn" tappable click-and-wait (click)="doRegister()"> {{ global.L("TheNextStep") }}</button>
 	</div>
