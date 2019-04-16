@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GlobalService } from './GlobalService';
 import { NavController, NavParams } from 'ionic-angular';
-import { Util } from './Util';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 // import { HttpService } from './HttpService';
 import { HTTP } from '@ionic-native/http';
@@ -71,7 +70,6 @@ export class HttpService {
 		private events: Events,
 		private platform: Platform,
         private global: GlobalService,
-        private util: Util
 	) {
 		GlobalService.consoleLog("进入HttpService构造函数");
 		this.channelLabels.forEach(item => {
@@ -930,7 +928,7 @@ export class HttpService {
                     + ", onlineStatus:" + deviceSelected.online_status
                     + "，sdpRegister:"  + deviceSelected.sdp_register);
                 this.selectBox(deviceSelected);
-                this.util.setSelectedBox(deviceSelected);
+                this.global.setSelectedBox(deviceSelected);
                 GlobalService.consoleLog("deviceSelected:" + JSON.stringify( this.global.deviceSelected));
                 return this.deviceSelected;
             })
@@ -1218,7 +1216,7 @@ export class HttpService {
             GlobalService.consoleLog("webrtc创建盒子连接: ---------------Data channel"+ label +" opened----------------");
             dataChannel.status = "opened";
 
-            this.util.setSelectedBox(this.deviceSelected)
+            this.global.setSelectedBox(this.deviceSelected)
 
             if(label == this.channelLabels[0]) {
                 let url = this.global.getBoxApi('keepAlive');

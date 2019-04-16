@@ -220,7 +220,7 @@ export class Util {
 			console.log("登录并获取盒子失败........");
             GlobalService.consoleLog(res);
             $scope.global.closeGlobalLoading($scope);
-            this.setSelectedBox(null);
+            $scope.global.setSelectedBox(null);
             //没有盒子或者其他错误，只需登录中心即可
             // errorCallback && errorCallback();
             return Promise.reject(res);
@@ -229,7 +229,7 @@ export class Util {
 
     checkoutBox($scope){
         //尝试用本地缓存中的信息ping一下本地盒子, ping不通之后再搜索
-        let doSelect =  this.getSelectedBox(true
+        let doSelect =  $scope.global.setSelectedBox(true
 
         //Case 1: 尝试ping一下本地盒子, ping不通之后再搜索
         ).then((mybox)=> {return this.pingLocalBox(mybox)})
@@ -237,7 +237,7 @@ export class Util {
         //Case 2: ping通之后, 直接使用缓存
         .then((pingbox)=>{
             GlobalService.consoleLog("ping本地盒子成功, 直接使用缓存");
-            this.setSelectedBox(pingbox);
+            $scope.global.setSelectedBox(pingbox);
             return $scope.global.deviceSelected
         })
 
@@ -245,7 +245,7 @@ export class Util {
         .catch(()=>{
             GlobalService.consoleLog("ping本地盒子不通, 尝试搜索....");
             return this.searchSelfBox($scope).then(mybox => {
-                this.setSelectedBox(mybox);
+                $scope.global.setSelectedBox(mybox);
                 return $scope.global.deviceSelected
             }).catch(() => {
                 return null;
@@ -305,7 +305,7 @@ export class Util {
                     return this.global.deviceSelected;
                 }else{
                     console.error("没有盒子登录态，手动清除中心登录信息");
-                    this.setSelectedBox(null);
+                    this.global.setSelectedBox(null);
                     this.global.centerUserInfo = {};
                     return Promise.reject("Error occured...");
                 }
@@ -489,7 +489,7 @@ export class Util {
             if(res.length > 0) {
                 let box = res.find(item => item.boxId === boxId);
                 if(box) {
-                    this.setSelectedBox(box);
+                    this.global.setSelectedBox(box);
                     this.global.createGlobalToast(this, {
                         message: this.global.L("RebootSuccess")
                     })
@@ -521,7 +521,7 @@ export class Util {
                 .then(res => {
                     //盒子即将重启.......
                     let boxId = $scope.global.deviceSelected.boxId;
-                    this.setSelectedBox(null)
+                    this.global.setSelectedBox(null)
                     if($scope.global.useWebrtc) {
                         //关闭webrtc连接
                         $scope.http.stopWebrtcEngine()
@@ -813,7 +813,7 @@ export class Util {
             let deviceSelected = this.global.foundDeviceList.filter(item => {
                 return item.boxId === boxId;
             })[0] || null;
-            this.setSelectedBox(deviceSelected)
+            this.global.setSelectedBox(deviceSelected)
         };
 
         return this.http.post(url, {}, false)
@@ -1283,40 +1283,6 @@ export class Util {
         })
     }
 
-    setSelectedBox(deviceSelected, nullsave=false){
-        this.global.deviceSelected = deviceSelected;
-        if (this.global.deviceSelected){
-            //忽略保存结果
-            this.storage.set('DeviceSelected', JSON.stringify(this.global.deviceSelected));
-        } else if (nullsave){
-            //忽略保存结果
-            this.storage.set('DeviceSelected', JSON.stringify(this.global.deviceSelected));
-        }
-    }
-
-    getSelectedBox(fromstorage=false){
-        if (fromstorage){
-            return new Promise((resolve, reject)=>{
-                this.storage.get('DeviceSelected')
-                    .then(res => {
-                        GlobalService.consoleLog("缓存DeviceSelected获取成功:" + JSON.stringify(res));
-                        if(res) {
-                            let deviceSelected = JSON.parse(res);
-                            resolve(deviceSelected);
-                        }else{
-                            reject(null);
-                        }
-                    })
-                    .catch(e => {
-                        GlobalService.consoleLog("缓存DeviceSelected获取失败:" + e.stack)
-                        reject(null);
-                    })
-            })
-        }else{
-            return this.global.deviceSelected;
-        }
-    }
-
     openUrl(url){
         const browser = this.browser.create(url, "_blank", "withcookie=a%3D1%26b%3D2&location=no&hardwareback=yes&hidespinner=yes&closebuttoncaption=close&clearcache=yes&clearsessioncache=yes");
         if(browser.on('loadstop').subscribe){
@@ -1472,7 +1438,7 @@ export class Util {
         });
 
         this.http.post(GlobalService.centerApi["logout"].url, {}, false)
-        this.setSelectedBox(null, true);
+        this.global.setSelectedBox(null, true);
         this.global.foundDeviceList = [];
         this.global.albumBackupSwitch = undefined;
 	}

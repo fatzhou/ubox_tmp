@@ -171,7 +171,7 @@ export class UpdateAssitantPage {
 
     updateCallback() {
         //正在升级, 取消盒子的连接
-        this.util.setSelectedBox(null);
+        this.global.setSelectedBox(null);
         this.global.boxUserInfo = {};
     }
 
