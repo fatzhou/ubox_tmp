@@ -304,7 +304,7 @@ export class ListPage {
 			path: this.currPath,
 			disk_uuid: this.global.currDiskUuid
 		}, true, {
-			storageName: 'FileStorage' + decodeURIComponent(this.currPath),
+			storageName: 'FileStorage' + Md5.hashStr(this.currPath).toString(),
 			fieldName: 'list'
 		})
         .then((res:any) => {
