@@ -249,8 +249,6 @@ export class Util {
     checkoutBox($scope){
         //尝试用本地缓存中的信息ping一下本地盒子, ping不通之后再搜索
         let logid = Date.now();
-        GlobalService.consoleLog("["+logid+"]" + "选取盒子开始...");
-
         let doSelect =  $scope.global.getSelectedBox(true
 
         //Case 1: 尝试ping一下本地盒子, ping不通之后再搜索
@@ -364,10 +362,10 @@ export class Util {
 
         return new Promise((resolve, reject)=>{
             // Case 1: timeout
-            setTimeout(()=>{
-                GlobalService.consoleLog("["+logid+"]" + "选取盒子超时， 引擎继续运行中...");
+            setTimeout((logid)=>{
+                GlobalService.consoleLog("["+logid+"]" + "选取盒子超时， 引擎继续运行中，直至成功选取盒子...");
                 reject()
-            }, 2000);
+            }, 2000, logid);
 
             // case 2: select
             if (0) {
@@ -379,7 +377,7 @@ export class Util {
                 let doSelectLoop = function () {
                     let oldlogid = logid;
                     logid = Date.now();
-                    GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子引擎开始第"+retrycount+"次运行...");
+                    GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
                     doSelect.then(resolve).catch((err)=>{
                         retrycount++;
                         GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + err);
