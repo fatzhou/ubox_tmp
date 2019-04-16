@@ -16,14 +16,12 @@
 		<form class="change-passwd-form" action=""  autocomplete="off">
 			<div class="form-input">
 				<input type="text" name="username" class="common-input disabled-input" placeholder="{{global.L('PlsInputUsername')}}" [(ngModel)]="username" disabled/>
-				<label class="borderline disabledline"></label>
 
 			</div>		
 
 			<div class="form-input passwd-wrap {{eyeshow?'open-eye':'close-eye'}}">
 				<!-- <div class="passwd-wrap close-eye"> -->
 					<input type="{{eyeshow?'text':'password'}}" name="password1" [(ngModel)]="password1" class="common-input normal-input passwd-input" placeholder="{{global.L('PlsInputOldPassword')}}"/>
-					<label class="borderline"></label>
 					<!-- <svg aria-hidden="true" (click)="showIcon()" class="icon open">
 						<use xlink:href="#icon-eyeopen"></use>
 					</svg>					
@@ -36,14 +34,11 @@
 
 			<div class="form-input">
 				<input type="password" name="password2" [(ngModel)]="password2" class="common-input normal-input passwd-input" placeholder="{{global.L('PlsInputNewPassword')}}"/>
-				<label class="borderline"></label>
-
 				<p class="error-input" *ngIf="pError2">{{ pErrorText2 }}</p>
 			</div>			
 
 			<div class="form-input">
 				<input type="password" name="password3" [(ngModel)]="password3" class="common-input normal-input passwd-input" placeholder="{{global.L('PlsInputNewPassword1')}}"/>
-				<label class="borderline"></label>
 				<p class="error-input" *ngIf="pError3">{{ pErrorText3 }}</p>
 			</div>
 		</form> 
