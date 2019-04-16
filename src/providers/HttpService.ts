@@ -346,7 +346,7 @@ export class HttpService {
 						})
 					})
 				}
-			}			
+			}
 		} else {
 			//发往盒子的请求，但是尚未连接盒子
 			if(options.storageName) {
@@ -359,7 +359,7 @@ export class HttpService {
 								resolve({
 									err_no: 0,
 									[options.fieldName]: data
-								});								
+								});
 							} else {
 								reject({
 									err_no: -2,
@@ -915,7 +915,7 @@ export class HttpService {
         GlobalService.consoleLog("webrtc开始启动...");
         //Step 0. 如果之前已经开启，直接返回
         if (this.global.useWebrtc && this.webrtcEngineStatus != "stoped"){
-            GlobalService.consoleLog("webrtc创建盒子连接: 开始");
+            GlobalService.consoleLog("webrtc创建盒子连接: 已在运行中");
             return Promise.resolve()
         }
 
@@ -927,7 +927,7 @@ export class HttpService {
     }
 
     _createDataChannel() {
-        GlobalService.consoleLog("webrtc创建盒子连接: 开始");
+        GlobalService.consoleLog("webrtc创建盒子连接: 开始构造数据通道...");
         this.webrtcEngineStatus = "opening";
         this.webrtcEngineLastAliveTime = Date.now();
         this.channelLabels.forEach(label => {
