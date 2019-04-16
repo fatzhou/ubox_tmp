@@ -398,16 +398,22 @@ export class TabsPage {
             this.version = this.global.deviceSelected.version;
 
             this.isClose = false;
-            this.util.getDiskStatus();
-            this.getVersionControl()
-            .then(res => {
-                this.checkVersion();
+            this.util.getDiskStatus()
+            .then(() => {
+                return this.getVersionControl()
+                .then(res => {
+                    this.checkVersion();
+                })
+                .catch(e => {
+                    GlobalService.consoleLog(e.stack);
+                    this.global.closeGlobalLoading(this);
+                    this.initNoticeList();
+                })
             })
-            .catch(e => {
+            .catch(e=> {
                 GlobalService.consoleLog(e.stack);
-                this.global.closeGlobalLoading(this);
-                this.initNoticeList();
             })
+            
         } else {
             this.getVersionControl()
             // .then(res => {

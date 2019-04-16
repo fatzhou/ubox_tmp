@@ -32,6 +32,9 @@ export class ChangePasswdPage {
     password3:any = "";
     username:any = "";
     eyeshow:Boolean = false;
+    eyeshow2:Boolean = false;
+    eyeshow3:Boolean = false;
+
     constructor(public navCtrl: NavController,
         public http: HttpService,
         private global: GlobalService,
@@ -180,8 +183,15 @@ export class ChangePasswdPage {
     		GlobalService.consoleLog(JSON.stringify(res));
     	})
     }
-    showIcon(){
-        this.eyeshow = !this.eyeshow;
+    showIcon(index){
+        if(index == 0) {
+            this.eyeshow = !this.eyeshow;
+        } else if(index == 2) {
+            this.eyeshow2 = !this.eyeshow2;
+        } else if(index == 3) {
+            this.eyeshow3 = !this.eyeshow3;
+        }
+        
     }
     
     updatePassword() {
