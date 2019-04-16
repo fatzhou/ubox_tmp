@@ -17,7 +17,6 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { Clipboard } from '@ionic-native/clipboard';
 import { AppsInstalled } from './AppsInstalled';
 import { UappPlatform } from "./UappPlatform";
-import { getLocaleWeekEndRange } from '@angular/common';
 // import { FileTransport } from './FileTransport';
 declare var chcp: any;
 declare var createObjectURL: any;

@@ -103,11 +103,14 @@ export class WalletImportPage {
                     this.global.createGlobalToast(this, {
                         message: Lang.L('WORDcd95217b'),
                     });
-                    this.global.walletList.unshift({
-						name: Lang.L('WORD388fa919') + address.slice(0, 8),
-						addr: '0x' + address,
-						keystore: this.keystore,
-					});
+                    // this.global.walletList.unshift({
+					// 	name: Lang.L('WORD388fa919') + address.slice(0, 8),
+					// 	addr: '0x' + address,
+					// 	keystore: this.keystore,
+					// });
+
+					this.util.getWalletList(true);
+
                     setTimeout(() => {
                         this.navCtrl.pop();
                     }, 300);
