@@ -126,8 +126,8 @@ export class Util {
 
         //Step 2. 中心明确显示用户无绑定的盒子
         if (!$scope.global.centerUserInfo || $scope.global.centerUserInfo.bind_box_count < 0){
-            GlobalService.consoleLog("搜索自己的盒子：中心明确显示用户无绑定的盒子，返回未找到盒子");
-            return Promise.reject(null)
+            GlobalService.consoleLog("搜索自己的盒子：中心明确显示用户无绑定的盒子，返回用户没有盒子：USER_HAVE_NO_BOX");
+            return Promise.reject("USER_HAVE_NO_BOX")
         }
 
         //Step 3. 尝试获取本地缓存的盒子id
