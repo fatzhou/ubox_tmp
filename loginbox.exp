@@ -2,8 +2,8 @@
 set timeout 100
 set password "ulab@2018#ubbeybox"
 
-spawn ssh root@192.168.0.14
-expect "root@192.168.0.14's password:"
+spawn ssh root@192.168.0.2
+expect "root@192.168.0.2's password:"
 send "$password\n"
 
 #expect eof

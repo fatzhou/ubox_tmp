@@ -692,22 +692,22 @@ export class GlobalService {
 
     getSelectedBox(fromstorage=false){
         if (fromstorage){
-            // return new Promise((resolve, reject)=>{
-            //     this.storage.get('DeviceSelected')
-            //         .then(res => {
-            //             GlobalService.consoleLog("缓存DeviceSelected获取成功:" + JSON.stringify(res));
-            //             if(res) {
-            //                 let deviceSelected = JSON.parse(res);
-            //                 resolve(deviceSelected);
-            //             }else{
-            //                 reject(null);
-            //             }
-            //         })
-            //         .catch(e => {
-            //             GlobalService.consoleLog("缓存DeviceSelected获取失败:" + e.stack)
-            //             reject(null);
-            //         })
-            // })
+            return new Promise((resolve, reject)=>{
+                this.storage.get('DeviceSelected')
+                    .then(res => {
+                        GlobalService.consoleLog("缓存DeviceSelected获取成功:" + JSON.stringify(res));
+                        if(res) {
+                            let deviceSelected = JSON.parse(res);
+                            resolve(deviceSelected);
+                        }else{
+                            reject(null);
+                        }
+                    })
+                    .catch(e => {
+                        GlobalService.consoleLog("缓存DeviceSelected获取失败:" + e.stack)
+                        reject(null);
+                    })
+            })
         }else{
             return this.deviceSelected;
         }

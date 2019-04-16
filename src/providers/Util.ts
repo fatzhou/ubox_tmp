@@ -196,7 +196,13 @@ export class Util {
 
         //尽最大努力获取用户盒子信息, 获取不到返回失败
         .then(res=> {
-            $scope.checkoutBox($scope)
+			return this.checkoutBox($scope)
+			.then(res => {
+				return res;
+			})
+			.catch(e => {
+				return Promise.reject("selectboxfailed");
+			})
         })
 
         //成功登录&成功获取到盒子用户信息啦啦
@@ -212,7 +218,7 @@ export class Util {
                 return res;
             })
             .catch(()=>{
-                return res;
+				return Promise.reject("selectboxfailed");
             })
         })
 
@@ -222,14 +228,18 @@ export class Util {
             $scope.global.closeGlobalLoading($scope);
             $scope.global.setSelectedBox(null);
             //没有盒子或者其他错误，只需登录中心即可
-            // errorCallback && errorCallback();
-            return Promise.reject(res);
+			// errorCallback && errorCallback();
+			if(res == 'selectboxfailed') {
+				return Promise.resolve();
+			} else {
+				return Promise.reject(res);
+			}
         })
     }
 
     checkoutBox($scope){
         //尝试用本地缓存中的信息ping一下本地盒子, ping不通之后再搜索
-        let doSelect =  $scope.global.setSelectedBox(true
+        let doSelect =  $scope.global.getSelectedBox(true
 
         //Case 1: 尝试ping一下本地盒子, ping不通之后再搜索
         ).then((mybox)=> {return this.pingLocalBox(mybox)})
@@ -319,7 +329,7 @@ export class Util {
             }, 2000);
 
             // case 2: select
-            doSelect().then(resolve, reject);
+            doSelect.then(resolve, reject);
         });
     }
 
