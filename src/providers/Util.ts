@@ -1583,7 +1583,7 @@ export class Util {
                 console.log("开始转移钱包");
                 //绑定成功，开始转移钱包
                 let url = GlobalService.centerApi['getKeystore'].url;
-                let boxStatusUrl = this.global.getBoxApi("getDiskStatus");
+                // let boxStatusUrl = this.global.getBoxApi("getDiskStatus");
                 // return this.http.post(boxStatusUrl, {})
                 // .then(res => {
                 //     //盒子状态获取错误的出错率较高，目前出错继续保存钱包
@@ -1964,6 +1964,7 @@ export class Util {
 
     getDiskStatus() {
         var url = this.global.getBoxApi("getDiskStatus");
+        console.log('准备获取status')
         return this.http.post(url, {})
         .then((data) => {
             if (data.err_no === 0) {
@@ -1988,10 +1989,11 @@ export class Util {
                 }else{
                     this.global.diskInfoStatus = true;
                 }
+                return Promise.resolve();
             }
         })
-        .catch(()=>{
-            return true
+        .catch((e)=>{
+            return Promise.reject(e);
         })
     }
 }

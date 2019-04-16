@@ -4380,5 +4380,16 @@ export class Lang {
         en: 'BT download',
         kr: 'BT 다운로드'
     }
+    static OldPassWord = {
+        cn: '原密码',
+        en: '',
+        kr: ''
+    }
+    static NewPassWord = {
+        cn: '新密码',
+        en: '',
+        kr: ''
+    }
+    
 }
 
