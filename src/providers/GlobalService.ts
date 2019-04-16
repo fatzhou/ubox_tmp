@@ -4,6 +4,7 @@ import { Events } from 'ionic-angular';
 import { Lang } from './Language';
 import { File } from '@ionic-native/file';
 import { Platform } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 declare var cordova: any;
 
@@ -582,6 +583,7 @@ export class GlobalService {
         public loadingCreator: LoadingController,
         private file: File,
         private platform: Platform,
+        private storage: Storage,
         public events: Events
     ) {
 
@@ -676,6 +678,44 @@ export class GlobalService {
             obj.global.alertCtrl = prompt;
         }
     }
+
+    setSelectedBox(deviceSelected, nullsave=false){
+        this.deviceSelected = deviceSelected;
+        // if (this.deviceSelected){
+        //     //忽略保存结果
+        //     this.storage.set('DeviceSelected', JSON.stringify(this.deviceSelected));
+        // } else if (nullsave){
+        //     //忽略保存结果
+        //     this.storage.set('DeviceSelected', JSON.stringify(this.deviceSelected));
+        // }
+    }
+
+    getSelectedBox(fromstorage=false){
+        if (fromstorage){
+            // return new Promise((resolve, reject)=>{
+            //     this.storage.get('DeviceSelected')
+            //         .then(res => {
+            //             GlobalService.consoleLog("缓存DeviceSelected获取成功:" + JSON.stringify(res));
+            //             if(res) {
+            //                 let deviceSelected = JSON.parse(res);
+            //                 resolve(deviceSelected);
+            //             }else{
+            //                 reject(null);
+            //             }
+            //         })
+            //         .catch(e => {
+            //             GlobalService.consoleLog("缓存DeviceSelected获取失败:" + e.stack)
+            //             reject(null);
+            //         })
+            // })
+        }else{
+            return this.deviceSelected;
+        }
+    }
+
+
+
+
     //初始化变量
     resetWebrtc(type){
         if(type === 'webrtc'){
