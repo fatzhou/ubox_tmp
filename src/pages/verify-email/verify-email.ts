@@ -190,11 +190,12 @@ export class VerifyEmailPage {
 
 	askUserLogin() {
 		//重写登录态
-		if (!!this.global.deviceSelected) {
-			Util.loginBox(this, null);
-		}
+		this.util.loginAndCheckBox(this)
+		.catch(e => {
+			GlobalService.consoleLog("Login catch in verify-email page...." + e);
+		})
 
-		Util.loginCenter(this, null);
+		// Util.loginCenter(this, null);
 
 		this.navCtrl.push(ResultPage, {
 			type: 'register'
@@ -241,36 +242,36 @@ export class VerifyEmailPage {
 		})
 	}
 
-	loginCenter() {
-		Util.loginCenter(this, () => {
-			this.navCtrl.push(TabsPage)
-				.then(() => {
-					const startIndex = this.navCtrl.getActive().index;
-					GlobalService.consoleLog("即将删除历史记录：" + startIndex);
-					this.navCtrl.remove(0, startIndex);
-				});
-		});
-	}
+	// loginCenter() {
+	// 	Util.loginCenter(this, () => {
+	// 		this.navCtrl.push(TabsPage)
+	// 			.then(() => {
+	// 				const startIndex = this.navCtrl.getActive().index;
+	// 				GlobalService.consoleLog("即将删除历史记录：" + startIndex);
+	// 				this.navCtrl.remove(0, startIndex);
+	// 			});
+	// 	});
+	// }
 
-	loginBox() {
-		Util.loginBox(this, () => {
-			this.navCtrl.push(TabsPage)
-				.then(() => {
-					const startIndex = this.navCtrl.getActive().index;
-					GlobalService.consoleLog("即将删除历史记录：" + startIndex);
-					this.navCtrl.remove(0, startIndex);
-				});
-		});
-	}
+	// loginBox() {
+	// 	Util.loginBox(this, () => {
+	// 		this.navCtrl.push(TabsPage)
+	// 			.then(() => {
+	// 				const startIndex = this.navCtrl.getActive().index;
+	// 				GlobalService.consoleLog("即将删除历史记录：" + startIndex);
+	// 				this.navCtrl.remove(0, startIndex);
+	// 			});
+	// 	});
+	// }
 
-	bindBox() {
-		this.util.bindBox(this)
-			.then((res) => {
-				if (res) {
-					this.navCtrl.push(TabsPage)
-				}
-			});
-	}
+	// bindBox() {
+	// 	this.util.bindBox(this)
+	// 		.then((res) => {
+	// 			if (res) {
+	// 				this.navCtrl.push(TabsPage)
+	// 			}
+	// 		});
+	// }
 
 	getVerifyCode() {
 		GlobalService.consoleLog("获取验证码!");
