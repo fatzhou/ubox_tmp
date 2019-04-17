@@ -20,8 +20,11 @@
 	<div class="main-content" *ngIf="bindStatus != 0">
 		<div class="search-box">
 			<p class="p-title">{{ bindStatus == 1 ? global.L("BindSuccess") : global.L("BindFail") }}</p>
-			<svg class="icon search-icon" aria-hidden="true" item-end>
+			<svg class="icon search-icon" *ngIf="bindStatus == 1" aria-hidden="true" item-end>
 				<use xlink:href="#iconchenggong"></use>
+			</svg>
+			<svg class="icon search-icon" *ngIf="bindStatus != 1" aria-hidden="true" item-end>
+				<use xlink:href="#iconshibai"></use>
 			</svg>
 		</div>
 		<button class="go-next" tappable (click)="goNext()">

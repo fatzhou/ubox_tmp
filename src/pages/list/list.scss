@@ -186,6 +186,7 @@ page-list {
             left: 0;
             overflow: hidden;
             overflow-x: scroll;
+            -webkit-overflow-scrolling: touch;
             .disk-ul-box {
                 height: 100%;
                 padding-left: 14px;

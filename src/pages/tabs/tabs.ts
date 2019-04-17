@@ -400,6 +400,7 @@ export class TabsPage {
             this.isClose = false;
             this.util.getDiskStatus()
             .then(() => {
+                this.events.publish('list:refresh');
                 return this.getVersionControl()
                 .then(res => {
                     this.checkVersion();

@@ -344,7 +344,7 @@ export class Util {
                     this.global.boxUserInfo = res.userinfo;
                     return this.global.deviceSelected;
                 }else{
-                    console.error("["+logid+"]" + "没有盒子登录态，手动清除中心登录信息");
+                    console.log("["+logid+"]" + "没有盒子登录态，手动清除中心登录信息");
                     this.global.setSelectedBox(null);
                     this.global.centerUserInfo = {};
                     return Promise.reject("Error occured...");
@@ -356,11 +356,11 @@ export class Util {
         .then(()=> {
             this.getDiskStatus()
                 .then(() => {
-                    console.error("["+logid+"]" + "获取盒子状态成功，刷新list");
+                    console.log("["+logid+"]" + "获取盒子状态成功，刷新list");
                     this.events.publish('list:refresh');
                 })
                 .catch(() => {
-                    console.error("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
+                    console.log("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
                 })
         });
 
@@ -795,7 +795,26 @@ export class Util {
             // if(1) {
             if(!this.platform.is('cordova')) {
 				setTimeout(() => {
-                    resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.2:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
+                    // resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.2:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
+                    resolve([{"boxId":"UBOXV1236638987688822c4",
+                    "bindUser":"ao**0@163.com",
+                    "friendlyName":"32",
+                    "manufacturer":"23",
+                    "manufacturerURL":"23",
+                    "deviceType":"UBOXV1236638987688822c4",
+                    "version":"1.2.3",
+                    "URLBase":["192.168.0.36:37867"],
+                    "bindUserHash":"45edba743bd17fbcefdc5affb77ff75b"}, 
+                    {"boxId":"UBOXV1236638987688822c4",
+                    "bindUser":"ao**0@163.com",
+                    "friendlyName":"32",
+                    "manufacturer":"23",
+                    "manufacturerURL":"23",
+                    "deviceType":"UBOXV1236638987688822c4",
+                    "version":"1.2.3",
+                    "URLBase":["192.168.0.36:37867"],
+                    "bindUserHash":"45edba743bd17fbcefdc5affb77ff75b"}])
+
                     // resolve([]);
 				}, minSearchTime);
 				// resolve([]);
@@ -1234,10 +1253,12 @@ export class Util {
 		.then((res:any) => {
 			if (res.err_no === 0) {
 				this.global.walletList = res.wallets;
-				let wallet = res.wallets.map(w => w.addr);
-				return this.http.post(GlobalService.centerApi["getWalletBalance"].url, {
-					wallet: wallet.join(',')
-				})
+                let wallet = res.wallets.map(w => w.addr);
+                if(this.global.walletList.length > 0) {
+                    return this.http.post(GlobalService.centerApi["getWalletBalance"].url, {
+                        wallet: wallet.join(',')
+                    })
+                }
 			} else {
 				return []
 			}
@@ -2083,7 +2104,8 @@ export class Util {
 					// item.size = this.cutFloat(item.size / GlobalService.DISK_G_BITS, 0).replace('.','') + 'GB';
 					if(item.position == 'base') {
 						this.global.currDiskUuid = item.uuid;
-						this.global.currSelectDiskUuid = item.uuid;
+                        this.global.currSelectDiskUuid = item.uuid;
+                        this.global.mainSelectDiskUuid = item.uuid;
 					}
 				});
 				if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){

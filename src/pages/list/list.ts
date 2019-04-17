@@ -78,6 +78,7 @@ export class ListPage {
     // isShowAside: boolean = false;
     disks: any = [];
     isMainDisk: boolean = false;
+    isShowPageTitle: boolean = false;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -132,16 +133,14 @@ export class ListPage {
         } else {
             this.hideAddBtn = false;
         }
-
+        this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
         if(this.global.diskInfo.disks) {
             this.disks = this.global.diskInfo.disks.filter(item => {
-                if(item.position == 'base' && this.global.currDiskUuid == item.uuid) {
-                    this.isMainDisk = true;
-                }
                 return item.position != 'base';
                 // return item
             });
         }
+        this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/'); 
         GlobalService.consoleLog("this.currPath" + this.currPath);
         if(this.currPath == '') {
             setTimeout(()=>{
@@ -186,8 +185,15 @@ export class ListPage {
 
     refreshFilesEvent() {
         console.log("Refresh file list..." + this.global.currPath);
-
         this.global.currPath = '/';
+        this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/'); 
+        this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
+        if(this.global.diskInfo.disks) {
+            this.disks = this.global.diskInfo.disks.filter(item => {
+                return item.position != 'base';
+                // return item
+            });
+        }
         this.listFiles();
     }
 
@@ -559,6 +565,7 @@ export class ListPage {
 
     initPage() {
         var type = this.navParams.get("type");
+        var diskName = this.navParams.get("name") || '';
         var config = {
             'all': {
                 title: Lang.L('DirAllFiles'),
@@ -602,6 +609,9 @@ export class ListPage {
                 this.pageTitle = this.showTitle[this.showTitle.length-1];
             }
             this.currPath = path;
+        }
+        if(diskName != '') {
+            this.pageTitle = diskName;
         }
         this.global.currPath = this.currPath;
         this.dataAcquired = false;
@@ -771,13 +781,11 @@ export class ListPage {
 
 
     toggleClassifyNav(isShow = null) {
-        console.log("list is Show: " + isShow)
         if(isShow != null) {
             this.isShowClassifyNav = false;
         } else {
             this.isShowClassifyNav = !this.isShowClassifyNav;
         }
-        console.log("点击后list Show or Hide: " + this.isShowClassifyNav)
     }
 
 
@@ -796,7 +804,8 @@ export class ListPage {
         this.currPath = '/';
         this.app.getRootNav().push(ListPage, {
             type: "",
-            path: this.currPath
+            path: this.currPath,
+            name: disk.label
         });
     }
 

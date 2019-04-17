@@ -51,7 +51,7 @@
                 <p class="second-title" *ngIf="detailDesc != ''">{{ global.L("FileDescription") }}</p>
                 <div class="detail-des" *ngIf="detailDesc != ''">
                     <div [innerHTML]="detailDesc" class="desc-box" [ngClass]="isShowDesc ? 'show-more' : ''"></div>
-                    <div class="see-more" *ngIf="detailDesc.length > 240" (click)="toggleShowDesc()">{{ isShowDesc ? global.L("PutMore") : global.L("ViewMore") }}</div>
+                    <div class="see-more" *ngIf="isShowMoreBtn" (click)="toggleShowDesc()">{{ isShowDesc ? global.L("PutMore") : global.L("ViewMore") }}</div>
                 </div>
                 <p class="second-title" *ngIf="desImgList.length > 0">{{ global.L("RelatedImages") }}</p>
                 <div class="img-list-box" *ngIf="desImgList.length > 0">
