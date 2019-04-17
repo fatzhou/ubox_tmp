@@ -147,7 +147,7 @@ export class Util {
 
         //Step 4. 搜索获取盒子列表
         .then((cachedBoxId)=> {
-            return this.searchUbbey(false, cachedBoxId).then((boxes: any) => {
+            return this.searchUbbey(true, cachedBoxId).then((boxes: any) => {
                 if (boxes && boxes.length) {
                     return boxes;
                 } else {
@@ -780,8 +780,9 @@ export class Util {
 
     searchUbbey(imediate = false, fastSearchBoxid = "") {
 		let start = Date.now();
-		let minSearchTime = 3000;
-        GlobalService.consoleLog("开始盒子扫描，imediate=" + imediate + ",fastSearchBoxid=" + fastSearchBoxid);
+        let logid = Date.now();
+        let minSearchTime = 3000;
+        GlobalService.consoleLog("["+logid+"]" + "开始盒子扫描，imediate=" + imediate + ",fastSearchBoxid=" + fastSearchBoxid);
         return new Promise((resolve, reject) => {
             // if(1) {
             if(!this.platform.is('cordova')) {
@@ -822,7 +823,7 @@ export class Util {
             }, SEARCH_TIMEOUT);
 
             var setSearchFinish = (devices) => {
-                GlobalService.consoleLog("盒子扫描完毕! 扫描到到盒子个数：" + devices.length);
+                GlobalService.consoleLog("["+logid+"]" + "盒子扫描完毕! 扫描到到盒子个数：" + devices.length);
                 clearTimeout(timeout);
 				timeout = null;
 
@@ -836,24 +837,25 @@ export class Util {
 						self.parseDeviceList(devices, deviceList => {
 							// GlobalService.consoleLog("解析完毕" + JSON.stringify(deviceList));
 							self.global.foundDeviceList = deviceList;
-                            GlobalService.consoleLog("盒子扫描1共耗时:" + (Date.now() - start));
+                            GlobalService.consoleLog("["+logid+"]" + "盒子扫描1共耗时:" + (Date.now() - start));
                             resolve(deviceList);
 						});
 					} else {
-                        GlobalService.consoleLog("盒子扫描2共耗时:" + (Date.now() - start));
+                        GlobalService.consoleLog("["+logid+"]" + "盒子扫描2共耗时:" + (Date.now() - start));
                         resolve([]);
 					}
 				}, t);
             };
             let processRes = (devices) => {
-                GlobalService.consoleLog("发现接口成功回调");
+                GlobalService.consoleLog("["+logid+"]" + "发现接口成功回调, devices.length=" + devices.length);
+                let logstr = "";
                 //ios需要手动下载xml
                 if(devices.length) {
                     for(var i = 0, len = devices.length; i < len; i++) {
                         var myLocation = devices[i].LOCATION.replace(/\/\/([^\/]+)$/g, "/$1");
                         self.http.get(myLocation, {}, false, {}, {}, true)
                         .then(res => {
-                            GlobalService.consoleLog("成功！！" + JSON.stringify(res));
+                            logstr += i + ":" + JSON.stringify(res) + "\r\n";
                             if(typeof res === 'string') {
                                 deviceList.push({
                                     xml: res
@@ -865,12 +867,12 @@ export class Util {
                             }
 
                             if(deviceList.length === len) {
+                                GlobalService.consoleLog("["+logid+"]" + "扫描成功！！" + logstr);
                                 setSearchFinish(deviceList);
                             }
                         })
                         .catch(e => {
-                            GlobalService.consoleLog("失败！");
-                            GlobalService.consoleLog(JSON.stringify(e));
+                            GlobalService.consoleLog("["+logid+"]" + "扫描失败！" + JSON.stringify(e));
                             deviceList.push({
                                 xml: ''
                             });
@@ -1177,7 +1179,7 @@ export class Util {
                 let pingTimer = setTimeout(()=>{
                     rejected = true;
                     reject()
-                }, 2000);
+                }, 800);
 
                 this.http.post(url, {}, false, {}, {})
                     .then(()=>{
