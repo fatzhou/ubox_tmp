@@ -146,6 +146,7 @@ export class ListPage {
 	}
 
 	connectionChangeCallback() {
+        console.log('刷新列表')
 		this.listFiles();
 	}
 
@@ -180,7 +181,8 @@ export class ListPage {
 			this.events.unsubscribe('list:refresh');
 			this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
         }
-        if(this.global.diskInfo && this.global.diskInfo.disks) {
+        console.log('this.global.currDiskUuid' + this.global.currDiskUuid)
+        if(this.global.diskInfo && this.global.diskInfo.disks && this.global.currDiskUuid != '') {
             this.listFiles();
         }
 		GlobalService.consoleLog("this.currPath" + this.currPath);
@@ -191,11 +193,13 @@ export class ListPage {
         console.log("Refresh file list..." + this.global.currPath);
         this.global.currPath = '/';
         this.initDiskInfo();
-        this.global.diskInfo.disks.map((item)=> {
-            if(item.position == 'base') {
-                this.global.currDiskUuid = item.uuid;
-            }
-        });
+        if(this.global.diskInfo.disks) {
+            this.global.diskInfo.disks.map((item)=> {
+                if(item.position == 'base') {
+                    this.global.currDiskUuid = item.uuid;
+                }
+            });
+        }
         this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
         this.listFiles();
     }

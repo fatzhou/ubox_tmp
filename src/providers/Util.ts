@@ -1521,6 +1521,7 @@ export class Util {
         setTimeout(()=>{
             this.global.boxUserInfo = {};
             this.global.centerUserInfo = {};
+            this.global.diskInfo = {};
             callback && callback();
         }, 0);
 

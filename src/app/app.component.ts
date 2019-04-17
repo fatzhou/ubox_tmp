@@ -668,7 +668,8 @@ export class UboxApp {
 					// .then(res => {
 					// 	console.log(res)
 					// 	this.tabsController.slideTo(0);
-					// });
+                    // });
+                    this.util.getDiskStatus();
 					this.tabsController.slideTo(0, 'boxtabs');
 					break;
 				case 'discover':
