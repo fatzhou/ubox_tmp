@@ -112,11 +112,8 @@ export class FindPage {
                 var list = [];
                 var index = 0;
                 if (res.list && res.list.length > 0) {
-                    
                     console.log(JSON.stringify(res.list));
-                    
                     this.feedList.unshift(res.list[0]);
-                    
                 }
                 
             }
@@ -137,7 +134,7 @@ export class FindPage {
                 var index = 0;
                 if (res.list && res.list.length > 0) {
                     let hash = {}; 
-                    this.feedList = this.feedList.concat(res.list);
+                    this.feedList = res.list.concat(this.feedList);
                     this.feedList = this.feedList.reduce((preVal, curVal) => {
                         hash[curVal.resid] ? '' : hash[curVal.resid] = true && preVal.push(curVal); 
                         return preVal 
@@ -153,7 +150,9 @@ export class FindPage {
     refreshFeedList(infiniteScroll) {
         GlobalService.consoleLog("上滑加载")
         this.getFeedList();
-        infiniteScroll.complete();     
+        setTimeout(()=>{
+            infiniteScroll.complete();   
+        }, 500)
     }
 
     downloadBt(item) {

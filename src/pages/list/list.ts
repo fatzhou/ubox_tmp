@@ -176,9 +176,10 @@ export class ListPage {
 		if(this.currPath == '/') {
 			this.events.unsubscribe('list:refresh');
 			this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
-		}
-
-        this.listFiles();
+        }
+        if(this.global.diskInfo && this.global.diskInfo.disks) {
+            this.listFiles();
+        }
 		GlobalService.consoleLog("this.currPath" + this.currPath);
 		return true;
     }
