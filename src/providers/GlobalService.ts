@@ -7,6 +7,7 @@ import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 declare var cordova: any;
+declare var window: any;
 
 @Injectable()
 export class GlobalService {
@@ -593,9 +594,12 @@ export class GlobalService {
     getBoxApi(name) {
         if (this.deviceSelected && this.deviceSelected.URLBase && !this.useWebrtc) {
             return "http://" + this.deviceSelected.URLBase + GlobalService.boxApi[name].url;
-        } else {
+        } else if(this.useWebrtc) {
             return GlobalService.boxApi[name].url;
-        }
+        } else {
+			GlobalService.consoleLog("近场网络尚未连接盒子........");
+			return '';
+		}
         // return GlobalService.boxApi[name].url;
     }
 
@@ -681,6 +685,8 @@ export class GlobalService {
     }
 
     setSelectedBox(deviceSelected, nullsave=false){
+        console.log("xxxxsetSelectedBox123")
+        window.mytrace()
         this.deviceSelected = deviceSelected;
         if (this.deviceSelected){
             //忽略保存结果

@@ -181,7 +181,7 @@ export class Util {
             }
             //用户直接输入账号密码登录
             let loginUrl = GlobalService.centerApi["login"].url;
-            $scope.http.post(loginUrl, {
+            	$scope.http.post(loginUrl, {
                     uname: $scope.username,
                     password: Md5.hashStr($scope.password).toString(),
                     // password: $scope.password,
@@ -207,7 +207,8 @@ export class Util {
                 }
 
                 GlobalService.consoleLog("获取用户信息成功，保存用户信息...." + JSON.stringify(res.user_info));
-                $scope.global.centerUserInfo = res.user_info;
+				$scope.global.centerUserInfo = res.user_info;
+				$scope.global.centerUserInfo.unameHash = Md5.hashStr(res.user_info.uname).toString();
             })
         })
 
@@ -235,12 +236,12 @@ export class Util {
 			GlobalService.consoleLog("登录并获取盒子失败........");
             GlobalService.consoleLog(res);
             $scope.global.closeGlobalLoading($scope);
-            $scope.global.setSelectedBox(null);
             //没有盒子或者其他错误，只需登录中心即可
 			// errorCallback && errorCallback();
 			if(res == 'selectboxfailed') {
 				return Promise.resolve();
 			} else {
+				$scope.global.setSelectedBox(null);
 				return Promise.reject(res);
 			}
         })
@@ -270,9 +271,9 @@ export class Util {
             }).catch((err) => {
                 if (err == "USER_HAVE_NO_BOX") {
                     GlobalService.consoleLog("[" + logid + "]" + "用户明确无盒子，本地搜索盒子失败");
-                    return null;
+                    return Promise.reject("USER_HAVE_NO_BOX");
                 } else {
-                    return Promise.reject(null);
+                    return null;
                 }
             });
         })
@@ -380,12 +381,13 @@ export class Util {
             else {
                 let retrycount = 0;
                 let doSelectLoop = function () {
+                    retrycount++;
                     let oldlogid = logid;
                     logid = Date.now();
                     GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
                     doSelect.then(resolve).catch((err)=>{
-                        retrycount++;
-                        GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + err);
+
+                        GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + JSON.stringify(err));
                         setTimeout(()=>{doSelectLoop()}, 15000);
                     })
                 };
@@ -906,9 +908,9 @@ export class Util {
         let count = 3;
 
         let updateDeviceSelected = () => {
-            let deviceSelected = this.global.foundDeviceList.filter(item => {
+            let deviceSelected = this.global.foundDeviceList.find(item => {
                 return item.boxId === boxId;
-            })[0] || null;
+            });
             this.global.setSelectedBox(deviceSelected)
         };
 
@@ -1188,7 +1190,7 @@ export class Util {
                     reject()
                 }, 2000);
 
-                this.http.post(url, {}, false, {}, {}, true)
+                this.http.post(url, {}, false, {}, {})
                     .then(()=>{
                         if (!rejected){
                             resolve(mybox || this.global.deviceSelected)
@@ -2051,43 +2053,9 @@ export class Util {
     }
 
     getDiskStatus() {
-		return new Promise((resolve, reject) => {
-			let user = this.global.centerUserInfo.uname,
-				userHash = Md5.hashStr(user).toString();
-			let boxKey = userHash + "BoxDisk";
-			if(this.global.deviceSelected) {
-				var url = this.global.getBoxApi("getDiskStatus");
-				this.http.post(url, {}, true, {})
-				.then(res => {
-					if(res.err_no == 0) {
-						//存入缓存
-						this.storage.set(boxKey, JSON.stringify({
-							box: res.box,
-							disks: res.disks
-						}));
-					}
-					resolve(res);
-				}, reject);
-			} else {
-				this.storage.get(boxKey)
-				.then(res => {
-					try {
-						if(res) {
-							let info = JSON.parse(res);
-							resolve({
-								err_no: 0,
-								box: info.box,
-								disks: info.disks
-							})
-						} else {
-							reject();
-						}
-					}
-					catch(e) {
-						reject();
-					}
-				})
-			}
+		var url = this.global.getBoxApi("getDiskStatus");
+		return this.http.postWithStorage(url, {}, true, {}, {
+			storageName: 'DiskStatusInfo'
 		})
 		.then((data:any) => {
 			if (data.err_no === 0) {

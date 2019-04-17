@@ -321,54 +321,60 @@ export class HttpService {
 		}
 	}
 
-	public post(url: string, paramObj: any, errorHandler: any = true, headers: any = {}, options: any = {}, cordova = false) {
+	public post(url: string, paramObj: any, errorHandler: any = true, headers: any = {}, options: any = {}) {
 		url = url || '';
 		headers['X-Request-Id'] = this.getXRequestId();
 		console.log("是否使用webrtc?" + this.global.useWebrtc);
-		let ifBoxUrl = !url.startsWith('http');
-		if(!ifBoxUrl || ifBoxUrl && this.global.deviceSelected) {
-			//box请求必须要有盒子
-			if (!ifBoxUrl || !this.global.useWebrtc || cordova || options.forceLocal) {
-				//接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
-				return this._post(url, paramObj, headers, options, errorHandler, cordova);
+		if (!this.global.useWebrtc || options.forceLocal) {
+			//接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
+			return this._post(url, paramObj, headers, options, errorHandler);
+		} else {
+			let label = options.channelLabel || this.channelLabels[0],
+				channel = this.channels[label].channel,
+				status = this.channels[label].status;
+			if (status === 'opened') {
+				// GlobalService.consoleLog("已经连接盒子sdp，直接post'");
+				return this.webrtcRequest(url, 'post', paramObj, headers, options)
+					.then((res: any) => this.handleSuccess(url, res.data, options, errorHandler))
+					.catch(error => this.handleError(error, errorHandler));
 			} else {
-				let label = options.channelLabel || this.channelLabels[0],
-					channel = this.channels[label].channel,
-					status = this.channels[label].status;
-				if (status === 'opened') {
-					// GlobalService.consoleLog("已经连接盒子sdp，直接post'");
-					return this.webrtcRequest(url, 'post', paramObj, headers, options)
-						.then((res: any) => this.handleSuccess(url, res.data, options, errorHandler))
-						.catch(error => this.handleError(error, errorHandler));
-				} else {
-					GlobalService.consoleLog(label + "缓存请求，稍后post..." + url);
-					return new Promise((resolve, reject) => {
-						this.globalWaitingList[label].push({
-							url: url,
-							resolve: resolve,
-							reject: reject,
-							paramObj: paramObj,
-							errorHandler: label == this.channelLabels[0] == label ? errorHandler : false,
-							headers: headers,
-							method: 'post',
-							time: Date.now()
-						})
+				GlobalService.consoleLog(label + "缓存请求，稍后post..." + url);
+				return new Promise((resolve, reject) => {
+					this.globalWaitingList[label].push({
+						url: url,
+						resolve: resolve,
+						reject: reject,
+						paramObj: paramObj,
+						errorHandler: label == this.channelLabels[0] == label ? errorHandler : false,
+						headers: headers,
+						method: 'post',
+						time: Date.now()
 					})
-				}
+				})
 			}
+		}	
+	}
+
+	public postWithStorage(url: string, paramObj: any, errorHandler: any = true, headers: any = {}, options: any = {}) {
+		url = url || '';
+		headers['X-Request-Id'] = this.getXRequestId();
+		console.log("是否使用webrtc?" + this.global.useWebrtc);
+		// let ifBoxUrl = !url.startsWith('http');
+		let ifBoxUrl = !url.startsWith('http') || /^http(s?):\/\/(\d+){,3}\.(\d+){,3}\.(\d+){,3}\.(\d+){,3}:(\d+)/g.test(url); //检测是否盒子的url
+		if(!ifBoxUrl || ifBoxUrl && this.global.deviceSelected || this.global.useWebrtc && !options.storageName) {
+			//box请求必须要有盒子
+			return this.post(url, paramObj, errorHandler, headers, options);
 		} else {
 			//发往盒子的请求，但是尚未连接盒子
 			if(options.storageName) {
 				return new Promise((resolve, reject) => {
-					this.storage.get(options.storageName)
+					let name = options.storageName + this.global.centerUserInfo.unameHash;
+					this.storage.get(name)
 					.then(res => {
 						try {
 							if(res) {
 								let data = JSON.parse(res);
-								resolve({
-									err_no: 0,
-									[options.fieldName]: data
-								});
+								resolve(data);
 							} else {
 								reject({
 									err_no: -2,
@@ -409,7 +415,7 @@ export class HttpService {
 			GlobalService.consoleLog("发出post请求:" + url);
 			GlobalService.consoleLog("请求参数:" + this.toBodyString(paramObj));
 
-			if (cordova || this.platform.is('cordova')) {
+			if (this.platform.is('cordova')) {
 				// if (this.platform.is('cordova') || cordova) {
 				return this.http.post(url, paramObj, headers)
 					.then((res: any) => {
@@ -525,7 +531,8 @@ export class HttpService {
 			});
 			return result;
 		} else if(result.err_no == 0 && options.storageName) {
-			this.storage.set(options.storageName, JSON.stringify(result[options.fieldName]));
+			let name = options.storageName + this.global.centerUserInfo.unameHash;
+			this.storage.set(name, JSON.stringify(result));
 		}
 		return result;
 		// return new Promise
@@ -980,8 +987,8 @@ console.log("开始后去盒子列表....")
                     + ", onlineStatus:" + deviceSelected.online_status
                     + "，sdpRegister:"  + deviceSelected.sdp_register);
                 this.selectBox(deviceSelected);
-                this.global.setSelectedBox(deviceSelected);
-                GlobalService.consoleLog("deviceSelected:" + JSON.stringify( this.global.deviceSelected));
+                //this.global.setSelectedBox(deviceSelected);
+                GlobalService.consoleLog("deviceSelected:" + JSON.stringify( this.deviceSelected));
                 return this.deviceSelected;
             })
             //Step 3. 通过当前选择的盒子的id，去中心拉取盒子的sdp
