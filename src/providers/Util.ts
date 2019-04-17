@@ -270,9 +270,9 @@ export class Util {
             }).catch((err) => {
                 if (err == "USER_HAVE_NO_BOX") {
                     GlobalService.consoleLog("[" + logid + "]" + "用户明确无盒子，本地搜索盒子失败");
-                    return null;
+                    return Promise.reject("USER_HAVE_NO_BOX");
                 } else {
-                    return Promise.reject(null);
+                    return null;
                 }
             });
         })
