@@ -318,7 +318,6 @@ export class ListPage {
 			disk_uuid: this.global.currDiskUuid
 		}, true, {
 			storageName: 'FileStorage' + Md5.hashStr(this.currPath).toString(),
-			fieldName: 'list'
 		})
         .then((res:any) => {
             this.dataAcquired = true;

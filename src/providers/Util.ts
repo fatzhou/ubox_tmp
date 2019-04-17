@@ -172,7 +172,7 @@ export class Util {
         })
     }
 
-    public loginAndCheckBox($scope, silence = true) {
+    public loginAndCheckBox($scope, tips = true) {
         return new Promise((resolve, reject)=>{
             //用户没有输入密码通过getUserInfo判断后续操作模式
             if(!$scope.username || !$scope.password) {
@@ -185,7 +185,7 @@ export class Util {
                     uname: $scope.username,
                     password: Md5.hashStr($scope.password).toString(),
                     // password: $scope.password,
-                }, silence)
+                }, tips)
             .then((res) => {
                 GlobalService.consoleLog("登录中心成功，获取个人信息" + JSON.stringify(res));
                 if (res.err_no === 0) {
@@ -200,7 +200,7 @@ export class Util {
 
         //尝试从中心直接获取用户信息
         .then(res=>{
-            return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, silence).then((res:any)=>{
+            return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, tips).then((res:any)=>{
                 if (res.err_no !== 0) {
                     GlobalService.consoleLog("获取用户信息错误.......");
                     return Promise.reject("UserInfo Error");
@@ -623,14 +623,8 @@ export class Util {
                 {
                     text: Lang.L('WORDd0ce8c46'),
                     handler: data => {
-                        if($scope.global.centerUserInfo.earn !== undefined) {
-                            //已登录中心，直接修改
-                            self.removeBox($scope, boxId, callback);
-                        } else {
-                            Util.loginCenter($scope, ()=>{
-                                self.removeBox($scope, boxId, callback);
-                            });
-                        }
+						//已登录中心，直接修改
+						self.removeBox($scope, boxId, callback);
                     }
                 },
                 {
@@ -682,35 +676,35 @@ export class Util {
         })
     }
 
-    public static loginCenter($scope, callback, silence: any = true, errorCallback = null) {
-        var userInfoUrl = GlobalService.centerApi["login"].url;
-        $scope.http.post(userInfoUrl, {
-            uname: $scope.username,
-            password: Md5.hashStr($scope.password).toString(),
-            // password: $scope.password,
-        }, silence)
-        .then((res) => {
-            if (res.err_no === 0) {
-                GlobalService.consoleLog("登录中心成功，获取个人信息");
-                return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, false);
-            } else {
-                throw new Error('登录中心失败');
-            }
-        })
-        .then((res) => {
-            if (res.err_no === 0) {
-                $scope.global.centerUserInfo = res.user_info;
-                var boxUsername = $scope.global.boxUserInfo.username;
-                GlobalService.consoleLog("中心登录成功：" + boxUsername + "," + res.user_info.uname);
-                callback && callback(res);
-            }
-        })
-        .catch(res => {
-            GlobalService.consoleLog(res);
-            $scope.global.closeGlobalLoading($scope);
-            errorCallback && errorCallback();
-        })
-    }
+    // public static loginCenter($scope, callback, tips: any = true, errorCallback = null) {
+    //     var userInfoUrl = GlobalService.centerApi["login"].url;
+    //     $scope.http.post(userInfoUrl, {
+    //         uname: $scope.username,
+    //         password: Md5.hashStr($scope.password).toString(),
+    //         // password: $scope.password,
+    //     }, tips)
+    //     .then((res) => {
+    //         if (res.err_no === 0) {
+    //             GlobalService.consoleLog("登录中心成功，获取个人信息");
+    //             return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, false);
+    //         } else {
+    //             throw new Error('登录中心失败');
+    //         }
+    //     })
+    //     .then((res) => {
+    //         if (res.err_no === 0) {
+    //             $scope.global.centerUserInfo = res.user_info;
+    //             var boxUsername = $scope.global.boxUserInfo.username;
+    //             GlobalService.consoleLog("中心登录成功：" + boxUsername + "," + res.user_info.uname);
+    //             callback && callback(res);
+    //         }
+    //     })
+    //     .catch(res => {
+    //         GlobalService.consoleLog(res);
+    //         $scope.global.closeGlobalLoading($scope);
+    //         errorCallback && errorCallback();
+    //     })
+    // }
 
     parseDeviceList(devices,callback) {
         var maps = {};
@@ -1452,67 +1446,68 @@ export class Util {
         callback && callback(keystore, filename, address);
     }
 
-    public static loginBox($scope, callback, centerLogin:Boolean = true, errorCallback = null) {
-        GlobalService.consoleLog("开始登录盒子！！！");
-        var boxInfo = $scope.global.deviceSelected;
-        // var url = "http://" + boxInfo.URLBase + GlobalService.boxApi["login"].url;
-        var url = $scope.global.getBoxApi('login');
-        // var userInfoUrl = "http://" + boxInfo.URLBase + GlobalService.boxApi["getUserInfo"].url;
-        var userInfoUrl = $scope.global.getBoxApi('getUserInfo');
-        var loginCallback = (res)=>{
-            GlobalService.consoleLog("进入登录回调！！" + centerUsername);
-            var centerUsername = $scope.global.centerUserInfo.uname && $scope.global.centerUserInfo.uname.toLowerCase() || undefined;
-            var boxUsername = $scope.global.boxUserInfo.username && $scope.global.boxUserInfo.username.toLowerCase() || undefined;
-            if(centerUsername !== undefined && centerUsername === boxUsername) {
-                GlobalService.consoleLog("登录态一致，可进入首页" + !!callback);
-                if(callback) {
-                    callback(res);
-                }
-            } else if(centerUsername !== undefined && boxUsername !== undefined && centerUsername != boxUsername) {
-                GlobalService.consoleLog("登录态不一致：" + centerUsername + "," + boxUsername);
-                $scope.util.logoutCenter(()=>{
-                    if(callback) {
-                        callback(res);
-                    }
-                })
-            }  else {
-                if(callback) {
-                   callback(res);
-                }
-            }
-        };
-        $scope.http.post(url, {
-            username: $scope.username,
-            password: Md5.hashStr($scope.password).toString(),
-            // password: $scope.password,
-        })
-        .then((res) => {
-            if (res.err_no === 0) {
-                GlobalService.consoleLog("登录盒子成功，获取盒子用户信息");
+    // public static loginBox($scope, callback, centerLogin:Boolean = true, errorCallback = null) {
+    //     GlobalService.consoleLog("开始登录盒子！！！");
+    //     var boxInfo = $scope.global.deviceSelected;
+    //     // var url = "http://" + boxInfo.URLBase + GlobalService.boxApi["login"].url;
+    //     var url = $scope.global.getBoxApi('login');
+    //     // var userInfoUrl = "http://" + boxInfo.URLBase + GlobalService.boxApi["getUserInfo"].url;
+    //     var userInfoUrl = $scope.global.getBoxApi('getUserInfo');
+    //     var loginCallback = (res)=>{
+    //         GlobalService.consoleLog("进入登录回调！！" + centerUsername);
+    //         var centerUsername = $scope.global.centerUserInfo.uname && $scope.global.centerUserInfo.uname.toLowerCase() || undefined;
+    //         var boxUsername = $scope.global.boxUserInfo.username && $scope.global.boxUserInfo.username.toLowerCase() || undefined;
+    //         if(centerUsername !== undefined && centerUsername === boxUsername) {
+    //             GlobalService.consoleLog("登录态一致，可进入首页" + !!callback);
+    //             if(callback) {
+    //                 callback(res);
+    //             }
+    //         } else if(centerUsername !== undefined && boxUsername !== undefined && centerUsername != boxUsername) {
+    //             GlobalService.consoleLog("登录态不一致：" + centerUsername + "," + boxUsername);
+    //             $scope.util.logoutCenter(()=>{
+    //                 if(callback) {
+    //                     callback(res);
+    //                 }
+    //             })
+    //         }  else {
+    //             if(callback) {
+    //                callback(res);
+    //             }
+    //         }
+    //     };
+    //     $scope.http.post(url, {
+    //         username: $scope.username,
+    //         password: Md5.hashStr($scope.password).toString(),
+    //         // password: $scope.password,
+    //     })
+    //     .then((res) => {
+    //         if (res.err_no === 0) {
+    //             GlobalService.consoleLog("登录盒子成功，获取盒子用户信息");
 
-                if(centerLogin) {
-                    GlobalService.consoleLog("自动登录中心");
-                    Util.loginCenter($scope, null, true);
-                }
+    //             if(centerLogin) {
+    //                 GlobalService.consoleLog("自动登录中心");
+    //                 Util.loginCenter($scope, null, true);
+    //             }
 
-                return $scope.http.post(userInfoUrl, {})
-            } else {
-                callback && callback(res);
-                throw new Error('登录盒子失败');
-            }
-        })
-        .then((res) => {
-            if (res.err_no === 0) {
-                $scope.global.boxUserInfo = res.userinfo;
-                GlobalService.consoleLog("盒子cookie：" + $scope.http.getCookieString(url));
-                loginCallback(res);
-            }
-        })
-        .catch(res => {
-            errorCallback&&errorCallback();
-            GlobalService.consoleLog(res);
-        })
-    }
+    //             return $scope.http.post(userInfoUrl, {})
+    //         } else {
+    //             callback && callback(res);
+    //             throw new Error('登录盒子失败');
+    //         }
+    //     })
+    //     .then((res) => {
+    //         if (res.err_no === 0) {
+    //             $scope.global.boxUserInfo = res.userinfo;
+    //             GlobalService.consoleLog("盒子cookie：" + $scope.http.getCookieString(url));
+    //             loginCallback(res);
+    //         }
+    //     })
+    //     .catch(res => {
+    //         errorCallback&&errorCallback();
+    //         GlobalService.consoleLog(res);
+    //     })
+	// }
+	
     public logoutCenter(callback) {
         this.global.centerUserInfo = {};
         return this.http.post(GlobalService.centerApi["logout"].url, {}, false)

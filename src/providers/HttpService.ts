@@ -259,7 +259,7 @@ export class HttpService {
 			GlobalService.consoleLog("请求参数:" + this.toQueryString(paramObj));
 
 			headers['X-Request-Id'] = this.getXRequestId();
-			if (url.startsWith('http') || !this.global.useWebrtc) {
+			if (url.startsWith('http') || !this.global.useWebrtc || cordova) {
 				if (cordova && this.platform.is('cordova') || this.platform.is('cordova') && this.global.platformName == "android") {
 					// if (this.platform.is('cordova') || cordova) {
 					return this.http.get(url + this.toQueryString(paramObj), {}, headers)
@@ -325,7 +325,7 @@ export class HttpService {
 		url = url || '';
 		headers['X-Request-Id'] = this.getXRequestId();
 		console.log("是否使用webrtc?" + this.global.useWebrtc);
-		if (!this.global.useWebrtc || options.forceLocal) {
+		if (url.startsWith('http') || !this.global.useWebrtc || options.forceLocal) {
 			//接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
 			return this._post(url, paramObj, headers, options, errorHandler);
 		} else {
@@ -367,6 +367,7 @@ export class HttpService {
 		} else {
 			//发往盒子的请求，但是尚未连接盒子
 			if(options.storageName) {
+				GlobalService.consoleLog("使用缓存：" + options.storageName);
 				return new Promise((resolve, reject) => {
 					let name = options.storageName + this.global.centerUserInfo.unameHash;
 					this.storage.get(name)
