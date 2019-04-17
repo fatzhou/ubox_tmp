@@ -104,6 +104,7 @@
     <allow-navigation href="http://192.168.0.35:8100" />
     <allow-navigation href="http://192.168.0.18:8101" />
     <engine name="ios" spec="4.5.5" />
+    <engine name="android" spec="6.3.0" />
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.1.3" />
@@ -139,5 +140,4 @@
     </plugin>
     <plugin name="cordova-plugin-discovery" spec="https://github.com/ubbey/cordova-plugin-discovery.git" />
     <plugin name="cordova-plugin-file-transfer" spec="git+https://github.com/ubbey/cordova-plugin-file-transfer.git" />
-    <engine name="android" spec="~6.3.0" />
 </widget>

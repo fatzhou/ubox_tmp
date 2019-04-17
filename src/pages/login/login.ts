@@ -158,63 +158,63 @@ export class LoginPage {
         })
 	}
 
-    loginBox() {
-        let res:any = {};
-        Util.loginBox(this, (res)=>{
-            if(res.err_no === 0) {
-                GlobalService.consoleLog("盒子登录成功！！！")
-                this.navCtrl.push(TabsPage)
-                .then(() => {
-                    this.isLoading = false;
-                })
-            } else if(res.err_no === 1101) {
-                //登录失败，可能是因为盒子重置了或者其他APP解除绑定了
-                // let view = this.navCtrl.getActive().name;
-                // let root = this.app.getRootNav().root.name;
-                // GlobalService.consoleLog("名字:" + view + "," + root);
-                // GlobalService.consoleLog(this.navCtrl.length)
-                if(this.navCtrl.length() === 1) {
-                    setTimeout(()=>{
-                        //此时应当提示用户重新扫描
-                        this.global.createGlobalAlert(this, {
-                            title: Lang.L("AccountError"),
-                            message: Lang.L("AccountErrorReason"),
-                            buttons: [
-                                {
-                                    text: Lang.L("ReScan"),
-                                    handler: data => {
-                                        this.util.logout(()=>{
-                                            // this.events.publish('root:changed', DeviceSearchPage);
-                                            // this.navCtrl.push(TestPage, {
-                                            this.navCtrl.push(DeviceSearchPage, {
-                                                refresh: true
-                                            })
-                                            .then(() => {
-                                                this.isLoading = false;
-                                            })
-                                        })
-                                    }
-                                },
-                                {
-                                    text: Lang.L("ReInput"),
-                                    handler: data => {
-                                        // this.handleBack();
-                                        this.isLoading = false;
-                                    }
-                                },
-                            ]
-                        });
-                    }, GlobalService.ToastTime)
-                } else {
-                    this.isLoading = false;
-                }
-            } else {
-                this.isLoading = false;
-            }
-        }, true, () => {
-            this.isLoading = false;
-        });
-    }
+    // loginBox() {
+    //     let res:any = {};
+    //     Util.loginBox(this, (res)=>{
+    //         if(res.err_no === 0) {
+    //             GlobalService.consoleLog("盒子登录成功！！！")
+    //             this.navCtrl.push(TabsPage)
+    //             .then(() => {
+    //                 this.isLoading = false;
+    //             })
+    //         } else if(res.err_no === 1101) {
+    //             //登录失败，可能是因为盒子重置了或者其他APP解除绑定了
+    //             // let view = this.navCtrl.getActive().name;
+    //             // let root = this.app.getRootNav().root.name;
+    //             // GlobalService.consoleLog("名字:" + view + "," + root);
+    //             // GlobalService.consoleLog(this.navCtrl.length)
+    //             if(this.navCtrl.length() === 1) {
+    //                 setTimeout(()=>{
+    //                     //此时应当提示用户重新扫描
+    //                     this.global.createGlobalAlert(this, {
+    //                         title: Lang.L("AccountError"),
+    //                         message: Lang.L("AccountErrorReason"),
+    //                         buttons: [
+    //                             {
+    //                                 text: Lang.L("ReScan"),
+    //                                 handler: data => {
+    //                                     this.util.logout(()=>{
+    //                                         // this.events.publish('root:changed', DeviceSearchPage);
+    //                                         // this.navCtrl.push(TestPage, {
+    //                                         this.navCtrl.push(DeviceSearchPage, {
+    //                                             refresh: true
+    //                                         })
+    //                                         .then(() => {
+    //                                             this.isLoading = false;
+    //                                         })
+    //                                     })
+    //                                 }
+    //                             },
+    //                             {
+    //                                 text: Lang.L("ReInput"),
+    //                                 handler: data => {
+    //                                     // this.handleBack();
+    //                                     this.isLoading = false;
+    //                                 }
+    //                             },
+    //                         ]
+    //                     });
+    //                 }, GlobalService.ToastTime)
+    //             } else {
+    //                 this.isLoading = false;
+    //             }
+    //         } else {
+    //             this.isLoading = false;
+    //         }
+    //     }, true, () => {
+    //         this.isLoading = false;
+    //     });
+    // }
 
     bindBox() {
         this.global.createGlobalLoading(this, {
