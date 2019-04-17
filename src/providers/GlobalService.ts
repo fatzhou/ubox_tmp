@@ -49,7 +49,7 @@ export class GlobalService {
     public fileMaxUpload = 3;//文件同时上传最大数量
     public fileMaxDownload = 3;//文件同时上传最大数量
 
-    public networkType: String = '';
+    public networkType: String = 'wifi';
     public networking: Boolean = true; //是否联网
     public wifiName: String = ""; //wifi名字
 

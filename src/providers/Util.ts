@@ -885,7 +885,7 @@ export class Util {
             };
             let failure = () => {
                 reject();
-            }
+            };
 
             serviceDiscovery.getNetworkServices(serviceType, fastSearchBoxid, processRes, failure);
         })
