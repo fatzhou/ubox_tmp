@@ -694,7 +694,7 @@ export class UboxApp {
                         })
                     } else {
                         if(this.global.walletList.length == 0) {
-                            this.nav.push(WalletDetailPage);
+                            this.nav.push(WalletGeneratorPage);
                         } else {
                             this.nav.push(WalletDetailPage);
                         }
