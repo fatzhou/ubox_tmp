@@ -685,8 +685,6 @@ export class GlobalService {
     }
 
     setSelectedBox(deviceSelected, nullsave=false){
-        console.log("xxxxsetSelectedBox123")
-        window.mytrace()
         this.deviceSelected = deviceSelected;
         if (this.deviceSelected){
             //忽略保存结果
