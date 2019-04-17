@@ -356,11 +356,11 @@ export class Util {
         .then(()=> {
             this.getDiskStatus()
                 .then(() => {
-                    console.error("["+logid+"]" + "获取盒子状态成功，刷新list");
+                    console.error("["+logid+"]" + "选取盒子: 获取盒子状态成功，刷新list");
                     this.events.publish('list:refresh');
                 })
                 .catch(() => {
-                    console.error("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
+                    console.error("["+logid+"]" + "选取盒子: 获取盒子状态失败，!!!!!!!!");
                 })
         });
 
@@ -380,12 +380,13 @@ export class Util {
             else {
                 let retrycount = 0;
                 let doSelectLoop = function () {
+                    retrycount++;
                     let oldlogid = logid;
                     logid = Date.now();
                     GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
                     doSelect.then(resolve).catch((err)=>{
-                        retrycount++;
-                        GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + err);
+
+                        GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + JSON.stringify(err));
                         setTimeout(()=>{doSelectLoop()}, 15000);
                     })
                 };

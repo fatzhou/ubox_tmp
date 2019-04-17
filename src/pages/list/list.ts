@@ -96,7 +96,7 @@ export class ListPage {
         private tabsController: SuperTabsController) {
 
 		// ListPage._this = this;
-		
+
         this.events.subscribe('file:updated', this.updateFilesEvent.bind(this));
         this.events.subscribe('image:move', this.moveFilesEvent.bind(this));
 		this.events.subscribe('list:change', this.moveChangeList.bind(this));
@@ -150,7 +150,7 @@ export class ListPage {
         }
 		return true;
 	}
-	
+
 	connectionChangeCallback() {
 		this.listFiles();
 	}
@@ -168,7 +168,7 @@ export class ListPage {
 
     ionViewDidLoad() {
 		GlobalService.consoleLog('ionViewDidLoad ListPage');
-		
+
 		this.initPage();
 		this.events.unsubscribe(this.currPath + ":succeed");
 		this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
@@ -351,7 +351,7 @@ export class ListPage {
             return false;
 		})
 		.catch(e => {
-			GlobalService.consoleLog("获取数据失败");
+			GlobalService.consoleLog("获取数据失败:" + JSON.stringify(e));
 		})
     }
 

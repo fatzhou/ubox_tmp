@@ -7,6 +7,7 @@ import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 declare var cordova: any;
+declare var window: any;
 
 @Injectable()
 export class GlobalService {
@@ -680,6 +681,8 @@ export class GlobalService {
     }
 
     setSelectedBox(deviceSelected, nullsave=false){
+        console.log("xxxxsetSelectedBox123")
+        window.mytrace()
         this.deviceSelected = deviceSelected;
         if (this.deviceSelected){
             //忽略保存结果
