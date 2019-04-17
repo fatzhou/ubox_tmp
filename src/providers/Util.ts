@@ -125,7 +125,7 @@ export class Util {
         }
 
         //Step 2. 中心明确显示用户无绑定的盒子
-        if (!$scope.global.centerUserInfo || $scope.global.centerUserInfo.bind_box_count < 0){
+        if (!$scope.global.centerUserInfo || $scope.global.centerUserInfo.bind_box_count <= 0){
             GlobalService.consoleLog("搜索自己的盒子：中心明确显示用户无绑定的盒子，返回用户没有盒子：USER_HAVE_NO_BOX");
             return Promise.reject("USER_HAVE_NO_BOX")
         }
@@ -267,8 +267,13 @@ export class Util {
             return this.searchSelfBox($scope).then(mybox => {
                 $scope.global.setSelectedBox(mybox);
                 return $scope.global.deviceSelected
-            }).catch(() => {
-                return null;
+            }).catch((err) => {
+                if (err == "USER_HAVE_NO_BOX") {
+                    GlobalService.consoleLog("[" + logid + "]" + "用户明确无盒子，本地搜索盒子失败");
+                    return Promise.reject("USER_HAVE_NO_BOX");
+                } else {
+                    return null;
+                }
             });
         })
 
@@ -351,11 +356,11 @@ export class Util {
         .then(()=> {
             this.getDiskStatus()
                 .then(() => {
-                    console.error("["+logid+"]" + "获取盒子状态成功，刷新list");
+                    console.error("["+logid+"]" + "选取盒子: 获取盒子状态成功，刷新list");
                     this.events.publish('list:refresh');
                 })
                 .catch(() => {
-                    console.error("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
+                    console.error("["+logid+"]" + "选取盒子: 获取盒子状态失败，!!!!!!!!");
                 })
         });
 
@@ -375,13 +380,14 @@ export class Util {
             else {
                 let retrycount = 0;
                 let doSelectLoop = function () {
+                    retrycount++;
                     let oldlogid = logid;
                     logid = Date.now();
                     GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
                     doSelect.then(resolve).catch((err)=>{
-                        retrycount++;
-                        GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + err);
-                        setTimeout(()=>{doSelectLoop()}, 5000);
+
+                        GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + JSON.stringify(err));
+                        setTimeout(()=>{doSelectLoop()}, 15000);
                     })
                 };
                 doSelectLoop();

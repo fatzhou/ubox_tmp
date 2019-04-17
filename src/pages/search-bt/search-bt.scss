@@ -101,24 +101,38 @@ page-search-bt {
                 width: 100%;
                 overflow: hidden;
                 padding-top: 10px;
-                img {
-                    width: 33.33%;
+                padding-bottom: 4px;
+                span {
+                    width: calc(33.33% - 5px);
                     float: left;
-                    padding-right: 5px;
+                    margin-right: 5px;
                     overflow: hidden;
                     border-radius: 4px;
                     box-sizing: border-box;
+                    display: inline-block;
+                    text-align: center;
+                    max-height: 80px;
+                    display: flex;
+                    align-items: center;
+                    min-height: 80px;
                     &:last-child {
                         width: 33%;
-                        padding-right: 0;
+                        margin-right: 0px;
+                    }
+                    img {
+                        width: 100%;
+                        max-height: 100%;
+                        display: block;
                     }
                 }
                 &.one-png {
                     width: 100%;
-                    img {
+                    span {
                         width: 100%;
                         padding-right: 0;
+                        max-height: 170px;
                     }
+                    overflow: hidden;
                 }
             }
         }

@@ -27,6 +27,10 @@
     </ion-navbar>
 </ion-header>
 <ion-content (ionScroll)="onPageScroll($event)">
+        <ion-refresher snapbackDuration="300"  (ionRefresh)="refreshFeedList($event)">
+            <ion-refresher-content  pullingIcon="arrow-dropdown" refreshingSpinner="circles">
+            </ion-refresher-content>
+        </ion-refresher>
     <div class="main-content">
         <div class="search-body">
             <div class="recommend-title">

@@ -82,7 +82,7 @@ export class BtDetailPage {
 					this.hash = res.hash;
 					this.heat = res.heat;
 					this.link = res.mgurl;
-					this.titleImgList = res.title_images || [];
+					this.titleImgList = [res.title_images[0]] || [];
 					this.desImgList = res.des_images || [];
 					let language = 'en';
 					if (GlobalService.applang == 'cn') {

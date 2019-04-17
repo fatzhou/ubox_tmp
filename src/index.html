@@ -19,6 +19,33 @@
 		 *     .catch(err => GlobalService.consoleLog('Error', err));
 		 * }
 		 */
+
+        /**
+         * 获取函数名称
+         * @param {Function} func 函数引用
+         * @return {String} 函数名称
+         */
+        function getFunctionName(func) {
+            if (typeof func == 'function' || typeof func == 'object') {
+                var name = ('' + func).match(/function\s*([\w\$]*)\s*\(/);
+            }
+            return name && name[1];
+        }
+
+        if (!('console' in window)) {
+            window.console = {};
+        }
+
+        function mytrace() {
+            var stack = [],
+                caller = arguments.callee.caller;
+
+            while (caller) {
+                stack.unshift(getFunctionName(caller));
+                caller = caller && caller.caller;
+            }
+            console.log('functions on stack:' + '\n' + stack.join('\n'));
+        }
 	</script>
 
 	<style type="text/css">

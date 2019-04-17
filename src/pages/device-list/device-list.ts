@@ -243,7 +243,7 @@ export class DeviceListPage {
         this.global.setSelectedBox(dv);
 
         GlobalService.consoleLog("用户选择盒子:" + JSON.stringify(dv));
-        this.global.useWebrtc = false;
+        this.http.stopWebrtcEngine();
         this.global.resetWebrtc('box');
         this.checkBindBox(dv);
         // this.checkUpdate.updateRom({

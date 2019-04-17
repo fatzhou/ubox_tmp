@@ -39,6 +39,8 @@ import { Network } from '@ionic-native/network';
 import { OpenNativeSettings } from '@ionic-native/open-native-settings';
 
 import { WalletDetailPage } from '../pages/wallet-detail/wallet-detail';
+import { WalletGeneratorPage } from '../pages/wallet-generator/wallet-generator';
+
 import { CoinSendPage } from '../pages/coin-send/coin-send';
 import { CoinTransactionPage } from '../pages/coin-transaction/coin-transaction';
 
@@ -691,7 +693,11 @@ export class UboxApp {
                             message: this.global.L('YouNotConnectedDev')
                         })
                     } else {
-                        this.nav.push(WalletDetailPage);
+                        if(this.global.walletList.length == 0) {
+                            this.nav.push(WalletDetailPage);
+                        } else {
+                            this.nav.push(WalletDetailPage);
+                        }
                     }
 					break;
 				case 'dapp':
