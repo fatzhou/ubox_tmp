@@ -6,12 +6,12 @@
 -->
 <ion-header>
     <ion-navbar class="clear" [ngClass]="allBtnsShow ? 'select-tollbar' :''">
-        <svg *ngIf="currPath == '/' && !allBtnsShow" class="icon aside-nav-icon" (click)="displayMenu($event)" tappable aria-hidden="true">
+        <svg *ngIf="currPath == '/' && !allBtnsShow && isMainDisk" class="icon aside-nav-icon" (click)="displayMenu($event)" tappable aria-hidden="true">
             <use xlink:href="#iconcaidan"></use>
         </svg>
         <ion-title [ngClass]="[allBtnsShow ? 'list-active' : '', currPath != '/' && allBtnsShow ? 'list-no-home' : '']">
-        <div (click)="toggleClassifyNav('close')" *ngIf="(currPath != '' && currPath != '/') && !allBtnsShow">{{pageTitle}}</div>
-        <div  (click)="toggleClassifyNav('close')" *ngIf="currPath == '/' && !allBtnsShow" class="home-title-box">
+        <div (click)="toggleClassifyNav('close')" *ngIf="isShowPageTitle && !allBtnsShow">{{pageTitle}}</div>
+        <div  (click)="toggleClassifyNav('close')" *ngIf="currPath == '/' && !allBtnsShow && isMainDisk" class="home-title-box">
             <p class="home-title">{{global.L("MyFiles")}}</p>
             <p class="list-point"><span class="active"></span><span></span><span></span></p>
         </div>
@@ -47,7 +47,7 @@
 
 <ion-content (click)="toggleClassifyNav('close')">
     <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page">
-        <div class="disk-list" *ngIf="currPath == '/' && disks.length >= 1">
+        <div class="disk-list" *ngIf="currPath == '/' && disks.length >= 1 && isMainDisk">
             <!-- <div class="disk-list" *ngIf="currPath == '/' && disks.length > 1"> -->
             <p class="disk-title">{{global.L("OtherDisk")}}</p>
             <div class="disk-list-box">

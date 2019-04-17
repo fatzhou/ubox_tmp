@@ -116,6 +116,7 @@ export class GlobalService {
     public currPath = '';
     public currDiskUuid = '';
     public currSelectDiskUuid = '';
+    public mainSelectDiskUuid = '';
     public selectFolderType = 'upload';
     // public selectDataType = 'music';
     public albumBackupSwitch = undefined; //是否自动备份

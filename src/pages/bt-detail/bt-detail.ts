@@ -40,6 +40,7 @@ export class BtDetailPage {
 	titleImgList: any = [];
 	desImgList: any = [];
 	status: any = 0;
+	isShowMoreBtn: boolean = false;
 	constructor(public navCtrl: NavController,
 		public navParams: NavParams,
 		public global: GlobalService,
@@ -95,6 +96,7 @@ export class BtDetailPage {
 					} else {
 						this.detailDesc = res.describe;
 					}
+					this.isShowMoreBtn = this.detailDesc.length < 240 ? false : true; 
 					if(this.type == 'feed') {
 						this.setFileList(JSON.parse(res.file_list));
 					} else {
