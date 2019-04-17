@@ -48,7 +48,6 @@
     "babel-register": "^6.26.0",
     "com-ubbey-wifiwizard": "https://github.com/ubbey/WifiWizard.git",
     "com.rjfun.cordova.httpd": "https://github.com/floatinghotpot/cordova-httpd.git",
-    "com.scott.serviceDiscovery": "https://github.com/ubbey/cordova-plugin-discovery.git",
     "cordova-android": "6.3.0",
     "cordova-android-support-gradle-release": "^1.4.5",
     "cordova-browser": "^5.0.3",
@@ -107,8 +106,7 @@
     "uuid": "^3.3.2",
     "web3": "^0.14.0",
     "wifiwizard": "https://github.com/ubbey/WifiWizard.git",
-    "zone.js": "0.8.18",
-    "cordova-plugin-discovery": "https://github.com/ubbey/cordova-plugin-discovery.git"
+    "zone.js": "0.8.18"
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.2.2",
@@ -120,8 +118,8 @@
   },
   "cordova": {
     "platforms": [
-      "ios",
-      "android"
+      "android",
+      "ios"
     ],
     "plugins": {
       "cordova-plugin-whitelist": {},
@@ -157,9 +155,7 @@
       "cordova-plugin-photo-library": {
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": " "
       },
-      "cordova-plugin-file-transfer": {},
-      "com.scott.serviceDiscovery": {},
-      "cordova-plugin-discovery": {}
+      "cordova-plugin-file-transfer": {}
     }
   }
 }

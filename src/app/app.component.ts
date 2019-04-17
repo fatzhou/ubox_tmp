@@ -218,10 +218,10 @@ export class UboxApp {
 		}
 
         //登录盒子
-        this.util.loginAndCheckBox(this)
+        this.util.loginAndCheckBox(this, false)
             .then(res => {
                 this.splashScreen.hide();
-                console.log("loginAndCheckBox成功进入resolve....");
+                console.log("---loginAndCheckBox成功进入resolve....");
                 if(this.global.centerUserInfo.uname) {
                     this.nav.setRoot(TabsPage);
                 } else {
@@ -229,6 +229,7 @@ export class UboxApp {
                 }
             })
             .catch(e => {
+                console.log("---loginAndCheckBox成功进入catch....");
                 this.splashScreen.hide();
                 if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
                     //没有盒子，进入绑定流程
@@ -439,15 +440,7 @@ export class UboxApp {
             this.global.closeGlobalAlert(this);
             this.global.closeGlobalLoading(this);
             this.createNetworkingAlert();
-            this.global.fileTaskList.filter(item => {
-                return item.finished === false;
-            }).map(item => {
-                item.pausing = 'waiting';
-                if(this.global.fileHandler[item.taskId]) {
-                    this.global.fileHandler[item.taskId].pause();
-                    item.speed = 0;
-                }
-            });
+			this.stopAllTask(true);
         });
 
         network.onConnect().subscribe(() => {
@@ -477,7 +470,8 @@ export class UboxApp {
     }
 
     networkOnConnect() {
-        GlobalService.consoleLog("网络已连接: from ["+this.global.networkType+"] to ["+this.network.type+"]");
+        let logid = Date.now();
+        GlobalService.consoleLog("["+logid+"]" + "网络已连接: from ["+this.global.networkType+"] to ["+this.network.type+"]");
 
         let global = this.global;
         let oldNetworkType4G = this.check4G(global.networkType);
@@ -492,29 +486,32 @@ export class UboxApp {
             //1. 之前的盒子能够直接访问到, 直接走近程
             this.util.pingLocalBox()
             .then(()=>{
-                GlobalService.consoleLog("网络切换后为wifi，且ping近场盒子成功，关闭webrtc....");
+                GlobalService.consoleLog("["+logid+"]" + "网络切换后为wifi，且[第一次]ping近场盒子成功，关闭webrtc....");
                 this.http.stopWebrtcEngine();
                 return "firstpingsuccess"
             })
             //2. 之前无盒子或者网络访问失败，先走远程
-            .catch(()=>{
-                GlobalService.consoleLog("网络切换后为wifi，但ping近场盒子失败，打开webrtc....");
+            .catch((err)=>{
+                GlobalService.consoleLog("[" + logid + "]" + "网络切换后为wifi，但[第一次]ping近场盒子失败，打开webrtc....");
                 this.http.startWebrtcEngine();
                 return "shouldpingagain"
             })
             //3. 之前无盒子或者网络访问失败，先走远程，然后做最后一次搜索盒子的补救
             .then((res)=>{
                 if (res === "shouldpingagain"){
-                    GlobalService.consoleLog("网络切换后为wifi，但ping近场盒子失败，打开webrtc, 同时做最后一次本地搜索盒子的尝试");
+                    GlobalService.consoleLog("["+logid+"]" + "网络切换后为wifi，但ping近场盒子失败，打开webrtc, 同时做最后一次本地搜索盒子的尝试");
                     this.util.searchSelfBox(this)
                     .then(mybox => {
-                        return this.util.pingLocalBox(mybox);
-                    }).then(()=>{
-                        GlobalService.consoleLog("网络切换后为wifi，[第二次]ping近场盒子成功，关闭webrtc....");
+                        GlobalService.consoleLog("["+logid+"]" + "网络切换后为wifi，本地搜索盒子成功，关闭webrtc....");
                         this.http.stopWebrtcEngine();
-                    }).catch(()=>{
-                        GlobalService.consoleLog("网络切换后为wifi，[第二次]ping近场盒子失败，打开webrtc....");
-                        this.http.startWebrtcEngine();
+                    }).catch((err)=>{
+                        if (err == "USER_HAVE_NO_BOX") {
+                            GlobalService.consoleLog("[" + logid + "]" + "网络切换后为wifi，用户明确无盒子，本地搜索盒子失败，关闭webrtc....");
+                            this.http.stopWebrtcEngine();
+                        } else {
+                            GlobalService.consoleLog("[" + logid + "]" + "网络切换后为wifi，本地搜索盒子失败，打开webrtc....");
+                            this.http.startWebrtcEngine();
+                        }
                     })
                 }
             })
@@ -522,12 +519,12 @@ export class UboxApp {
         }
         // Case 2: 4G网络使用远程
         else if(this.check4G(global.networkType)) {
-            GlobalService.consoleLog("网络切换后为4g，打开webrtc....");
+            GlobalService.consoleLog("["+logid+"]" + "网络切换后为4g，打开webrtc....");
             this.http.startWebrtcEngine();
         }
         // Case 3: 未知类型，目前已知不会出现这种case
         else {
-            GlobalService.consoleLog("!!!!!UNREACHABLE CODE!!!!! 网络切换后为:" + global.networkType + "，选择打开webrtc作为解决方案");
+            GlobalService.consoleLog("["+logid+"]" + "!!!!!UNREACHABLE CODE!!!!! 网络切换后为:" + global.networkType + "，选择打开webrtc作为解决方案");
             this.http.startWebrtcEngine();
         }
 
@@ -622,14 +619,18 @@ export class UboxApp {
         }
 	}
 
-	stopAllTask() {
+	stopAllTask(delteTask = false) {
 		this.global.fileTaskList.filter(item => {
 			return item.finished == false && item.pausing == 'doing';
 		}).forEach(item => {
 			let taskId = item.taskId;
 			let handler = this.global.fileHandler[taskId];
+			item.pausing = 'waiting';
 			if(handler) {
-                handler.pause();
+				handler.pause();
+				if(delteTask) {
+					delete this.global.fileHandler[taskId];
+				}
                 item.speed = 0;
 			}
 		})
@@ -644,7 +645,7 @@ export class UboxApp {
           if(view.component == TabsPage) {
             var end = Date.now();
             if(end - start < 1500) {
-				this.stopAllTask();
+				this.stopAllTask(true);
 				setTimeout(() => {
 					this.platform.exitApp();
 				}, 300);

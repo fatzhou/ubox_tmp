@@ -489,6 +489,9 @@ export class MiningPage {
 		let d = data.map(item => (+item.amount / unit));
 		let min = d[0], max = d[0];
 		let maxIndex = -1;
+		let width = this.platform.width() - 24;
+		let height = 130;
+
 		for(let i = 1, len = d.length; i < len; i++) {
 			if(d[i] < min) {
 				min = d[i];
@@ -497,22 +500,45 @@ export class MiningPage {
 				maxIndex = i;
 			}
 		}
-		d = d.map(item => 130 - 80 * (item - min) / (max - min));
+		d = d.map(item => height - 80 * (item - min) / (max - min));
+
+
 		this._CANVAS 	    = this.canvasEl.nativeElement;
-		this._CANVAS.width  	= this.platform.width() - 24;
-		this._CANVAS.height 	= 130;
+		this._CANVAS.width  	= width;
+		this._CANVAS.height 	= height;
 		if(this._CANVAS.getContext) {
 			this._CONTEXT = this._CANVAS.getContext('2d');
-			this._CONTEXT.clearRect(0, 0, this._CANVAS.width, this._CANVAS.beight);
+			let context = this._CONTEXT;
+			let backingStore = context.backingStorePixelRatio ||
+			context.webkitBackingStorePixelRatio ||
+			context.mozBackingStorePixelRatio ||
+			context.msBackingStorePixelRatio ||
+			context.oBackingStorePixelRatio ||
+			context.backingStorePixelRatio || 1;
+
+			let ratio = (window.devicePixelRatio || 1) / backingStore;
+			let canvas = this._CANVAS;
+			let canvasWidth = width * ratio,
+				canvasHeight = height * ratio;
+			// let data = d.map(item => item * ratio);
+			// let fourPix = 4 * ratio;
+
+			canvas.style.width = width + 'px';
+			canvas.style.height = height + 'px';
+			canvas.height = height * ratio;
+			canvas.width = width * ratio;
+			this._CONTEXT.scale(ratio, ratio);
+
+			this._CONTEXT.clearRect(0, 0, width, height);
 			this._CONTEXT.beginPath();
-			var grd = this._CONTEXT.createLinearGradient(0, 0, this._CANVAS.width, this._CANVAS.height);
+			var grd = this._CONTEXT.createLinearGradient(0, 0, width, height);
 			grd.addColorStop(0, 'rgba(37, 206, 218, .2)');
 			grd.addColorStop(1, 'rgba(14, 209, 152, .2)');
 			this._CONTEXT.fillStyle = grd;
 			this._CONTEXT.lineWidth = 4;
 			// this._CONTEXT.lineJoin = this._CONTEXT.lineCap = 'round';
-			let widthBase = Math.floor(this._CANVAS.width / (d.length - 1));
-			this._CONTEXT.moveTo(-4, this._CANVAS.height);
+			let widthBase = Math.floor(width / (d.length - 1));
+			this._CONTEXT.moveTo(-4, height);
 			this._CONTEXT.strokeStyle = 'transparent';//'rgba(37, 206, 218, .2)';
 			this._CONTEXT.lineTo(-4, d[0]);
 			this._CONTEXT.stroke();
@@ -525,26 +551,28 @@ export class MiningPage {
 				// console.log(x, d[i]);
 				// this._CONTEXT.quadraticCurveTo(x, d[i - 1], x + .5 * widthBase, (d[i - 1] + d[i]) / 2);
 				// this._CONTEXT.stroke();
-				let x = i < len - 1 ? (i - 1) * widthBase : this._CANVAS.width + 4;
-				// this._CONTEXT.lineTo(x, d[i]);
+				let x = i < len - 1 ? (i - 1) * widthBase : width + 4;
 				this._CONTEXT.quadraticCurveTo(x, d[i - 1], x + .5 * widthBase, (d[i - 1] + d[i]) / 2);
-
+				// this._CONTEXT.lineTo(x, d[i]);
 				// this._CONTEXT.moveTo(x, d[i]);
 			}
-			this._CONTEXT.lineTo(this._CANVAS.width + 4, this._CANVAS.height);
+			this._CONTEXT.lineTo(width + 4, height);
 			// this._CONTEXT.strokeStyle = 'rgba(14, 209, 152, .2)';
 			this._CONTEXT.stroke();
 			this._CONTEXT.fill();
+
 			this._CONTEXT.closePath();
 			//画最大值
-			let img = new Image(48, 48);
-			img.src = 'assets/img/dian@2x.png';
+			let imgSize = 48 ;
+			let img = new Image(imgSize, imgSize);
+			img.src = 'assets/img/dian@3x.png';
 			// img.crossOrigin = "anonymous";
 			img.onload = () => {
 				// this._CONTEXT.globalCompositeOperation = 'source-over';
-				this._CONTEXT.drawImage(img, maxIndex * widthBase - 24, d[maxIndex] - 18, 48, 48);
+				this._CONTEXT.drawImage(img, maxIndex * widthBase - 24, d[maxIndex] - 18, imgSize, imgSize);
 				// this._CONTEXT.stroke();
 			}
+
 			// this.maxEarnLeft = Math.min((maxIndex * widthBase), this._CANVAS.width - 100) + 'px';
 			// this.maxEarnTop = (d[maxIndex] - 20) + 'px';
 			// this.maxEarn = max.toFixed(2);

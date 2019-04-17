@@ -125,9 +125,9 @@ export class Util {
         }
 
         //Step 2. 中心明确显示用户无绑定的盒子
-        if (!$scope.global.centerUserInfo || $scope.global.centerUserInfo.bind_box_count < 0){
-            GlobalService.consoleLog("搜索自己的盒子：中心明确显示用户无绑定的盒子，返回未找到盒子");
-            return Promise.reject(null)
+        if (!$scope.global.centerUserInfo || $scope.global.centerUserInfo.bind_box_count <= 0){
+            GlobalService.consoleLog("搜索自己的盒子：中心明确显示用户无绑定的盒子，返回用户没有盒子：USER_HAVE_NO_BOX");
+            return Promise.reject("USER_HAVE_NO_BOX")
         }
 
         //Step 3. 尝试获取本地缓存的盒子id
@@ -249,8 +249,6 @@ export class Util {
     checkoutBox($scope){
         //尝试用本地缓存中的信息ping一下本地盒子, ping不通之后再搜索
         let logid = Date.now();
-        GlobalService.consoleLog("["+logid+"]" + "选取盒子开始...");
-
         let doSelect =  $scope.global.getSelectedBox(true
 
         //Case 1: 尝试ping一下本地盒子, ping不通之后再搜索
@@ -269,8 +267,13 @@ export class Util {
             return this.searchSelfBox($scope).then(mybox => {
                 $scope.global.setSelectedBox(mybox);
                 return $scope.global.deviceSelected
-            }).catch(() => {
-                return null;
+            }).catch((err) => {
+                if (err == "USER_HAVE_NO_BOX") {
+                    GlobalService.consoleLog("[" + logid + "]" + "用户明确无盒子，本地搜索盒子失败");
+                    return null;
+                } else {
+                    return Promise.reject(null);
+                }
             });
         })
 
@@ -364,10 +367,10 @@ export class Util {
 
         return new Promise((resolve, reject)=>{
             // Case 1: timeout
-            setTimeout(()=>{
-                GlobalService.consoleLog("["+logid+"]" + "选取盒子超时， 引擎继续运行中...");
+            setTimeout((logid)=>{
+                GlobalService.consoleLog("["+logid+"]" + "选取盒子超时， 引擎继续运行中，直至成功选取盒子...");
                 reject()
-            }, 2000);
+            }, 2000, logid);
 
             // case 2: select
             if (0) {
@@ -379,11 +382,11 @@ export class Util {
                 let doSelectLoop = function () {
                     let oldlogid = logid;
                     logid = Date.now();
-                    GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子引擎开始第"+retrycount+"次运行...");
+                    GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
                     doSelect.then(resolve).catch((err)=>{
                         retrycount++;
                         GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + err);
-                        setTimeout(()=>{doSelectLoop()}, 5000);
+                        setTimeout(()=>{doSelectLoop()}, 15000);
                     })
                 };
                 doSelectLoop();

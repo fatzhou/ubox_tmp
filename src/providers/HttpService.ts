@@ -198,42 +198,51 @@ export class HttpService {
 	}
 
 	public _clearWebrtc(label) {
-		let dataChannel = this.channels[label];
-		dataChannel.status = "closing";
-		if (dataChannel.statusTimer) {
-			clearTimeout(dataChannel.statusTimer);
-			dataChannel.statusTimer = null;
-		}
-		clearInterval(dataChannel.aliveInterval);
-		dataChannel.aliveInterval = null;
-		for (let session in this.globalRequestMap) {
-			let mySession = this.globalRequestMap[session];
-			mySession.reject && mySession.reject("ChannelClosed");
-			clearTimeout(mySession.timer);
-			mySession.timer = null;
-			delete this.globalRequestMap[session];
+		GlobalService.consoleLog("即将清除label:" + label);
+		try {
+			let dataChannel = this.channels[label];
+			console.log("sss"+!!dataChannel)
+			dataChannel.status = "closing";
+			if (dataChannel.statusTimer) {
+				clearTimeout(dataChannel.statusTimer);
+				dataChannel.statusTimer = null;
+			}
+			clearInterval(dataChannel.aliveInterval);
+			dataChannel.aliveInterval = null;
+			for (let session in this.globalRequestMap) {
+				let mySession = this.globalRequestMap[session];
+				mySession.reject && mySession.reject("ChannelClosed");
+				clearTimeout(mySession.timer);
+				mySession.timer = null;
+				delete this.globalRequestMap[session];
+			}
+			this.globalCallbackList[label] = [];
+			dataChannel.lastReceivedTime = Date.now();
+			this.sessionId = "";
+			this.boxSdpRetryTimes = 0;
+			this.sessionId = "";
+			// this.cookies = {};
+			// this.userBoxCheck = false;
+			this.connectBoxSdp = null;
+			if (dataChannel.channel) {
+				dataChannel.channel.close();
+				dataChannel.channel = null;
+			}
+			console.log("Start to delete peerconnection....")
+			if (this.peerConnection) {
+				this.peerConnection.close && this.peerConnection.close();
+				this.peerConnection = null;
+			}
+			console.log(333)
+			// this.global.deviceSelected = null;
+			// this.global.centerBoxSelected = null;
+			// this.global.centerAvailableBoxList = [];
+			dataChannel.status = "cleared";
+		} catch(e) {
+			console.log(JSON.stringify(e));
 		}
 
-		this.globalCallbackList[label] = [];
-		dataChannel.lastReceivedTime = Date.now();
-		this.sessionId = "";
-		this.boxSdpRetryTimes = 0;
-		this.sessionId = "";
-		// this.cookies = {};
-		// this.userBoxCheck = false;
-		this.connectBoxSdp = null;
-		if (dataChannel.channel) {
-			dataChannel.channel.close();
-			dataChannel.channel = null;
-		}
-		if (this.peerConnection) {
-			this.peerConnection.close();
-			this.peerConnection = null;
-		}
-		// this.global.deviceSelected = null;
-		// this.global.centerBoxSelected = null;
-		// this.global.centerAvailableBoxList = [];
-		dataChannel.status = "cleared";
+		console.log("Clear finished.....")
 	}
 
 	public get(url: string, paramObj: any, errorHandler: any = true, headers: any = {}, options: any = {}, cordova = false) {
@@ -346,7 +355,7 @@ export class HttpService {
 						})
 					})
 				}
-			}			
+			}
 		} else {
 			//发往盒子的请求，但是尚未连接盒子
 			if(options.storageName) {
@@ -359,7 +368,7 @@ export class HttpService {
 								resolve({
 									err_no: 0,
 									[options.fieldName]: data
-								});								
+								});
 							} else {
 								reject({
 									err_no: -2,
@@ -387,7 +396,8 @@ export class HttpService {
 		return this.global.deviceID + '_' + Date.now()
 	}
 
-	_post(url: string, paramObj: any, headers: any = {}, options = {}, errorHandler: any = true, cordova = false) {
+	_post(url: string, paramObj: any, headers: any = {}, options: any = {}, errorHandler: any = true, cordova = false) {
+		console.log("aaaaa......")
 		if (!url) {
 			GlobalService.consoleLog("无效请求");
 			return new Promise((resolve, reject) => {
@@ -915,7 +925,7 @@ export class HttpService {
         GlobalService.consoleLog("webrtc开始启动...");
         //Step 0. 如果之前已经开启，直接返回
         if (this.global.useWebrtc && this.webrtcEngineStatus != "stoped"){
-            GlobalService.consoleLog("webrtc创建盒子连接: 开始");
+            GlobalService.consoleLog("webrtc创建盒子连接: 已在运行中");
             return Promise.resolve()
         }
 
@@ -927,13 +937,13 @@ export class HttpService {
     }
 
     _createDataChannel() {
-        GlobalService.consoleLog("webrtc创建盒子连接: 开始");
+        GlobalService.consoleLog("webrtc创建盒子连接: 开始构造数据通道...");
         this.webrtcEngineStatus = "opening";
         this.webrtcEngineLastAliveTime = Date.now();
         this.channelLabels.forEach(label => {
             this._clearWebrtc(label);
         });
-
+console.log("开始后去盒子列表....")
         return new Promise((gResolve, gReject) => {
             // Step 1. 去中心查找用户的盒子列表　
             this._post(
