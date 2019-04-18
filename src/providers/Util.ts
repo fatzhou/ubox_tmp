@@ -117,6 +117,7 @@ export class Util {
     }
 
     public searchSelfBox($scope) {
+        GlobalService.consoleLog("搜索自己的盒子开始");
         //Step 1. 不是wifi， 直接失败
         let network = this.global.networkType === 'wifi' || !this.platform.is('cordova');
         if (!network) {
@@ -249,7 +250,7 @@ export class Util {
 
     checkoutBox($scope){
         let logid = Date.now();
-        let doSelect =  function(){
+        let doSelect =  ()=>{
             //尝试用本地缓存中的信息ping一下本地盒子, ping不通之后再搜索
             return $scope.global.getSelectedBox(true
 
@@ -265,8 +266,9 @@ export class Util {
 
             //Case 3: ping不通之后再尝试搜索
             .catch(()=>{
-                GlobalService.consoleLog("["+logid+"]" + "ping本地盒子不通, 尝试搜索....");
+                GlobalService.consoleLog("["+logid+"]" + "ping本地盒子不通, 尝试搜索BOX....");
                 return this.searchSelfBox($scope).then(mybox => {
+                    GlobalService.consoleLog("["+logid+"]" + "尝试搜索成功....");
                     $scope.global.setSelectedBox(mybox);
                     return $scope.global.deviceSelected
                 }).catch((err) => {
