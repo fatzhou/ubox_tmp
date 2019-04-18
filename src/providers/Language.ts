@@ -4390,6 +4390,11 @@ export class Lang {
         en: '',
         kr: ''
     }
+    static changeUser = {
+        cn: '切换账号登录',
+        en: '',
+        kr: ''
+    }
     
 }
 

@@ -106,10 +106,10 @@ page-device-search {
                 text-align: center;
                 .icon {
                     font-size: 150px;
-                    
+                    max-width: 50%;
                 }
                 .device-info {
-                    font-size: 16px;
+                    font-size: 14px;
 					color: $newFiveColor;
 					white-space: nowrap;
 					overflow: hidden;

@@ -83,7 +83,11 @@ export class BtDetailPage {
 					this.hash = res.hash;
 					this.heat = res.heat;
 					this.link = res.mgurl;
-					this.titleImgList = [res.title_images[0]] || [];
+					if(res.title_images.length > 0) {
+						this.titleImgList = [res.title_images[0]];
+					} else {
+						this.titleImgList = [];
+					}
 					this.desImgList = res.des_images || [];
 					let language = 'en';
 					if (GlobalService.applang == 'cn') {
