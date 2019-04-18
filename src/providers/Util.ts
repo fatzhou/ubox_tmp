@@ -210,11 +210,13 @@ export class Util {
                 if (res.err_no !== 0) {
                     GlobalService.consoleLog("获取用户信息错误.......");
                     return Promise.reject("UserInfo Error");
-                } 
-
+                }
                 GlobalService.consoleLog("获取用户信息成功，保存用户信息...." + JSON.stringify(res.user_info));
 				$scope.global.centerUserInfo = res.user_info;
-				$scope.global.centerUserInfo.unameHash = Md5.hashStr(res.user_info.uname).toString();
+                $scope.global.centerUserInfo.unameHash = Md5.hashStr(res.user_info.uname).toString();
+                if (res.err_no == 0 && res.user_info.bind_box_count == 0) {
+                    return Promise.reject("userNoBox");
+                }
             })
         })
 

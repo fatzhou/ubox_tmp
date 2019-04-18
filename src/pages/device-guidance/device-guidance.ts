@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import {DeviceSearchPage} from '../device-search/device-search'
 import { GlobalService } from '../../providers/GlobalService';
+import {LoginPage} from '../login/login'
+import { HttpService } from '../../providers/HttpService';
+
 /**
  * Generated class for the DeviceGuidancePage page.
  *
@@ -16,7 +19,8 @@ import { GlobalService } from '../../providers/GlobalService';
 export class DeviceGuidancePage {
 
 	constructor(public navCtrl: NavController, 
-				private global: GlobalService,
+                private global: GlobalService,
+                private http: HttpService,
 				public navParams: NavParams) {
     }
 
@@ -25,5 +29,12 @@ export class DeviceGuidancePage {
     }
     goDeviceSearchPage() {
         this.navCtrl.push(DeviceSearchPage);
+    }
+    goLoginPage() {
+        this.global.boxUserInfo = {};
+        this.global.centerUserInfo = {};
+        this.global.diskInfo = {};
+        this.http.post(GlobalService.centerApi["logout"].url, {}, false)
+        this.navCtrl.setRoot(LoginPage);
     }
 }

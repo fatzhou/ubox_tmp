@@ -79,6 +79,7 @@ export class ListPage {
     disks: any = [];
     isMainDisk: boolean = false;
     isShowPageTitle: boolean = false;
+    isShowWarningBox: boolean = true;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -135,7 +136,7 @@ export class ListPage {
             this.hideAddBtn = false;
         }
         this.initDiskInfo();
-        this.isMainDisk = this.global.currDiskUuid != '' && this.global.currDiskUuid == this.global.mainSelectDiskUuid;
+        this.isMainDisk = this.global.currDiskUuid == '' || this.global.currDiskUuid == this.global.mainSelectDiskUuid;
         GlobalService.consoleLog("this.isMainDisk" + this.isMainDisk);
 
         GlobalService.consoleLog("this.currPath" + this.currPath);
@@ -202,7 +203,11 @@ export class ListPage {
                 }
             });
         }
+        
         this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
+        if(this.global.centerUserInfo.bind_box_count == 0) {
+            this.isMainDisk = true;
+        }
         this.listFiles();
     }
 
@@ -324,7 +329,7 @@ export class ListPage {
 			path: this.currPath,
 			disk_uuid: this.global.currDiskUuid
 		}, true, {
-			storageName: 'FileStorage' + Md5.hashStr(this.currPath).toString(),
+			storageName: 'FileStorage' + Md5.hashStr(this.currPath + this.global.currDiskUuid).toString(),
 		})
         .then((res:any) => {
             this.dataAcquired = true;
@@ -824,5 +829,9 @@ export class ListPage {
     computeSize(size) {
         let showSize = (size / GlobalService.DISK_G_BITS).toFixed(0).replace('.','') + "G"
         return showSize
+    }
+
+    closeWarningBox() {
+        this.isShowWarningBox = false;
     }
 }

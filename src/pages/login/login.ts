@@ -55,10 +55,10 @@ export class LoginPage {
         this.popBack = this.navParams.get('popBack');
 		this.isLoading = false;
         if(GlobalService.ENV === 'dev') {
-			// this.username = "619912987@qq.com"
-			// this.password = "dh5819413"
-			this.username = '1@qq.com';
-            this.password = 'A123456789';
+			this.username = "aop800@163.com"
+			this.password = "dh5819413"
+			// this.username = '1@qq.com';
+            // this.password = 'A123456789';
         } else {
 
             this.util.getUserList()

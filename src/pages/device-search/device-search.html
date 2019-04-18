@@ -47,9 +47,8 @@
 				<ion-slide *ngFor="let device of searchResult">
 					<div class="bg-box">
 						<div class="bind-info">
-							<svg class="icon" aria-hidden="true" item-end>
-								<use xlink:href="#icondefaulticon"></use>
-							</svg>
+							<img src="assets/img/device-next.png" class="icon" *ngIf="device.boxType == 'UbbeyNext'" aria-hidden="true" item-end />
+							<img src="assets/img/device-ubbey.png" class="icon" *ngIf="device.boxType != 'UbbeyNext'" aria-hidden="true" item-end />
 							<div class="device-info">
 								<p class="name">{{ device.boxType == 'UbbeyNext' ? 'UbbeyNext': 'UbbeyBox' }}</p>
 								<p *ngIf="device.storage">{{ global.L("Capacity") }}: {{ device.storage | computeFileSize }}</p>

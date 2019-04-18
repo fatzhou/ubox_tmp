@@ -6,7 +6,7 @@
 -->
 <ion-header>
     <ion-navbar class="clear" [ngClass]="allBtnsShow ? 'select-tollbar' :''">
-        <svg *ngIf="currPath == '/' && !allBtnsShow && isMainDisk" tappable class="icon aside-nav-icon" (click)="displayMenu($event)" tappable aria-hidden="true">
+        <svg *ngIf="currPath == '/' && !allBtnsShow && isMainDisk" class="icon aside-nav-icon" (click)="displayMenu($event)" tappable aria-hidden="true">
             <use xlink:href="#iconcaidan"></use>
         </svg>
         <ion-title [ngClass]="[allBtnsShow ? 'list-active' : '', currPath != '/' && allBtnsShow ? 'list-no-home' : '']">
@@ -62,6 +62,15 @@
             </div>
             
             <p class="black-bottom"></p>
+        </div>
+        <div class="warning-box" *ngIf="isShowWarningBox">
+            <svg class="icon tishi-icon" aria-hidden="true">
+                <use xlink:href="#icontishi"></use>
+            </svg>
+            <p>设备无法连接，请检查设备或网络</p>
+            <svg class="icon close-icon" (click)="closeWarningBox()" tappable aria-hidden="true">
+                <use xlink:href="#iconClear1"></use>
+            </svg>
         </div>
         <div class="main-content">
             <div class="file-content">
