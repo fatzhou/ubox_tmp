@@ -150,8 +150,10 @@ export class Util {
         .then((cachedBoxId)=> {
             return this.searchUbbey(true, cachedBoxId).then((boxes: any) => {
                 if (boxes && boxes.length) {
+					GlobalService.consoleLog("Find your boxes........")
                     return boxes;
                 } else {
+					GlobalService.consoleLog("Wow, no box............")
                     return [];
                 }
             })
@@ -160,8 +162,11 @@ export class Util {
         //Step 5. 过滤出自己的盒子
         .then((boxes)=>{
             //检查盒子是否有自己的盒子
-            let userHash = Md5.hashStr($scope.global.centerUserInfo.uname).toString();
-            let myBox = boxes.find(item => item.bindUserHash === userHash);
+			let myBox = boxes.find(item => {
+				console.log("盒子hash比较：" + item.bindUserHash + "," + $scope.global.centerUserInfo.unameHash)
+				return item.bindUserHash === $scope.global.centerUserInfo.unameHash
+			});
+			
             if(myBox) {
                 //本地有自己的盒子, 使用近场模式
                 GlobalService.consoleLog("搜索查找到自己的盒子：" + JSON.stringify(myBox));
@@ -223,7 +228,7 @@ export class Util {
 			})
 			.catch(e => {
 				return Promise.reject("selectboxfailed");
-			})
+			})				
         })
 
         //成功登录&成功获取到盒子用户信息啦啦

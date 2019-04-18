@@ -816,7 +816,7 @@ export class FileManager {
 				});				
 			}
 		} else {
-			GlobalService.consoleLog("相册获取333.........")
+			GlobalService.consoleLog("相册获取.........")
 			return Promise.resolve([]);
 		}
 	}

@@ -733,7 +733,11 @@ export class GlobalService {
         this.boxStatus = true;
         this.diskInfoStatus = true;
     }
-    public static consoleLog = console.log;
+    public static consoleLog(str) {
+		setTimeout(() => {
+			console.log(str);
+		}, 50);
+	}
     //日志打印
     // public static consoleLog(msg) {
     //     // if(GlobalService.ENV == "dev"){
