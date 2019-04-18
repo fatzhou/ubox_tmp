@@ -232,9 +232,7 @@ export class UappPlatform {
             .then(res => {
                 console.log("公共库拷贝完成，显示网页1...");
                 this.inAppBrowserRef.insertCSS({file: "/uapp.css"}, console.log);
-                console.log(1333322)
                 this.inAppBrowserRef.executeScript({file: "/uapp.js"}, console.log);
-                console.log(233)
                 //this.inAppBrowserRef.show();
             })
             .catch(e => {

@@ -201,7 +201,6 @@ export class HttpService {
 		GlobalService.consoleLog("即将清除label:" + label);
 		try {
 			let dataChannel = this.channels[label];
-			console.log("sss"+!!dataChannel)
 			dataChannel.status = "closing";
 			if (dataChannel.statusTimer) {
 				clearTimeout(dataChannel.statusTimer);
@@ -404,7 +403,6 @@ export class HttpService {
 	}
 
 	_post(url: string, paramObj: any, headers: any = {}, options: any = {}, errorHandler: any = true, cordova = false) {
-		console.log("aaaaa......")
 		if (!url) {
 			GlobalService.consoleLog("无效请求");
 			return new Promise((resolve, reject) => {
