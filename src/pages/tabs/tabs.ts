@@ -392,7 +392,9 @@ export class TabsPage {
         //         });
         //     }
         // }
+        // console.log('this.global.mainSelectDiskUuid' + this.global.mainSelectDiskUuid);
         this.global.currDiskUuid = this.global.mainSelectDiskUuid;
+        // console.log('this.global.currDiskUuid' + this.global.currDiskUuid);
         this.global.currPath = '/';
         this.isClose = false;
         if (this.global.deviceSelected) {
@@ -401,7 +403,7 @@ export class TabsPage {
             this.isClose = false;
             // this.util.getDiskStatus()
             // .then(() => {
-                this.events.publish('list:refresh');
+                // this.events.publish('list:refresh');
                 this.getVersionControl()
                 .then(res => {
                     this.checkVersion();
