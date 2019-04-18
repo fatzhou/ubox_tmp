@@ -14,10 +14,7 @@ export class ComputeFileSizePipe implements PipeTransform {
    * Takes a value and makes it lowercase.
    */
   transform(size: any, ...args) {
-		if(size == '') {
-			return size
-		}
-		if(size == 0) {
+		if(size == '' || size <= 0) {
 			return '0B';
 		}
 		let reg = /^[0-9]{1,}$/;

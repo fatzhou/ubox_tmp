@@ -53,7 +53,7 @@
 							<p class="file-info eps text-left"><em [ngClass]="task.action == 'download' ? 'file-down' : 'file-up'"></em><span class="progress-box"><em [ngStyle]="{'width': computeLoading(task) + '%'}"></em></span></p>
 						</div>
 						<div class="speed clear" item-end>
-							<p class="amount fl" *ngIf="task.pausing === 'doing'">{{ computeSpeed(task) }}B/S</p>
+							<p class="amount fl" *ngIf="task.pausing === 'doing'">{{ task.speed | computeFileSize }}/S</p>
 							<p class="amount fl" *ngIf="task.pausing === 'paused'">{{global.L('PAUSED')}}</p>
 							<p class="amount fl" *ngIf="task.pausing === 'waiting'">{{global.L('WAITING')}}</p>
 							<div class="progress fl circle btn" (click)="toggleStatus(task)" *ngIf="!allBtnsShow">

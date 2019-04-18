@@ -28,7 +28,8 @@ export class PreviewOtherPage {
     fileSize: any = 0;
     currPath: string = '';
     isShowDetail: boolean = false;
-    task: any = {};
+	task: any = {};
+	
     constructor(public navCtrl: NavController,
         private lang: Lang,
         private global: GlobalService,
@@ -143,17 +144,18 @@ export class PreviewOtherPage {
 
     computeFinished() {
 		this.zone.run(() => {
-			var downloadSize = 1;
-			var allSize = 100;
-			if(this.task && this.task.loaded !== undefined) {
-				downloadSize = this.task.loaded;
-				allSize = this.task.total;
-			}
-			var progress =  Math.floor(downloadSize / allSize * 100 || 0);
-			if(this.task.finished) {
-				this.downloadStatus = 'finished';
-			}
-			return progress + '%';			
+			return '30%';
+			// var downloadSize = 1;
+			// var allSize = 100;
+			// if(this.task && this.task.loaded !== undefined) {
+			// 	downloadSize = this.task.loaded;
+			// 	allSize = this.task.total;
+			// }
+			// var progress =  Math.floor(downloadSize / allSize * 100 || 0);
+			// if(this.task.finished) {
+			// 	this.downloadStatus = 'finished';
+			// }
+			// return progress + '%';			
 		})
 
     }

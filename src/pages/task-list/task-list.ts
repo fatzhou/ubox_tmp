@@ -114,17 +114,17 @@ export class TaskListPage {
         }        
     }
 
-    computeSpeed(task) {
-        if(task.pausing != 'doing') {
-            return 0 + 'K';
-        } else {
-            if(task.speed > GlobalService.DISK_M_BITS) {
-                return (task.speed / GlobalService.DISK_M_BITS).toFixed(2) + 'M';
-            } else {
-                return (task.speed / GlobalService.DISK_K_BITS).toFixed(2) + 'K';
-            }
-        }
-    }
+    // computeSpeed(task) {
+    //     if(task.pausing != 'doing') {
+    //         return 0 + 'K';
+    //     } else {
+    //         if(task.speed > GlobalService.DISK_M_BITS) {
+    //             return (task.speed / GlobalService.DISK_M_BITS).toFixed(2) + 'M';
+    //         } else {
+    //             return (task.speed / GlobalService.DISK_K_BITS).toFixed(2) + 'K';
+    //         }
+    //     }
+    // }
 
     computeLoading(task) {
         if(task.loaded === 0) {
@@ -133,32 +133,32 @@ export class TaskListPage {
             return Math.ceil(task.loaded * 100 / task.total);
         }
     }
-    computeFinished(task) {
-        task.percent = task.loaded === 0 ? 0 : Math.ceil(task.loaded * 100 / task.total);
-        var str = '';
-        if(task.loaded > GlobalService.DISK_M_BITS) {
-            str += (task.loaded / GlobalService.DISK_M_BITS).toFixed(2) + 'M';
-        } else {
-            str += (task.loaded / GlobalService.DISK_K_BITS).toFixed(2) + 'K';
-        }
-        str += '/';
-        if(task.total > GlobalService.DISK_M_BITS) {
-            str += (task.total / GlobalService.DISK_M_BITS).toFixed(2) + 'M';
-        } else {
-            str += (task.total / GlobalService.DISK_K_BITS).toFixed(2) + 'K';
-        }
-        return str;
-    }
+    // computeFinished(task) {
+    //     task.percent = task.loaded === 0 ? 0 : Math.ceil(task.loaded * 100 / task.total);
+    //     var str = '';
+    //     if(task.loaded > GlobalService.DISK_M_BITS) {
+    //         str += (task.loaded / GlobalService.DISK_M_BITS).toFixed(2) + 'M';
+    //     } else {
+    //         str += (task.loaded / GlobalService.DISK_K_BITS).toFixed(2) + 'K';
+    //     }
+    //     str += '/';
+    //     if(task.total > GlobalService.DISK_M_BITS) {
+    //         str += (task.total / GlobalService.DISK_M_BITS).toFixed(2) + 'M';
+    //     } else {
+    //         str += (task.total / GlobalService.DISK_K_BITS).toFixed(2) + 'K';
+    //     }
+    //     return str;
+    // }
 
-    getRotate(task) {
-        // var prog = task.loaded / Math.max(task.total, 1) * 360;
-        var rate = task.loaded / Math.max(task.total, 1);
-        var prog = rate * 360;
-        if(rate > .5) {
-            prog = prog - 180;
-        }
-        return 'rotate(' + prog + 'deg)';
-    }
+    // getRotate(task) {
+    //     // var prog = task.loaded / Math.max(task.total, 1) * 360;
+    //     var rate = task.loaded / Math.max(task.total, 1);
+    //     var prog = rate * 360;
+    //     if(rate > .5) {
+    //         prog = prog - 180;
+    //     }
+    //     return 'rotate(' + prog + 'deg)';
+    // }
 
 
     pretify(name) {

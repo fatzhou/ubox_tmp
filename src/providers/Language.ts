@@ -3471,7 +3471,7 @@ export class Lang {
 
     static UpdateAssistant = {
         cn: "升级助手",
-        en: 'update assistant',
+        en: 'Update assistant',
         kr: '업데이트'
     }
 
@@ -3830,7 +3830,7 @@ export class Lang {
 
     static StartDownload = {
         cn: '恢复下载',
-        en: ' estore download',
+        en: 'Restore download',
         kr: '다운로드 복구'
     }
     static StopDownload = {

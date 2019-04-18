@@ -101,7 +101,7 @@ export class FileTransport {
 				fileId: fileId,
 				taskId: taskId,
 				name: fileName,
-				path: encodeURIComponent(remotePath + "/" + fileName),
+				path: remotePath + "/" + fileName,
 				localPath: localPath,
 				speed: 0,
 				total: 0,
@@ -150,7 +150,8 @@ export class FileTransport {
 			let now = Date.now();
 			if (now > start + 600) {
 				this.zone.run(() => {
-					task.speed = Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5);
+					// console.log("上传进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
+					task.speed = Math.max(0, Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
 					task.loaded = res.loaded;
 					task.total = res.total;
 					start = now;
@@ -474,7 +475,7 @@ export class FileTransport {
 					fileId: fileId,
 					taskId: taskId,
 					name: fileInfo.name,
-					path: encodeURIComponent(remoteFullPath),
+					path: remoteFullPath,
 					localPath: localFullPath,
 					fileStyle: fileInfo.fileStyle,
 					total: 0,
@@ -530,21 +531,21 @@ export class FileTransport {
 				task.pausing = 'waiting';
 				tool.pause();
 				task.speed = 0;
-				task.speed = 0;
 				return false;
 			}
 			// GlobalService.consoleLog("更新任务进度");
 			let now = Date.now();
 			if (now > start + 500) {
 				this.zone.run(() => {
-					task.speed = Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5);
+					console.log("下载进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
+					task.speed = Math.max(0, Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
 					task.loaded = res.loaded;
 					task.total = res.total;
 					start = now;
 				});
 			} 
 			return true;
-		}
+		};
 		let success = (res: any) => {
 			console.log("下载成功返回....." + JSON.stringify(res));
 			let taskId = task.taskId;
@@ -608,7 +609,7 @@ export class FileTransport {
 	}
 
 	createDownloadHandlerLocal(fileTask, progress, success, failure) {
-		let url = this.global.getBoxApi('downloadFile') + '?fullpath=' + fileTask.path + '&disk_uuid=' + this.global.currDiskUuid;
+		let url = this.global.getBoxApi('downloadFile') + '?fullpath=' + encodeURIComponent(fileTask.path) + '&disk_uuid=' + this.global.currDiskUuid;
 		let fileURL = fileTask.localPath;
 		console.log("下载url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
 		let self = this
