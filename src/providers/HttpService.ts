@@ -951,7 +951,6 @@ export class HttpService {
         this.channelLabels.forEach(label => {
             this._clearWebrtc(label);
         });
-console.log("开始后去盒子列表....")
         return new Promise((gResolve, gReject) => {
             // Step 1. 去中心查找用户的盒子列表　
             this._post(

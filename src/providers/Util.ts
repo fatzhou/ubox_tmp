@@ -204,7 +204,7 @@ export class Util {
                 if (res.err_no !== 0) {
                     GlobalService.consoleLog("获取用户信息错误.......");
                     return Promise.reject("UserInfo Error");
-                }
+                } 
 
                 GlobalService.consoleLog("获取用户信息成功，保存用户信息...." + JSON.stringify(res.user_info));
 				$scope.global.centerUserInfo = res.user_info;
@@ -220,7 +220,7 @@ export class Util {
 			})
 			.catch(e => {
 				return Promise.reject("selectboxfailed");
-			})
+			})				
         })
 
         //成功登录&成功获取到盒子用户信息啦啦
