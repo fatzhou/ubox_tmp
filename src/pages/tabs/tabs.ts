@@ -403,7 +403,9 @@ export class TabsPage {
             this.isClose = false;
             // this.util.getDiskStatus()
             // .then(() => {
-            //    this.events.publish('list:refresh');
+                if(this.global.currDiskUuid != '') {
+                    this.events.publish('list:refresh');
+                }
                 this.getVersionControl()
                 .then(res => {
                     this.checkVersion();

@@ -135,7 +135,9 @@ export class ListPage {
             this.hideAddBtn = false;
         }
         this.initDiskInfo();
-        this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
+        this.isMainDisk = this.global.currDiskUuid != '' && this.global.currDiskUuid == this.global.mainSelectDiskUuid;
+        GlobalService.consoleLog("this.isMainDisk" + this.isMainDisk);
+
         GlobalService.consoleLog("this.currPath" + this.currPath);
         if(this.currPath == '') {
             setTimeout(()=>{
@@ -316,7 +318,8 @@ export class ListPage {
 
     listFiles() {
         GlobalService.consoleLog("开始加载列表数据...");
-		var url = this.global.getBoxApi("listFolder");
+        var url = this.global.getBoxApi("listFolder");
+        console.log('请求参数this.currPath   ' + this.currPath)
 		return this.http.post(url, {
 			path: this.currPath,
 			disk_uuid: this.global.currDiskUuid
