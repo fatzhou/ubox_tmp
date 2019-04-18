@@ -166,7 +166,7 @@ export class Util {
 				console.log("盒子hash比较：" + item.bindUserHash + "," + $scope.global.centerUserInfo.unameHash)
 				return item.bindUserHash === $scope.global.centerUserInfo.unameHash
 			});
-			
+
             if(myBox) {
                 //本地有自己的盒子, 使用近场模式
                 GlobalService.consoleLog("搜索查找到自己的盒子：" + JSON.stringify(myBox));
@@ -228,7 +228,7 @@ export class Util {
 			})
 			.catch(e => {
 				return Promise.reject("selectboxfailed");
-			})				
+			})
         })
 
         //成功登录&成功获取到盒子用户信息啦啦
@@ -804,7 +804,7 @@ export class Util {
             if(!this.platform.is('cordova')) {
 				setTimeout(() => {
                     // resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.2:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
-                    resolve([{"boxId":"UBOXV1236638987688822c4",
+                    resolve([/*{"boxId":"UBOXV1236638987688822c4",
                     "bindUser":"ao**0@163.com",
                     "friendlyName":"32",
                     "manufacturer":"23",
@@ -821,7 +821,7 @@ export class Util {
                     "deviceType":"UBOXV1236638987688822c4",
                     "version":"1.2.3",
                     "URLBase":["192.168.0.36:37867"],
-                    "bindUserHash":"45edba743bd17fbcefdc5affb77ff75b"}])
+                    "bindUserHash":"45edba743bd17fbcefdc5affb77ff75b"}*/])
 
                     // resolve([]);
 				}, minSearchTime);

@@ -118,7 +118,7 @@ export class ListPage {
         //         this.tabsController.slideTo(1, "boxtabs");
         //     },500);
         // }
-        
+
         if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
             // this.isShowBox = true;
             this.fileManager.getPermission()
@@ -155,7 +155,7 @@ export class ListPage {
 	}
 
     initDiskInfo() {
-        this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/'); 
+        this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/');
         if(this.global.diskInfo.disks) {
             this.disks = this.global.diskInfo.disks.filter(item => {
                 return item.position != 'base';
@@ -206,7 +206,7 @@ export class ListPage {
                 }
             });
         }
-        
+
         this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
         if(this.global.centerUserInfo.bind_box_count == 0) {
             this.isMainDisk = true;
@@ -214,8 +214,15 @@ export class ListPage {
         this.listFiles();
     }
     changeWarningStatus() {
-        this.isShowWarningBar = true;
-        this.isShowWarningBox = true;
+        let status = this.http.getNetworkStatus();
+        GlobalService.consoleLog("list页网络状态更新：" + JSON.stringify(status));
+        if (status.uboxNetworking && status.centerNetworking){
+            this.isShowWarningBar = false;
+            this.isShowWarningBox = false;
+        }else{
+            this.isShowWarningBar = true;
+            this.isShowWarningBox = true;
+        }
     }
 
     updateFilesEvent(task) {

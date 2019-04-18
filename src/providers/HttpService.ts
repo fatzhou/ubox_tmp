@@ -141,7 +141,7 @@ export class HttpService {
                         break;
                     }
                     GlobalService.consoleLog("webrtc创建盒子连接: ....[重新]建立连接流程.............");
-                    this._createDataChannel();
+                    this._createDataChannel().then(console.log).catch(console.log);
                     break;
             }
 
@@ -1063,7 +1063,7 @@ export class HttpService {
             if (this.webrtcEngineStatus != "stoped"){
                 GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，一定时间后重新启动.....");
                 this.webrtcEngineRestartTimer = setTimeout(()=>{
-                    this._createDataChannel();
+                    this._createDataChannel().then(console.log).catch(console.log);
                 }, this.successiveConnectGap);
             }else{
                 GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，引擎已关闭，不重新启动");
@@ -1158,7 +1158,7 @@ export class HttpService {
         };
 
         // 明确无网络连接
-        if (this.global.networking){
+        if (this.global.networking == false){
             return networkstatus;
         }else{
             networkstatus.networking = this.global.networking == true;
@@ -1196,8 +1196,8 @@ export class HttpService {
 
         // 远场盒子已连接
         else if (this.global.useWebrtc && this.webrtcEngineStatus === "connected"){
-            networkstatus.uboxNetworking = false;
-            networkstatus.usingWebRTC = false;
+            networkstatus.uboxNetworking = true;
+            networkstatus.usingWebRTC = true;
         }
 
         return networkstatus;
