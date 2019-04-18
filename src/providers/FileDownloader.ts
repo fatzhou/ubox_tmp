@@ -411,7 +411,7 @@ class SingleFileDownloader {
         };
         // GlobalService.consoleLog("发起get请求:" + sourceurl);
         let url = this.global.getBoxApi('downloadFile');
-        return this.http.get(url, { fullpath: this.cache.sourceurl, disk_uuid: this.global.currDiskUuid }, true, headers, { needHeader: true, label: 'download' }, true)
+        return this.http.get(url, { fullpath: this.cache.sourceurl, disk_uuid: this.global.currDiskUuid }, true, headers, { needHeader: true, label: 'download' })
             .then((res) => {
                 let cache = this.cache;
                 // GlobalService.consoleLog("服务器返回状态码：" + res.status);

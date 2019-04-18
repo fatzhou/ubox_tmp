@@ -72,11 +72,13 @@ export class BtSetPage {
             if(res.err_no === 0) {
                 this.path = res.dir;
                 this.taskNum = res.task_num;
-                this.global.diskInfo.disks.filter(item => {
-                    if(res.disk_uuid == item.disk_uuid) {
-                        this.diskLabel = item.label || '';
-                    }
-                })
+                if(this.global.diskInfo.disks) {
+                    this.global.diskInfo.disks.filter(item => {
+                        if(res.disk_uuid == item.uuid) {
+                            this.diskLabel = item.label || '';
+                        }
+                    })
+                }
             }
         })
     }

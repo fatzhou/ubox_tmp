@@ -147,6 +147,7 @@ export class BtTaskPage {
 
     goListPage(item) {
         console.log("go goBtPlayPage");
+        this.global.currDiskUuid = item.disk_uuid;
         this.navCtrl.push(ListPage, {
             type: "",
             path: item.dir

@@ -352,7 +352,7 @@ export class HttpService {
 					})
 				})
 			}
-		}	
+		}
 	}
 
 	public postWithStorage(url: string, paramObj: any, errorHandler: any = true, headers: any = {}, options: any = {}) {
@@ -951,10 +951,11 @@ export class HttpService {
         this.channelLabels.forEach(label => {
             this._clearWebrtc(label);
         });
+
         return new Promise((gResolve, gReject) => {
             // Step 1. 去中心查找用户的盒子列表　
             this._post(
-                GlobalService.centerApi["getBoxList"].url, {}
+                GlobalService.centerApi["getBoxList"].url, {}, {}, {}, false
             )
             // Step 2. 选择出第一个在线的盒子　
             .then((res: any) => {
@@ -1474,7 +1475,7 @@ export class HttpService {
         return this._post(GlobalService.centerApi["submitLocalSdp"].url, {
             box_id: this.deviceSelected.boxId,
             app_sdp: JSON.stringify(localSdp)
-        })
+        }, {}, {}, false)
         .then((res: any) => {
             GlobalService.consoleLog(res);
             if (res.err_no === 0) {
@@ -1492,7 +1493,7 @@ export class HttpService {
 		return new Promise((resolve, reject) => {
 			this._post(GlobalService.centerApi["getBoxSdpById"].url, {
 				box_id: id
-			}, {}, false)
+			}, {}, {}, false)
 			.then(res => {
 				if (res.err_no === 0 && res.box_sdp) {
 					//设置用户名和密码

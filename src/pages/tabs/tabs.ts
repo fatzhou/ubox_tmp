@@ -107,7 +107,7 @@ export class TabsPage {
         //         let method = matches[1],
         //             params = matches[2];
         //         if(method == 'pay') {
-                    
+
         //         }
         //     }
         // }
@@ -125,9 +125,9 @@ export class TabsPage {
                         console.error("盒子版本" + version + "未配置");
                         this.isClose = false;
                         throw new Error("Version not configed");
-                    }     
+                    }
                     this.boxUpdateInfo = res.data;
-                    this.toVersion = version;               
+                    this.toVersion = version;
                     this.info = this.boxVersionDescription[version][GlobalService.applang];
                     this.head = this.global.NewVersionHead[GlobalService.applang];
                     this.btnText = Lang.L('Update');
@@ -184,7 +184,7 @@ export class TabsPage {
                 // this.rootPage = page;
                 this.navCtrl.push(NoticeDetailPage, {
                     id: pageId
-                });                 
+                });
             } catch(e) {
                 GlobalService.consoleLog("异常！！！");
                 this.navCtrl.push(NoticeListPage);
@@ -195,8 +195,8 @@ export class TabsPage {
             GlobalService.consoleLog("接收到page页面更改事件......")
             try {
                 // this.rootPage = page;
-                GlobalService.consoleLog(page)              
-                this.navCtrl.push(NoticeListPage);   
+                GlobalService.consoleLog(page)
+                this.navCtrl.push(NoticeListPage);
             } catch(e) {
                 GlobalService.consoleLog("异常！！！");
                 this.navCtrl.push(NoticeListPage);
@@ -232,11 +232,11 @@ export class TabsPage {
                 if(view.component == TabsPage) {
                     this.tabsCtrl.slideTo(0);
                 } else {
-                    this.tabsCtrl.slideTo(0); 
+                    this.tabsCtrl.slideTo(0);
                     this.navCtrl.setRoot(TabsPage);
                 }
             } else {
-                this.navCtrl.setRoot(LoginPage); 
+                this.navCtrl.setRoot(LoginPage);
             }
         });
     }
@@ -244,7 +244,7 @@ export class TabsPage {
     updateBoxIndeed() {
         GlobalService.consoleLog("开始升级盒子....");
         this.isClose = false;
-     
+
         return new Promise((resolve, reject) => {
             GlobalService.consoleLog("升级信息:" + GlobalService.consoleLog(JSON.stringify(this.boxUpdateInfo)));
             return this.checkUpdate.updateRomIndeed(this.boxUpdateInfo.dstVer, this.boxUpdateInfo.signature, resolve, reject);
@@ -265,11 +265,11 @@ export class TabsPage {
             setTimeout(() => {
                 console.log("跳转发现页");
                 this.tabsCtrl.slideTo(0);
-            }, 1000);               
+            }, 1000);
             this.navCtrl.push(LoginPage, {
                 tabIndex: index
-            })            
-        } 
+            })
+        }
     }
 
     showPopup(b) {
@@ -302,7 +302,7 @@ export class TabsPage {
             })
         } else {
             return new Promise(()=>{
-                
+
             })
         }
     }
@@ -319,7 +319,7 @@ export class TabsPage {
                 } catch (e) {
                     GlobalService.consoleLog("执行action出错:" + e.message);
                 }
-            }            
+            }
         }
     }
 
@@ -334,7 +334,7 @@ export class TabsPage {
         //初始化connection组件
         // this.connection.status = this.global.useWebrtc ? this.global.L('RemoteNetwork')
 	}
-	
+
 	ionViewCanEnter() {
 		//解决tabspage进入两次的问题
 		console.log('aaaaaaa')
@@ -347,9 +347,9 @@ export class TabsPage {
 				return true;
 			} else {
 				return false;
-			}			
+			}
         }
-        
+
 		// return true;
 	}
 
@@ -367,7 +367,7 @@ export class TabsPage {
 		// 				this.connectionStatus = 'connecting';
 		// 			} else {
 		// 				this.connectionStatus = 'error';
-		// 			}					
+		// 			}
 		// 		} else {
 		// 			//没有盒子在线
 		// 			this.connectionStatus = 'error';
@@ -392,7 +392,9 @@ export class TabsPage {
         //         });
         //     }
         // }
+        // console.log('this.global.mainSelectDiskUuid' + this.global.mainSelectDiskUuid);
         this.global.currDiskUuid = this.global.mainSelectDiskUuid;
+        // console.log('this.global.currDiskUuid' + this.global.currDiskUuid);
         this.global.currPath = '/';
         this.isClose = false;
         if (this.global.deviceSelected) {
@@ -401,7 +403,9 @@ export class TabsPage {
             this.isClose = false;
             // this.util.getDiskStatus()
             // .then(() => {
-                this.events.publish('list:refresh');
+                if(this.global.currDiskUuid != '') {
+                    this.events.publish('list:refresh');
+                }
                 this.getVersionControl()
                 .then(res => {
                     this.checkVersion();
@@ -415,7 +419,7 @@ export class TabsPage {
             // .catch(e=> {
             //     GlobalService.consoleLog(e.stack);
             // })
-            
+
         } else {
             this.getVersionControl()
             // .then(res => {
@@ -424,8 +428,8 @@ export class TabsPage {
             //         message: Lang.L('WORD2a0b753a'),
             //         buttons: [{
             //             "text": Lang.L('Close'),
-            //             handler: () => {       
-            //                 this.tabsCtrl.slideTo(1); 
+            //             handler: () => {
+            //                 this.tabsCtrl.slideTo(1);
             //             }
             //         }]
             //     });
@@ -436,8 +440,8 @@ export class TabsPage {
                 //     message: Lang.L('WORD2a0b753a'),
                 //     buttons: [{
                 //         "text": Lang.L('Close'),
-                //         handler: () => {    
-                //             this.tabsCtrl.slideTo(1);                     
+                //         handler: () => {
+                //             this.tabsCtrl.slideTo(1);
                 //         }
                 //     }]
                 // });
@@ -522,7 +526,7 @@ export class TabsPage {
             }
         }
     }
-    
+
     closeNotice() {
         GlobalService.consoleLog("关闭浮层");
         this.isClose = false;
@@ -568,7 +572,7 @@ export class TabsPage {
                 console.log('调用失败')
             })
         }
-        
+
     }
 
     closeBindBox() {
