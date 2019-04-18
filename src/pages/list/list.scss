@@ -227,6 +227,9 @@ page-list {
             }
         }
     }
+    .warning-bar .toolbar-background{
+        background: $newSecondColor;
+    }
     .warning-box {
         height: 54px;
         display: flex;
@@ -235,6 +238,17 @@ page-list {
         background: #2f2f33;
         font-size: 14px;
         color: #fff;
+        position: relative;
+        .tishi-icon {
+            font-size: 22px;
+            margin-right: 10px;
+            color: $newSecondColor;
+        }
+        .close-icon {
+            font-size: 14px;
+            position: absolute;
+            right: 20px;
+        }
     }
     .fix-header {
         width: 100%;

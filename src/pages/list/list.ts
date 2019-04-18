@@ -80,6 +80,7 @@ export class ListPage {
     isMainDisk: boolean = false;
     isShowPageTitle: boolean = false;
     isShowWarningBox: boolean = true;
+    isShowWarningBar: boolean = true;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -182,7 +183,9 @@ export class ListPage {
 
 		if(this.currPath == '/') {
 			this.events.unsubscribe('list:refresh');
-			this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
+            this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
+            this.events.unsubscribe('warning:change');
+			this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
         }
         console.log('this.global.currDiskUuid' + this.global.currDiskUuid)
         if(this.global.diskInfo && this.global.diskInfo.disks && this.global.currDiskUuid != '') {
@@ -209,6 +212,10 @@ export class ListPage {
             this.isMainDisk = true;
         }
         this.listFiles();
+    }
+    changeWarningStatus() {
+        this.isShowWarningBar = true;
+        this.isShowWarningBox = true;
     }
 
     updateFilesEvent(task) {
