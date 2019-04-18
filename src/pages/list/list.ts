@@ -116,6 +116,7 @@ export class ListPage {
         //         this.tabsController.slideTo(1, "boxtabs");
         //     },500);
         // }
+        
         if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
             // this.isShowBox = true;
             this.fileManager.getPermission()
@@ -133,14 +134,8 @@ export class ListPage {
         } else {
             this.hideAddBtn = false;
         }
+        this.initDiskInfo();
         this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
-        if(this.global.diskInfo.disks) {
-            this.disks = this.global.diskInfo.disks.filter(item => {
-                return item.position != 'base';
-                // return item
-            });
-        }
-        this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/'); 
         GlobalService.consoleLog("this.currPath" + this.currPath);
         if(this.currPath == '') {
             setTimeout(()=>{
@@ -151,9 +146,19 @@ export class ListPage {
 	}
 
 	connectionChangeCallback() {
+        console.log('刷新列表')
 		this.listFiles();
 	}
 
+    initDiskInfo() {
+        this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/'); 
+        if(this.global.diskInfo.disks) {
+            this.disks = this.global.diskInfo.disks.filter(item => {
+                return item.position != 'base';
+                // return item
+            });
+        }
+    }
     ionViewDidLeave() {
         this.hideAddBtn = true;
         //保存缩略图map到缓存
@@ -176,7 +181,8 @@ export class ListPage {
 			this.events.unsubscribe('list:refresh');
 			this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
         }
-        if(this.global.diskInfo && this.global.diskInfo.disks) {
+        console.log('this.global.currDiskUuid' + this.global.currDiskUuid)
+        if(this.global.diskInfo && this.global.diskInfo.disks && this.global.currDiskUuid != '') {
             this.listFiles();
         }
 		GlobalService.consoleLog("this.currPath" + this.currPath);
@@ -186,14 +192,15 @@ export class ListPage {
     refreshFilesEvent() {
         console.log("Refresh file list..." + this.global.currPath);
         this.global.currPath = '/';
-        this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/'); 
-        this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
+        this.initDiskInfo();
         if(this.global.diskInfo.disks) {
-            this.disks = this.global.diskInfo.disks.filter(item => {
-                return item.position != 'base';
-                // return item
+            this.global.diskInfo.disks.map((item)=> {
+                if(item.position == 'base') {
+                    this.global.currDiskUuid = item.uuid;
+                }
             });
         }
+        this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
         this.listFiles();
     }
 
@@ -202,6 +209,7 @@ export class ListPage {
         if(!task || task.action === 'upload') {
             this.listFiles();
         }
+        this.initDiskInfo();
     }
 
     moveFilesEvent() {
@@ -211,6 +219,7 @@ export class ListPage {
             this.moveFile(this.currPath.replace(/\/$/g, '') + "/", this.selectedFiles[i].name, this.global.currPath.replace(/\/$/g, '') + "/", this.selectedFiles[i].name, "move");
         }
         this.selectedFiles = [];
+        this.initDiskInfo();
     }
 
     moveChangeList(selectedFile) {
@@ -224,6 +233,7 @@ export class ListPage {
         this.type0List.splice(index0, 1);
         this.type1List.splice(index1, 1);
         this.events.publish(this.global.currPath + ':succeed');
+        this.initDiskInfo();
     }
 
     setShowType(isShow) {

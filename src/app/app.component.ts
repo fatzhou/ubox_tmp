@@ -668,7 +668,8 @@ export class UboxApp {
 					// .then(res => {
 					// 	console.log(res)
 					// 	this.tabsController.slideTo(0);
-					// });
+                    // });
+                    this.util.getDiskStatus();
 					this.tabsController.slideTo(0, 'boxtabs');
 					break;
 				case 'discover':
@@ -694,7 +695,7 @@ export class UboxApp {
                         })
                     } else {
                         if(this.global.walletList.length == 0) {
-                            this.nav.push(WalletDetailPage);
+                            this.nav.push(WalletGeneratorPage);
                         } else {
                             this.nav.push(WalletDetailPage);
                         }

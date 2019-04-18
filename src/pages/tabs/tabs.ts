@@ -392,16 +392,17 @@ export class TabsPage {
         //         });
         //     }
         // }
+        this.global.currDiskUuid = this.global.mainSelectDiskUuid;
         this.global.currPath = '/';
         this.isClose = false;
         if (this.global.deviceSelected) {
             this.version = this.global.deviceSelected.version;
 
             this.isClose = false;
-            this.util.getDiskStatus()
-            .then(() => {
+            // this.util.getDiskStatus()
+            // .then(() => {
                 this.events.publish('list:refresh');
-                return this.getVersionControl()
+                this.getVersionControl()
                 .then(res => {
                     this.checkVersion();
                 })
@@ -410,10 +411,10 @@ export class TabsPage {
                     this.global.closeGlobalLoading(this);
                     this.initNoticeList();
                 })
-            })
-            .catch(e=> {
-                GlobalService.consoleLog(e.stack);
-            })
+            // })
+            // .catch(e=> {
+            //     GlobalService.consoleLog(e.stack);
+            // })
             
         } else {
             this.getVersionControl()

@@ -147,7 +147,7 @@ export class Util {
 
         //Step 4. 搜索获取盒子列表
         .then((cachedBoxId)=> {
-            return this.searchUbbey(false, cachedBoxId).then((boxes: any) => {
+            return this.searchUbbey(true, cachedBoxId).then((boxes: any) => {
                 if (boxes && boxes.length) {
                     return boxes;
                 } else {
@@ -374,25 +374,20 @@ export class Util {
             }, 2000, logid);
 
             // case 2: select
-            if (0) {
-                doSelect.then(resolve, reject);
-            }
             ////////// 持续搜索，直至成功 ///// begain ///////////////
-            else {
-                let retrycount = 0;
-                let doSelectLoop = function () {
-                    retrycount++;
-                    let oldlogid = logid;
-                    logid = Date.now();
-                    GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
-                    doSelect.then(resolve).catch((err)=>{
+            let retrycount = 0;
+            let doSelectLoop = function () {
+                retrycount++;
+                let oldlogid = logid;
+                logid = Date.now();
+                GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
+                doSelect.then(resolve).catch((err)=>{
 
-                        GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + JSON.stringify(err));
-                        setTimeout(()=>{doSelectLoop()}, 15000);
-                    })
-                };
-                doSelectLoop();
-            }
+                    GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + JSON.stringify(err));
+                    setTimeout(()=>{doSelectLoop()}, 15000);
+                })
+            };
+            doSelectLoop();
             ////////// 持续搜索，直至成功 ///// end //////////////////
         });
     }
@@ -785,8 +780,9 @@ export class Util {
 
     searchUbbey(imediate = false, fastSearchBoxid = "") {
 		let start = Date.now();
-		let minSearchTime = 3000;
-        GlobalService.consoleLog("开始盒子扫描，imediate=" + imediate + ",fastSearchBoxid=" + fastSearchBoxid);
+        let logid = Date.now();
+        let minSearchTime = 3000;
+        GlobalService.consoleLog("["+logid+"]" + "开始盒子扫描，imediate=" + imediate + ",fastSearchBoxid=" + fastSearchBoxid);
         return new Promise((resolve, reject) => {
             // if(1) {
             if(!this.platform.is('cordova')) {
@@ -800,7 +796,7 @@ export class Util {
                     "deviceType":"UBOXV1236638987688822c4",
                     "version":"1.2.3",
                     "URLBase":["192.168.0.36:37867"],
-                    "bindUserHash":"45edba743bd17fbcefdc5affb77ff75b"}, 
+                    "bindUserHash":"45edba743bd17fbcefdc5affb77ff75b"},
                     {"boxId":"UBOXV1236638987688822c4",
                     "bindUser":"ao**0@163.com",
                     "friendlyName":"32",
@@ -827,7 +823,7 @@ export class Util {
             }, SEARCH_TIMEOUT);
 
             var setSearchFinish = (devices) => {
-                GlobalService.consoleLog("盒子扫描完毕! 扫描到到盒子个数：" + devices.length);
+                GlobalService.consoleLog("["+logid+"]" + "盒子扫描完毕! 扫描到到盒子个数：" + devices.length);
                 clearTimeout(timeout);
 				timeout = null;
 
@@ -841,24 +837,25 @@ export class Util {
 						self.parseDeviceList(devices, deviceList => {
 							// GlobalService.consoleLog("解析完毕" + JSON.stringify(deviceList));
 							self.global.foundDeviceList = deviceList;
-                            GlobalService.consoleLog("盒子扫描1共耗时:" + (Date.now() - start));
+                            GlobalService.consoleLog("["+logid+"]" + "盒子扫描1共耗时:" + (Date.now() - start));
                             resolve(deviceList);
 						});
 					} else {
-                        GlobalService.consoleLog("盒子扫描2共耗时:" + (Date.now() - start));
+                        GlobalService.consoleLog("["+logid+"]" + "盒子扫描2共耗时:" + (Date.now() - start));
                         resolve([]);
 					}
 				}, t);
             };
             let processRes = (devices) => {
-                GlobalService.consoleLog("发现接口成功回调");
+                GlobalService.consoleLog("["+logid+"]" + "发现接口成功回调, devices.length=" + devices.length);
+                let logstr = "";
                 //ios需要手动下载xml
                 if(devices.length) {
                     for(var i = 0, len = devices.length; i < len; i++) {
                         var myLocation = devices[i].LOCATION.replace(/\/\/([^\/]+)$/g, "/$1");
                         self.http.get(myLocation, {}, false, {}, {}, true)
                         .then(res => {
-                            GlobalService.consoleLog("成功！！" + JSON.stringify(res));
+                            logstr += i + ":" + JSON.stringify(res) + "\r\n";
                             if(typeof res === 'string') {
                                 deviceList.push({
                                     xml: res
@@ -870,12 +867,12 @@ export class Util {
                             }
 
                             if(deviceList.length === len) {
+                                GlobalService.consoleLog("["+logid+"]" + "扫描成功！！" + logstr);
                                 setSearchFinish(deviceList);
                             }
                         })
                         .catch(e => {
-                            GlobalService.consoleLog("失败！");
-                            GlobalService.consoleLog(JSON.stringify(e));
+                            GlobalService.consoleLog("["+logid+"]" + "扫描失败！" + JSON.stringify(e));
                             deviceList.push({
                                 xml: ''
                             });
@@ -890,7 +887,7 @@ export class Util {
             };
             let failure = () => {
                 reject();
-            }
+            };
 
             serviceDiscovery.getNetworkServices(serviceType, fastSearchBoxid, processRes, failure);
         })
@@ -1182,7 +1179,7 @@ export class Util {
                 let pingTimer = setTimeout(()=>{
                     rejected = true;
                     reject()
-                }, 2000);
+                }, 800);
 
                 this.http.post(url, {}, false, {}, {})
                     .then(()=>{
@@ -1507,7 +1504,7 @@ export class Util {
     //         GlobalService.consoleLog(res);
     //     })
 	// }
-	
+
     public logoutCenter(callback) {
         this.global.centerUserInfo = {};
         return this.http.post(GlobalService.centerApi["logout"].url, {}, false)
@@ -1521,6 +1518,7 @@ export class Util {
         setTimeout(()=>{
             this.global.boxUserInfo = {};
             this.global.centerUserInfo = {};
+            this.global.diskInfo = {};
             callback && callback();
         }, 0);
 

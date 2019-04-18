@@ -23,6 +23,7 @@ export class BtSetPage {
 
     path: string = '';
     taskNum: number = 1;
+    diskLabel: string = '';
     constructor(
         public navCtrl: NavController, 
         public navParams: NavParams,
@@ -71,6 +72,11 @@ export class BtSetPage {
             if(res.err_no === 0) {
                 this.path = res.dir;
                 this.taskNum = res.task_num;
+                this.global.diskInfo.disks.filter(item => {
+                    if(res.disk_uuid == item.disk_uuid) {
+                        this.diskLabel = item.label || '';
+                    }
+                })
             }
         })
     }

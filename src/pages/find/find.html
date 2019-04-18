@@ -12,7 +12,7 @@
                 <p class="list-point"><span></span><span class="active"></span><span></span></p>
             </div>
         </ion-title>
-        <svg class="icon aside-nav-icon" (click)="displayMenu($event)" aria-hidden="true">
+        <svg class="icon aside-nav-icon" tappable (click)="displayMenu($event)" aria-hidden="true">
                 <use xlink:href="#iconcaidan"></use>
         </svg>
         <div class="input-box"  *ngIf="!isShowTitle">

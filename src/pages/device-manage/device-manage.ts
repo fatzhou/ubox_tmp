@@ -109,6 +109,7 @@ export class DeviceManagePage {
         .then(res=>{
             if(res.err_no === 0) {
                 GlobalService.consoleLog("格式化完成");
+                this.util.getDiskStatus();
                 this.global.fileTaskList = [];
                 this.global.currPath = '/';
                 this.events.publish('list:refresh');

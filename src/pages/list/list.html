@@ -6,7 +6,7 @@
 -->
 <ion-header>
     <ion-navbar class="clear" [ngClass]="allBtnsShow ? 'select-tollbar' :''">
-        <svg *ngIf="currPath == '/' && !allBtnsShow && isMainDisk" class="icon aside-nav-icon" (click)="displayMenu($event)" tappable aria-hidden="true">
+        <svg *ngIf="currPath == '/' && !allBtnsShow && isMainDisk" tappable class="icon aside-nav-icon" (click)="displayMenu($event)" tappable aria-hidden="true">
             <use xlink:href="#iconcaidan"></use>
         </svg>
         <ion-title [ngClass]="[allBtnsShow ? 'list-active' : '', currPath != '/' && allBtnsShow ? 'list-no-home' : '']">
