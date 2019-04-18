@@ -439,6 +439,7 @@ export class UboxApp {
             this.global.networkType = "";
             this.global.closeGlobalAlert(this);
             this.global.closeGlobalLoading(this);
+            this.http.notifyNetworkStatusChange();
             this.createNetworkingAlert();
 			this.stopAllTask(true);
         });
@@ -528,6 +529,8 @@ export class UboxApp {
             this.http.startWebrtcEngine();
         }
 
+        // 发送网络可能变化的通知信号
+        this.http.notifyNetworkStatusChange();
     }
 
     createNetworkingAlert() {

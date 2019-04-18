@@ -46,6 +46,10 @@ export class HttpService {
     webrtcEngineStatus          = "stoped";     //"closing", "closed", "opening", "opended"
     webrtcEngineLastAliveTime   = Date.now();   //最后活跃时间
     webrtcEngineRestartTimer    = null;         //开启重试定时器
+    centerNetworkLastAliveTime  = Date.now();   //中心请求最后活跃时间
+    centerNetworkChecking       = false;        //是否正在检测中心网络状态
+    networkIndeedError          = null;         //中心连接明确出错
+    isBoxUrlReg                 = /^http(s?):\/\/(\d){1,3}\.(\d){1,3}\.(\d){1,3}\.(\d){1,3}:(\d){1,5}/g;
 
 	globalRequestMap = {}; //已发送的回调
 	globalWaitingList = {}; //未发送队列
@@ -359,7 +363,7 @@ export class HttpService {
 		headers['X-Request-Id'] = this.getXRequestId();
 		console.log("是否使用webrtc?" + this.global.useWebrtc);
 		// let ifBoxUrl = !url.startsWith('http');
-		let ifBoxUrl = !url.startsWith('http') || /^http(s?):\/\/(\d+){,3}\.(\d+){,3}\.(\d+){,3}\.(\d+){,3}:(\d+)/g.test(url); //检测是否盒子的url
+		let ifBoxUrl = !url.startsWith('http') || this.isBoxUrlReg.test(url); //检测是否盒子的url
 		if(!ifBoxUrl || ifBoxUrl && this.global.deviceSelected || this.global.useWebrtc && !options.storageName) {
 			//box请求必须要有盒子
 			return this.post(url, paramObj, errorHandler, headers, options);
@@ -418,6 +422,7 @@ export class HttpService {
 				// if (this.platform.is('cordova') || cordova) {
 				return this.http.post(url, paramObj, headers)
 					.then((res: any) => {
+				        this._updateCenterNetworkLastAliveTime(url);
 						if(res.headers && res.headers['set-cookie']) {
 							if (this.global.deviceSelected && url.indexOf(GlobalService.boxApi["login"].url)>=0){
                                 console.log(url + "登录接口需要设置cookie:" + res.headers['set-cookie']);
@@ -435,7 +440,8 @@ export class HttpService {
 				return this.aHttp.post(url, this.toBodyString(paramObj), new RequestOptions({ headers: postHeaders, withCredentials: true }))
 					.toPromise()
 					.then((res: any) => {
-						// console.log(url + "angular http : + " + JSON.stringify(res))
+                        this._updateCenterNetworkLastAliveTime(url);
+                        // console.log(url + "angular http : + " + JSON.stringify(res))
 						// console.log(url +JSON.stringify(res.headers))
 
 						//   console.log(!!res.headers)
@@ -1033,22 +1039,25 @@ export class HttpService {
             })
             //Step 6. 无异常，切换状态为已连接
             .then(()=>{
-                this.webrtcEngineStatus = "connected"
+                this.webrtcEngineStatus = "connecting"
             })
             //Step 7. 异常，切换状态为已关闭
             .catch((e: any) => {
                 GlobalService.consoleLog("webrtc创建盒子连接: 建立连接流程出错:" + JSON.stringify(e) + e.toString());
                 this.global.closeGlobalLoading(this);
-                this.webrtcEngineStatus = "closed"
+                this.webrtcEngineStatus = "closed";
                 gReject(null);
             })
         }).then((res) => {
+            this.webrtcEngineStatus = "connected";
             GlobalService.consoleLog("webrtc创建盒子连接: 建立连接成功，启动保活监控.....");
             this.channelLabels.forEach(label => {
                 this.channelStatusManager(label);
             });
             this.keepWebrtcAlive(this.channelLabels[0]);
 
+            // 发送网络可能变化的通知信号
+            this.notifyNetworkStatusChange();
             return res
         }).catch((res) => {
             if (this.webrtcEngineStatus != "stoped"){
@@ -1060,6 +1069,8 @@ export class HttpService {
                 GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，引擎已关闭，不重新启动");
             }
 
+            // 发送网络可能变化的通知信号
+            this.notifyNetworkStatusChange();
             return Promise.reject(res)
         });
     }
@@ -1133,6 +1144,97 @@ export class HttpService {
 
         return this.peerConnection;
 	}
+
+    /**
+     * 获取网络状态
+     */
+    getNetworkStatus(){
+        let networkstatus = {
+            networking: false,          //网络是否连接上
+            networkType: "none",        //网络类型: wifi/4g/3g
+            uboxNetworking: false,      //盒子是否已连接
+            usingWebRTC: false,         //盒子已连接的前提下，是否是使用远程连接的
+            centerNetworking: false,    //弱中心是否已连接
+        };
+
+        // 明确无网络连接
+        if (this.global.networking){
+            return networkstatus;
+        }else{
+            networkstatus.networking = this.global.networking == true;
+            networkstatus.networkType = this.global.networkType + ""
+            this._checkNetworkStatusAsync();
+        }
+
+        // 中心已连接【有网络，且中心探测无明确超时或者错误】
+        if(!this.networkIndeedError){
+            networkstatus.centerNetworking = true;
+        }
+
+        // 中心未连接【有网络，但中心探测明确超时或者出现错误】
+        else if(this.networkIndeedError){
+            networkstatus.centerNetworking = false;
+        }
+
+        // 近场盒子未连接
+        if (!this.global.useWebrtc && !this.global.setSelectedBox){
+            networkstatus.uboxNetworking = false;
+            networkstatus.usingWebRTC = false;
+        }
+
+        // 近场盒子盒子已连接
+        else if (!this.global.useWebrtc && this.global.setSelectedBox){
+            networkstatus.uboxNetworking = true;
+            networkstatus.usingWebRTC = false;
+        }
+
+        // 远场盒子未连接
+        else if (this.global.useWebrtc && this.webrtcEngineStatus !== "connected"){
+            networkstatus.uboxNetworking = false;
+            networkstatus.usingWebRTC = true;
+        }
+
+        // 远场盒子已连接
+        else if (this.global.useWebrtc && this.webrtcEngineStatus === "connected"){
+            networkstatus.uboxNetworking = false;
+            networkstatus.usingWebRTC = false;
+        }
+
+        return networkstatus;
+    }
+
+    /**
+     * 通知网络状态可能发生变化
+     */
+    notifyNetworkStatusChange(){
+        this.events.publish('warning:change');
+        this._checkNetworkStatusAsync();
+    }
+
+    _updateCenterNetworkLastAliveTime(url){
+        let isBoxUrl = !url.startsWith('http') || this.isBoxUrlReg.test(url); //检测是否盒子的url
+        if (!isBoxUrl){
+            this.centerNetworkLastAliveTime = Date.now();
+        }
+    }
+
+    _checkNetworkStatusAsync(){
+        if (Date.now() - this.centerNetworkLastAliveTime > 60000 && this.centerNetworkChecking == false){
+            this.centerNetworkChecking = true;
+            let url =GlobalService.centerApi["noticeMarketList"].url;
+            this.http.post(url, {
+                timeStamp: 0,
+            }, false).then(res => {
+                GlobalService.consoleLog("检查网络状态请求发送成功返回, 刷新网络状态");
+            }).catch(e => {
+                GlobalService.consoleLog("检查网络状态请求发送返回异常, 刷新网络状态");
+            }).then(()=>{
+                let newstatus = this.getNetworkStatus();
+                this.notifyNetworkStatusChange();
+                this.centerNetworkChecking = false;
+            })
+        }
+    }
 
 	ab2str(buf) {
 		let decoder = new TextDecoder("utf-8");

@@ -363,8 +363,9 @@ export class Util {
                 })
             })
 
-            //获取盒子状态
+            //获取盒子状态 & 发送网络改变通知
             .then(()=> {
+                this.http.notifyNetworkStatusChange();
                 this.getDiskStatus()
                     .then(() => {
                         console.log("["+logid+"]" + "获取盒子状态成功，刷新list");
@@ -372,8 +373,8 @@ export class Util {
                     })
                     .catch(() => {
                         console.log("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
-                    })
-            });
+                    });
+            })
         };
 
 
