@@ -248,122 +248,124 @@ export class Util {
     }
 
     checkoutBox($scope){
-        //尝试用本地缓存中的信息ping一下本地盒子, ping不通之后再搜索
         let logid = Date.now();
-        let doSelect =  $scope.global.getSelectedBox(true
+        let doSelect =  function(){
+            //尝试用本地缓存中的信息ping一下本地盒子, ping不通之后再搜索
+            return $scope.global.getSelectedBox(true
 
-        //Case 1: 尝试ping一下本地盒子, ping不通之后再搜索
-        ).then((mybox)=> {return this.pingLocalBox(mybox)})
+            //Case 1: 尝试ping一下本地盒子, ping不通之后再搜索
+            ).then((mybox)=> {return this.pingLocalBox(mybox)})
 
-        //Case 2: ping通之后, 直接使用缓存
-        .then((pingbox)=>{
-            GlobalService.consoleLog("["+logid+"]" + "ping本地盒子成功, 直接使用缓存");
-            $scope.global.setSelectedBox(pingbox);
-            return $scope.global.deviceSelected
-        })
-
-        //Case 3: ping不通之后再尝试搜索
-        .catch(()=>{
-            GlobalService.consoleLog("["+logid+"]" + "ping本地盒子不通, 尝试搜索....");
-            return this.searchSelfBox($scope).then(mybox => {
-                $scope.global.setSelectedBox(mybox);
+            //Case 2: ping通之后, 直接使用缓存
+            .then((pingbox)=>{
+                GlobalService.consoleLog("["+logid+"]" + "ping本地盒子成功, 直接使用缓存");
+                $scope.global.setSelectedBox(pingbox);
                 return $scope.global.deviceSelected
-            }).catch((err) => {
-                if (err == "USER_HAVE_NO_BOX") {
-                    GlobalService.consoleLog("[" + logid + "]" + "用户明确无盒子，本地搜索盒子失败");
-                    return Promise.reject("USER_HAVE_NO_BOX");
+            })
+
+            //Case 3: ping不通之后再尝试搜索
+            .catch(()=>{
+                GlobalService.consoleLog("["+logid+"]" + "ping本地盒子不通, 尝试搜索....");
+                return this.searchSelfBox($scope).then(mybox => {
+                    $scope.global.setSelectedBox(mybox);
+                    return $scope.global.deviceSelected
+                }).catch((err) => {
+                    if (err == "USER_HAVE_NO_BOX") {
+                        GlobalService.consoleLog("[" + logid + "]" + "用户明确无盒子，本地搜索盒子失败");
+                        return Promise.reject("USER_HAVE_NO_BOX");
+                    } else {
+                        return null;
+                    }
+                });
+            })
+
+            //优先尝试本地模式，无本地盒子则启动远程盒子
+            .then((localBox)=> {
+                if(localBox){
+                    //本地有自己的盒子，关闭远程模式
+                    $scope.http.stopWebrtcEngine();
                 } else {
-                    return null;
-                }
-            });
-        })
-
-        //优先尝试本地模式，无本地盒子则启动远程盒子
-        .then((localBox)=> {
-            if(localBox){
-                //本地有自己的盒子，关闭远程模式
-                $scope.http.stopWebrtcEngine();
-            } else {
-                //本地没有有自己的盒子，尝试启动远程模式
-                return $scope.http.startWebrtcEngine()
-            }
-        })
-
-        //成功选择到盒子,登录[盒子]
-        .then((res:any) => {
-
-            if (!this.global.deviceSelected) {
-                GlobalService.consoleLog("["+logid+"]" + "选择盒子失败, ***UNREACHABLE CODE***");
-                return Promise.reject("["+logid+"]" + "***UNREACHABLE CODE***")
-            }
-
-            return new Promise((resolve, reject) => {
-                if ($scope.username && $scope.password) {
-                    GlobalService.consoleLog("["+logid+"]" + "[用户输入]用户名和密码");
-                    return resolve({
-                        username: $scope.username,
-                        password: $scope.password,
-                    });
-                } else {
-                    GlobalService.consoleLog("[" + logid + "]" + "[从缓存中提取]用户名和密码");
-                    return this.storage.get('UserList')
-                        .then(res => {
-                            GlobalService.consoleLog("缓存UserList状态：" + JSON.stringify(res));
-                            if (res) {
-                                let userLoginList = JSON.parse(res);
-                                let userLoginInfo;
-                                if (this.global.deviceSelected) {
-                                    userLoginInfo = userLoginList['boxid'][this.global.deviceSelected.boxId] || null;
-                                }
-                                if (!userLoginInfo){
-                                    userLoginInfo = userLoginList['remote'] || null;
-                                }
-                                return resolve(userLoginInfo);
-                            }
-                        })
-                }
-            }).then((user: any) => {
-                GlobalService.consoleLog("["+logid+"]" + "使用获取的[用户名和密码]登录盒子");
-                GlobalService.consoleLog("["+logid+"]" + "使用获取的[用户名和密码]登录盒子xx:" + user.username + "/" + user.password);
-                return $scope.util.loginBox(user.username, user.password)
-                    .then(res => {
-                        //这里封装的不是很好，loginBox的返回值要么是盒子信息，要么是null，和之前不统一
-                        if (res) {
-                            return this.global.deviceSelected;
-                        } else {
-                            return null;
-                        }
-                    })
-            });
-        })
-
-        //获取盒子的用户信息
-        .then(()=>{
-            return this.http.post(this.global.getBoxApi('getUserInfo'), {}, false).then(res => {
-                GlobalService.consoleLog("["+logid+"]" + "检测盒子的登录态" + JSON.stringify(res));
-                if(res.err_no === 0) {
-                    this.global.boxUserInfo = res.userinfo;
-                    return this.global.deviceSelected;
-                }else{
-                    console.log("["+logid+"]" + "没有盒子登录态，手动清除中心登录信息");
-                    this.global.setSelectedBox(null);
-                    this.global.centerUserInfo = {};
-                    return Promise.reject("Error occured...");
+                    //本地没有有自己的盒子，尝试启动远程模式
+                    return $scope.http.startWebrtcEngine()
                 }
             })
-        })
 
-        //获取盒子状态
-        .then(()=> {
-            this.getDiskStatus()
-                .then(() => {
-                    console.log("["+logid+"]" + "获取盒子状态成功，刷新list");
-                    this.events.publish('list:refresh');
+            //成功选择到盒子,登录[盒子]
+            .then((res:any) => {
+
+                if (!this.global.deviceSelected) {
+                    GlobalService.consoleLog("["+logid+"]" + "选择盒子失败, ***UNREACHABLE CODE***");
+                    return Promise.reject("["+logid+"]" + "***UNREACHABLE CODE***")
+                }
+
+                return new Promise((resolve, reject) => {
+                    if ($scope.username && $scope.password) {
+                        GlobalService.consoleLog("["+logid+"]" + "[用户输入]用户名和密码");
+                        return resolve({
+                            username: $scope.username,
+                            password: $scope.password,
+                        });
+                    } else {
+                        GlobalService.consoleLog("[" + logid + "]" + "[从缓存中提取]用户名和密码");
+                        return this.storage.get('UserList')
+                            .then(res => {
+                                GlobalService.consoleLog("缓存UserList状态：" + JSON.stringify(res));
+                                if (res) {
+                                    let userLoginList = JSON.parse(res);
+                                    let userLoginInfo;
+                                    if (this.global.deviceSelected) {
+                                        userLoginInfo = userLoginList['boxid'][this.global.deviceSelected.boxId] || null;
+                                    }
+                                    if (!userLoginInfo){
+                                        userLoginInfo = userLoginList['remote'] || null;
+                                    }
+                                    return resolve(userLoginInfo);
+                                }
+                            })
+                    }
+                }).then((user: any) => {
+                    GlobalService.consoleLog("["+logid+"]" + "使用获取的[用户名和密码]登录盒子");
+                    GlobalService.consoleLog("["+logid+"]" + "使用获取的[用户名和密码]登录盒子xx:" + user.username + "/" + user.password);
+                    return $scope.util.loginBox(user.username, user.password)
+                        .then(res => {
+                            //这里封装的不是很好，loginBox的返回值要么是盒子信息，要么是null，和之前不统一
+                            if (res) {
+                                return this.global.deviceSelected;
+                            } else {
+                                return null;
+                            }
+                        })
+                });
+            })
+
+            //获取盒子的用户信息
+            .then(()=>{
+                return this.http.post(this.global.getBoxApi('getUserInfo'), {}, false).then(res => {
+                    GlobalService.consoleLog("["+logid+"]" + "检测盒子的登录态" + JSON.stringify(res));
+                    if(res.err_no === 0) {
+                        this.global.boxUserInfo = res.userinfo;
+                        return this.global.deviceSelected;
+                    }else{
+                        console.log("["+logid+"]" + "没有盒子登录态，手动清除中心登录信息");
+                        this.global.setSelectedBox(null);
+                        this.global.centerUserInfo = {};
+                        return Promise.reject("Error occured...");
+                    }
                 })
-                .catch(() => {
-                    console.log("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
-                })
-        });
+            })
+
+            //获取盒子状态
+            .then(()=> {
+                this.getDiskStatus()
+                    .then(() => {
+                        console.log("["+logid+"]" + "获取盒子状态成功，刷新list");
+                        this.events.publish('list:refresh');
+                    })
+                    .catch(() => {
+                        console.log("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
+                    })
+            });
+        };
 
 
         return new Promise((resolve, reject)=>{
@@ -381,7 +383,7 @@ export class Util {
                 let oldlogid = logid;
                 logid = Date.now();
                 GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
-                doSelect.then(resolve).catch((err)=>{
+                doSelect().then(resolve).catch((err)=>{
 
                     GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + JSON.stringify(err));
                     setTimeout(()=>{doSelectLoop()}, 15000);
