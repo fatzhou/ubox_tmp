@@ -388,9 +388,13 @@ export class Util {
                 logid = Date.now();
                 GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
                 doSelect().then(resolve).catch((err)=>{
-
-                    GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + JSON.stringify(err));
-                    setTimeout(()=>{doSelectLoop()}, 15000);
+                    if (err === "USER_HAVE_NO_BOX"){
+                        GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败，弱中心明确用户无盒子, 不再重试");
+                        reject("USER_HAVE_NO_BOX");
+                    }else{
+                        GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + JSON.stringify(err));
+                        setTimeout(()=>{doSelectLoop()}, 15000);
+                    }
                 })
             };
             doSelectLoop();
