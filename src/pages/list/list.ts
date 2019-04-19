@@ -81,6 +81,7 @@ export class ListPage {
     isShowPageTitle: boolean = false;
     isShowWarningBox: boolean = false;
     isShowWarningBar: boolean = false;
+    isShowWarningBoxClass: boolean = false;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -132,9 +133,11 @@ export class ListPage {
         if(this.currPath == '/') {
             setTimeout(()=>{
                 this.hideAddBtn = false;
+                console.log('this.hideAddBtn222 ' + this.hideAddBtn);
             },100)
         } else {
             this.hideAddBtn = false;
+            console.log('this.hideAddBtn2222 ' + this.hideAddBtn);
         }
         this.initDiskInfo();
         this.isMainDisk = this.global.currDiskUuid == '' || this.global.currDiskUuid == this.global.mainSelectDiskUuid;
@@ -731,20 +734,6 @@ export class ListPage {
         this.app.getRootNav().push(TaskListPage);
     }
 
-    toggleDetailPage(detail, isShow = false) {
-        if(this.allBtnsShow) {
-            this.detailInfo = this.selectedFiles[0];
-        } else if(detail) {
-            this.detailInfo = detail;
-        }
-        if(!this.canDetail && !this.detailInfo) {
-            this.isShowDetail = false;
-            return false;
-        }
-        GlobalService.consoleLog("toggleDetailPage + " +isShow);
-        this.isShowDetail = isShow;
-    }
-
     moveSingleFile() {
         if(!this.canMove) {
             this.global.selectFolderType = 'upload';
@@ -819,6 +808,10 @@ export class ListPage {
         }
     }
 
+    toggleClassifyNav2() {
+        this.isShowClassifyNav = !this.isShowClassifyNav;
+    }
+
 
 
     displayMenu($event) {
@@ -831,6 +824,7 @@ export class ListPage {
 
 
     selectDisk(disk) {
+        this.clearStatus();
         this.global.currDiskUuid = disk.uuid;
         this.currPath = '/';
         this.app.getRootNav().push(ListPage, {
