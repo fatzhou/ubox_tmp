@@ -47,6 +47,15 @@
 
 <ion-content (click)="toggleClassifyNav('close')">
     <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page">
+        <div class="warning-box" *ngIf="isShowWarningBox">
+            <svg class="icon tishi-icon" aria-hidden="true">
+                <use xlink:href="#icontishi"></use>
+            </svg>
+            <p>{{global.L("UserCanotConnectBox")}}</p>
+            <svg class="icon close-icon" (click)="closeWarningBox()" tappable aria-hidden="true">
+                <use xlink:href="#iconClear1"></use>
+            </svg>
+        </div>
         <div class="disk-list" *ngIf="currPath == '/' && disks.length >= 1 && isMainDisk">
             <!-- <div class="disk-list" *ngIf="currPath == '/' && disks.length > 1"> -->
             <p class="disk-title">{{global.L("OtherDisk")}}</p>
@@ -60,17 +69,7 @@
                     </li>
                 </ul>
             </div>
-            
             <p class="black-bottom"></p>
-        </div>
-        <div class="warning-box" *ngIf="isShowWarningBox">
-            <svg class="icon tishi-icon" aria-hidden="true">
-                <use xlink:href="#icontishi"></use>
-            </svg>
-            <p>设备无法连接，请检查设备或网络</p>
-            <svg class="icon close-icon" (click)="closeWarningBox()" tappable aria-hidden="true">
-                <use xlink:href="#iconClear1"></use>
-            </svg>
         </div>
         <div class="main-content">
             <div class="file-content">

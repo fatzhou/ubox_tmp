@@ -4390,8 +4390,13 @@ export class Lang {
         en: '',
         kr: ''
     }
-    static changeUser = {
+    static ChangeUser = {
         cn: '切换账号登录',
+        en: '',
+        kr: ''
+    }
+    static UserCanotConnectBox = {
+        cn: '设备无法连接，请检查设备或网络',
         en: '',
         kr: ''
     }

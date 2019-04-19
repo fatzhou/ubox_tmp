@@ -4,5 +4,6 @@
     "cordova": {}
   },
   "type": "ionic-angular",
-  "proxies": []
+  "proxies": [],
+  "app_id": ""
 }

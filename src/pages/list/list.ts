@@ -79,8 +79,8 @@ export class ListPage {
     disks: any = [];
     isMainDisk: boolean = false;
     isShowPageTitle: boolean = false;
-    isShowWarningBox: boolean = true;
-    isShowWarningBar: boolean = true;
+    isShowWarningBox: boolean = false;
+    isShowWarningBar: boolean = false;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
