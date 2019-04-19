@@ -104,7 +104,8 @@
     "uuid": "^3.3.2",
     "web3": "^0.14.0",
     "wifiwizard": "https://github.com/ubbey/WifiWizard.git",
-    "zone.js": "0.8.18"
+    "zone.js": "0.8.18",
+    "cordova-plugin-file-transfer": "https://github.com/ubbey/cordova-plugin-file-transfer.git"
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.2.2",
@@ -151,7 +152,8 @@
       "cordova-plugin-file": {},
       "cordova-plugin-zip": {},
       "cordova-plugin-advanced-http": {},
-      "cordova-plugin-photo-library": {}
+      "cordova-plugin-photo-library": {},
+      "cordova-plugin-file-transfer": {}
     }
   }
 }
