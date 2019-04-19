@@ -1229,7 +1229,6 @@ export class HttpService {
             }).catch(e => {
                 GlobalService.consoleLog("检查网络状态请求发送返回异常, 刷新网络状态");
             }).then(()=>{
-                let newstatus = this.getNetworkStatus();
                 this.notifyNetworkStatusChange();
                 this.centerNetworkChecking = false;
             })
