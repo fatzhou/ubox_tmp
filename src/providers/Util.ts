@@ -797,6 +797,7 @@ export class Util {
         })
     }
 
+    searchUbbeyDoingCount = 0;
     searchUbbey(imediate = false, fastSearchBoxid = "") {
 		let start = Date.now();
         let logid = Date.now();
@@ -833,12 +834,16 @@ export class Util {
             }
 
             var self = this;
-            var flag = false;
+            var doneflag = false;
             var serviceType = "upnp:ubbeybox";
             var deviceList = [];
             let SEARCH_TIMEOUT = 10000;
             let timeout = setTimeout(()=>{
-                setSearchFinish(deviceList);
+                if(doneflag == false){
+                    doneflag = true;
+                    this.searchUbbeyDoingCount--;
+                    setSearchFinish(deviceList);
+                }
             }, SEARCH_TIMEOUT);
 
             var setSearchFinish = (devices) => {
@@ -866,7 +871,13 @@ export class Util {
 				}, t);
             };
             let processRes = (devices) => {
+                if(doneflag == true) {
+                    GlobalService.consoleLog("["+logid+"]" + "发现接口成功回调, 但之前已返回结果，丢弃. devices.length=" + devices.length);
+                    return;
+                }
                 GlobalService.consoleLog("["+logid+"]" + "发现接口成功回调, devices.length=" + devices.length);
+                doneflag = true;
+                this.searchUbbeyDoingCount--;
                 let logstr = "";
                 //ios需要手动下载xml
                 if(devices.length) {
@@ -905,10 +916,24 @@ export class Util {
                 }
             };
             let failure = () => {
-                reject();
+                if(doneflag == false) {
+                    doneflag = true;
+                    this.searchUbbeyDoingCount--;
+                    reject();
+                }
             };
 
-            serviceDiscovery.getNetworkServices(serviceType, fastSearchBoxid, processRes, failure);
+            let doSearch = ()=> {
+                if (this.searchUbbeyDoingCount == 0){
+                    this.searchUbbeyDoingCount++;
+                    GlobalService.consoleLog("["+logid+"]" + "无其他搜索请求正在调用，直接调用插件...");
+                    serviceDiscovery.getNetworkServices(serviceType, fastSearchBoxid, processRes, failure);
+                }else{
+                    GlobalService.consoleLog("["+logid+"]" + "其他"+this.searchUbbeyDoingCount+"个搜索请求正在进行中，稍后再调用插件...");
+                    setTimeout(()=>{doSearch()}, 500);
+                }
+            };
+            doSearch();
         })
 
     }
