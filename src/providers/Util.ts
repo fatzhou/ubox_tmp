@@ -380,9 +380,12 @@ export class Util {
 
         return new Promise((resolve, reject)=>{
             // Case 1: timeout
+            let havedone = false;
             setTimeout((logid)=>{
-                GlobalService.consoleLog("["+logid+"]" + "选取盒子超时， 引擎继续运行中，直至成功选取盒子...");
-                reject()
+                if(!havedone){
+                    GlobalService.consoleLog("["+logid+"]" + "选取盒子超时， 引擎继续运行中，直至成功选取盒子...");
+                    reject()
+                }
             }, 2000, logid);
 
             // case 2: select
@@ -393,7 +396,7 @@ export class Util {
                 let oldlogid = logid;
                 logid = Date.now();
                 GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
-                doSelect().then(resolve).catch((err)=>{
+                doSelect().then(()=>{havedone=true; resolve()}).catch((err)=>{
                     if (err === "USER_HAVE_NO_BOX"){
                         GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败，弱中心明确用户无盒子, 不再重试");
                         reject("USER_HAVE_NO_BOX");
