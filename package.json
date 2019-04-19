@@ -48,6 +48,7 @@
     "babel-register": "^6.26.0",
     "com-ubbey-wifiwizard": "https://github.com/ubbey/WifiWizard.git",
     "com.rjfun.cordova.httpd": "https://github.com/floatinghotpot/cordova-httpd.git",
+    "cordova-android": "6.3.0",
     "cordova-android-support-gradle-release": "^1.4.7",
     "cordova-browser": "^5.0.3",
     "cordova-clipboard": "^1.2.1",
@@ -117,7 +118,8 @@
   },
   "cordova": {
     "platforms": [
-      "ios"
+      "ios",
+      "android"
     ],
     "plugins": {
       "cordova-plugin-whitelist": {},

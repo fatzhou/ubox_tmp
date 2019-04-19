@@ -166,7 +166,7 @@ export class Util {
 				console.log("盒子hash比较：" + item.bindUserHash + "," + $scope.global.centerUserInfo.unameHash)
 				return item.bindUserHash === $scope.global.centerUserInfo.unameHash
 			});
-			
+
             if(myBox) {
                 //本地有自己的盒子, 使用近场模式
                 GlobalService.consoleLog("搜索查找到自己的盒子：" + JSON.stringify(myBox));
@@ -228,7 +228,7 @@ export class Util {
 			})
 			.catch(e => {
 				return Promise.reject("selectboxfailed");
-			})				
+			})
         })
 
         //成功登录&成功获取到盒子用户信息啦啦
@@ -363,8 +363,9 @@ export class Util {
                 })
             })
 
-            //获取盒子状态
+            //获取盒子状态 & 发送网络改变通知
             .then(()=> {
+                this.http.notifyNetworkStatusChange();
                 this.getDiskStatus()
                     .then(() => {
                         console.log("["+logid+"]" + "获取盒子状态成功，刷新list");
@@ -372,16 +373,19 @@ export class Util {
                     })
                     .catch(() => {
                         console.log("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
-                    })
-            });
+                    });
+            })
         };
 
 
         return new Promise((resolve, reject)=>{
             // Case 1: timeout
+            let havedone = false;
             setTimeout((logid)=>{
-                GlobalService.consoleLog("["+logid+"]" + "选取盒子超时， 引擎继续运行中，直至成功选取盒子...");
-                reject()
+                if(!havedone){
+                    GlobalService.consoleLog("["+logid+"]" + "选取盒子超时， 引擎继续运行中，直至成功选取盒子...");
+                    reject()
+                }
             }, 2000, logid);
 
             // case 2: select
@@ -392,7 +396,7 @@ export class Util {
                 let oldlogid = logid;
                 logid = Date.now();
                 GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
-                doSelect().then(resolve).catch((err)=>{
+                doSelect().then(()=>{havedone=true; resolve()}).catch((err)=>{
                     if (err === "USER_HAVE_NO_BOX"){
                         GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败，弱中心明确用户无盒子, 不再重试");
                         reject("USER_HAVE_NO_BOX");
@@ -803,7 +807,7 @@ export class Util {
             if(!this.platform.is('cordova')) {
 				setTimeout(() => {
                     // resolve([{"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.2:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}, {"boxId":"UBOXV1001548593547181270","bindUser":"1****@qq.com","friendlyName":"UB1400Y","manufacturer":"YQTC company","manufacturerURL":"https://www.yqtc.co","deviceType":"UBOXV1001548593547181270","version":"1.3.0","URLBase":["192.168.0.14:37867"],"bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
-                    resolve([{"boxId":"UBOXV1236638987688822c4",
+                    resolve([/*{"boxId":"UBOXV1236638987688822c4",
                     "bindUser":"ao**0@163.com",
                     "friendlyName":"32",
                     "manufacturer":"23",
@@ -820,7 +824,7 @@ export class Util {
                     "deviceType":"UBOXV1236638987688822c4",
                     "version":"1.2.3",
                     "URLBase":["192.168.0.36:37867"],
-                    "bindUserHash":"45edba743bd17fbcefdc5affb77ff75b"}])
+                    "bindUserHash":"45edba743bd17fbcefdc5affb77ff75b"}*/])
 
                     // resolve([]);
 				}, minSearchTime);

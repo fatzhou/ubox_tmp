@@ -79,7 +79,8 @@ export class ListPage {
     disks: any = [];
     isMainDisk: boolean = false;
     isShowPageTitle: boolean = false;
-    isShowWarningBox: boolean = true;
+    isShowWarningBox: boolean = false;
+    isShowWarningBar: boolean = false;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -117,7 +118,7 @@ export class ListPage {
         //         this.tabsController.slideTo(1, "boxtabs");
         //     },500);
         // }
-        
+
         if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
             // this.isShowBox = true;
             this.fileManager.getPermission()
@@ -154,7 +155,7 @@ export class ListPage {
 	}
 
     initDiskInfo() {
-        this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/'); 
+        this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/');
         if(this.global.diskInfo.disks) {
             this.disks = this.global.diskInfo.disks.filter(item => {
                 return item.position != 'base';
@@ -182,7 +183,9 @@ export class ListPage {
 
 		if(this.currPath == '/') {
 			this.events.unsubscribe('list:refresh');
-			this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
+            this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
+            this.events.unsubscribe('warning:change');
+			this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
         }
         console.log('this.global.currDiskUuid' + this.global.currDiskUuid)
         if(this.global.diskInfo && this.global.diskInfo.disks && this.global.currDiskUuid != '') {
@@ -203,12 +206,23 @@ export class ListPage {
                 }
             });
         }
-        
+
         this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
         if(this.global.centerUserInfo.bind_box_count == 0) {
             this.isMainDisk = true;
         }
         this.listFiles();
+    }
+    changeWarningStatus() {
+        let status = this.http.getNetworkStatus();
+        GlobalService.consoleLog("list页网络状态更新：" + JSON.stringify(status));
+        if (status.uboxNetworking && status.centerNetworking){
+            this.isShowWarningBar = false;
+            this.isShowWarningBox = false;
+        }else{
+            this.isShowWarningBar = true;
+            this.isShowWarningBox = true;
+        }
     }
 
     updateFilesEvent(task) {
