@@ -35,7 +35,7 @@ button ion-label, div ion-label {
 }
 
 // ion-header {
-//     border-bottom: .5px solid #dbdbdb;
+//     border-bottom: 1px solid #dbdbdb;
 // }
 
 //以下是自定义全局样式
@@ -70,7 +70,7 @@ button ion-label, div ion-label {
     box-sizing: border-box;
     background-color: #fff;
     /*box-shadow: 0 0 10px 0 rgba(255, 255, 255, 1);*/
-    border-top: .5px solid #f1f1f1;
+    border-top: 1px solid #f1f1f1;
     position: relative;
     text-align: center;
     border-radius: 4px;
@@ -88,7 +88,7 @@ button ion-label, div ion-label {
     line-height: 42px;
     height: 44px;
     color: $mainColor;
-    border: .5px solid $mainColor;
+    border: 1px solid $mainColor;
     text-align: center;
     border-radius: 4px;
     position: relative;
@@ -113,7 +113,7 @@ button ion-label, div ion-label {
     position: absolute;
     width:200%;
     height:84px;
-    border: .5px solid #b7b7b7;
+    border: 1px solid #b7b7b7;
     -webkit-transform-origin: 0 0;
     -moz-transform-origin: 0 0;
     -ms-transform-origin: 0 0;
@@ -234,7 +234,7 @@ button ion-label, div ion-label {
 		display: block;
 		background: #000;
 		border: none;
-		border-bottom: .5px solid rgba(255, 255, 255, .3);
+		border-bottom: 1px solid rgba(255, 255, 255, .3);
 		padding-top: 8px;
 		padding-bottom: 10px;
 		width: 100%;
@@ -377,13 +377,13 @@ textarea::-webkit-input-placeholder {
     color: #1B1B1B;
     line-height: 1;
     padding: 10px 12px;
-    // border-bottom: .5px solid #d8d8d8;
+    // border-bottom: 1px solid #d8d8d8;
     font-weight: bold;
     font-size: 34px;
 }
 
 .ion-header-border {
-    border-bottom: .5px solid #d8d8d8;
+    border-bottom: 1px solid #d8d8d8;
 }
 
 .toolbar-background {

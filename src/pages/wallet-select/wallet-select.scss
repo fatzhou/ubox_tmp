@@ -36,7 +36,7 @@ page-wallet-select {
 					background: #fff;
 					border-radius: 0px;
 					padding: 4px 0 2px 2px;
-					border-bottom: .5px solid #f1f1f1;
+					border-bottom: 1px solid #f1f1f1;
 
 					.item-inner {
 						margin-right: -14px;
@@ -74,13 +74,13 @@ page-wallet-select {
 			}
 
 			.wallet-info {
-				/*border-top: .5px solid #f1f1f1;*/
+				/*border-top: 1px solid #f1f1f1;*/
 				padding: 10px 0;
 				text-align: left;
 				.amount {
 					width: 50%;
 					padding-left: 14px;
-					border-right: .5px solid #f1f1f1;
+					border-right: 1px solid #f1f1f1;
 					&:last-child {
 						border-right: none;
 					}
@@ -166,9 +166,9 @@ page-wallet-select {
 			height: 48px;
 			line-height: 48px;
 			border-radius: 0;
-			border-top: .5px solid #f1f1f1;
+			border-top: 1px solid #f1f1f1;
 			&.create-btn {
-				border-right: .5px solid #b8b8b8;
+				border-right: 1px solid #b8b8b8;
 				left: 0;
 			}
 			&.import-btn {
