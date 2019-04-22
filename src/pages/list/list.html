@@ -31,7 +31,7 @@
                             <use *ngIf="judgeBusy()" xlink:href="#iconrenwuguanlired"></use>
                         </svg>
                     </div>
-                    <span class="task-btn all-toggle-btn" *ngIf="!allBtnsShow" tappable (click)="toggleClassifyNav();">
+                    <span class="task-btn all-toggle-btn" *ngIf="!allBtnsShow" tappable (click)="toggleClassifyNav2();">
                         <svg class="icon" tappable aria-hidden="true">
                             <use xlink:href="#iconshaixuan"></use>
                         </svg> 
@@ -46,8 +46,8 @@
 </ion-header>
 
 <ion-content (click)="toggleClassifyNav('close')">
-    <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page">
-        <div class="warning-box" *ngIf="isShowWarningBox">
+    <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page"  [ngClass]="isShowWarningBox && isMainDisk ? 'showBox' : ''">
+        <div class="warning-box" *ngIf="isShowWarningBox && isMainDisk">
             <svg class="icon tishi-icon" aria-hidden="true">
                 <use xlink:href="#icontishi"></use>
             </svg>
@@ -60,8 +60,8 @@
             <!-- <div class="disk-list" *ngIf="currPath == '/' && disks.length > 1"> -->
             <p class="disk-title">{{global.L("OtherDisk")}}</p>
             <div class="disk-list-box">
-                <ul class="disk-ul-box" [ngStyle]="{ width: 150 * disks.length + 'px'}">
-                    <li *ngFor="let disk of disks" (click)="selectDisk(disk)">
+                <ul class="disk-ul-box" tappable [ngStyle]="{ width: 150 * disks.length + 'px'}">
+                    <li *ngFor="let disk of disks" tappable (click)="selectDisk(disk)">
                         <p class="disk-icon">
                         </p>
                         <p class="disk-name">{{ disk.label }}</p>
@@ -111,7 +111,7 @@
                         </svg>
                     </p>
                     <ul class="file-list" *ngIf="dataAcquired && type1List.length > 0" [ngClass]="isShowType1List?'show-list':'hide-list'" (press)="showAllBtns()">
-                        <li class="file-list-item" *ngFor="let info of type1List" (click)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
+                        <li class="file-list-item" tappable *ngFor="let info of type1List" (click)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
                             <div class="info">
@@ -148,7 +148,7 @@
 </div>
 
 
-<div class="operation-btns" *ngIf="allBtnsShow && !isShowDetail">
+<div class="operation-btns" *ngIf="allBtnsShow">
 	<div class="operation-content">
 		<div class="btn download" tappable (click)="downloadFileList()" [ngClass]="canDownload?'':'disable'">
 			<svg class="icon" aria-hidden="true">
