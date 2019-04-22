@@ -379,7 +379,7 @@ export class ListPage {
                 console.log('列表填充后type0List' + JSON.stringify(this.type0List) + '   列表填充后typeList' + JSON.stringify(this.type1List));
                 this.allFileList = list;
                 this.fileList = this.allFileList.slice(0, this.pageSize)
-                this.transfer.getThumbnail(this.fileList, false, this.currPath);
+                this.transfer.getThumbnail(this.allFileList, false, this.currPath);
 
                 // this.cd.detectChanges();
                 //获取缩略图

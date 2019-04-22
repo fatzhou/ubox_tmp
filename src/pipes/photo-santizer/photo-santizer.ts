@@ -7,15 +7,16 @@ import { DomSanitizer } from '@angular/platform-browser';
  * See https://angular.io/api/core/Pipe for more info on Angular Pipes.
  */
 @Pipe({
-  name: 'photoSantizer',
+	name: 'photoSantizer',
 })
 export class PhotoSantizerPipe implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) {}
+	constructor(private sanitizer: DomSanitizer) { }
 
-  /**
-   * Takes a value and makes it lowercase.
-   */
-  transform(url: string, ...args) {
-  	return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-  }
+	/**
+	 * Takes a value and makes it lowercase.
+	 */
+	transform(url: string, ...args) {
+		console.log("图片url:" + url)
+		return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+	}
 }

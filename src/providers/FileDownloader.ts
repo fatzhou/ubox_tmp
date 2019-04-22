@@ -6,6 +6,10 @@ import { HttpService } from './HttpService';
 import { GlobalService } from './GlobalService';
 import { Util } from './Util';
 import { OutputType } from '@angular/core/src/view';
+import { PlatformConfigToken } from 'ionic-angular';
+import { visitProjectedRenderNodes } from '@angular/core/src/view/util';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { isFunction } from 'util';
 
 // let localCache = {
     //////////file download cache///////////
@@ -13,12 +17,9 @@ import { OutputType } from '@angular/core/src/view';
     //   filepath:
     //   filename:
     //   sourceurl:
-    //   desturi:
-    //   status:      //INIT->START->LOOP->DOWNLOADING->DONE|ERROR
-    //   totalsize:
-    //   downloadsize:
+	//   destruction 
     // },
-    //////////file download cache///////////
+    //////////file download cache///////////f
 // };
 const ONEBLOCKSIZE = 128 * 1024;
 const ONEBLOCKWEBRTCSIZE = 48 * 1024;
@@ -560,5 +561,5 @@ class SingleFileDownloader {
             console.log("下载异常：" + errstr);
             return [errstr, range_end + 1];
         });
-    }
+	}
 }

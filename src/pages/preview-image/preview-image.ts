@@ -93,16 +93,16 @@ export class PreviewImagePage {
 
     getPhotoUrl(task) {
 		console.log("即将下载文件：" + JSON.stringify(task))
-        this.transfer.getFileLocalOrRemote(task.path, this.global.fileSavePath + this.global.PhotoSubPath + "/", task.name, this.global.PhotoSubPath)
+        this.transfer.getFileLocalOrRemote(task.path, task.name, this.global.fileSavePath + this.global.PhotoSubPath + "/", task.name, this.global.PhotoSubPath)
         .then(res => {
 			if(res) {
-				if(!task.thumbnail) {
+				if(!task.thumbnail && res) {
 					task.thumbnail = res;
 				}
 				task.photo = res;
 				let name = task.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
 				let md5 = Md5.hashStr(task.path + "/" + name).toString();
-				if(!this.global.thumbnailMap[md5]) {
+				if(!this.global.thumbnailMap[md5] && res) {
 					this.global.thumbnailMap[md5] = res;
 				}				
 				this.global.photoMap[md5] = res;
@@ -195,11 +195,12 @@ export class PreviewImagePage {
                 var index = 0;
                 if (res.list && res.list.length > 0) {
                     list = res.list.filter((item) => {
-                        let md5;
+						let md5;
+						let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
                         if(this.isHasPath) {
-                            md5 = Md5.hashStr(item.path + "/" + item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
+                            md5 = Md5.hashStr(item.path + "/" + name).toString();
                         } else {
-                            md5 = Md5.hashStr(this.currPath + "/" + item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
+                            md5 = Md5.hashStr(this.currPath + "/" + name).toString();
                         }
                         let test = /(\.HEIC)$/gi;
                         if(!test.test(item.name) && this.util.computeFileType(item.name, item.type) == 'image') { 

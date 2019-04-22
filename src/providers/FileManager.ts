@@ -366,47 +366,6 @@ export class FileManager {
 	}
 
 	/**
-	 * [getThumbnail 获取缩略图，不存在则使用原图]
-	 * @param {[type]} localPath  [本地路径，含文件名]
-	 * @param {[type]} remotePath [远程路径，含文件名]
-	 */
-	getThumbnail(localPath, remotePath) {
-		//拆分路径和名字
-		let reg = /^(.+\/)([^\/]+)$/;
-		let matches = localPath.match(reg);
-		var path = matches[1],
-			name = matches[2];
-
-		let thumbnailName = Md5.hashStr(remotePath).toString() + ".png";
-		return this.transfer.getFileLocalOrRemote(this.global.ThumbnailRemotePath, this.global.fileSavePath + this.global.ThumbnailSubPath, thumbnailName, this.global.ThumbnailSubPath)
-
-
-		//查找缩略图
-  //       let thumbnailName = Md5.hashStr(remotePath).toString() + ".png";
-		// return this.file.checkFile(this.global.fileSavePath + "thumbnail/", thumbnailName)
-		// .then(res => {
-		// 	GlobalService.consoleLog("本地缩略图存在：" + thumbnailName);
-		// 	let path = this.global.fileSavePath + "thumbnail/" + thumbnailName;
-		// 	this.global.thumbnailMap[remotePath] = path;
-		// 	return path;
-		// }, res => {
-		// 	GlobalService.consoleLog("本地缩略图不存在, 查找本地大图:" + path + name);
-		// 	return this.file.checkFile(path, name)
-		// 	.then(res => {
-		// 		GlobalService.consoleLog("本地大图存在：" + localPath);
-		// 		this.global.thumbnailMap[remotePath] = path;
-		// 		return localPath;
-		// 	}, res => {
-		// 		GlobalService.consoleLog("本地大图不存在:" + path + name);
-		// 		return "";
-		// 	})
-		// })
-		// .catch(e => {
-		// 	return "";
-		// })
-	}
-
-	/**
 	 * [getPermission 申请权限]
 	 */
 	getPermission() {
@@ -607,97 +566,66 @@ export class FileManager {
   	 * @param {[type]} fileName   [文件名]
   	 * @param {[type]} remotePath [远程路径，不含文件名]
   	 */
-    uploadThumbnail(filePath, fileName, remotePath) {      
-        // return new Promise((resolve, reject) => {
-	       //  let self = this;
-	       //  GlobalService.consoleLog("开始上传缩略图:" + filePath + "," + fileName + "," + remotePath);
-	       //  filePath = filePath.replace(/\/$/, '') + '/';
-	       //  remotePath = remotePath.replace(/\/$/, '') + '/';
-
-	       //  let localPath = this.global.fileSavePath + this.global.ThumbnailSubPath + "/" + fileName;
-
-	       //  let uploadUrl = this.global.getBoxApi('uploadFileBreaking');
-	       //  let config = {
-	       //  	path: remotePath,
-	       //  	name: fileName,
-	       //  	localPath: localPath,
-	       //  	fileId: id,
-	       //  	loaded: 0
-	       //  };
-	       //  let uploadTool = this.fileUploader.createUploader(config, uploadUrl);
-	       //  uploadTool.upload(config, uploadUrl)
-	       //  .catch(err => {
-	       //      GlobalService.consoleLog("下载失败" + JSON.stringify(err));
-	       //  })    
-	       //  uploadTool.onProgress(id, (res) => {
-	       //  	if(res.status === 'ERROR') {
-	       //  		reject();
-	       //  	} else {
-	       //      	if(res.uploadSize === res.loaded) {
-	       //      		resolve();
-	       //      	} 
-	       //  	}
-	       //  })      	
-        // })
-         GlobalService.consoleLog("上传缩略图：" + filePath + "," + fileName);
-         return this.file.readAsArrayBuffer(filePath, fileName)
-            .then(buf => {
-                GlobalService.consoleLog("------缩略图文件长度: " + buf.byteLength + "-----")
-                let length = buf.byteLength;
-        		let uploadUrl = this.global.getBoxApi('uploadFileBreaking');
-                return this.http.uploadFile(uploadUrl, {
-                        range: `0-${length-1}-${length}`,
-                        path: remotePath,
-                        name: fileName,
-						disk_uuid: this.global.currDiskUuid
-                }, filePath, fileName, buf)
-            }, res => {
-                throw new Error("Failed to read file");
-            })
-            .then((res:any) => {
-            	GlobalService.consoleLog("上传缩略图结果：" + JSON.stringify(res));
-        		try {
-                    if(res.data && (typeof res.data === 'string')) {
-                        res.data = JSON.parse(res.data);
-                    }                    
-                } catch(e) {
-                    GlobalService.consoleLog(e.stack || e.message);
-                }  
-                GlobalService.consoleLog("状态检测：" + res.status + "," + res.data.err_no)	
-                if(res.status === 200) {
-	            	if(res.data.err_no != 0) {
-		            	if(res.data.err_no === 1401) {
-		            		//目录不存在，创建目录
-		            		GlobalService.consoleLog("开始创建远程目录...");
-		            		var url = this.global.getBoxApi("createFolder");
-	                        this.http.post(url, {
-	                            fullpath: this.global.ThumbnailRemotePath,
-								disk_uuid: this.global.currDiskUuid
-	                        })
-	                        .then(res => {
-	                        	if(res.err_no === 0) {
-	                        		//创建文件夹成功
-	                        		return this.uploadThumbnail(filePath, fileName, remotePath);
-	                        	}
-	                        })
-		            	} else {
-		            		throw new Error("不识别的上传状态码:" + res.data.err_no);
-		            	}            		
-		            } else {
-		            	GlobalService.consoleLog("缩略图上传成功");
-		            	return Promise.resolve('ok');
-		            }                	
-                } else {
-                	return Promise.reject('error');
-                }
-            })
-            //捕获异常
-            .catch((error) => {
-                let errstr = JSON.stringify(error);
-                GlobalService.consoleLog("缩略图上传出错：" + errstr);
-                return Promise.reject(errstr);
-            });        
-    }
+    // uploadThumbnail(filePath, fileName, remotePath) {      
+    //      GlobalService.consoleLog("上传缩略图：" + filePath + "," + fileName);
+    //      return this.file.readAsArrayBuffer(filePath, fileName)
+    //         .then(buf => {
+    //             GlobalService.consoleLog("------缩略图文件长度: " + buf.byteLength + "-----")
+    //             let length = buf.byteLength;
+    //     		let uploadUrl = this.global.getBoxApi('uploadFileBreaking');
+    //             return this.http.uploadFile(uploadUrl, {
+    //                     range: `0-${length-1}-${length}`,
+    //                     path: remotePath,
+    //                     name: fileName,
+	// 					disk_uuid: this.global.currDiskUuid
+    //             }, filePath, fileName, buf)
+    //         }, res => {
+    //             throw new Error("Failed to read file");
+    //         })
+    //         .then((res:any) => {
+    //         	GlobalService.consoleLog("上传缩略图结果：" + JSON.stringify(res));
+    //     		try {
+    //                 if(res.data && (typeof res.data === 'string')) {
+    //                     res.data = JSON.parse(res.data);
+    //                 }                    
+    //             } catch(e) {
+    //                 GlobalService.consoleLog(e.stack || e.message);
+    //             }  
+    //             GlobalService.consoleLog("状态检测：" + res.status + "," + res.data.err_no)	
+    //             if(res.status === 200) {
+	//             	if(res.data.err_no != 0) {
+	// 	            	if(res.data.err_no === 1401) {
+	// 	            		//目录不存在，创建目录
+	// 	            		GlobalService.consoleLog("开始创建远程目录...");
+	// 	            		var url = this.global.getBoxApi("createFolder");
+	//                         this.http.post(url, {
+	//                             fullpath: this.global.ThumbnailRemotePath,
+	// 							disk_uuid: this.global.currDiskUuid
+	//                         })
+	//                         .then(res => {
+	//                         	if(res.err_no === 0) {
+	//                         		//创建文件夹成功
+	//                         		return this.uploadThumbnail(filePath, fileName, remotePath);
+	//                         	}
+	//                         })
+	// 	            	} else {
+	// 	            		throw new Error("不识别的上传状态码:" + res.data.err_no);
+	// 	            	}            		
+	// 	            } else {
+	// 	            	GlobalService.consoleLog("缩略图上传成功");
+	// 	            	return Promise.resolve('ok');
+	// 	            }                	
+    //             } else {
+    //             	return Promise.reject('error');
+    //             }
+    //         })
+    //         //捕获异常
+    //         .catch((error) => {
+    //             let errstr = JSON.stringify(error);
+    //             GlobalService.consoleLog("缩略图上传出错：" + errstr);
+    //             return Promise.reject(errstr);
+    //         });        
+    // }
 
     /**
      * [browserLocal 浏览本地文件夹]

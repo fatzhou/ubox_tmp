@@ -736,7 +736,7 @@ export class GlobalService {
     public static consoleLog(str) {
 		setTimeout(() => {
 			console.log(str);
-		}, 50);
+		}, 0);
 	}
     //日志打印
     // public static consoleLog(msg) {

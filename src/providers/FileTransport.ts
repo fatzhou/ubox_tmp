@@ -281,7 +281,7 @@ export class FileTransport {
      * @param {[type]} remoteUrl [远程文件夹路径，不包含文件名]
      * @param {[type]} localPath [本地文件夹路径，不包含文件名]
      */
-	getFileLocalOrRemote(remoteUrl, localPath, name, fileSubPath, fileStyle = 'image') {
+	getFileLocalOrRemote(remoteUrl, remoteName, localPath, name, fileSubPath, fileStyle = 'image') {
 		remoteUrl = remoteUrl.replace(/\/$/, '') + "/";
 		localPath = localPath.replace(/\/$/, '') + "/";
 		console.log(`查询${localPath}下是否存在文件${name}`)
@@ -294,7 +294,7 @@ export class FileTransport {
 			}, res => {
 				GlobalService.consoleLog("目标文件不存在:" + localPath + name);
 				//文件不存在，尝试远程下载
-				return this.downloadRemoteFile(remoteUrl, localPath, name, fileSubPath, fileStyle)
+				return this.downloadRemoteFile(remoteUrl, remoteName, localPath, name, fileSubPath, fileStyle)
 					.then(res => {
 						if (res) {
 							//下载成功，直接返回本地路径
@@ -322,25 +322,27 @@ export class FileTransport {
 		//获取最新拉取的一页的缩略图
 		let noThumbnailList = list.filter(item => {
 			let type = this.util.computeFileType(item.name);
-			return !item.thumbnail && (type === 'image');
+			return !item.thumbnail && (item.fileStyle === 'image');
 		});
+
+		console.log("需要更新的缩略图张数：" + noThumbnailList.length);
 
 		let downloading = {};
 		let downloadIthThumbnail = (i) => {
 			//检查本地是否存在,删除后面的重命名时添加的(2)
 			let md5;
-			if (isHasPath) {
-				md5 = Md5.hashStr(noThumbnailList[i].path + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
-			} else {
-				md5 = Md5.hashStr(currPath + "/" + noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1")).toString();
-			}
+			let name = noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+			let remotePath = isHasPath ? noThumbnailList[i].path : currPath;
+			md5 = Md5.hashStr(remotePath + "/" + name).toString();
+
 			let thumbnailName = md5 + ".png";
 			let localThumbnailPath = this.global.fileSavePath + this.global.ThumbnailSubPath + "/";
 			let localThumbnailFullPath = localThumbnailPath + thumbnailName;
 			let logprefix = "缩略图下载：(" + thumbnailName + ")：";
 			GlobalService.consoleLog(logprefix + "开始下载" + i);
 			GlobalService.consoleLog(logprefix + "本地路径尝试：" + localThumbnailPath + thumbnailName);
-			return this.getFileLocalOrRemote(this.global.ThumbnailRemotePath + "/", localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath)
+			// return this.getFileLocalOrRemote(this.global.ThumbnailRemotePath + "/", localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath, 'thumbnail')
+			return this.getFileLocalOrRemote(remotePath, noThumbnailList[i].name, localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath, 'thumbnail')
 				.then(res => {
 					if (res) {
 						GlobalService.consoleLog(logprefix + "数据获取完毕：" + JSON.stringify(res));
@@ -348,7 +350,7 @@ export class FileTransport {
 						this.global.thumbnailMap[md5] = res;
 					} else {
 						GlobalService.consoleLog(logprefix + "缩略图不存在，获取原图");
-						return this.getFileLocalOrRemote(noThumbnailList[i].path, this.global.fileSavePath + this.global.PhotoSubPath + "/", noThumbnailList[i].name, this.global.PhotoSubPath)
+						return this.getFileLocalOrRemote(noThumbnailList[i].path, noThumbnailList[i].name, this.global.fileSavePath + this.global.PhotoSubPath + "/", noThumbnailList[i].name, this.global.PhotoSubPath)
 						.then(res => {
 							if(res) {
 								GlobalService.consoleLog(logprefix + "数据原图获取完毕：" + JSON.stringify(res));
@@ -372,6 +374,7 @@ export class FileTransport {
 		let limit = this.global.useWebrtc ? 5 : 100;
 		let looptimer = setInterval(() => {
 			let doingcount = Object.keys(downloading).length;
+			console.log("正在下载数:" + doingcount + ",总数：" + totalcount);
 			if (donecount + doingcount < totalcount && doingcount < limit) {
 				downloading[lastindex] = 1;
 				downloadIthThumbnail(lastindex++)
@@ -382,7 +385,7 @@ export class FileTransport {
 						donecount++;
 					});
 			}
-			if (donecount >= totalcount) {
+			if (donecount + doingcount >= totalcount) {
 				clearInterval(looptimer)
 			}
 		}, 100);
@@ -394,42 +397,14 @@ export class FileTransport {
      * @param {[type]} name      [文件名]
      * @param {[type]} fileSubPath [文件子路径]
      */
-	downloadRemoteFile(remoteUrl, localPath, name, fileSubPath, fileStyle) {
+	downloadRemoteFile(remoteUrl, remoteName, localPath, name, fileSubPath, fileStyle) {
 		let localFullPath = localPath + name,
-			remoteFullPath = remoteUrl + name;
+			remoteFullPath = remoteUrl + remoteName;
 		let fileInfo = {
 			name: name,
 			fileStyle: fileStyle
 		};
 		console.log(`从${remoteUrl}处下载${localPath}...........`);
-		// return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false)
-		// 	.catch(e => {
-		// 		//文件夹不存在
-		// 		GlobalService.consoleLog("写文件失败，创建文件夹");
-		// 		return this.file.createDir(this.global.fileSavePath, fileSubPath, false)
-		// 			.then((res: any) => {
-		// 				//创建文件夹成功..
-		// 				GlobalService.consoleLog("创建文件夹成功，重新写文件");
-		// 				return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false)
-		// 			})
-		// 			.catch(e => {
-		// 				GlobalService.consoleLog("文件夹已存在，直接写文件");
-		// 				//文件夹正在创建...
-		// 				return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false)
-		// 			})
-		// 	})
-		// return this.file.checkDir(this.global.fileSavePath, fileSubPath)
-		// .then(res => {
-		// 	return Promise.resolve(true);
-		// }, res => {
-		// 	return this.file.createDir(this.global.fileSavePath, fileSubPath, false);
-		// })
-		// .then(res => {
-		// 	return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false);		
-		// })
-		// .catch(e => {
-		// 	return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false);
-		// })
 		return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false);
 	}
 
@@ -439,9 +414,7 @@ export class FileTransport {
 	 * @param createTask
 	 */
 	downloadFile(fileInfo, remoteFullPath, localFullPath, createTask: boolean = true) {
-		console.log('=========bengcibengci=========')
 		return new Promise((resolve, reject) => {
-			GlobalService.consoleLog("123")
 			GlobalService.consoleLog("下载文件到本地:" + localFullPath + ",远程路径：" + remoteFullPath);
 			// this.global.createGlobalToast(this, {
 			//     message: Lang.Lf('StartDownloadFile', file.name),
@@ -609,7 +582,11 @@ export class FileTransport {
 	}
 
 	createDownloadHandlerLocal(fileTask, progress, success, failure) {
-		let url = this.global.getBoxApi('downloadFile') + '?fullpath=' + encodeURIComponent(fileTask.path) + '&disk_uuid=' + this.global.currDiskUuid;
+		let url = this.global.getBoxApi('downloadFile') + this.http.toQueryString({
+			fullpath: fileTask.path,
+			disk_uuid: this.global.currDiskUuid,
+			is_thumbnail: fileTask.fileStyle == 'thumbnail' ? 1 : 0
+		})//'?fullpath=' + encodeURIComponent(fileTask.path) + '&disk_uuid=' + this.global.currDiskUuid ;
 		let fileURL = fileTask.localPath;
 		console.log("下载url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
 		let self = this

@@ -10,6 +10,8 @@ import { ItemSliding } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 import { ChangeDetectorRef } from '@angular/core';
 import { Component, NgZone } from "@angular/core";
+import { Md5 } from "ts-md5/dist/md5";
+import { FileTransport } from '../../providers/FileTransport';
 
 /**
  * Generated class for the TaskListPage page.
@@ -49,6 +51,7 @@ export class TaskListPage {
 		private util: Util,
 		private zone: NgZone,
 		private cd: ChangeDetectorRef,
+		private transfer: FileTransport,
         public navParams: NavParams) {
         let self = this;
         TaskListPage._this = this;
@@ -96,19 +99,36 @@ export class TaskListPage {
 
     getThumbnail() {
         for(let i = 0, len = this.fileTaskList.length; i < len; i++) {
-            let task = this.fileTaskList[i];
+			let task = this.fileTaskList[i];
+			let md5 = Md5.hashStr(task.path).toString();
+
             if(task.fileStyle === 'image' && !task.thumbnail) {
+				// if(this.global.thumbnailMap[md5]) {
+				// 	task.thumbnail = this.global.thumbnailMap[md5];
+				// 	continue;
+				// }
                 //图片上传下载需显示缩略图
                 setTimeout(()=>{
                     GlobalService.consoleLog("获取缩略图：" + task.localPath + "***" + task.path + "***" + task.name);
-                    this.fileManager.getThumbnail(task.localPath, task.path)
-                    .then(res => {
-						console.log("获取缩略图成功：" + res)
-                        task.thumbnail = res;
-                    })
-                    .catch(e => {
+					return this.transfer.getFileLocalOrRemote(task.path.replace(/\/[^\/]+$/, ""), task.name, this.global.fileSavePath + this.global.ThumbnailSubPath + "/", md5 + ".png", this.global.ThumbnailSubPath, 'thumbnail')
+					.then(res => {
+						if(res) {
+							task.thumbnail = res;
+							this.global.thumbnailMap[md5] = res;			
+						}
+					})
 
-                    })                    
+					// this.fileManager.getThumbnail(task.localPath, task.path)
+                    // .then(res => {
+					// 	console.log("获取缩略图成功：" + res)
+					// 	if(res) {
+					// 		task.thumbnail = res;
+					// 		this.global.thumbnailMap[md5] = res;
+					// 	}
+                    // })
+                    // .catch(e => {
+
+                    // })                    
                 }, i * 100);
             }
         }        

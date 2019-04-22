@@ -95,7 +95,7 @@
 				<ion-item-sliding *ngFor="let task of doneTaskList;">
 					<ion-item class="task-li" tappable ion-item (click)="openFile(task);" (press)="showAndroidDeleteBox(task)">
 						<div class="file-type" item-start *ngIf="task.fileStyle != 'image'|| !task.thumbnail" [ngClass]="task.fileStyle"></div>
-						<img class="file-type" item-start [src]="task.thumbnail" *ngIf="task.fileStyle == 'image' && task.thumbnail">
+						<img class="file-type" item-start [src]="task.thumbnail | photoSantizer" *ngIf="task.fileStyle == 'image' && task.thumbnail">
 						<div class="info">
 							<p class="file-name eps">{{ task.name }}</p>
 							<p class="file-info eps">{{ task.action === 'upload' ? global.L('WORDab54d4e8') : global.L('WORD0c97002a') }}：{{ task.action === 'upload' ? task.path : task.localPath }}</p>

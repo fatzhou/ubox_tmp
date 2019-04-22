@@ -338,9 +338,10 @@ export class TabsPage {
 	ionViewCanEnter() {
 		//解决tabspage进入两次的问题
 		if(!this.navCtrl) {
-			console.log("没有navctrl....")
+			console.log("没有navctrl......")
 			return true;
 		} else {
+			console.log("进入tabs......")
 			let view = this.navCtrl.getActive();
 			if(!view || view.component != TabsPage) {
 				return true;

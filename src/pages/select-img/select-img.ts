@@ -146,30 +146,30 @@ export class SelectImgPage {
         }
     }
 
-    uploadThumbnail(photoLibrary) {
-        let path = this.global.ThumbnailRemotePath;
-        let md5 = Md5.hashStr(this.global.currPath + "/" + photoLibrary.fileName).toString();
-        //计算缩略图名字
-        let thumbnailName = md5 + ".png";
-        let uploadUrl = this.global.getBoxApi('uploadFileBreaking');
-        //上传第i张图片的缩略图
-        GlobalService.consoleLog("准备存储缩略图和上传缩略图")
-        return new Promise((resolve, reject) => {
-            this.fileManager.saveThumbnail(photoLibrary, thumbnailName, (thumbnailFolderPath) => {
-                let folder = thumbnailFolderPath.replace(/\/[^\/]+$/, '') + "/";
-                //上传至服务器
-                GlobalService.consoleLog("开始上传缩略图到服务器...." + folder + "," + thumbnailName + "," + path);
-                this.fileManager.uploadThumbnail(folder, thumbnailName, path)
-                .then(res => {
-                    this.global.thumbnailMap[md5] = thumbnailFolderPath;
-                    resolve(thumbnailFolderPath);
-                })
-                .catch(e => {
-                    reject();
-                })
-            });                 
-        })
-    }
+    // uploadThumbnail(photoLibrary) {
+    //     let path = this.global.ThumbnailRemotePath;
+    //     let md5 = Md5.hashStr(this.global.currPath + "/" + photoLibrary.fileName).toString();
+    //     //计算缩略图名字
+    //     let thumbnailName = md5 + ".png";
+    //     let uploadUrl = this.global.getBoxApi('uploadFileBreaking');
+    //     //上传第i张图片的缩略图
+    //     GlobalService.consoleLog("准备存储缩略图和上传缩略图")
+    //     return new Promise((resolve, reject) => {
+    //         this.fileManager.saveThumbnail(photoLibrary, thumbnailName, (thumbnailFolderPath) => {
+    //             let folder = thumbnailFolderPath.replace(/\/[^\/]+$/, '') + "/";
+    //             //上传至服务器
+    //             GlobalService.consoleLog("开始上传缩略图到服务器...." + folder + "," + thumbnailName + "," + path);
+    //             this.fileManager.uploadThumbnail(folder, thumbnailName, path)
+    //             .then(res => {
+    //                 this.global.thumbnailMap[md5] = thumbnailFolderPath;
+    //                 resolve(thumbnailFolderPath);
+    //             })
+    //             .catch(e => {
+    //                 reject();
+    //             })
+    //         });                 
+    //     })
+    // }
 
     uploadOneImg(uploadingList, index) {
         let uploadItem = uploadingList[index];
@@ -188,18 +188,20 @@ export class SelectImgPage {
             let fileUrl = res;
             GlobalService.consoleLog("即将上传文件：" + fileUrl);
             setTimeout(() => {
-                this.uploadThumbnail(uploadItem)
-                .then(res => {
+                // this.uploadThumbnail(uploadItem)
+                // .then(res => {
+					let md5 = Md5.hashStr(this.currPath.replace(/\/$/, '') + "/" + uploadItem.fileName).toString();
+					this.global.thumbnailMap[md5] = uploadItem.thumbnailURL;
                     this.transfer.uploadSingleFile(fileUrl, this.currPath, {
-						thumbnail: res,
+						// thumbnail: res,
 						id: uploadItem.id
 					});
                     callback();
-                })
-                .catch(e => {
-                    callback();
-                })
-            }, 500);
+                // })
+                // .catch(e => {
+                //     callback();
+                // })
+            }, 100);
         })
         .catch(e => {
             //保存文件到本地失败

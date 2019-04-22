@@ -569,7 +569,7 @@ export class HttpService {
 	  *  调用: toQueryString(obj);
 	  *  返回: "?name=%E5%B0%8F%E5%86%9B&age=23"
 	  */
-	private toQueryString(obj) {
+	public toQueryString(obj) {
 		// let ret = [];
 		// for (let key in obj) {
 		//   key = encodeURIComponent(key);

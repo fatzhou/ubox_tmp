@@ -137,6 +137,8 @@
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-zip" spec="~3.1.0" />
     <plugin name="cordova-plugin-advanced-http" spec="~2.0.9" />
-    <plugin name="cordova-plugin-photo-library" spec="git+https://github.com/ubbey/cordova-plugin-photo-library.git" />
     <plugin name="cordova-plugin-file-transfer" spec="https://github.com/ubbey/cordova-plugin-file-transfer.git" />
+    <plugin name="cordova-plugin-photo-library" spec="https://github.com/ubbey/cordova-plugin-photo-library.git">
+        <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
+    </plugin>
 </widget>

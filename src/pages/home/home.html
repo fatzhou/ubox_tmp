@@ -60,7 +60,7 @@
 					(click)="goNextFolder(info);$event.stopPropagation();">
 					<div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)"
 						[ngClass]="info.fileStyle"></div>
-					<img class="file-thumbnail" [src]="info.thumbnail"
+					<img class="file-thumbnail" [src]="info.thumbnail | photoSantizer"
 						*ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
 					<div class="info">
 						<h2 class="eps">{{ pretify(info.name) }}</h2>
