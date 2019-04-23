@@ -99,8 +99,7 @@ export class TaskListPage {
 	
 	handleThumbnailError(obj, e) {
 		console.log("缩略图加载出错.......")
-		var defaultPhoto = "./assets/img/image.svg";
-		obj.thumbnail = defaultPhoto;
+		obj.thumbnail = '';
 		//存入全局缓存，将会导致该图片永不刷新
 		// var md5 = Md5.hashStr(that.currPath.replace('\/$', '') + '/' + obj.name).toString();
 		// that.global.thumbnailMap[md5] = defaultPhoto;

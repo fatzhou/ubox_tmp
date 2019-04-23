@@ -146,7 +146,7 @@ export class ClassifyListPage {
     }
 
     hasThumbnail(type) {
-        if(type === 'image' || type === 'video') {
+        if(this.classify == 1 || this.classify == 2) {
             return true;
         }
         return false;
@@ -266,7 +266,7 @@ export class ClassifyListPage {
                     GlobalService.consoleLog("持续翻页。。。。。");
                     this.fileList = this.fileList.concat(list);
                 }
-                if(this.classify === 1) {
+                if(this.classify === 1 || this.classify == 2) {
                     this.transfer.getThumbnail(this.fileList, true);
                 }
                 // this.cd.detectChanges();
@@ -279,8 +279,12 @@ export class ClassifyListPage {
 	
 	handleThumbnailError(obj, e) {
 		console.log("缩略图加载出错.......")
-		var defaultPhoto = "./assets/img/image.svg";
-		obj.thumbnail = defaultPhoto;
+		var defaultPhoto = "./assets/img/image1.svg";
+		if(this.classify == 1) {
+			obj.thumbnail = defaultPhoto;
+		} else {
+			obj.thumbnail = '';
+		}
 		//存入全局缓存，将会导致该图片永不刷新
 		// var md5 = Md5.hashStr(that.currPath.replace('\/$', '') + '/' + obj.name).toString();
 		// that.global.thumbnailMap[md5] = defaultPhoto;
