@@ -322,7 +322,7 @@ export class FileTransport {
 		//获取最新拉取的一页的缩略图
 		let noThumbnailList = list.filter(item => {
 			let type = this.util.computeFileType(item.name);
-			return !item.thumbnail && (item.fileStyle === 'image');
+			return !item.thumbnail && (item.fileStyle === 'image' || item.fileStyle === 'video');
 		});
 
 		console.log("需要更新的缩略图张数：" + noThumbnailList.length);

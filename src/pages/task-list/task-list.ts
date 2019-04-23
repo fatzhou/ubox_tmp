@@ -95,7 +95,16 @@ export class TaskListPage {
 
 		// _that.cd.detectChanges();
         // this.doneTaskList.reverse();
-    }
+	}
+	
+	handleThumbnailError(obj, e) {
+		console.log("缩略图加载出错.......")
+		var defaultPhoto = "./assets/img/image.svg";
+		obj.thumbnail = defaultPhoto;
+		//存入全局缓存，将会导致该图片永不刷新
+		// var md5 = Md5.hashStr(that.currPath.replace('\/$', '') + '/' + obj.name).toString();
+		// that.global.thumbnailMap[md5] = defaultPhoto;
+	}
 
     getThumbnail() {
         for(let i = 0, len = this.fileTaskList.length; i < len; i++) {
@@ -103,10 +112,10 @@ export class TaskListPage {
 			let md5 = Md5.hashStr(task.path).toString();
 
             if(task.fileStyle === 'image' && !task.thumbnail) {
-				// if(this.global.thumbnailMap[md5]) {
-				// 	task.thumbnail = this.global.thumbnailMap[md5];
-				// 	continue;
-				// }
+				if(this.global.thumbnailMap[md5]) {
+					task.thumbnail = this.global.thumbnailMap[md5];
+					continue;
+				}
                 //图片上传下载需显示缩略图
                 setTimeout(()=>{
                     GlobalService.consoleLog("获取缩略图：" + task.localPath + "***" + task.path + "***" + task.name);
