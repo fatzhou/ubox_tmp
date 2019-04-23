@@ -11,15 +11,23 @@ page-bt-task {
     .toolbar-ios ion-title {
         padding-right: 0;
     }
+    .toolbar-title {
+        color: #fff;
+        text-align: left;
+        height: 46px;
+        line-height: 46px;
+    }
     .toolbar-content {
         text-align: left;
         color: #fff;
         font-size: 18px;
         .icon {
             float: right;
-            font-size: 20px;
+            font-size: 40px;
             margin-left: 3px;
-            margin-right: 10px;
+            margin-right: 6px;
+            padding: 10px;
+            margin-top: 3px;
         }
     }
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ItemContent } from 'ionic-angular';
-import { Events, App } from 'ionic-angular';
+import { Events, App, Nav } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { Util } from '../../providers/Util';
@@ -40,7 +40,8 @@ export class SearchPage {
         private uappPlatform: UappPlatform,
         private appsInterface: AppsInterface,
         private appsInstalled: AppsInstalled,
-        private app: App) {
+        private app: App,
+        public nav: Nav) {
             events.unsubscribe('language:change');
             events.subscribe('language:change', () => {
 				if(!this.global.SearchData) {
@@ -121,7 +122,7 @@ export class SearchPage {
     // }    
 
     goLoginPage() {
-        this.app.getRootNav().push(LoginPage);
+        this.nav.setRoot(LoginPage);
     }
 
     showNetworkPopup() {

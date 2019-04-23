@@ -68,6 +68,7 @@ export class DeviceDetailPage {
                                         message: Lang.L('WORD1b35951f'),
                                     })
                                     this.diskName = data.folderName;
+                                    this.global.diskInfo.name = this.diskName;
                                     
                                 } else {
                                     this.global.createGlobalToast(this, {

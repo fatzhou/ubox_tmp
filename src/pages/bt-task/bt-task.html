@@ -9,14 +9,13 @@
     <ion-navbar class="text-right" (click)="toggleShowOptions('close');toggleShowDelete()">
         <ion-title>
             {{ global.L("DownloadTask") }}
-            <svg class="icon icon-right" (click)="toggleShowOptions();toggleShowDelete();$event.stopPropagation();" aria-hidden="true">
+            <svg class="icon icon-right" tappable (click)="toggleShowOptions();toggleShowDelete();$event.stopPropagation();" aria-hidden="true">
                 <use xlink:href="#icongengduo1"></use>
             </svg>
-            <svg class="icon icon-right" (click)="showPcToast()" aria-hidden="true">
+            <svg class="icon icon-right" tappable (click)="showPcToast()" aria-hidden="true">
                 <use xlink:href="#iconPCView1"></use>
             </svg>
         </ion-title>
-        
     </ion-navbar>
 
 </ion-header>

@@ -5,7 +5,7 @@
         <div class="info-operation">
         <ul>
             
-            <li (click)="downloadFile()">
+            <li (click)="downloadFile()" tappable>
                 <span class="iconspan download">
                     <svg class="icon icon-ellipsis nexticon" aria-hidden="true" >
                         <use xlink:href="#icondownloadicon1"></use>
@@ -13,7 +13,7 @@
                 </span>
                 <span class="font-span">{{ global.L('Download') }}</span>
             </li>
-            <li (click)="moveFilePath()">
+            <li (click)="moveFilePath()" tappable>
                 <span class="iconspan move">
                     <svg class="icon icon-ellipsis nexticon" aria-hidden="true" >
                         <use xlink:href="#iconMoveicon1"></use>
@@ -21,7 +21,7 @@
                 </span> 
                 <span class="font-span">{{ global.L('Move') }}</span>
             </li>
-            <li (click)="goImgDetailPage()">
+            <li (click)="goImgDetailPage()" tappable>
                 <span class="iconspan">
                     <svg class="icon icon-ellipsis nexticon" aria-hidden="true" >
                         <use xlink:href="#iconDetailsicon1"></use>
@@ -29,7 +29,7 @@
                 </span>
                 <span class="font-span">{{ global.L('Detail') }}</span>
             </li>
-            <li (click)="deleteFile()">
+            <li (click)="deleteFile()" tappable>
                 <span class="iconspan delete">
                     <svg class="icon icon-ellipsis nexticon" aria-hidden="true" >
                         <use xlink:href="#icondelete1"></use>
@@ -37,7 +37,7 @@
                 </span> 
                 <span class="font-span">{{ global.L('Delete') }}</span>
             </li>
-            <li (click)="renameFile()">
+            <li (click)="renameFile()" tappable>
                 <span class="iconspan rename">
                     <svg class="icon icon-ellipsis nexticon" aria-hidden="true" >
                         <use xlink:href="#iconRenameicon1"></use>

@@ -50,10 +50,16 @@ page-find {
             }
         }
     }
+    .warning-bar .toolbar-background {
+        background: $newSecondColor;
+    }
     .search-body {
         background: $newThreeColor;
         .recommend-title {
             background: #00C77D;
+            &.warning-bg {
+                background: $newSecondColor;
+            }
             height: 120px;
             position: absolute;
             z-index: 1;

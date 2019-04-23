@@ -1,7 +1,7 @@
 page-select-folder {
     .toolbar{
         .toolbar-background{
-           border-bottom: 1px solid $newThreeColor;		
+           border-bottom: .5px solid $newThreeColor;		
         }
         
     }
@@ -37,7 +37,7 @@ page-select-folder {
                 clear: both;
             }
             .fileli{
-                border-bottom: 1px solid $newThreeColor;
+                border-bottom: .5px solid $newThreeColor;
                 padding: 12px $padding - 3px;
                 overflow: hidden;
                 background: $newThreeColor;

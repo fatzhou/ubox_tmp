@@ -35,7 +35,7 @@ button ion-label, div ion-label {
 }
 
 // ion-header {
-//     border-bottom: 1px solid #dbdbdb;
+//     border-bottom: .5px solid #dbdbdb;
 // }
 
 //以下是自定义全局样式
@@ -234,13 +234,14 @@ button ion-label, div ion-label {
 		display: block;
 		background: #000;
 		border: none;
-		border-bottom: 1px solid rgba(255, 255, 255, .3);
+		border-bottom: .5px solid rgba(255, 255, 255, .3);
 		padding-top: 8px;
 		padding-bottom: 10px;
 		width: 100%;
 		font-size: 16px;
 		color: $newFirstColor;
-		line-height: 22px;
+        line-height: 22px;
+        border-radius: 0;
 	}
 }
 
@@ -377,13 +378,13 @@ textarea::-webkit-input-placeholder {
     color: #1B1B1B;
     line-height: 1;
     padding: 10px 12px;
-    // border-bottom: 1px solid #d8d8d8;
+    // border-bottom: .5px solid #d8d8d8;
     font-weight: bold;
     font-size: 34px;
 }
 
 .ion-header-border {
-    border-bottom: 1px solid #d8d8d8;
+    border-bottom: .5px solid #d8d8d8;
 }
 
 .toolbar-background {
@@ -719,4 +720,9 @@ ion-infinite-scroll {
     color: #fff!important;
     background: rgba(0,0,0,0.8)!important;
     
+}
+.no-box-body {
+    .toolbar-background{
+        background: $newSecondColor;
+    }
 }

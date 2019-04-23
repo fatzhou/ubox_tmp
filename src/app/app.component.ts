@@ -110,6 +110,17 @@ export class UboxApp {
             }
         })
 
+        // this.events.subscribe('app:class-changed', (page) => {
+        //     GlobalService.consoleLog("app:class-changed......")
+        //     let status = this.http.getNetworkStatus();
+        //     var body = document.getElementsByTagName('body')[0];
+        //     if (status.uboxNetworking && status.centerNetworking){
+        //         body.classList.remove('no-box-body');
+        //     }else{
+        //         body.classList.add('no-box-body');
+        //     }
+        // })
+
         this.platformReady();
     }
 

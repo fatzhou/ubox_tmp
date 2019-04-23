@@ -56,7 +56,7 @@
                 <use xlink:href="#iconClear1"></use>
             </svg>
         </div>
-        <div class="disk-list" *ngIf="currPath == '/' && disks.length >= 1 && isMainDisk">
+        <div class="disk-list" *ngIf="currPath == '/' && disks.length >= 1 && isMainDisk" [ngClass]="isShowWarningBar ? 'warning-bg' : ''">
             <!-- <div class="disk-list" *ngIf="currPath == '/' && disks.length > 1"> -->
             <p class="disk-title">{{global.L("OtherDisk")}}</p>
             <div class="disk-list-box">

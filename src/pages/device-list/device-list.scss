@@ -178,7 +178,7 @@ page-device-list {
 		    position: relative;
 		    /*box-shadow: 0 0 10px 0 rgba(181,181,181,0.50);*/
 		    border-top: 1px solid #e8e8e8;
-		    border-bottom: 1px solid #e8e8e8;
+		    border-bottom: .5px solid #e8e8e8;
 		    padding: 0 $padding;
 		    .scan-button {
 		    	/*width: 80px;*/
@@ -207,7 +207,7 @@ page-device-list {
 				background: #fff;
 			    padding: $padding - 4px;
 				overflow: hidden;
-				border-bottom: 1px solid #e8e8e8;
+				border-bottom: .5px solid #e8e8e8;
 			    &:last-child {
 			    	margin-bottom: 0;
 			    }	

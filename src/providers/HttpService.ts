@@ -1207,8 +1207,9 @@ export class HttpService {
      * 通知网络状态可能发生变化
      */
     notifyNetworkStatusChange(){
-        this.events.publish('warning:change');
-        this._checkNetworkStatusAsync();
+		this.events.publish('warning:change');
+		this.events.publish('app:class-changed');
+		this._checkNetworkStatusAsync();
     }
 
     _updateCenterNetworkLastAliveTime(url){
@@ -1230,7 +1231,8 @@ export class HttpService {
                 GlobalService.consoleLog("检查网络状态请求发送返回异常, 刷新网络状态");
             }).then(()=>{
                 this.notifyNetworkStatusChange();
-                this.centerNetworkChecking = false;
+				this.centerNetworkChecking = false;
+				
             })
         }
     }
