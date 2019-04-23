@@ -285,6 +285,7 @@ export class FileTransport {
 		remoteUrl = remoteUrl.replace(/\/$/, '') + "/";
 		localPath = localPath.replace(/\/$/, '') + "/";
 		console.log(`查询${localPath}下是否存在文件${name}`)
+		console.log(`如果不存在，则直接从${remoteUrl}处下载${remoteName}文件`)
 		//第1步，判断本地是否存在，若存在则直接使用
 		return this.file.checkFile(localPath, name)
 			.then(res => {
@@ -341,6 +342,7 @@ export class FileTransport {
 			let logprefix = "缩略图下载：(" + thumbnailName + ")：";
 			GlobalService.consoleLog(logprefix + "开始下载" + i);
 			GlobalService.consoleLog(logprefix + "本地路径尝试：" + localThumbnailPath + thumbnailName);
+			GlobalService.consoleLog(logprefix + "远程地址：" + remotePath + noThumbnailList[i].name);
 			// return this.getFileLocalOrRemote(this.global.ThumbnailRemotePath + "/", localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath, 'thumbnail')
 			return this.getFileLocalOrRemote(remotePath, noThumbnailList[i].name, localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath, 'thumbnail')
 				.then(res => {
@@ -349,15 +351,15 @@ export class FileTransport {
 						noThumbnailList[i].thumbnail = res;
 						this.global.thumbnailMap[md5] = res;
 					} else {
-						GlobalService.consoleLog(logprefix + "缩略图不存在，获取原图");
-						return this.getFileLocalOrRemote(noThumbnailList[i].path, noThumbnailList[i].name, this.global.fileSavePath + this.global.PhotoSubPath + "/", noThumbnailList[i].name, this.global.PhotoSubPath)
-						.then(res => {
-							if(res) {
-								GlobalService.consoleLog(logprefix + "数据原图获取完毕：" + JSON.stringify(res));
-								noThumbnailList[i].thumbnail = res;
-								this.global.thumbnailMap[md5] = res;
-							}
-						})
+						GlobalService.consoleLog(logprefix + "缩略图不存在");
+						// return this.getFileLocalOrRemote(noThumbnailList[i].path, noThumbnailList[i].name, this.global.fileSavePath + this.global.PhotoSubPath + "/", noThumbnailList[i].name, this.global.PhotoSubPath)
+						// .then(res => {
+						// 	if(res) {
+						// 		GlobalService.consoleLog(logprefix + "数据原图获取完毕：" + JSON.stringify(res));
+						// 		noThumbnailList[i].thumbnail = res;
+						// 		this.global.thumbnailMap[md5] = res;
+						// 	}
+						// })
 					}
 				})
 				.catch(e => {
@@ -404,7 +406,6 @@ export class FileTransport {
 			name: name,
 			fileStyle: fileStyle
 		};
-		console.log(`从${remoteUrl}处下载${localPath}...........`);
 		return this.downloadFile(fileInfo, remoteFullPath, localFullPath, false);
 	}
 
@@ -568,6 +569,7 @@ export class FileTransport {
 		this.taskDownloadListAmount = taskList.length;		
 		//立即开始
 		if(!createTask || this.taskDownloadListAmount <= this.global.fileMaxDownload) {
+			GlobalService.consoleLog("开始创建任务....");
 			if (this.global.useWebrtc) {
 				tool = this.createDownloadHandlerRemote(task, createTask ? progress : null, success, failure);
 			} else {
