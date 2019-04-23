@@ -83,7 +83,7 @@
                         </svg>
                     </p>
                     <ul class="file-list" *ngIf="dataAcquired && type0List.length > 0"  [ngClass]="isShowType0List?'show-list':'hide-list'" (press)="showAllBtns()">
-                        <li class="file-list-item" *ngFor="let info of type0List" (click)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
+                        <li class="file-list-item" tappable *ngFor="let info of type0List" (click)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
 							<div class="info">
