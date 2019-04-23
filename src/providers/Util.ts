@@ -2119,10 +2119,14 @@ export class Util {
 					this.global.diskInfoStatus = true;
 				}
 			}
+			return data;
 		})
-		.catch(()=>{
+		.catch((res)=>{
 			return false
 		})
     }
 
+    isDiskInfoReady(){
+        return this.global.diskInfo && this.global.diskInfo.disks && this.global.currDiskUuid != '';
+    }
 }

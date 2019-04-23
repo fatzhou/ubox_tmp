@@ -225,6 +225,8 @@ export class UboxApp {
 
         if(!this.global.networking) {
             GlobalService.consoleLog("网络异常，请先打开网络.....");
+            this.splashScreen.hide();
+            this.nav.setRoot(LoginPage);
             return false;
 		}
 
