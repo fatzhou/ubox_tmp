@@ -146,7 +146,7 @@ export class ClassifyListPage {
     }
 
     hasThumbnail(type) {
-        if(type === 'image' || type === 'video' && this.platform.is('ios')) {
+        if(type === 'image' || type === 'video') {
             return true;
         }
         return false;
@@ -275,7 +275,16 @@ export class ClassifyListPage {
             }
             return false;
         })
-    }
+	}
+	
+	handleThumbnailError(obj, e) {
+		console.log("缩略图加载出错.......")
+		var defaultPhoto = "./assets/img/image.svg";
+		obj.thumbnail = defaultPhoto;
+		//存入全局缓存，将会导致该图片永不刷新
+		// var md5 = Md5.hashStr(that.currPath.replace('\/$', '') + '/' + obj.name).toString();
+		// that.global.thumbnailMap[md5] = defaultPhoto;
+	}
 
     judgeBusy() {
         return this.global.fileTaskList.some(item => {
