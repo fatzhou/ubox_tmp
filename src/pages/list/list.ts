@@ -342,7 +342,7 @@ export class ListPage {
         GlobalService.consoleLog("开始加载列表数据...");
         var url = this.global.getBoxApi("listFolder");
         console.log('请求参数this.currPath   ' + this.currPath)
-		return this.http.post(url, {
+		return this.http.postWithStorage(url, {
 			path: this.currPath,
 			disk_uuid: this.global.currDiskUuid
 		}, true, {

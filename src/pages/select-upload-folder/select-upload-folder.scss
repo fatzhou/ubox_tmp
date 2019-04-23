@@ -1,6 +1,6 @@
 page-select-upload-folder {
     .header-ios .toolbar-background{
-        border-bottom:.5px solid #d9d9d9;
+        border-bottom:1px solid #d9d9d9;
     }
     .header{
         .toolbar-background{
@@ -56,10 +56,10 @@ page-select-upload-folder {
             }
         }
         ul{
-            border-top: .5px solid $newThreeColor;
+            border-top: 1px solid $newThreeColor;
             background: $newFourColor;;
             li {
-                border-bottom: .5px solid $newThreeColor;
+                border-bottom: 1px solid $newThreeColor;
                 padding: 12px $padding - 3px;
                 background: $newFourColor;;
                 overflow: hidden;
@@ -147,7 +147,7 @@ page-select-upload-folder {
         left: 0;
         padding: 10px;
         box-sizing: border-box;
-        border-top: .5px solid #d9d9d9;
+        border-top: 1px solid #d9d9d9;
         background: #F9F9F9;
         height: 61px;
         overflow: hidden;

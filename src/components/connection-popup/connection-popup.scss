@@ -18,7 +18,7 @@ connection-popup {
 		    background-size: 100% auto;
 		    border-radius: 6px;
 		    text-align: center;
-			// box-shadow: 0px 0px .5px #999;
+			// box-shadow: 0px 0px 1px #999;
 			.status {
 				color: #5D75F7;
 			    background: #fff;
@@ -45,7 +45,7 @@ connection-popup {
 			    position: absolute;
 			    bottom: 14px;
 			    background: #5D75F7;
-			    box-shadow: 0 0 .5px #5D75F7;
+			    box-shadow: 0 0 1px #5D75F7;
 			}
 			.close {
 				position: absolute;

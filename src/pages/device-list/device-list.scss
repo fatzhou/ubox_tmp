@@ -56,7 +56,7 @@ page-device-list {
 	    			left: 50%;
 	    			border-radius: 50%;
 	    			background: rgba(93, 117, 247, .1);
-					border: .5px solid #5D75F7;
+					border: 1px solid #5D75F7;
 					opacity: 0;
 	    		}
 	    		.circle-1 {
@@ -177,8 +177,8 @@ page-device-list {
 		    letter-spacing: 0.2px;
 		    position: relative;
 		    /*box-shadow: 0 0 10px 0 rgba(181,181,181,0.50);*/
-		    border-top: .5px solid #e8e8e8;
-		    border-bottom: .5px solid #e8e8e8;
+		    border-top: 1px solid #e8e8e8;
+		    border-bottom: 1px solid #e8e8e8;
 		    padding: 0 $padding;
 		    .scan-button {
 		    	/*width: 80px;*/
@@ -207,7 +207,7 @@ page-device-list {
 				background: #fff;
 			    padding: $padding - 4px;
 				overflow: hidden;
-				border-bottom: .5px solid #e8e8e8;
+				border-bottom: 1px solid #e8e8e8;
 			    &:last-child {
 			    	margin-bottom: 0;
 			    }	

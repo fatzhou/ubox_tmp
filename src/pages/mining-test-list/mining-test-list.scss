@@ -2,7 +2,7 @@ page-mining-test-list {
 	$pagePadding: 10px;
 	.toolbar{
 		.toolbar-background{
-		   border-bottom: .5px solid #d8d8d8;			
+		   border-bottom: 1px solid #d8d8d8;			
 		}
 		
 	}
@@ -26,8 +26,8 @@ page-mining-test-list {
 				.reward-info {
 					margin-bottom: 10px;
 					background: #fff;
-					border-top: .5px solid #ededed69;
-					border-bottom: .5px solid #ededed69;
+					border-top: 1px solid #ededed69;
+					border-bottom: 1px solid #ededed69;
 					&:last-child{
 						margin-bottom: 0px;
 					}
@@ -66,7 +66,7 @@ page-mining-test-list {
 						color: #9b9b9b;
 						line-height: 34px;
 						font-size: 14px;
-						border-top: .5px solid #ededed69;
+						border-top: 1px solid #ededed69;
 						padding: 0px 16px;
 						.icon{
 							font-size: 34px;
@@ -79,7 +79,7 @@ page-mining-test-list {
 						.detail-box{
 							overflow: hidden;
 							padding: 10px 16px;
-							border-top: .5px solid #ededed69;
+							border-top: 1px solid #ededed69;
 							.desc{
 								margin-left: 0;
 								p{

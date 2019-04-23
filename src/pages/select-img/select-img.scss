@@ -2,7 +2,7 @@ page-select-img {
     .toolbar{
 		.toolbar-background{
             background: $newFourColor;	
-		    border-bottom: .5px solid $newFourColor;		
+		    border-bottom: 1px solid $newFourColor;		
 		}
 	}
     .main-content{
@@ -32,8 +32,8 @@ page-select-img {
             line-height: 44px;
             height: 44px;
             overflow: hidden;
-            border-bottom: .5px solid $newThreeColor;
-            border-top: .5px solid $newThreeColor;
+            border-bottom: 1px solid $newThreeColor;
+            border-top: 1px solid $newThreeColor;
             span {
                 display: inline-block;
                 width: calc(50% - 1px);
@@ -108,7 +108,7 @@ page-select-img {
                             width: 22px;
                             height: 22px;
                             background: rgba(0,0,0,0.20);
-                            border: .5px solid rgba(255,255,255,0.70);
+                            border: 1px solid rgba(255,255,255,0.70);
                             position: absolute;
                             top: 0;
                             left: 0;

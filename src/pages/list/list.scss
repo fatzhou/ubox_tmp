@@ -137,6 +137,9 @@ page-list {
                 .icon {
                     font-size: 20px;
                     margin-right: unset;
+                    &.font-22 {
+                        font-size: 22px;
+                    }
                 }
                 &.all-toggle-btn {
                     right: 0px;
@@ -336,6 +339,8 @@ page-list {
                         right: 0;
                         margin-right: 0px;
                         color: #E9E9EA;
+                        top: 0px;
+                        position: absolute;
                     }
                     // &.light {
                     //     color: rgb(0, 199, 125);
