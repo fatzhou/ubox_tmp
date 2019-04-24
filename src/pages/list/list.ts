@@ -676,7 +676,7 @@ export class ListPage {
         }
         this.global.currPath = this.currPath;
         this.dataAcquired = false;
-        this.selectedFiles = [];
+		this.selectedFiles = [];
     }
 
     closeFileSelect() {
