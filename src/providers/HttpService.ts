@@ -91,19 +91,20 @@ export class HttpService {
 		let dataChannel = this.channels[label];
 		if (!dataChannel.aliveInterval) {
 			dataChannel.aliveInterval = setInterval(() => {
+			    let timeout = (Date.now() - this.webrtcEngineLastAliveTime) > this.aliveIntervalTime;
 				if (!this.global.useWebrtc) {
 					clearInterval(dataChannel.aliveInterval);
-				} else if (!this.rateLimit(label) && dataChannel.status === 'opened') {
+				} else if (!this.rateLimit(label) && dataChannel.status === 'opened' && timeout) {
 					let url = this.global.getBoxApi('keepAlive');
-					GlobalService.consoleLog("发起保活请求发出------" + Date.now().toString());
+					GlobalService.consoleLog("保活请求发出:" + Date.now().toString());
 					this.webrtcRequest(url, 'post', {}, {}, {
 						channelLabel: label
 					})
 					.catch(e => {
-						GlobalService.consoleLog(e.stack);
+						GlobalService.consoleLog("保活请求发送出错:" + e.stack);
 					})
 				}else{
-                    GlobalService.consoleLog("发起保活tick ignore: dataChannel.status:" + dataChannel.status);
+                    GlobalService.consoleLog("保活请求被忽略: 通道状态:" + dataChannel.status + ", 是否超时:" + timeout);
                 }
 			}, this.aliveIntervalTime);
 		}
@@ -826,7 +827,7 @@ export class HttpService {
 	}
 
 	downloadFile(remoteUrl, params, headers, forceLocal = false) {
-		GlobalService.consoleLog("开始下载任务");
+		GlobalService.consoleLog("开始下载任务: params:" + JSON.stringify(params));
 		var url = this.global.getBoxApi('downloadFile');
 		GlobalService.consoleLog(`下载url: ${url}, 远端路径: ${remoteUrl}, 文件路径:${params.filePath}, 临时文件：${params.tmpFileName}`);
 		if (!this.global.useWebrtc || forceLocal) {
@@ -844,11 +845,12 @@ export class HttpService {
 				})
 		} else {
 			GlobalService.consoleLog("webrtc下载");
+            let param = params || {};
+            param.fullpath = remoteUrl;
+            param.disk_uuid = this.global.currDiskUuid;
+
 			return new Promise((resolve, reject) => {
-				this.webrtcRequest(url, 'get', {
-					fullpath: remoteUrl,
-					disk_uuid: this.global.currDiskUuid
-				}, headers, {
+				this.webrtcRequest(url, 'get', param, headers, {
 						maxTime: 8000,
 						retries: 3,
 						channelLabel: this.channels['download'] ? 'download' : this.channelLabels[0]
@@ -1240,7 +1242,7 @@ export class HttpService {
             }).then(()=>{
                 this.notifyNetworkStatusChange();
 				this.centerNetworkChecking = false;
-				
+
             })
         }
     }
@@ -1497,7 +1499,8 @@ export class HttpService {
 			let err = "";
 
             dataChannel.lastReceivedTime = Date.now();
-			do {//////////////////////////// 中断直接退出 ////// begin //////////
+            this.webrtcEngineLastAliveTime = dataChannel.lastReceivedTime;
+            do {//////////////////////////// 中断直接退出 ////// begin //////////
 
                 /////////////解析协议数据中的header ////////////
 				try {

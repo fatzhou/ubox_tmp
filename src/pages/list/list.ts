@@ -410,7 +410,7 @@ export class ListPage {
 	}
 
 	handleThumbnailError(obj, e) {
-		console.log("缩略图加载出错.......")
+		console.log("缩略图加载出错, 设置为默认图.......")
 		var defaultPhoto = "./assets/img/image1.svg";
 		if(obj.fileStyle == 'image') {
 			obj.thumbnail = defaultPhoto;

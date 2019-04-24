@@ -65,7 +65,7 @@ export class FileTransport {
 		// this.global.createGlobalToast(this, {
 		//     message: Lang.Lf('WORD80e433b7', fileName),
 		// });
-		// filename = filename.replace(/\s+/g, ""); 
+		// filename = filename.replace(/\s+/g, "");
 		// var fileId = "Upload_" + Md5.hashStr(localPath + remotePath + '/' + filename, false);
 		var fileId = this.util.generateFileID(localPath, remotePath + '/' + fileName, 'upload', uploadInfo && uploadInfo.id);
 		var task = this.global.fileTaskList.filter(item => item.fileId === fileId && item.finished === false);
@@ -187,10 +187,10 @@ export class FileTransport {
 			// console.log("进的点点滴滴")
 			//如果没有同类型文件任务，则弹窗.....
 			// if(!this.global.fileTaskList.some(item => item.action === 'upload' && !item.finished)) {
-			//     //通知任务列表页刷新            
+			//     //通知任务列表页刷新
 			//     this.global.createGlobalToast(this, {
 			//         message: Lang.Lf('UploadFileSuccess')
-			//     })                    
+			//     })
 			// }
 			//查找等待中的任务，每完成一个自动通知新任务
 			this.startWaitTask('upload');
@@ -207,7 +207,7 @@ export class FileTransport {
 				tool = this.createUploadHandlerRemote(task, progress, success, failure);
 			} else {
 				tool = this.createUploadHandlerLocal(task, progress, success, failure);
-			}			
+			}
 		}
 		return tool;
 	}
@@ -410,7 +410,7 @@ export class FileTransport {
 	}
 
 	/**
-	 * @param remoteFullPath 
+	 * @param remoteFullPath
 	 * @param localFullPath
 	 * @param createTask
 	 */
@@ -517,7 +517,7 @@ export class FileTransport {
 					task.total = res.total;
 					start = now;
 				});
-			} 
+			}
 			return true;
 		};
 		let success = (res: any) => {
@@ -532,11 +532,11 @@ export class FileTransport {
 				// if(!this.global.fileTaskList.some(item => item.action === 'download' && !item.finished )) {
 				//     this.global.createGlobalToast(this, {
 				//         message: Lang.Lf('DownloadFileToBoxSuccess', myTask.name)
-				//     })                           
+				//     })
 				// }
 				if (this.global.fileHandler[taskId]) {
 					delete this.global.fileHandler[taskId];
-				}				
+				}
 			} else {
 				//任务尚未完成
 				if (this.global.fileHandler[taskId]) {
@@ -566,7 +566,7 @@ export class FileTransport {
 			resolve && resolve('');
 		};
 		var taskList = this.global.fileTaskList.filter(item => item.action === 'download' && item.pausing === 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid);
-		this.taskDownloadListAmount = taskList.length;		
+		this.taskDownloadListAmount = taskList.length;
 		//立即开始
 		if(!createTask || this.taskDownloadListAmount <= this.global.fileMaxDownload) {
 			GlobalService.consoleLog("开始创建任务....");
@@ -579,7 +579,7 @@ export class FileTransport {
 			GlobalService.consoleLog('先加入队列，且先暂停，后面再下载' + this.taskDownloadListAmount + "," + this.global.fileMaxDownload);
 			task.pausing = "waiting";
 			task.speed = 0;
-		}	
+		}
 		return tool;
 	}
 
@@ -590,8 +590,8 @@ export class FileTransport {
 			is_thumbnail: fileTask.fileStyle == 'thumbnail' ? 1 : 0
 		})//'?fullpath=' + encodeURIComponent(fileTask.path) + '&disk_uuid=' + this.global.currDiskUuid ;
 		let fileURL = fileTask.localPath;
-		console.log("下载url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
-		let self = this
+		console.log("local下载文件：url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
+		let self = this;
 		let fileTransfer = new FileTransfer(url, fileURL, {
 			headers: {
 				// add custom headers if needed
@@ -611,23 +611,23 @@ export class FileTransport {
 	}
 
 	createDownloadHandlerRemote(task, progress, success, failure, createTask = true) {
-		// var uri = encodeURI(this.global.getBoxApi("downloadFile"));
-		// var downloadTool = new FileDownloader();
-		/*code start*/
-		var downloadTool;
+        let downloadTool;
 		let taskId = task.taskId;
+		let option = {
+            disk_uuid: this.global.currDiskUuid,
+            is_thumbnail: task.fileStyle == 'thumbnail' ? 1 : 0
+        };
 
-		downloadTool = this.fileDownloader.createDownloader(task.localPath, task.path);
-		downloadTool.download(task.localPath, task.path)
-			.catch(err => {
-				// GlobalService.consoleLog("下载失败 FileTransport" + JSON.stringify(err));
-				var task = this.global.fileTaskList.filter(item => item.taskId === taskId);
-				if (task && task.length && task[0].isShow) {
+		downloadTool = this.fileDownloader.createDownloader(task.localPath, task.path, option);
+		downloadTool.download().catch(err => {
+				GlobalService.consoleLog("下载失败 FileTransport" + JSON.stringify(err));
+				let task = this.global.fileTaskList.filter(item => item.taskId === taskId);
+				if (task && task.length && task[0].isShow && !option.is_thumbnail) {
 					this.global.createGlobalToast(this, {
 						message: Lang.Lf("DownloadFileFailed", task[0].name)
 					})
 				}
-			})
+			});
 		// if (this.taskUploadListAmount >= this.global.fileMaxDownload) {
 		// 	GlobalService.consoleLog('先加入队列，且先暂停，后面再下载');
 		// 	downloadTool.pause();
