@@ -615,7 +615,10 @@ export class Util {
                             //关闭webrtc连接
                             $scope.http.stopWebrtcEngine()
                         }
-                        this.checkoutBox($scope);
+                        this.checkoutBox($scope)
+                        .catch(e => {
+                            console.log(e);
+                        })
                         // setTimeout(() => {
                         //     //查询盒子是否已经重启完毕
                         //     if($scope.global.useWebrtc) {
