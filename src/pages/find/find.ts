@@ -123,6 +123,10 @@ export class FindPage {
         });
     }
 
+    onDragUp(event){
+        GlobalService.consoleLog("onDragUp event:" + JSON.stringify(event))
+    }
+
     getFeedToShow(position = "bottom"){
         // Step 1. 获取两到三条数据
         return new Promise((resove, reject)=>{
@@ -267,6 +271,8 @@ export class FindPage {
     }
 
     onPageScroll(e) {
+        //GlobalService.consoleLog("onPageScroll event:" + JSON.stringify(e))
+
         if(e.scrollTop > 60 && this.isShowTitle == true) {
             this.isShowTitle = false;
         }
