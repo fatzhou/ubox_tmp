@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { Events, App } from 'ionic-angular';
+import { Events, App, Nav } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { WalletSelectPage } from '../wallet-select/wallet-select';
@@ -40,7 +40,8 @@ export class UserPage {
         private util: Util,
         private app: App,
         private events: Events,
-        public navParams: NavParams) {
+        public navParams: NavParams,
+        public nav: Nav) {
             this.events.subscribe('isShow:false', () => {
                 GlobalService.consoleLog("成功接收到事件");
                 this.isShowNotice = false;
@@ -105,7 +106,7 @@ export class UserPage {
     }
 
     goDeviceSearchPage() {
-       this.app.getRootNav().push(LoginPage);   
+       this.nav.setRoot(LoginPage);   
     }
 
     goChangePasswdPage() {

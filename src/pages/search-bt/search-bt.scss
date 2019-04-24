@@ -111,11 +111,13 @@ page-search-bt {
                     box-sizing: border-box;
                     display: inline-block;
                     text-align: center;
-                    max-height: 60px;
+                    max-height: 80px;
                     display: flex;
                     align-items: center;
-                    min-height: 60px;
-                    background: #222126;
+                    min-height: 80px;
+                    background-position: center center;
+                    background-size: cover;
+                    background-color: $newThreeColor;
                     &:last-child {
                         width: 33%;
                         margin-right: 0px;
@@ -128,12 +130,25 @@ page-search-bt {
                         display: block;
                     }
                 }
+                @media screen and (max-width: 320px) {
+                    span {
+                        max-height: 69px;
+                        min-height: 69px;
+                    }
+                }
                 &.one-png {
                     width: 100%;
                     span {
                         width: 100%;
                         padding-right: 0;
                         max-height: 170px;
+                        min-height: 170px;
+                    }
+                    @media screen and (max-width: 320px) {
+                        span {
+                            max-height: 145px;
+                            min-height: 145px;
+                        }
                     }
                     overflow: hidden;
                 }
@@ -144,7 +159,7 @@ page-search-bt {
         padding: 20px 10px;
         background: $newThreeColor;
         .history-title {
-            border-bottom: 1px solid $newFourColor;
+            border-bottom: .5px solid $newFourColor;
             font-size: 18px;
             color: $newFiveColor;
             line-height: 40px;

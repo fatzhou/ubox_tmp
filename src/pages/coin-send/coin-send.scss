@@ -19,7 +19,7 @@ page-coin-send {
 			font-size: 16px;
 		}
 		.mining-fees .desc, .transfer-amount  .desc{
-			border-bottom: 1px solid $newThreeColor;
+			border-bottom: .5px solid $newThreeColor;
 			padding: 0 15px;
 			font-size: 15px;
 			.fl {
@@ -61,7 +61,7 @@ page-coin-send {
 				.desc {
 					height: 54px;
 					text-indent: 15px;
-					border-bottom: 1px solid $newThreeColor;
+					border-bottom: .5px solid $newThreeColor;
 					p {
 						font-size: 15px;
 						color: #FFFFFF;
@@ -200,7 +200,7 @@ page-coin-send {
 				justify-content: space-around;
 				align-items: center;
 				padding: 16px 0;
-				border-bottom: 1px solid #101012;
+				border-bottom: .5px solid #101012;
 				.p-addr {
 					width: 180px;
 					font-size: 12px;
@@ -212,7 +212,7 @@ page-coin-send {
 				line-height: 25px;
 				padding-top: 8px;
 				padding-bottom: 10px;
-				border-bottom: 1px solid #101012;
+				border-bottom: .5px solid #101012;
 				color: #fff;
 				font-size: 18px;
 				span {
@@ -222,7 +222,7 @@ page-coin-send {
 			}
 			.p-input {
 				height: 53px;
-				border-bottom: 1px solid #00c77d;
+				border-bottom: .5px solid #00c77d;
 				padding: 10px 0;
 				input {
 					width: 100%;

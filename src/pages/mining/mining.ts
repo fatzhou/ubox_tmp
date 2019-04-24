@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Nav, Platform } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { Web3Service } from '../../providers/Web3Service';
@@ -81,7 +81,8 @@ export class MiningPage {
 		private app: App,
 		private platform: Platform,
         private menuCtrl: MenuController,
-        public navParams: NavParams) {
+        public navParams: NavParams,
+        public nav: Nav) {
 
         GlobalService.consoleLog("进入Mining构造函数...");
 
@@ -149,7 +150,7 @@ export class MiningPage {
         this.events.publish('open-popup');
     }
     goLoginPage() {
-        this.app.getRootNav().push(LoginPage);            
+        this.nav.setRoot(LoginPage);            
     }
 
     getMiningInfo() {

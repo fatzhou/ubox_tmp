@@ -110,6 +110,17 @@ export class UboxApp {
             }
         })
 
+        // this.events.subscribe('app:class-changed', (page) => {
+        //     GlobalService.consoleLog("app:class-changed......")
+        //     let status = this.http.getNetworkStatus();
+        //     var body = document.getElementsByTagName('body')[0];
+        //     if (status.uboxNetworking && status.centerNetworking){
+        //         body.classList.remove('no-box-body');
+        //     }else{
+        //         body.classList.add('no-box-body');
+        //     }
+        // })
+
         this.platformReady();
     }
 
@@ -214,6 +225,8 @@ export class UboxApp {
 
         if(!this.global.networking) {
             GlobalService.consoleLog("网络异常，请先打开网络.....");
+            this.splashScreen.hide();
+            this.nav.setRoot(LoginPage);
             return false;
 		}
 

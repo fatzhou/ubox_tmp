@@ -360,45 +360,53 @@ export class HttpService {
 
 	public postWithStorage(url: string, paramObj: any, errorHandler: any = true, headers: any = {}, options: any = {}) {
 		url = url || '';
-		headers['X-Request-Id'] = this.getXRequestId();
-		console.log("是否使用webrtc?" + this.global.useWebrtc);
-		// let ifBoxUrl = !url.startsWith('http');
-		let ifBoxUrl = !url.startsWith('http') || this.isBoxUrlReg.test(url); //检测是否盒子的url
-		if(!ifBoxUrl || ifBoxUrl && this.global.deviceSelected || this.global.useWebrtc && !options.storageName) {
-			//box请求必须要有盒子
-			return this.post(url, paramObj, errorHandler, headers, options);
+        GlobalService.consoleLog("发起支持缓存的请求：" + url + ", options.storageName: " + options.storageName);
+        let isBoxUrl = !url.startsWith('http') || this.isBoxUrlReg.test(url); //检测是否盒子的url
+        let netStatus = this.getNetworkStatus();
+		if(!options.storageName || !isBoxUrl && netStatus.centerNetworking || isBoxUrl && netStatus.uboxNetworking) {//|| this.global.useWebrtc && !options.storageName
+			//不需要使用缓存 或者 对应请求的数据通道为连接状态
+            GlobalService.consoleLog("不需要使用缓存或者发送请求的数据通路正常，不是使用缓存：" + options.storageName);
+            return this.post(url, paramObj, errorHandler, headers, options);
 		} else {
-			//发往盒子的请求，但是尚未连接盒子
-			if(options.storageName) {
-				GlobalService.consoleLog("使用缓存：" + options.storageName);
-				return new Promise((resolve, reject) => {
-					let name = options.storageName + this.global.centerUserInfo.unameHash;
-					this.storage.get(name)
-					.then(res => {
-						try {
-							if(res) {
-								let data = JSON.parse(res);
-								resolve(data);
-							} else {
-								reject({
-									err_no: -2,
-									err_msg: 'Storage not exist'
-								});
-							}
-						} catch(e) {
-							reject({
-								err_no: -3,
-								err_msg: 'Parse storage error'
-							});
-						}
-					})
-				})
-			} else {
-				return Promise.reject({
-					err_no: -1,
-					err_msg: 'Call error'
-				});
-			}
+			//需要使用缓存 且 请求的数据通路不通
+            GlobalService.consoleLog("需要使用缓存且发送请求的数据通路不通，使用缓存：" + options.storageName);
+            return new Promise((resolve, reject) => {
+                let name = options.storageName + this.global.centerUserInfo.unameHash;
+                this.storage.get(name)
+                .then(res => {
+                    try {
+                        if(res) {
+                            let data = JSON.parse(res);
+                            if (typeof(data) !== "object"){
+                                GlobalService.consoleLog("**UNREACHABLE CODE**：storage data is not an object:" + data);
+                                reject({
+                                    err_no: -1,
+                                    err_msg: 'Storage invalid',
+                                    iscached: true
+                                });
+                                return;
+                            }
+                            GlobalService.consoleLog("使用缓存成功");
+                            data.iscached = true;
+                            resolve(data);
+                        } else {
+                            GlobalService.consoleLog("使用缓存失败: 缓存不存在");
+                            reject({
+                                err_no: -2,
+                                err_msg: 'Storage not exist',
+                                iscached: true
+                            });
+                        }
+                    } catch(e) {
+                        GlobalService.consoleLog("使用缓存失败: 缓存解析异常，" + JSON.stringify(e));
+                        reject({
+                            err_no: -3,
+                            err_msg: 'Parse storage error',
+                            iscached: true
+                        });
+                    }
+                })
+            })
 		}
 	}
 
@@ -1207,8 +1215,9 @@ export class HttpService {
      * 通知网络状态可能发生变化
      */
     notifyNetworkStatusChange(){
-        this.events.publish('warning:change');
-        this._checkNetworkStatusAsync();
+		this.events.publish('warning:change');
+		this.events.publish('app:class-changed');
+		this._checkNetworkStatusAsync();
     }
 
     _updateCenterNetworkLastAliveTime(url){
@@ -1230,7 +1239,8 @@ export class HttpService {
                 GlobalService.consoleLog("检查网络状态请求发送返回异常, 刷新网络状态");
             }).then(()=>{
                 this.notifyNetworkStatusChange();
-                this.centerNetworkChecking = false;
+				this.centerNetworkChecking = false;
+				
             })
         }
     }

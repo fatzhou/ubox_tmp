@@ -2,7 +2,7 @@ page-mining-test-list {
 	$pagePadding: 10px;
 	.toolbar{
 		.toolbar-background{
-		   border-bottom: 1px solid #d8d8d8;			
+		   border-bottom: .5px solid #d8d8d8;			
 		}
 		
 	}
@@ -27,7 +27,7 @@ page-mining-test-list {
 					margin-bottom: 10px;
 					background: #fff;
 					border-top: 1px solid #ededed69;
-					border-bottom: 1px solid #ededed69;
+					border-bottom: .5px solid #ededed69;
 					&:last-child{
 						margin-bottom: 0px;
 					}

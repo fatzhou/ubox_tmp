@@ -110,16 +110,6 @@ export class ListPage {
 
     ionViewDidEnter() {
         GlobalService.consoleLog("ionViewDidEnter ListPage");
-        GlobalService.consoleLog("获取磁盘信息" + JSON.stringify(this.global.deviceSelected));
-        // this.getDiskStatus();
-        // this.getMiningInfo();
-
-        // if(!this.global.deviceSelected) {
-        //     setTimeout(()=>{
-        //         this.tabsController.slideTo(1, "boxtabs");
-        //     },500);
-        // }
-
         if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
             // this.isShowBox = true;
             this.fileManager.getPermission()
@@ -143,13 +133,7 @@ export class ListPage {
         this.isMainDisk = this.global.currDiskUuid == '' || this.global.currDiskUuid == this.global.mainSelectDiskUuid;
         GlobalService.consoleLog("this.isMainDisk" + this.isMainDisk);
 
-        GlobalService.consoleLog("this.currPath" + this.currPath);
-        if(this.currPath == '') {
-            setTimeout(()=>{
-                this.tabsController.slideTo(1, "boxtabs");
-            },500);
-        }
-		return true;
+        return true;
 	}
 
 	connectionChangeCallback() {
@@ -190,9 +174,35 @@ export class ListPage {
             this.events.unsubscribe('warning:change');
 			this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
         }
-        console.log('this.global.currDiskUuid' + this.global.currDiskUuid)
-        if(this.global.diskInfo && this.global.diskInfo.disks && this.global.currDiskUuid != '') {
+        console.log('this.global.currDiskUuid' + this.global.currDiskUuid);
+        if(this.util.isDiskInfoReady()) {
+            // diskInfo已经初始化，直接展示
             this.listFiles();
+        }else{
+            // diskInfo没有初始化，猜测是盒子暂未连接，故尝试从缓存拿数据
+            this.util.getDiskStatus()
+            //  获取磁盘数据正常
+            .then((res:any)=>{
+                if(!res){
+                    return Promise.reject(null);
+                }
+                console.log('从[' + res.iscached ? '缓存' : '网络' +']拿数据成功：this.global.currDiskUuid' + this.global.currDiskUuid);
+                this.listFiles();
+            })
+            //  获取磁盘数据异常
+            .catch((res)=>{
+                console.log('从[缓存&网络]拿数据失败:' + JSON.stringify(res));
+                GlobalService.consoleLog("从网络及缓存拿数据都失败，500ms后判断是否直接跳入feed流页面做最后补救");
+                setTimeout(()=>{
+                    if (this.util.isDiskInfoReady()){
+                        GlobalService.consoleLog("等待500ms过程中，磁盘信息已就绪，不需跳入feed流页面做最后补救");
+                        this.listFiles();
+                    }else{
+                        GlobalService.consoleLog("等待500ms之后，磁盘信息还未就绪，需要跳入feed流页面做最后补救");
+                        this.tabsController.slideTo(1, "boxtabs");
+                    }
+                },500);
+            })
         }
 		GlobalService.consoleLog("this.currPath" + this.currPath);
 		return true;
@@ -216,6 +226,7 @@ export class ListPage {
         }
         this.listFiles();
     }
+
     changeWarningStatus() {
         let status = this.http.getNetworkStatus();
         GlobalService.consoleLog("list页网络状态更新：" + JSON.stringify(status));
@@ -339,6 +350,7 @@ export class ListPage {
     }
 
     listFiles() {
+        this.global.createGlobalLoading(this, {});
         GlobalService.consoleLog("开始加载列表数据...");
         var url = this.global.getBoxApi("listFolder");
         console.log('请求参数this.currPath   ' + this.currPath)
@@ -349,6 +361,7 @@ export class ListPage {
 			storageName: 'FileStorage' + Md5.hashStr(this.currPath + this.global.currDiskUuid).toString(),
 		})
         .then((res:any) => {
+            this.global.closeGlobalLoading(this);
             this.dataAcquired = true;
             if (res.err_no === 0) {
                 var list = [];
@@ -376,12 +389,12 @@ export class ListPage {
                         } else {
                             this.type1List.push(file);
                         }
-                    })
+                    });
                     list = this.type0List.concat(this.type1List);
                 }
                 console.log('列表填充后type0List' + JSON.stringify(this.type0List) + '   列表填充后typeList' + JSON.stringify(this.type1List));
                 this.allFileList = list;
-                this.fileList = this.allFileList.slice(0, this.pageSize)
+                this.fileList = this.allFileList.slice(0, this.pageSize);
                 this.transfer.getThumbnail(this.allFileList, false, this.currPath);
 
                 // this.cd.detectChanges();
@@ -391,7 +404,8 @@ export class ListPage {
             return false;
 		})
 		.catch(e => {
-			GlobalService.consoleLog("获取数据失败:" + JSON.stringify(e));
+            this.global.closeGlobalLoading(this);
+            GlobalService.consoleLog("获取数据失败:" + JSON.stringify(e));
 		})
 	}
 	

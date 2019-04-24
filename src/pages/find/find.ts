@@ -34,6 +34,7 @@ export class FindPage {
     feedList: any = [];
     loading: boolean = false;
     isShowTitle: boolean = true;
+    isShowWarningBar: boolean = true;
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         private events: Events,
@@ -51,11 +52,24 @@ export class FindPage {
         console.log('ionViewDidLoad FindPage');
         this.getFeedTop();
         this.getFeedList();
+        this.events.unsubscribe('warning:change');
+		this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
     }
     ionViewWillLeave() {
         console.log("leave")
         // this.feedList = [];
     }
+
+    changeWarningStatus() {
+        let status = this.http.getNetworkStatus();
+        GlobalService.consoleLog("find页网络状态更新：" + JSON.stringify(status));
+        if (status.uboxNetworking && status.centerNetworking){
+            this.isShowWarningBar = false;
+        }else{
+            this.isShowWarningBar = true;
+        }
+    }
+
     goSearchBtPage() {
         console.log("gosearchbt");
         this.app.getRootNav().push(SearchBtPage);
