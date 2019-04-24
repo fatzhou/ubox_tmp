@@ -170,7 +170,6 @@ export class ListPage {
 		if(this.currPath == '/') {
 			this.events.unsubscribe('list:refresh');
             this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
-            this.events.unsubscribe('warning:change');
 			this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
         }
         console.log('this.global.currDiskUuid' + this.global.currDiskUuid);
