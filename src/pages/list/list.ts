@@ -345,7 +345,7 @@ export class ListPage {
 		return this.http.postWithStorage(url, {
 			path: this.currPath,
 			disk_uuid: this.global.currDiskUuid
-		}, true, {
+		}, true, {}, {
 			storageName: 'FileStorage' + Md5.hashStr(this.currPath + this.global.currDiskUuid).toString(),
 		})
         .then((res:any) => {
