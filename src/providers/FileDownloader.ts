@@ -428,7 +428,7 @@ class SingleFileDownloader {
         if (this.cache.option && this.cache.option.is_thumbnail){
             param.is_thumbnail = this.cache.option.is_thumbnail
         }
-        return this.http.get(url, param, true, headers, { needHeader: true, label: 'download' })
+        return this.http.get(url, param, false, headers, { needHeader: true, label: 'download' })
             .then((res) => {
                 let cache = this.cache;
                 // GlobalService.consoleLog("服务器返回状态码：" + res.status);

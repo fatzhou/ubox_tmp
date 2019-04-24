@@ -623,7 +623,8 @@ export class FileTransport {
 				GlobalService.consoleLog("下载失败 FileTransport" + JSON.stringify(err));
 				let task = this.global.fileTaskList.filter(item => item.taskId === taskId);
 				if (task && task.length && task[0].isShow && !option.is_thumbnail) {
-					this.global.createGlobalToast(this, {
+                    GlobalService.consoleLog("下载失败,显示toast");
+                    this.global.createGlobalToast(this, {
 						message: Lang.Lf("DownloadFileFailed", task[0].name)
 					})
 				}

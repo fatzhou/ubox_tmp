@@ -26,7 +26,7 @@ export class SearchBtPage {
     session: string = '';
     isFocus: boolean = false;
     isShowLoad: boolean = false;
-    constructor(public navCtrl: NavController, 
+    constructor(public navCtrl: NavController,
         public navParams: NavParams,
         private global: GlobalService,
         private util: Util,
@@ -110,9 +110,9 @@ export class SearchBtPage {
         }
         this.http.post(url, obj)
         .then((res) => {
-            if (res.err_no === 0) { 
+            if (res.err_no === 0) {
                 this.session = res.session;
-                let hash = {}; 
+                let hash = {};
                 let list = res.list || [];
                 if(key && !refresh) {
                     this.searchFeedList = this.searchFeedList.concat(list);
@@ -120,8 +120,8 @@ export class SearchBtPage {
                     this.searchFeedList = list;
                 }
                 this.searchFeedList = this.searchFeedList.reduce((preVal, curVal) => {
-                    hash[curVal.resid] ? '' : hash[curVal.resid] = true && preVal.push(curVal); 
-                    return preVal 
+                    hash[curVal.resid] ? '' : hash[curVal.resid] = true && preVal.push(curVal);
+                    return preVal
                 }, [])
                 setTimeout(()=>{
                     this.loading = false;
@@ -138,10 +138,11 @@ export class SearchBtPage {
     clearKey() {
         this.inputValue = '';
     }
+
     refreshFeedList(infiniteScroll) {
         GlobalService.consoleLog("上滑加载")
         this.searchList(this.inputValue);
-        infiniteScroll.complete();     
+        infiniteScroll.complete();
     }
 
     downloadBt(item) {
