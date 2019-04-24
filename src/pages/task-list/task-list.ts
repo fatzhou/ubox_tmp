@@ -110,7 +110,7 @@ export class TaskListPage {
 			let task = this.fileTaskList[i];
 			let md5 = Md5.hashStr(task.path).toString();
 
-            if(task.fileStyle === 'image' && !task.thumbnail) {
+            if((task.fileStyle === 'image' || (task.fileStyle == 'video' && task.finished == true)) && !task.thumbnail) {
 				if(this.global.thumbnailMap[md5]) {
 					task.thumbnail = this.global.thumbnailMap[md5];
 					continue;

@@ -26,7 +26,8 @@ export class PreviewOtherPage {
     fileInfo: any = {};
     fileName: any = '';
     fileSize: any = 0;
-    currPath: string = '';
+	currPath: string = '';
+	thumbnail: string = '';
     isShowDetail: boolean = false;
 	task: any = {};
 	
@@ -50,11 +51,12 @@ export class PreviewOtherPage {
         this.fileInfo = this.navParams.get('info') || {};
         this.currPath = this.navParams.get('currPath');
         this.fileName = this.fileInfo.name || '';
-        this.fileSize = this.fileInfo.size || '0.00';
+		this.fileSize = this.fileInfo.size || '0.00';
+		this.thumbnail = this.fileInfo.thumbnail;
         // this.fileSize = this.util.cutFloat(this.fileInfo.size / GlobalService.DISK_M_BITS, 2) || 0;
         //过滤当前文件的下载任务
         GlobalService.consoleLog("所有下载任务:" + JSON.stringify(this.global.fileTaskList));
-        GlobalService.consoleLog("文件信息：" + this.currPath + "," + this.fileName);
+        GlobalService.consoleLog("文件信息：" + this.currPath + "," + this.thumbnail);
         let task = this.global.fileTaskList.find(item => {
             return item.action === 'download' && item.path === (this.currPath.replace(/\/$/, '') + "/" + item.name) && this.fileName === item.name;
         })
@@ -143,21 +145,18 @@ export class PreviewOtherPage {
     }
 
     computeFinished() {
-		this.zone.run(() => {
-			return '30%';
-			// var downloadSize = 1;
-			// var allSize = 100;
-			// if(this.task && this.task.loaded !== undefined) {
-			// 	downloadSize = this.task.loaded;
-			// 	allSize = this.task.total;
-			// }
-			// var progress =  Math.floor(downloadSize / allSize * 100 || 0);
-			// if(this.task.finished) {
-			// 	this.downloadStatus = 'finished';
-			// }
-			// return progress + '%';			
-		})
-
+		var downloadSize = 1;
+		var allSize = 100;
+		if(this.task && this.task.loaded !== undefined) {
+			downloadSize = this.task.loaded;
+			allSize = this.task.total;
+		}
+		var progress =  Math.floor(downloadSize / allSize * 100 || 0);
+		if(this.task.finished) {
+			this.downloadStatus = 'finished';
+		}
+		console.log("下载进度：" + progress)
+		return progress + '%';			
     }
 
 }

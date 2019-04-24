@@ -19,7 +19,9 @@
 <ion-content>
     <div class="info-box">
         <div class="file-box">
-            <div class="file-type" [ngClass]="util.computeFileType(fileName)"></div>
+            <div class="file-type" [ngClass]="util.computeFileType(fileName)">
+				<img *ngIf="thumbnail" [src]="thumbnail | photoSantizer" alt="">
+			</div>
             <h5>{{ fileName }}</h5>
             <p>{{ fileSize | computeFileSize }} </p>
         </div>
@@ -30,7 +32,7 @@
                 <button type="button" class="btn font-fff" *ngIf="downloadStatus === 'default'">{{ global.L('DownloadFile') }}</button>
                 <button type="button" class="btn font-fff" *ngIf="downloadStatus === 'finished'">{{ global.L('OpenOtherApp') }}</button>
                 <button type="button" class="btn" *ngIf="downloadStatus === 'doing' || downloadStatus === 'paused'">{{ task.pausing === 'paused' ? global.L('StartDownload') : global.L('StopDownload') }}</button>
-                <div class="mask" *ngIf="downloadStatus === 'doing' || downloadStatus === 'paused'" [ngStyle]="{width : computeFinished()}">
+                <div class="mask" *ngIf="downloadStatus === 'doing' || downloadStatus === 'paused'" [ngStyle]="{ 'width' : computeFinished() }">
                     <button type="button" class="btn font-fff">{{ task.pausing === 'paused' ? global.L('StartDownload') : global.L('StopDownload') }}</button>
                 </div>
             </div>

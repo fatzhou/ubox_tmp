@@ -734,11 +734,12 @@ export class ListPage {
                         list: list,
                         pageIndex: this.pageNo,
                         pageSize: this.pageSize,
-                        count: list.length,
+						count: list.length,
                         index: index
                     });
                 }
             } else {
+				console.log("查看文件详情：" + JSON.stringify(file))
                 this.app.getRootNav().push(PreviewOtherPage, {
                     currPath: this.currPath,
                     info: file

@@ -23,7 +23,12 @@ page-preview-other {
             height: 50px;
             margin: 0 auto;
             float: unset;
-            background-size: 44px 44px;
+			background-size: 44px 44px;
+			img {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
         }
         h5 {
             color: #fff;
