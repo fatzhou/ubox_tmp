@@ -412,12 +412,13 @@ export class Util {
     }
 
     loginBox(username, password) {
-        let url = this.global.getBoxApi('login');
+		let url = this.global.getBoxApi('login');
+		//登陆盒子不报错，如果密码错误则在中心时已处理，如其他错误，不应进入此逻辑。后台重复调用此方法导致不停报错不可取。
         return this.http.post(url, {
             username: username,
             password: Md5.hashStr(password).toString(),
             // password: $scope.password,
-        })
+        }, false)
         .then(res => {
             if(res.err_no === 0) {
 				let userInfoUrl = this.global.getBoxApi('getUserInfo');

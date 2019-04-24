@@ -570,7 +570,7 @@ page-list {
         position: fixed;
         right: $homePadding + 8px;
         bottom: $homePadding + 11px;
-        z-index: 55;
+        z-index: 9999;
         transition: opacity ease .2s;
         &.at-bottom {
             /*bottom: 60px;*/

@@ -644,10 +644,10 @@ export class GlobalService {
         // 直接显示
         else{
             this.loadingCtrl.present();
+            // this.loadingTimer = setTimeout(() => {
+            //     this.closeGlobalLoading(obj);
+            // }, GlobalService.LoadingDisplayPeriod);
         }
-        // this.loadingTimer = setTimeout(() => {
-        //     this.closeGlobalLoading(obj);
-        // }, GlobalService.LoadingDisplayPeriod);
     }
 
     closeGlobalLoading(obj) {
