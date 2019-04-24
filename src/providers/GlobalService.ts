@@ -130,7 +130,7 @@ export class GlobalService {
     public platformName = 'android'; //平台名
 	public readPermitted = false; //读取权限
 	public focusWallet = null; //用户当前使用的默认钱包
-
+    public isShowWarningBar = false;//是否连接上盒子
     public static getUbbeyContract() {
         if(GlobalService.ENV === 'dev') {
             return GlobalService.UBBEY_CONTRACT_TEST;
@@ -644,10 +644,10 @@ export class GlobalService {
         // 直接显示
         else{
             this.loadingCtrl.present();
+            // this.loadingTimer = setTimeout(() => {
+            //     this.closeGlobalLoading(obj);
+            // }, GlobalService.LoadingDisplayPeriod);
         }
-        // this.loadingTimer = setTimeout(() => {
-        //     this.closeGlobalLoading(obj);
-        // }, GlobalService.LoadingDisplayPeriod);
     }
 
     closeGlobalLoading(obj) {

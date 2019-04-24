@@ -80,7 +80,6 @@ export class ListPage {
     isMainDisk: boolean = false;
     isShowPageTitle: boolean = false;
     isShowWarningBox: boolean = false;
-    isShowWarningBar: boolean = false;
     isShowWarningBoxClass: boolean = false;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
@@ -128,8 +127,8 @@ export class ListPage {
             this.hideAddBtn = false;
             console.log('this.hideAddBtn2222 ' + this.hideAddBtn);
         }
-        this.initDiskInfo();
         this.isMainDisk = this.global.currDiskUuid == '' || this.global.currDiskUuid == this.global.mainSelectDiskUuid;
+        this.initDiskInfo();
         GlobalService.consoleLog("this.isMainDisk" + this.isMainDisk);
 
         return true;
@@ -229,10 +228,10 @@ export class ListPage {
         let status = this.http.getNetworkStatus();
         GlobalService.consoleLog("list页网络状态更新：" + JSON.stringify(status));
         if (status.uboxNetworking && status.centerNetworking){
-            this.isShowWarningBar = false;
+            this.global.isShowWarningBar = false;
             this.isShowWarningBox = false;
         }else{
-            this.isShowWarningBar = true;
+            this.global.isShowWarningBar = true;
             this.isShowWarningBox = true;
         }
     }
@@ -346,7 +345,7 @@ export class ListPage {
     }
 
     listFiles() {
-        this.global.createGlobalLoading(this, {delayshowtime:500});
+        // this.global.createGlobalLoading(this, {delayshowtime:500});
         GlobalService.consoleLog("开始加载列表数据...");
         var url = this.global.getBoxApi("listFolder");
         console.log('请求参数this.currPath   ' + this.currPath)
@@ -850,6 +849,7 @@ export class ListPage {
     selectDisk(disk) {
         this.clearStatus();
         this.global.currDiskUuid = disk.uuid;
+        this.global.currSelectDiskUuid = disk.uuid;
         this.currPath = '/';
         this.app.getRootNav().push(ListPage, {
             type: "",

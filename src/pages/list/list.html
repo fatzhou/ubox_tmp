@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-    <ion-navbar class="clear" [ngClass]="[allBtnsShow ? 'select-tollbar' :'',isShowWarningBar ? 'warning-bar' : '']">
+    <ion-navbar class="clear" [ngClass]="[allBtnsShow ? 'select-tollbar' :'',global.isShowWarningBar ? 'warning-bar' : '']">
         <svg *ngIf="currPath == '/' && !allBtnsShow && isMainDisk" class="icon aside-nav-icon" (click)="displayMenu($event)" tappable aria-hidden="true">
             <use xlink:href="#iconcaidan"></use>
         </svg>
@@ -26,9 +26,11 @@
                 </div>
                 <div class="select-btn" [ngClass]="showEng =='cn'?'':'eng-sel-btn'">
                     <div class="task-btn" *ngIf="!allBtnsShow" (click)="goTaskPage();toggleClassifyNav('close')">
-                        <svg class="icon" tappable aria-hidden="true" [ngClass]="judgeBusy() ? 'font-22' : ''">
-                            <use *ngIf="!judgeBusy()" xlink:href="#iconrenwuguanli"></use>
-                            <use *ngIf="judgeBusy()" xlink:href="#iconrenwuguanlired"></use>
+                        <svg class="icon" *ngIf="!judgeBusy()" tappable aria-hidden="true" >
+                            <use xlink:href="#iconrenwuguanli"></use>
+                        </svg>
+                        <svg class="icon font-22" *ngIf="judgeBusy()" tappable aria-hidden="true">
+                            <use xlink:href="#iconrenwuguanlired"></use>
                         </svg>
                     </div>
                     <span class="task-btn all-toggle-btn" *ngIf="!allBtnsShow" tappable (click)="toggleClassifyNav2();">
@@ -56,12 +58,12 @@
                 <use xlink:href="#iconClear1"></use>
             </svg>
         </div>
-        <div class="disk-list" *ngIf="currPath == '/' && disks.length >= 1 && isMainDisk" [ngClass]="isShowWarningBar ? 'warning-bg' : ''">
+        <div class="disk-list" *ngIf="currPath == '/' && disks.length >= 1 && isMainDisk" [ngClass]="global.isShowWarningBar ? 'warning-bg' : ''">
             <!-- <div class="disk-list" *ngIf="currPath == '/' && disks.length > 1"> -->
             <p class="disk-title">{{global.L("OtherDisk")}}</p>
             <div class="disk-list-box">
                 <ul class="disk-ul-box" tappable [ngStyle]="{ width: 150 * disks.length + 'px'}">
-                    <li *ngFor="let disk of disks" tappable (click)="selectDisk(disk)">
+                    <li *ngFor="let disk of disks" (click)="selectDisk(disk)">
                         <p class="disk-icon">
                         </p>
                         <p class="disk-name">{{ disk.label }}</p>
@@ -83,7 +85,7 @@
                         </svg>
                     </p>
                     <ul class="file-list" *ngIf="dataAcquired && type0List.length > 0"  [ngClass]="isShowType0List?'show-list':'hide-list'" (press)="showAllBtns()">
-                        <li class="file-list-item" tappable *ngFor="let info of type0List" (click)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
+                        <li class="file-list-item" *ngFor="let info of type0List" (click)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" (error)="handleError(info, $event)" onError="handleError(info, $event)" (ionImgDidLoad)="handleError(info, $event)" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
 							<div class="info">
@@ -111,7 +113,7 @@
                         </svg>
                     </p>
                     <ul class="file-list" *ngIf="dataAcquired && type1List.length > 0" [ngClass]="isShowType1List?'show-list':'hide-list'" (press)="showAllBtns()">
-                        <li class="file-list-item" tappable *ngFor="let info of type1List" (click)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
+                        <li class="file-list-item" *ngFor="let info of type1List" (click)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" (error)="handleThumbnailError(info, $event)" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
                             <div class="info">
