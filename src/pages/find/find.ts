@@ -34,7 +34,8 @@ export class FindPage {
     feedList: any = [];
     loading: boolean = false;
     isShowTitle: boolean = true;
-    isShowWarningBar: boolean = true;
+    isShowWarningBar: boolean = false;
+    isPullListType: string = 'pull';
     constructor(public navCtrl: NavController, 
         public navParams: NavParams,
         private events: Events,
@@ -52,7 +53,6 @@ export class FindPage {
         console.log('ionViewDidLoad FindPage');
         this.getFeedTop();
         this.getFeedList();
-        this.events.unsubscribe('warning:change');
 		this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
     }
     ionViewWillLeave() {
@@ -148,16 +148,25 @@ export class FindPage {
                 var index = 0;
                 if (res.list && res.list.length > 0) {
                     let hash = {}; 
-                    this.feedList = res.list.concat(this.feedList);
+                    if(this.isPullListType == 'pull') {
+                        this.feedList = res.list.concat(this.feedList);
+                    } else {
+                        this.feedList = this.feedList.concat( res.list);
+                    }
                     this.feedList = this.feedList.reduce((preVal, curVal) => {
                         hash[curVal.resid] ? '' : hash[curVal.resid] = true && preVal.push(curVal); 
                         return preVal 
                     }, [])
                 }
-                setTimeout(()=>{
-                    this.loading = false;
-                },500);
-            }
+            } 
+        })
+        .catch(e => {
+            console.log(e);
+        })
+        .then(() => {
+            setTimeout(()=>{
+                this.loading = false;
+            },500);
         })
     }
 

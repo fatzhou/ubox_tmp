@@ -606,25 +606,30 @@ export class Util {
                 $scope.global.createGlobalToast($scope, {
                     message: $scope.global.L("DeviceRebooting")
                 })
-                $scope.navCtrl.pop()
-                .then(res => {
-                    //盒子即将重启.......
-                    let boxId = $scope.global.deviceSelected.boxId;
-                    this.global.setSelectedBox(null)
-                    if($scope.global.useWebrtc) {
-                        //关闭webrtc连接
-                        $scope.http.stopWebrtcEngine()
-                    }
-
-                    setTimeout(() => {
-                        //查询盒子是否已经重启完毕
+                setTimeout(()=>{
+                    $scope.navCtrl.pop()
+                    .then(res => {
+                        //盒子即将重启.......
+                        let boxId = $scope.global.deviceSelected.boxId;
+                        this.global.setSelectedBox(null)
                         if($scope.global.useWebrtc) {
-                            this._checkRemoteBoxAvailable(boxId);
-                        } else {
-                            this._checkLocalBoxAvailable(boxId);
+                            //关闭webrtc连接
+                            $scope.http.stopWebrtcEngine()
                         }
-                    }, 6000);
-                })
+                        this.checkoutBox($scope)
+                        .catch(e => {
+                            console.log(e);
+                        })
+                        // setTimeout(() => {
+                        //     //查询盒子是否已经重启完毕
+                        //     if($scope.global.useWebrtc) {
+                        //         this._checkRemoteBoxAvailable(boxId);
+                        //     } else {
+                        //         this._checkLocalBoxAvailable(boxId);
+                        //     }
+                        // }, 6000);
+                    })
+                },3000)
             }
         })
     }

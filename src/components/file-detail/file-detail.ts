@@ -80,11 +80,8 @@ export class FileDetailComponent {
 			});
 			setTimeout(() => {
 				this.closeBox();
-				if (this.citePage != 'list') {
+				this.events.publish(this.global.currPath + ':succeed');
 					this.goPop.emit();
-				} else {
-					this.events.publish("file:updated");
-				}
 			}, 500)
 		})
 	}
@@ -160,7 +157,7 @@ export class FileDetailComponent {
 			.then((res) => {
 				if (res) {
 					GlobalService.consoleLog("重命名成功");
-					this.events.publish('file:updated');
+					this.events.publish(this.global.currPath + ':succeed');
 					this.global.alertCtrl && this.global.alertCtrl.dismiss();
 					let message = "";
 					this.info.name = newName;
@@ -179,9 +176,7 @@ export class FileDetailComponent {
 					});
 					this.global.selectFolderType = 'upload';
 					this.closeBox();
-					if (this.citePage == 'list') {
-						this.events.publish("file:updated");
-					}
+					this.events.publish(this.global.currPath + ':succeed');
 				}
 			})
 		return true;

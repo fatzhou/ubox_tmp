@@ -55,8 +55,8 @@
                 </div>
                 <p class="second-title" *ngIf="desImgList.length > 0">{{ global.L("RelatedImages") }}</p>
                 <div class="img-list-box" *ngIf="desImgList.length > 0">
-                    <p>
-                        <img [src]="file"  *ngFor="let file of desImgList" alt="">
+                    <p class="p-imglist">
+                        <span *ngFor="let file of desImgList"  [ngStyle]="{'background-image': 'url('+ file +')'}"></span>
                     </p>
                 </div>
                 <p class="second-title" *ngIf="fileList.length > 0">{{ global.L("FileList") }}</p>

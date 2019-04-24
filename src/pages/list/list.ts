@@ -100,7 +100,6 @@ export class ListPage {
         private tabsController: SuperTabsController) {
 
 		// ListPage._this = this;
-
         this.events.subscribe('file:updated', this.updateFilesEvent.bind(this));
         this.events.subscribe('image:move', this.moveFilesEvent.bind(this));
 		this.events.subscribe('list:change', this.moveChangeList.bind(this));
@@ -171,7 +170,6 @@ export class ListPage {
 		if(this.currPath == '/') {
 			this.events.unsubscribe('list:refresh');
             this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
-            this.events.unsubscribe('warning:change');
 			this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
         }
         console.log('this.global.currDiskUuid' + this.global.currDiskUuid);
@@ -239,11 +237,9 @@ export class ListPage {
         }
     }
 
-    updateFilesEvent(task) {
-        GlobalService.consoleLog("文件更新，刷新列表:" + JSON.stringify(task));
-        if(!task || task.action === 'upload') {
-            this.listFiles();
-        }
+    updateFilesEvent() {
+        GlobalService.consoleLog("文件更新，刷新列表:");
+        this.listFiles();
         this.initDiskInfo();
     }
 
@@ -410,7 +406,7 @@ export class ListPage {
 	}
 
 	handleThumbnailError(obj, e) {
-		console.log("缩略图加载出错.......")
+		console.log("缩略图加载出错, 设置为默认图.......")
 		var defaultPhoto = "./assets/img/image1.svg";
 		if(obj.fileStyle == 'image') {
 			obj.thumbnail = defaultPhoto;
