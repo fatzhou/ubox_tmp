@@ -66,6 +66,7 @@ export class GlobalService {
 
     public alertCtrl: any = null; //全局弹窗控制
     public loadingCtrl: any = null; //全局弹窗控制
+    public loadingCtrlTimer: any = null; //全局弹窗控制
 
     public passwdType: String = "register"; //业务类型
     private storageFilename = "logs.txt";
@@ -629,7 +630,21 @@ export class GlobalService {
         this.loadingCtrl = obj.global.loadingCreator.create({
             content: opt.message
         });
-        this.loadingCtrl.present();
+
+        // 延迟显示
+        if (opt.delayshowtime){
+            let doShowLoading = ()=>{
+                if(obj.global.loadingCtrl){
+                    this.loadingCtrl.present();
+                }
+                this.loadingCtrlTimer = null
+            };
+            this.loadingCtrlTimer = setTimeout(doShowLoading, opt.delayshowtime)
+        }
+        // 直接显示
+        else{
+            this.loadingCtrl.present();
+        }
         // this.loadingTimer = setTimeout(() => {
         //     this.closeGlobalLoading(obj);
         // }, GlobalService.LoadingDisplayPeriod);
@@ -639,6 +654,10 @@ export class GlobalService {
         if(obj.global.loadingCtrl) {
             obj.global.loadingCtrl.dismiss();
             obj.global.loadingCtrl = null;
+        }
+        if (this.loadingCtrlTimer){
+            clearTimeout(this.loadingCtrlTimer)
+            this.loadingCtrlTimer = null
         }
         // if(this.loadingTimer) {
         //     clearTimeout(this.loadingTimer);

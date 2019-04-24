@@ -17,7 +17,7 @@ import { isFunction } from 'util';
     //   filepath:
     //   filename:
     //   sourceurl:
-	//   destruction 
+	//   destruction
     // },
     //////////file download cache///////////f
 // };
@@ -32,23 +32,14 @@ export class FileDownloader {
                 private file: File,
                 private global: GlobalService,
                 private util: Util) {
-        // this.downloader = new SingleFileDownloader();
     }
 
-    ///// 开始文件下载///////////////////////
-    // @return undefined
-    ///////////////////////////////////////
-    download(desturi, sourceurl) {
-        let k = this.util.generateFileID(desturi, sourceurl, 'download');
-        return this.downloaders[k].download(desturi, sourceurl);
-    }
 
-    createDownloader(desturi, sourceurl) {
+    createDownloader(desturi, sourceurl, option) {
         let k = this.util.generateFileID(desturi, sourceurl, 'download');
         GlobalService.consoleLog("下载id:" + k);
         // localCache[k] = localCache[k] ? localCache[k] : { key: k };
-        this.downloaders[k] = new SingleFileDownloader(this.http, this.file, this.global);
-        // this.downloaders[k].cache = localCache[k];
+        this.downloaders[k] = new SingleFileDownloader(this.http, this.file, this.global, desturi, sourceurl, option);
         return this.downloaders[k];
     }
 
@@ -58,9 +49,12 @@ export class FileDownloader {
         }
     }
 
-    // generateFileID(desturi, sourceurl) {
-    //     return Md5.hashStr(desturi + sourceurl, false) + "";
-    // }
+    ///// 开始文件下载///////////////////////
+    // @return undefined
+    ///////////////////////////////////////
+    download(fileId) {
+        this.downloaders[fileId].download()
+    }
 
     ///// 暂停文件下载///////////////////////
     // @return undefined
@@ -104,6 +98,9 @@ class SingleFileDownloader {
 	public failure: any;
 	public success: any;
     public cache: any;
+    public desturi: any;
+    public sourceurl: any;
+    public option: any;
 
     private isAbort: boolean;
     private isPause: boolean;
@@ -117,13 +114,19 @@ class SingleFileDownloader {
 
     constructor(http: HttpService,
                 file: File,
-                global: GlobalService) {
+                global: GlobalService,
+                desturi:any,
+                sourceurl:any,
+                option:any) {
         this.http = http;
         this.file = file;
         this.global = global;
         this.isAbort = false;
         this.isPause = false;
         this.nRetry = 0;
+        this.desturi = desturi;
+        this.sourceurl = sourceurl;
+        this.option = option;
         this.cache = {};
         this.progress = function(res) {}
         this.failure = function(res) {}
@@ -132,19 +135,22 @@ class SingleFileDownloader {
     }
 
     setDownloadBlockSize() {
-        console.log("filedownloader setDownloadBlockSize")
+        console.log("filedownloader setDownloadBlockSize");
         this.oneBlockSize = this.global.useWebrtc ? ONEBLOCKWEBRTCSIZE : ONEBLOCKSIZE;
     }
 
     ///// 开始文件下载///////////////////////
     // @return Promise<any>
     ///////////////////////////////////////
-    download(desturi, sourceurl) {
+    download() {
+        let desturi = this.desturi;
+        let sourceurl = this.sourceurl;
+        let option = this.option;
         console.log("filedownload download desturi" + desturi + "   sourceurl   " + sourceurl);
         //Step 1. init cache
         let self = this;
         this.setDownloadBlockSize();
-        return self._initcache(desturi, sourceurl)
+        return self._initcache(desturi, sourceurl, option)
 
             //Step 2. get file size
             .then(() => {
@@ -322,7 +328,7 @@ class SingleFileDownloader {
     ///// 结合缓存和磁盘文件进行缓存初始化//////
     // @return Promise<output>
     ///////////////////////////////////////
-    private _initcache(desturi, sourceurl) {
+    private _initcache(desturi, sourceurl, option) {
         let cache = this.cache;
         console.log("_initcache " + JSON.stringify(cache))
         //Step 1. cache not empty, check chache.
@@ -345,6 +351,7 @@ class SingleFileDownloader {
             cache.totalsize = 0;
             cache.downloadsize = 0;
             cache.speed = 0;
+            cache.option = option;
             return this.file.listDir(cache.filepath, ".").then((entry) => {
                 // GlobalService.consoleLog("读取目录成功");
                 let esfilename = function(str) {
@@ -412,7 +419,16 @@ class SingleFileDownloader {
         };
         // GlobalService.consoleLog("发起get请求:" + sourceurl);
         let url = this.global.getBoxApi('downloadFile');
-        return this.http.get(url, { fullpath: this.cache.sourceurl, disk_uuid: this.global.currDiskUuid }, true, headers, { needHeader: true, label: 'download' })
+        let param:any = {
+            fullpath: this.cache.sourceurl,
+        };
+        if (this.cache.option && this.cache.option.disk_uuid){
+            param.disk_uuid = this.cache.option.disk_uuid
+        }
+        if (this.cache.option && this.cache.option.is_thumbnail){
+            param.is_thumbnail = this.cache.option.is_thumbnail
+        }
+        return this.http.get(url, param, true, headers, { needHeader: true, label: 'download' })
             .then((res) => {
                 let cache = this.cache;
                 // GlobalService.consoleLog("服务器返回状态码：" + res.status);
@@ -509,10 +525,14 @@ class SingleFileDownloader {
         // let url = this.global.getBoxApi('downloadFile') + "?fullpath=" + encode
         GlobalService.consoleLog("单块下载: [" + "bytes=" + range_start + "-" + range_end + "] to tmpfilePath:" + tmpFilePath);
         GlobalService.consoleLog("下载请求的路径" + sourceurl);
-        return this.http.downloadFile(sourceurl, {
+        let param:any = {
             filePath: filePath,
-            tmpFileName: tmpFileName
-        }, headers)
+            tmpFileName: tmpFileName,
+        };
+        if (cache.option && cache.option.is_thumbnail){
+            param.is_thumbnail = cache.option.is_thumbnail
+        }
+        return this.http.downloadFile(sourceurl, param, headers)
         //追加buf到已下载文件中保存
         .then((buf:any) => {
             let length = buf.byteLength;

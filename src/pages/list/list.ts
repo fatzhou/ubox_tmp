@@ -347,7 +347,7 @@ export class ListPage {
     }
 
     listFiles() {
-        this.global.createGlobalLoading(this, {});
+        this.global.createGlobalLoading(this, {delayshowtime:500});
         GlobalService.consoleLog("开始加载列表数据...");
         var url = this.global.getBoxApi("listFolder");
         console.log('请求参数this.currPath   ' + this.currPath)
@@ -405,9 +405,9 @@ export class ListPage {
             GlobalService.consoleLog("获取数据失败:" + JSON.stringify(e));
 		})
 	}
-	
+
 	handleThumbnailError(obj, e) {
-		console.log("缩略图加载出错.......")
+		console.log("缩略图加载出错, 设置为默认图.......")
 		var defaultPhoto = "./assets/img/image1.svg";
 		if(obj.fileStyle == 'image') {
 			obj.thumbnail = defaultPhoto;
