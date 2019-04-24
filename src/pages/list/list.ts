@@ -100,7 +100,6 @@ export class ListPage {
         private tabsController: SuperTabsController) {
 
 		// ListPage._this = this;
-
         this.events.subscribe('file:updated', this.updateFilesEvent.bind(this));
         this.events.subscribe('image:move', this.moveFilesEvent.bind(this));
 		this.events.subscribe('list:change', this.moveChangeList.bind(this));
@@ -239,11 +238,9 @@ export class ListPage {
         }
     }
 
-    updateFilesEvent(task) {
-        GlobalService.consoleLog("文件更新，刷新列表:" + JSON.stringify(task));
-        if(!task || task.action === 'upload') {
-            this.listFiles();
-        }
+    updateFilesEvent() {
+        GlobalService.consoleLog("文件更新，刷新列表:");
+        this.listFiles();
         this.initDiskInfo();
     }
 
