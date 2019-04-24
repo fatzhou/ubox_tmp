@@ -93,7 +93,7 @@
 			</p>
 			<ion-list class="task-ul">
 				<ion-item-sliding *ngFor="let task of doneTaskList;">
-					<ion-item class="task-li" tappable ion-item (click)="openFile(task);" (press)="showAndroidDeleteBox(task)">
+					<ion-item class="task-li" ion-item (click)="openFile(task);" (press)="showAndroidDeleteBox(task)">
 						<div class="file-type" item-start *ngIf="(task.fileStyle != 'image' && task.fileStyle != 'video')|| !task.thumbnail" [ngClass]="task.fileStyle"></div>
 						<img class="file-type" item-start [src]="task.thumbnail | photoSantizer" (error)="handleThumbnailError(info, $event)" *ngIf="task.fileStyle == 'image' && task.thumbnail">
 						<div class="info">

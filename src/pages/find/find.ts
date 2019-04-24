@@ -53,21 +53,10 @@ export class FindPage {
         console.log('ionViewDidLoad FindPage');
         this.getFeedTop();
         this.getFeedList();
-		this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
     }
     ionViewWillLeave() {
         console.log("leave")
         // this.feedList = [];
-    }
-
-    changeWarningStatus() {
-        let status = this.http.getNetworkStatus();
-        GlobalService.consoleLog("find页网络状态更新：" + JSON.stringify(status));
-        if (status.uboxNetworking && status.centerNetworking){
-            this.isShowWarningBar = false;
-        }else{
-            this.isShowWarningBar = true;
-        }
     }
 
     goSearchBtPage() {
