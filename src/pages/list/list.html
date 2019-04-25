@@ -10,23 +10,23 @@
             <use xlink:href="#iconcaidan"></use>
         </svg>
         <ion-title [ngClass]="[allBtnsShow ? 'list-active' : '', currPath != '/' && allBtnsShow ? 'list-no-home' : '']">
-        <div (click)="toggleClassifyNav('close')" *ngIf="isShowPageTitle && !allBtnsShow">{{pageTitle}}</div>
-        <div  (click)="toggleClassifyNav('close')" *ngIf="currPath == '/' && !allBtnsShow && isMainDisk" class="home-title-box">
+        <div (click)="toggleClassifyNav('close')" tappable *ngIf="isShowPageTitle && !allBtnsShow">{{pageTitle}}</div>
+        <div  (click)="toggleClassifyNav('close')" tappable *ngIf="currPath == '/' && !allBtnsShow && isMainDisk" class="home-title-box">
             <p class="home-title">{{global.L("MyFiles")}}</p>
             <p class="list-point"><span class="active"></span><span></span><span></span></p>
         </div>
         <!-- <div *ngIf="allBtnsShow">{{ global.Lf('SelectUploadNum', selectedFiles.length) }}</div> -->
         <div class="list-header" [ngClass]="allBtnsShow ? 'all-width' : ''">
             <div class="back-nav" *ngIf="!showFileSelect">
-                <div class="back-btn cancel-btn"  *ngIf="allBtnsShow" (click)="toggleClassifyNav('close')"  [ngClass]="allBtnsShow ? 'bg-black' : ''"> 
-                    <svg class="icon" aria-hidden="true" (click)="cancelSelect()">
+                <div class="back-btn cancel-btn"  *ngIf="allBtnsShow" tappable (click)="toggleClassifyNav('close')"  [ngClass]="allBtnsShow ? 'bg-black' : ''"> 
+                    <svg class="icon" aria-hidden="true" tappable (click)="cancelSelect()">
                         <use xlink:href="#iconfanhui"></use>
                     </svg> 
                     <span tappable>{{ global.Lf('SelectUploadNum', selectedFiles.length) }}</span>               
                 </div>
                 <div class="select-btn" [ngClass]="showEng =='cn'?'':'eng-sel-btn'">
-                    <div class="task-btn" *ngIf="!allBtnsShow" (click)="goTaskPage();toggleClassifyNav('close')">
-                        <svg class="icon" *ngIf="!judgeBusy()" tappable aria-hidden="true" >
+                    <div class="task-btn" *ngIf="!allBtnsShow" tappable (click)="goTaskPage();toggleClassifyNav('close')">
+                        <svg class="icon" *ngIf="!judgeBusy()" aria-hidden="true" >
                             <use xlink:href="#iconrenwuguanli"></use>
                         </svg>
                         <svg class="icon font-22" *ngIf="judgeBusy()" tappable aria-hidden="true">
@@ -47,7 +47,7 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content (click)="toggleClassifyNav('close')">
+<ion-content tappable (click)="toggleClassifyNav('close')">
     <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page"  [ngClass]="isShowWarningBox && isMainDisk ? 'showBox' : ''">
         <div class="warning-box" *ngIf="isShowWarningBox && isMainDisk">
             <svg class="icon tishi-icon" aria-hidden="true">
@@ -63,7 +63,7 @@
             <p class="disk-title">{{global.L("OtherDisk")}}</p>
             <div class="disk-list-box">
                 <ul class="disk-ul-box" tappable [ngStyle]="{ width: 150 * disks.length + 'px'}">
-                    <li *ngFor="let disk of disks" (click)="selectDisk(disk)">
+                    <li *ngFor="let disk of disks" tappable (click)="selectDisk(disk)">
                         <p class="disk-icon">
                         </p>
                         <p class="disk-name">{{ disk.label }}</p>
@@ -85,7 +85,7 @@
                         </svg>
                     </p>
                     <ul class="file-list" *ngIf="dataAcquired && type0List.length > 0"  [ngClass]="isShowType0List?'show-list':'hide-list'" (press)="showAllBtns()">
-                        <li class="file-list-item" *ngFor="let info of type0List" (click)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
+                        <li class="file-list-item" *ngFor="let info of type0List" (tap)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" (error)="handleError(info, $event)" onError="handleError(info, $event)" (ionImgDidLoad)="handleError(info, $event)" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
 							<div class="info">
@@ -94,7 +94,7 @@
                             </div>
                             <div class="btn">
                                 <em class="nochoose-circle" *ngIf="allBtnsShow" [ngClass]="info.selected ? 'light':''"></em>
-                                <svg class="icon icon-ellipsis" aria-hidden="true" *ngIf="!allBtnsShow" (click)="goDetailPage(info);$event.stopPropagation();">
+                                <svg class="icon icon-ellipsis" aria-hidden="true" *ngIf="!allBtnsShow" tappable (click)="goDetailPage(info);$event.stopPropagation();">
                                     <use xlink:href="#icongengduo1"></use>
                                 </svg>                    
                                 <svg class="icon icon-right" aria-hidden="true" *ngIf="allBtnsShow && info.selected" [ngClass]="info.selected?'light':''">
@@ -113,7 +113,7 @@
                         </svg>
                     </p>
                     <ul class="file-list" *ngIf="dataAcquired && type1List.length > 0" [ngClass]="isShowType1List?'show-list':'hide-list'" (press)="showAllBtns()">
-                        <li class="file-list-item" *ngFor="let info of type1List" (click)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
+                        <li class="file-list-item" *ngFor="let info of type1List" (tap)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" (error)="handleThumbnailError(info, $event)" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
                             <div class="info">
@@ -122,7 +122,7 @@
                             </div>
                             <div class="btn">
                                     <em class="nochoose-circle" *ngIf="allBtnsShow" [ngClass]="info.selected ? 'light':''"></em>
-                                <svg class="icon icon-ellipsis" aria-hidden="true" *ngIf="!allBtnsShow" (click)="goDetailPage(info);$event.stopPropagation();">
+                                <svg class="icon icon-ellipsis" aria-hidden="true" *ngIf="!allBtnsShow" tappable (click)="goDetailPage(info);$event.stopPropagation();">
                                     <use xlink:href="#icongengduo1"></use>
                                 </svg>                    
                                 <svg class="icon icon-right" aria-hidden="true" *ngIf="allBtnsShow && info.selected" [ngClass]="info.selected?'light':''">
@@ -143,7 +143,7 @@
 </ion-content>
 <permission *ngIf="isShowBox"></permission>
 <classify *ngIf="isShowClassifyNav" (closeClassify)="toggleClassifyNav('close')"></classify>
-<div class="add" *ngIf="!allBtnsShow" tappable [ngClass]="[allBtnsShow ? 'at-bottom' : '', hideAddBtn ? 'hidden' : '']"  (click)="openFileSelect()">
+<div class="add" *ngIf="!allBtnsShow" tappable [ngClass]="[allBtnsShow ? 'at-bottom' : '', hideAddBtn ? 'hidden' : '']" tappable (click)="openFileSelect()">
     <svg class="icon" aria-hidden="true">
         <use xlink:href="#icontianjiawenjian"></use>
     </svg>

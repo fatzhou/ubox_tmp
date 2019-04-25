@@ -1159,6 +1159,7 @@ export class Util {
             }
         }
     }
+
     /**
      * [computeFileMIMEType 根据文件名后缀计算MIME类型]
      * @param {[type]} name [MIME]

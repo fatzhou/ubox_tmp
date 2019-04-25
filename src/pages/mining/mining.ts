@@ -561,8 +561,6 @@ export class MiningPage {
 			// this._CONTEXT.strokeStyle = 'rgba(14, 209, 152, .2)';
 			this._CONTEXT.stroke();
 			this._CONTEXT.fill();
-
-			this._CONTEXT.closePath();
 			//画最大值
 			let imgSize = 48 ;
 			let img = new Image(imgSize, imgSize);
@@ -570,7 +568,8 @@ export class MiningPage {
 			// img.crossOrigin = "anonymous";
 			img.onload = () => {
 				// this._CONTEXT.globalCompositeOperation = 'source-over';
-				this._CONTEXT.drawImage(img, maxIndex * widthBase - 24, d[maxIndex] - 18, imgSize, imgSize);
+				this._CONTEXT.drawImage(img, maxIndex * widthBase - 24, d[maxIndex] - 24, imgSize, imgSize);
+				this._CONTEXT.closePath();
 				// this._CONTEXT.stroke();
 			}
 
