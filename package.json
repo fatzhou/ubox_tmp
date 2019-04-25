@@ -48,7 +48,7 @@
     "babel-register": "^6.26.0",
     "com-ubbey-wifiwizard": "https://github.com/ubbey/WifiWizard.git",
     "com.rjfun.cordova.httpd": "https://github.com/floatinghotpot/cordova-httpd.git",
-    "cordova-android": "6.3.0",
+    "cordova-android": "^6.3.0",
     "cordova-android-support-gradle-release": "^1.4.7",
     "cordova-browser": "^5.0.3",
     "cordova-clipboard": "^1.2.1",
@@ -106,7 +106,8 @@
     "uuid": "^3.3.2",
     "web3": "^0.14.0",
     "wifiwizard": "https://github.com/ubbey/WifiWizard.git",
-    "zone.js": "0.8.18"
+    "zone.js": "0.8.18",
+    "cordova-plugin-discovery": "https://github.com/ubbey/cordova-plugin-discovery.git"
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.2.2",
@@ -118,8 +119,8 @@
   },
   "cordova": {
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ],
     "plugins": {
       "cordova-plugin-whitelist": {},
