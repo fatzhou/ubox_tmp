@@ -1159,6 +1159,20 @@ export class Util {
             }
         }
     }
+
+    /**
+     * 切换远近场模式
+     */
+    toggleWebrtcEngine(){
+        if(this.global.useWebrtc == true){
+            GlobalService.consoleLog('当前正在使用远场，切换连接模式为近场');
+            this.http.stopWebrtcEngine()
+        } else {
+            GlobalService.consoleLog('当前正在使用近场，切换连接模式为远场');
+            this.http.startWebrtcEngine()
+        }
+    }
+
     /**
      * [computeFileMIMEType 根据文件名后缀计算MIME类型]
      * @param {[type]} name [MIME]
