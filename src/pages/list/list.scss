@@ -308,6 +308,7 @@ page-list {
             .file-type {
                 width: 40px;
                 height: 40px;
+                background-position: 0 center;
             }
             .info {
                 float: left;
@@ -316,8 +317,9 @@ page-list {
                 h2 {
                     color: #fff;
                     font-size: 14px;
-                    font-weight: bold;
+                    font-weight: 400;
                     line-height: 23px;
+                    
                 }
                 p {
                     font-size: 12px;

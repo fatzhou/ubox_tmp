@@ -824,14 +824,14 @@ export class Util {
                     "URLBase":["192.168.0.41:37867"],
                     "bindUserHash":"45edba743bd17fbcefdc5affb77ff75b"},
                     {"boxId":"UBOXV1236638987688822c4",
-                    "bindUser":"ao**0@163.com",
+                    "bindUser":"",
                     "friendlyName":"32",
                     "manufacturer":"23",
                     "manufacturerURL":"23",
                     "deviceType":"UBOXV1236638987688822c4",
                     "version":"1.2.3",
                     "URLBase":["192.168.0.41:37867"],
-                    "bindUserHash":"45edba743bd17fbcefdc5affb77ff75b"}])
+                    "bindUserHash":""}])
 
                     // resolve([]);
 				}, minSearchTime);

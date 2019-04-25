@@ -726,3 +726,6 @@ ion-infinite-scroll {
         background: $newSecondColor;
     }
 }
+.ion-ios-arrow-round-back:before {
+    font-weight: 600;
+}

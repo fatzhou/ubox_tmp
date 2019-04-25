@@ -300,7 +300,10 @@ page-task-list {
                             font-size: 22px;
                             right: 0;
                             margin-right: 0px;
-                            color: #E9E9EA;
+							color: #E9E9EA;
+							&.continue-up {
+								transform:rotate(180deg);
+							}
                         }
 						&.slight {
 							color: #00C77D;
