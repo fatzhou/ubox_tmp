@@ -184,7 +184,7 @@ export class FindPage {
     _getFeedList() {
         var url = GlobalService.centerApi["getFeedList"].url;
         return this.http.post(
-            url, {id:0}
+            url, {id:0}, false
         ).then((res):any => {
             if (res.err_no === 0 && res.list) {
                 let list = [];

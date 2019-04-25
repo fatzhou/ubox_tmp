@@ -108,7 +108,7 @@ export class UboxApp {
                 GlobalService.consoleLog("异常！！！");
                 // this.rootPage = page;
             }
-        })
+        });
 
         // this.events.subscribe('app:class-changed', (page) => {
         //     GlobalService.consoleLog("app:class-changed......")
@@ -129,55 +129,32 @@ export class UboxApp {
             GlobalService.consoleLog("平台加载完毕@@@@@@");
             this.util.getDeviceID();
             this.global.platformName = this.platform.is('android') ? 'android' : 'ios';
-            if (this.platform.is('cordova')) {
-                // GlobalService.consoleLog(JSON.stringify(this.statusBar))
-                // this.statusBar.styleDefault();
-                // this.statusBar.overlaysWebView(true);
-                // this.statusBar.backgroundColorByHexString('#000000');
-                //this.splashScreen.hide();
-
+            if (!this.platform.is('cordova')) {
+                GlobalService.consoleLog("我不是cordova");
+                this.nav.setRoot(LoginPage);
+            }else{
                 //检查更新
                 // this.checkHotUpdate();
 
                 //检查网络
-                this.checkNetwork();
+                this.initNetwork();
 
                 //设置文件存储路径
-                if(this.platform.is('android')) {
-                    GlobalService.consoleLog('------android-------');
-                    this.global.fileSavePath = cordova.file.externalDataDirectory;
-                } else if(this.platform.is('ios')){
-                    GlobalService.consoleLog('-------ios---------');
-                    this.global.fileSavePath = cordova.file.dataDirectory;
-                } else {
-                    GlobalService.consoleLog('-------others---------');
-                    this.global.fileSavePath = "/tmp/";
-                }
-                this.global.fileRootPath = cordova.file.externalRootDirectory;
+                this.initFileSaveDirctory()
 
                 //获取已安装应用列表
-				this.appInstalled.getInstalledApps();
+                this.appInstalled.getInstalledApps();
 
-                this.createSubFolders();
-                // this.keyboard.onKeyboardShow().subscribe(() => {
-				window.addEventListener('keyboardDidShow', () => {
-					console.log("键盘已弹出......");
-                    document.body.classList.add('keyboard-is-open');
-                });
-
-                // this.keyboard.onKeyboardHide().subscribe(() => {
-				window.addEventListener('keyboardDidHide', () => {
-					console.log("键盘已关闭......");
-                    document.body.classList.remove('keyboard-is-open');
-                });
-            } else {
-                GlobalService.consoleLog("我不是cordova");
-				this.nav.setRoot(LoginPage);
-				// this.rootPage = TestPage;
+                //初始化键盘隐显事件
+                this.initKeyboardListener();
             }
 
+            //获取用户信息，以此判断APP首页面
             this.getUserInfo();
+
+            //初始化权限
             this.initReadPermitted();
+
             //恢复下载列表
             this.initFileTaskList();
 
@@ -190,20 +167,38 @@ export class UboxApp {
 
             //注册返回按钮事件
             this.removeBackButtonAction();
-			// this.util.getDeviceID();
         });
 	}
 
-	createSubFolders() {
-		[this.global.ThumbnailSubPath, this.global.PhotoSubPath, this.global.VideoSubPath, this.global.MusicSubPath, this.global.DocSubPath].forEach(item => {
-			this._checkAndCreateFolder(item);
-		})
-	}
+	initFileSaveDirctory(){
+        if(this.platform.is('android')) {
+            GlobalService.consoleLog('------android-------');
+            this.global.fileSavePath = cordova.file.externalDataDirectory;
+        } else if(this.platform.is('ios')){
+            GlobalService.consoleLog('-------ios---------');
+            this.global.fileSavePath = cordova.file.dataDirectory;
+        } else {
+            GlobalService.consoleLog('-------others---------');
+            this.global.fileSavePath = "/tmp/";
+        }
+        this.global.fileRootPath = cordova.file.externalRootDirectory;
+
+        //创建子目录
+        [
+            this.global.ThumbnailSubPath,
+            this.global.PhotoSubPath,
+            this.global.VideoSubPath,
+            this.global.MusicSubPath,
+            this.global.DocSubPath
+        ].forEach(item => {
+            this._checkAndCreateFolder(item);
+        });
+    }
 
 	_checkAndCreateFolder(name) {
 		this.file.checkDir(this.global.fileSavePath, name)
 		.then(res => {
-			GlobalService.consoleLog("目录" + name + "已存在");
+			//GlobalService.consoleLog("目录" + name + "已存在");
 		}, res => {
 			GlobalService.consoleLog("即将新建目录" + name);
 			this.file.createDir(this.global.fileSavePath, name, false)
@@ -215,6 +210,20 @@ export class UboxApp {
 			})
 		});
 	}
+
+	initKeyboardListener(){
+        // this.keyboard.onKeyboardShow().subscribe(() => {
+        window.addEventListener('keyboardDidShow', () => {
+            console.log("键盘已弹出......");
+            document.body.classList.add('keyboard-is-open');
+        });
+
+        // this.keyboard.onKeyboardHide().subscribe(() => {
+        window.addEventListener('keyboardDidHide', () => {
+            console.log("键盘已关闭......");
+            document.body.classList.remove('keyboard-is-open');
+        });
+    }
 
     getUserInfo() {
 		if(!this.platform.is('cordova')) {
@@ -422,7 +431,7 @@ export class UboxApp {
         }
     }
 
-    checkNetwork() {
+    initNetwork() {
         let platform = this.platform,
             network = this.network,
             global = this.global;

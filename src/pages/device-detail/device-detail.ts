@@ -22,9 +22,9 @@ export class DeviceDetailPage {
     diskModel: any = '';
     diskVersion: any = '';
     diskNewVersion: any = '';
-    constructor(public navCtrl: NavController, 
+    constructor(public navCtrl: NavController,
         public navParams: NavParams,
-        private global: GlobalService,
+        public global: GlobalService,
         private http: HttpService,) {
     }
 
@@ -49,7 +49,7 @@ export class DeviceDetailPage {
             }, ],
             buttons: [{
                     text: Lang.L('WORDd0ce8c46'),
-                    handler: data => {      
+                    handler: data => {
                         var name = data.folderName.replace(/(^\s+|\s+$)/g,'');
                         if(!name) {
                             this.global.createGlobalToast(this, {
@@ -57,11 +57,11 @@ export class DeviceDetailPage {
                                 position: 'bottom',
                             });
                             return false;
-                        } else {   
+                        } else {
                             var url = this.global.getBoxApi('renameHost');
                             this.http.post(url, {
                                 hostname: data.folderName
-                            })  
+                            })
                             .then(res=>{
                                 if(res.err_no === 0) {
                                     this.global.createGlobalToast(this, {
@@ -69,7 +69,7 @@ export class DeviceDetailPage {
                                     })
                                     this.diskName = data.folderName;
                                     this.global.diskInfo.name = this.diskName;
-                                    
+
                                 } else {
                                     this.global.createGlobalToast(this, {
                                         message: Lang.L('RenameError'),
@@ -77,7 +77,7 @@ export class DeviceDetailPage {
                                 }
                                 return true;
                             })
-                            
+
                         }
                     }
                 },
@@ -89,6 +89,24 @@ export class DeviceDetailPage {
                 }
             ]
         })
+    }
+
+    /**
+     * 切换远近场模式
+     */
+    toggleWebrtcEngine(){
+        this.global.createGlobalLoading(this, {});
+        if(this.global.useWebrtc == true){
+            GlobalService.consoleLog('当前正在使用远场，切换连接模式为近场');
+            this.http.stopWebrtcEngine()
+        } else {
+            GlobalService.consoleLog('当前正在使用近场，切换连接模式为远场');
+            this.http.startWebrtcEngine()
+        }
+        setTimeout(()=>{
+            this.global.closeGlobalLoading(this);
+            this.diskStatus = this.global.useWebrtc ? Lang.L('RemoteConnection') : Lang.L('LocalConnection');
+        }, 1000);
     }
 
 }

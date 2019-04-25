@@ -618,6 +618,10 @@ export class GlobalService {
         return GlobalService.applang;
     }
 
+    isDebug(){
+        return GlobalService.ENV !== "prod";
+    }
+
     L(strid) {
         return Lang.L(strid)
     }
@@ -627,6 +631,11 @@ export class GlobalService {
     }
 
     createGlobalLoading(obj, opt) {
+        // 清除之前的load，再新建一个
+        if(this.loadingCtrl != null) {
+            obj.global.loadingCtrl.dismiss();
+            obj.global.loadingCtrl = null;
+        }
         this.loadingCtrl = obj.global.loadingCreator.create({
             content: opt.message
         });

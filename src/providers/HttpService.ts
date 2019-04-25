@@ -49,6 +49,7 @@ export class HttpService {
     centerNetworkLastAliveTime  = Date.now();   //中心请求最后活跃时间
     centerNetworkChecking       = false;        //是否正在检测中心网络状态
     networkIndeedError          = null;         //中心连接明确出错
+    networkLastNotifyStatus     = null;         //最后发送的通知对应的网络状态
     isBoxUrlReg                 = /^http(s?):\/\/(\d){1,3}\.(\d){1,3}\.(\d){1,3}\.(\d){1,3}:(\d){1,5}/g;
 
 	globalRequestMap = {}; //已发送的回调
@@ -1217,6 +1218,7 @@ export class HttpService {
      * 通知网络状态可能发生变化
      */
     notifyNetworkStatusChange(){
+        this.networkLastNotifyStatus = this.getNetworkStatus();
 		this.events.publish('warning:change');
 		this.events.publish('app:class-changed');
 		this._checkNetworkStatusAsync();
@@ -1226,6 +1228,11 @@ export class HttpService {
         let isBoxUrl = !url.startsWith('http') || this.isBoxUrlReg.test(url); //检测是否盒子的url
         if (!isBoxUrl){
             this.centerNetworkLastAliveTime = Date.now();
+
+            //如果更新时间的同时，发现之前没有网络，尝试进行再进行一次通知，以避免实际有网络而未通知到的情况发生
+            if (this.networkLastNotifyStatus && !this.networkLastNotifyStatus.centerNetworking){
+                this.notifyNetworkStatusChange();
+            }
         }
     }
 

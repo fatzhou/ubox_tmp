@@ -32,7 +32,9 @@
                     <p class="p-title">{{diskStatus}}</p>
                     <p class="p-info">{{ global.L("DeviceStatus") }}</p>
                 </div>
-                <div class="item-right"></div>
+                <div class="item-right">
+                    <button *ngIf=" global.isDebug()" (click)="toggleWebrtcEngine()">切换网络</button>
+                </div>
             </div>
             <div class="detail-item">
                 <div class="item-left">
