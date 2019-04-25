@@ -140,7 +140,7 @@ export class SearchBtPage {
     }
 
     refreshFeedList(infiniteScroll) {
-        GlobalService.consoleLog("上滑加载")
+        GlobalService.consoleLog("search-bt 上滑加载")
         this.searchList(this.inputValue);
         infiniteScroll.complete();
     }
