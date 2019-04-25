@@ -525,6 +525,14 @@ export class FileTransport {
 			let taskId = task.taskId;
 			if(res.complete || res.loaded == res.total) {
 				GlobalService.consoleLog("下载完成！！" + task.localPath);
+
+				//查看文件夹下的问题
+				this.file.listDir(this.global.fileSavePath + this.global.PhotoSubPath, '.')
+				.then(res => {
+					console.log("查看图片情况...." + JSON.stringify(res))
+				})
+
+
 				this.zone.run(() => {
 					task.finished = true;
 					task.finishedTime = new Date().getTime();
