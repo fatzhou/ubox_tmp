@@ -1883,41 +1883,43 @@ export class Util {
       * @param {[type]} type [是否为文件夹]
       */
     computeFileType(name, type = 0) {
+		if(type == 1) {
+			return 'folder';
+		}
+		if(!name) {
+			return 'default';
+		}
         let matches = name.match(/[^\.]+$/g);
         let style = matches && matches[0] || '';
-        var suffix = style.toLowerCase();
-        if (type === 1) {
-            return "folder";
-        } else {
-            if (/^(jpe?g|png|gif|heic|tif?f|bmp)$/.test(suffix)) {
-                return "image";
-            }
-            if (/^(mp3|ogg|asf|wma|vqf|midi|module|ape|real|wav|flac|amr|m4a)$/.test(suffix)) {
-                return "music";
-            }
-            if (/^(mp4|avi|rm|rmvb|mov|mp(e)g|mov|wmv|ts|3gp|flv)$/.test(suffix)) {
-                return "video";
-            }
-            if (/^(doc|docx)$/.test(suffix)) {
-                return "doc";
-            }
-            if (/^(txt)$/.test(suffix)) {
-                return "txt";
-            }
-            if (/^(pdf)$/.test(suffix)) {
-                return "pdf";
-            }
-            if (/^(ppt|pptx)$/.test(suffix)) {
-                return "ppt";
-            }
-            if (/^(xls|xlsx)$/.test(suffix)) {
-                return "xls";
-            }
-            if (/^(zip)$/.test(suffix)) {
-                return "zip";
-            }
-            return "default";
-        }
+		var suffix = style.toLowerCase();
+		if (/^(jpe?g|png|gif|heic|tif?f|bmp)$/.test(suffix)) {
+			return "image";
+		}
+		if (/^(mp3|ogg|asf|wma|vqf|midi|module|ape|real|wav|flac|amr|m4a)$/.test(suffix)) {
+			return "music";
+		}
+		if (/^(mp4|avi|rm|rmvb|mov|mp(e)g|mov|wmv|ts|3gp|flv)$/.test(suffix)) {
+			return "video";
+		}
+		if (/^(doc|docx)$/.test(suffix)) {
+			return "doc";
+		}
+		if (/^(txt)$/.test(suffix)) {
+			return "txt";
+		}
+		if (/^(pdf)$/.test(suffix)) {
+			return "pdf";
+		}
+		if (/^(ppt|pptx)$/.test(suffix)) {
+			return "ppt";
+		}
+		if (/^(xls|xlsx)$/.test(suffix)) {
+			return "xls";
+		}
+		if (/^(zip)$/.test(suffix)) {
+			return "zip";
+		}
+		return "default";
     }
 
     hasThumbnail(type) {
