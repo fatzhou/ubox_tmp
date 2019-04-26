@@ -143,7 +143,7 @@
 </ion-content>
 <permission *ngIf="isShowBox"></permission>
 <classify *ngIf="isShowClassifyNav" (closeClassify)="toggleClassifyNav('close')"></classify>
-<div class="add" *ngIf="!allBtnsShow" tappable [ngClass]="[allBtnsShow ? 'at-bottom' : '', hideAddBtn ? 'hidden' : '']" tappable (click)="openFileSelect()">
+<div class="add" *ngIf="!allBtnsShow && !showFileSelect" tappable [ngClass]="[allBtnsShow ? 'at-bottom' : '', hideAddBtn ? 'hidden' : '']" tappable (click)="openFileSelect()">
     <svg class="icon" aria-hidden="true">
         <use xlink:href="#icontianjiawenjian"></use>
     </svg>
