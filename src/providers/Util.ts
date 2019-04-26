@@ -1900,7 +1900,7 @@ export class Util {
 		if (/^(mp3|ogg|asf|wma|vqf|midi|module|ape|real|wav|flac|amr|m4a)$/.test(suffix)) {
 			return "music";
 		}
-		if (/^(mp4|avi|rm|rmvb|mov|mp(e)g|mov|wmv|ts|3gp|flv)$/.test(suffix)) {
+		if (/^(mp4|avi|rm|rmvb|mov|mp(e)g|mov|wmv|ts|3gp|flv|mkv)$/.test(suffix)) {
 			return "video";
 		}
 		if (/^(doc|docx)$/.test(suffix)) {
