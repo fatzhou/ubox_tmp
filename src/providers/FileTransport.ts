@@ -342,7 +342,7 @@ export class FileTransport {
 			let logprefix = "缩略图下载：(" + thumbnailName + ")：";
 			GlobalService.consoleLog(logprefix + "开始下载" + i);
 			GlobalService.consoleLog(logprefix + "本地路径尝试：" + localThumbnailPath + thumbnailName);
-			GlobalService.consoleLog(logprefix + "远程地址：" + remotePath + noThumbnailList[i].name);
+			GlobalService.consoleLog(logprefix + "远程地址：" + remotePath + '/' + noThumbnailList[i].name);
 			// return this.getFileLocalOrRemote(this.global.ThumbnailRemotePath + "/", localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath, 'thumbnail')
 			return this.getFileLocalOrRemote(remotePath, noThumbnailList[i].name, localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath, 'thumbnail')
 				.then(res => {
@@ -376,7 +376,7 @@ export class FileTransport {
 		let limit = this.global.useWebrtc ? 5 : 100;
 		let looptimer = setInterval(() => {
 			let doingcount = Object.keys(downloading).length;
-			console.log("正在下载数:" + doingcount + ",总数：" + totalcount);
+			// console.log("正在下载数:" + doingcount + ",总数：" + totalcount);
 			if (donecount + doingcount < totalcount && doingcount < limit) {
 				downloading[lastindex] = 1;
 				downloadIthThumbnail(lastindex++)

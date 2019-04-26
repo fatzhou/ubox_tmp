@@ -598,7 +598,7 @@ export class GlobalService {
         } else if(this.useWebrtc) {
             return GlobalService.boxApi[name].url;
         } else {
-			GlobalService.consoleLog("近场网络尚未连接盒子........");
+			GlobalService.consoleLog("近场网络尚未连接盒子........" + JSON.stringify(this.deviceSelected));
 			return '';
 		}
         // return GlobalService.boxApi[name].url;

@@ -571,7 +571,27 @@ export class MiningPage {
 			// img.crossOrigin = "anonymous";
 			img.onload = () => {
 				// this._CONTEXT.globalCompositeOperation = 'source-over';
-				this._CONTEXT.drawImage(img, maxIndex * widthBase - 24, d[maxIndex] - 24, imgSize, imgSize);
+				//开始获取图片位置
+				let x = maxIndex * widthBase;
+				console.log("最大值位置：", x, d[maxIndex]);
+				let top = d[maxIndex], bottom = height;
+				top = Math.ceil(top * ratio);	
+				bottom = Math.ceil(bottom * ratio);
+				let middle = Math.ceil((top + bottom) / 2);
+				let xRatio = x * ratio;
+				while(top < bottom) {
+					middle = Math.ceil((top + bottom) / 2);
+					let color = this._CONTEXT.getImageData(xRatio, middle, 1, 1).data;
+					if(color[0] == 0 && color[1] == 0 && color[2] == 0) {
+						top = middle;
+					} else if(color[0] == 0x23 && color[1] == 0xcc && color[2] == 0x9d) {
+						break;
+					} else {
+						bottom = middle;
+					}
+				}
+				console.log("正确位置：" + x + "," + middle);
+				this._CONTEXT.drawImage(img, x - Math.ceil(imgSize / 2) , Math.ceil(middle / ratio) - Math.ceil(imgSize / 2), imgSize, imgSize);
 				this._CONTEXT.closePath();
 				// this._CONTEXT.stroke();
 			}

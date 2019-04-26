@@ -526,6 +526,8 @@ export class UboxApp {
                     GlobalService.consoleLog("["+logid+"]" + "网络切换后为wifi，但ping近场盒子失败，打开webrtc, 同时做最后一次本地搜索盒子的尝试");
                     this.util.searchSelfBox(this)
                     .then(mybox => {
+						GlobalService.consoleLog("设置近场盒子：" + JSON.stringify(mybox));
+						this.global.setSelectedBox(mybox);
                         GlobalService.consoleLog("["+logid+"]" + "网络切换后为wifi，本地搜索盒子成功，关闭webrtc....");
                         this.http.stopWebrtcEngine();
                     }).catch((err)=>{
