@@ -254,8 +254,9 @@ export class UboxApp {
                 console.log("---loginAndCheckBox成功进入catch....");
                 this.splashScreen.hide();
                 if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
-                    //没有盒子，进入绑定流程
-                    this.nav.push(DeviceGuidancePage);
+                    //没有盒子，进入绑定流程 ------ 恐没有密码，引导用户输入密码比较保险
+                    this.nav.push(LoginPage);
+                    // this.nav.push(DeviceGuidancePage);
                 } else {
                     this.nav.setRoot(LoginPage);
                 }
