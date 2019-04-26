@@ -47,8 +47,16 @@ export class DeviceDetailPage {
                 type: 'text',
                 value: this.diskName
             }, ],
-            buttons: [{
+            buttons: [                {
+                    text: Lang.L('WORD85ceea04'),
+                    cssClass: 'order-3',
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                    }
+                },
+                {
                     text: Lang.L('WORDd0ce8c46'),
+                    cssClass: 'order-2',
                     handler: data => {
                         var name = data.folderName.replace(/(^\s+|\s+$)/g,'');
                         if(!name) {
@@ -79,12 +87,6 @@ export class DeviceDetailPage {
                             })
 
                         }
-                    }
-                },
-                {
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
                     }
                 }
             ]

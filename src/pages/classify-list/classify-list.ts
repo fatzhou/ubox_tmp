@@ -418,7 +418,17 @@ export class ClassifyListPage {
             // enableBackdropDismiss: false,
             buttons: [
                 {
+                    text: Lang.L('WORD85ceea04'),
+                    cssClass: 'order-3',
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.global.alertCtrl.dismiss();
+                        // this.handleBack();
+                    }
+                },
+                {
                     text: Lang.L('WORD65abf33c'),
+                    cssClass: 'order-2',
                     handler: data => {
                         var name = data.newName.replace(/(^\s+|\s+$)/g,'');
                         if(!name) {
@@ -445,14 +455,6 @@ export class ClassifyListPage {
                         var oName = this.selectedFiles[0].name;                        
                         self.moveFile(prefix, oName, prefix, name, "rename");
                         return true;
-                    }
-                },
-                {
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
-                        // this.global.alertCtrl.dismiss();
-                        // this.handleBack();
                     }
                 },
             ]

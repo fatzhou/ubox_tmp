@@ -123,8 +123,20 @@ export class AddFileComponent {
                 placeholder: Lang.L('WORD5466a2d3')
             }, ],
             // enableBackdropDismiss: false,
-            buttons: [{
+            buttons: [
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    role: null,
+                    cssClass: 'order-3',
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.handleBack();
+                    }
+                },
+                {
                     text: Lang.L('WORDd0ce8c46'),
+                    role: null,
+                    cssClass: 'order-2',
                     handler: data => {
                         var name = data.folderName.replace(/(^\s+|\s+$)/g,'');
                         if(!name) {
@@ -158,13 +170,6 @@ export class AddFileComponent {
                             })
                         }
                         return true;
-                    }
-                },
-                {
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
-                        // this.handleBack();
                     }
                 }]
         })

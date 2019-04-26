@@ -30,7 +30,7 @@ page-bt-detail {
         color: #fff;
         height: 44px;
         width: 100%;
-        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0));
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0));
         .icon  {
             font-size: 40px;
             color: #fff;
@@ -53,7 +53,7 @@ page-bt-detail {
         padding-bottom: 0;
         &.detail-img-title {
             padding-bottom: 10px;
-            background: linear-gradient( rgba(0,0,0,0),rgba(0,0,0,0.6));
+            background: linear-gradient( rgba(0,0,0,0),#222126);
             position: absolute;
             bottom: 0;
             width: 100%;

@@ -29,7 +29,7 @@
                 </span>
             </p>
             <p class="history-list">
-                <span *ngFor="let item of searchKeyList" (click)="inputValue = item;searchList(inputValue, true)">{{ item }}</span>
+                <span *ngFor="let item of searchKeyList" (click)="inputValue = item;isShowLoad = true;searchList(inputValue, true)">{{ item }}</span>
             </p>
         </div>
         <div class="search-body">
