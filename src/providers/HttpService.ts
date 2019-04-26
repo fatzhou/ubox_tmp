@@ -986,7 +986,7 @@ export class HttpService {
                     //用户没有盒子
                     GlobalService.consoleLog("webrtc创建盒子连接, 用户没有任何盒子");
                     this.selectBox(null);
-                    return Promise.reject("nobox");
+                    return Promise.reject("USER_HAVE_NO_BOX");
                 }
 
                 let centerAvailableBoxList = centerBoxList.filter(item => item.online_status === 1);
@@ -1071,13 +1071,20 @@ export class HttpService {
             this.notifyNetworkStatusChange();
             return res
         }).catch((res) => {
-            if (this.webrtcEngineStatus != "stoped"){
+            //// 用户明确无盒子
+            if (res === 'USER_HAVE_NO_BOX'){
+                GlobalService.consoleLog("webrtc创建盒子连接: 用户明确无盒子，建立远程连接失败");
+            }
+            //// 引擎已关闭
+            else if (this.webrtcEngineStatus == "stoped"){
+                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，引擎已关闭，不重新启动");
+            }
+            //// 不断尝试连接
+            else {
                 GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，一定时间后重新启动.....");
                 this.webrtcEngineRestartTimer = setTimeout(()=>{
                     this._createDataChannel().then(console.log).catch(console.log);
                 }, this.successiveConnectGap);
-            }else{
-                GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，引擎已关闭，不重新启动");
             }
 
             // 发送网络可能变化的通知信号
