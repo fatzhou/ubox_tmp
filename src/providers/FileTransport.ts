@@ -522,9 +522,16 @@ export class FileTransport {
 		};
 		let success = (res: any) => {
 			console.log("下载成功返回....." + JSON.stringify(res));
+							//查看文件夹下的问题
+							this.file.listDir(this.global.fileSavePath + this.global.VideoSubPath, '.')
+							.then(res => {
+								console.log("====查看文件情况...." + JSON.stringify(res))
+							})
+			
 			let taskId = task.taskId;
 			if(res.complete || res.loaded == res.total) {
 				GlobalService.consoleLog("下载完成！！" + task.localPath);
+
 				this.zone.run(() => {
 					task.finished = true;
 					task.finishedTime = new Date().getTime();

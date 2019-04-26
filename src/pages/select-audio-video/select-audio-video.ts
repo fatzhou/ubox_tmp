@@ -62,7 +62,8 @@ export class SelectAudioVideoPage {
     ionViewDidLoad() {
         GlobalService.consoleLog('ionViewDidLoad SelectAudioVideoPage');
         this.platformName = this.global.platformName;
-        this.dataType = this.navParams.get('type');
+		this.dataType = this.navParams.get('type');
+		console.log("当前筛选数据类型：" + this.dataType);
         // GlobalService.consoleLog("资源状态：" + this.fileManager.scanDiskReady);
         this.fileManager.getLocalFiles(this.dataType)
         .then(res => {
@@ -72,7 +73,6 @@ export class SelectAudioVideoPage {
         .catch(e => {
             GlobalService.consoleLog("获取相册及图片出错：" + e.message || e.stack)
         }) 
-        GlobalService.consoleLog("this.fileList   :" + JSON.stringify(this.fileList));
     }
 
     getFileByType() {
