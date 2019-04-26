@@ -43,14 +43,19 @@ export class DeviceSearchPage {
 
 	bindBox(box) {
 		console.log("已选定盒子：" + JSON.stringify(box));
+		this.global.setSelectedBox(box);
 		this.util.bindBox(this)
 		.then(res => {
 			if(res) {
-				this.global.setSelectedBox(box);
+				//this.global.setSelectedBox(box);
 				this.bindStatus = 1;
 			} else {
+				this.global.setSelectedBox(null);
 				this.bindStatus = 2;
 			}
+		})
+		.catch(e => {
+			this.global.setSelectedBox(null);
 		})
 	}
 

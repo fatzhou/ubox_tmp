@@ -22,10 +22,42 @@ page-bt-detail {
         overflow-y: scroll;
         padding-bottom: 20px;
     }
+    .qrcode-button {
+        padding: 1px 0;
+        position: absolute;
+        top: 0;
+        z-index: 9;
+        color: #fff;
+        height: 44px;
+        width: 100%;
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0));
+        .icon  {
+            font-size: 40px;
+            color: #fff;
+            padding: 10px;
+            position: absolute;
+            &.back-icon {
+                left: 0;
+            }
+            &.icon-ellipsis {
+                right: 0px;
+            }
+        }
+    }
+    .mar-top-46 {
+        margin-top: 46px;
+    }
     .detail-title {
         padding: 10px;
         padding-top: 17px;
         padding-bottom: 0;
+        &.detail-img-title {
+            padding-bottom: 10px;
+            background: linear-gradient( rgba(0,0,0,0),rgba(0,0,0,0.6));
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
         p {
             font-size: 12px;         
             color: $newFiveColor;  
@@ -212,6 +244,7 @@ page-bt-detail {
         background: $newThreeColor;
         overflow: hidden;
         padding: 0;
+        position: relative;
     }
     .head-img-box {
         width: 100%;
@@ -304,6 +337,14 @@ page-bt-detail {
 				line-height: 22px;
             }
         }
+    }
+    .download-btn-box {
+        height: 72px;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background: linear-gradient( rgba(0,0,0,0),rgba(0,0,0,0.6));
     }
     .download-btn {
         width: calc(100% - 20px);

@@ -83,7 +83,7 @@ export class BtDetailPage {
 					this.hash = res.hash;
 					this.heat = res.heat;
 					this.link = res.mgurl;
-					if(res.title_images.length > 0) {
+					if(res.title_images) {
 						this.titleImgList = [res.title_images[0]];
 					} else {
 						this.titleImgList = [];
@@ -221,4 +221,7 @@ export class BtDetailPage {
         this.navCtrl.push(BtTaskPage);
     }
 
+	goBack() {
+        this.navCtrl.pop();
+    }
 }

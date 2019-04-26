@@ -350,9 +350,11 @@ export class ClassifyListPage {
         this.global.createGlobalToast(this, {
             message: this.global.L('StartDownloading')
 		});
-		let fileList = this.selectedFiles.filter(item => item.type == 1);
+        let fileList = this.selectedFiles.filter(item => item.type == 1);
+        console.log(fileList.length)
         for (var i = 0, len = fileList.length; i < len; i++) {
-			let selected = fileList[i];
+            let selected = fileList[i];
+            console.log('要下载的资源路径' + selected.path.replace(/\/$/g, '') + "/" + selected.name)
 			let subFoldPath = {
 				'image': this.global.PhotoSubPath,
 				'video': this.global.VideoSubPath,

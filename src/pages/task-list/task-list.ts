@@ -82,7 +82,7 @@ export class TaskListPage {
 		GlobalService.consoleLog("任务列表变更.......");
 		let _that = TaskListPage._this;
 		_that.zone.run(() => {
-			_that.fileTaskList = _that.global.fileTaskList.filter(item=> item.boxId == _that.global.deviceSelected.boxId && item.bindUserHash == _that.global.deviceSelected.bindUserHash && item.diskUuid == _that.global.currDiskUuid ) || [];
+			_that.fileTaskList = _that.global.fileTaskList.filter(item=> item.boxId == _that.global.deviceSelected.boxId && item.bindUserHash == _that.global.deviceSelected.bindUserHash ) || [];
 			_that.doingTaskList = _that.fileTaskList.filter(item => item.finished === false) || [];
 			_that.doneTaskList = _that.fileTaskList.filter(item => item.finished === true) || [];
 			_that.doneTaskList = _that.doneTaskList.sort(function(a, b) {
