@@ -81,6 +81,7 @@ export class ListPage {
     isShowPageTitle: boolean = false;
     isShowWarningBox: boolean = false;
     isShowWarningBoxClass: boolean = false;
+    copyPhotoInfo: any = {};
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -135,7 +136,18 @@ export class ListPage {
         this.isMainDisk = this.global.currDiskUuid == '' || this.global.currDiskUuid == this.global.mainSelectDiskUuid;
         this.initDiskInfo();
         GlobalService.consoleLog("this.isMainDisk" + this.isMainDisk);
-
+        this.copyPhotoInfo = {
+            name: '自动备份文件列表',
+            size: 0,
+            type: 1,
+            path: "/Backup/" + this.global.centerUserInfo.uname + ".backup/" + this.global.deviceID +  ".backup",
+            displayTime: this.util.getDisplayTime(new Date().getTime()),
+            fileStyle: 'folder',
+            selected: false,
+            thumbnail: "",
+            index: 0,
+            copyPath:'main'
+        }
         return true;
 	}
 
@@ -227,6 +239,10 @@ export class ListPage {
             this.isMainDisk = true;
         }
         this.listFiles();
+        this.util.getWalletList()
+		.catch(e => {
+			console.log(e);
+		})
     }
 
     changeWarningStatus() {
@@ -247,6 +263,7 @@ export class ListPage {
         GlobalService.consoleLog("文件更新，刷新列表:");
         this.listFiles();
         this.initDiskInfo();
+
     }
 
     moveFilesEvent() {
@@ -557,8 +574,19 @@ export class ListPage {
                 placeholder: selectedFile.type === 1 ? Lang.L('PlsInputYourDirectoryName') : Lang.L('PlsInputYourFileName')
             }, ],
             // enableBackdropDismiss: false,
-            buttons: [{
+            buttons: [
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    cssClass: 'order-3',
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                        // this.global.alertCtrl.dismiss();
+                        // this.handleBack();
+                    }
+                },
+                {
                     text: Lang.L('WORD65abf33c'),
+                    cssClass: 'order-2',
                     handler: data => {
                         var name = data.newName.replace(/(^\s+|\s+$)/g,'');
                         if(!name) {
@@ -586,15 +614,8 @@ export class ListPage {
                         self.moveFile(prefix, oName, prefix, name, "rename");
                         return true;
                     }
-                },
-                {
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
-                        // this.global.alertCtrl.dismiss();
-                        // this.handleBack();
-                    }
-                }]
+                }
+                ]
         })
         return true;
     }
@@ -705,6 +726,14 @@ export class ListPage {
         }
     }
 
+    goCopyFolder(file) {
+        if(!this.allBtnsShow) {
+            this.app.getRootNav().push(ListPage, {
+                type: "",
+                path: this.copyPhotoInfo.path.replace(/\/$/g, '')
+            });
+        }
+    }
     goNextFolder(file) {
         if(this.allBtnsShow) {
             this.setSelectedFiles(file);
@@ -714,7 +743,7 @@ export class ListPage {
                 this.app.getRootNav().push(ListPage, {
                     type: "",
                     path: this.currPath.replace(/\/$/g, '') + "/" + file.name
-                });
+                });                
             } else if(file.fileStyle == 'image') {
                 let test = /(\.HEIC)$/gi;
                 if(test.test(file.name)) {

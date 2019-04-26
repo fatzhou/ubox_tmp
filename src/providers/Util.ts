@@ -823,22 +823,22 @@ export class Util {
                     "version":"1.2.3",
                     "URLBase":["192.168.0.41:37867"],
                     "bindUserHash":"45edba743bd17fbcefdc5affb77ff75b"},
-                    {"boxId":"UBOXV1236638987688822c4",
-                    "bindUser":"",
-                    "friendlyName":"32",
-                    "manufacturer":"23",
-                    "manufacturerURL":"23",
-                    "deviceType":"UBOXV1236638987688822c4",
-                    "version":"1.2.3",
-                    "URLBase":["192.168.0.41:37867"],
-                    "bindUserHash":""}])
+                    {"boxId":"UBOXV1001548593547181270",
+                    "bindUser":"1****@qq.com",
+                    "friendlyName":"UB1400Y",
+                    "manufacturer":"YQTC company",
+                    "manufacturerURL":"https://www.yqtc.co",
+                    "deviceType":"UBOXV1001548593547181270",
+                    "version":"1.3.0",
+                    "URLBase":["192.168.0.2:37867"],
+                    "bindUserHash":"d615d5793929e8c7d70eab5f00f7f5f1"}])
 
                     // resolve([]);
 				}, minSearchTime);
 				// resolve([]);
 				return ;
             }
-
+            // resolve([]);
             var self = this;
             var doneflag = false;
             var serviceType = "upnp:ubbeybox";
@@ -1183,7 +1183,7 @@ export class Util {
         if (/^(mp3|ogg|asf|wma|vqf|midi|module|ape|real|wav|flac|amr|m4a)$/.test(suffix)) {
             return 'audio/mpeg';
         }
-        if (/^(mp4|avi|rm|rmvb|mov|mp(e)g|wmv|flv|3gp|ts)$/.test(suffix)) {
+        if (/^(mp4|avi|rm|rmvb|mov|mp(e)g|wmv|flv|3gp|ts|mkv)$/.test(suffix)) {
             return 'video/mpeg';
         }
         if (/^(doc|docx)$/.test(suffix)) {

@@ -72,6 +72,10 @@ export class WalletDetailPage {
         this.isShowWalletList = false;
     }
     ionViewDidEnter() {
+        this.util.getWalletList()
+		.catch(e => {
+			console.log(e);
+		})
         //可能修改了汇率单位，此处需刷新
         this.getDisplayRate();
 		this.pageNo = 0;
@@ -119,6 +123,7 @@ export class WalletDetailPage {
         //     this.walletInfo.totalEarn = Number(this.walletInfo.totalEarn).toExponential(2);
         // }
         //获取累计挖矿
+        
     }
 
     getAccumulateMining() {

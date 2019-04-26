@@ -84,8 +84,15 @@
                             <use xlink:href="#iconshousuoicon"></use>
                         </svg>
                     </p>
-                    <ul class="file-list" *ngIf="dataAcquired && type0List.length > 0"  [ngClass]="isShowType0List?'show-list':'hide-list'" (press)="showAllBtns()">
-                        <li class="file-list-item" *ngFor="let info of type0List" (tap)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
+                    <ul class="file-list" *ngIf="dataAcquired &&type0List.length > 0"  [ngClass]="isShowType0List?'show-list':'hide-list'" (press)="showAllBtns()">
+                        <li class="file-list-item" *ngIf="isMainDisk && currPath == '/' && global.albumBackupSwitch"  (tap)="toggleClassifyNav('close');goCopyFolder(copyPhotoInfo);">
+                            <div class="file-type folder"></div>
+                            <div class="info">
+                                <h2 class="eps">{{ pretify(copyPhotoInfo.name) }}</h2>
+                                <p>{{ copyPhotoInfo.displayTime }}</p>
+                            </div>
+                        </li>
+                        <li class="file-list-item" *ngFor="let info of type0List" (tap)="toggleClassifyNav('close');goNextFolder(info);">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" (error)="handleError(info, $event)" onError="handleError(info, $event)" (ionImgDidLoad)="handleError(info, $event)" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
 							<div class="info">
@@ -113,7 +120,7 @@
                         </svg>
                     </p>
                     <ul class="file-list" *ngIf="dataAcquired && type1List.length > 0" [ngClass]="isShowType1List?'show-list':'hide-list'" (press)="showAllBtns()">
-                        <li class="file-list-item" *ngFor="let info of type1List" (tap)="toggleClassifyNav('close');goNextFolder(info);$event.stopPropagation();">
+                        <li class="file-list-item" *ngFor="let info of type1List" (tap)="toggleClassifyNav('close');goNextFolder(info);">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" (error)="handleThumbnailError(info, $event)" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
                             <div class="info">
