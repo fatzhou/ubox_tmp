@@ -1391,7 +1391,9 @@ export class Util {
                     let userLoginInfo;
                     if(this.global.deviceSelected){
                         userLoginInfo = userLoginList['boxid'][this.global.deviceSelected.boxId] || null;
-                    } else {
+                    }
+                    //如果获取不到本地的，尝试远程的
+                    if (!userLoginInfo){
                         userLoginInfo = userLoginList['remote'] || null;
                     }
                     if(userLoginInfo && (Date.now() - userLoginInfo.timestamp) < 24 * 3600 * 1000 * 7) {
@@ -1589,7 +1591,7 @@ export class Util {
 
     public bindBox($scope) {
         var boxInfo = $scope.global.deviceSelected;
-        GlobalService.consoleLog(boxInfo.URLBase)
+        GlobalService.consoleLog("boxInfo.URLBase=" + boxInfo.URLBase)
         GlobalService.consoleLog(JSON.stringify(GlobalService.boxApi["bindBox"]))
         // var url = "http://" + boxInfo.URLBase + GlobalService.boxApi["bindBox"].url;
         var url = $scope.global.getBoxApi('bindBox');

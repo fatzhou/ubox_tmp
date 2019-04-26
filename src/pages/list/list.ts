@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, NgZone} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 // import { Camera, CameraOptions } from '@ionic-native/camera';
 import { GlobalService } from '../../providers/GlobalService';
@@ -91,6 +91,7 @@ export class ListPage {
         private toastCtrl: ToastController,
         private platform: Platform,
         private file: File,
+        private zone: NgZone,
         private storage: Storage,
         private fileManager: FileManager,
         private transfer: FileTransport,
@@ -105,6 +106,10 @@ export class ListPage {
 		this.events.subscribe('list:change', this.moveChangeList.bind(this));
 		this.events.subscribe('connection:change', this.connectionChangeCallback.bind(this))
         console.log("List constructor...")
+    }
+
+    ionViewWillEnter() {
+        console.log('list ionViewWillEnter');
     }
 
     ionViewDidEnter() {
@@ -147,7 +152,7 @@ export class ListPage {
 	}
 
 	connectionChangeCallback() {
-        console.log('刷新列表')
+        console.log('刷新列表');
 		this.listFiles();
 	}
 
@@ -243,13 +248,15 @@ export class ListPage {
     changeWarningStatus() {
         let status = this.http.getNetworkStatus();
         GlobalService.consoleLog("list页网络状态更新：" + JSON.stringify(status));
-        if (status.uboxNetworking && status.centerNetworking){
-            this.global.isShowWarningBar = false;
-            this.isShowWarningBox = false;
-        }else{
-            this.global.isShowWarningBar = true;
-            this.isShowWarningBox = true;
-        }
+        this.zone.run(() => {
+            if (status.uboxNetworking && status.centerNetworking) {
+                this.global.isShowWarningBar = false;
+                this.isShowWarningBox = false;
+            } else {
+                this.global.isShowWarningBar = true;
+                this.isShowWarningBox = true;
+            }
+        });
     }
 
     updateFilesEvent() {
@@ -272,10 +279,10 @@ export class ListPage {
     moveChangeList(selectedFile) {
         let index0 = this.type0List.findIndex(item => {
             return item.name == selectedFile.name
-        })
+        });
         let index1 = this.type1List.findIndex(item => {
             return item.name == selectedFile.name
-        })
+        });
         GlobalService.consoleLog('返回移动的元素的索引');
         this.type0List.splice(index0, 1);
         this.type1List.splice(index1, 1);

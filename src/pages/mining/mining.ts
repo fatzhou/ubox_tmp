@@ -503,6 +503,8 @@ export class MiningPage {
 		}
 		d = d.map(item => height - 80 * (item - min) / (max - min));
 
+		console.log("近7天收益：" + JSON.stringify(data));
+		console.log("近7天收益：" + JSON.stringify(d));
 
 		this._CANVAS 	    = this.canvasEl.nativeElement;
 		this._CANVAS.width  	= width;
@@ -539,25 +541,26 @@ export class MiningPage {
 			this._CONTEXT.lineWidth = 4;
 			// this._CONTEXT.lineJoin = this._CONTEXT.lineCap = 'round';
 			let widthBase = Math.floor(width / (d.length - 1));
-			this._CONTEXT.moveTo(-4, height);
+			this._CONTEXT.moveTo(-4, height + 4);
 			this._CONTEXT.strokeStyle = 'transparent';//'rgba(37, 206, 218, .2)';
 			this._CONTEXT.lineTo(-4, d[0]);
 			this._CONTEXT.stroke();
 			this._CONTEXT.strokeStyle = '#23CC9D';
-			// this._CONTEXT.moveTo(0, d[0]);
+			this._CONTEXT.lineTo(0, d[0]);
+			var trend = 1;
 
 			for(let i = 1, len = d.length; i < len; i++) {
-				// let x = (i - 1) * widthBase;
-				// console.log('---------')
-				// console.log(x, d[i]);
-				// this._CONTEXT.quadraticCurveTo(x, d[i - 1], x + .5 * widthBase, (d[i - 1] + d[i]) / 2);
-				// this._CONTEXT.stroke();
 				let x = i < len - 1 ? (i - 1) * widthBase : width + 4;
+				// this._CONTEXT.quadraticCurveTo(x, d[i - 1], x + .5 * widthBase, (d[i - 1] + d[i]) / 2);
+				// var x = i * widthBase;
+				// trend = d[i] > d[i - 1] ? 0 : 1;
+				// this._CONTEXT.quadraticCurveTo(x - .5 * widthBase, trend ? d[i] : d[i - 1], x, d[i])
 				this._CONTEXT.quadraticCurveTo(x, d[i - 1], x + .5 * widthBase, (d[i - 1] + d[i]) / 2);
 				// this._CONTEXT.lineTo(x, d[i]);
 				// this._CONTEXT.moveTo(x, d[i]);
 			}
-			this._CONTEXT.lineTo(width + 4, height);
+			this._CONTEXT.lineTo(width + 4, d[d.length - 1]);
+			this._CONTEXT.lineTo(width + 4, height + 4);
 			// this._CONTEXT.strokeStyle = 'rgba(14, 209, 152, .2)';
 			this._CONTEXT.stroke();
 			this._CONTEXT.fill();
