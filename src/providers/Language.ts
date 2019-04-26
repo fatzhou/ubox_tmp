@@ -31,44 +31,44 @@ export class Lang {
             return strid;
         }
     }
-    
+
     static UappInstallSucceed = {
         cn: "应用${name}已成功安装!",
         en: 'App${name} successfully installed ',
         kr: '${name}이 성공적으로 설치되었습니다'
-    }
-     
+    };
+
     static BindBoxFirst = {
         cn : '该应用需先绑定盒子',
         en: 'you have to bind a box first to use this app',
         kr: '어플리케이션을 사용하기위해 먼저 박스를 바인딩해야합니다'
-    }
-        
+    };
+
     static BoxOffline = {
         cn : '您的盒子不在线，请在盒子在线时使用',
         en: 'Your box is not online, please bring your box online',
         kr: '박스가 온라인 상태가 아닙니다. 박스를 온라인 상태로 만드십시오.'
     }
-        
+
 
     static UappUninstalled = {
         cn: '应用${name}已卸载成功',
         en: 'APP successfully uninstalled ',
         kr: '어플리케이션이 성공적으로 설치되었습니다'
     }
-    
+
     static Getting = {
         cn: '获取中(${progress}%)',
         en: 'Accessing(${progress}%)',
         kr: '접속 중 (${progress}%)'
     }
-    
+
     static AppInstalling = {
         cn: '正在安装应用${name}',
         en: 'APP installing(${progress}%)',
         kr: '설치 중 (${progress}%)'
     }
-        
+
 
     static InstallError = {
         cn: '应用${name}安装失败',
@@ -90,7 +90,7 @@ export class Lang {
         cn: "取消",
         en: "Cancel",
         kr: "취소",
-    };    
+    };
     static Update = {
         cn: "升级",
         en: "Update",
@@ -155,7 +155,7 @@ export class Lang {
         cn: "网络错误，请检测网络",
         en: "Network error. Please check the network.",
         kr: "네트워크 오류가 발생하였습니다. 네트워크를 확인하십시오.",
-    };    
+    };
     static RequestError = {
         cn: "网络请求错误，请稍候重试",
         en: "Network request error. Please try again later.",
@@ -166,7 +166,7 @@ export class Lang {
         en: "Network Error. Please check the network.",
         kr: "네트워크 오류입니다. 네트워크를 확인하십시오. ",
     };
-    
+
     //设备发现页
     static YourWifi = {
         cn: "您连接的Wi-Fi: ${wifi_name}",
@@ -472,12 +472,12 @@ export class Lang {
     static FormatDiskLoading = {
         cn: "硬盘格式化中...",
         en: "The disk is being formatted... ",
-        kr: "하드 디스크 포맷중"        
-    };    
+        kr: "하드 디스크 포맷중"
+    };
     static FormatFinished = {
         cn: "硬盘格式化成功！",
         en: "Your disk has been successfully formatted.",
-        kr: "하드 디스크 포맷 성공!"        
+        kr: "하드 디스크 포맷 성공!"
     };
     static DoUnbind = {
         cn: "解除绑定",
@@ -581,7 +581,7 @@ export class Lang {
         cn: "注册新用户",
         en: "Register",
         kr: "신규회원 가입"
-    };    
+    };
     static SearchingBox = {
         cn: "正在查询可用设备…",
         en: "Looking for available device",
@@ -647,7 +647,7 @@ export class Lang {
         cn: "小时",
         en: "H",
         kr: "시간"
-    };    
+    };
     static Minute = {
         cn: "分钟",
         en: "M",
@@ -1154,7 +1154,7 @@ export class Lang {
                 en: "",
                 kr: ""
             }
-        },        
+        },
         1502: {
             Title: {
                 cn: "设备没有挂载硬盘，无法进行该操作",
@@ -1167,7 +1167,7 @@ export class Lang {
                 kr: ""
             }
         }
-        
+
     };
 
     //桥接中心错误码提示
@@ -1939,11 +1939,11 @@ export class Lang {
     static WORD96cad532 = {
         cn: "您已开启挖矿模式",
         en: "You have activated mining mode",
-        kr: "이미 마이닝 모드가 활성화 되었습니다." 
+        kr: "이미 마이닝 모드가 활성화 되었습니다."
     };
     static WORDe716466c = {
         cn: "挖矿收益按天结算，每月末自动发放。您将贡献100G存储空间用于挖矿，点击「挖矿配置」更改此配置",
-        en: "The mining rewards is settled on a daily basis and is automatically issued at the end of each month. You will contribute 100G of storage space for mining, click 'mining configuration' to change this configuration", 
+        en: "The mining rewards is settled on a daily basis and is automatically issued at the end of each month. You will contribute 100G of storage space for mining, click 'mining configuration' to change this configuration",
         kr: "마이닝보상은 매일 결제되며 매월 말에 자동으로 지급됩니다. 마이닝에 100G의 저장 공간을 기여하기 위한 설정으로 변경하려면 '마이닝 설정'을 클릭하십시오."
     };
     static WORD9916edcb = {
@@ -2157,27 +2157,27 @@ export class Lang {
         cn: "您的固件版本可升级至${New}",
         en: "You can now update to ${New} version.",
         kr: "펌웨어 버전${New}(으)로 업그레이드할 수 있습니다."
-    };    
+    };
     static romUpdatingTips = {
         cn: "固件正在升级中...",
         en: "Firmware system updating...",
         kr: "펌웨어 업데이트하는 중입니다."
-    };    
+    };
     static uploadFinished = {
         cn: "固件升级成功！",
         en: "Firmware system has been updated successfully.",
         kr: "펌웨어 업그레이드 성공!"
-    };    
+    };
     static updateRomError = {
         cn: "固件升级失败，请检查网络设置",
         en: "Firmware system updates failed, please check the network settings. ",
         kr: "펌웨어 업그레이드에 실패했습니다. 네트워크 설정을 확인하십시오"
-    };    
+    };
     static NewestVersion = {
         cn: "您的当前固件版本是最新版本",
         en: "The current firmware system is the latest version.",
         kr: "최신 펌웨어 버전"
-    };    
+    };
     static getRomUpdate = {
         cn: "正在检测固件更新...",
         en: "Checking for firmware system updates...",
@@ -2538,7 +2538,7 @@ export class Lang {
         cn: "文件${filename}上传失败",
         en: "${filename} upload failed",
         kr: "${filename}파일 업로드 실패"
-    };    
+    };
 
     static DownloadFileNotExist = {
         cn: "文件${filename}下载失败",
@@ -2659,7 +2659,7 @@ export class Lang {
         en: "A safer storage system: non-cloud storage",
         kr: "보다 안전한 스토리지 시스템입니다. 클라우드 스토리지가 아닙니다."
     }
-    
+
     static GuidanceBtn = {
         cn: "马上体验",
         en: "Experience Now",
@@ -2691,7 +2691,7 @@ export class Lang {
         cn: "系统设置",
         en: "System setting",
         kr: "시스템 설정"
-    };    
+    };
     static WalletSetting = {
         cn: "钱包设置",
         en: "Wallet setting",
@@ -2850,7 +2850,7 @@ export class Lang {
         cn: "交易时间",
         en: "Transaction Time",
         kr: "거래시간"
-    }; 
+    };
     //notice
     static NoticeList = {
         cn:'消息',
@@ -2896,7 +2896,7 @@ export class Lang {
     static NewPayPasswordPlaceholder = {
         cn: "请输入新支付密码",
         en: "Enter new payment password.",
-        kr: "새 결제비밀번호를 입력하십시오."        
+        kr: "새 결제비밀번호를 입력하십시오."
     }
     static NewPayPasswordAgainPlaceholder = {
         cn: "请再次输入",
@@ -3093,7 +3093,7 @@ export class Lang {
         cn: "交易发送失败，为保障交易成功建议提高Gas",
         en: "Transaction failed, recommend to improve Gas for the success of the transactions",
         kr: "거래가 실패했습니다. 거래 성공을 위해 Gas를 개선할 것을 권장합니다. "
-    }   
+    }
     static height = {
         cn: "高度",
         en: "Height",
@@ -3190,7 +3190,7 @@ export class Lang {
         en: 'Transaction record',
         kr: '거래기록'
     }
-    
+
     static TestChainTitle = {
         cn: '参与测试链挖矿',
         en: 'Check out TestNet mining',
@@ -3361,7 +3361,7 @@ export class Lang {
         en: 'Ubbey requires you to grant storage permissions, not to grant access might influence the file preview, upload and download features. If it is closed, please go to [Settings]',
         kr: ' Ubbey에서는 스토리지 사용 권한을 부여해야 합니다. 액세스 권한을 부여하지 않을 경우 파일 미리 보기, 업로드 및 다운로드 기능에 영향을 줄 수 있습니다. 닫혀 있는 경우 [설정]으로 이동하십시오.'
     }
-     
+
     static PermissionBtn = {
         cn: '知道了',
         en: 'Known',
@@ -3409,7 +3409,7 @@ export class Lang {
         en: 'This file cannot be renamed',
         kr: '이 파일의 이름을 바꿀 수 없습니다.'
     }
-    
+
     static CopyInfoHead = {
         cn: '复制整段信息，打开👉Ubbey App👈，即可向我的钱包转账:【',
         en: 'Copy the whole paragraph，open👉Ubbey App，then you can transfer to my wallet',
@@ -3426,7 +3426,7 @@ export class Lang {
         en: 'creating',
         kr: '생성중'
     }
-    
+
     static Home = {
         cn: "首页",
         en: "Home",
@@ -3437,8 +3437,8 @@ export class Lang {
         cn: "挖矿",
         en: "Mining",
         kr: "마이닝"
-    }    
-    
+    }
+
     static Discover = {
         cn: "发现",
         en: "Discover",
@@ -3586,25 +3586,25 @@ export class Lang {
     static Offline = {
         cn: "离线",
         en: 'Offline',
-        kr: '오프라인'        
-    }    
+        kr: '오프라인'
+    }
 
     static DeviceReboot = {
         cn: "设备重启",
         en: 'Device Reboot',
-        kr: '장치 재부팅'        
-    }    
+        kr: '장치 재부팅'
+    }
 
     static DeviceRebooting = {
         cn: "设备正在重启中，盒子启动后将恢复重连...",
         en: ' The device is restarting and will reconnect after the box is started...',
-        kr: '장치가 재부팅되는 중입니다. 박스가 실행되면 재연결 됩니다.'        
-    }    
+        kr: '장치가 재부팅되는 중입니다. 박스가 실행되면 재연결 됩니다.'
+    }
 
     static RebootSuccess = {
         cn: "设备已重新连接！",
         en: ' The device is reconnected!',
-        kr: '장치 재연결 성공!'        
+        kr: '장치 재연결 성공!'
     }
 
     static AdviceSubmit = {
@@ -3620,38 +3620,38 @@ export class Lang {
     }
 
     static Account = {
-        cn: '账号', 
-        en: 'Account', 
+        cn: '账号',
+        en: 'Account',
         kr: '계정'
     }
 
     static Application = {
-        cn: 'DAPP应用', 
-        en: 'DAPP application', 
+        cn: 'DAPP应用',
+        en: 'DAPP application',
         kr: 'DAPP 신청서'
     }
 
     static HardwareDevice = {
-        cn: '硬件设备', 
-        en:'Hardware device', 
+        cn: '硬件设备',
+        en:'Hardware device',
         kr:'하드웨어 장치'
     }
 
     static FileTransport = {
-        cn: '文件传输', 
-        en: 'File transmission', 
+        cn: '文件传输',
+        en: 'File transmission',
         kr: '파일 전송'
     }
 
     static FileManager = {
-        cn: '文件管理', 
-        en: 'File manager', 
+        cn: '文件管理',
+        en: 'File manager',
         kr: '파일 매니저'
     }
 
     static Others = {
-        cn: '其他', 
-        en:'Others', 
+        cn: '其他',
+        en:'Others',
         kr:'기타'
     }
 
@@ -3671,7 +3671,7 @@ export class Lang {
         cn: '联系邮箱',
         en: 'Contact Email',
         kr: '이메일'
-    }    
+    }
 
     static ContactEmailPlaceholder = {
         cn: '请输入您的常用邮箱',
@@ -3683,19 +3683,19 @@ export class Lang {
         cn: '问题截图(可选)',
         en: ' Screenshot of the problem (optional)',
         kr: '고장 스크린샷 (선택)'
-    }      
+    }
 
     static UploadSystemLog = {
         cn: '上传系统日志，帮助我们定位问题',
         en: 'Upload the system log, help us locate',
         kr: '위치를 찾을 수 있도록 시스템 로그를 업로드해주세요'
-    }    
+    }
 
     static CommitFeedback = {
         cn: '提交反馈',
         en: 'Submit feedback',
         kr: '피드백 제출'
-    }    
+    }
 
     static FeedbackSucceeded = {
         cn: '您的反馈已提交成功',
@@ -3713,37 +3713,37 @@ export class Lang {
         cn: '请输入正确的联系邮箱',
         en: 'Please input the right Email address',
         kr: '정확한 이메일 주소를 입력해주세요'
-    }    
+    }
 
     static ProblemDetailEmpty = {
         cn: '您的问题描述不能为空',
         en: "Your description can't be empty",
         kr: '상세내용을 비울 수 없습니다'
-    }    
+    }
 
     static CheckUpdatingAvailable = {
         cn: "正在检查可用的更新...",
         en: 'Checking available update',
         kr: '업데이트 확인 중'
-    }    
+    }
 
     static DownloadingPackages = {
         cn: "正在下载升级包...",
         en: 'Downloading upgrade package',
         kr: '업그레이드 패키지 다운로드 중'
-    }    
+    }
 
     static InstallingPackages = {
         cn: "正在安装升级包...",
         en: 'Installing upgrade package',
         kr: '업그레이드 패키지 설치 중'
-    }    
+    }
 
     static Downloading = {
         cn: "正在下载(${percent}%)",
         en: 'Downloading(${percent}%)',
         kr: '다운로드 중(${percent}%)'
-    }    
+    }
 
     static UpgradeStopped = {
         cn: "已停止升级",
@@ -4184,7 +4184,7 @@ export class Lang {
         en: 'View historical revenue',
         kr: '수익기록 보기'
 	}
-	
+
 	static AddNewDevice = {
 		cn: '添加新设备',
 		en: 'Add new device',
@@ -4299,8 +4299,8 @@ export class Lang {
         cn: '为保障资产安全，请备份Keystore文件',
         en: 'To protect your assets, please back up your keystore files.',
         kr: '자산을 보호하기 위하여 키저장소 파일을 백업하세요'
-    }  
-    
+    }
+
     static Wallet = {
         cn: '钱包',
         en: 'Wallet',
@@ -4310,7 +4310,7 @@ export class Lang {
         cn: '消息',
         en: 'Notices',
         kr: '공지'
-    } 
+    }
 
     static WaitingDownload = {
         cn: '等待下载',
@@ -4321,12 +4321,12 @@ export class Lang {
         cn: '继续下载',
         en: 'Continue to download',
         kr: '다운로드 계속'
-    } 
+    }
     static DownloadError = {
         cn: '下载失败',
         en: 'Download is failed',
         kr: '다운로드 실패'
-    } 
+    }
 
     static ViewFile = {
         cn: '查看文件',
@@ -4337,7 +4337,7 @@ export class Lang {
         cn: '重新下载',
         en: 'Download again ',
         kr: '재다운로드'
-    } 
+    }
 
     static TaskViewPC = {
         cn: '在电脑上打开Ubbey客户端，可对您设备里的文件进行管理，下载地址：www.ubbey.org/download',
@@ -4400,6 +4400,6 @@ export class Lang {
         en: '',
         kr: ''
     }
-    
+
 }
 
