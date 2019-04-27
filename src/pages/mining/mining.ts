@@ -586,6 +586,9 @@ export class MiningPage {
 						top = middle;
 					} else if(color[0] == 0x23 && color[1] == 0xcc && color[2] == 0x9d) {
 						break;
+					} else if(top + 1 == bottom) {
+						//正好相差1可能造成死循环
+						break;
 					} else {
 						bottom = middle;
 					}
