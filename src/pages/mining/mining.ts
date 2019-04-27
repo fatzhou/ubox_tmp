@@ -123,6 +123,7 @@ export class MiningPage {
         GlobalService.consoleLog('ionViewDidEnter MiningPage');
         this.pageNo = 1;
         this.needCommit = true;
+        this.global.tabIndex = 2;
 		this.refreshData();
 		let USDRate = this.global.globalRateInfo.find(item => item.curreycy == "USD");
 		if(USDRate) {

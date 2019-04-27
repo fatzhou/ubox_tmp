@@ -481,7 +481,7 @@ export class HttpService {
 		}
 		if (result.err_no === 20010 || result.err_no === 1103) {
 			var cookie = this.getCookieString(url);
-			console.error("接口" + url + "报错登录态失效:" + JSON.stringify(result) + "是否处理：" + errorHandler);
+			console.log("接口" + url + "报错登录态失效:" + JSON.stringify(result) + "是否处理：" + errorHandler);
 			GlobalService.consoleLog("cookie:" + cookie);
 			// this.global.logger("丢失cookie的URL:" + url);
 			// this.global.logger("获取用户信息失败cookie:" + cookie);

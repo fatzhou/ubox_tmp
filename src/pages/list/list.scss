@@ -251,10 +251,9 @@ page-list {
         background: #2f2f33;
         font-size: 14px;
         color: #fff;
-        position: fixed;
         z-index: 999;
         width: 100%;
-        top: 0;
+        position: relative;
         .tishi-icon {
             font-size: 22px;
             margin-right: 10px;

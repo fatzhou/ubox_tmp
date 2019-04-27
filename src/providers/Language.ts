@@ -983,9 +983,24 @@ export class Lang {
                 en: "Please login again",
                 kr: "다시 로그인 하십시오.",
             },
-            action() {
-                this.global.events.publish('token:expired', Date.now());
-            }
+            ButtonText: [{
+                cn: "重新登录",
+                en: "Login again",
+                kr: "다시 로그인"
+            },
+            {
+                cn: "取消登录",
+                en: "cancel",
+                kr: ""
+            }],
+            action: [
+                (that) => {
+                    that.global.events.publish('token:expired', {that: that, action: "login"});
+                },
+                (that) => {
+                    that.global.events.publish('token:expired', {that: that, action: "cancal"});
+                }
+            ]
         },
         1111: {
             Title: {
@@ -1225,21 +1240,22 @@ export class Lang {
                 kr: " 다시 로그인 하려면 [다시 로그인] 버튼을 클릭 하십시오."
             },
             ButtonText: [{
+                cn: "重新登录",
+                en: "Login again",
+                kr: "다시 로그인"
+            },
+            {
                 cn: "取消登录",
                 en: "cancel",
                 kr: ""
             },
-            {
-                cn: "重新登录",
-                en: "Login again",
-                kr: "다시 로그인"
-            }],
+            ],
             action: [
                 (that) => {
-                    that.global.events.publish('token:expired', {that: that, action: "cancal"});
+                    that.global.events.publish('token:expired', {that: that, action: "login"});
                 },
                 (that) => {
-                    that.global.events.publish('token:expired', {that: that, action: "login"});
+                    that.global.events.publish('token:expired', {that: that, action: "cancal"});
                 },
             ]
         },

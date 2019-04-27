@@ -52,6 +52,9 @@ export class FindPage {
 		private app: App) {
 	}
 
+	ionViewWillEnter() {
+		this.global.tabIndex = 2;
+	}
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad FindPage');
 		this.getFeedTop();
