@@ -114,6 +114,7 @@ export class ListPage {
 
     ionViewDidEnter() {
         GlobalService.consoleLog("ionViewDidEnter ListPage");
+        this.global.tabIndex = 0;
         if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
             // this.isShowBox = true;
             this.fileManager.getPermission()

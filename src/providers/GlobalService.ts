@@ -131,6 +131,8 @@ export class GlobalService {
 	public readPermitted = false; //读取权限
 	public focusWallet = null; //用户当前使用的默认钱包
     public isShowWarningBar = false;//是否展示网络异常警告
+    public tabIndex = 0;//当前是在tab的哪个子页面
+
     public static getUbbeyContract() {
         if(GlobalService.ENV === 'dev') {
             return GlobalService.UBBEY_CONTRACT_TEST;

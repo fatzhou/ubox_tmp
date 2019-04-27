@@ -236,6 +236,7 @@ export class TabsPage {
                     this.navCtrl.setRoot(TabsPage);
                 }
             } else {
+                console.log('登录态失效去login')
                 this.navCtrl.setRoot(LoginPage);
             }
         });

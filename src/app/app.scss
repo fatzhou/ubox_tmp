@@ -139,6 +139,9 @@
 				&.active {
 					color: #00C77D;
 					background: #302F34;
+					.icon {
+						color: #00C77D;
+					}
 				}
 				&.border-bottom {
 					border-bottom: .5px solid #302F34;
