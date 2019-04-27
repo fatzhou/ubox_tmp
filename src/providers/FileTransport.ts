@@ -606,7 +606,7 @@ export class FileTransport {
 	createDownloadHandlerLocal(fileTask, progress, success, failure) {
 		let url = this.global.getBoxApi('downloadFile') + this.http.toQueryString({
 			fullpath: fileTask.path,
-			disk_uuid: this.global.currDiskUuid,
+			disk_uuid: fileTask.diskUuid,
 			is_thumbnail: fileTask.fileStyle == 'thumbnail' ? 1 : 0
 		})//'?fullpath=' + encodeURIComponent(fileTask.path) + '&disk_uuid=' + this.global.currDiskUuid ;
 		let fileURL = fileTask.localPath;
@@ -634,7 +634,7 @@ export class FileTransport {
 		let downloadTool;
 		let taskId = task.taskId;
 		let option = {
-			disk_uuid: this.global.currDiskUuid,
+			disk_uuid: task.diskUuid,
 			is_thumbnail: task.fileStyle == 'thumbnail' ? 1 : 0
 		};
 
