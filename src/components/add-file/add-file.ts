@@ -209,15 +209,20 @@ export class AddFileComponent {
         if(path == '/') {
             let disk;
             disk = this.global.diskInfo.disks.filter(item => {
-                if(item.disk_uuid == this.global.currDiskUuid) {
+                if(item.uuid == this.global.currDiskUuid) {
                     return item;
                 }
             });
+            if(disk.length != 0) {
+                return disk[0].label
+            } else {
+                return path
+            }
         } else {
             let arr = path.split('/');
             let name = arr[arr.length - 1];
             if(name.length > 18) {
-                name = name.subString(0,17) + '...'
+                name = name.substring(0,17) + '...'
             }
             return name
         }

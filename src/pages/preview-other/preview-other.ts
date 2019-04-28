@@ -127,7 +127,7 @@ export class PreviewOtherPage {
 			'music': this.global.MusicSubPath
 		}[this.fileInfo.fileStyle] || this.global.DocSubPath;
 		let localFullPath = this.global.fileSavePath + subFoldPath + '/' + this.fileInfo.name;
-		let remoteFullPath = this.global.currPath.replace(/\/$/g, '') + "/" + this.fileInfo.name;
+		let remoteFullPath = this.currPath.replace(/\/$/g, '') + "/" + this.fileInfo.name;
 		console.log("开始下载文件........" + name)
 		this.transfer.downloadFile({
 			name: this.fileInfo.name,

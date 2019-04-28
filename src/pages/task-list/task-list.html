@@ -80,7 +80,7 @@
 							</div>
 						</div>
 					</ion-item>
-					<ion-item-options side="right" *ngIf="isDeleteType == 'ios'">
+					<ion-item-options side="right" *ngIf="isDeleteType == 'ios' && !allBtnsShow">
 						<button ion-button color="danger" tappable (click)="deleteSingleTask(task);$event.stopPropagation();">{{global.L("Delete")}}</button>
 					</ion-item-options>
 				</ion-item-sliding>

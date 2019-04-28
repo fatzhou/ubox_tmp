@@ -343,7 +343,7 @@ export class ListPage {
         this.canRename = ifContainFixedContent && this.selectedFiles.length === 1;
         this.canDetail = ifContainFixedContent && this.selectedFiles.length === 1;
         this.canMove = ifContainFixedContent && this.selectedFiles.length > 0;
-
+        this.selectAllStatus = this.selectedFiles.length == (this.type0List.length + this.type1List.length);
         //用户选择的文件中不包含文件夹时，可以下载
         this.canDownload = ifContainFixedContent && this.selectedFiles.length > 0 && this.selectedFiles.filter((item) => item.type === 1).length === 0;
         GlobalService.consoleLog("当前delete, rename, download的状态分别为:" + [this.canDelete, this.canRename, this.canDownload].join(","));
