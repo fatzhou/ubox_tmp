@@ -503,26 +503,39 @@ export class FileTransport {
 					tool.handler.pause();
 					tool.handler = null;
 				}
+
 				if (tool.mode == 'remote') {
-					tool.handler = this.createDownloadHandlerRemote(tool.task, tool.progress, tool.success, tool.failure);
+                    tool.promise = this.createDownloadHandlerRemote(tool.task, tool.progress, tool.success, tool.failure)
 				} else {
-					tool.handler = this.createDownloadHandlerLocal(tool.task, tool.progress, tool.success, tool.failure);
+                    tool.promise = this.createDownloadHandlerLocal(tool.task, tool.progress, tool.success, tool.failure);
 				}
+                return tool.promise.then((h)=>{
+                    tool.handler = h;
+                    tool.promise = null;
+                    return tool.handler;
+                })
 			},
+
 			pause: () => {
+<<<<<<< HEAD
 				console.log("调用tool的pause方法")
 				return tool._getHandler().pause();
+=======
+                GlobalService.consoleLog("tool：暂停下载～～～");
+                return tool._getHandler().then((h)=>h.pause());
+>>>>>>> da74ec535efb3a0e67576eba4359878546f3fe80
 			},
 			resume: () => {
-				return tool._getHandler().resume();
+				return tool._getHandler().then((h)=>h.resume());
 			},
+
 			_getHandler: () => {
 				let isRemote = this.global.useWebrtc == true;
 				if (!tool.handler || (isRemote && tool.mode !== "remote") || (!isRemote && tool.mode === "remote")) {
 					GlobalService.consoleLog("无handle或者handle不匹配: currentIsRemote=" + isRemote + ", preMode=" + tool.mode);
-					tool.create(tool.task, tool.progress, tool.success, tool.failure);
+					return tool.create(tool.task, tool.progress, tool.success, tool.failure);
 				}
-				return tool.handler;
+				return Promise.resolve(tool.handler);
 			},
 		};
 		let progress = (res: any) => {
@@ -620,7 +633,7 @@ export class FileTransport {
 			task.speed = 0;
 		}
 
-		return tool;
+		return Promise.resolve(tool);
 	}
 
 	async createDownloadHandlerLocal(fileTask, progress, success, failure) {
@@ -636,7 +649,7 @@ export class FileTransport {
 			if (fileTask.loaded > 0) {
 				return FileDownloader.getUnfinishedFileSizeIfExist(this.file, fileTask.path.replace(/\/([^\/]+)$/, '/'), fileTask.name)
 					.then((res:any) => {
-						resolve(res)						
+						resolve(res)
 					})
 					.catch(e => {
 						resolve({
@@ -654,7 +667,8 @@ export class FileTransport {
 		.then((res: any) => {
 			fileTask.loaded = res.downloadsize;
 			fileTask.total = res.totalsize;
-			let fileTransfer = new FileTransfer(url, fileURL, {
+            console.log("开始调用new FileTransfer");
+            let fileTransfer = new FileTransfer(url, fileURL, {
 				headers: {
 					// add custom headers if needed
 					cookie: this.http.getCookieString(url)
@@ -665,13 +679,13 @@ export class FileTransport {
 				}
 			}, false);
 			fileTransfer.onProgress(progress);
-			fileTransfer.onSuccess(success)
-			fileTransfer.onFailure(failure)
-			console.log("开始调用下载....")
+			fileTransfer.onSuccess(success);
+			fileTransfer.onFailure(failure);
+			console.log("开始调用下载....");
 			fileTransfer.download();
-			return fileTransfer;
+            return fileTransfer;
 		});
-	}
+    }
 
 	createDownloadHandlerRemote(task, progress, success, failure, createTask = true) {
 		let downloadTool;

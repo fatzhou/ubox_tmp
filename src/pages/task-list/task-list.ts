@@ -58,11 +58,11 @@ export class TaskListPage {
 
         // events.unsubscribe('file:updated');
         GlobalService.consoleLog("监听file:updated事件");
-        events.unsubscribe('file:updated',TaskListPage.filterTaskList)       
-		events.subscribe('file:updated',TaskListPage.filterTaskList)  
-		
-		events.unsubscribe('task:created',TaskListPage.filterTaskList)       
-        events.subscribe('task:created',TaskListPage.filterTaskList)   
+        events.unsubscribe('file:updated',TaskListPage.filterTaskList)
+		events.subscribe('file:updated',TaskListPage.filterTaskList)
+
+		events.unsubscribe('task:created',TaskListPage.filterTaskList)
+        events.subscribe('task:created',TaskListPage.filterTaskList)
     }
 
     ionViewDidLoad() {
@@ -77,8 +77,8 @@ export class TaskListPage {
     ionViewWillLeave() {
         this.cancelSelect();
     }
-    
-    static filterTaskList() { 
+
+    static filterTaskList() {
 		GlobalService.consoleLog("任务列表变更.......");
 		let _that = TaskListPage._this;
 		_that.zone.run(() => {
@@ -90,13 +90,13 @@ export class TaskListPage {
 			});
 			_that.getThumbnail();
 			_that.doingTaskList.reverse();
-			GlobalService.consoleLog("任务列表过滤完毕....");			
+			GlobalService.consoleLog("任务列表过滤完毕....");
 		})
 
 		// _that.cd.detectChanges();
         // this.doneTaskList.reverse();
 	}
-	
+
 	handleThumbnailError(obj, e) {
 		console.log("缩略图加载出错.......")
 		obj.thumbnail = '';
@@ -122,7 +122,7 @@ export class TaskListPage {
 					.then(res => {
 						if(res) {
 							task.thumbnail = res;
-							this.global.thumbnailMap[md5] = res;			
+							this.global.thumbnailMap[md5] = res;
 						}
 					})
 
@@ -136,10 +136,10 @@ export class TaskListPage {
                     // })
                     // .catch(e => {
 
-                    // })                    
+                    // })
                 }, i * 100);
             }
-        }        
+        }
     }
 
     // computeSpeed(task) {
@@ -228,7 +228,7 @@ export class TaskListPage {
         let handler = this.global.fileHandler[task.taskId];
         if(handler) {
             GlobalService.consoleLog("taskId存在，直接恢复");
-            handler.resume();  
+            handler.resume();
         } else {
             GlobalService.consoleLog("taskId失效，重新创建任务:" + task.taskId);
             if(task.action === 'upload') {
@@ -248,11 +248,11 @@ export class TaskListPage {
         if(pausing === 'start') {
             if(filterTask.length > maxLen - 1) {
                 this.pauseTask(filterTask[0], 'waiting', 'uncheck');
-            }            
+            }
         } else if(pausing === 'pause') {
             if(filterTask.length > 0) {
                 this.startTask(filterTask[0]);
-            }          
+            }
         }
     }
 
@@ -269,8 +269,11 @@ export class TaskListPage {
         task.pausing = status || 'paused';
         let handler = this.global.fileHandler[task.taskId];
         if(handler){
+            GlobalService.consoleLog("暂停下载...");
             handler.pause();
             task.speed = 0;
+        }else{
+            GlobalService.consoleLog("暂停下载失败，handle为空");
         }
         this.checkStatus();
         if(checked === 'check'){
@@ -302,7 +305,7 @@ export class TaskListPage {
             let stopTask = this.fileTaskList.filter(item=> item.pausing !== 'paused' && item.finished === false);
             for(let i = 0; i < stopTask.length; i++) {
                 this.pauseTask(stopTask[i], 'paused', 'uncheck');
-            }        
+            }
         } else {
             GlobalService.consoleLog("开始所有任务");
             this.taskStatus = 'paused';
@@ -310,7 +313,7 @@ export class TaskListPage {
             this.fileTaskList = this.fileTaskList.map(item => {
                 if(item.pausing === 'paused') {
                     item.pausing = 'waiting';
-                } 
+                }
                 return item;
             });
             let uploadTask = this.fileTaskList.filter(item => item.action === 'upload' && item.finished === false);
@@ -334,7 +337,7 @@ export class TaskListPage {
                 for(let i = 0,len = this.global.fileMaxUpload - needUpload;i < len;i++){
                     if(waitingUploadTask.length>i){
                         this.startTask(waitingUploadTask[i]);
-                    }               
+                    }
                 }
             }
         }
@@ -347,7 +350,7 @@ export class TaskListPage {
     showAllBtns(info) {
         this.allBtnsShow = true;
         if(info) {
-            this.setSelectedFiles(info);            
+            this.setSelectedFiles(info);
         }
     }
     //点击，选中或取消
@@ -355,7 +358,7 @@ export class TaskListPage {
         this.cancalDelete();
         if(this.allBtnsShow) {
             this.setSelectedFiles(info);
-        } 
+        }
     }
     //勾选文件
     setSelectedFiles(file) {
@@ -386,10 +389,10 @@ export class TaskListPage {
 
     selectAll() {
         GlobalService.consoleLog("用户触发全选，触发的操作是：" + this.selectAllStatus);
-    
+
         for(let i = 0, len = this.fileTaskList.length; i < len; i++) {
             this.fileTaskList[i].selected = !this.selectAllStatus;
-        }            
+        }
 
         this.selectAllStatus = !this.selectAllStatus;
         this.setBtnsStatus();

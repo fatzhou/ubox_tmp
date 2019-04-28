@@ -111,6 +111,7 @@ export class FileDownloader {
         }
         return;
     }
+
     static getUnfinishedFileSizeIfExist(fsfile, filepath, filename){
         return fsfile.listDir(filepath, ".").then((entry) => {
             // GlobalService.consoleLog("读取目录成功");
