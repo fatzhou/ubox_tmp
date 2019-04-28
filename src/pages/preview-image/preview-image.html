@@ -9,7 +9,9 @@
     </div>
     <ion-slides (ionSlideDidChange)="slideChanged()">
         <ion-slide *ngFor="let info of fileList">
-            <img [src]="(info.photo || info.thumbnail) | photoSantizer">
+            <div class="img-box">
+                <img [src]="(info.photo || info.thumbnail) | photoSantizer">
+            </div>
         </ion-slide>
     </ion-slides>
     

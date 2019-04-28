@@ -373,6 +373,7 @@ export class TaskListPage {
         let doneTask = this.doneTaskList.filter(item => item.selected === true);
         let len = doingTask.length + doneTask.length;
         this.selectFileNum = len;
+        this.selectAllStatus = this.selectFileNum == (this.doingTaskList.length + this.doneTaskList.length);
         //只要选中至少1个文件，就可删除
         this.canDelete = len > 0;
     }
@@ -455,6 +456,9 @@ export class TaskListPage {
     }
 
     showAndroidDeleteBox(task) {
+        if(this.allBtnsShow) {
+            return false;
+        }
         if(this.isDeleteType == 'android') {
             this.singleTask = task;
             this.isShowShadow = true;

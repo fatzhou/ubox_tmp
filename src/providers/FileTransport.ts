@@ -225,7 +225,7 @@ export class FileTransport {
 		let fileURL = fileTask.localPath;
 		let self = this;
 		let uploadParams = {
-			path: fileTask.path.replace(/\/[^\/]+$/, ''),
+			path: fileTask.path.replace(/\/[^\/]+$/, '/'),
 			name: fileTask.name,
 			transfer: 'chunked',
 			offset: fileTask.loaded,
@@ -657,7 +657,7 @@ export class FileTransport {
 		console.log("local下载文件：url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
 		let self = this;
 		return await new Promise((resolve, reject) => {
-			if (fileTask.loaded > 0) {
+			if (fileTask.loaded > -10) {
 				return FileDownloader.getUnfinishedFileSizeIfExist(this.file, fileTask.path.replace(/\/([^\/]+)$/, '/'), fileTask.name)
 					.then((res:any) => {
 						resolve(res)

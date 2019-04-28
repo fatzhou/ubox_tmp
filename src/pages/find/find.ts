@@ -16,6 +16,7 @@ import { UappPlatform } from "../../providers/UappPlatform";
 import { AppsInterface } from "../../providers/AppsInterface";
 import { Lang } from '../../providers/Language';
 import { MenuController } from 'ionic-angular';
+import { ChangeDetectorRef } from '@angular/core';
 
 import { InternalFormsSharedModule } from '@angular/forms/src/directives';
 /**
@@ -45,6 +46,7 @@ export class FindPage {
 		private global: GlobalService,
 		private util: Util,
 		private http: HttpService,
+		private cd: ChangeDetectorRef,
 		private uappPlatform: UappPlatform,
 		private appsInterface: AppsInterface,
 		private appsInstalled: AppsInstalled,
@@ -275,6 +277,7 @@ export class FindPage {
 		if (e.scrollTop < 60 && this.isShowTitle == false) {
 			this.isShowTitle = true;
 		}
+		this.cd.detectChanges();
 	}
 
 	displayMenu($event) {

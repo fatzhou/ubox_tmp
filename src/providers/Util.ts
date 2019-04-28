@@ -2097,14 +2097,12 @@ export class Util {
             resourceid: id
         })
         .then((res)=>{
-            if(res.err_no === 0 || res.err_no == 10002) {
-                this.global.closeGlobalLoading(this);
+            this.global.closeGlobalLoading(this);
+            if(res.err_no === 0) {
                 GlobalService.consoleLog("下载bt成功");
                 this.global.createGlobalToast(this, {
                     message: Lang.L('StartDownloading')
                 })
-            } else {
-                this.global.closeGlobalLoading(this);
             }
         })
         .catch(e => {
@@ -2125,7 +2123,8 @@ export class Util {
 				let label = ['A','B','C','D','E','F','G','H','I','J','K','M','L','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 				let index = 0;
 				this.global.diskInfo = data.box;
-				this.global.diskInfo.disks = data.disks || [];
+                this.global.diskInfo.disks = data.disks || [];
+                console.log('现在用的disk的值' + JSON.stringify(data.disks));
 				this.global.diskInfo.disks.map((item)=> {
 					if(item.label == '') {
 						item.label = 'DISK ' + label[index];

@@ -359,7 +359,7 @@ export class ClassifyListPage {
 				'image': this.global.PhotoSubPath,
 				'video': this.global.VideoSubPath,
 				'music': this.global.MusicSubPath
-			}[selected.fileStyle] || this.global.DocSubPath;
+            }[selected.fileStyle] || this.global.DocSubPath;
 			this.transfer.downloadFile({
 				name: selected.name,
 				fileStyle: selected.fileStyle
@@ -577,12 +577,12 @@ export class ClassifyListPage {
                 let test = /(\.HEIC)$/gi;
                 if(test.test(info.name)) {
                     this.navCtrl.push(PreviewOtherPage, {
-                        currPath: this.currPath,
+                        currPath: info.path,
                         info: info
                     });
                 } else {
                     this.navCtrl.push(PreviewImagePage, {
-                        currPath: this.currPath,
+                        currPath: info.path,
                         info: info,
                         from: 'classifyList',
                         list: this.fileList,
