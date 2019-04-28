@@ -303,6 +303,7 @@ page-list {
             overflow: hidden;
             width: 100%;
             background: $newFourColor;
+            padding-left: 10px;
             .file-thumbnail {
                 width: 40px;
                 height: 40px;
@@ -311,7 +312,8 @@ page-list {
             .file-type {
                 width: 40px;
                 height: 40px;
-                background-position: 0 center;
+                border-radius: 2px;
+                overflow: hidden;
             }
             .info {
                 float: left;
