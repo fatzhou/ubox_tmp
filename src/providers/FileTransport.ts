@@ -517,16 +517,27 @@ export class FileTransport {
 			},
 
 			pause: () => {
-<<<<<<< HEAD
-				console.log("调用tool的pause方法")
-				return tool._getHandler().pause();
-=======
                 GlobalService.consoleLog("tool：暂停下载～～～");
                 return tool._getHandler().then((h)=>h.pause());
->>>>>>> da74ec535efb3a0e67576eba4359878546f3fe80
 			},
 			resume: () => {
-				return tool._getHandler().then((h)=>h.resume());
+				if(tool.mode == 'remote') {
+					return tool._getHandler().then((h)=>h.resume());
+				} else {
+					return FileDownloader.getUnfinishedFileSizeIfExist(this.file,task.path.replace(/\/[^\/]+$/g, ''), task.name)
+					.catch(e => {
+						return Promise.resolve({
+							totalsize: 0,
+							downloadsize: 0,
+						})
+					})
+					.then((res:any) => {
+						return tool._getHandler().then((h)=>h.resume({
+							total: res.totalsize,
+							loaded: res.downloadsize
+						}));
+					})
+				}
 			},
 
 			_getHandler: () => {
@@ -633,7 +644,7 @@ export class FileTransport {
 			task.speed = 0;
 		}
 
-		return Promise.resolve(tool);
+		return tool;
 	}
 
 	async createDownloadHandlerLocal(fileTask, progress, success, failure) {
@@ -714,7 +725,7 @@ export class FileTransport {
 		this.fileDownloader.onSuccess(task.fileId, success)
 		this.fileDownloader.onFailure(task.fileId, failure)
 
-		return downloadTool;
+		return Promise.resolve(downloadTool);
 	}
 
 	startWaitTask(action) {

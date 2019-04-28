@@ -4424,5 +4424,10 @@ export class Lang {
 		en: 'UnArchieved',
 		kr: ''
 	}
+	static PhotoBackup = {
+		cn: "自动备份文件列表",
+		en: 'Auto backup',
+		kr: ''
+	}
 }
 
