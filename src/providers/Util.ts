@@ -2122,6 +2122,7 @@ export class Util {
 						this.global.currDiskUuid = item.uuid;
                         this.global.currSelectDiskUuid = item.uuid;
                         this.global.mainSelectDiskUuid = item.uuid;
+                        this.global.mainSelectDiskName = item.label;
 					}
 				});
 				if(!(this.global.diskInfo.disks && this.global.diskInfo.disks.length)){

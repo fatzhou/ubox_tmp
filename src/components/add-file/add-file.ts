@@ -36,14 +36,13 @@ export class AddFileComponent {
     totalSize:any = 0;
     tasklistlen:number = 0;
     plat:string = 'android';
-
     @Input() currPath: string;
     @Input() eventType: string;
     @Input() allBtnsShow: string;
     @Output() addFileDone = new EventEmitter < any > ();
     @Output() selectFileDone = new EventEmitter < any > ();
     @Output() closeFileSelect = new EventEmitter < any > ();
-    
+    isMainLabel: boolean = false;
     constructor(
         private camera: Camera,
         private events: Events,
@@ -70,6 +69,7 @@ export class AddFileComponent {
                 this.totalSize = '--';
             }
             this.plat = this.platform.is('android') ? 'android' : 'ios';
+            this.isMainLabel = this.global.currDiskUuid === this.global.mainSelectDiskUuid;
         } catch(e) {
             GlobalService.consoleLog(e);
         }
@@ -205,6 +205,23 @@ export class AddFileComponent {
         this.app.getRootNav().push(CopyPhotoPage);
     }
 
-    
+    showUploadFolder(path) {
+        if(path == '/') {
+            let disk;
+            disk = this.global.diskInfo.disks.filter(item => {
+                if(item.disk_uuid == this.global.currDiskUuid) {
+                    return item;
+                }
+            });
+        } else {
+            let arr = path.split('/');
+            let name = arr[arr.length - 1];
+            if(name.length > 18) {
+                name = name.subString(0,17) + '...'
+            }
+            return name
+        }
+        
+    }
 
 }

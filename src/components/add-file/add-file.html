@@ -1,7 +1,7 @@
 <!-- Generated template for the AddFileComponent component -->
 <div class="file-type-select" tappable (click)="closeFileSelectEvent()">
     <div class="file-type-select-wrap">
-        <p class="title">{{global.L('WORD6f79290c') }} <span> {{global.currPath}} </span></p>
+        <p class="title">{{global.L('WORD6f79290c') }} <span> {{showUploadFolder(global.currPath)}} </span></p>
         <ul class="type-list">
             <li tappable (click)="goSelectPage('image');$event.stopPropagation()">
                 <div class="folderbox FF4747">
