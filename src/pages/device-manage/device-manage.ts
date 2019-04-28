@@ -199,4 +199,24 @@ export class DeviceManagePage {
             ]
         })
     }
+    formatDisk(disk) {
+        this.global.createGlobalAlert(this, {
+            title: Lang.L('WORD652905a6'),
+            message: Lang.L('WORDcc4cfe3d'),
+            buttons: [
+                {
+                    text: Lang.L('WORD95d39fcd'),
+                    handler: data => {
+                        this.setLoadingStatus(disk);
+                    }
+                },
+                {
+                	text: Lang.L('WORD85ceea04'),
+                	handler: data => {
+
+                	}
+                }
+            ]
+        })		               	
+    }
 }

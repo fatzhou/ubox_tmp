@@ -244,6 +244,7 @@ export class ClassifyListPage {
 						// 	this.lastDate = date;
 						// }
                         this.classify === 1 && (md5 = Md5.hashStr(item.path + "/" + name).toString());
+                        let imgIndex = this.fileList.length;
                         if(!test.test(item.name)) { 
                             list.push({
                                 name: item.name,
@@ -254,7 +255,7 @@ export class ClassifyListPage {
                                 fileStyle: this.util.computeFileType(item.name),
                                 selected: false,
                                 thumbnail: this.global.thumbnailMap[md5] || "",
-                                index: this.index + index++,
+                                index: imgIndex + index++,
                                 path: item.path
                             });
                         }

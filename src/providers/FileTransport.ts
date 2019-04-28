@@ -517,13 +517,8 @@ export class FileTransport {
 			},
 
 			pause: () => {
-<<<<<<< HEAD
-				console.log("调用tool的pause方法")
-				return tool._getHandler().pause();
-=======
                 GlobalService.consoleLog("tool：暂停下载～～～");
                 return tool._getHandler().then((h)=>h.pause());
->>>>>>> da74ec535efb3a0e67576eba4359878546f3fe80
 			},
 			resume: () => {
 				return tool._getHandler().then((h)=>h.resume());

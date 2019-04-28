@@ -4366,7 +4366,7 @@ export class Lang {
     }
     static DownloadAgain = {
         cn: '重新下载',
-        en: 'Download again',
+        en: 'Redownload',
         kr: '재다운로드'
     }
 
@@ -4431,7 +4431,6 @@ export class Lang {
         en: 'Device connection failed, please check',
         kr: ''
     }
-<<<<<<< HEAD
     static TaskDownloading = {
         cn: '任务已下载',
         en: '',
@@ -4439,12 +4438,10 @@ export class Lang {
     }
     
 
-=======
 	static UnArchieved = {
 		cn: "未归档文件",
 		en: 'UnArchieved',
 		kr: ''
 	}
->>>>>>> 9aa538dfdb7bd685393f94757d91f1314e2f326c
 }
 
