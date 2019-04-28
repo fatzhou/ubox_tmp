@@ -33,11 +33,38 @@ export class CopyPhotoPage {
 
     ionViewDidLoad() {
         GlobalService.consoleLog('ionViewDidLoad CopyPhotoPage');
-        this.fileManager.fetchAlbums('image')
+        this.backupSwitch = this.global.albumBackupSwitch;
+	}
+
+	changeBackupSwitch() {
+		if(this.backupSwitch) {
+			if(this.albumsList.length > 0) {
+				return;
+			}
+			let timeout = null;
+			if(!this.fileManager.resourceStorage.image.finished) {
+				this.global.createGlobalLoading(this, '');
+				timeout = setTimeout(() => {
+					this.changeBackupSwitch();		
+				}, 100)
+			} else {
+				this.global.closeGlobalLoading(this);
+				this.getAlbumList();
+			}
+		} else {
+			this.global.closeGlobalLoading(this);
+		}
+	}
+	
+	getAlbumList() {
+		if(!this.fileManager.resourceStorage.image.finished) {
+			return Promise.reject("Not ready");
+		}
+       return this.fileManager.fetchAlbums('image')
         .then((res) => {
-            GlobalService.consoleLog("获取相册成功......." + res.length);
-            this.albumsList = this.global.localAlbum.filter(item => item.content && item.content.length > 0);
-            // console.log(JSON.stringify(this.albumsList))
+			GlobalService.consoleLog("获取相册成功......." + JSON.stringify(res));
+			// this.fileManager.classifiedPhotoLibrary('image');
+			this.albumsList = this.global.localAlbum.filter(item => item.content && item.content.length > 0);
             // let backupConfig = this.global.autoBackupAlbums;
             // this.albumsList.forEach(item => {
             //     if(backupConfig.indexOf(item.id) > -1) {
@@ -46,13 +73,13 @@ export class CopyPhotoPage {
             //         item.backupSwitch = false;
             //     }
             // })
-            this.selectedAlbumsCount = this.albumsList.filter(item => item.backupSwitch).length;
+			this.selectedAlbumsCount = this.albumsList.filter(item => item.backupSwitch).length;
+			console.log("符合条件的相册数：" + this.selectedAlbumsCount);
         })
         .catch(e => {
-            GlobalService.consoleLog("搜索图片异常：" + JSON.stringify(e))
+			GlobalService.consoleLog("搜索图片异常：" + JSON.stringify(e))
         })
-        this.backupSwitch = this.global.albumBackupSwitch;
-    }
+	}
 
     updateSelectedAlbums(album) {
         this.selectedAlbumsCount = this.albumsList.filter(item => item.backupSwitch).length;

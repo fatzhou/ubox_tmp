@@ -191,7 +191,7 @@ export class FileManager {
         	let dataSource = this.global[keyInGlobal];
         	let albums = this.global.localAlbum;
         	albums.push({
-                title: "未归档文件",
+                title: this.global.L('UnArchieved'),
                 id: "photo-not-archieved",        		
         	})
         	//初始化相册数组
@@ -253,8 +253,7 @@ export class FileManager {
 			.then(() => {
 				GlobalService.consoleLog("获取相册成功.......");
 				return new Promise((resolve, reject) => {
-					GlobalService.consoleLog("开始获取数据........");
-					GlobalService.consoleLog("开始获取数据1111........" + JSON.stringify(this.photoLibrary));
+					GlobalService.consoleLog("开始获取数据........" + JSON.stringify(this.photoLibrary));
 					this.photoLibrary.getLibrary({ 
 						thumbnailWidth: GlobalService.THUMBNAIL_WIDTH, 
 						thumbnailHeight: GlobalService.THUMBNAIL_HEIGHT, 
@@ -337,7 +336,7 @@ export class FileManager {
 			//需整理相册
 			let albums = this.global[config.album];
 			let unArchieveAlbum = {
-                title: "未归档文件",
+                title: this.global.L("UnArchieved"),
                 id: "photo-not-archieved",   
                 content: []
         	};
@@ -714,19 +713,15 @@ export class FileManager {
 	 */
 	fetchAlbums(type) {
 		if(!this.platform.is('cordova')) {
-			GlobalService.consoleLog("相册获取000.........")
 			return Promise.reject([]);
 		}
 		// GlobalService.consoleLog("开始获取相册...")
 		let config = this.resourceStorage[type];
 		if(config.album) {
 			if(this.global[config.album] && this.global[config.album].length) {
-				GlobalService.consoleLog("相册获取111.........")
 				return Promise.resolve(this.global[config.album]);
 			} else {
 				return new Promise((resolve, reject) => {
-					GlobalService.consoleLog("相册获取222.........")
-					GlobalService.consoleLog("相册获取222........." + JSON.stringify(cordova.plugins.photoLibrary))
 					cordova.plugins.photoLibrary.getAlbums(albums => {
 						GlobalService.consoleLog("相册获取完毕........." + JSON.stringify(albums));
 						this.global[config.album] = albums;

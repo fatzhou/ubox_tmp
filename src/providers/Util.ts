@@ -793,13 +793,19 @@ export class Util {
                     .then(res =>{
                         GlobalService.consoleLog("打开成功：" + JSON.stringify(res));
                     })
-                    .catch(e => GlobalService.consoleLog('Error opening file' + JSON.stringify(e)));
+                    .catch(e => {
+						this.global.createGlobalToast(this, {
+							message: Lang.L('SystemFileError')
+						})
+					});
                 } else {
                     this.global.createGlobalToast(this, {
                         message: Lang.L('SystemFileError')
                     })
                 }
             })
+        },(e)=>{
+            GlobalService.consoleLog("打开成功失败（urlResolve失败）：" + JSON.stringify(e) + ", path:" + path);
         })
     }
 
