@@ -32,6 +32,8 @@ resources/android
 resources/ios
 $RECYCLE.BIN/
 package-lock.json
+package.json
+config.xml
 
 
 .DS_Store

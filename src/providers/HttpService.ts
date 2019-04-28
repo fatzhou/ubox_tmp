@@ -1225,10 +1225,12 @@ export class HttpService {
      * 通知网络状态可能发生变化
      */
     notifyNetworkStatusChange(){
-        this.networkLastNotifyStatus = this.getNetworkStatus();
-		this.events.publish('warning:change');
-		this.events.publish('app:class-changed');
-		this._checkNetworkStatusAsync();
+        let networkstatus = this.getNetworkStatus();
+		this.events.publish('warning:change', networkstatus);
+        this.events.publish('app:class-changed', networkstatus);
+        this.events.publish('task:network-changed', networkstatus);
+        this.networkLastNotifyStatus = networkstatus;
+        this._checkNetworkStatusAsync();
     }
 
     _updateCenterNetworkLastAliveTime(url){
