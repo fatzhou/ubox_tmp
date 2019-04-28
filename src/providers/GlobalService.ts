@@ -717,12 +717,16 @@ export class GlobalService {
 
     setSelectedBox(deviceSelected, nullsave=false){
         this.deviceSelected = deviceSelected;
+        let deviceStorage = {
+            user:           this.centerUserInfo.uname,
+            deviceSelected: this.deviceSelected,
+        };
         if (this.deviceSelected){
             //忽略保存结果
-            this.storage.set('DeviceSelected', JSON.stringify(this.deviceSelected));
+            this.storage.set('DeviceSelected', JSON.stringify(deviceStorage));
         } else if (nullsave){
             //忽略保存结果
-            this.storage.set('DeviceSelected', JSON.stringify(this.deviceSelected));
+            this.storage.set('DeviceSelected', JSON.stringify(deviceStorage));
         }
     }
 
@@ -733,11 +737,13 @@ export class GlobalService {
                     .then(res => {
                         GlobalService.consoleLog("缓存DeviceSelected获取成功:" + JSON.stringify(res));
                         if(res) {
-                            let deviceSelected = JSON.parse(res);
-                            resolve(deviceSelected);
-                        }else{
-                            reject(null);
+                            let deviceStorage = JSON.parse(res);
+                            if (this.centerUserInfo.uname && this.centerUserInfo.uname == deviceStorage.user){
+                                resolve(deviceStorage.deviceSelected);
+                                return deviceStorage.deviceSelected;
+                            }
                         }
+                        reject(null);
                     })
                     .catch(e => {
                         GlobalService.consoleLog("缓存DeviceSelected获取失败:" + e.stack)
