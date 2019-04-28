@@ -628,7 +628,7 @@ export class FileTransport {
 			task.speed = 0;
 		}
 
-		return Promise.resolve(tool);
+		return tool;
 	}
 
 	async createDownloadHandlerLocal(fileTask, progress, success, failure) {
@@ -641,7 +641,7 @@ export class FileTransport {
 		console.log("local下载文件：url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
 		let self = this;
 		return await new Promise((resolve, reject) => {
-			if (fileTask.loaded > 0) {
+			if (fileTask.loaded > -10) {
 				return FileDownloader.getUnfinishedFileSizeIfExist(this.file, fileTask.path.replace(/\/([^\/]+)$/, '/'), fileTask.name)
 					.then((res:any) => {
 						resolve(res)
@@ -709,7 +709,7 @@ export class FileTransport {
 		this.fileDownloader.onSuccess(task.fileId, success)
 		this.fileDownloader.onFailure(task.fileId, failure)
 
-		return downloadTool;
+		return Promise.resolve(downloadTool);
 	}
 
 	startWaitTask(action) {
