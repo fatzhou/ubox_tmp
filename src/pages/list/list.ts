@@ -64,7 +64,7 @@ export class ListPage {
     pageSize: number = 10;
     detailInfo: any = null;
     isShowDetail: boolean = false;
-    hideAddBtn: boolean = true;
+    hideAddBtn: boolean = false;
     // tasklistlen:number = 0;
     // fileSavePath:string = '';
     isShowType: boolean = false;
@@ -100,13 +100,55 @@ export class ListPage {
         public navParams: NavParams,
         private tabsController: SuperTabsController) {
 
+        this.updateFilesEvent = this.updateFilesEvent.bind(this);
+		this.moveFilesEvent = this.moveFilesEvent.bind(this);
+		this.moveChangeList = this.moveChangeList.bind(this);
+		this.connectionChangeCallback = this.connectionChangeCallback.bind(this);
+		this.onTaskFailure = this.onTaskFailure.bind(this);
+
 		// ListPage._this = this;
-        this.events.subscribe('file:updated', this.updateFilesEvent.bind(this));
-        this.events.subscribe('image:move', this.moveFilesEvent.bind(this));
-		this.events.subscribe('list:change', this.moveChangeList.bind(this));
-		this.events.subscribe('connection:change', this.connectionChangeCallback.bind(this))
-        console.log("List constructor...")
-    }
+        this.events.subscribe('file:updated', this.updateFilesEvent);
+        this.events.subscribe('image:move', this.moveFilesEvent);
+		this.events.subscribe('list:change', this.moveChangeList);
+		this.events.subscribe('connection:change', this.connectionChangeCallback);
+		events.subscribe('upload:failure', this.onTaskFailure); 
+		console.log("List constructor...")
+	}
+	
+	onTaskFailure(task) {
+		GlobalService.consoleLog("!!文件上传失败!!" + task.taskId);
+		//删除任务以及上传器
+		// this.global.fileHandler[taskId] = undefined;
+		// let index = -1;
+		// let name = "";
+		// let taskInList = this.global.fileTaskList.forEach((item, ind) => {
+		//     GlobalService.consoleLog(item.taskId);
+		//     if(item.taskId === taskId) {
+		//         name = item.name;
+		//         index = ind;
+		//         return false;
+		//     }
+		// })
+		// GlobalService.consoleLog("待暂停的索引：" + index);
+		task.pausing = "paused";
+		this.global.fileHandler[task.taskId].pause();
+		task.speed = 0;
+		// if(index !== -1) {
+		//     GlobalService.consoleLog("删除索引：" + index);
+		//     this.global.fileTaskList.splice(index, 1);
+		// }
+		// this.fileUploader.uploader.clearCache();
+		this.global.createGlobalToast(this, {
+			message: Lang.Lf('UploadFileNotExist', task.name)
+		})
+	}
+
+	ngOnDestory() {
+        this.events.unsubscribe('file:updated', this.updateFilesEvent);
+        this.events.unsubscribe('image:move', this.moveFilesEvent);
+		this.events.unsubscribe('list:change', this.moveChangeList);
+		this.events.unsubscribe('connection:change', this.connectionChangeCallback);		
+	}
 
     ionViewWillEnter() {
         console.log('list ionViewWillEnter');
@@ -125,15 +167,15 @@ export class ListPage {
             })
         }
         this.global.currPath = this.currPath;
-        if(this.currPath == '/') {
-            setTimeout(()=>{
-                this.hideAddBtn = false;
-                console.log('this.hideAddBtn222 ' + this.hideAddBtn);
-            },100)
-        } else {
-            this.hideAddBtn = false;
-            console.log('this.hideAddBtn2222 ' + this.hideAddBtn);
-        }
+        // if(this.currPath == '/') {
+        //     setTimeout(()=>{
+        //         this.hideAddBtn = false;
+        //         console.log('this.hideAddBtn222 ' + this.hideAddBtn);
+        //     },100)
+        // } else {
+        //     this.hideAddBtn = false;
+        //     console.log('this.hideAddBtn2222 ' + this.hideAddBtn);
+        // }
         this.isMainDisk = this.global.currDiskUuid == '' || this.global.currDiskUuid == this.global.mainSelectDiskUuid;
         this.initDiskInfo();
         GlobalService.consoleLog("this.isMainDisk" + this.isMainDisk);
@@ -167,7 +209,7 @@ export class ListPage {
         }
     }
     ionViewDidLeave() {
-        this.hideAddBtn = true;
+        // this.hideAddBtn = true;
         //保存缩略图map到缓存
         this.showFileSelect = false;
         this.isShowClassifyNav = false;
@@ -861,14 +903,18 @@ export class ListPage {
 
 
     toggleClassifyNav(isShow = null) {
+		console.log("已点击......")
         if(isShow != null) {
+			console.log("关闭下拉菜单");
             this.isShowClassifyNav = false;
         } else {
+			console.log("打开下拉菜单");
             this.isShowClassifyNav = !this.isShowClassifyNav;
         }
     }
 
     toggleClassifyNav2() {
+		console.log("打开菜单..." + this.isShowClassifyNav);
         this.isShowClassifyNav = !this.isShowClassifyNav;
     }
 

@@ -1,19 +1,19 @@
 <!-- Generated template for the ClassifyComponent component -->
 <div class="cloud-manage">
     <ul class="clear">      
-        <li tappable (click)="goFolderPage('image')">
+        <li tappable (click)="goFolderPage($event, 'image')">
             <p>{{global.L('DirImages')}}</p>
         </li>
-        <li tappable (click)="goFolderPage('video')">
+        <li tappable (click)="goFolderPage($event, 'video')">
             <p>{{global.L('DirVideos')}}</p>
         </li>
-        <li tappable (click)="goFolderPage('music')">
+        <li tappable (click)="goFolderPage($event, 'music')">
             <p>{{global.L('DirMusics')}}</p>
         </li>
-        <li tappable (click)="goFolderPage('document')">
+        <li tappable (click)="goFolderPage($event, 'document')">
             <p>{{global.L('DirDocuments')}}</p>
         </li>
-        <li tappable (click)="goFolderPage('bt')">
+        <li tappable (click)="goFolderPage($event, 'bt')">
             <p>{{global.L('BTSeeds')}}</p>
         </li>
     </ul>

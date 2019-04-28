@@ -110,7 +110,7 @@ export class AddFileComponent {
     // }
 
     closeFileSelectEvent() {
-        GlobalService.consoleLog("关闭浮层事件触发");
+		GlobalService.consoleLog("关闭浮层事件触发");
         this.closeFileSelect.emit();
     }
 

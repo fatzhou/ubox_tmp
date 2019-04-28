@@ -1,5 +1,8 @@
 page-list {
-    $homePadding: 10px;
+	$homePadding: 10px;
+	ion-content {
+		z-index: 0;
+	}
     .home-page {
         height: 100%;
         overflow-y: auto;
@@ -27,7 +30,8 @@ page-list {
     }
     .content-ios {
         background: $newThreeColor;
-    }
+	}
+
     .title {
         padding-right: 100px;
     }
@@ -569,18 +573,23 @@ page-list {
         }
     }
     .add {
-        font-size: 54px;
+		font-size: 54px;
+		width: 54px;
+		height: 54px;
         /*padding: $padding;*/
-        position: fixed;
+        position: absolute;
         right: $homePadding + 8px;
         bottom: $homePadding + 11px;
-        z-index: 9999;
+        z-index: 999;
         transition: opacity ease .2s;
         &.at-bottom {
             /*bottom: 60px;*/
             transform: translateY(-40px);
             transition: 1s ease;
-        }
+		}
+		.icon {
+			display: block;
+		}
     }
     // .file-type-select {
     //     position: fixed;

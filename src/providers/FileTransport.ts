@@ -101,7 +101,7 @@ export class FileTransport {
 				fileId: fileId,
 				taskId: taskId,
 				name: fileName,
-				path: remotePath + "/" + fileName,
+				path: remotePath.replace(/\/$/, '') + "/" + fileName,
 				localPath: localPath,
 				speed: 0,
 				total: 0,
@@ -162,7 +162,7 @@ export class FileTransport {
 		};
 		let failure = (res) => {
 			GlobalService.consoleLog("上传失败, onFailure");
-			this.events.publish("upload:failure", task);
+			// this.events.publish("upload:failure", task);
 			this.startWaitTask('upload');
 		}
 		let success = (res: any) => {
@@ -217,13 +217,13 @@ export class FileTransport {
 		let url = this.global.getBoxApi('uploadFileBreaking');
 		let fileURL = fileTask.localPath;
 		let self = this;
-		let uploadParams = JSON.stringify({
+		let uploadParams = {
 			path: fileTask.path.replace(/\/[^\/]+$/, ''),
 			name: fileTask.name,
 			transfer: 'chunked',
 			offset: fileTask.loaded,
 			disk_uuid: fileTask.diskUuid
-		});		
+		};		
 		console.log("终极上传参数：" + JSON.stringify(uploadParams));
 
 		let uploadTransfer = new FileTransfer(
@@ -519,24 +519,6 @@ export class FileTransport {
 		};
 		let success = (res: any) => {
 			console.log("下载成功返回....." + JSON.stringify(res));
-			//查看文件夹下的问题
-			this.file.listDir(this.global.fileSavePath + this.global.VideoSubPath, '.')
-				.then((res: any) => {
-					console.log("====查看文件情况...." + JSON.stringify(res))
-					for (let i = 0, len = res.length; i < len; i++) {
-						let urlResolve = window.resolveLocalFileSystemURL || window.webkitResolveLocalFileSystemURL;
-						urlResolve(res[i].nativeURL, function (fileEntry) {
-							// GlobalService.consoleLog("获取本地url:" + JSON.stringify(fileEntry));
-							fileEntry.getMetadata(function (metadata) {
-								GlobalService.consoleLog("getMetadata成功返回:" + JSON.stringify(metadata));
-
-							},
-							function (err) {
-							});
-						});
-					}
-				})
-
 			let taskId = task.taskId;
 			if (res.complete || res.loaded == res.total) {
 				GlobalService.consoleLog("下载完成！！" + task.localPath);
