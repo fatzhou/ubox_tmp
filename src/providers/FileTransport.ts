@@ -517,13 +517,8 @@ export class FileTransport {
 			},
 
 			pause: () => {
-<<<<<<< HEAD
-				console.log("调用tool的pause方法")
-				return tool._getHandler().pause();
-=======
                 GlobalService.consoleLog("tool：暂停下载～～～");
                 return tool._getHandler().then((h)=>h.pause());
->>>>>>> da74ec535efb3a0e67576eba4359878546f3fe80
 			},
 			resume: () => {
 				return tool._getHandler().then((h)=>h.resume());
@@ -633,7 +628,7 @@ export class FileTransport {
 			task.speed = 0;
 		}
 
-		return Promise.resolve(tool);
+		return tool;
 	}
 
 	async createDownloadHandlerLocal(fileTask, progress, success, failure) {
@@ -646,7 +641,7 @@ export class FileTransport {
 		console.log("local下载文件：url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
 		let self = this;
 		return await new Promise((resolve, reject) => {
-			if (fileTask.loaded > 0) {
+			if (fileTask.loaded > -10) {
 				return FileDownloader.getUnfinishedFileSizeIfExist(this.file, fileTask.path.replace(/\/([^\/]+)$/, '/'), fileTask.name)
 					.then((res:any) => {
 						resolve(res)
@@ -714,7 +709,7 @@ export class FileTransport {
 		this.fileDownloader.onSuccess(task.fileId, success)
 		this.fileDownloader.onFailure(task.fileId, failure)
 
-		return downloadTool;
+		return Promise.resolve(downloadTool);
 	}
 
 	startWaitTask(action) {
