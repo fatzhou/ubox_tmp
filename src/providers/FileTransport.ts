@@ -634,14 +634,17 @@ export class FileTransport {
 		return new Promise((resolve, reject) => {
 			if (fileTask.loaded > 0) {
 				return FileDownloader.getUnfinishedFileSizeIfExist(this.file, fileTask.path.replace(/\/([^\/]+)$/, '/'), fileTask.name)
+					.then((res:any) => {
+						resolve(res)						
+					})
 					.catch(e => {
-						return {
+						resolve({
 							totalsize: 0,
 							downloadsize: 0,
-						}
+						})
 					})
 			} else {
-				return Promise.resolve({
+				resolve({
 					totalsize: 0,
 					downloadsize: 0,
 				})
