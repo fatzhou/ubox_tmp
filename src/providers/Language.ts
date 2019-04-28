@@ -3308,8 +3308,8 @@ export class Lang {
         kr: '주인'
     }
     static CreatTime = {
-        cn: '创建时间',
-        en: 'Create time',
+        cn: '添加时间',
+        en: 'Add Date',
         kr: '창조 시간'
     }
     static EditTime = {
@@ -3895,18 +3895,18 @@ export class Lang {
         kr: '소개'
     }
     static FileType = {
-        cn: '文件格式',
-        en: 'File type',
+        cn: '类别',
+        en: 'Category',
         kr: '파일형식'
     }
     static FileNumber = {
         cn: '文件数',
-        en: 'File number',
+        en: 'File Number',
         kr: '파일 개수'
     }
     static BTNumber = {
         cn: '种子数',
-        en: 'Number of seeds',
+        en: 'Seeds',
         kr: '시드 개수'
     }
     static FileHash = {
@@ -3931,12 +3931,12 @@ export class Lang {
     }
     static RelatedImages = {
         cn: '相关图片',
-        en: 'Related images',
+        en: 'Related Images',
         kr: '관련 이미지'
     }
     static FileList = {
         cn: '文件列表',
-        en: 'File list',
+        en: 'Files',
         kr: '파일 목록'
     }
     static PlayError = {
