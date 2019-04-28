@@ -17,8 +17,6 @@ import { Events, App } from 'ionic-angular';
     templateUrl: 'classify.html'
 })
 export class ClassifyComponent {
-
-    text: string;
     @Output() closeClassify = new EventEmitter < any > ();
 
     constructor(
@@ -26,25 +24,25 @@ export class ClassifyComponent {
         private http: HttpService,
         private app: App
     ) {
-        console.log('Hello ClassifyComponent Component');
-        this.text = 'Hello World';
+
     }
 
 
-    goFolderPage(type) {
+    goFolderPage(e, type) {
         GlobalService.consoleLog("选择文件夹类型：" + type);
         if(!this.global.deviceSelected) {
             this.global.createGlobalToast(this, {
                 message: Lang.L('WORDc89b0da1')
-            })            
+			})          
+			e && e.stopPropagation && e.stopPropagation();  
         } else {
             GlobalService.consoleLog('type' +type)
             this.app.getRootNav().push(ClassifyListPage, {
                 type: type
             })
-            .then(() => {
-                this.closeClassify.emit();
-            });  
+            // .then(() => {
+            //     this.closeClassify.emit();
+            // });  
         }
     }
 }
