@@ -4447,4 +4447,3 @@ export class Lang {
 		kr: ''
 	}
 }
-
