@@ -636,8 +636,9 @@ export class GlobalService {
     createGlobalLoading(obj, opt) {
         // 清除之前的load，再新建一个
         if(this.loadingCtrl != null) {
-            obj.global.loadingCtrl.dismiss();
-            obj.global.loadingCtrl = null;
+			return;
+            // obj.global.loadingCtrl.dismiss();
+            // obj.global.loadingCtrl = null;
         }
         this.loadingCtrl = obj.global.loadingCreator.create({
             content: opt.message

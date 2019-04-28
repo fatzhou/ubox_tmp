@@ -169,21 +169,21 @@ export class FileTransport {
 		};
 		let failure = (res) => {
 			GlobalService.consoleLog("上传失败, onFailure");
-			// this.events.publish("upload:failure", task);
+			this.events.publish("upload:failure", task);
 			this.startWaitTask('upload');
 		}
 		let success = (res: any) => {
 			GlobalService.consoleLog("上传完成！更新finish状态并发射file:updated事件:" + JSON.stringify(res));
 			this.zone.run(() => {
+				let taskId = task.taskId;
 				task.finished = !!res.complete;
 				task.loaded = res.rangend;
+				if (this.global.fileHandler[taskId]) {
+					delete this.global.fileHandler[taskId];
+				}
 				// task.confirmLoaded = res.rangend;
 				if (task.finished) {
 					task.finishedTime = new Date().getTime();
-					let taskId = task.taskId;
-					if (this.global.fileHandler[taskId]) {
-						delete this.global.fileHandler[taskId];
-					}
 					this.fileUploader.clearUploaderTask(task.fileId);
 					this.events.publish('file:updated', task);
 					console.log("event published......")
@@ -510,6 +510,7 @@ export class FileTransport {
 				}
 			},
 			pause: () => {
+				console.log("调用tool的pause方法")
 				return tool._getHandler().pause();
 			},
 			resume: () => {
@@ -525,7 +526,7 @@ export class FileTransport {
 			},
 		};
 		let progress = (res: any) => {
-			// GlobalService.consoleLog("进度信息：" + JSON.stringify(res));
+			GlobalService.consoleLog("进度信息：" + JSON.stringify(res));
 			//更新任务进度
 			this.events.publish('download:progress:' + task.fileId, task);
 			if (res.status === 'ERROR' || res.status === 'ABORT') {
@@ -622,7 +623,7 @@ export class FileTransport {
 		return tool;
 	}
 
-	createDownloadHandlerLocal(fileTask, progress, success, failure) {
+	async createDownloadHandlerLocal(fileTask, progress, success, failure) {
 		let url = this.global.getBoxApi('downloadFile') + this.http.toQueryString({
 			fullpath: fileTask.path,
 			disk_uuid: fileTask.diskUuid,
@@ -631,7 +632,7 @@ export class FileTransport {
 		let fileURL = fileTask.localPath;
 		console.log("local下载文件：url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
 		let self = this;
-		return new Promise((resolve, reject) => {
+		return await new Promise((resolve, reject) => {
 			if (fileTask.loaded > 0) {
 				return FileDownloader.getUnfinishedFileSizeIfExist(this.file, fileTask.path.replace(/\/([^\/]+)$/, '/'), fileTask.name)
 					.then((res:any) => {

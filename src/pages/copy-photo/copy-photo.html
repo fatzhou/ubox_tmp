@@ -23,7 +23,7 @@
                         <dd>{{ global.L("CopyPlace") }}</dd>
                     </dl>
                 </ion-label>
-                <ion-toggle color="secondary" [(ngModel)]="backupSwitch"></ion-toggle>
+                <ion-toggle color="secondary" (change)="changeBackupSwitch()" [(ngModel)]="backupSwitch"></ion-toggle>
             </ion-item>
         </div>
         <div class="copy-commentary">

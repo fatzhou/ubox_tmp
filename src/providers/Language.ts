@@ -4419,6 +4419,10 @@ export class Lang {
         en: 'Device connection failed, please check',
         kr: ''
     }
-
+	static UnArchieved = {
+		cn: "未归档文件",
+		en: 'UnArchieved',
+		kr: ''
+	}
 }
 
