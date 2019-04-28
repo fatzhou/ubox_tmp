@@ -653,7 +653,8 @@ export class FileTransport {
 		.then((res: any) => {
 			fileTask.loaded = res.downloadsize;
 			fileTask.total = res.totalsize;
-			let fileTransfer = new FileTransfer(url, fileURL, {
+            console.log("开始调用new FileTransfer");
+            let fileTransfer = new FileTransfer(url, fileURL, {
 				headers: {
 					// add custom headers if needed
 					cookie: this.http.getCookieString(url)
@@ -664,9 +665,9 @@ export class FileTransport {
 				}
 			}, false);
 			fileTransfer.onProgress(progress);
-			fileTransfer.onSuccess(success)
-			fileTransfer.onFailure(failure)
-			console.log("开始调用下载....")
+			fileTransfer.onSuccess(success);
+			fileTransfer.onFailure(failure);
+			console.log("开始调用下载....");
 			fileTransfer.download();
 			return fileTransfer;
 		});
