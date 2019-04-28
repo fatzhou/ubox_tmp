@@ -23,7 +23,7 @@ page-coin-send {
 			padding: 0 15px;
 			font-size: 15px;
 			.fl {
-				color: #FFFFFF;
+				color: $newFiveColor;
 			}
 			.fr {
 				color: $newFiveColor;
@@ -64,7 +64,7 @@ page-coin-send {
 					border-bottom: .5px solid $newThreeColor;
 					p {
 						font-size: 15px;
-						color: #FFFFFF;
+						color: $newFiveColor;
 						line-height: 54px;
 					}
 					.scan-qrcode {
@@ -80,7 +80,7 @@ page-coin-send {
 					height: 54px;
 					font-size: 14px;
 					background: transparent;
-					color: $newFiveColor;
+					color: #fff;
 				}
 			}
 			&:after {
@@ -100,10 +100,9 @@ page-coin-send {
 			.transfer-input {
 				margin-top: 16px;
 				font-size: 24px;
-				padding: 4px 0;
+				padding: 4px 15px;
 				background: transparent;
-				text-indent: 15px;
-				color: $newFiveColor;
+				color: #fff;
 			}
 			.total {
 				margin-top: 4px;
@@ -125,6 +124,10 @@ page-coin-send {
 			border-radius: 4px;
 			width: calc(100% - 26px);
 			margin:  0 auto;
+			.fr {
+				font-size: 12px;
+				color: #00C77D;
+			}
 			.desc {
 				span {
 					line-height: 44px;

@@ -483,6 +483,10 @@ textarea::-webkit-input-placeholder {
 .bar-button-default-ios, .bar-button-default.bar-button-ios-default, .bar-button-clear-ios-default {
     color: #fff;
 }
+.toolbar {
+    min-height: 54px;
+    padding: 0 4px;
+}
 .toolbar-ios ion-title {
     padding: 0 40px 1px;
 }
@@ -737,3 +741,11 @@ ion-infinite-scroll {
 .ion-ios-arrow-round-back:before {
     font-weight: 600;
 }
+
+// .file-thumbnail {
+//     width: 40px;
+//     height: 40px;
+//     background-position: center center;
+//     background-size: cover;
+//     background-repeat: no-repeat;              
+// } 

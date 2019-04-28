@@ -218,7 +218,7 @@ export class FileTransport {
 		let fileURL = fileTask.localPath;
 		let self = this;
 		let uploadParams = {
-			path: fileTask.path.replace(/\/[^\/]+$/, ''),
+			path: fileTask.path.replace(/\/[^\/]+$/, '/'),
 			name: fileTask.name,
 			transfer: 'chunked',
 			offset: fileTask.loaded,

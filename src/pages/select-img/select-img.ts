@@ -190,7 +190,8 @@ export class SelectImgPage {
             setTimeout(() => {
                 // this.uploadThumbnail(uploadItem)
                 // .then(res => {
-					let md5 = Md5.hashStr(this.currPath.replace(/\/$/, '') + "/" + uploadItem.fileName).toString();
+                    let md5 = Md5.hashStr(this.currPath.replace(/\/$/, '') + "/" + uploadItem.fileName).toString();
+                    console.log('this.currPath   ' + this.currPath)
 					this.global.thumbnailMap[md5] = uploadItem.thumbnailURL;
                     this.transfer.uploadSingleFile(fileUrl, this.currPath, {
 						// thumbnail: res,

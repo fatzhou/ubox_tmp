@@ -35,9 +35,18 @@ export class DeviceManagePage {
 
     ionViewDidLoad() {
         console.log('ionViewDidLoad DeviceManagePage');
-        this.disks = this.global.diskInfo.disks || [];
-        this.disks.map(item => {
-            item.isShowOptions = false;
+        this.util.getDiskStatus()
+        .then((res:any)=>{
+            this.disks = this.global.diskInfo.disks || [];
+            this.disks.map(item => {
+                item.isShowOptions = false;
+            })
+        })
+        .catch(() => {
+            this.disks = this.global.diskInfo.disks || [];
+            this.disks.map(item => {
+                item.isShowOptions = false;
+            })
         })
         this.boxId = this.global.diskInfo.boxid;
     }
@@ -175,7 +184,7 @@ export class DeviceManagePage {
                                         message: '重命名成功',
                                     })
                                     disk.label = data.folderName;
-                                    
+                                    this.util.getDiskStatus();
                                 } else {
                                     this.global.createGlobalToast(this, {
                                         message: '重命名失败',

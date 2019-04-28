@@ -1181,6 +1181,18 @@ export class Lang {
                 en: "",
                 kr: ""
             }
+        },
+        10002: {
+            Title: {
+                cn: "任务已下载",
+                en: "",
+                kr: ""
+            },
+            Subtitle: {
+                cn: "",
+                en: "",
+                kr: ""
+            }
         }
 
     };
@@ -4154,7 +4166,7 @@ export class Lang {
 
     static RecommendedResources = {
         cn: '推荐资源',
-        en: 'Recommended Resources',
+        en: 'Recommended',
         kr: '권장 리소스'
     }
     static Discovery = {
@@ -4419,6 +4431,12 @@ export class Lang {
         en: 'Device connection failed, please check',
         kr: ''
     }
+    static TaskDownloading = {
+        cn: '任务已下载',
+        en: '',
+        kr: ''
+    }
+    
 
 }
 

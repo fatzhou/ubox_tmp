@@ -28,9 +28,11 @@ page-bt-detail {
         top: 0;
         z-index: 9;
         color: #fff;
-        height: 44px;
+        height: 54px;
         width: 100%;
         background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0));
+        display: flex;
+        align-items: center;
         .icon  {
             font-size: 40px;
             color: #fff;
@@ -45,7 +47,7 @@ page-bt-detail {
         }
     }
     .mar-top-46 {
-        margin-top: 46px;
+        margin-top: 54px;
     }
     .detail-title {
         padding: 10px;

@@ -71,24 +71,27 @@ export class MiningSettingPage {
                     message: Lang.L('WORD5e6d7a09'),
                 })
                 GlobalService.consoleLog("更新盒子数据");
-                this.http.post(this.global.getBoxApi('getUserInfo'), {}, false)
-                .then((res) => {
-                    this.global.boxUserInfo = res.userinfo;
-                })
                 if(this.chainType === 'ERC20') {
                     this.http.post(url, {coinbase: this.coinbase})
                     .then((res) => {
-                        console.log('设置钱包地址')
+                        this.events.publish('coinbase:change', {
+                            coinbase: this.coinbase
+                        });
+                        this.http.post(this.global.getBoxApi('getUserInfo'), {}, false)
+                        .then((res) => {
+                            this.global.boxUserInfo = res.userinfo;
+                            this.events.publish('mining:change', {
+                                ifMining: this.ifMining,
+                                storage: storage
+                            });
+                        })
                     })
                     this.global.centerUserInfo.mining = this.ifMining;
                 }
-                this.events.publish('mining:change', {
-                    ifMining: this.ifMining,
-                    storage: storage
-                });
+                
                 setTimeout(()=>{
                     this.navCtrl.pop();
-                }, 100)
+                }, 500)
             } else {
                 throw new Error('Save info failed');
             }
@@ -105,10 +108,7 @@ export class MiningSettingPage {
         var boxInfo = this.global.boxInfo;
         this.ifMining = !!this.global.boxUserInfo.share_switch;
         GlobalService.consoleLog('ionViewDidLoad MiningSettingPage');
-        if(!this.coinbase){
-            this.coinbase = this.navParams.get('coinbase');
-		}
-
+        this.coinbase = this.navParams.get('coinbase');
         if (!!this.global.deviceSelected) {
             GlobalService.consoleLog("已选择盒子");
             var shareSize = 0;
