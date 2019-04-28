@@ -34,47 +34,47 @@ export class Lang {
 
     static UappInstallSucceed = {
         cn: "应用${name}已成功安装!",
-        en: 'App${name} successfully installed ',
+        en: 'App${name} successfully installed',
         kr: '${name}이 성공적으로 설치되었습니다'
     };
 
     static BindBoxFirst = {
-        cn : '该应用需先绑定盒子',
-        en: 'you have to bind a box first to use this app',
+        cn: '该应用需先绑定盒子',
+        en: 'Please bind your box first',
         kr: '어플리케이션을 사용하기위해 먼저 박스를 바인딩해야합니다'
     };
 
     static BoxOffline = {
-        cn : '您的盒子不在线，请在盒子在线时使用',
-        en: 'Your box is not online, please bring your box online',
+        cn: '设备不在线，请在设备在线时使用',
+        en: 'Your device is offline, please connect first',
         kr: '박스가 온라인 상태가 아닙니다. 박스를 온라인 상태로 만드십시오.'
-    }
+    };
 
 
     static UappUninstalled = {
-        cn: '应用${name}已卸载成功',
-        en: 'APP successfully uninstalled ',
+        cn: '应用${name}已成功卸载',
+        en: 'App "${name}" successfully uninstalled',
         kr: '어플리케이션이 성공적으로 설치되었습니다'
-    }
+    };
 
     static Getting = {
         cn: '获取中(${progress}%)',
         en: 'Accessing(${progress}%)',
         kr: '접속 중 (${progress}%)'
-    }
+    };
 
-    static AppInstalling = {
+    static AppInstalling = {//xxxxxx
         cn: '正在安装应用${name}',
-        en: 'APP installing(${progress}%)',
-        kr: '설치 중 (${progress}%)'
-    }
+        en: 'App "${name}" installing',
+        kr: ''
+    };
 
 
     static InstallError = {
         cn: '应用${name}安装失败',
-        en: 'APP installing fails(${progress}%)',
-        kr: '어플리케이션 설치 실패 (${progress}%)'
-    }
+        en: 'App "${name}" installing failed',
+        kr: ''
+    };
 
     static Ok = {
         cn: "确定",
@@ -98,7 +98,7 @@ export class Lang {
     };
     static NowUpdate = {
         cn: "立即升级",
-        en: "Upgrade now",
+        en: "Upgrade Now",
         kr: "즉시 업그레이드",
     };
     static Commit = {
@@ -121,24 +121,24 @@ export class Lang {
         en: 'Updating...',
         kr: '업그레이드중...'
     };
-    static PasswordPlaceholder = {
+    static PasswordPlaceholder = {//xxxx
         cn: "登录密码由8-18位数字和字母组成",
         en: "Login password should contain 8-18 digits and letters ",
         kr: "로그인 비밀번호는 8~18자 및 문자를 포함해야 합니다. ",
     };
     static NeedPassword = {
         cn: "查看该项数据需输入您的密码",
-        en: "Enter your password to access desired data",
+        en: "Enter your password to access",
         kr: "데이터에 액세스 하려면 암호를 입력하십시오.",
     };
     static PlsInputCurrentPassword = {
         cn: "请输入${username}的登录密码",
-        en: "Enter ${username} and password",
-        kr: " ${username} 및 암호 입력",
+        en: "Please enter the password of ${username}",
+        kr: "",
     };
     static ReLogin = {
         cn: "重新登录",
-        en: "Login again",
+        en: "Login Again",
         kr: "다시 로그인하십시오. ",
     };
     static UnkownError = {
@@ -148,22 +148,22 @@ export class Lang {
     };
     static SystemError = {
         cn: "系统繁忙，请稍候再试",
-        en: "System error. Please try again later.",
+        en: "System busy, please try again later.",
         kr: "시스템 오류가 발생하였습니다. 잠시 후에 다시 시도해 주십시오.",
     };
     static NetworkError = {
         cn: "网络错误，请检测网络",
-        en: "Network error. Please check the network.",
+        en: "Network connection failed, please check.",
         kr: "네트워크 오류가 발생하였습니다. 네트워크를 확인하십시오.",
     };
     static RequestError = {
         cn: "网络请求错误，请稍候重试",
-        en: "Network request error. Please try again later.",
+        en: "Network request failed, please try again later.",
         kr: "네트워크 요청 오류입니다. 잠시 후에 다시 시도해 주십시오.",
     };
     static ConnectNetworkError = {
         cn: "无法连接网络，请检查网络情况！",
-        en: "Network Error. Please check the network.",
+        en: "Network connection failed, please check.",
         kr: "네트워크 오류입니다. 네트워크를 확인하십시오. ",
     };
 
@@ -185,7 +185,7 @@ export class Lang {
     };
     static YourNetworkOffline = {
         cn: "网络连接失败",
-        en: "Failed to connect to the network",
+        en: "Network connection failed",
         kr: "인터넷 접속 실패",
     };
     static IsScanning = {
@@ -210,7 +210,7 @@ export class Lang {
     };
     static BindComment1 = {
         cn: "绑定时请确保手机与设备在可连接外网的同一局域网内",
-        en: "Please make sure your phone and Ubbey Box are connecting to the same network ",
+        en: "Please make sure your phone and device are connecting to the same network ",
         kr: "휴대기기와 디바이스가 동일한 네트워크에 연결되어 있는지 확인하십시오.",
     };
     static BindComment2 = {
@@ -220,19 +220,19 @@ export class Lang {
     };
     static RemoteLogin = {
         cn: "远程登录",
-        en: "Remote login",
+        en: "Remote Login",
         kr: "원격 로그인",
     };
     static RetryScan = {
         cn: "重新扫描",
-        en: "Scan again",
+        en: "Scan Again",
         kr: "다시 스캔",
     };
 
     //设备管理页
     static AboutDevice = {
         cn: "关于设备",
-        en: "About device",
+        en: "About Device",
         kr: "디바이스 정보",
     };
     static Online = {
@@ -242,17 +242,17 @@ export class Lang {
     };
     static StartMining = {
         cn: "开启挖矿",
-        en: "Mining",
+        en: "Open Mining",
         kr: "마이닝",
     };
     static BindWallet = {
         cn: "绑定钱包",
-        en: "Bound wallet",
+        en: "Bound Wallet",
         kr: "지갑 바인딩",
     };
     static DeviceName = {
         cn: "设备名称",
-        en: "Device name",
+        en: "Device Name",
         kr: "디바이스 이름",
     };
     static DeviceModel = {
@@ -272,7 +272,7 @@ export class Lang {
     };
     static DeviceType = {
         cn: "设备类型",
-        en: "Device type",
+        en: "Device Type",
         kr: "디바이스 유형",
     };
     static DeviceStorage = {
@@ -282,7 +282,7 @@ export class Lang {
     };
     static DiskAvailableSpace = {
         cn: "可用容量：${c}GB",
-        en: "Available storage:${c}GB ",
+        en: "Available storage:${c}GB",
         kr: "사용 가능한 스토리지：${c}GB",
     };
     static DiskTotalSpace = {
@@ -302,7 +302,7 @@ export class Lang {
     };
     static CheckFirmwareUpdate = {
         cn: "检查固件更新",
-        en: "Firmware Updates",
+        en: "Check Firmware Updates",
         kr: "펌웨어 업데이트",
     };
 
@@ -326,7 +326,7 @@ export class Lang {
     //修改密码
     static ChangePassword = {
         cn: "修改密码",
-        en: "Change password",
+        en: "Change Password",
         kr: "비밀번호 변경",
     };
     static PasswordRuleDesc = {
@@ -352,7 +352,7 @@ export class Lang {
     };
     static PlsInputOldPassword = {
         cn: "请输入原密码",
-        en: "Enter the old password",
+        en: "Enter the current password",
         kr: "기존 비밀번호를 입력하십시오.",
     };
     static PlsInputNewPassword = {
@@ -373,7 +373,7 @@ export class Lang {
     };
     static ForgotPassword = {
         cn: "忘记密码",
-        en: "Forgot password",
+        en: "Forgot Password",
         kr: "암호를 잊어버렸습니다.",
     };
     static UserAgreementLable = {
@@ -419,7 +419,7 @@ export class Lang {
     };
     static EarningsYesterday = {
         cn: "昨日收益",
-        en: "Yesterday's reward",
+        en: "Yesterday's rewards",
         kr: "어제의 수익"
     };
     static TotalXYou = {
@@ -431,7 +431,7 @@ export class Lang {
     ////./device-management/device-management.html////
     static DeviceManagement = {
         cn: "设备管理",
-        en: "Manage device",
+        en: "Manage Device",
         kr: "디바이스 관리"
     };
     static IsMining = {
@@ -441,12 +441,12 @@ export class Lang {
     };
     static NotSetMining = {
         cn: "未设置挖矿",
-        en: "No mining setting",
+        en: "Mining Not Opened",
         kr: "마이닝 설정 없음"
     };
     static WalletAddress = {
         cn: "钱包地址",
-        en: "Wallet address",
+        en: "Wallet Address",
         kr: "지갑 주소"
     };
     static NotSetWalletAddress = {
@@ -456,17 +456,17 @@ export class Lang {
     };
     static DiskType = {
         cn: "硬盘类型",
-        en: "Disk type",
+        en: "Disk Type",
         kr: "디스크 유형"
     };
     static DiskCapacity = {
         cn: "硬盘容量",
-        en: "Disk capacity",
+        en: "Disk Capacity",
         kr: "디스크 용량"
     };
     static FormatDisk = {
         cn: "格式化硬盘",
-        en: "Format disk ",
+        en: "Format Disk ",
         kr: "디스크 포맷"
     };
     static FormatDiskLoading = {
@@ -564,7 +564,7 @@ export class Lang {
     };
     static InnerTestVersion = {
         cn: "测试版",
-        en: "Test version",
+        en: "Test Version",
         kr: "테스트 버전"
     };
     static LoginYouCanFinishBind = {
@@ -584,7 +584,7 @@ export class Lang {
     };
     static SearchingBox = {
         cn: "正在查询可用设备…",
-        en: "Looking for available device",
+        en: "Looking for available devices",
         kr: "사용 가능한 장치 찾기"
     };
     static AccountError = {
@@ -594,7 +594,7 @@ export class Lang {
     };
     static AccountErrorReason = {
         cn: "原因：输入账户有误、设备已解绑或重置",
-        en: "Cause:wrong account information, devices been unbounded or reset ",
+        en: "Cause: wrong account information, devices been unbounded or reset ",
         kr: "원인:오류 계정 정보, 장치의 바인딩 해제 또는 재설정"
     };
     static ReInput = {
@@ -604,7 +604,7 @@ export class Lang {
     };
     static ReScan = {
         cn: "重新扫描",
-        en: "Scan again",
+        en: "Scan Again",
         kr: "다시 스캔"
     }
     ////./mining/mining.html////
@@ -615,22 +615,22 @@ export class Lang {
     };
     static YesterdayReward = {
         cn: "昨日收益",
-        en: "Yesterday's reward",
+        en: "Yesterday's rewards",
         kr: "어제의 수익"
     };
     static MiningClosed = {
         cn: "未开启挖矿",
-        en: "Mining inactivated",
+        en: "Mining Not Opened",
         kr: "마이닝 설정이 활성화 되지 않음"
     };
     static TotalReward = {
         cn: "累计收益",
-        en: "Total reward",
+        en: "Total rewards",
         kr: "누적 수익"
     };
     static LockedReward = {
         cn: "待解锁收益",
-        en: "Locked reward",
+        en: "Locked rewards",
         kr: "잠긴 수익"
     };
     static NotSetWallet = {
@@ -665,12 +665,12 @@ export class Lang {
     };
     static LastNumDayReward = {
         cn: "近${N}天收益",
-        en: "Last ${N} day's reward ",
+        en: "Last ${N} day's rewards",
         kr: "최근${N} 일 수익 "
     };
     static LastNumDayNoReward = {
         cn: "您最近${N}天内无挖矿收益记录",
-        en: "No mining reward in last ${N} days",
+        en: "No mining rewards in last ${N} days",
         kr: "지난{N}일 동안 마이닝 수익이 없습니다."
     };
     static ViewRewardList = {
@@ -682,7 +682,7 @@ export class Lang {
     ////./mining-list/mining-list.html////
     static MiningReward = {
         cn: "挖矿收益",
-        en: "Mining reward",
+        en: "Mining rewards",
         kr: "마이닝 수익 "
     };
     static HaveNoRewardRecord = {
@@ -694,7 +694,7 @@ export class Lang {
     ////./mining-setting/mining-setting.html////
     static OpenMining = {
         cn: "开启挖矿",
-        en: "Mining",
+        en: "Open Mining",
         kr: "마이닝"
     };
     static OpenChainMining = {
@@ -718,8 +718,8 @@ export class Lang {
         kr: "수익이 많습니다."
     };
     static MiningRewardAddress = {
-        cn: "挖矿收益地址",
-        en: "Mining reward recipient",
+        cn: "收益地址",
+        en: "Reward recipient",
         kr: "마이닝 수익 주소"
     };
     static Modify = {
@@ -734,29 +734,29 @@ export class Lang {
     };
     static MyWalletName = {
         cn: "钱包名称",
-        en: "Wallet name",
+        en: "Wallet Name",
         kr: "지갑 이름"
     };
 
     ////./user/user.html////
     static WalletManagement = {
         cn: "钱包管理",
-        en: "Manage wallet",
+        en: "Manage Wallet",
         kr: "지갑관리"
     };
     static ModifyPassword = {
         cn: "修改密码",
-        en: "Change password",
+        en: "Change Password",
         kr: "비밀번호 변경"
     };
     static CheckUpdate = {
         cn: "检查更新",
-        en: "Check updates",
+        en: "Check Updates",
         kr: "업데이트 확인"
     };
     static AboutUs = {
         cn: "关于我们",
-        en: "About us",
+        en: "About Us",
         kr: "정보"
     };
     static Language = {
@@ -766,7 +766,7 @@ export class Lang {
     };
     static ExitLogin = {
         cn: "退出登录",
-        en: "Sign out",
+        en: "Sign Out",
         kr: "로그아웃"
     };
 
@@ -805,12 +805,12 @@ export class Lang {
     ////./wallet-coinbase/wallet-coinbase.html////
     static CreateWallet = {
         cn: "创建钱包",
-        en: "Create wallet",
+        en: "Create Wallet",
         kr: "지갑 만들기"
     };
     static ViewBalance = {
         cn: "查看余额",
-        en: "View balance",
+        en: "View Balance",
         kr: "잔액 보기"
     };
     static HaveReceived = {
@@ -837,7 +837,7 @@ export class Lang {
     };
     static NewWalletName = {
         cn: "钱包名称",
-        en: "wallet name",
+        en: "Wallet Name",
         kr: "지갑 이름"
     };
     static SetPayPassword = {
@@ -886,7 +886,7 @@ export class Lang {
     };
     static DeleteWallet = {
         cn: "删除钱包",
-        en: "Delete wallet",
+        en: "Delete Wallet",
         kr: "지갑 삭제"
     };
 
@@ -915,7 +915,7 @@ export class Lang {
         1001: {
             Title: {
                 cn: "参数不合格",
-                en: "Illegal parameter ",
+                en: "Illegal parameter",
                 kr: "잘못된 매개 변수",
             },
             Subtitle: {
@@ -951,12 +951,12 @@ export class Lang {
         1101: {
             Title: {
                 cn: "该设备非您所有，请使用正确的账户登录",
-                en: "The Ubbey Box does not belong to this account. Please use the correct account. ",
+                en: "The deveice does not belong to this account. Please use the correct account.",
                 kr: "당신 소유의 Ubbey Box가 아닙니다. 올바른 계정을 사용하십시오.",
             },
             Subtitle: {
                 cn: "当前输入账户非设备拥有者",
-                en: "The Ubbey Box does not belong to the current account ",
+                en: "The device does not belong to the current account",
                 kr: "이 계정은 해당 Ubbey Box와 연결된 계정이 아닙니다 .",
             }
         },
@@ -1041,7 +1041,7 @@ export class Lang {
         1121: {
             Title: {
                 cn: "设置的存储空间超出磁盘容量",
-                en: "Storage space exceeds disk capacity ",
+                en: "Storage space exceeds disk capacity",
                 kr: "설정된 스토리지 공간이 디스크 용량을 초과하였습니다."
             },
             Subtitle: {
@@ -1053,24 +1053,24 @@ export class Lang {
         1201: {
             Title: {
                 cn: "设备ID错误",
-                en: "Ubbey Box ID error",
+                en: "Device ID error",
                 kr: "디바이스 ID 오류 "
             },
             Subtitle: {
                 cn: "该设备ID非当前设备",
-                en: "The ID does not match to the Ubbey Box",
+                en: "The ID does not match to the device",
                 kr: "ID가 디바이스와 일치하지 않습니다."
             }
         },
         1202: {
             Title: {
                 cn: "设备已被绑定",
-                en: "The Box has been bound",
+                en: "The device has been bound",
                 kr: "디바이스가 이미 바인딩 되었습니다."
             },
             Subtitle: {
                 cn: "请使用设备绑定的账户登录",
-                en: "Please log in the Ubbey Box with binding account.",
+                en: "Please login the device with binding account.",
                 kr: " Ubey Box에 바인딩 계정으로 로그인하십시오."
             }
         },
@@ -1161,7 +1161,7 @@ export class Lang {
         1406: {
             Title: {
                 cn: "重命名名字不符合规则",
-                en: "Invalid rename format",
+                en: "Invalid folder/file name",
                 kr: " 변경된 이름이 요구조건에 부합되지 않습니다."
             },
             Subtitle: {
@@ -1200,7 +1200,7 @@ export class Lang {
             },
             ButtonText: {
                 cn: "重新登录",
-                en: "Login again",
+                en: "Login Again",
                 kr: "다시 로그인"
             }
         },
@@ -1236,19 +1236,19 @@ export class Lang {
             },
             Subtitle: {
                 cn: "请点击「重新登录」按钮，重新登录系统",
-                en: "Please click「Login again」button to login again",
+                en: "Please click「Login Again」button to login again",
                 kr: " 다시 로그인 하려면 [다시 로그인] 버튼을 클릭 하십시오."
             },
             ButtonText: [{
-                cn: "重新登录",
-                en: "Login again",
-                kr: "다시 로그인"
-            },
-            {
-                cn: "取消登录",
-                en: "cancel",
-                kr: ""
-            },
+                    cn: "重新登录",
+                    en: "Login Again",
+                    kr: "다시 로그인"
+                },
+                {
+                    cn: "取消登录",
+                    en: "Cancel",
+                    kr: ""
+                },
             ],
             action: [
                 (that) => {
@@ -1274,24 +1274,24 @@ export class Lang {
         20012: {
             Title: {
                 cn: "该账户已绑定设备，请更换用户",
-                en: "Your current account is already bound to a Ubbey Box. Please switch to another account.",
+                en: "Your current account is already bound to a device. Please switch to another account.",
                 kr: "현재 계정은 이미 디바이스에 바인딩 되어 있습니다. 다른 계정으로 전환하십시오."
             },
             Subtitle: {
                 cn: "每个账户仅允许绑定一个设备",
-                en: "Each account is only allowed to bind to one Ubbey Box",
+                en: "One account is only allowed to bind to one device",
                 kr: "각 계정은 하나의 디바이스에만 바인딩 할 수 있습니다."
             }
         },
         20052: {
             Title: {
                 cn: "验证码发送错误",
-                en: "Verification code delivery error ",
+                en: "Verification code delivery error",
                 kr: "인증코드 발송 오류"
             },
             Subtitle: {
                 cn: "系统发送验证码时出错，请更换邮箱或稍候再试。",
-                en: "System error during verification code delivery. Please change the email or try again later ",
+                en: "System error during verification code delivery. Please change the email or try again later",
                 kr: "인증코드 발송 중에 시스템 오류가 발생하면 이메일을 변경하거나 나중에 다시 시도하십시오."
             }
         },
@@ -1322,24 +1322,24 @@ export class Lang {
         20151: {
             Title: {
                 cn: "设备状态错误",
-                en: "Ubbey Box status error",
+                en: "Device status error",
                 kr: "디바이스 상태 오류"
             },
             Subtitle: {
                 cn: "该设备当前无法绑定，请稍候再试",
-                en: "The Ubbey Box cannot be bound. Please try again later",
+                en: "The device cannot be bound. Please try again later",
                 kr: "디바이스를 바인딩 할 수 없습니다. 잠시후 다시 시도해 주십시오."
             }
         },
         30003: {
             Title: {
                 cn: "设备ID错误",
-                en: "Ubbey Box ID error",
+                en: "Device ID error",
                 kr: "디바이스 ID 오류 "
             },
             Subtitle: {
                 cn: "该设备没有预绑定，无法确认",
-                en: "The Ubbey Box is not bound. Unable to confirm",
+                en: "The device is not bound. Unable to confirm",
                 kr: "디바이스가 바인딩 되어 있지 않아서 확인할 수 없습니다."
             }
         },
@@ -1376,12 +1376,12 @@ export class Lang {
     };
     static WORD8b37527e = {
         cn: "您当前未连接设备，无法修改密码",
-        en: "You are unable to change password now. You have to connect to your Ubbey Box first.",
+        en: "You are unable to change password now. You have to connect to your device first.",
         kr: "지금은 비밀번호를 변경할 수 없습니다. 먼저 고객님의 디바이스에 연결해 주십시오."
     };
     static WORD49fd48a8 = {
         cn: "请重新搜索网络内的设备",
-        en: "Please search the Ubbey Box in the network again",
+        en: "Please scan the device in the network again",
         kr: "네트워크 내에서 디바이스를 다시 검색하십시오."
     };
     static WORD85ceea04 = {
@@ -1391,17 +1391,17 @@ export class Lang {
     };
     static WORD0cde60d1 = {
         cn: "搜索设备",
-        en: "Search Ubbey Box",
+        en: "Scan Device",
         kr: "디바이스 검색"
     };
     static WORD22138f20 = {
         cn: "获取设备列表失败",
-        en: "Failed to achieve Ubbey Boxes ",
+        en: "Failed to achieve devices",
         kr: "박스 리스트 다운로드 실패했습니다."
     };
     static WORD7b23f9a4 = {
         cn: "设备密码修改失败",
-        en: "Failed to change Ubbey Box password",
+        en: "Failed to change device password",
         kr: "디바이스의 비밀번호 변경에 실패했습니다."
     };
     static WORD07c69da3 = {
@@ -1427,12 +1427,12 @@ export class Lang {
     ////src/pages/device-list/device-list.ts////
     static WORD46ed4d8e = {
         cn: "该设备非您所有",
-        en: "This Ubbey Box does not belong to you",
+        en: "This device does not belong to you",
         kr: "해당 디바이스는 고객님의 것이 아닙니다."
     };
     static WORDd0b25fa3 = {
         cn: "您的远程登录账户与设备所有者不一致",
-        en: "Your remote login account does not match the Ubbey Box owner account",
+        en: "Your remote login account does not match the device owner",
         kr: "원격 로그인 계정이 디바이스 소유자 계정과 일치하지 않습니다."
     };
     static WORD1b9bba37 = {
@@ -1447,23 +1447,23 @@ export class Lang {
     };
     static WORD24fa7b55 = {
         cn: "直接登录，未设置设备信息",
-        en: "Login directly without setting Ubbey Box's information",
+        en: "Login directly without setting device information",
         kr: "디바이스 정보를 설정하지 않고 바로 로그인"
     };
     ////src/pages/device-management/device-management.ts////
     static WORDe3f67d41 = {
         cn: "没连接设备！",
-        en: "Not connected to the Ubbey Box",
+        en: "Not connected to the device",
         kr: "디바이스에 연결되지 않음!"
     };
     static WORD59b0d149 = {
         cn: "未连接任何设备",
-        en: "Not connected to any Ubbey Box",
+        en: "Not connected to any device",
         kr: "디바이스에 연결되지 않음"
     };
     static WORDe6e1739b = {
         cn: "点击搜索设备，重新搜索网络内的设备",
-        en: "Click to search Ubbey Box.",
+        en: "Click to scan devices.",
         kr: "클릭하여 디바이스를 검색하십시오."
     };
     static WORD621202ef = {
@@ -1473,7 +1473,7 @@ export class Lang {
     };
     static WORDdece57fd = {
         cn: "连接了设备!",
-        en: "Connected to a Ubbey Box",
+        en: "Connected to a device",
         kr: "디바이스에 연결됨"
     };
     static WORDe008139a = {
@@ -1508,7 +1508,7 @@ export class Lang {
     };
     static WORDd6291d38 = {
         cn: "回到首页",
-        en: "Back to home page",
+        en: "Back to homepage",
         kr: "홈으로 돌아가기"
     };
     static WORD67551a7e = {
@@ -1518,7 +1518,7 @@ export class Lang {
     };
     static WORD9f502956 = {
         cn: "解除绑定后您可以使用其他账户重新绑定设备",
-        en: "After unbinding, the Ubbey Box could be bound to other account",
+        en: "After unbinding, the device could be bound to other account",
         kr: "바인딩 해제 후, 다른 계정을 디바이스에 바인딩 할 수 있습니다."
     };
     static WORDd0ce8c46 = {
@@ -1533,7 +1533,7 @@ export class Lang {
     };
     static WORD3f31fa42 = {
         cn: "设备解除绑定失败",
-        en: "Failed to unbind the Ubbey Box",
+        en: "Failed to unbind the device",
         kr: "디바이스와 바인딩 해제 실패"
     };
     static WORDab667a91 = {
@@ -1570,7 +1570,7 @@ export class Lang {
     };
     static WORD870636e5 = {
         cn: "设置挖矿收益",
-        en: "Set mining reward",
+        en: "Set mining rewards",
         kr: "마이닝 수익 설정"
     };
     static WORD0753d080 = {
@@ -1585,12 +1585,12 @@ export class Lang {
     };
     static WORD2a0b753a = {
         cn: "您尚未连接设备",
-        en: "You haven't connected to any boxes",
+        en: "You haven't connected to any devices",
         kr: "디바이스를 연결하지 않았습니다."
     };
     static WORDc89b0da1 = {
         cn: "连接设备后方可查看",
-        en: "Please connect the Ubbey Box to access your files",
+        en: "Please connect the device to access your files",
         kr: "파일에 액세스하려면 Ubey Box를 연결하십시오. "
     };
     static WORD688d7511 = {
@@ -1642,12 +1642,12 @@ export class Lang {
     };
     static WORDa509a58d = {
         cn: "重置状态",
-        en: "Reset status",
+        en: "Reset Status",
         kr: "상태 재 설정"
     };
     static WORD09adbc77 = {
         cn: "当前已经全选",
-        en: "Selected all",
+        en: "Selected All",
         kr: "모두 선택하였습니다."
     };
     static StartDownloadFile = {
@@ -1657,7 +1657,7 @@ export class Lang {
     };
     static StartDownloading = {
         cn: '开始下载文件',
-        en: 'start downloading',
+        en: 'Start downloading',
         kr: '다운로드를 시작'
     }
     static WORDc8b1ea31 = {
@@ -1667,7 +1667,7 @@ export class Lang {
     };
     static WORDe7a259fa = {
         cn: "从以下路径下载:",
-        en: "Download from following path: ",
+        en: "Download from the following path: ",
         kr: "다음 경로에서 다운로드:"
     };
     static FileSuccessfulSaved = {
@@ -1747,7 +1747,7 @@ export class Lang {
     };
     static WORDfd8af984 = {
         cn: "尚未选择文件，无法删除",
-        en: "You haven't selected and files. Unable to delete",
+        en: "You haven't selected any files. Unable to delete",
         kr: "파일을 선택하지 않았습니다. 삭제할 수 없습니다."
     };
     static WORD3aff2d2f = {
@@ -1772,12 +1772,12 @@ export class Lang {
     };
     static WORD5627ad0c1 = {
         cn: "删除任务列表",
-        en: "Delete the tasks list",
+        en: "Delete the tasks",
         kr: "미션 리스트 삭제"
     };
     static WORD5627ad0c2 = {
         cn: "任务列表被删除后将无法恢复",
-        en: "The tasks list could not be restored after deleting",
+        en: "The tasks could not be restored after deleting",
         kr: "미션 리스트가 삭제 되면 다시 복원할 수 없습니다."
     };
     static WORD0e46988a = {
@@ -1822,7 +1822,7 @@ export class Lang {
     };
     static DirAllFiles = {
         cn: "所有文件",
-        en: "All files",
+        en: "All Files",
         kr: "모든 파일"
     };
     static DirFolders = {
@@ -1903,17 +1903,17 @@ export class Lang {
     };
     static WORD357d4a38 = {
         cn: "参数校验通过，开始登录设备",
-        en: "Pass parameters examination. Log in box. ",
+        en: "Pass parameters examination. Login the device. ",
         kr: "매개 변수 인증에 성공하였습니다. 디바이스에 로그인 시작합니다."
     };
     static WORDa577165a = {
         cn: "已选择设备，查看绑定情况",
-        en: "Selected box, check binding condition",
+        en: "Selected device, check binding condition",
         kr: "디바이스가 선택 됨, 바인딩 상태 확인"
     };
     static WORDf929c519 = {
         cn: "设备已绑定用户，此时直接登录设备",
-        en: "The box is already bound. You could login box directly",
+        en: "The device is already bound. You could login device directly",
         kr: "디바이스가 이미 바인드 되었습니다. 바로 로그인할 수 있습니다."
     };
     static WORD6a562d32 = {
@@ -1929,7 +1929,7 @@ export class Lang {
     };
     static WORD12d44a89 = {
         cn: "用户已登录中心，查询box信息",
-        en: "The user has logged into the center. Check Ubbey Box's information",
+        en: "The user has logged into the center. Check device information",
         kr: "사용자가 이미 로그인했습니다. 디바이스 정보를 확인하십시오."
     };
     static WORD37e1ca29 = {
@@ -1959,7 +1959,7 @@ export class Lang {
     };
     static WORDe716466c = {
         cn: "挖矿收益按天结算，每月末自动发放。您将贡献100G存储空间用于挖矿，点击「挖矿配置」更改此配置",
-        en: "The mining rewards is settled on a daily basis and is automatically issued at the end of each month. You will contribute 100G of storage space for mining, click 'mining configuration' to change this configuration",
+        en: "The mining rewards is settled on a daily basis and is automatically issued at the end of each month. You will contribute 100G of storage space for mining, click 'Mining Configuration' to change this configuration",
         kr: "마이닝보상은 매일 결제되며 매월 말에 자동으로 지급됩니다. 마이닝에 100G의 저장 공간을 기여하기 위한 설정으로 변경하려면 '마이닝 설정'을 클릭하십시오."
     };
     static WORD9916edcb = {
@@ -1979,37 +1979,37 @@ export class Lang {
     };
     static WORD7a920180 = {
         cn: "关闭挖矿后您的设备无需再贡献带宽和存储资源，亦不会得到挖矿收益",
-        en: "If you choose to stop mining, your Ubbey Box will no longer contribute storage space and network resource. You will no longer receive mining reward",
+        en: "If you choose to stop mining, your device will no longer contribute storage space and network resource. You will no longer receive mining reward",
         kr: "마이닝을 중단한 디바이스는 더 이상 스토리지 공간과 네트워크 리소스에 기여하지 않을 뿐만 아니라 마이닝 수익도 받을 수 없습니다."
     };
     static WORD6b92f0b5 = {
         cn: "用户已选择设备，此时可以更改挖矿设置",
-        en: "The user has selected Ubbey Box, and could change mining setting now",
+        en: "The user has selected device, and could change mining setting now",
         kr: "사용자가 이미 디바이스를 선택했으며 바로 마이닝 설정을 변경할 수 있습니다."
     };
     static WORDcd93951c = {
         cn: "用户没有选择设备，此时无法更改挖矿设置",
-        en: "The user haven't selected any Ubbey Box, and couldn't change mining setting now",
+        en: "The user haven't selected any device, and couldn't change mining setting now",
         kr: "사용자가 디바이스를 선택하지 않아 마이닝 설정을 변경할 수 없습니다."
     };
     static WORD99645c33 = {
         cn: "您当前尚未连接到设备，无法配置挖矿信息",
-        en: "You have not connected to any Ubbey Box, unable to pair mining information",
+        en: "You have not connected to any device, unable to setting mining information",
         kr: "연결된 디바이스가 없으므로 마이닝 정보를 제공할 수 없습니다."
     };
     static WORDc9659c05 = {
         cn: "您可以尝试去搜索网络内的设备",
-        en: "You could try to search the box in the network",
+        en: "You could try to scan devices in the network",
         kr: "네트워크 내의 디바이스를 검색할 수 있습니다."
     };
     static WORD93ea7a8b = {
         cn: "暂不配置",
-        en: "Do not set up",
+        en: "Not configure now",
         kr: "지금은 설정 안 함"
     };
     static WORD915026f0 = {
         cn: "用户选择了设备",
-        en: "The user has selected a Ubbey Box",
+        en: "The user has selected a device",
         kr: "사용자가 디바이스를 선택했습니다."
     };
     static WORD8d840479 = {
@@ -2019,7 +2019,7 @@ export class Lang {
     };
     static WORDe5521c1b = {
         cn: "即将设置挖矿信息",
-        en: "You are going to pair mining information",
+        en: "You are going to setting mining information",
         kr: "마이닝 정보를 설정하겠습니다."
     };
     static WORD964606f4 = {
@@ -2031,28 +2031,28 @@ export class Lang {
     ////src/pages/mining-setting/mining-setting.ts////
     static WORD5e6d7a09 = {
         cn: "您的挖矿设置已配置成功",
-        en: "The mining setting was successfully set up",
+        en: "The mining configurations was successfully configured",
         kr: "마이닝 설정이 성공적으로 완료되었습니다."
     };
     static WORD69e5e22b = {
         cn: "更新设备数据",
-        en: "Update Ubbey Box data",
+        en: "Update device data",
         kr: "디바이스의 데이터 업데이트"
     };
     static WORD6c8721b1 = {
         cn: "已选择设备",
-        en: "Ubbey Box selected ",
+        en: "Device selected ",
         kr: "디바이스가 선택됨"
     };
     static WORD83fddc65 = {
         cn: "您当前尚未连接到设备，无法更改挖矿配置",
-        en: "You haven't connected to any Ubbey Box, cannot change mining setting",
+        en: "You haven't connected to any device, cannot change mining configurations",
         kr: "연결된 디바이스가 없으므로 마이닝 설정을 변경할 수 없습니다."
     };
     ////src/pages/register/register.ts////
     static WORD4c5a6a38 = {
         cn: "密码md5:",
-        en: "Passwordmd5:",
+        en: "Password md5:",
         kr: "비밀번호md5"
     };
     static WORDd2f6ca9b = {
@@ -2082,17 +2082,17 @@ export class Lang {
     };
     static WORDd79d257e = {
         cn: "设备hash:",
-        en: "Ubbey Box’s hash:",
+        en: "Device hash:",
         kr: "디바이스의 해시"
     };
     static WORD46eeafa3 = {
         cn: "设备在线，直接获取验证码",
-        en: "The Ubbey Box is online. You could choose to acquire verification code directly",
+        en: "The device is online. You could choose to acquire verification code directly",
         kr: "디바이스가 온라인 상태입니다. 인증코드를 직접 획득하도록 선택할 수 있습니다."
     };
     static WORDa25b8545 = {
         cn: "该账号绑定的设备暂不在线，请检查设备开机和网络状态",
-        en: "Your binding Ubbey Box is not online. Please check the network and power status",
+        en: "Your binding device is not online. Please check the network and power status",
         kr: "바인딩 Ubey Box가 온라인 상태가 아닙니다. 네트워크 및 전원 상태를 확인하십시오. "
     };
     ////src/pages/reset-passwd/reset-passwd.ts////
@@ -2109,7 +2109,7 @@ export class Lang {
     };
     static WORD2cb40779 = {
         cn: "前往首页",
-        en: "Go to Home page",
+        en: "Go to homepage",
         kr: "홈으로 이동"
     };
     static WORD9e182b17 = {
@@ -2119,29 +2119,29 @@ export class Lang {
     };
     static WORD9853ada1 = {
         cn: "业务类型为重置密码，即将前往登录页",
-        en: "Reset password. Redirecting to home page now.",
+        en: "Reset password. Redirecting to homepage now.",
         kr: "비밀번호 재설정을 요청하였습니다. 지금 홈 페이지로 이동중입니다."
     };
 ////src/pages/tabs/tabs.ts////
 ////src/pages/user/user.ts////
     static WORD0e77bf3e = {
         cn: "连接设备后方可查看钱包信息",
-        en: "You could check wallet information after connecting to Ubbey Box",
+        en: "You could check wallet information after connecting to the divice",
         kr: "디바이스에 연결 후 지갑 정보를 확인할 수 있습니다."
     };
     static WORDce7b4940 = {
         cn: "连接设备后方可进行设备管理",
-        en: "You could manage device after connecting to Ubbey Box",
+        en: "You could manage the device after connection",
         kr: "디바이스에 연결 후 디바이스를 관리할 수 있습니다."
     };
     static WORDb38ae5d2 = {
         cn: "连接设备后方可修改密码",
-        en: "You will be able to change password after connecting to Ubbey Box",
+        en: "You will be able to change password after connection",
         kr: " Ubbey Box에 연결한 후 암호를 변경할 수 있습니다. "
     };
     static WORD73de1e81 = {
         cn: "您当前已经是最新版了",
-        en: "This is the most updated version",
+        en: "This is already the latest version",
         kr: "최신 버전입니다."
     };
     static WORDcda6aa4e = {
@@ -2156,12 +2156,12 @@ export class Lang {
     };
     static WORDebb0158d = {
         cn: "检测到新版本，点击确定立即更新",
-        en: "Detecting a new version. Please click confirm to update.",
+        en: "Detecting a new version. Please click confirm to upgrade.",
         kr: "업데이트 가능한 버전이 있습니다.클릭하여 새 버전으로 업데이트 하시기 바랍니다."
     };
     static WORD2262cc07 = {
         cn: "请求更新资源:",
-        en: "Request to update resource",
+        en: "Request to upgrade resource",
         kr: "리소스 업데이트 요청"
     };
     static updateDetected = {
@@ -2171,7 +2171,7 @@ export class Lang {
     };
     static updateTips = {
         cn: "您的固件版本可升级至${New}",
-        en: "You can now update to ${New} version.",
+        en: "You can now upgrade to ${New} version.",
         kr: "펌웨어 버전${New}(으)로 업그레이드할 수 있습니다."
     };
     static romUpdatingTips = {
@@ -2206,7 +2206,7 @@ export class Lang {
     };
     static WORD79e4bc03 = {
         cn: "退出登录",
-        en: "Sign out",
+        en: "Sign Out",
         kr: "로그아웃"
     };
     static WORDf6cdb0fc = {
@@ -2221,7 +2221,7 @@ export class Lang {
     };
     static WORD5980d11a = {
         cn: "退出设备",
-        en: "Ubbey Box log out",
+        en: "Log Out",
         kr: "디바이스로부터 로그아웃"
     };
 ////src/pages/verify-email/verify-email.ts////
@@ -2236,23 +2236,23 @@ export class Lang {
         kr: "등록이 완료되었습니다. 계정이 바인딩 되어 있는지 확인하십시오. 바인딩 되어 있는 경우 사용자에게 로그인을 알립니다. 그렇지 않으면 자동으로 바인딩 됩니다."
     };
     static WORD612ce400 = {
-        cn: "获取设备信息错误！",
-        en: "Error occurred acquiring Ubbey Box information ",
+        cn: "获取设备信息错误",
+        en: "Error occurred acquiring device information",
         kr: "디바이스 정보를 불러오는 동안 오류가 발생했습니다."
     };
     static WORDea9cca85 = {
         cn: "您未登录设备，不可修改密码",
-        en: "You haven't logged into Ubbey Box,  unable to change password",
+        en: "You haven't logged into the device,  unable to change password",
         kr: "디바이스에 로그인하지 않았으므로 비밀번호를 변경할 수 없습니다."
     };
     static WORD5b319f51 = {
         cn: "已绑定设备，需向设备发送请求",
-        en: "You have bound to a Ubbey Box. Send request to the box.",
+        en: "You have bound to a device. Send request to the device.",
         kr: "이미 디바이스에 바이딩 되었습니다. 디바이스에 요청을 보내야 합니다."
     };
     static WORD5d02b310 = {
         cn: "设备未绑定账户，可以直接重设",
-        en: "The Ubbey Box has not bound to any account. Reset directly",
+        en: "The device has not bound to any account. Reset directly",
         kr: "디바이스에 어떤 계정에도 바이딩 되어있지 않습니다. 직접 재설정 할 수 있습니다."
     };
     static WORDe7824893 = {
@@ -2307,11 +2307,11 @@ export class Lang {
     };
     static WORD4a8bf19f = {
         cn: "重新扫描设备",
-        en: "Scan device again",
+        en: "Scan devices again",
         kr: "디바이스 다시 스캔"
     };
     static WORD92f2a1ae = {
-        cn: "验证码已重新发发送",
+        cn: "验证码已重新发送",
         en: "The verification code has been sent again",
         kr: "인증코드가 다시 발송되었습니다. "
     };
@@ -2339,7 +2339,7 @@ export class Lang {
     };
     static WORD97e2a1c5 = {
         cn: "钱包创建成功",
-        en: "Created wallet successfully",
+        en: "Creation successfully",
         kr: "지갑이 성공적으로 생성되었습니다. "
     };
 ////src/pages/wallet-import/wallet-import.ts////
@@ -2396,17 +2396,17 @@ export class Lang {
     };
     static WORD256b8339 = {
         cn: "该钱包目前正在接收挖矿收益，请不要删除钱包",
-        en: "This wallet is receiving mining rewards. Please do not delete the wallet",
+        en: "This wallet is receiving mining rewards. Please do not delete",
         kr: "이 지갑은 마이닝 수익을 받고 있습니다. 지갑을 삭제하지 마십시오. "
     };
     static WORDed3a93fd = {
         cn: "您确定要删除该钱包吗？",
-        en: "Sure to delete this wallet?",
+        en: "Are you sure to delete this wallet?",
         kr: "이 지갑을 정말 삭제하겠습니까?"
     };
     static WORD702c7fa6 = {
         cn: "钱包删除后不可恢复，请确保您已备份该钱包",
-        en: "The wallet is unable to be restored after deleting. Please make sure you have back up this wallet",
+        en: "The wallet is unable to be restored after deleting. Please make sure you have backup this wallet",
         kr: "지갑 삭제 후에는 다시 복구할 수 없습니다. 이 지갑이 백업 되었는지 다시 확인해 주십시오."
     };
     static WORD5f9bdeda = {
@@ -2428,7 +2428,7 @@ export class Lang {
 ////src/pages//task-list/task-list.html////
     static WORD9d749424 = {
         cn: "任务管理",
-        en: "Mission control",
+        en: "Mission Management",
         kr: "미션 컨트롤"
     };
     static WORD64e13621 = {
@@ -2484,12 +2484,12 @@ export class Lang {
 ////src/pages//task-list/task-list.ts////
     static WORD37d9a2fb = {
         cn: "清空任务记录",
-        en: "Are you sure to delete all tasks?",
+        en: "Are you sure to clean all tasks?",
         kr: "모든 작업을 삭제하겠습니까?"
     };
     static WORDf01a8be6 = {
         cn: "任务记录清空后将无法恢复，是否清空？",
-        en: "The tasks list could not be restored after deleting？",
+        en: "The tasks could not be restored after deleting？",
         kr: "태스크 목록 삭제 후 다시 복구할 수 없습니다. 정말 삭제 하겠습니까? "
     };
     ////src/pages//list/list.ts////
@@ -2500,12 +2500,12 @@ export class Lang {
     };
     ////src/components//device/device.html////
     static WORD89462053 = {
-        cn: "Ubbey Box(未连接)",
+        cn: "设备(未连接)",
         en: "",
         kr: ""
     };
     static UbbeyBoxNotBind = {
-        cn: "Ubbey Box(未绑定)",
+        cn: "设备(未绑定)",
         en: "",
         kr: ""
     };
@@ -2558,12 +2558,12 @@ export class Lang {
 
     static DownloadFileNotExist = {
         cn: "文件${filename}下载失败",
-        en: "The file ${filename} is failed to download",
+        en: "Failed to download file ${filename}",
         kr: "파일${filename}다운로드 실패"
     };
     static UploadFileToBoxSuccess = {
         cn: "文件${filename}已成功上传至设备的「${path}」目录",
-        en: "The file ${filename} is successfully uploaded to Ubbey Box「${path}」catalogue",
+        en: "The file ${filename} is successfully uploaded to the device「${path}」catalogue",
         kr: "${filename}파일이 성공적으로 디바이스「${path}」카탈로그에 업로드 되었습니다."
     };
     static DownloadFileToBoxSuccess = {
@@ -2626,7 +2626,7 @@ export class Lang {
     ////src/pages/about-device/about-device.ts////
     static WORD2497f41e = {
         cn: "配置挖矿钱包收益地址后，才能得到挖矿收益。收益地址和挖矿设置均可在「挖矿设置」中自由更改。",
-        en: "You could earn reward only after setting up reward recipient's wallet address. You could change recipient's address in「Mining Setting」",
+        en: "You could earn rewards only after configuring reward recipient address. You could change freely in「Mining Setting」",
         kr: "보상 받는 사람의 지갑 주소를 설정한 후에만 보상을 받을 수 있습니다. \"마이닝 설정\"에서 수신인의 주소를 변경할 수 있습니다."
     };
     static WORD2cd228b9 = {
@@ -2641,13 +2641,13 @@ export class Lang {
     };
     static WORDcf8f0771 = {
         cn: "该功能正在开发中，敬请期待",
-        en: "The function is under development. Coming Soon.",
+        en: "The feature is under development. Coming Soon.",
         kr: "해당 기능은 개발 중입니다. 오픈 예정입니다.;"
     };
     //引导页
     static Guidance1 = {
         cn: "私有云",
-        en: "Exclusive Personal Cloud",
+        en: "Personal Cloud",
         kr: "퍼스널 클라우드"
     }
     static Guidance2 = {
@@ -2705,12 +2705,12 @@ export class Lang {
     };
     static System = {
         cn: "系统设置",
-        en: "System setting",
+        en: "System Setting",
         kr: "시스템 설정"
     };
     static WalletSetting = {
         cn: "钱包设置",
-        en: "Wallet setting",
+        en: "Wallet Setting",
         kr: "지갑 설정"
     };
     static ExportKeystore = {
@@ -2726,7 +2726,7 @@ export class Lang {
     ////./wallet-detail/wallet-detail.html////
     static wallatPullingText = {
         cn: "松开立即同步钱包信息",
-        en: "Release to see wallet updates",
+        en: "Release to view wallet updates",
         kr: "지갑 업데이트를 보려면 릴리스하십시오. "
     };
     static wallatRefreshingText = {
@@ -2793,7 +2793,7 @@ export class Lang {
     };
     static EnterAddressPrompt = {
         cn: "转账前请确认收款钱包地址无误。",
-        en: "Please confirm the receiver's address.",
+        en: "Please confirm the recepient address",
         kr: "출금 하기 전에 꼭 지갑주소를 확인해 주세요."
     };
     static TransferAmount = {
@@ -2803,7 +2803,7 @@ export class Lang {
     };
     static AllTurnOut = {
         cn: "全部转出",
-        en: "Send all",
+        en: "Transfer all",
         kr: "모두 출금"
     };
     static InputFullAmount = {
@@ -2844,7 +2844,7 @@ export class Lang {
     ////./coin-transaction/coin-transaction.html////
     static TransactionRecords = {
         cn: "交易记录",
-        en: "Transaction record",
+        en: "Transaction records",
         kr: "거래기록"
     };
     static CollectionAddress = {
@@ -2956,7 +2956,7 @@ export class Lang {
     }
     static PayAddressRequired = {
         cn: "收款钱包地址不能为空",
-        en: "The receiving address cannot be blank.",
+        en: "The recepient address cannot be blank.",
         kr: "입금주소는 비워둘수 없습니다."
     }
     static RightAddress = {
@@ -3048,7 +3048,7 @@ export class Lang {
 
 	static FindResult = {
 		cn: "找到${num}个设备",
-		en: "Find ${num} devices",
+		en: "${num} devices Found",
 		kr: ''
 	}
 
@@ -3065,7 +3065,7 @@ export class Lang {
     }
     static createJoinEarn = {
         cn: "已创建文件即可参与挖矿",
-        en: "After created files can join mining ",
+        en: "Can Open Minning after creating mining files",
         kr: "생성된 파일은 마이닝에 결합할 수 있습니다. "
     }
     static cantCreateMore = {
@@ -3107,7 +3107,7 @@ export class Lang {
 
     static transferErrUnderPriced = {
         cn: "交易发送失败，为保障交易成功建议提高Gas",
-        en: "Transaction failed, recommend to improve Gas for the success of the transactions",
+        en: "Transaction failed, recommend to improve Gas for the success of the transaction",
         kr: "거래가 실패했습니다. 거래 성공을 위해 Gas를 개선할 것을 권장합니다. "
     }
     static height = {
@@ -3117,7 +3117,7 @@ export class Lang {
     }
     static timestamp = {
         cn: "时间戳",
-        en: "Time stamp",
+        en: "Timestamp",
         kr: "타임스탬프"
     }
     static seeDetail = {
@@ -3132,37 +3132,37 @@ export class Lang {
     }
     static transerSending = {
         cn: "正在转帐中",
-        en: "Transaction submitting ",
+        en: "Transaction submitting",
         kr: "거래 제출 중"
     }
     static HaveNoChangeRecord = {
         cn: "您还没有交易记录",
-        en: "You don't have any transaction record",
+        en: "You have no transaction record",
         kr: "거래 기록이 없습니다"
     };
     static StartChainMining = {
         cn: "开启测试链挖矿",
-        en: "Mining",
+        en: "Open Mining",
         kr: "마이닝",
     };
     static StartMiningInfo = {
         cn: "挖矿收益按天结算，每月末自动发放。点击「挖矿配置」更改此配置",
-        en: "The mining reward is settled on a daily basis and is automatically issued at the end of each month. Click 'mining configuration' to change this configuration",
+        en: "The mining rewards is settled on a daily basis and is automatically issued at the end of each month. Click 'Mining Configuration' to change this configuration",
         kr: "마이닝보상은 매일 결제되며 매월 말에 자동으로 지급됩니다. 이 설정을 변경하려면 '마이닝 설정'을 클릭하십시오."
     };
     static StartChainMiningInfo = {
         cn: "测试链挖矿收益将实时结算至测试链钱包，您可以点击「挖矿配置」设置挖矿参数",
-        en: "The test chain mining reward is settled on a daily basis and is automatically issued at the end of each month. Click 'mining configuration' to change this configuration",
+        en: "The test chain mining rewards is settled on a daily basis and is automatically issued at the end of each month. Click 'Mining Configuration' to change this configuration",
         kr: "테스트 체인의 마이닝 보상은 매일 결제되며 매월 말에 자동으로 지급됩니다. 이 설정을 변경하려면 '마이닝 설정'을 클릭하십시오."
     };
     static StopMining = {
         cn: "暂不挖矿",
-        en: "Not mining now",
+        en: "Not Open Mining",
         kr: "지금 마이닝 안 함"
     };
     static UploadFileSuccess = {
         cn: '文件上传成功',
-        en: 'file uploaded successfully',
+        en: 'File uploaded successfully',
         kr: '파일 업로드 성공'
     }
 
@@ -3193,23 +3193,23 @@ export class Lang {
     };
     static setMiningAddr = {
         cn: "请设置钱包地址",
-        en: "please set up wallet address",
+        en: "Please set up wallet address",
         kr: "지갑 주소를 적어주세요"
     };
     static MiningAvenue = {
         cn: '挖矿收益',
-        en: 'Mining reward',
+        en: 'Mining rewards',
         kr: '마이닝수익'
     }
     static TransactionRecord = {
         cn: '交易记录',
-        en: 'Transaction record',
+        en: 'Transaction records',
         kr: '거래기록'
     }
 
     static TestChainTitle = {
         cn: '参与测试链挖矿',
-        en: 'Check out TestNet mining',
+        en: 'Check TestNet mining',
         kr: '테스트넷 마이닝 체크아웃'
     }
     static TestChainDescription = {
@@ -3309,7 +3309,7 @@ export class Lang {
     }
     static CreatTime = {
         cn: '创建时间',
-        en: ' Creat time',
+        en: 'Create time',
         kr: '창조 시간'
     }
     static EditTime = {
@@ -3335,7 +3335,7 @@ export class Lang {
     static UBBEYTransfer = {
         cn: 'U口令转账',
         en: 'U password transfer',
-        kr: ' U 암호 전송'
+        kr: 'U 암호 전송'
     }
     static TransferInfo = {
         cn: '您将向该钱包地址转账:',
@@ -3354,7 +3354,7 @@ export class Lang {
     }
     static PhotoCopy = {
         cn: '图片备份',
-        en: 'Photo backups',
+        en: 'Photo backup',
         kr: '사진 백업'
     }
     static Opened = {
@@ -3364,7 +3364,7 @@ export class Lang {
     }
     static UnOpened = {
         cn: '未开启',
-        en: 'Not open',
+        en: 'Not opened',
         kr: '열리지 않음'
     }
     static AndroidPermissionTxt = {
@@ -3391,13 +3391,13 @@ export class Lang {
     }
     static CopyCommentary = {
         cn: '图片自动加密传输至Ubbey Box，去中心化存储，私密保存不怕丢',
-        en: 'The picture is automatically encrypted and transmitted to Ubbey Box, secure your privacy with decentralized storage',
+        en: 'The picture is automatically encrypted and transmitted to the device, secure your privacy with decentralized storage',
         kr: '사진이 자동으로 암호화되고 Ubbey 상자로 전송되며 분산형 스토리지로 개인 정보 보호'
     }
 
     static SelectCopyAlbums = {
         cn: '选择自动备份相册',
-        en: 'Select auto photo backup',
+        en: 'Select auto back up',
         kr: '자동 사진 백업 선택'
     }
     static Item = {
@@ -3417,19 +3417,19 @@ export class Lang {
     }
     static CannotMove = {
         cn: '文件夹暂时不支持移动',
-        en: 'This file cannot be moved',
+        en: 'This foder cannot be moved',
         kr: '이 파일을 이동할 수 없습니다.'
     }
     static CannotRename = {
         cn: '该文件夹暂时不支持重命名',
-        en: 'This file cannot be renamed',
+        en: 'This folder cannot be renamed',
         kr: '이 파일의 이름을 바꿀 수 없습니다.'
     }
 
     static CopyInfoHead = {
-        cn: '复制整段信息，打开👉Ubbey App👈，即可向我的钱包转账:【',
-        en: 'Copy the whole paragraph，open👉Ubbey App，then you can transfer to my wallet',
-        kr: '전체 메시지를 복사하고 👉Ubbey App👈를 열면 바로 나의 지갑으로 이체할 수 있다.'
+        cn: '复制整段信息，打开�Ubbey App�，即可向我的钱包转账:【',
+        en: 'Copy the whole paragraph，open�Ubbey App，then you can transfer to my wallet',
+        kr: '전체 메시지를 복사하고 �Ubbey App�를 열면 바로 나의 지갑으로 이체할 수 있다.'
     }
     static CopyInfoFoot = {
         cn: '】(未安装App点这里：https://ulabs.tech/app)',
@@ -3439,7 +3439,7 @@ export class Lang {
 
     static Creating = {
         cn: '创建中',
-        en: 'creating',
+        en: 'Creating',
         kr: '생성중'
     }
 
@@ -3475,7 +3475,7 @@ export class Lang {
 
     static LoginTips = {
         cn: "尚未登录，点击这里登录/注册",
-        en: "You not log in yet, click here to login/register,",
+        en: "You have not login yet, click here to login/register,",
         kr: "아직 로그인되지 않았습니다. 로그인/가입을 위해 여기를 클릭 해주세요"
     }
 
@@ -3491,9 +3491,9 @@ export class Lang {
         kr: '업데이트'
     }
 
-    static APP = {
-        cn: 'Ubbey APP',
-        en: 'Ubbey APP',
+    static App = {
+        cn: 'Ubbey App',
+        en: 'Ubbey App',
         kr: '유베이 어플리케이션(어플/앱)'
     }
 
@@ -3522,20 +3522,20 @@ export class Lang {
     }
 
     static RemoteNetworkDesc = {
-        cn: '手机与Ubbey Box处于不同网络',
-        en: 'Mobile phone and Ubbey Box are on different network',
+        cn: '手机与设备处于不同网络',
+        en: 'The phone and the device are on different network',
         kr: '휴대폰과 유베이박스는 다른 네트워크에 연결되어있습니다'
     }
 
     static LocalNetworkDesc = {
-        cn: '手机与Ubbey Box处于同一网络',
-        en: 'The phone is on the same network as the Ubbey Box ',
+        cn: '手机与设备处于同一网络',
+        en: 'The phone is on the same network as the device',
         kr: '휴대폰이 유베이박스와 동일한 네트워크에 연결되어있습니다'
     }
 
     static ConnectionError = {
         cn: '连接失败',
-        en: 'Connection fails',
+        en: 'Connection failed',
         kr: '연결실패'
     }
 
@@ -3553,31 +3553,31 @@ export class Lang {
 
     static ConnectingDesc = {
         cn: '设备连接中，请稍候......',
-        en: 'Please wait while the device is being connected...',
+        en: 'Please wait while connecting to the device...',
         kr: '장치가 연결될 때까지 기다려주세요'
     }
 
     static BuyFavour = {
-        cn: '绑定Ubbey Box,您将获得',
-        en: 'After binding Ubbey Box, you will get',
+        cn: '绑定设备，您将获得',
+        en: 'After binding the device, you will get',
         kr: '유베이박스에 연결된 후에 받으실 수 있습니다'
     }
 
     static BackupImmediately = {
         cn: '去中心化存储私有云盘，随时备份',
-        en: ' Decentralized storage of private cloud disks, backup at any time ',
+        en: 'Decentralized storage of private cloud disks, back up at any time ',
         kr: '개인 클라우드 디스크 분산저장공간, 아무때나 백업하세요'
     }
 
     static StorageEnough = {
         cn: '再也不担心手机存储不够用',
-        en: ' You no longer need to worry about the lack of mobile phone storage. ',
+        en: 'You don\'t need to worry about the lack of mobile phone storage. ',
         kr: '더이상 휴대폰용량 부족때문에 걱정할 필요가 없습니다'
     }
 
     static JoinMining = {
         cn: '分享存储空间，参与挖矿',
-        en: ' Share the storage space, participate in mining',
+        en: 'Share the storage space, participate in mining',
         kr: '저장공간을 공유하고, 마이닝에 참여하세요'
     }
 
@@ -3594,8 +3594,8 @@ export class Lang {
     }
 
     static BuyBox = {
-        cn: '购买Ubbey Box',
-        en: 'Buy Ubbey Box',
+        cn: '购买设备',
+        en: 'Buy Device',
         kr: '유베이박스 구매하기'
     }
 
@@ -3612,14 +3612,14 @@ export class Lang {
     }
 
     static DeviceRebooting = {
-        cn: "设备正在重启中，盒子启动后将恢复重连...",
-        en: ' The device is restarting and will reconnect after the box is started...',
+        cn: "设备正在重启中，启动后将恢复重连...",
+        en: 'The device is restarting and will reconnect after the device is started...',
         kr: '장치가 재부팅되는 중입니다. 박스가 실행되면 재연결 됩니다.'
     }
 
     static RebootSuccess = {
         cn: "设备已重新连接！",
-        en: ' The device is reconnected!',
+        en: 'The device is reconnected!',
         kr: '장치 재연결 성공!'
     }
 
@@ -3642,9 +3642,9 @@ export class Lang {
     }
 
     static Application = {
-        cn: 'DAPP应用',
-        en: 'DAPP application',
-        kr: 'DAPP 신청서'
+        cn: 'DApp应用',
+        en: 'DApp application',
+        kr: 'DApp 신청서'
     }
 
     static HardwareDevice = {
@@ -3661,7 +3661,7 @@ export class Lang {
 
     static FileManager = {
         cn: '文件管理',
-        en: 'File manager',
+        en: 'File management',
         kr: '파일 매니저'
     }
 
@@ -3691,19 +3691,19 @@ export class Lang {
 
     static ContactEmailPlaceholder = {
         cn: '请输入您的常用邮箱',
-        en: 'Please input your best Email',
+        en: 'Please input your Email',
         kr: '자주 사용하시는 이메일주소를 적어주세요'
     }
 
     static ProblemSnapshot = {
         cn: '问题截图(可选)',
-        en: ' Screenshot of the problem (optional)',
+        en: 'Screenshot of the problem (optional)',
         kr: '고장 스크린샷 (선택)'
     }
 
     static UploadSystemLog = {
         cn: '上传系统日志，帮助我们定位问题',
-        en: 'Upload the system log, help us locate',
+        en: 'Upload the system log, help us to fix the bug',
         kr: '위치를 찾을 수 있도록 시스템 로그를 업로드해주세요'
     }
 
@@ -3739,7 +3739,7 @@ export class Lang {
 
     static CheckUpdatingAvailable = {
         cn: "正在检查可用的更新...",
-        en: 'Checking available update',
+        en: 'Checking available updates',
         kr: '업데이트 확인 중'
     }
 
@@ -3813,34 +3813,34 @@ export class Lang {
         kr: '얻기'
     }
     static BindBox = {
-        cn: '绑定Ubbey Box',
-        en: 'Bind Ubbey Box',
+        cn: '绑定设备',
+        en: 'Bind Device',
         kr: '유베이박스 바인딩'
     }
     static BindBoxInfo1 = {
         cn: '拥有去中心化存储私有云盘，随时备份',
-        en: 'Have a decentralized storage private cloud disk, backup at any time',
+        en: 'Decentralized storage private cloud disk in hand, backup at any time',
         kr: '개인 클라우드 디스크 분산저장공간에 아무때나 백업하세요'
     }
     static BindBoxInfo2 = {
         cn: '再也不担心手机存储不够用',
-        en: 'You no longer need to worry about the lack of mobile phone storage.',
+        en: 'You don\'t need to worry about the lack of mobile phone storage.',
         kr: '더이상 휴대폰용량 부족때문에 걱정할 필요가 없습니다'
     }
     static NotBind = {
         cn: '暂不绑定',
-        en: 'Not to bind now',
+        en: 'Not bound yet',
         kr: '지금 바인딩되지 않음'
     }
     static BindSuccess = {
         cn: '绑定成功',
-        en: 'The binding is successful',
+        en: 'Binding succeed',
         kr: '바인딩 성공'
     }
 
     static BoxHasBind = {
-        cn: '该盒子已经被绑定',
-        en: 'The box has been bound',
+        cn: '该设备已经被绑定',
+        en: 'The device has been bound',
         kr: '박스가 바인딩되었습니다'
     }
 
@@ -3857,13 +3857,13 @@ export class Lang {
 
     static AKeyBackup = {
         cn: '一键备份图片',
-        en: 'One-click backup picture',
+        en: 'One-Click backup',
         kr: '원클릭 백업 이미지'
     }
 
     static BTSeeds = {
         cn: 'BT种子',
-        en: 'BT seed',
+        en: 'BT Seeds',
         kr: 'BT시드'
     }
 
@@ -3875,7 +3875,7 @@ export class Lang {
 
     static AdviceSubmitInfo = {
         cn: '上传的系统日志包括版本信息、固件信息、系统时间、磁盘信息等，上传的日志受到隐私保护，只用于定位问题，不会对外泄漏。勾选此项表示您同意提供日志信息定位问题。',
-        en: 'The uploaded system log includes version information, firmware information, system time and disk information. The uploaded logs are protected by privacy and will only be used to locate problems and will not be leaked outside. By checking this box, you agree to provide log information location problem.',
+        en: 'The uploaded system log includes version information, firmware information, system time and disk information. The uploaded logs are protected by privacy and will only be used to locate problems and will not be leaked outside. By checking this device, you agree to provide log information to location problems.',
         kr: '업로드된 시스템로그는 버전정보, 펌웨어정보, 시스템 시간 및 디스크 정보를 포함합니다. 업로드된 로그는 개인정보법에따라 보호되며 문제발생시에만 이용되고 외부유출이 되지 않습니다. 네모를 체크하여 문제위치장소에 대한 로그정보제공에 동의하세요.'
     }
 
@@ -3891,7 +3891,7 @@ export class Lang {
     }
     static Introduction = {
         cn: '简介',
-        en: 'Introduction ',
+        en: 'Introduction',
         kr: '소개'
     }
     static FileType = {
@@ -3981,7 +3981,7 @@ export class Lang {
     }
     static GoBack = {
         cn: '返回上一层',
-        en: 'Return to the previous level',
+        en: 'Back to the previous level',
         kr: '이전 수준 회복'
     }
     static DownloadTask = {
@@ -4021,7 +4021,7 @@ export class Lang {
     }
     static DeleteBoxFile = {
         cn: '同时删除硬盘本地文件',
-        en: 'Delete the hard disk local file as well',
+        en: 'Delete the hard disk local files as well',
         kr: '하드디스크의 로컬파일도 같이 삭제'
     }
     static DeleteTaskSuccess = {
@@ -4041,7 +4041,7 @@ export class Lang {
     }
     static SurePayPassword = {
         cn: '确认支付密码',
-        en: 'Confirm the payment password',
+        en: 'Confirm new payment password',
         kr: '결제 비밀번호 확인'
     }
     static TransactionAmount = {
@@ -4051,7 +4051,7 @@ export class Lang {
     }
     static EquipmentModel = {
         cn: '设备型号',
-        en: 'Equipment model',
+        en: 'Device model',
         kr: '장치 모델'
     }
     static SystemVersion = {
@@ -4060,13 +4060,13 @@ export class Lang {
         kr: '시스템 버전'
     }
     static PrepareUbbeyEquipment = {
-        cn: '准备 Ubbey 设备',
-        en: 'Prepare Ubbey equipment',
+        cn: '准备设备',
+        en: 'Prepare Device',
         kr: '유베이 장치 준비'
     }
     static EquipmentUbbeyInfo = {
-        cn: '将 Ubbey 设备接通电源和插入网线，确认你的手机与 Ubbey 设备处于同一网络（连接同一Wi-Fi）',
-        en: ' Power on the Ubbey device and plug in the network cable. Make sure your phone is on the same network as the Ubbey device (connected to the same Wi-Fi)',
+        cn: '将设备接通电源和插入网线，确认你的手机与设备处于同一网络（连接同一Wi-Fi）',
+        en: 'Power on the device and plug in the network cable. Make sure your phone is on the same network as the device (connected to the same Wi-Fi)',
         kr: '유베이 장치의 전원을 켜고 네트워크선에 연결하세요. 휴대폰이 유베이 장치와 같은 네트워크에 연결되어있어야 합니다.(동일한 와이파이에 연결)'
     }
     static Continue = {
@@ -4076,7 +4076,7 @@ export class Lang {
     }
     static Used = {
         cn: '已使用',
-        en: 'used',
+        en: 'Used',
         kr: '사용'
     }
     static ConnectErr = {
@@ -4086,7 +4086,7 @@ export class Lang {
     }
     static TheDisc = {
         cn: '主盘',
-        en: ' Main disk',
+        en: 'Main disk',
         kr: '주디스크'
     }
     static TheSecondDisc = {
@@ -4096,12 +4096,12 @@ export class Lang {
     }
     static BindFail = {
         cn: '绑定失败',
-        en: 'The binding is failed',
+        en: 'Binding failed',
         kr: '바인딩 실패'
     }
     static DropDownAndSearchAgain = {
         cn: '下拉重新搜索',
-        en: ' Pull down and search again',
+        en: 'Pull down and scan again',
         kr: '아래로 내려서 재검색'
     }
     static Capacity = {
@@ -4111,7 +4111,7 @@ export class Lang {
     }
     static SerialNumber = {
         cn: '序列号：',
-        en: 'Serial Number',
+        en: 'Serial No.',
         kr: '시리얼넘버'
     }
     static Binded = {
@@ -4131,7 +4131,7 @@ export class Lang {
     }
     static CanUseEquipment = {
         cn: '台可用设备',
-        en: 'Available equipment',
+        en: 'Available devices',
         kr: '이용가능한 장치'
     }
     static CanotUseEquipment = {
@@ -4141,22 +4141,25 @@ export class Lang {
     }
     static ScaningEquipment = {
         cn: '正在搜索可用设备...',
-        en: 'Searching for available devices...',
+        en: 'Scaning for available devices...',
         kr: '이용가능한 장치를 찾는 중'
     }
+
+    //////////////////////////////
     static Place = {
         cn: '位置',
-        en: 'Place',
+        en: 'Location',
         kr: '위치'
     }
+
     static RecommendedResources = {
         cn: '推荐资源',
-        en: 'Recommended',
+        en: 'Recommended Resources',
         kr: '권장 리소스'
     }
     static Discovery = {
         cn: '发现',
-        en: 'Discovery',
+        en: 'Discover',
         kr: '탐색'
     }
     static MyFiles = {
@@ -4166,7 +4169,7 @@ export class Lang {
     }
     static OtherDisk = {
         cn: '其他磁盘',
-        en: 'Other disk',
+        en: 'Other disks',
         kr: '다른 디스크'
     }
     static File = {
@@ -4237,7 +4240,7 @@ export class Lang {
     }
     static InputAgain = {
         cn: '再次输入',
-        en: 'Input Again',
+        en: 'Enter Again',
         kr: '재입력'
     }
     static ClickNextAgree = {
@@ -4251,9 +4254,9 @@ export class Lang {
         kr: '다음'
     }
     static DAPP = {
-        cn: 'DAPP',
-        en: 'DAPP',
-        kr: 'DAPP'
+        cn: 'DApp',
+        en: 'DApp',
+        kr: 'DApp'
     }
     static SearchHistory = {
         cn: '搜索历史',
@@ -4262,7 +4265,7 @@ export class Lang {
     }
     static SecuritySettings = {
         cn: '安全设置',
-        en: ' Security setting',
+        en: 'Security setting',
         kr: '보안 설정'
     }
     static SystemSet = {
@@ -4281,7 +4284,7 @@ export class Lang {
         kr: 'ubbey.org'
     }
     static CopyRight = {
-        cn: 'Copyright © 2018 Universal Labs. ',
+        cn: 'Copyright © 2018 Universal Labs.',
         en: 'Copyright © 2018 Universal Labs.',
         kr: 'Copyright © 2018 Universal Labs.'
     }
@@ -4302,13 +4305,13 @@ export class Lang {
     }
     static EmailInfo = {
         cn: '· 如收不到邮件，请检查邮件地址或者检查邮件是否被归类于垃圾邮件',
-        en: '· If you do not receive the email, please check the email address or check if the email is classified as spam.',
+        en: '· If not receive the email, please check the email address or check whether the email is classified as spam.',
         kr: '· 이메일을 받지 못하셨다면 이메일주소를 다시 확인하거나 이메일이 스팸으로 분류되어 있는지 확인하세요.'
     }
 
     static ClickChangePassword = {
         cn: '点击修改支付密码',
-        en: 'Click to modify the payment password',
+        en: 'Click to change the payment password',
         kr: '결제 비밀번호를 수정하시려면 클릭하세요'
     }
     static CopyKeyStore = {
@@ -4330,7 +4333,7 @@ export class Lang {
 
     static WaitingDownload = {
         cn: '等待下载',
-        en: ' Waiting for download',
+        en: 'Waiting for download',
         kr: '다운로드 대기 중'
     }
     static ContinueDownload = {
@@ -4340,7 +4343,7 @@ export class Lang {
     }
     static DownloadError = {
         cn: '下载失败',
-        en: 'Download is failed',
+        en: 'Download failed',
         kr: '다운로드 실패'
     }
 
@@ -4351,19 +4354,19 @@ export class Lang {
     }
     static DownloadAgain = {
         cn: '重新下载',
-        en: 'Download again ',
+        en: 'Download again',
         kr: '재다운로드'
     }
 
     static TaskViewPC = {
         cn: '在电脑上打开Ubbey客户端，可对您设备里的文件进行管理，下载地址：www.ubbey.org/download',
-        en: 'Open the Ubbey client on your computer to manage the files on your device. Download address: www.ubbey.org/download',
+        en: 'Open the Ubbey PC client to manage the files on your device. Download address: www.ubbey.org/download',
         kr: '장치내 파일을 관리하시려면 컴퓨터에서 유베이 클라이언트를 열어주세요. 다운로드 주소: www.ubbey.org/download'
     }
 
     static RenameError = {
         cn: '重命名失败',
-        en: 'Rename is failed',
+        en: 'Rename failed',
         kr: '이름변경 실패'
     }
     static RegisterSlogan = {
@@ -4372,23 +4375,23 @@ export class Lang {
         kr: "블록체인을 넘어서 분산형 미래의 문을 여세요",
     };
     static ResetPasswordSlogan = {
-        cn: "设置8-18位字符，支持英文、数字和特殊字符的任意组合",
-        en: " Set a password of 8-18 characters. Password supports any combination of English, numbers and special characters.",
+        cn: "设置8-18位字符，支持字母、数字和特殊字符的任意组合",
+        en: "Set a password of 8-18 characters. Password supports any combination of letters, numbers and special characters.",
         kr: "비밀번호는 8-18자리로 설정하세요. (영문, 숫자, 특수문자 조합)",
     };
     static PlsSetPasswordSlogan = {
-        cn: "设置8-18位字符，支持英文、数字和特殊字符的任意组合",
-        en: " Set a password of 8-18 characters. The password supports any combination of English, numbers and special characters.",
+        cn: "设置8-18位字符，支持字母、数字和特殊字符的任意组合",
+        en: "Set a password of 8-18 characters. Password supports any combination of letters, numbers and special characters.",
         kr: "비밀번호는 8-18자리로 설정하세요. (영문, 숫자, 특수문자 조합)",
     };
      static ClearSpaceInfo = {
         cn: "测试链挖矿活动已结束，感谢您对活动的支持。立即清除挖矿文件恢复存储空间",
-        en: "The test chain mining activity has ended. Thank you for your support of the event. Clear the mining file immediately to restore storage space.",
+        en: "The test chain mining activity has ended. Thank you for your support. Clear the mining file immediately to restore storage space.",
         kr: "테스트 체인 마이닝이 완료되었습니다. 이벤트에 참가해주셔서 감사합니다. 저장공간 복구를 위하여 마이닝 파일을 즉시 제거해주세요.",
     };
     static NowClear = {
         cn: "立即清除",
-        en: " Clear immediately",
+        en: "Clear immediately",
         kr: "즉시 제거",
     };
     static DirBT = {
@@ -4398,22 +4401,22 @@ export class Lang {
     }
     static OldPassWord = {
         cn: '原密码',
-        en: '',
+        en: 'Current Password',
         kr: ''
     }
     static NewPassWord = {
         cn: '新密码',
-        en: '',
+        en: 'New Password',
         kr: ''
     }
     static ChangeUser = {
         cn: '切换账号登录',
-        en: '',
+        en: 'Swtich Account',
         kr: ''
     }
     static UserCanotConnectBox = {
         cn: '设备无法连接，请检查设备或网络',
-        en: '',
+        en: 'Device connection failed, please check',
         kr: ''
     }
 

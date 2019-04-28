@@ -99,7 +99,7 @@ import { ConnectionPopupComponent } from '../components/connection-popup/connect
 import { BoxPromotionComponent } from '../components/box-promotion/box-promotion';
 import { BindBoxComponent } from '../components/bind-box/bind-box';
 import { ClassifyComponent } from '../components/classify/classify';
-
+import { TaskComponent } from '../components/task/task';
 
 //插件providers
 import { File } from '@ionic-native/file';
@@ -160,7 +160,8 @@ import { PretifyNumberPipe } from '../pipes/pretify-number/pretify-number'
     ConnectionPopupComponent,
     BoxPromotionComponent,
     BindBoxComponent,
-    ClassifyComponent,
+	ClassifyComponent,
+	TaskComponent,
     UserPage,
     MiningPage,
     TabsPage,

@@ -74,7 +74,7 @@ export class FileTransport {
 		var newTask = this.global.fileTaskList.find(item => item.fileId === fileId && item.finished === false);
 		var currentTask;
 		var pausing = 'waiting';
-		var fileTask = this.global.fileTaskList.filter(item => item.action == "upload" && item.pausing == 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid);
+		var fileTask = this.global.fileTaskList.filter(item => item.action == "upload" && item.pausing == 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
 		this.taskUploadListAmount = fileTask.length;
 		//已包含3个任务，任务不开启
 		if (fileTask.length < this.global.fileMaxUpload) {
@@ -195,7 +195,8 @@ export class FileTransport {
 			//查找等待中的任务，每完成一个自动通知新任务
 			this.startWaitTask('upload');
 		};
-		var fileTask = this.global.fileTaskList.filter(item => item.action == "upload" && item.pausing == 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid);
+		//检测任务数量不考虑磁盘
+		var fileTask = this.global.fileTaskList.filter(item => item.action == "upload" && item.pausing == 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
 		this.taskUploadListAmount = fileTask.length;
 		if (this.taskUploadListAmount > this.global.fileMaxUpload) {
 			GlobalService.consoleLog('先加入队列，且先暂停，后面再上传:' + this.taskUploadListAmount + "," + this.global.fileMaxUpload);
@@ -216,7 +217,15 @@ export class FileTransport {
 		let url = this.global.getBoxApi('uploadFileBreaking');
 		let fileURL = fileTask.localPath;
 		let self = this;
-		console.log("终极上传路径：" + fileTask.path.replace(/\/[^\/]+$/, ''));
+		let uploadParams = JSON.stringify({
+			path: fileTask.path.replace(/\/[^\/]+$/, ''),
+			name: fileTask.name,
+			transfer: 'chunked',
+			offset: fileTask.loaded,
+			disk_uuid: fileTask.diskUuid
+		});		
+		console.log("终极上传参数：" + JSON.stringify(uploadParams));
+
 		let uploadTransfer = new FileTransfer(
 			fileURL,
 			url,
@@ -226,22 +235,9 @@ export class FileTransport {
 					// add custom headers if needed
 				},
 				chunkedMode: true,
-				params: {
-					path: fileTask.path.replace(/\/[^\/]+$/, ''),
-					name: fileTask.name,
-					transfer: 'chunked',
-					offset: fileTask.loaded,
-					disk_uuid: this.global.currDiskUuid
-				}
+				params: uploadParams
 			});
 		let start = Date.now();
-		let uploadParams = JSON.stringify({
-			path: fileTask.path.replace(/\/[^\/]+$/, ''),
-			name: fileTask.name,
-			transfer: 'chunked',
-			offset: fileTask.loaded,
-			disk_uuid: this.global.currDiskUuid
-		});
 		uploadTransfer.onProgress(progress);
 		uploadTransfer.onSuccess(success);
 		uploadTransfer.onFailure(failure)
@@ -428,7 +424,7 @@ export class FileTransport {
 			var pausing = 'paused';
 
 			if (createTask) {
-				var taskList = this.global.fileTaskList.filter(item => item.action === 'download' && item.pausing === 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid);
+				var taskList = this.global.fileTaskList.filter(item => item.action === 'download' && item.pausing === 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
 				// this.tasklistlen = tasklist.length;
 				this.taskDownloadListAmount = taskList.length;
 				if (taskList.length <= this.global.fileMaxDownload) {
@@ -585,7 +581,7 @@ export class FileTransport {
 			}
 			resolve && resolve('');
 		};
-		var taskList = this.global.fileTaskList.filter(item => item.action === 'download' && item.pausing === 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid);
+		var taskList = this.global.fileTaskList.filter(item => item.action === 'download' && item.pausing === 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
 		this.taskDownloadListAmount = taskList.length;
 		//立即开始
 		if (!createTask || this.taskDownloadListAmount <= this.global.fileMaxDownload) {
@@ -608,7 +604,7 @@ export class FileTransport {
 			fullpath: fileTask.path,
 			disk_uuid: fileTask.diskUuid,
 			is_thumbnail: fileTask.fileStyle == 'thumbnail' ? 1 : 0
-		})//'?fullpath=' + encodeURIComponent(fileTask.path) + '&disk_uuid=' + this.global.currDiskUuid ;
+		});
 		let fileURL = fileTask.localPath;
 		console.log("local下载文件：url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
 		let self = this;
@@ -662,7 +658,7 @@ export class FileTransport {
 
 	startWaitTask(action) {
 		console.log("开始等待的任务......." + action)
-		let continueTaskList = this.global.fileTaskList.filter(item => item.action == action && item.pausing == 'waiting' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid);
+		let continueTaskList = this.global.fileTaskList.filter(item => item.action == action && item.pausing == 'waiting' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
 		console.log("等待任务数目：" + continueTaskList.length);
 		if (continueTaskList.length > 0) {
 			let newTask = continueTaskList[0];

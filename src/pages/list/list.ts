@@ -43,7 +43,7 @@ declare var cordova;
 export class ListPage {
     showFileSelect: Boolean = false;
     pageTitle: any = Lang.L('DirAllFiles');
-    currPath: any = "";
+    currPath: any = "/";
     allFileList: any = []; //总文件数组
     fileList: any = []; //显示文件数组
     // pageFileList: any = []; //显示的缩略图文件列表

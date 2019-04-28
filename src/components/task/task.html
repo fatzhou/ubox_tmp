@@ -1,0 +1,52 @@
+<div class="main-content" *ngIf="this.doingTaskList.length > 0">
+	<div class="main">
+		<div class="doing task-list" *ngIf="doingTaskList.length > 0">
+			<p ion-item class="title">{{global.L('WORD64e13621')}}
+				<span item-end tappable (click)="toggleAllStatus()" *ngIf="!allBtnsShow"><i>{{ taskStatus === 'doing' ? global.L('ALLSTART') : global.L('ALLPAUSE') }}</i></span>
+			</p>
+			<ion-list class="task-ul">
+				<ion-item-sliding *ngFor="let task of doingTaskList;">
+					<ion-item class="task-li"  ion-item tappable (click)="toggleTask(task);" (press)="showAndroidDeleteBox(task)">
+						<div class="file-type" item-start *ngIf="!task.thumbnail" [ngClass]="task.fileStyle"></div>
+						<img class="file-type" item-start [src]="task.thumbnail | photoSantizer" (error)="handleThumbnailError(info, $event)" *ngIf="task.thumbnail">
+						<div class="info">
+							<p class="file-name eps">{{ pretify(task.name) }}</p>
+							<p class="file-info eps text-left"><em [ngClass]="task.action == 'download' ? 'file-down' : 'file-up'"></em><span class="progress-box"><em [ngStyle]="{'width': computeLoading(task) + '%'}"></em></span></p>
+						</div>
+						<div class="speed clear" item-end>
+							<p class="amount fl" *ngIf="task.pausing === 'doing'">{{ task.speed | computeFileSize }}/S</p>
+							<p class="amount fl" *ngIf="task.pausing === 'paused'">{{global.L('PAUSED')}}</p>
+							<p class="amount fl" *ngIf="task.pausing === 'waiting'">{{global.L('WAITING')}}</p>
+							<div class="progress fl circle btn" tappable (click)="toggleStatus(task)" *ngIf="!allBtnsShow">
+								<svg class="icon icon-right" aria-hidden="true" *ngIf="task.pausing == 'doing'">
+									<use xlink:href="#iconzanting"></use>
+								</svg>
+								<svg class="icon icon-right" aria-hidden="true" *ngIf="task.pausing != 'doing'"  [ngClass]="task.action == 'download' ? '' : 'continue-up'">
+									<use xlink:href="#iconjixuxiazai"></use>
+								</svg>
+								<!-- <div class="circle gray left-circle"></div>
+								<div class="circle right-circle" [ngClass]="task.loaded > task.total / 2 ? 'light' : 'gray'" [style.transform]="getRotate(task)" ></div>
+								<div class="center" ><div [ngClass]="task.pausing != 'doing' ? 'down'  : 'pause'"></div></div> -->
+							</div>
+							<div class="progress fl circle btn" *ngIf="allBtnsShow">
+								<em class="nochoose-circle" *ngIf="!task.selected" ></em>
+								<svg class="icon icon-right" aria-hidden="true" *ngIf="task.selected" [ngClass]="task.selected?'slight':''">
+									<use xlink:href="#icongouxuan"></use>
+								</svg>
+							</div>
+						</div>
+						<div class="bg-box" tappable *ngIf="isDeleteType == 'android' && singleTask == task && isShowShadow" (click)="cancalDelete();$event.stopPropagation();">
+							<div class="content-box" tappable (click)="deleteSingleTask(task);$event.stopPropagation();">
+								{{ global.L("Delete") }}
+							</div>
+						</div>
+					</ion-item>
+					<ion-item-options side="right" *ngIf="isDeleteType == 'ios'">
+						<button ion-button color="danger" tappable (click)="deleteSingleTask(task);$event.stopPropagation();">{{global.L("Delete")}}</button>
+					</ion-item-options>
+				</ion-item-sliding>
+			</ion-list>
+		</div>
+	</div>
+</div>
+
