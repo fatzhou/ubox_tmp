@@ -4366,7 +4366,7 @@ export class Lang {
     }
     static DownloadAgain = {
         cn: '重新下载',
-        en: 'Download again',
+        en: 'Redownload',
         kr: '재다운로드'
     }
 

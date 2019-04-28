@@ -49,7 +49,7 @@
 
 <ion-content tappable>
 	<!-- <task [path]="currPath"></task> -->
-    <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page"  [ngClass]="isShowWarningBox && isMainDisk ? 'showBox' : ''">
+    <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page" >
         <div class="warning-box" *ngIf="isShowWarningBox && isMainDisk">
             <svg class="icon tishi-icon" aria-hidden="true">
                 <use xlink:href="#icontishi"></use>

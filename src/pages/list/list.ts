@@ -201,7 +201,7 @@ export class ListPage {
 
     initDiskInfo() {
         // this.zone.run(() => {
-            console.log('=======刷新disk列表======' + JSON.stringify(this.global.diskInfo.disks))
+            console.log('=======刷新disk列表======')
             this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/');
             if(this.global.diskInfo.disks) {
                 this.disks = this.global.diskInfo.disks.filter(item => {
@@ -209,7 +209,6 @@ export class ListPage {
                     // return item
                 });
                 this.cd.detectChanges();
-                console.log('最终展示的disk' + JSON.stringify(this.disks))
             }        
         // })
     }
