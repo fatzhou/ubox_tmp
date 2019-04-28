@@ -87,7 +87,8 @@ export class RegisterPage {
         this.http.post(GlobalService.centerApi["getVerifyCode"].url, {
             uname: this.username,
             type: this.global.passwdType === 'register' ? 0 : 1,
-            lang: this.global.getAppLang()
+			lang: this.global.getAppLang(),
+			version: 1
         })
         .then((res) => {
             if (res.err_no === 0) {

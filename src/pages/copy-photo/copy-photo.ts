@@ -33,7 +33,10 @@ export class CopyPhotoPage {
 
     ionViewDidLoad() {
         GlobalService.consoleLog('ionViewDidLoad CopyPhotoPage');
-        this.backupSwitch = this.global.albumBackupSwitch;
+		this.backupSwitch = this.global.albumBackupSwitch;
+		if(this.backupSwitch) {
+			this.changeBackupSwitch();
+		}
 	}
 
 	changeBackupSwitch() {
@@ -43,11 +46,15 @@ export class CopyPhotoPage {
 			}
 			let timeout = null;
 			if(!this.fileManager.resourceStorage.image.finished) {
-				this.global.createGlobalLoading(this, '');
+				console.log("文件分类尚未完成！！")
+				this.global.createGlobalLoading(this, {
+					message: ''
+				});
 				timeout = setTimeout(() => {
 					this.changeBackupSwitch();		
 				}, 100)
 			} else {
+				console.log("文件分类已完成")
 				this.global.closeGlobalLoading(this);
 				this.getAlbumList();
 			}

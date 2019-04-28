@@ -180,7 +180,7 @@ export class ListPage {
         this.initDiskInfo();
         GlobalService.consoleLog("this.isMainDisk" + this.isMainDisk);
         this.copyPhotoInfo = {
-            name: '自动备份文件列表',
+            name: this.global.L("PhotoBackup"),
             size: 0,
             type: 1,
             path: "/Backup/" + this.global.centerUserInfo.uname + ".backup/" + this.global.deviceID +  ".backup",
