@@ -91,6 +91,66 @@ export class FileDownloader {
 	onSuccess(fileId, listener) {
         this.downloaders[fileId].success = listener;
     }
+
+    //////////////download tools////////////////////////////
+    ///////////////////////////////////////
+    ///// 通过磁盘文件名进行缓存初始化/////////
+    ///////////////////////////////////////
+    static _initcachebyfilename(rangestr) {
+        let ret = {
+            totalsize: 0,
+            downloadsize: 0,
+        };
+        let reg = new RegExp("Range==bytes=([0-9]+)-([\\-0-9]*)=Total==([0-9]+)");
+        let rettmp = reg.exec(rangestr);
+        if (rettmp && rettmp[3]) {
+            return {
+                downloadsize: parseInt(rettmp[2]) + 1,
+                totalsize: rettmp[3],
+            };
+        }
+        return;
+    }
+    static getUnfinishedFileSizeIfExist(fsfile, filepath, filename){
+        return fsfile.listDir(filepath, ".").then((entry) => {
+            // GlobalService.consoleLog("读取目录成功");
+            let unfinishedfile = {
+                filepath:     filepath,
+                filename:     filename,
+                fileexist:    false,
+                totalsize:    0,
+                downloadsize: 0,
+            };
+            let esfilename = function(str) {
+                return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+            }(filename);
+            esfilename = esfilename.replace(/\\\\/, "\\");
+            let reg = new RegExp(esfilename + "\\.\\[(.*)\\]\\.download");
+            // GlobalService.consoleLog("文件名正则表达式匹配:" + esfilename + "\\.\\[(.*)\\]\\.download");
+            let rangestr;
+            for (let i = 0, len = entry.length; i < len; i++) {
+                let e = entry[i];
+                if (e.isFile && (rangestr = reg.exec(e.name)) && rangestr && rangestr[1]) {
+                    GlobalService.consoleLog("进行文件名初步匹配成功,信息字符串为:" + JSON.stringify(rangestr[1]));
+                    let tmpcache = FileDownloader._initcachebyfilename(rangestr[1]);
+                    if (tmpcache) {
+                        GlobalService.consoleLog("进行文件名匹配成功，进行断点下载:" + tmpcache.downloadsize + "," + tmpcache.totalsize);
+                        unfinishedfile.totalsize = +tmpcache.totalsize;
+                        unfinishedfile.downloadsize = tmpcache.downloadsize;
+                        unfinishedfile.fileexist = true;
+                    }
+                    // GlobalService.consoleLog("进行文件名匹配失败，重新完整下载");
+                    break;
+                } else {
+                    GlobalService.consoleLog("findUnfinishedFileIfExist error, entry=:" + JSON.stringify(e));
+                }
+            }
+            return unfinishedfile;
+        }).catch((err) => {
+            GlobalService.consoleLog("读取目录失败:" + err.stack);
+            throw new Error("Folder read error...");
+        });
+    }
 }
 
 class SingleFileDownloader {
@@ -352,57 +412,12 @@ class SingleFileDownloader {
             cache.downloadsize = 0;
             cache.speed = 0;
             cache.option = option;
-            return this.file.listDir(cache.filepath, ".").then((entry) => {
-                // GlobalService.consoleLog("读取目录成功");
-                let esfilename = function(str) {
-                    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-                }(cache.filename);
-                esfilename = esfilename.replace(/\\\\/, "\\");
-                let reg = new RegExp(esfilename + "\\.\\[(.*)\\]\\.download");
-                // GlobalService.consoleLog("文件名正则表达式匹配:" + esfilename + "\\.\\[(.*)\\]\\.download");
-                let rangestr;
-                for (let i = 0, len = entry.length; i < len; i++) {
-                    let e = entry[i];
-                    if (e.isFile && (rangestr = reg.exec(e.name)) && rangestr && rangestr[1]) {
-                        GlobalService.consoleLog("进行文件名初步匹配成功,信息字符串为:" + JSON.stringify(rangestr[1]));
-                        let tmpcache = self._initcachebyfilename(rangestr[1]);
-                        if (tmpcache) {
-                            GlobalService.consoleLog("进行文件名匹配成功，进行断点下载:" + tmpcache.downloadsize + "," + tmpcache.totalsize);
-                            cache.totalsize = tmpcache.totalsize;
-                            cache.downloadsize = tmpcache.downloadsize;
-                        } else {
-                            // GlobalService.consoleLog("进行文件名匹配失败，重新完整下载");
-                        }
-                        break;
-                    } else {
-                        GlobalService.consoleLog("========= e:" + JSON.stringify(e));
-                    }
-                }
-                return cache;
-            }).catch((err) => {
-                GlobalService.consoleLog("读取目录失败:" + err.stack);
-				throw new Error("Folder read error...");
-			});
+            return FileDownloader.getUnfinishedFileSizeIfExist(this.file, cache.filepath, cache.filename)
+            .then((unfinishedfile)=>{
+                cache.totalsize = unfinishedfile.totalsize;
+                cache.downloadsize = unfinishedfile.downloadsize;
+            });
         }
-    }
-
-    ///// 通过磁盘文件名进行缓存初始化/////////
-    // @return Promise<output>
-    ///////////////////////////////////////
-    private _initcachebyfilename(rangestr) {
-        let ret = {
-            totalsize: 0,
-            downloadsize: 0,
-        };
-        let reg = new RegExp("Range==bytes=([0-9]+)-([\\-0-9]*)=Total==([0-9]+)");
-        let rettmp = reg.exec(rangestr);
-        if (rettmp && rettmp[3]) {
-            return {
-                downloadsize: parseInt(rettmp[2]) + 1,
-                totalsize: rettmp[3],
-            };
-        }
-        return;
     }
 
     ///// 获取文件大小，保存第一次请求的文件////

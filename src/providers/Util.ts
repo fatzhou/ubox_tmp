@@ -800,6 +800,8 @@ export class Util {
                     })
                 }
             })
+        },(e)=>{
+            GlobalService.consoleLog("打开成功失败（urlResolve失败）：" + JSON.stringify(e) + ", path:" + path);
         })
     }
 
