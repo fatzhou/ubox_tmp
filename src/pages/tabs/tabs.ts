@@ -396,7 +396,7 @@ export class TabsPage {
         // console.log('this.global.mainSelectDiskUuid' + this.global.mainSelectDiskUuid);
         this.global.currDiskUuid = this.global.mainSelectDiskUuid;
         this.global.currSelectDiskUuid = this.global.mainSelectDiskUuid;
-        // console.log('this.global.currDiskUuid' + this.global.currDiskUuid);
+        console.log('this.global.currDiskUuid' + this.global.currDiskUuid + 'this.global.mainSelectDiskUuid' + this.global.mainSelectDiskUuid);
         this.global.currPath = '/';
         this.isClose = false;
         if (this.global.deviceSelected) {
