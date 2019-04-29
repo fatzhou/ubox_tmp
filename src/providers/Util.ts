@@ -27,6 +27,8 @@ declare var URL: any;
 declare var window;
 declare var cordova;
 declare var serviceDiscovery;
+declare var fileOpener2;
+
 
 @Injectable()
 export class Util {
@@ -622,7 +624,7 @@ export class Util {
                     $scope.navCtrl.pop()
                     .then(res => {
                         //盒子即将重启.......
-                        
+
                         // setTimeout(() => {
                         //     //查询盒子是否已经重启完毕
                         //     if($scope.global.useWebrtc) {
@@ -800,16 +802,20 @@ export class Util {
                 if(mime) {
                     // path = 'file://' + path.replace(/^file:\/\//, '');
                     GlobalService.consoleLog("正在打开文件..." + path + "," + mime);
-                    this.fileOpener.open(path, mime)
+                    new Promise((resolve, reject)=>{
+                        cordova.plugins.fileOpener2.showOpenWithDialog(path, mime, {success:resolve, error:reject})
+                    })
                     .then(res =>{
                         GlobalService.consoleLog("打开成功：" + JSON.stringify(res));
                     })
                     .catch(e => {
-						this.global.createGlobalToast(this, {
+                        GlobalService.consoleLog("打开失败：" + JSON.stringify(e));
+                        this.global.createGlobalToast(this, {
 							message: Lang.L('SystemFileError')
 						})
 					});
                 } else {
+                    GlobalService.consoleLog("打开失败：mime is null");
                     this.global.createGlobalToast(this, {
                         message: Lang.L('SystemFileError')
                     })
