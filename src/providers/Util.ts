@@ -606,20 +606,21 @@ export class Util {
                 $scope.global.createGlobalToast($scope, {
                     message: $scope.global.L("DeviceRebooting")
                 })
+                let boxId = $scope.global.deviceSelected.boxId;
+                this.global.setSelectedBox(null)
+                if($scope.global.useWebrtc) {
+                    //关闭webrtc连接
+                    $scope.http.stopWebrtcEngine()
+                }
+                this.checkoutBox($scope)
+                .catch(e => {
+                    console.log(e);
+                })
                 setTimeout(()=>{
                     $scope.navCtrl.pop()
                     .then(res => {
                         //盒子即将重启.......
-                        let boxId = $scope.global.deviceSelected.boxId;
-                        this.global.setSelectedBox(null)
-                        if($scope.global.useWebrtc) {
-                            //关闭webrtc连接
-                            $scope.http.stopWebrtcEngine()
-                        }
-                        this.checkoutBox($scope)
-                        .catch(e => {
-                            console.log(e);
-                        })
+                        
                         // setTimeout(() => {
                         //     //查询盒子是否已经重启完毕
                         //     if($scope.global.useWebrtc) {
