@@ -65,6 +65,10 @@ export class FileTransport {
      * @param {[type]} eventType  [description]
      */
 	uploadSingleFile(localPath, remotePath, uploadInfo = null) {
+		if(!this.platform.is('cordova')) {
+			GlobalService.consoleLog('Not cordova, can not download file...');
+			return;
+		}
 		GlobalService.consoleLog(`上传参数： localPath=${localPath},remotePath=${remotePath},thumbnail=${uploadInfo.thumbnail}`);
 		localPath = localPath.replace(/\?\d+$/, '');
 		remotePath = remotePath.replace(/\?\d+$/, '');
@@ -285,6 +289,10 @@ export class FileTransport {
      * @param {[type]} localPath [本地文件夹路径，不包含文件名]
      */
 	getFileLocalOrRemote(remoteUrl, remoteName, localPath, name, fileSubPath, fileStyle = 'image') {
+		if(!this.platform.is('cordova')) {
+			GlobalService.consoleLog('Not cordova, can not download file...');
+			return;
+		}
 		remoteUrl = remoteUrl.replace(/\/$/, '') + "/";
 		localPath = localPath.replace(/\/$/, '') + "/";
 		console.log(`查询${localPath}下是否存在文件${name}`)
@@ -323,6 +331,10 @@ export class FileTransport {
 	}
 
 	getThumbnail(list, isHasPath, currPath = '') {
+		if(!this.platform.is('cordova')) {
+			GlobalService.consoleLog('Not cordova, can not download file...');
+			return;
+		}
 		//获取最新拉取的一页的缩略图
 		let noThumbnailList = list.filter(item => {
 			let type = this.util.computeFileType(item.name);
@@ -419,6 +431,10 @@ export class FileTransport {
 	 */
 	downloadFile(fileInfo, remoteFullPath, localFullPath, createTask: boolean = true) {
 		return new Promise((resolve, reject) => {
+			if(!this.platform.is('cordova')) {
+				GlobalService.consoleLog('Not cordova, can not download file...');
+				return Promise.reject('Not cordova');
+			}
 			GlobalService.consoleLog("下载文件到本地:" + localFullPath + ",远程路径：" + remoteFullPath);
 			// this.global.createGlobalToast(this, {
 			//     message: Lang.Lf('StartDownloadFile', file.name),
@@ -648,6 +664,10 @@ export class FileTransport {
 	}
 
 	async createDownloadHandlerLocal(fileTask, progress, success, failure) {
+		if(!this.platform.is('cordova')) {
+			GlobalService.consoleLog('Not cordova, can not download file...');
+			return;
+		}
 		let url = this.global.getBoxApi('downloadFile') + this.http.toQueryString({
 			fullpath: fileTask.path,
 			disk_uuid: fileTask.diskUuid,
