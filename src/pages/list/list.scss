@@ -342,8 +342,12 @@ page-list {
             }
             .btn {
                 float: right;
-                margin-top: 12px;
                 position: relative;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 .icon {
                     font-size: 18px;
                     line-height: 1;
@@ -351,13 +355,16 @@ page-list {
                         font-size: 18px;
                         line-height: 48px;
                         color: #7F8389;
+                        width: 40px;
+                        height: 40px;
+                        padding: 10px 0px 10px 20px;
                     }
                     &.icon-right {
                         font-size: 22px;
                         right: 0;
                         margin-right: 0px;
                         color: #E9E9EA;
-                        top: 0px;
+                        top: 9px;
                         position: absolute;
                     }
                     // &.light {
@@ -371,7 +378,7 @@ page-list {
                     background: rgba(0,0,0,0.20);
                     border: 1px solid #78777C;
                     position: absolute;
-                    top: 0;
+                    top: 9px;
                     right: 0;
                     border-radius: 50%;
                     box-sizing: border-box;
