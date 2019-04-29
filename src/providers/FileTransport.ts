@@ -582,6 +582,7 @@ export class FileTransport {
                 GlobalService.consoleLog("[tool.logid:" + tool.logid + "]暂停下载～～～");
                 return tool._getHandler().then((h)=>h.pause());
 			},
+
 			resume: () => {
 				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]恢复下载～～～");
 				return tool._getHandler().then((h)=>h.resume());
@@ -831,8 +832,9 @@ export class FileTransport {
         doingTaskList.forEach((val, idx, arr) => {
             if (this.global.fileHandler[arr[idx].taskId]) {
                 this.global.fileHandler[arr[idx].taskId].netchange();
-                this.global.fileHandler[arr[idx].taskId].pause();
-                this.global.fileHandler[arr[idx].taskId].resume();
+                this.global.fileHandler[arr[idx].taskId].pause().then(()=>{
+                    this.global.fileHandler[arr[idx].taskId].resume();
+                });
             } else {
                 console.log("***UNRACHABLE CODE???***, task handler is null");
             }
