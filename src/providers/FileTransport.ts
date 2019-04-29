@@ -143,35 +143,65 @@ export class FileTransport {
 	createUploadHandler(task: any) {
 		let tool;
 		let start = 0;
+        let lastunsetresult = {};
+        let lastsettimer = null;
 		let progress = (res) => {
 			GlobalService.consoleLog("上传进度信息：" + JSON.stringify(res));
 			if (res.status === 'ERROR') {
 				task.pausing = 'paused';
 				tool.pause();
 				task.speed = 0;
-				return false;
+                lastunsetresult = null;
+                lastsettimer = null;
+                return false;
 			}
 
 			if (!this.global.networking) {
 				task.pausing = 'waiting';
 				tool.pause();
 				task.speed = 0;
-				return false;
+                lastunsetresult = null;
+                lastsettimer = null;
+                return false;
 			}
+
 			// if (task.pausing == 'paused') {
 			// 	GlobalService.consoleLog("文件上传已暂停，不接收进度更新");
 			// 	return false;
 			// }
+
 			let now = Date.now();
 			if (now > start + 600) {
+                ////// 最多600ms更新一次变量/////////////////////////////////////////////
 				this.zone.run(() => {
 					// console.log("上传进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
+                    lastunsetresult = null;
 					task.speed = Math.max(0, Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
 					task.loaded = res.loaded;
 					task.total = res.total;
 					start = now;
 				})
-			}
+			}else{
+			    ////// 保存最后一次没有跟新到任务中到变量，如有必要，一定时间之后更新//////////
+                lastunsetresult = res;
+                if (lastsettimer==null){
+                    lastsettimer = setTimeout(()=>{
+                        lastsettimer = null;
+                        if (lastunsetresult) {
+                            this.zone.run(() => {
+                                // console.log("上传进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
+                                let now = Date.now();
+                                lastunsetresult = null;
+                                task.speed = Math.max(0, Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
+                                task.loaded = res.loaded;
+                                task.total = res.total;
+                                start = now;
+                            })
+                        }
+                    }, 1000)
+                }
+            }
+
 			// GlobalService.consoleLog("更新进度信息:" + res.loaded);
 			return true;
 		};
