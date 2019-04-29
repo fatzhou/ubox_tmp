@@ -1185,7 +1185,7 @@ export class Lang {
         10002: {
             Title: {
                 cn: "任务已下载",
-                en: "",
+                en: "Task downloaded",
                 kr: ""
             },
             Subtitle: {
@@ -4345,17 +4345,17 @@ export class Lang {
 
     static WaitingDownload = {
         cn: '等待下载',
-        en: 'Waiting for download',
+        en: 'Waiting',
         kr: '다운로드 대기 중'
     }
     static ContinueDownload = {
         cn: '继续下载',
-        en: 'Continue to download',
+        en: 'Continue',
         kr: '다운로드 계속'
     }
     static DownloadError = {
         cn: '下载失败',
-        en: 'Download failed',
+        en: 'Failed',
         kr: '다운로드 실패'
     }
 
@@ -4445,5 +4445,11 @@ export class Lang {
 		cn: "自动备份文件列表",
 		en: 'Auto backup',
 		kr: ''
-	}
+    }
+    static DeviceRebootMessage = {
+		cn: "重启设备将会",
+		en: 'Auto backup',
+		kr: ''
+    }
+    
 }

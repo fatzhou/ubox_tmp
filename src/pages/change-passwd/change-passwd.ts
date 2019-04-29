@@ -46,6 +46,9 @@ export class ChangePasswdPage {
     ionViewDidLoad() {
         GlobalService.consoleLog('ionViewDidLoad ChangepasswdPage');
         this.username = this.global.boxUserInfo.username || this.global.centerUserInfo.uname;
+        document.body.addEventListener('touchmove', function (event) {
+            event.preventDefault();
+        }, false);
     }
 
     commitNewPassword() {

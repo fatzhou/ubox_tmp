@@ -43,6 +43,9 @@ export class RegisterPage {
 
     ionViewDidLoad() {
         GlobalService.consoleLog('ionViewDidLoad RegisterPage');
+        document.body.addEventListener('touchmove', function (event) {
+            event.preventDefault();
+        }, false);
     }
 
     doRegister() {

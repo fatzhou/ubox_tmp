@@ -53,7 +53,10 @@ export class LoginPage {
     ionViewDidLoad() {
         GlobalService.consoleLog('ionViewDidLoad LoginPage');
         this.popBack = this.navParams.get('popBack');
-		this.isLoading = false;
+        this.isLoading = false;
+        document.body.addEventListener('touchmove', function (event) {
+            event.preventDefault();
+        }, false);
         if(GlobalService.ENV === 'dev') {
 			// this.username = "aop800@163.com"
 			// this.password = "dh5819413"

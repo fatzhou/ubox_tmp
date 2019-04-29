@@ -89,6 +89,9 @@ page-list {
     .aside-nav-icon {
         font-size: 20px;
         margin-left: 10px;
+        position: absolute;
+        top: 17px;
+        left: 4px;
     }
     .list-header {
         overflow: hidden;
@@ -177,6 +180,11 @@ page-list {
             z-index: 100;
             min-width: calc(100% - 80px);
 		}
+    }
+    .toolbar-ios {
+        .task-btn {
+            top: 4px!important;
+        }
     }
     .disk-list {
         width: 100%;

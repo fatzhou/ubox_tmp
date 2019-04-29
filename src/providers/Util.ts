@@ -358,7 +358,7 @@ export class Util {
                         this.global.boxUserInfo = res.userinfo;
                         return this.global.deviceSelected;
                     }else{
-                        console.log("["+logid+"]" + "没有盒子登录态，手动清除中心登录信息");
+                        console.log("["+logid+"]" + "没有盒子登录态，暂不清除中心登录信息");
                         this.global.setSelectedBox(null);
                         //this.global.centerUserInfo = {};
                         return Promise.reject("Error occured...");
@@ -588,10 +588,12 @@ export class Util {
             if(res.length > 0) {
                 let box = res.find(item => item.boxId === boxId);
                 if(box) {
+                    this.global.closeGlobalLoading(this);
                     this.global.setSelectedBox(box);
                     this.global.createGlobalToast(this, {
                         message: this.global.L("RebootSuccess")
                     })
+
                 } else {
                     errorCallback();
                 }
@@ -613,34 +615,29 @@ export class Util {
         $scope.http.post(url, {})
         .then(res => {
             if(res.err_no === 0) {
-                $scope.global.createGlobalToast($scope, {
+                $scope.global.createGlobalLoading($scope, {
                     message: $scope.global.L("DeviceRebooting")
                 })
                 let boxId = $scope.global.deviceSelected.boxId;
                 this.global.setSelectedBox(null)
-                setTimeout(()=>{
-                    $scope.navCtrl.pop()
-                    .then(res => {
-                        //盒子即将重启.......
-                        
-                        // setTimeout(() => {
-                        //     //查询盒子是否已经重启完毕
-                        //     if($scope.global.useWebrtc) {
-                        //         this._checkRemoteBoxAvailable(boxId);
-                        //     } else {
-                        //         this._checkLocalBoxAvailable(boxId);
-                        //     }
-                        // }, 6000);
-                        if($scope.global.useWebrtc) {
-                            //关闭webrtc连接
-                            $scope.http.stopWebrtcEngine()
-                        }
-                        this.checkoutBox($scope)
-                        .catch(e => {
-                            console.log(e);
-                        })
-                    })
-                },3000)
+                //盒子即将重启.......
+                
+                setTimeout(() => {
+                    //查询盒子是否已经重启完毕
+                    if($scope.global.useWebrtc) {
+                        this._checkRemoteBoxAvailable(boxId);
+                    } else {
+                        this._checkLocalBoxAvailable(boxId);
+                    }
+                }, 3000);
+                if($scope.global.useWebrtc) {
+                    //关闭webrtc连接
+                    $scope.http.stopWebrtcEngine()
+                }
+                // this.checkoutBox($scope)
+                // .catch(e => {
+                //     console.log(e);
+                // })
             }
         })
     }
