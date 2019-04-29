@@ -396,9 +396,9 @@ export class FileTransport {
 			let localThumbnailPath = this.global.fileSavePath + this.global.ThumbnailSubPath + "/";
 			let localThumbnailFullPath = localThumbnailPath + thumbnailName;
 			let logprefix = "缩略图下载：(" + thumbnailName + ")：";
-			GlobalService.consoleLog(logprefix + "开始下载" + i);
-			GlobalService.consoleLog(logprefix + "本地路径尝试：" + localThumbnailPath + thumbnailName);
-			GlobalService.consoleLog(logprefix + "远程地址：" + remotePath + '/' + noThumbnailList[i].name);
+			// GlobalService.consoleLog(logprefix + "开始下载" + i);
+			// GlobalService.consoleLog(logprefix + "本地路径尝试：" + localThumbnailPath + thumbnailName);
+			// GlobalService.consoleLog(logprefix + "远程地址：" + remotePath + '/' + noThumbnailList[i].name);
 			// return this.getFileLocalOrRemote(this.global.ThumbnailRemotePath + "/", localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath, 'thumbnail')
 			return this.getFileLocalOrRemote(remotePath, noThumbnailList[i].name, localThumbnailPath, thumbnailName, this.global.ThumbnailSubPath, 'thumbnail')
 				.then(res => {
@@ -758,7 +758,7 @@ export class FileTransport {
 		.then((res: any) => {
 			fileTask.loaded = res.downloadsize;
 			fileTask.total = res.totalsize;
-            console.log("开始调用new FileTransfer:loaded=" + fileTask.loaded + ",total=" + fileTask.total);
+            // console.log("开始调用new FileTransfer:loaded=" + fileTask.loaded + ",total=" + fileTask.total);
             let fileTransfer = new FileTransfer(url, fileURL, {
 				headers: {
 					// add custom headers if needed
@@ -772,7 +772,7 @@ export class FileTransport {
 			fileTransfer.onProgress(progress);
 			fileTransfer.onSuccess(success);
 			fileTransfer.onFailure(failure);
-			console.log("开始调用下载....");
+			// console.log("开始调用下载....");
 			fileTransfer.download();
             return fileTransfer;
 		});

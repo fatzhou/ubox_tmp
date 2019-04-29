@@ -688,10 +688,10 @@ export class FileManager {
         	let contentType = info.mimeType;
         	this.writeImageFileByBlob(this.global.fileSavePath, subFolder, fileName, contentType, blob, () => {
         		console.log("文件已写入本地----------");
-        		this.file.listDir(folderPath, fileName)
-        		.then(res => {
-        			console.log("gggggggssss" + JSON.stringify(res))
-        		})
+        		// this.file.listDir(folderPath, fileName)
+        		// .then(res => {
+        		// 	console.log("gggggggssss" + JSON.stringify(res))
+        		// })
         		callback && callback(folderPath + fileName);
         	}, (res) => {
         		console.log("文件写入本地失败");
