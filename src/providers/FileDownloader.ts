@@ -143,7 +143,7 @@ export class FileDownloader {
                     // GlobalService.consoleLog("进行文件名匹配失败，重新完整下载");
                     break;
                 } else {
-                    GlobalService.consoleLog("findUnfinishedFileIfExist error, entry=:" + JSON.stringify(e));
+                    GlobalService.consoleLog("getUnfinishedFileSizeIfExist error, entry=:" + JSON.stringify(e));
                 }
             }
             return unfinishedfile;

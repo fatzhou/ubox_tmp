@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Lang } from '../../providers/Language';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
+import { Util } from '../../providers/Util';
 /**
  * Generated class for the DeviceDetailPage page.
  *
@@ -25,7 +26,8 @@ export class DeviceDetailPage {
     constructor(public navCtrl: NavController,
         public navParams: NavParams,
         public global: GlobalService,
-        private http: HttpService,) {
+        private http: HttpService,
+        private util: Util,) {
     }
 
     ionViewDidLoad() {
@@ -100,10 +102,12 @@ export class DeviceDetailPage {
         this.global.createGlobalLoading(this, {});
         if(this.global.useWebrtc == true){
             GlobalService.consoleLog('当前正在使用远场，切换连接模式为近场');
-            this.http.stopWebrtcEngine()
+            this.http.stopWebrtcEngine();
+            this.util.checkoutBox(this);
         } else {
             GlobalService.consoleLog('当前正在使用近场，切换连接模式为远场');
-            this.http.startWebrtcEngine()
+            this.http.startWebrtcEngine();
+            this.util.checkoutBox(this);
         }
         setTimeout(()=>{
             this.global.closeGlobalLoading(this);

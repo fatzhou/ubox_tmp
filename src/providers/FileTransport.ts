@@ -54,6 +54,7 @@ export class FileTransport {
 		events.subscribe('task:network-changed', (networkstatus) => {
 			GlobalService.consoleLog("文件传输：网络切换");
 			this.notifyNetworkChange('download');
+			this.notifyNetworkChange('upload');
 		});
 	};
 
@@ -104,7 +105,10 @@ export class FileTransport {
 			if (pausing === 'doing') {
 				let taskId = newTask.taskId;
 				newTask.pausing = pausing;
-				this.global.fileHandler[taskId].resume();
+				this.global.fileHandler[taskId].resume({
+					offset: newTask.loaded,
+					total: newTask.total
+				});
 			}
 		} else {
 			GlobalService.consoleLog(taskId + "任务不存在，创建新的任务");
@@ -139,35 +143,65 @@ export class FileTransport {
 	createUploadHandler(task: any) {
 		let tool;
 		let start = 0;
+        let lastunsetresult = {};
+        let lastsettimer = null;
 		let progress = (res) => {
 			GlobalService.consoleLog("上传进度信息：" + JSON.stringify(res));
 			if (res.status === 'ERROR') {
 				task.pausing = 'paused';
 				tool.pause();
 				task.speed = 0;
-				return false;
+                lastunsetresult = null;
+                lastsettimer = null;
+                return false;
 			}
 
 			if (!this.global.networking) {
 				task.pausing = 'waiting';
 				tool.pause();
 				task.speed = 0;
-				return false;
+                lastunsetresult = null;
+                lastsettimer = null;
+                return false;
 			}
+
 			// if (task.pausing == 'paused') {
 			// 	GlobalService.consoleLog("文件上传已暂停，不接收进度更新");
 			// 	return false;
 			// }
+
 			let now = Date.now();
 			if (now > start + 600) {
+                ////// 最多600ms更新一次变量/////////////////////////////////////////////
 				this.zone.run(() => {
 					// console.log("上传进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
+                    lastunsetresult = null;
 					task.speed = Math.max(0, Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
 					task.loaded = res.loaded;
 					task.total = res.total;
 					start = now;
 				})
-			}
+			}else{
+			    ////// 保存最后一次没有跟新到任务中到变量，如有必要，一定时间之后更新//////////
+                lastunsetresult = res;
+                if (lastsettimer==null){
+                    lastsettimer = setTimeout(()=>{
+                        lastsettimer = null;
+                        if (lastunsetresult) {
+                            this.zone.run(() => {
+                                // console.log("上传进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
+                                let now = Date.now();
+                                lastunsetresult = null;
+                                task.speed = Math.max(0, Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
+                                task.loaded = res.loaded;
+                                task.total = res.total;
+                                start = now;
+                            })
+                        }
+                    }, 1000)
+                }
+            }
+
 			// GlobalService.consoleLog("更新进度信息:" + res.loaded);
 			return true;
 		};
@@ -182,14 +216,15 @@ export class FileTransport {
 				let taskId = task.taskId;
 				task.finished = !!res.complete;
 				task.loaded = res.rangend;
-				if (this.global.fileHandler[taskId]) {
-					delete this.global.fileHandler[taskId];
-				}
+
 				// task.confirmLoaded = res.rangend;
 				if (task.finished) {
 					task.finishedTime = new Date().getTime();
 					this.fileUploader.clearUploaderTask(task.fileId);
 					this.events.publish('file:updated', task);
+					if (this.global.fileHandler[taskId]) {
+						delete this.global.fileHandler[taskId];
+					}
 					console.log("event published......")
 				} else {
 					this.events.publish('file:savetask');
@@ -542,23 +577,26 @@ export class FileTransport {
                 return tool._getHandler().then((h)=>h.pause());
 			},
 			resume: () => {
-				if(tool.mode == 'remote') {
-					return tool._getHandler().then((h)=>h.resume());
-				} else {
-					return FileDownloader.getUnfinishedFileSizeIfExist(this.file, task.localPath.replace(/\/[^\/]+$/g, '/'), task.name)
-					.catch(e => {
-						return Promise.resolve({
-							totalsize: 0,
-							downloadsize: 0,
-						})
-					})
-					.then((res:any) => {
-						return tool._getHandler().then((h)=>h.resume({
-							total: res.totalsize,
-							loaded: res.downloadsize
-						}));
-					})
-				}
+				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]恢复下载～～～");
+				return tool._getHandler().then((h)=>h.resume());
+
+				// if(tool.mode == 'remote') {
+				// 	return tool._getHandler().then((h)=>h.resume());
+				// } else {
+				// 	return FileDownloader.getUnfinishedFileSizeIfExist(this.file, task.localPath.replace(/\/[^\/]+$/g, '/'), task.name)
+				// 	.catch(e => {
+				// 		return Promise.resolve({
+				// 			totalsize: 0,
+				// 			downloadsize: 0,
+				// 		})
+				// 	})
+				// 	.then((res:any) => {
+				// 		return tool._getHandler().then((h)=>h.resume({
+				// 			total: res.totalsize,
+				// 			loaded: res.downloadsize
+				// 		}));
+				// 	})
+				// }
 			},
             netchange: () => {
 			    //////just for test///////////
@@ -628,7 +666,7 @@ export class FileTransport {
 			} else {
 				//任务尚未完成
 				if (this.global.fileHandler[taskId]) {
-					this.global.fileHandler[taskId].pause();
+					// this.global.fileHandler[taskId].pause();
 					task.speed = 0;
 				}
 				task.paused = 'paused';

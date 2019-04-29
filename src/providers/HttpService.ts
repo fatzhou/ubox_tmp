@@ -1252,7 +1252,7 @@ export class HttpService {
 	}
 
 	_updateCenterNetworkLastAliveTime(url) {
-		let isBoxUrl = !url.startsWith('http') || this.isBoxUrlReg.test(url); //检测是否盒子的url
+		let isBoxUrl = !url.startsWith('https'); //检测是否盒子的url
 		if (!isBoxUrl) {
 			this.centerNetworkLastAliveTime = Date.now();
 
@@ -1274,7 +1274,9 @@ export class HttpService {
 			}).catch(e => {
 				GlobalService.consoleLog("检查网络状态请求发送返回异常, 刷新网络状态");
 			}).then(() => {
-				this.notifyNetworkStatusChange();
+				if (this.networkLastNotifyStatus && !this.networkLastNotifyStatus.centerNetworking) {
+					this.notifyNetworkStatusChange();
+				}
 				this.centerNetworkChecking = false;
 
 			})

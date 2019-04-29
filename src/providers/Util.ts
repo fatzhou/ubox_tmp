@@ -27,6 +27,8 @@ declare var URL: any;
 declare var window;
 declare var cordova;
 declare var serviceDiscovery;
+declare var fileOpener2;
+
 
 @Injectable()
 export class Util {
@@ -620,24 +622,29 @@ export class Util {
                 })
                 let boxId = $scope.global.deviceSelected.boxId;
                 this.global.setSelectedBox(null)
-                //盒子即将重启.......
-                
-                setTimeout(() => {
-                    //查询盒子是否已经重启完毕
-                    if($scope.global.useWebrtc) {
-                        this._checkRemoteBoxAvailable(boxId);
-                    } else {
-                        this._checkLocalBoxAvailable(boxId);
-                    }
-                }, 3000);
-                if($scope.global.useWebrtc) {
-                    //关闭webrtc连接
-                    $scope.http.stopWebrtcEngine()
-                }
-                // this.checkoutBox($scope)
-                // .catch(e => {
-                //     console.log(e);
-                // })
+                setTimeout(()=>{
+                    $scope.navCtrl.pop()
+                    .then(res => {
+                        //盒子即将重启.......
+
+                        // setTimeout(() => {
+                        //     //查询盒子是否已经重启完毕
+                        //     if($scope.global.useWebrtc) {
+                        //         this._checkRemoteBoxAvailable(boxId);
+                        //     } else {
+                        //         this._checkLocalBoxAvailable(boxId);
+                        //     }
+                        // }, 6000);
+                        if($scope.global.useWebrtc) {
+                            //关闭webrtc连接
+                            $scope.http.stopWebrtcEngine()
+                        }
+                        this.checkoutBox($scope)
+                        .catch(e => {
+                            console.log(e);
+                        })
+                    })
+                },3000)
             }
         })
     }
@@ -797,28 +804,32 @@ export class Util {
                 if(mime) {
                     // path = 'file://' + path.replace(/^file:\/\//, '');
                     GlobalService.consoleLog("正在打开文件..." + path + "," + mime);
-                    this.fileOpener.open(path, mime)
+                    new Promise((resolve, reject)=>{
+                        cordova.plugins.fileOpener2.showOpenWithDialog(path, mime, {success:resolve, error:reject})
+                    })
                     .then(res =>{
                         GlobalService.consoleLog("打开成功：" + JSON.stringify(res));
                     })
                     .catch(e => {
-						this.global.createGlobalToast(this, {
+                        GlobalService.consoleLog("打开失败：" + JSON.stringify(e));
+                        this.global.createGlobalToast(this, {
 							message: Lang.L('SystemFileError')
 						})
 					});
                 } else {
+                    GlobalService.consoleLog("打开失败：mime is null");
                     this.global.createGlobalToast(this, {
                         message: Lang.L('SystemFileError')
                     })
                 }
             })
         },(e)=>{
-			GlobalService.consoleLog("打开成功失败（urlResolve失败）：" + JSON.stringify(e) + ", path:" + path);
+			GlobalService.consoleLog("打开失败（urlResolve失败）：" + JSON.stringify(e) + ", path:" + path);
 
 			this.file.listDir(this.global.fileSavePath, this.global.PhotoSubPath)
 			.then(res => {
 				console.log("文件夹列表:" + JSON.stringify(res));
-			})
+			});
 
 			this.global.createGlobalToast(this, {
 				message: Lang.L('SystemFileError')
