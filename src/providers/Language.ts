@@ -4451,5 +4451,11 @@ export class Lang {
 		en: 'Auto backup',
 		kr: ''
     }
+    static YouHaveLoadingFile = {
+		cn: "加载中...",
+		en: 'Loading...',
+		kr: ''
+    }
+    
     
 }

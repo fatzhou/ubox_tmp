@@ -82,6 +82,7 @@ export class ListPage {
     isShowWarningBox: boolean = false;
     isShowWarningBoxClass: boolean = false;
     copyPhotoInfo: any = {};
+    isLoadingData: boolean = true;
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -152,6 +153,7 @@ export class ListPage {
 
     ionViewWillEnter() {
         console.log('list ionViewWillEnter');
+        this.isLoadingData = true;
     }
 
     ionViewDidEnter() {
@@ -224,7 +226,7 @@ export class ListPage {
 
     ionViewDidLoad() {
 		GlobalService.consoleLog('ionViewDidLoad ListPage');
-
+        
 		this.initPage();
 		this.events.unsubscribe(this.currPath + ":succeed");
 		this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
@@ -428,6 +430,7 @@ export class ListPage {
         .then((res:any) => {
             this.global.closeGlobalLoading(this);
             this.dataAcquired = true;
+            this.isLoadingData = false;
             if (res.err_no === 0) {
                 var list = [];
                 var index = 0;
@@ -462,13 +465,14 @@ export class ListPage {
                 this.fileList = this.allFileList.slice(0, this.pageSize);
                 this.transfer.getThumbnail(this.allFileList, false, this.currPath);
 
-                // this.cd.detectChanges();
+                this.cd.detectChanges();
                 //获取缩略图
                 this.clearStatus();
             }
             return false;
 		})
 		.catch(e => {
+            this.isLoadingData = false;
             this.global.closeGlobalLoading(this);
             GlobalService.consoleLog("获取数据失败:" + JSON.stringify(e));
 		})

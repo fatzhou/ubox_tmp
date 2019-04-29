@@ -406,6 +406,7 @@ export class TabsPage {
             // this.util.getDiskStatus()
             // .then(() => {
                 if(this.global.currDiskUuid != '') {
+                    console.log('回到首页，刷新列表');
                     this.events.publish('list:refresh');
                 }
                 this.getVersionControl()
