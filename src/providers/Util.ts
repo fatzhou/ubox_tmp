@@ -17,6 +17,8 @@ import { FileOpener } from '@ionic-native/file-opener';
 import { Clipboard } from '@ionic-native/clipboard';
 import { AppsInstalled } from './AppsInstalled';
 import { UappPlatform } from "./UappPlatform";
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+
 // import { FileTransport } from './FileTransport';
 declare var chcp: any;
 declare var createObjectURL: any;
@@ -31,7 +33,8 @@ export class Util {
     constructor(
         // private transfer: FileTransport,
         private events: Events,
-        private http: HttpService,
+		private http: HttpService,
+		private angularHttp: Http,
         public storage: Storage,
         private browser: InAppBrowser,
         private platform: Platform,
@@ -421,6 +424,13 @@ export class Util {
         }, false)
         .then(res => {
             if(res.err_no === 0) {
+				if(this.platform.is('ios')) {
+					//ios使用网页再登录一次，以保证uapp拥有盒子cookie
+					this.angularHttp.post(url, {
+						username: username,
+						password: Md5.hashStr(password).toString(),
+					})
+				}
 				let userInfoUrl = this.global.getBoxApi('getUserInfo');
 				return this.http.post(userInfoUrl, {})
 				.then(res => {
