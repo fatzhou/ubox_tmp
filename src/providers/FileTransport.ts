@@ -143,7 +143,7 @@ export class FileTransport {
 	createUploadHandler(task: any) {
 		let tool;
 		let start = 0;
-        let lastunsetresult = {};
+        let lastunsetresult:any = {};
         let lastsettimer = null;
 		let progress = (res) => {
 			GlobalService.consoleLog("上传进度信息：" + JSON.stringify(res));
@@ -191,11 +191,11 @@ export class FileTransport {
                             this.zone.run(() => {
                                 // console.log("上传进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
                                 let now = Date.now();
-                                lastunsetresult = null;
-                                task.speed = Math.max(0, Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
-                                task.loaded = res.loaded;
-                                task.total = res.total;
-                                start = now;
+								task.speed = Math.max(0, Math.ceil((lastunsetresult.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
+                                task.loaded = lastunsetresult.loaded;
+                                task.total = lastunsetresult.total;
+								start = now;
+								lastunsetresult = null;
                             })
                         }
                     }, 1000)
