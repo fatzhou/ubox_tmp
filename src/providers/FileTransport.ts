@@ -524,7 +524,7 @@ export class FileTransport {
 				if(tool.mode == 'remote') {
 					return tool._getHandler().then((h)=>h.resume());
 				} else {
-					return FileDownloader.getUnfinishedFileSizeIfExist(this.file,task.path.replace(/\/[^\/]+$/g, ''), task.name)
+					return FileDownloader.getUnfinishedFileSizeIfExist(this.file, task.localPath.replace(/\/[^\/]+$/g, '/'), task.name)
 					.catch(e => {
 						return Promise.resolve({
 							totalsize: 0,
@@ -658,7 +658,7 @@ export class FileTransport {
 		let self = this;
 		return await new Promise((resolve, reject) => {
 			if (fileTask.loaded > -10) {
-				return FileDownloader.getUnfinishedFileSizeIfExist(this.file, fileTask.path.replace(/\/([^\/]+)$/, '/'), fileTask.name)
+				return FileDownloader.getUnfinishedFileSizeIfExist(this.file, fileTask.localPath.replace(/\/([^\/]+)$/, '/'), fileTask.name)
 					.then((res:any) => {
 						resolve(res)
 					})
