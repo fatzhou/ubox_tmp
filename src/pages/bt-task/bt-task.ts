@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Events } from 'ionic-angular';
 import { BtSetPage } from '../bt-set/bt-set';
 import { ListPage } from '../list/list';
 import { GlobalService } from '../../providers/GlobalService';
@@ -31,11 +31,11 @@ export class BtTaskPage {
         public navParams: NavParams,
         private global: GlobalService,
         private util: Util,
+        private events: Events,
         private http: HttpService) {
     }
-
-    ionViewDidLoad() {
-        console.log('ionViewDidLoad BtTaskPage');
+    ionViewDidEnter() {
+        console.log('ionViewDidEnter BtTaskPage');
         this.getTaskList();
         this.setIntervalTaskList = setInterval(() => {
             this.getTaskList()

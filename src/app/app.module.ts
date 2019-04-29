@@ -111,7 +111,6 @@ import { HTTP } from '@ionic-native/http';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { Zip } from '@ionic-native/zip/ngx';
-import { FileTransfer, FileUploadOptions } from '@ionic-native/file-transfer/ngx';
 
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { DirectivesModule } from '../directives/directives.module';
@@ -341,7 +340,6 @@ import { PretifyNumberPipe } from '../pipes/pretify-number/pretify-number'
     HTTP,
     FileOpener,
     Zip,
-    FileTransfer,
     Clipboard,
     Lang,
     FileDownloader,
