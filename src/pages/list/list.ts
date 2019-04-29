@@ -180,6 +180,12 @@ export class ListPage {
         // }
         this.isMainDisk = this.global.currDiskUuid == '' || this.global.currDiskUuid == this.global.mainSelectDiskUuid;
         this.initDiskInfo();
+        if(this.currPath == '/' && this.isMainDisk) {
+			this.events.unsubscribe('list:refresh');
+            this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
+			this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
+        }
+        console.log('this.global.currDiskUuid' + this.global.currDiskUuid);
         GlobalService.consoleLog("this.isMainDisk" + this.isMainDisk);
         this.copyPhotoInfo = {
             name: this.global.L("PhotoBackup"),
@@ -231,12 +237,7 @@ export class ListPage {
 		this.events.unsubscribe(this.currPath + ":succeed");
 		this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
 
-		if(this.currPath == '/') {
-			this.events.unsubscribe('list:refresh');
-            this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
-			this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
-        }
-        console.log('this.global.currDiskUuid' + this.global.currDiskUuid);
+		
         if(this.util.isDiskInfoReady()) {
             // diskInfo已经初始化，直接展示
             this.listFiles();
