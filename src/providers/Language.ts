@@ -2560,7 +2560,9 @@ export class Lang {
 
     };
     static FileUploading = {
-        cn: '正在上传文件...'
+		cn: '正在上传文件...',
+		en: "File uploading...",
+		kr: ''
     }
     static UploadFileNotExist = {
         cn: "文件${filename}上传失败",

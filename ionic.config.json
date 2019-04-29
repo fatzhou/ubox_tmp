@@ -4,5 +4,6 @@
     "cordova": {}
   },
   "type": "ionic-angular",
-  "proxies": []
+  "proxies": [],
+  "id": "com.ulabs.ubbeybox"
 }
