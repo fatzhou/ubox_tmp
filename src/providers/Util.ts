@@ -816,7 +816,7 @@ export class Util {
                 }
             })
         },(e)=>{
-			GlobalService.consoleLog("打开成功失败（urlResolve失败）：" + JSON.stringify(e) + ", path:" + path);
+			GlobalService.consoleLog("打开失败（urlResolve失败）：" + JSON.stringify(e) + ", path:" + path);
 
 			this.file.listDir(this.global.fileSavePath, this.global.PhotoSubPath)
 			.then(res => {

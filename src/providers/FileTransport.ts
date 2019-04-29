@@ -54,6 +54,7 @@ export class FileTransport {
 		events.subscribe('task:network-changed', (networkstatus) => {
 			GlobalService.consoleLog("文件传输：网络切换");
 			this.notifyNetworkChange('download');
+			this.notifyNetworkChange('upload');
 		});
 	};
 
@@ -104,7 +105,10 @@ export class FileTransport {
 			if (pausing === 'doing') {
 				let taskId = newTask.taskId;
 				newTask.pausing = pausing;
-				this.global.fileHandler[taskId].resume();
+				this.global.fileHandler[taskId].resume({
+					offset: newTask.loaded,
+					total: newTask.total
+				});
 			}
 		} else {
 			GlobalService.consoleLog(taskId + "任务不存在，创建新的任务");
@@ -618,7 +622,7 @@ export class FileTransport {
 			} else {
 				//任务尚未完成
 				if (this.global.fileHandler[taskId]) {
-					this.global.fileHandler[taskId].pause();
+					// this.global.fileHandler[taskId].pause();
 					task.speed = 0;
 				}
 				task.paused = 'paused';
