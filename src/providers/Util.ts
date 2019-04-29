@@ -827,7 +827,7 @@ export class Util {
 			this.file.listDir(this.global.fileSavePath, this.global.PhotoSubPath)
 			.then(res => {
 				console.log("文件夹列表:" + JSON.stringify(res));
-			})
+			});
 
 			this.global.createGlobalToast(this, {
 				message: Lang.L('SystemFileError')
