@@ -546,23 +546,26 @@ export class FileTransport {
                 return tool._getHandler().then((h)=>h.pause());
 			},
 			resume: () => {
-				if(tool.mode == 'remote') {
-					return tool._getHandler().then((h)=>h.resume());
-				} else {
-					return FileDownloader.getUnfinishedFileSizeIfExist(this.file, task.localPath.replace(/\/[^\/]+$/g, '/'), task.name)
-					.catch(e => {
-						return Promise.resolve({
-							totalsize: 0,
-							downloadsize: 0,
-						})
-					})
-					.then((res:any) => {
-						return tool._getHandler().then((h)=>h.resume({
-							total: res.totalsize,
-							loaded: res.downloadsize
-						}));
-					})
-				}
+				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]恢复下载～～～");
+				return tool._getHandler().then((h)=>h.resume());
+
+				// if(tool.mode == 'remote') {
+				// 	return tool._getHandler().then((h)=>h.resume());
+				// } else {
+				// 	return FileDownloader.getUnfinishedFileSizeIfExist(this.file, task.localPath.replace(/\/[^\/]+$/g, '/'), task.name)
+				// 	.catch(e => {
+				// 		return Promise.resolve({
+				// 			totalsize: 0,
+				// 			downloadsize: 0,
+				// 		})
+				// 	})
+				// 	.then((res:any) => {
+				// 		return tool._getHandler().then((h)=>h.resume({
+				// 			total: res.totalsize,
+				// 			loaded: res.downloadsize
+				// 		}));
+				// 	})
+				// }
 			},
             netchange: () => {
 			    //////just for test///////////
