@@ -332,12 +332,12 @@ export class HttpService {
 		headers['X-Request-Id'] = this.getXRequestId();
 		GlobalService.consoleLog("是否使用webrtc?" + this.global.useWebrtc);
 		if (url.startsWith('http') || !this.global.useWebrtc || options.forceLocal) {
-			if(!url.startsWith('https://')) {
+			if(!url.startsWith('https://') && this.global.deviceSelected) {
 				let cookie = this.getCookieString(url);
 				if (!cookie) {
-					if (this.global.deviceSelected && this.cookies[this.global.deviceSelected.boxId]) {
-						GlobalService.consoleLog("===近场cookie不存在，从远场读取===");
-						this.setCookie(url, cookie);
+					if (this.cookies[this.global.deviceSelected.boxId]) {
+						GlobalService.consoleLog("===近场cookie不存在，从远场读取===" + url);
+						this.setCookie(url, this.cookies[this.global.deviceSelected.boxId]);
 					}
 				}				
 			}
