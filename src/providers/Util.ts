@@ -353,14 +353,14 @@ export class Util {
             //获取盒子的用户信息
             .then(()=>{
                 return this.http.post(this.global.getBoxApi('getUserInfo'), {}, false).then(res => {
-                    GlobalService.consoleLog("["+logid+"]" + "检测盒子的登录态" + JSON.stringify(res));
+                    console.log("["+logid+"]" + "检测盒子的登录态" + JSON.stringify(res));
                     if(res.err_no === 0) {
                         this.global.boxUserInfo = res.userinfo;
                         return this.global.deviceSelected;
                     }else{
                         console.log("["+logid+"]" + "没有盒子登录态，手动清除中心登录信息");
                         this.global.setSelectedBox(null);
-                        this.global.centerUserInfo = {};
+                        //this.global.centerUserInfo = {};
                         return Promise.reject("Error occured...");
                     }
                 })
@@ -618,14 +618,6 @@ export class Util {
                 })
                 let boxId = $scope.global.deviceSelected.boxId;
                 this.global.setSelectedBox(null)
-                if($scope.global.useWebrtc) {
-                    //关闭webrtc连接
-                    $scope.http.stopWebrtcEngine()
-                }
-                this.checkoutBox($scope)
-                .catch(e => {
-                    console.log(e);
-                })
                 setTimeout(()=>{
                     $scope.navCtrl.pop()
                     .then(res => {
@@ -639,6 +631,14 @@ export class Util {
                         //         this._checkLocalBoxAvailable(boxId);
                         //     }
                         // }, 6000);
+                        if($scope.global.useWebrtc) {
+                            //关闭webrtc连接
+                            $scope.http.stopWebrtcEngine()
+                        }
+                        this.checkoutBox($scope)
+                        .catch(e => {
+                            console.log(e);
+                        })
                     })
                 },3000)
             }

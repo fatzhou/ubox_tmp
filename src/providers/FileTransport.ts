@@ -513,12 +513,16 @@ export class FileTransport {
 		GlobalService.consoleLog("开始创建下载器.......")
 		let start = Date.now();
 		let tool: any = {////添加远程进程下载兼容器/////
-			create: (task, progress, success, failure) => {
+            logid: this.http.generateRandom(),
+            create: (task, progress, success, failure) => {
+                let oldlogid = tool.logid;
+                tool.logid = this.http.generateRandom();
 				tool.mode = this.global.useWebrtc ? 'remote' : 'local';
 				tool.task = task;
 				tool.progress = progress;
 				tool.success = success;
 				tool.failure = failure;
+                GlobalService.consoleLog("初始化下载工具 inittool["+ oldlogid + "," + tool.logid +"].....");
 				if (tool.handler) {
 					tool.handler.pause();
 					tool.handler = null;
@@ -532,12 +536,13 @@ export class FileTransport {
                 return tool.promise.then((h)=>{
                     tool.handler = h;
                     tool.promise = null;
+                    GlobalService.consoleLog("初始化下载工具 inittool["+ oldlogid + "," + tool.logid +"]成功完成");
                     return tool.handler;
                 })
 			},
 
 			pause: () => {
-                GlobalService.consoleLog("tool：暂停下载～～～");
+                GlobalService.consoleLog("[tool.logid:" + tool.logid + "]暂停下载～～～");
                 return tool._getHandler().then((h)=>h.pause());
 			},
 			resume: () => {
@@ -559,10 +564,15 @@ export class FileTransport {
 					})
 				}
 			},
+            netchange: () => {
+			    //////just for test///////////
+                tool.netChanged = true;
+            },
 
 			_getHandler: () => {
 				let isRemote = this.global.useWebrtc == true;
-				if (!tool.handler || (isRemote && tool.mode !== "remote") || (!isRemote && tool.mode === "remote")) {
+				let netChanged = (isRemote && tool.mode !== "remote") || (!isRemote && tool.mode === "remote");
+				if (!tool.handler || netChanged || tool.netChanged) {
 					GlobalService.consoleLog("无handle或者handle不匹配: currentIsRemote=" + isRemote + ", preMode=" + tool.mode);
 					return tool.create(tool.task, tool.progress, tool.success, tool.failure);
 				}
@@ -570,18 +580,18 @@ export class FileTransport {
 			},
 		};
 		let progress = (res: any) => {
-			GlobalService.consoleLog("进度信息：" + JSON.stringify(res));
+			GlobalService.consoleLog("[tool.logid:" + tool.logid + "]进度信息：" + JSON.stringify(res));
 			//更新任务进度
 			this.events.publish('download:progress:' + task.fileId, task);
 			if (res.status === 'ERROR' || res.status === 'ABORT') {
-				GlobalService.consoleLog("任务已出错或者终止");
+				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]任务已出错或者终止");
 				task.pausing = 'paused';
 				tool.pause();
 				task.speed = 0;
 				return false;
 			}
 			if (!this.global.networking) {
-				GlobalService.consoleLog("网络故障");
+				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]网络故障");
 				task.pausing = 'waiting';
 				tool.pause();
 				task.speed = 0;
@@ -591,7 +601,7 @@ export class FileTransport {
 			let now = Date.now();
 			if (now > start + 500) {
 				this.zone.run(() => {
-					console.log("下载进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
+					console.log("[tool.logid:" + tool.logid + "]下载进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
 					task.speed = Math.max(0, Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
 					task.loaded = res.loaded;
 					task.total = res.total;
@@ -601,11 +611,11 @@ export class FileTransport {
 			return true;
 		};
 		let success = (res: any) => {
-			console.log("下载成功返回....." + JSON.stringify(res));
+			console.log("[tool.logid:" + tool.logid + "]下载成功返回....." + JSON.stringify(res));
 
 			let taskId = task.taskId;
 			if (res.complete || res.loaded == res.total) {
-				GlobalService.consoleLog("下载完成！！" + task.localPath);
+				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]下载完成！！" + task.localPath);
 
 				this.zone.run(() => {
 					task.finished = true;
@@ -636,11 +646,11 @@ export class FileTransport {
 				}
 				this.startWaitTask('download');
 			}
-			console.log("resolve... " + task.localPath);
+			console.log("[tool.logid:" + tool.logid + "]resolve... " + task.localPath);
 			resolve && resolve(task.localPath);
 		};
 		let failure = (res) => {
-			GlobalService.consoleLog("下载失败, onFailure");
+			GlobalService.consoleLog("[tool.logid:" + tool.logid + "]下载失败, onFailure");
 			if (createTask) {
 				this.events.publish("download:failure", task);
 				this.startWaitTask('download');
@@ -653,13 +663,14 @@ export class FileTransport {
 		if (!createTask || this.taskDownloadListAmount <= this.global.fileMaxDownload) {
 			GlobalService.consoleLog("开始创建任务....");
 			tool.create(task, createTask ? progress : null, success, failure);
+            GlobalService.consoleLog("[tool.logid:" + tool.logid + "]开始创建任务执行中...");
 			// if (this.global.useWebrtc) {
 			// 	tool = this.createDownloadHandlerRemote(task, createTask ? progress : null, success, failure);
 			// } else {
 			// 	tool = this.createDownloadHandlerLocal(task, createTask ? progress : null, success, failure);
 			// }
 		} else {
-			GlobalService.consoleLog('先加入队列，且先暂停，后面再下载' + this.taskDownloadListAmount + "," + this.global.fileMaxDownload);
+			GlobalService.consoleLog("[tool.logid:" + tool.logid + ']先加入队列，且先暂停，后面再下载' + this.taskDownloadListAmount + "," + this.global.fileMaxDownload);
 			task.pausing = "waiting";
 			task.speed = 0;
 		}
@@ -702,7 +713,7 @@ export class FileTransport {
 		.then((res: any) => {
 			fileTask.loaded = res.downloadsize;
 			fileTask.total = res.totalsize;
-            console.log("开始调用new FileTransfer");
+            console.log("开始调用new FileTransfer:loaded=" + fileTask.loaded + ",total=" + fileTask.total);
             let fileTransfer = new FileTransfer(url, fileURL, {
 				headers: {
 					// add custom headers if needed
@@ -771,15 +782,27 @@ export class FileTransport {
 		console.log("网络状态发生变化......." + action);
 		let doingTaskList = this.global.fileTaskList.filter(item => item.action == action && item.pausing == 'doing' && item.finished == false);
 
-		console.log("正在进行的任务数：" + doingTaskList.length);
-		doingTaskList.forEach((val, idx, arr) => {
-			if (this.global.fileHandler[arr[idx].taskId]) {
-				this.global.fileHandler[arr[idx].taskId].pause();
-				this.global.fileHandler[arr[idx].taskId].resume();
-			} else {
-				console.log("***UNRACHABLE CODE???***, task handler is null");
-			}
-		});
+        console.log("正在进行的任务数：" + doingTaskList.length);
+        doingTaskList.forEach((val, idx, arr) => {
+            if (this.global.fileHandler[arr[idx].taskId]) {
+                this.global.fileHandler[arr[idx].taskId].netchange();
+                this.global.fileHandler[arr[idx].taskId].pause();
+                this.global.fileHandler[arr[idx].taskId].resume();
+            } else {
+                console.log("***UNRACHABLE CODE???***, task handler is null");
+            }
+        });
+
+        let otherTaskList = this.global.fileTaskList.filter(item => item.action == action && item.pausing !== 'doing' && item.finished == false);
+        console.log("非正在进行的任务数：" + doingTaskList.length);
+        doingTaskList.forEach((val, idx, arr) => {
+            if (this.global.fileHandler[arr[idx].taskId]) {
+                this.global.fileHandler[arr[idx].taskId].netchange();
+                this.global.fileHandler[arr[idx].taskId].pause();
+            } else {
+                console.log("***UNRACHABLE CODE???***, task handler is null");
+            }
+        });
 	}
 
 }
