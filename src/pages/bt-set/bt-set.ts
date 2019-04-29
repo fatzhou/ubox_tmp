@@ -33,6 +33,11 @@ export class BtSetPage {
         private events: Events,) {
         events.subscribe('bt-path-change', (path) => {
             this.path = path;
+            this.global.diskInfo.disks.filter(item => {
+                if(this.global.currSelectDiskUuid == item.uuid) {
+                    this.diskLabel = item.label || '';
+                }
+            })
         })
     }
 

@@ -540,26 +540,27 @@ export class HttpService {
 						});
 					}
 					this.global.createGlobalAlert(this, {
-						title: thisLanguage.Title[l] || handlers.title,
-						subTitle: thisLanguage.Subtitle[l] || handlers.subtitle,
+						title: thisLanguage.Title[l] || thisLanguage.Title['cn'],
+						subTitle: thisLanguage.Subtitle[l] || thisLanguage.Subtitle['cn'],
 						enableBackdropDismiss: false,
 						buttons: buttons
 					})
 				} else {
+					let message = thisLanguage.Title[l] || thisLanguage.Title['cn'];
 					this.global.createGlobalToast(this, {
-						message: thisLanguage.Title[l] || handlers.title,
+						message: message,
 					});
 					return result;
 				}
 			} else {
 				this.global.createGlobalToast(this, {
-					message: thisLanguage.UnkownError[l] || "未知错误",
+					message: Lang.UnkownError[l] || Lang.L('UnkownError'),
 				});
 				return result;
 			}
 		} else if (result.err_no < 0 && errorHandler) {
 			this.global.createGlobalToast(this, {
-				message: Lang.SystemError[l] || "系统错误，请稍候再试",
+				message: Lang.SystemError[l] || Lang.L('SystemError'),
 			});
 			return result;
 		} else if (result.err_no == 0 && options.storageName) {

@@ -143,12 +143,14 @@ page-select-audio-video {
         bottom: 0;
         color:#fff;
         z-index: 888;
+        height: 53px;
+        line-height: 54px;
         .back-nav {
             height: 53px;
             line-height: 54px;
             color: #fff;
             font-size: 18px;
-            padding: 0 10px;
+            padding: 0px 10px;
             font-weight: normal;
             .back-btn {
                 float: left;

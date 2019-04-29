@@ -10,12 +10,13 @@
             <use xlink:href="#iconcaidan"></use>
         </svg>
         <ion-title [ngClass]="[allBtnsShow ? 'list-active' : '', currPath != '/' && allBtnsShow ? 'list-no-home' : '']">
-        <div (click)="toggleClassifyNav('close')" tappable *ngIf="isShowPageTitle && !allBtnsShow">{{pageTitle}}</div>
-        <div  (click)="toggleClassifyNav('close')" tappable *ngIf="currPath == '/' && !allBtnsShow && isMainDisk" class="home-title-box">
-            <p class="home-title">{{global.L("MyFiles")}}</p>
-            <p class="list-point"><span class="active"></span><span></span><span></span></p>
-        </div>
-        <!-- <div *ngIf="allBtnsShow">{{ global.Lf('SelectUploadNum', selectedFiles.length) }}</div> -->
+                <div (click)="toggleClassifyNav('close')" tappable *ngIf="isShowPageTitle && !allBtnsShow">{{pageTitle}}</div>
+                <div  (click)="toggleClassifyNav('close')" tappable *ngIf="currPath == '/' && !allBtnsShow && isMainDisk" class="home-title-box">
+                    <p class="home-title">{{global.L("MyFiles")}}</p>
+                    <p class="list-point"><span class="active"></span><span></span><span></span></p>
+                </div>
+                <!-- <div *ngIf="allBtnsShow">{{ global.Lf('SelectUploadNum', selectedFiles.length) }}</div> -->
+        </ion-title>
         <div class="list-header" [ngClass]="allBtnsShow ? 'all-width' : ''">
             <div class="back-nav" *ngIf="!showFileSelect">
                 <div class="back-btn cancel-btn"  *ngIf="allBtnsShow" tappable (click)="toggleClassifyNav('close')"  [ngClass]="allBtnsShow ? 'bg-black' : ''"> 
@@ -26,7 +27,7 @@
                 </div>
                 <div class="select-btn" [ngClass]="showEng =='cn'?'':'eng-sel-btn'">
                     <div class="task-btn" *ngIf="!allBtnsShow" tappable (click)="goTaskPage();toggleClassifyNav('close')">
-                        <svg class="icon" *ngIf="!judgeBusy()" aria-hidden="true" >
+                        <svg class="icon" *ngIf="!judgeBusy()"  aria-hidden="true" >
                             <use xlink:href="#iconrenwuguanli"></use>
                         </svg>
                         <svg class="icon font-22" *ngIf="judgeBusy()" tappable aria-hidden="true">
@@ -38,12 +39,11 @@
                             <use xlink:href="#iconshaixuan"></use>
                         </svg> 
                     </span>  
-					<span *ngIf="allBtnsShow" class="text-right" tappable (click)="selectAll()">{{ selectAllStatus ? global.L("CancelSelectAll") : global.L("SelectAll") }}</span>
+                    <span *ngIf="allBtnsShow" class="text-right" tappable (click)="selectAll()">{{ selectAllStatus ? global.L("CancelSelectAll") : global.L("SelectAll") }}</span>
                     <!-- <span *ngIf="allBtnsShow" tappable (click)="cancelSelect()"> / {{global.L("Cancel")}}</span> -->
                 </div>     
             </div>    
-        </div>
-    </ion-title>
+        </div> 
     </ion-navbar>
 </ion-header>
 
@@ -93,7 +93,7 @@
                                 <p>{{ copyPhotoInfo.displayTime }}</p>
                             </div>
                         </li>
-                        <li class="file-list-item" tappable *ngFor="let info of type0List" (tap)="goNextFolder(info);">
+                        <li class="file-list-item" tappable *ngFor="let info of type0List" (click)="goNextFolder(info);">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" (error)="handleError(info, $event)" onError="handleError(info, $event)" (ionImgDidLoad)="handleError(info, $event)" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
 							<div class="info">
@@ -121,7 +121,7 @@
                         </svg>
                     </p>
                     <ul class="file-list" *ngIf="dataAcquired && type1List.length > 0" [ngClass]="isShowType1List?'show-list':'hide-list'" (press)="showAllBtns()">
-                        <li class="file-list-item" tappable *ngFor="let info of type1List" (tap)="goNextFolder(info);">
+                        <li class="file-list-item" tappable *ngFor="let info of type1List" (click)="goNextFolder(info);">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" (error)="handleThumbnailError(info, $event)" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
                             <div class="info">

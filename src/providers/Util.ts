@@ -360,7 +360,7 @@ export class Util {
                         this.global.boxUserInfo = res.userinfo;
                         return this.global.deviceSelected;
                     }else{
-                        console.log("["+logid+"]" + "没有盒子登录态，手动清除中心登录信息");
+                        console.log("["+logid+"]" + "没有盒子登录态，暂不清除中心登录信息");
                         this.global.setSelectedBox(null);
                         //this.global.centerUserInfo = {};
                         return Promise.reject("Error occured...");
@@ -590,10 +590,12 @@ export class Util {
             if(res.length > 0) {
                 let box = res.find(item => item.boxId === boxId);
                 if(box) {
+                    this.global.closeGlobalLoading(this);
                     this.global.setSelectedBox(box);
                     this.global.createGlobalToast(this, {
                         message: this.global.L("RebootSuccess")
                     })
+
                 } else {
                     errorCallback();
                 }
@@ -615,7 +617,7 @@ export class Util {
         $scope.http.post(url, {})
         .then(res => {
             if(res.err_no === 0) {
-                $scope.global.createGlobalToast($scope, {
+                $scope.global.createGlobalLoading($scope, {
                     message: $scope.global.L("DeviceRebooting")
                 })
                 let boxId = $scope.global.deviceSelected.boxId;
@@ -827,7 +829,7 @@ export class Util {
 			this.file.listDir(this.global.fileSavePath, this.global.PhotoSubPath)
 			.then(res => {
 				console.log("文件夹列表:" + JSON.stringify(res));
-			})
+			});
 
 			this.global.createGlobalToast(this, {
 				message: Lang.L('SystemFileError')

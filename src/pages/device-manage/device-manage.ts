@@ -103,7 +103,28 @@ export class DeviceManagePage {
     }
 
     rebootDevice() {
-        this.util.rebootDevice(this);
+        this.isShowOptions = false;
+        this.global.createGlobalAlert(this, {
+            title: Lang.L('DeviceReboot'),
+            message: Lang.L('DeviceRebootMessage'),
+            // enableBackdropDismiss: false,
+            buttons: [
+                {
+                    text: Lang.L('WORD0e46988a'),
+                    handler: data => {
+                        this.util.rebootDevice(this);
+                        return true;
+                    }
+                },
+                {
+                    text: Lang.L('WORD85ceea04'),
+                    handler: data => {
+                        GlobalService.consoleLog('Cancel clicked');
+                    }
+                },
+            ]
+        });
+        
     }
 
     setLoadingStatus(disk) {
