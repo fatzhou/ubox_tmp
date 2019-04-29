@@ -146,7 +146,7 @@ export class FileTransport {
         let lastunsetresult:any = {};
         let lastsettimer = null;
 		let progress = (res) => {
-			GlobalService.consoleLog("上传进度信息：" + JSON.stringify(res));
+			// GlobalService.consoleLog("上传进度信息：" + JSON.stringify(res));
 			if (res.status === 'ERROR') {
 				task.pausing = 'paused';
 				tool.pause();
@@ -171,7 +171,7 @@ export class FileTransport {
 			// }
 
 			let now = Date.now();
-			if (now > start + 600) {
+			if (now > start + 300) {
                 ////// 最多600ms更新一次变量/////////////////////////////////////////////
 				this.zone.run(() => {
 					// console.log("上传进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
@@ -181,26 +181,27 @@ export class FileTransport {
 					task.total = res.total;
 					start = now;
 				})
-			}else{
-			    ////// 保存最后一次没有跟新到任务中到变量，如有必要，一定时间之后更新//////////
-                lastunsetresult = res;
-                if (lastsettimer==null){
-                    lastsettimer = setTimeout(()=>{
-                        lastsettimer = null;
-                        if (lastunsetresult) {
-                            this.zone.run(() => {
-                                // console.log("上传进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
-                                let now = Date.now();
-								task.speed = Math.max(0, Math.ceil((lastunsetresult.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
-                                task.loaded = lastunsetresult.loaded;
-                                task.total = lastunsetresult.total;
-								start = now;
-								lastunsetresult = null;
-                            })
-                        }
-                    }, 1000)
-                }
-            }
+			}
+			// }else{
+			//     ////// 保存最后一次没有跟新到任务中到变量，如有必要，一定时间之后更新//////////
+            //     lastunsetresult = res;
+            //     if (lastsettimer==null){
+            //         lastsettimer = setTimeout(()=>{
+            //             lastsettimer = null;
+            //             if (lastunsetresult) {
+            //                 this.zone.run(() => {
+            //                     // console.log("上传进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
+            //                     let now = Date.now();
+			// 					task.speed = Math.max(0, Math.ceil((lastunsetresult.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
+            //                     task.loaded = lastunsetresult.loaded;
+            //                     task.total = lastunsetresult.total;
+			// 					start = now;
+			// 					lastunsetresult = null;
+            //                 })
+            //             }
+            //         }, 1000)
+            //     }
+            // }
 
 			// GlobalService.consoleLog("更新进度信息:" + res.loaded);
 			return true;
@@ -619,7 +620,7 @@ export class FileTransport {
 			},
 		};
 		let progress = (res: any) => {
-			GlobalService.consoleLog("[tool.logid:" + tool.logid + "]进度信息：" + JSON.stringify(res));
+			// GlobalService.consoleLog("[tool.logid:" + tool.logid + "]进度信息：" + JSON.stringify(res));
 			//更新任务进度
 			this.events.publish('download:progress:' + task.fileId, task);
 			if (res.status === 'ERROR' || res.status === 'ABORT') {
@@ -638,7 +639,7 @@ export class FileTransport {
 			}
 			// GlobalService.consoleLog("更新任务进度");
 			let now = Date.now();
-			if (now > start + 500) {
+			if (now > start + 300) {
 				this.zone.run(() => {
 					console.log("[tool.logid:" + tool.logid + "]下载进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
 					task.speed = Math.max(0, Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
