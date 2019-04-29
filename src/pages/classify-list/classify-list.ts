@@ -362,7 +362,8 @@ export class ClassifyListPage {
             }[selected.fileStyle] || this.global.DocSubPath;
 			this.transfer.downloadFile({
 				name: selected.name,
-				fileStyle: selected.fileStyle
+				fileStyle: selected.fileStyle,
+				thumbnail: selected.thumbnail
 			}, selected.path.replace(/\/$/g, '') + "/" + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
         }
 

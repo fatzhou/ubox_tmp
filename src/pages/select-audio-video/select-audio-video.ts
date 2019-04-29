@@ -163,7 +163,8 @@ export class SelectAudioVideoPage {
             let fileUrl = res;
             GlobalService.consoleLog("即将上传文件：" + fileUrl);
             this.transfer.uploadSingleFile(fileUrl, this.global.currPath, {
-				id: uploadItem.id
+				id: uploadItem.id,
+				thumbnail: uploadItem.thumbnail
 			});
             index++;
             if(index < uploadingList.length) {

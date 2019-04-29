@@ -195,7 +195,8 @@ export class SelectImgPage {
 					this.global.thumbnailMap[md5] = uploadItem.thumbnailURL;
                     this.transfer.uploadSingleFile(fileUrl, this.currPath, {
 						// thumbnail: res,
-						id: uploadItem.id
+						id: uploadItem.id,
+						thumbnail: uploadItem.thumbnail
 					});
                     callback();
                 // })

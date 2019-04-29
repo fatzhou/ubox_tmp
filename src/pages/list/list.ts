@@ -567,7 +567,8 @@ export class ListPage {
 			}[selected.fileStyle] || this.global.DocSubPath;
 			this.transfer.downloadFile({
 				name: selected.name,
-				fileStyle: selected.fileStyle
+				fileStyle: selected.fileStyle,
+				thumbnail: selected.thumbnail
 			}, this.currPath.replace(/\/$/g, '') + "/" + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
         }
 
