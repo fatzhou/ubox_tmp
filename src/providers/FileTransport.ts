@@ -186,14 +186,15 @@ export class FileTransport {
 				let taskId = task.taskId;
 				task.finished = !!res.complete;
 				task.loaded = res.rangend;
-				if (this.global.fileHandler[taskId]) {
-					delete this.global.fileHandler[taskId];
-				}
+
 				// task.confirmLoaded = res.rangend;
 				if (task.finished) {
 					task.finishedTime = new Date().getTime();
 					this.fileUploader.clearUploaderTask(task.fileId);
 					this.events.publish('file:updated', task);
+					if (this.global.fileHandler[taskId]) {
+						delete this.global.fileHandler[taskId];
+					}
 					console.log("event published......")
 				} else {
 					this.events.publish('file:savetask');
