@@ -201,7 +201,6 @@ export class ListPage {
 
     initDiskInfo() {
         // this.zone.run(() => {
-            console.log('=======刷新disk列表======')
             this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/');
             if(this.global.diskInfo.disks) {
                 this.disks = this.global.diskInfo.disks.filter(item => {

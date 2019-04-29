@@ -4420,22 +4420,22 @@ export class Lang {
         cn: '新密码',
         en: 'New Password',
         kr: ''
-    }
+    };
     static ChangeUser = {
         cn: '切换账号登录',
         en: 'Swtich Account',
         kr: ''
-    }
+    };
     static UserCanotConnectBox = {
         cn: '设备无法连接，请检查设备或网络',
         en: 'Device connection failed, please check',
         kr: ''
-    }
+    };
     static TaskDownloading = {
         cn: '任务已下载',
         en: '',
         kr: ''
-    }
+    };
 	static UnArchieved = {
 		cn: "未归档文件",
 		en: 'UnArchieved',

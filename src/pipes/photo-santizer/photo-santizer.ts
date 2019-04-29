@@ -16,7 +16,6 @@ export class PhotoSantizerPipe implements PipeTransform {
 	 * Takes a value and makes it lowercase.
 	 */
 	transform(url: string, ...args) {
-		console.log("图片url:" + url)
 		return this.sanitizer.bypassSecurityTrustResourceUrl(url);
 	}
 }
