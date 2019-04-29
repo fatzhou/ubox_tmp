@@ -131,7 +131,8 @@ export class PreviewOtherPage {
 		console.log("开始下载文件........" + name)
 		this.transfer.downloadFile({
 			name: this.fileInfo.name,
-			fileStyle: this.fileInfo.fileStyle
+			fileStyle: this.fileInfo.fileStyle,
+			thumbnail: this.fileInfo.thumbnail
 		}, remoteFullPath, localFullPath)
 		.then(res => {
 			console.log("下载完成........")

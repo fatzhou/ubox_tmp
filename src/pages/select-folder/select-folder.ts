@@ -101,7 +101,8 @@ export class SelectFolderPage {
         for (let i = 0; i < uploadingList.length; i++) {
             let fileUrl = decodeURIComponent(uploadingList[i].nativeURL);
             this.transfer.uploadSingleFile(fileUrl, this.global.currPath, {
-				id: uploadingList[i].id
+				id: uploadingList[i].id,
+				thumbnail: uploadingList[i].thumbnail
 			});
             uploadingList[i].isSelected = false;
         }

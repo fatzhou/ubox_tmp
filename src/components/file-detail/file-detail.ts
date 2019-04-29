@@ -214,7 +214,8 @@ export class FileDetailComponent {
 		}[this.info.fileStyle] || this.global.DocSubPath;
 		this.transfer.downloadFile({
 			name: this.info.name,
-			fileStyle: this.info.fileStyle
+			fileStyle: this.info.fileStyle,
+			thumbnail: this.info.thumbnail
 		}, this.path.replace(/\/$/g, '') + "/" + this.info.name, this.global.fileSavePath + subFoldPath + '/' + this.info.name);
 	}
 }

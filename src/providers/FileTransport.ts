@@ -65,7 +65,7 @@ export class FileTransport {
      * @param {[type]} remotePath [远程路径，不包含文件名]
      * @param {[type]} eventType  [description]
      */
-	uploadSingleFile(localPath, remotePath, uploadInfo = null) {
+	uploadSingleFile(localPath, remotePath, uploadInfo:any = {}) {
 		if(!this.platform.is('cordova')) {
 			GlobalService.consoleLog('Not cordova, can not download file...');
 			return;
@@ -122,7 +122,7 @@ export class FileTransport {
 				total: 0,
 				loaded: 0,
 				pausing: pausing,
-				// thumbnail: uploadInfo.thumbnail || '',
+				thumbnail: uploadInfo.thumbnail || '',
 				action: 'upload',
 				confirmLoaded: 0,
 				finished: false,
@@ -212,34 +212,39 @@ export class FileTransport {
 		}
 		let success = (res: any) => {
 			GlobalService.consoleLog("上传完成！更新finish状态并发射file:updated事件:" + JSON.stringify(res));
-			this.zone.run(() => {
-				let taskId = task.taskId;
-				task.finished = !!res.complete;
-				task.loaded = res.rangend;
+			try {
+				this.zone.run(() => {
+					let taskId = task.taskId;
+					task.finished = !!res.complete;
+					task.loaded = res.rangend;
 
-				// task.confirmLoaded = res.rangend;
-				if (task.finished) {
-					task.finishedTime = new Date().getTime();
-					this.fileUploader.clearUploaderTask(task.fileId);
-					this.events.publish('file:updated', task);
-					if (this.global.fileHandler[taskId]) {
-						delete this.global.fileHandler[taskId];
+					// task.confirmLoaded = res.rangend;
+					if (task.finished) {
+						task.finishedTime = new Date().getTime();
+						this.fileUploader.clearUploaderTask(task.fileId);
+						this.events.publish('file:updated', task);
+						if (this.global.fileHandler[taskId]) {
+							delete this.global.fileHandler[taskId];
+						}
+						console.log("event published......")
+					} else {
+						this.events.publish('file:savetask');
 					}
-					console.log("event published......")
-				} else {
-					this.events.publish('file:savetask');
-				}
-			})
-			// console.log("进的点点滴滴")
-			//如果没有同类型文件任务，则弹窗.....
-			// if(!this.global.fileTaskList.some(item => item.action === 'upload' && !item.finished)) {
-			//     //通知任务列表页刷新
-			//     this.global.createGlobalToast(this, {
-			//         message: Lang.Lf('UploadFileSuccess')
-			//     })
-			// }
-			//查找等待中的任务，每完成一个自动通知新任务
-			this.startWaitTask('upload');
+				})
+				// console.log("进的点点滴滴")
+				//如果没有同类型文件任务，则弹窗.....
+				// if(!this.global.fileTaskList.some(item => item.action === 'upload' && !item.finished)) {
+				//     //通知任务列表页刷新
+				//     this.global.createGlobalToast(this, {
+				//         message: Lang.Lf('UploadFileSuccess')
+				//     })
+				// }
+				//查找等待中的任务，每完成一个自动通知新任务
+				this.startWaitTask('upload');				
+			} catch(e) {
+				console.error("Error caught in file upload:" + JSON.stringify(task) + ", error:" + JSON.stringify(e));
+			}
+
 		};
 		//检测任务数量不考虑磁盘
 		var fileTask = this.global.fileTaskList.filter(item => item.action == "upload" && item.pausing == 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
@@ -647,41 +652,46 @@ export class FileTransport {
 		let success = (res: any) => {
 			console.log("[tool.logid:" + tool.logid + "]下载成功返回....." + JSON.stringify(res));
 
-			let taskId = task.taskId;
-			if (res.complete || res.loaded == res.total) {
-				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]下载完成！！" + task.localPath);
+			try {
+				let taskId = task.taskId;
+				if (res.complete || res.loaded == res.total) {
+					GlobalService.consoleLog("[tool.logid:" + tool.logid + "]下载完成！！" + task.localPath);
 
-				this.zone.run(() => {
-					task.finished = true;
-					task.finishedTime = new Date().getTime();
-				});
-				// if(!this.global.fileTaskList.some(item => item.action === 'download' && !item.finished )) {
-				//     this.global.createGlobalToast(this, {
-				//         message: Lang.Lf('DownloadFileToBoxSuccess', myTask.name)
-				//     })
-				// }
-				if (this.global.fileHandler[taskId]) {
-					delete this.global.fileHandler[taskId];
-				}
-			} else {
-				//任务尚未完成
-				if (this.global.fileHandler[taskId]) {
-					// this.global.fileHandler[taskId].pause();
-					task.speed = 0;
-				}
-				task.paused = 'paused';
-			}
-			task.loaded = res.loaded;
-			if (createTask) {
-				if (res.loaded == res.total) {
-					this.events.publish('file:updated', task);
+					this.zone.run(() => {
+						task.finished = true;
+						task.finishedTime = new Date().getTime();
+					});
+					// if(!this.global.fileTaskList.some(item => item.action === 'download' && !item.finished )) {
+					//     this.global.createGlobalToast(this, {
+					//         message: Lang.Lf('DownloadFileToBoxSuccess', myTask.name)
+					//     })
+					// }
+					if (this.global.fileHandler[taskId]) {
+						delete this.global.fileHandler[taskId];
+					}
 				} else {
-					this.events.publish('file:savetask');
+					//任务尚未完成
+					if (this.global.fileHandler[taskId]) {
+						// this.global.fileHandler[taskId].pause();
+						task.speed = 0;
+					}
+					task.paused = 'paused';
 				}
-				this.startWaitTask('download');
+				task.loaded = res.loaded || res.rangend;
+				if (createTask) {
+					if (task.finished == true) {
+						this.events.publish('file:updated', task);
+					} else {
+						this.events.publish('file:savetask');
+					}
+					this.startWaitTask('download');
+				}
+				console.log("[tool.logid:" + tool.logid + "]resolve... " + task.localPath);
+				resolve && resolve(task.localPath);				
+			} catch(e) {
+				console.error("Error caught in download success:" + JSON.stringify(task) + ",error:" + JSON.stringify(e));
 			}
-			console.log("[tool.logid:" + tool.logid + "]resolve... " + task.localPath);
-			resolve && resolve(task.localPath);
+
 		};
 		let failure = (res) => {
 			GlobalService.consoleLog("[tool.logid:" + tool.logid + "]下载失败, onFailure");
