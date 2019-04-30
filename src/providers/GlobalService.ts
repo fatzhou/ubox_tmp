@@ -592,7 +592,7 @@ export class GlobalService {
         private storage: Storage,
         public events: Events
     ) {
-
+        GlobalService._global = this;
     }
 
     getBoxApi(name) {
@@ -601,7 +601,7 @@ export class GlobalService {
         } else if(this.useWebrtc) {
             return GlobalService.boxApi[name].url;
         } else {
-			GlobalService.consoleLog("近场网络尚未连接盒子........" + JSON.stringify(this.deviceSelected));
+                GlobalService.consoleLog("近场网络尚未连接盒子........" + JSON.stringify(this.deviceSelected));
 			return '';
 		}
         // return GlobalService.boxApi[name].url;
@@ -722,12 +722,16 @@ export class GlobalService {
             user:           this.centerUserInfo.uname,
             deviceSelected: this.deviceSelected,
         };
-        if (this.deviceSelected){
-            //忽略保存结果
-            this.storage.set('DeviceSelected', JSON.stringify(deviceStorage));
-        } else if (nullsave){
-            //忽略保存结果
-            this.storage.set('DeviceSelected', JSON.stringify(deviceStorage));
+        try{
+            if (this.deviceSelected){
+                //忽略保存结果
+                this.storage.set('DeviceSelected', JSON.stringify(deviceStorage)).then(()=>{}).catch((e)=>{console.log(JSON.stringify(e))});
+            } else if (nullsave){
+                //忽略保存结果
+                this.storage.set('DeviceSelected', JSON.stringify(deviceStorage)).then(()=>{}).catch((e)=>{console.log(JSON.stringify(e))});
+            }
+        }catch (e){
+            GlobalService.consoleLog("this.storage.set 异常:" + JSON.stringify(e));
         }
     }
 
@@ -771,10 +775,15 @@ export class GlobalService {
         this.boxStatus = true;
         this.diskInfoStatus = true;
     }
+    static _global = null;
     public static consoleLog(str) {
-		setTimeout(() => {
-			console.log(str);
-		}, 0);
+        if (GlobalService._global && GlobalService._global.platformName === 'android'){
+            console.log(str);
+        }else{
+            setTimeout(() => {
+                console.log(str);
+            }, 0);
+        }
 	}
     //日志打印
     // public static consoleLog(msg) {
