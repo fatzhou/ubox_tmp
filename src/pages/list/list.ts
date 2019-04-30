@@ -113,15 +113,16 @@ export class ListPage {
         this.events.subscribe('image:move', this.moveFilesEvent);
 		this.events.subscribe('list:change', this.moveChangeList);
 		this.events.subscribe('connection:change', this.connectionChangeCallback);
-		events.subscribe('upload:failure', this.onTaskFailure); 
+        events.subscribe('upload:failure', this.onTaskFailure); 
+        events.subscribe('download:failure', this.onTaskFailure); 
+
         console.log("List constructor...")
         events.subscribe('close:box', (res) => {
             this.isShowBox = res;
         })
 	}
-	
 	onTaskFailure(task) {
-		GlobalService.consoleLog("!!文件上传失败!!" + task.taskId);
+		GlobalService.consoleLog("!!文件上传或下载失败!!" + task.action + '   ' + task.taskId);
 		//删除任务以及上传器
 		// this.global.fileHandler[taskId] = undefined;
 		// let index = -1;
@@ -143,9 +144,9 @@ export class ListPage {
 		//     this.global.fileTaskList.splice(index, 1);
 		// }
 		// this.fileUploader.uploader.clearCache();
-		this.global.createGlobalToast(this, {
-			message: Lang.Lf('UploadFileNotExist', task.name)
-		})
+		// this.global.createGlobalToast(this, {
+		// 	message: Lang.Lf('UploadFileNotExist', task.name)
+		// })
 	}
 
 	ngOnDestory() {
