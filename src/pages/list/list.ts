@@ -168,7 +168,7 @@ export class ListPage {
             .then(res => {
                 this.getFileInfo();
             }, () => {
-                this.isShowBox = false; //true
+                this.isShowBox = true; //true
             })
         }
         this.global.currPath = this.currPath;
