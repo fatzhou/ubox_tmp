@@ -559,22 +559,31 @@ export class FileTransport {
 				tool.progress = progress;
 				tool.success = success;
 				tool.failure = failure;
-                GlobalService.consoleLog("创建下载工具handler["+ oldlogid + "," + tool.logid +"].....");
-				if (tool.handler) {
-					tool.handler.pause();
-					tool.handler = null;
-				}
-				if (tool.mode == 'remote') {
-                    tool.promise = this.createDownloadHandlerRemote(tool.task, tool.progress, tool.success, tool.failure)
-				} else {
-                    tool.promise = this.createDownloadHandlerLocal(tool.task, tool.progress, tool.success, tool.failure);
-				}
-                return tool.promise.then((h)=>{
-                    tool.handler = h;
-                    tool.promise = null;
-                    GlobalService.consoleLog("初始化下载工具 inittool["+ oldlogid + "," + tool.logid +"]成功完成");
-                    return tool.handler;
-                })
+
+				new Promise((resolve, reject)=>{
+				    //必须要前一个彻底完成
+                    if (tool.handler){
+                        tool.handler.pause();
+                        tool.handler = null;
+                        setTimeout(()=>resolve(), 3000);
+                    }else{
+                        resolve();
+                    }
+                }).then(()=>{
+				    //临时解决方案，假设前一个已经成功
+                    GlobalService.consoleLog("创建下载工具handler["+ oldlogid + "," + tool.logid +"].....");
+                    if (tool.mode == 'remote') {
+                        tool.promise = this.createDownloadHandlerRemote(tool.task, tool.progress, tool.success, tool.failure)
+                    } else {
+                        tool.promise = this.createDownloadHandlerLocal(tool.task, tool.progress, tool.success, tool.failure);
+                    }
+                    return tool.promise.then((h)=>{
+                        tool.handler = h;
+                        tool.promise = null;
+                        GlobalService.consoleLog("初始化下载工具 inittool["+ oldlogid + "," + tool.logid +"]成功完成");
+                        return tool.handler;
+                    })
+                });
 			},
 
 			pause: () => {
@@ -600,7 +609,7 @@ export class FileTransport {
                 tool.netChanged = true;
             },
 
-
+            ////////// 注意: 通过以下操作，使获取handler是一个串行化的过程 ///////////////////////////
             _getDoing: false,
             _getWaitingList: [],
             _getTimmer: null,
@@ -613,8 +622,8 @@ export class FileTransport {
                 tool._getDoing = true;
                 let isRemote = this.global.useWebrtc == true;
 				let netChanged = (isRemote && tool.mode !== "remote") || (!isRemote && tool.mode === "remote");
-				if (!tool.handler || netChanged || tool.netChanged) {
-					GlobalService.consoleLog("无handle或者handle不匹配: currentIsRemote=" + isRemote + ", preMode=" + tool.mode);
+				if (!tool.handler || netChanged) {
+                    GlobalService.consoleLog("无handle或者handle不匹配: currentIsRemote=" + isRemote + ", preMode=" + tool.mode);
 					return tool.create(tool.task, tool.progress, tool.success, tool.failure)
                     .then((h)=>{
                         tool._getDoing = false;

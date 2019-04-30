@@ -139,14 +139,15 @@ export class FileDownloader {
                         unfinishedfile.fileexist = true;
                         unfinishedfile.totalsize = +tmpcache.totalsize;
                         unfinishedfile.downloadsize = tmpcache.downloadsize;
-                        return e.getMetadata((metadata) => {
-                            if (unfinishedfile.downloadsize != metadata.size){
-                                GlobalService.consoleLog("缓存的文件大小与文件名表示的大小不一致, 从["
-                                    +unfinishedfile.downloadsize+ "]修正至[" + metadata.size + "]");
-                                unfinishedfile.downloadsize = tmpcache.downloadsize;
-                            }
-                            return unfinishedfile;
-                        });
+                        return new Promise((resolve, reject)=>{
+                            e.getMetadata((metadata) => {
+                                if (unfinishedfile.downloadsize != metadata.size){
+                                    GlobalService.consoleLog("缓存的文件大小与文件名表示的大小不一致, 从[" + unfinishedfile.downloadsize + "]修正至[" + metadata.size + "]");
+                                    unfinishedfile.downloadsize = tmpcache.downloadsize;
+                                }
+                                resolve(unfinishedfile);
+                            });
+                        })
                     }
                     // GlobalService.consoleLog("进行文件名匹配失败，重新完整下载");
                     break;
