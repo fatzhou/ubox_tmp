@@ -339,7 +339,7 @@ export class HttpService {
 						GlobalService.consoleLog("===近场cookie不存在，从远场读取===" + url);
 						this.setCookie(url, this.cookies[this.global.deviceSelected.boxId]);
 					}
-				}				
+				}
 			}
 			//接口可指明不使用webrtc模式，如果当前全局的rtc模式未开启，也使用普通模式
 			return this._post(url, paramObj, headers, options, errorHandler);
@@ -1421,9 +1421,13 @@ export class HttpService {
 			channel = dataChannel.channel;
 		channel.onopen = () => {
 			GlobalService.consoleLog("webrtc创建盒子连接: ---------------Data channel" + label + " opened----------------");
-			dataChannel.status = "opened";
-
-			this.global.setSelectedBox(this.deviceSelected)
+			if(!this.global.useWebrtc){
+                GlobalService.consoleLog("webrtc创建盒子连接: 已被关闭，终止prepareDataChannel");
+                reject && reject(this.global.deviceSelected);
+                return;
+            }
+            dataChannel.status = "opened";
+            this.global.setSelectedBox(this.deviceSelected);
 
 			if (label == this.channelLabels[0]) {
 				let url = this.global.getBoxApi('keepAlive');

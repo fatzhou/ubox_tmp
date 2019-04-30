@@ -103,11 +103,11 @@ export class DeviceDetailPage {
         if(this.global.useWebrtc == true){
             GlobalService.consoleLog('当前正在使用远场，切换连接模式为近场');
             this.http.stopWebrtcEngine();
-            this.util.checkoutBox(this);
+            this.util.checkoutBox(this).catch(()=>{});
         } else {
             GlobalService.consoleLog('当前正在使用近场，切换连接模式为远场');
             this.http.startWebrtcEngine();
-            this.util.checkoutBox(this);
+            this.util.checkoutBox(this).catch(()=>{});
         }
         setTimeout(()=>{
             this.global.closeGlobalLoading(this);

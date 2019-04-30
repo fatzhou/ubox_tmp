@@ -241,7 +241,7 @@ export class FileTransport {
 				//     })
 				// }
 				//查找等待中的任务，每完成一个自动通知新任务
-				this.startWaitTask('upload');				
+				this.startWaitTask('upload');
 			} catch(e) {
 				console.error("Error caught in file upload:" + JSON.stringify(task) + ", error:" + JSON.stringify(e));
 			}
@@ -559,12 +559,11 @@ export class FileTransport {
 				tool.progress = progress;
 				tool.success = success;
 				tool.failure = failure;
-                GlobalService.consoleLog("初始化下载工具 inittool["+ oldlogid + "," + tool.logid +"].....");
+                GlobalService.consoleLog("创建下载工具handler["+ oldlogid + "," + tool.logid +"].....");
 				if (tool.handler) {
 					tool.handler.pause();
 					tool.handler = null;
 				}
-
 				if (tool.mode == 'remote') {
                     tool.promise = this.createDownloadHandlerRemote(tool.task, tool.progress, tool.success, tool.failure)
 				} else {
@@ -580,45 +579,68 @@ export class FileTransport {
 
 			pause: () => {
                 GlobalService.consoleLog("[tool.logid:" + tool.logid + "]暂停下载～～～");
-                return tool._getHandler().then((h)=>h.pause());
+                return tool._getHandler()
+                .then((h)=>{
+                    GlobalService.consoleLog("[tool.logid:" + tool.logid + "]执行handler的pause方法");
+                    tool.opDing=true;
+                    h.pause();
+                });
 			},
+            pause_done:()=>{
+                tool.opDing=false;
+            },
 
 			resume: () => {
 				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]恢复下载～～～");
 				return tool._getHandler().then((h)=>h.resume());
-
-				// if(tool.mode == 'remote') {
-				// 	return tool._getHandler().then((h)=>h.resume());
-				// } else {
-				// 	return FileDownloader.getUnfinishedFileSizeIfExist(this.file, task.localPath.replace(/\/[^\/]+$/g, '/'), task.name)
-				// 	.catch(e => {
-				// 		return Promise.resolve({
-				// 			totalsize: 0,
-				// 			downloadsize: 0,
-				// 		})
-				// 	})
-				// 	.then((res:any) => {
-				// 		return tool._getHandler().then((h)=>h.resume({
-				// 			total: res.totalsize,
-				// 			loaded: res.downloadsize
-				// 		}));
-				// 	})
-				// }
 			},
+
             netchange: () => {
 			    //////just for test///////////
                 tool.netChanged = true;
             },
 
+
+            _getDoing: false,
+            _getWaitingList: [],
+            _getTimmer: null,
 			_getHandler: () => {
-				let isRemote = this.global.useWebrtc == true;
+                if (tool._getDoing){
+                    return new Promise((resove, reject)=>{
+                        tool._getWaitingList.push({resovle: resove, reject:reject})
+                    })
+                }
+                tool._getDoing = true;
+                let isRemote = this.global.useWebrtc == true;
 				let netChanged = (isRemote && tool.mode !== "remote") || (!isRemote && tool.mode === "remote");
 				if (!tool.handler || netChanged || tool.netChanged) {
 					GlobalService.consoleLog("无handle或者handle不匹配: currentIsRemote=" + isRemote + ", preMode=" + tool.mode);
-					return tool.create(tool.task, tool.progress, tool.success, tool.failure);
+					return tool.create(tool.task, tool.progress, tool.success, tool.failure)
+                    .then((h)=>{
+                        tool._getDoing = false;
+                        tool._getTimmer = setTimeout(()=>tool._doNext(true), 50);
+                        return h;
+					});
 				}
-				return Promise.resolve(tool.handler);
+                tool._getDoing = false;
+                tool._getTimmer = setTimeout(()=>tool._doNext(true), 50);
+                return Promise.resolve(tool.handler);
 			},
+
+            _doNext: (isTimerCallback=false)=>{
+                if (!tool.opDoing){
+                    //没有正在进行的任务，直接获取一个handler执行
+                    let promise = tool._getWaitingList.pop();
+                    if (promise){
+                        tool._getHandler().then(promise.resovle, promise.reject)
+                    }
+                }else{
+                    //有正在进行的任务，等待一段时间后再检测
+                    if (!tool._getTimmer || isTimerCallback){
+                        tool._getTimmer = setTimeout(()=>tool._doNext(true), 100);
+                    }
+                }
+            }
 		};
 		let progress = (res: any) => {
 			// GlobalService.consoleLog("[tool.logid:" + tool.logid + "]进度信息：" + JSON.stringify(res));
@@ -653,7 +675,7 @@ export class FileTransport {
 		};
 		let success = (res: any) => {
 			console.log("[tool.logid:" + tool.logid + "]下载成功返回....." + JSON.stringify(res));
-
+            tool.pause_done();
 			try {
 				let taskId = task.taskId;
 				if (res.complete || res.loaded == res.total) {
@@ -674,10 +696,11 @@ export class FileTransport {
 				} else {
 					//任务尚未完成
 					if (this.global.fileHandler[taskId]) {
-						// this.global.fileHandler[taskId].pause();
-						task.speed = 0;
+					    //pause的意义在于中断循环，success调用的时候，循环已中断，不能再次调用。
+						//this.global.fileHandler[taskId].pause();
 					}
-					task.paused = 'paused';
+                    task.speed = 0;
+                    task.paused = 'paused';
 				}
 				task.loaded = res.loaded || res.rangend;
 				if (createTask) {
@@ -689,7 +712,7 @@ export class FileTransport {
 					this.startWaitTask('download');
 				}
 				console.log("[tool.logid:" + tool.logid + "]resolve... " + task.localPath);
-				resolve && resolve(task.localPath);				
+				resolve && resolve(task.localPath);
 			} catch(e) {
 				console.error("Error caught in download success:" + JSON.stringify(task) + ",error:" + JSON.stringify(e));
 			}
@@ -741,7 +764,8 @@ export class FileTransport {
 			if (fileTask.loaded > -10) {
 				return FileDownloader.getUnfinishedFileSizeIfExist(this.file, fileTask.localPath.replace(/\/([^\/]+)$/, '/'), fileTask.name)
 					.then((res:any) => {
-						resolve(res)
+                        console.log("getUnfinishedFileSizeIfExist success:" + JSON.stringify(res));
+                        resolve(res)
 					})
 					.catch(e => {
 						resolve({
