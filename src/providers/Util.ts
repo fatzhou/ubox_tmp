@@ -375,6 +375,7 @@ export class Util {
                     .then(() => {
                         console.log("["+logid+"]" + "获取盒子状态成功，刷新list");
                         this.events.publish('list:refresh');
+                        this.events.publish('check-box-app');
                     })
                     .catch(() => {
                         console.log("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");

@@ -113,7 +113,10 @@ export class ListPage {
 		this.events.subscribe('list:change', this.moveChangeList);
 		this.events.subscribe('connection:change', this.connectionChangeCallback);
 		events.subscribe('upload:failure', this.onTaskFailure); 
-		console.log("List constructor...")
+        console.log("List constructor...")
+        events.subscribe('close:box', (res) => {
+            this.isShowBox = res;
+        })
 	}
 	
 	onTaskFailure(task) {
@@ -224,6 +227,7 @@ export class ListPage {
         //保存缩略图map到缓存
         this.showFileSelect = false;
         this.isShowClassifyNav = false;
+        this.isShowBox = false;
         this.storage.set('thumbnailMap', JSON.stringify(this.global.thumbnailMap));
         // this.events.unsubscribe('file:updated', this.updateFilesEvent)
         // // events.unsubscribe('image:move');

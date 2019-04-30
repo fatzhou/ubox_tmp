@@ -169,7 +169,18 @@ export class TabsPage {
 
             GlobalService.DownloadPath['android'] = this.appVersionDescription.downloadUrl;
         })
-
+        //触发检查更新
+        events.subscribe('check-box-app', () => {
+            this.getVersionControl()
+            .then((res) => {
+                this.checkVersion();
+            })
+            .catch(e => {
+                GlobalService.consoleLog(e.stack);
+                this.global.closeGlobalLoading(this);
+                this.initNoticeList();
+            })
+        })
         //接收home传过来的关闭设备网络状态的事件
         events.subscribe('open-popup', ()=>{
             this.showPopup(true);
@@ -405,26 +416,17 @@ export class TabsPage {
             this.isClose = false;
             // this.util.getDiskStatus()
             // .then(() => {
-                if(this.global.currDiskUuid != '') {
-                    console.log('回到首页，刷新列表');
-                    this.events.publish('list:refresh');
-                }
-                this.getVersionControl()
-                .then(res => {
-                    this.checkVersion();
-                })
-                .catch(e => {
-                    GlobalService.consoleLog(e.stack);
-                    this.global.closeGlobalLoading(this);
-                    this.initNoticeList();
-                })
+            if(this.global.currDiskUuid != '') {
+                console.log('回到首页，刷新列表');
+                this.events.publish('list:refresh');
+            }
             // })
             // .catch(e=> {
             //     GlobalService.consoleLog(e.stack);
             // })
 
         } else {
-            this.getVersionControl()
+            // this.getVersionControl()
             // .then(res => {
             //     this.global.createGlobalAlert(this, {
             //         title: Lang.L('WarmRemind'),
@@ -437,7 +439,7 @@ export class TabsPage {
             //         }]
             //     });
             // })
-            .catch(e => {
+            // .catch(e => {
                 // this.global.createGlobalAlert(this, {
                 //     title: Lang.L('WarmRemind'),
                 //     message: Lang.L('WORD2a0b753a'),
@@ -448,8 +450,9 @@ export class TabsPage {
                 //         }
                 //     }]
                 // });
-            })
+            // })
         }
+       
     }
 
     setIcons(e) {

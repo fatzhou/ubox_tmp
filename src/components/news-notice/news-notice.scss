@@ -20,7 +20,7 @@ news-notice {
             position: absolute;
             left: 50%;
             top: 46%;
-            background: #fff;
+            background: #302F34;
             transform: translate(-50%,-50%);
             padding-bottom: 50px;
             &.no-padding {
@@ -40,15 +40,15 @@ news-notice {
                     overflow: hidden;
                     p {
                         font-size: 18px;
-                        color: #D6D9FF;
+                        color: #fff;
                     }
                     span {
                         position: absolute;
                         right: 20px;
-                        background: #D6D9FF;
+                        background: linear-gradient(#D6D9FF, #FFFFFF);;
                         padding: 3px 5px;
                         border-radius: 4px;
-                        color: #4F54D9;
+                        color: #00C77D;
                         bottom: 20px;
                         font-size: 14px;
                     }
@@ -59,7 +59,7 @@ news-notice {
                     max-height: 240px;
                     overflow: scroll;
                     p {
-                        color: #1B1B1B;
+                        color: #fff;
                         font-size: 14px;
                         line-height: 20px;
                     }
@@ -69,11 +69,12 @@ news-notice {
                         height: 40px;
                         border-radius: 30px;
                         box-sizing: border-box;
-                        background: linear-gradient(#4045D6, #5D75F7);;
+                        background: linear-gradient(#00C77D, #00C77D);
                         color: #fff;
                         bottom: -24px;
                         left: 20%;
                         text-align: center;
+                        box-shadow: 0 2px 2px #01905B;
                         a {
                             color: #fff;
                             text-decoration: none;
