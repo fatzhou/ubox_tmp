@@ -156,7 +156,7 @@ page-task-list {
 		}
 		.task-ul {
 			.task-li {
-				border-bottom:  .5px solid $newThreeColor;
+				border-bottom: .5px solid $newThreeColor;
 				position: relative;
 				background: $newFourColor;
 				box-sizing: border-box;
@@ -178,6 +178,7 @@ page-task-list {
                 font-weight: bold;
 			}
 			.file-type {
+				margin: 0;
 				margin-right: 8px;
 				overflow: hidden;
 				width: 40px;
@@ -227,11 +228,14 @@ page-task-list {
 			.speed {
 				margin-right: 2px;
 				position: relative;
+				display: flex;
+				align-items: center;
 				.amount {
 					color: #9B9B9B;
 					font-size: 12px;
 					line-height: 36px;
 					margin-right: 6px;
+					margin-bottom: 0;
 				}
 				.light {
 					border: 2px solid $newFiveColor;
@@ -288,17 +292,19 @@ page-task-list {
 					float: right;
 					position: relative;
 					/*margin-right: 4px;*/
-					width:36px;
-					height: 36px;
+					width: 40px;
+					height: 40px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
 					.icon {
 						position: absolute;
-						top: 6px;
+						top: 9px;
 						left: 5px;
-						font-size: 48px;
-						line-height: 1;
+						font-size: 18px;
+						// line-height: 1;
 						&.icon-right {
                             font-size: 22px;
-                            right: 0;
                             margin-right: 0px;
 							color: #E9E9EA;
 							&.continue-up {
@@ -316,7 +322,7 @@ page-task-list {
 						background: rgba(0,0,0,0.20);
 						border: 1px solid #78777C;
 						position: absolute;
-						top: 6px;
+						top: 9px;
 						left: 5px;
 						border-radius: 50%;
 						box-sizing: border-box;
