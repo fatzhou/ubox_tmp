@@ -470,7 +470,7 @@ export class FileTransport {
 	 * @param localFullPath
 	 * @param createTask
 	 */
-	downloadFile(fileInfo, remoteFullPath, localFullPath, createTask: boolean = true) {
+	downloadFile(fileInfo, remoteFullPath, localFullPath, createTask: boolean = true, options:any = {}) {
 		return new Promise((resolve, reject) => {
 			if(!this.platform.is('cordova')) {
 				GlobalService.consoleLog('Not cordova, can not download file...');
@@ -512,7 +512,7 @@ export class FileTransport {
 					path: remoteFullPath,
 					localPath: localFullPath,
 					fileStyle: fileInfo.fileStyle,
-					total: 0,
+					total: options.total || 0,
 					pausing: pausing,
 					thumbnail: fileInfo.thumbnail || '',
 					loaded: 0,
@@ -645,7 +645,9 @@ export class FileTransport {
 					console.log("[tool.logid:" + tool.logid + "]下载进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
 					task.speed = Math.max(0, Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
 					task.loaded = res.loaded;
-					task.total = res.total;
+					if(!task.total) {
+						task.total = res.total;
+					}
 					start = now;
 				});
 			}
@@ -691,7 +693,8 @@ export class FileTransport {
 				console.log("[tool.logid:" + tool.logid + "]resolve... " + task.localPath);
 				resolve && resolve(task.localPath);				
 			} catch(e) {
-				console.error("Error caught in download success:" + JSON.stringify(task) + ",error:" + JSON.stringify(e));
+				console.error("Error caught in download success:" + JSON.stringify(task));
+				resolve && resolve(task.localPath);	
 			}
 
 		};
@@ -758,7 +761,9 @@ export class FileTransport {
 		})
 		.then((res: any) => {
 			fileTask.loaded = res.downloadsize;
-			fileTask.total = res.totalsize;
+			if(!fileTask.total) {
+				fileTask.total = res.totalsize;
+			}
             // console.log("开始调用new FileTransfer:loaded=" + fileTask.loaded + ",total=" + fileTask.total);
             let fileTransfer = new FileTransfer(url, fileURL, {
 				headers: {

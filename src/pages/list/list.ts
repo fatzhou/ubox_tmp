@@ -475,7 +475,7 @@ export class ListPage {
 		.catch(e => {
             this.isLoadingData = false;
             this.global.closeGlobalLoading(this);
-            GlobalService.consoleLog("获取数据失败:" + JSON.stringify(e));
+            // GlobalService.consoleLog("获取数据失败:" + JSON.stringify(e));
 		})
 	}
 
