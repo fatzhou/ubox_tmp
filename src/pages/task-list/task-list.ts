@@ -41,6 +41,27 @@ export class TaskListPage {
     isShowShadow: boolean =false;
     static _this;
 
+    h_task: any = {
+        fileId: 'fileId',
+        taskId: 'taskId',
+        name: 'fileName',
+        path: 'remotePath.replace(/\/$/, ',
+        localPath: 'localPath',
+        speed: 0,
+        total: 0,
+        loaded: 0,
+        pausing: 'paused',
+        thumbnail: '',
+        action: 'upload',
+        confirmLoaded: 0,
+        finished: false,
+        fileStyle: 'folder',
+        boxId: this.global.deviceSelected.boxId,
+        bindUserHash: this.global.deviceSelected.bindUserHash,
+        selected: false,
+        finishedTime: '',
+        diskUuid: this.global.currDiskUuid
+    };
     constructor(public navCtrl: NavController,
         private storage: Storage,
         private events: Events,

@@ -2,38 +2,38 @@
     <super-tab [root]="home" name="home"></super-tab>
     <super-tab [root]="search" name="search"></super-tab>
     <super-tab [root]="mining" name="mining"></super-tab>
-    <bind-box *ngIf="isCloseBindBox" (closeBindBox)="closeBindBox()"></bind-box>
-    <news-notice *ngIf="isClose" [isVersion]="isVersion" [isShowAction]="isShowAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action" (closeNotice)="closeNotice()"></news-notice>
-    <connection-popup *ngIf="popupShown" (closeNetworkPopup)="showPopup(false)" [connectionStatus]="connectionStatus"></connection-popup>
-    <div class="showBoxShare" *ngIf="isShowShareBox">
-        <div class="mask" (click)="closeShareBox()"></div>
-        <div class="showShare">
-            <div class="infoBox">
-                <div class="info-detail">
-                    <p class="p1">{{ global.L('createFile') }}</p>
-                    <p class="p2"><b>{{ sharePercentum }}</b>%</p>
-                    <p><span>{{ isEnough == true ? global.L('createJoinEarn') : global.L('cantCreateMore') }}</span></p>
-                    <div class="info-progress"><span class="p3" [ngStyle]="{'width': spanWidth + 'px'}"></span></div>
-                </div>
-                <div class="info-size">
-                    <ul>
-                        <li><em>
-                <svg class="icon" aria-hidden="true" end>
-                    <use xlink:href="#icon-Shareddiskicon"></use>
-                </svg>
-            </em>{{ global.L('createdShareFile') }}<span>{{ shareStorage }}GB</span></li>
-                        <li>
-                            <em class="allshare">
-                <svg class="icon" aria-hidden="true" end>
-                    <use xlink:href="#icon-Totalstorageicon"></use>
-                </svg>
-            </em>{{ global.L('allShareFile') }}<span>{{ allShareStorage }}GB</span></li>
-                    </ul>
-                </div>
+</super-tabs>
+<bind-box *ngIf="isCloseBindBox" (closeBindBox)="closeBindBox()"></bind-box>
+<news-notice *ngIf="isClose" [isVersion]="isVersion" [isShowAction]="isShowAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action" (closeNotice)="closeNotice()"></news-notice>
+<connection-popup *ngIf="popupShown" (closeNetworkPopup)="showPopup(false)" [connectionStatus]="connectionStatus"></connection-popup>
+<!-- <div class="showBoxShare" *ngIf="isShowShareBox">
+    <div class="mask" (click)="closeShareBox()"></div>
+    <div class="showShare">
+        <div class="infoBox">
+            <div class="info-detail">
+                <p class="p1">{{ global.L('createFile') }}</p>
+                <p class="p2"><b>{{ sharePercentum }}</b>%</p>
+                <p><span>{{ isEnough == true ? global.L('createJoinEarn') : global.L('cantCreateMore') }}</span></p>
+                <div class="info-progress"><span class="p3" [ngStyle]="{'width': spanWidth + 'px'}"></span></div>
             </div>
-            <div class="closeShareBtn" (click)="closeShareBox()">
-                <img src="assets/img/newsclose.png" alt="">
+            <div class="info-size">
+                <ul>
+                    <li><em>
+            <svg class="icon" aria-hidden="true" end>
+                <use xlink:href="#icon-Shareddiskicon"></use>
+            </svg>
+        </em>{{ global.L('createdShareFile') }}<span>{{ shareStorage }}GB</span></li>
+                    <li>
+                        <em class="allshare">
+            <svg class="icon" aria-hidden="true" end>
+                <use xlink:href="#icon-Totalstorageicon"></use>
+            </svg>
+        </em>{{ global.L('allShareFile') }}<span>{{ allShareStorage }}GB</span></li>
+                </ul>
             </div>
         </div>
+        <div class="closeShareBtn" (click)="closeShareBox()">
+            <img src="assets/img/newsclose.png" alt="">
+        </div>
     </div>
-</super-tabs>
+</div> -->

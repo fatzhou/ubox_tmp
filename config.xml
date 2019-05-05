@@ -141,6 +141,4 @@
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
     <plugin name="cordova-plugin-file-transfer" spec="git+https://github.com/ubbey/cordova-plugin-file-transfer.git" />
-    <engine name="ios" spec="4.5.5" />
-    <engine name="android" spec="6.3.0" />
 </widget>

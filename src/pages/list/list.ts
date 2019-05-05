@@ -83,6 +83,7 @@ export class ListPage {
     isShowWarningBoxClass: boolean = false;
     copyPhotoInfo: any = {};
     isLoadingData: boolean = true;
+    currDiskUuid: any = '';
     constructor(public navCtrl: NavController,
         public global: GlobalService,
         private cd: ChangeDetectorRef,
@@ -112,12 +113,16 @@ export class ListPage {
         this.events.subscribe('image:move', this.moveFilesEvent);
 		this.events.subscribe('list:change', this.moveChangeList);
 		this.events.subscribe('connection:change', this.connectionChangeCallback);
-		events.subscribe('upload:failure', this.onTaskFailure); 
-		console.log("List constructor...")
+        events.subscribe('upload:failure', this.onTaskFailure); 
+        events.subscribe('download:failure', this.onTaskFailure); 
+
+        console.log("List constructor...")
+        events.subscribe('close:box', (res) => {
+            this.isShowBox = res;
+        })
 	}
-	
 	onTaskFailure(task) {
-		GlobalService.consoleLog("!!文件上传失败!!" + task.taskId);
+		GlobalService.consoleLog("!!文件上传或下载失败!!" + task.action + '   ' + task.taskId);
 		//删除任务以及上传器
 		// this.global.fileHandler[taskId] = undefined;
 		// let index = -1;
@@ -139,9 +144,9 @@ export class ListPage {
 		//     this.global.fileTaskList.splice(index, 1);
 		// }
 		// this.fileUploader.uploader.clearCache();
-		this.global.createGlobalToast(this, {
-			message: Lang.Lf('UploadFileNotExist', task.name)
-		})
+		// this.global.createGlobalToast(this, {
+		// 	message: Lang.Lf('UploadFileNotExist', task.name)
+		// })
 	}
 
 	ngOnDestory() {
@@ -165,7 +170,7 @@ export class ListPage {
             .then(res => {
                 this.getFileInfo();
             }, () => {
-                this.isShowBox = false; //true
+                this.isShowBox = true; //true
             })
         }
         this.global.currPath = this.currPath;
@@ -185,6 +190,7 @@ export class ListPage {
             this.events.subscribe('list:refresh', this.refreshFilesEvent.bind(this));
 			this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
         }
+        this.currDiskUuid = this.global.currDiskUuid;
         console.log('this.global.currDiskUuid' + this.global.currDiskUuid);
         GlobalService.consoleLog("this.isMainDisk" + this.isMainDisk);
         this.copyPhotoInfo = {
@@ -224,6 +230,7 @@ export class ListPage {
         //保存缩略图map到缓存
         this.showFileSelect = false;
         this.isShowClassifyNav = false;
+        this.isShowBox = false;
         this.storage.set('thumbnailMap', JSON.stringify(this.global.thumbnailMap));
         // this.events.unsubscribe('file:updated', this.updateFilesEvent)
         // // events.unsubscribe('image:move');
@@ -237,7 +244,7 @@ export class ListPage {
 		this.events.unsubscribe(this.currPath + ":succeed");
 		this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
 
-		
+        this.currDiskUuid = this.global.currDiskUuid;
         if(this.util.isDiskInfoReady()) {
             // diskInfo已经初始化，直接展示
             this.listFiles();
@@ -282,8 +289,8 @@ export class ListPage {
                 }
             });
         }
-
         this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
+        this.currDiskUuid = this.global.currDiskUuid;
         if(this.global.centerUserInfo.bind_box_count == 0) {
             this.isMainDisk = true;
         }
@@ -424,9 +431,9 @@ export class ListPage {
         console.log('请求参数this.currPath   ' + this.currPath)
 		return this.http.postWithStorage(url, {
 			path: this.currPath,
-			disk_uuid: this.global.currDiskUuid
+			disk_uuid: this.currDiskUuid
 		}, true, {}, {
-			storageName: 'FileStorage' + Md5.hashStr(this.currPath + this.global.currDiskUuid).toString(),
+			storageName: 'FileStorage' + Md5.hashStr(this.currPath + this.currDiskUuid).toString(),
 		})
         .then((res:any) => {
             this.global.closeGlobalLoading(this);
@@ -494,7 +501,7 @@ export class ListPage {
 
     judgeBusy() {
         return this.global.fileTaskList.some(item => {
-            return !item.finished && item.pausing != 'paused' && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.global.currDiskUuid;
+            return !item.finished && item.pausing != 'paused' && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash && item.diskUuid == this.currDiskUuid;
         });
     }
 

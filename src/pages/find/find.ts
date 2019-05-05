@@ -120,6 +120,14 @@ export class FindPage {
 			// 添加获取到到数据到页面
 			.then((list: any) => {
 				if (list.length > 0) {
+					list = list.filter(item => {
+						if(item.images) {
+							if(item.images.length == 2) {
+								item.images.pop();
+							}
+						}
+						return item
+					})
 					switch (this.isPullListType) {
 						case "scroll":
 							this.feedList = this.feedList.concat(list);

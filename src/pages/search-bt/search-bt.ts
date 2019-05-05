@@ -114,6 +114,14 @@ export class SearchBtPage {
                 this.session = res.session;
                 let hash = {};
                 let list = res.list || [];
+                list = list.filter(item => {
+                    if(item.images) {
+                        if(item.images.length == 2) {
+                            item.images.pop();
+                        }
+                    }
+                    return item
+                })
                 if(key && !refresh) {
                     this.searchFeedList = this.searchFeedList.concat(list);
                 } else {

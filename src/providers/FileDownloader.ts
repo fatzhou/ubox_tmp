@@ -96,7 +96,7 @@ export class FileDownloader {
     ///////////////////////////////////////
     ///// 通过磁盘文件名进行缓存初始化/////////
     ///////////////////////////////////////
-    static _initcachebyfilename(rangestr) {
+    static _getfilesizebyfilename(rangestr) {
         let ret = {
             totalsize: 0,
             downloadsize: 0,
@@ -133,17 +133,26 @@ export class FileDownloader {
                 let e = entry[i];
                 if (e.isFile && (rangestr = reg.exec(e.name)) && rangestr && rangestr[1]) {
                     GlobalService.consoleLog("进行文件名初步匹配成功,信息字符串为:" + JSON.stringify(rangestr[1]));
-                    let tmpcache = FileDownloader._initcachebyfilename(rangestr[1]);
+                    let tmpcache = FileDownloader._getfilesizebyfilename(rangestr[1]);
                     if (tmpcache) {
                         GlobalService.consoleLog("进行文件名匹配成功，进行断点下载:" + tmpcache.downloadsize + "," + tmpcache.totalsize);
+                        unfinishedfile.fileexist = true;
                         unfinishedfile.totalsize = +tmpcache.totalsize;
                         unfinishedfile.downloadsize = tmpcache.downloadsize;
-                        unfinishedfile.fileexist = true;
+                        return new Promise((resolve, reject)=>{
+                            e.getMetadata((metadata) => {
+                                if (unfinishedfile.downloadsize != metadata.size){
+                                    GlobalService.consoleLog("缓存的文件大小与文件名表示的大小不一致, 从[" + unfinishedfile.downloadsize + "]修正至[" + metadata.size + "]");
+                                    unfinishedfile.downloadsize = tmpcache.downloadsize;
+                                }
+                                resolve(unfinishedfile);
+                            });
+                        })
                     }
                     // GlobalService.consoleLog("进行文件名匹配失败，重新完整下载");
                     break;
                 } else {
-                    GlobalService.consoleLog("getUnfinishedFileSizeIfExist error, entry=:" + JSON.stringify(e));
+                    // GlobalService.consoleLog("getUnfinishedFileSizeIfExist error, entry=:" + JSON.stringify(e));
                 }
             }
             return unfinishedfile;

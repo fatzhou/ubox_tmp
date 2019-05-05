@@ -44,6 +44,40 @@
 				<span item-end tappable (click)="toggleAllStatus()" *ngIf="!allBtnsShow"><i>{{ taskStatus === 'doing' ? global.L('ALLSTART') : global.L('ALLPAUSE') }}</i></span>
 			</p>
 			<ion-list class="task-ul">
+				<!-- <ion-item-sliding>
+					<ion-item class="task-li"  ion-item tappable (click)="toggleTask(h_task);" (press)="showAndroidDeleteBox(h_task)">
+						<div class="file-type" item-start></div>
+						<div class="info">
+							<p class="file-name eps">{{ pretify(h_task.name) }}</p>
+							<p class="file-info eps text-left"><em [ngClass]="h_task.action == 'download' ? 'file-down' : 'file-up'"></em><span class="progress-box"><em [ngStyle]="{'width': computeLoading(h_task) + '%'}"></em></span></p>
+						</div>
+						<div class="speed clear" item-end>
+							<p class="amount fl">{{global.L('PAUSED')}}</p>
+							<div class="progress fl circle btn" tappable (click)="toggleStatus(h_task)" *ngIf="!allBtnsShow">
+								<svg class="icon icon-right" aria-hidden="true" *ngIf="h_task.pausing == 'doing'">
+									<use xlink:href="#iconzanting"></use>
+								</svg>
+								<svg class="icon icon-right" aria-hidden="true" *ngIf="h_task.pausing != 'doing'"  [ngClass]="h_task.action == 'download' ? '' : 'continue-up'">
+									<use xlink:href="#iconjixuxiazai"></use>
+								</svg>
+							</div>
+							<div class="progress fl circle btn" *ngIf="allBtnsShow">
+								<em class="nochoose-circle" *ngIf="!h_task.selected" [ngClass]="h_task.selected ? 'light' : ''"></em>
+								<svg class="icon icon-right" aria-hidden="true" *ngIf="h_task.selected" [ngClass]="h_task.selected?'slight':''">
+									<use xlink:href="#icongouxuan"></use>
+								</svg>
+							</div>
+						</div>
+						<div class="bg-box" tappable *ngIf="isDeleteType == 'android' && singleTask == h_task && isShowShadow" (click)="cancalDelete();$event.stopPropagation();">
+							<div class="content-box" tappable (click)="deleteSingleTask(h_task);$event.stopPropagation();">
+								{{ global.L("Delete") }}
+							</div>
+						</div>
+					</ion-item>
+					<ion-item-options side="right" *ngIf="isDeleteType == 'ios' && !allBtnsShow">
+						<button ion-button color="danger" tappable (click)="deleteSingleTask(task);$event.stopPropagation();">{{global.L("Delete")}}</button>
+					</ion-item-options>
+				</ion-item-sliding> -->
 				<ion-item-sliding *ngFor="let task of doingTaskList;">
 					<ion-item class="task-li"  ion-item tappable (click)="toggleTask(task);" (press)="showAndroidDeleteBox(task)">
 						<div class="file-type" item-start *ngIf="!task.thumbnail" [ngClass]="task.fileStyle"></div>
@@ -68,7 +102,7 @@
 								<div class="center" ><div [ngClass]="task.pausing != 'doing' ? 'down'  : 'pause'"></div></div> -->
 							</div>
 							<div class="progress fl circle btn" *ngIf="allBtnsShow">
-								<em class="nochoose-circle" *ngIf="!task.selected" ></em>
+								<em class="nochoose-circle" *ngIf="!task.selected" [ngClass]="task.selected ? 'light' : ''"></em>
 								<svg class="icon icon-right" aria-hidden="true" *ngIf="task.selected" [ngClass]="task.selected?'slight':''">
 									<use xlink:href="#icongouxuan"></use>
 								</svg>
@@ -93,7 +127,7 @@
 			</p>
 			<ion-list class="task-ul">
 				<ion-item-sliding *ngFor="let task of doneTaskList;">
-					<ion-item class="task-li" ion-item (click)="openFile(task);" (press)="showAndroidDeleteBox(task)">
+					<ion-item class="task-li" ion-item tappable (click)="openFile(task);" (press)="showAndroidDeleteBox(task)">
 						<div class="file-type" item-start *ngIf="!task.thumbnail" [ngClass]="task.fileStyle"></div>
 						<img class="file-type" item-start [src]="task.thumbnail | photoSantizer" (error)="handleThumbnailError(info, $event)" *ngIf="task.thumbnail">
 						<div class="info">
