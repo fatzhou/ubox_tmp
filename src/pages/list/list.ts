@@ -455,7 +455,8 @@ export class ListPage {
                 console.log('列表清空了');
                 if (res.list && res.list.length > 0) {
                     res.list.filter((item) => {
-                        let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+                        let name = item.name;
+                        // let name = item.naxme.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
 						let md5 = Md5.hashStr(this.currPath + "/" + name).toString();
 						let file = {
 							name: item.name,

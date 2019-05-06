@@ -490,7 +490,7 @@ export class MiningPage {
 		//所有数据先正规化到0-100之间
 		let d = data.map(item => (+item.amount / unit));
 		let min = d[0], max = d[0];
-		let maxIndex = -1;
+		let maxIndex = 0;
 		let width = this.platform.width() - 24;
 		let height = 130;
 
@@ -502,7 +502,8 @@ export class MiningPage {
 				maxIndex = i;
 			}
 		}
-		d = d.map(item => height - 80 * (item - min) / (max - min));
+		//至少预留20的高度
+		d = d.map(item => height - 20 - 80 * (item - min) / (max - min));
 
 		console.log("近7天收益：" + JSON.stringify(data));
 		console.log("近7天收益：" + JSON.stringify(d));

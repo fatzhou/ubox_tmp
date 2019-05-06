@@ -388,7 +388,9 @@ export class FileTransport {
 		let downloadIthThumbnail = (i) => {
 			//检查本地是否存在,删除后面的重命名时添加的(2)
 			let md5;
-			let name = noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+			//此处不需要去掉文件最后的(2)
+			// let name = noThumbnailList[i].name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+			let name = noThumbnailList[i].name;
 			let remotePath = isHasPath ? noThumbnailList[i].path : currPath;
 			md5 = Md5.hashStr(remotePath + "/" + name).toString();
 

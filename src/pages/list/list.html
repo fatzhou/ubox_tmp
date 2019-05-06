@@ -49,7 +49,7 @@
 </ion-header>
 
 <ion-content tappable>
-	<!-- <task [path]="currPath"></task> -->
+	<task [path]="currPath"></task>
     <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page" [ngClass]="currPath == '/' && isMainDisk ? 'padding-top' : ''">
         <div class="warning-box" *ngIf="isShowWarningBox && isMainDisk">
             <svg class="icon tishi-icon" aria-hidden="true">

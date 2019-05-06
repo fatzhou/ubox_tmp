@@ -100,7 +100,8 @@ export class PreviewImagePage {
 					task.thumbnail = res;
                 }
 				task.photo = res;
-				let name = task.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+				let name = task.name;
+				// let name = task.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
 				let md5 = Md5.hashStr(task.path + "/" + name).toString();
 				if(!this.global.thumbnailMap[md5] && res) {
 					this.global.thumbnailMap[md5] = res;
@@ -196,7 +197,8 @@ export class PreviewImagePage {
                 if (res.list && res.list.length > 0) {
                     list = res.list.filter((item) => {
 						let md5;
-						let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+						let name = item.name;
+						// let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
                         if(this.isHasPath) {
                             md5 = Md5.hashStr(item.path + "/" + name).toString();
                         } else {

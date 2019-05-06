@@ -145,7 +145,7 @@ export class ClassifyListPage {
         }
     }
 
-    hasThumbnail(type) {
+    hasThumbnail() {
         if(this.classify == 1 || this.classify == 2) {
             return true;
         }
@@ -231,7 +231,8 @@ export class ClassifyListPage {
                     let md5 = '';
                     res.list.forEach((item) => {
                         let test = /(\.HEIC)$/gi;
-						let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+						// let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+						let name = item.name;
 						//计算日期
 						let date = Util.getTime(item.modify_time * 1000, "-", true);
 						// if(date != this.lastDate) {
@@ -243,7 +244,7 @@ export class ClassifyListPage {
 						// 	})
 						// 	this.lastDate = date;
 						// }
-                        this.classify === 1 && (md5 = Md5.hashStr(item.path + "/" + name).toString());
+                        this.hasThumbnail() && (md5 = Md5.hashStr(item.path + "/" + name).toString());
                         let imgIndex = this.fileList.length;
                         if(!test.test(item.name)) { 
                             list.push({
