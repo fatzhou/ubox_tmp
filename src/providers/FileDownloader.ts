@@ -295,7 +295,8 @@ class SingleFileDownloader {
               this._loopdownload();
             }, 100);
         } else {
-            GlobalService.consoleLog("不在暂停状态，不能继续");
+            GlobalService.consoleLog("不在暂停状态，按照下载流程启动");
+            this.download();
         }
     }
 
