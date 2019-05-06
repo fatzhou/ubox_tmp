@@ -81,10 +81,7 @@ export class SearchBtPage {
             this.global.createGlobalLoading(this, {
                 message: Lang.L('Loading')
             });
-            this.isShowLoad = false;
-            setTimeout(() => {
-                this.global.closeGlobalLoading(this);
-            },2000)
+            
         }
         this.loading = true;
         var url = GlobalService.centerApi["getSearchList"].url;
@@ -130,7 +127,11 @@ export class SearchBtPage {
                 this.searchFeedList = this.searchFeedList.reduce((preVal, curVal) => {
                     hash[curVal.resid] ? '' : hash[curVal.resid] = true && preVal.push(curVal);
                     return preVal
-                }, [])
+                }, []);
+                if(this.isShowLoad == true) {
+                    this.global.closeGlobalLoading(this);
+                    this.isShowLoad = false;
+                }
                 setTimeout(()=>{
                     this.loading = false;
                 },500);

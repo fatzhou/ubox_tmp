@@ -158,8 +158,7 @@
       "cordova-plugin-file": {},
       "cordova-plugin-photo-library": {
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": " "
-      },
-      "cordova-plugin-file-transfer": {}
+      }
     }
   }
 }

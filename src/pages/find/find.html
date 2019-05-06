@@ -40,7 +40,7 @@
                 <li (click)="goBtDetailPage(item.resid);" *ngFor="let item of feedList">
                     <div class="bt-box defalut-box">
                         <p class="bt-title">{{ item.title }}</p>
-                        <p class="p-info"><span>{{ item.mgdate | computeFileTime }} {{ item.size == '' ? '' : '·' }} {{ item.size }}</span></p>
+                        <p class="p-info"><span>{{ item.mgdate | computeFileTime }} {{ item.size == '' ? '' : '·' }} {{ item.size }} {{'· 0 UBBEY'}}</span></p>
                         <span class="download-btn" (click)="downloadBt(item);$event.stopPropagation();">{{global.L("Get")}}</span>
                         <p class="p-imglist" *ngIf="item.images" [ngClass]="item.images.length == 1 ? 'one-png' : ''"><span *ngFor="let img of item.images" [ngStyle]="{'background-image': 'url('+ img +')'}"></span></p>
                     </div>

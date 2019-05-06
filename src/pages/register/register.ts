@@ -34,7 +34,7 @@ export class RegisterPage {
     privacyCheck: Boolean = false;
     eyeshow:Boolean = false;
     eyeshow2:Boolean = false;
-
+    isFocus:Boolean = false;
     constructor(public navCtrl: NavController,
         public toastCtrl: ToastController,
         private global: GlobalService,

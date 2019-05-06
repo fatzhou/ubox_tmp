@@ -170,7 +170,7 @@ export class ListPage {
             .then(res => {
                 this.getFileInfo();
             }, () => {
-                this.isShowBox = true; //true
+                this.isShowBox = false; //true
             })
         }
         this.global.currPath = this.currPath;
@@ -376,8 +376,8 @@ export class ListPage {
         if (file.selected) {
             GlobalService.consoleLog("文件未被选中，直接加入选中列表");
             //选中，添加到选中列表
-            GlobalService.consoleLog(this.selectedFiles);
             this.selectedFiles.push(file);
+            GlobalService.consoleLog(this.selectedFiles);
         } else {
             //未选中，需要从列表中删除
             for (var i = 0, len = this.selectedFiles.length; i < len; i++) {
@@ -428,7 +428,7 @@ export class ListPage {
         // this.global.createGlobalLoading(this, {delayshowtime:500});
         GlobalService.consoleLog("开始加载列表数据...");
         var url = this.global.getBoxApi("listFolder");
-        console.log('请求参数this.currPath   ' + this.currPath)
+        console.log('请求参数this.currPath   ' + this.currPath + '请求参数this.currDiskUuid   ' + this.currDiskUuid)
 		return this.http.postWithStorage(url, {
 			path: this.currPath,
 			disk_uuid: this.currDiskUuid
@@ -487,7 +487,10 @@ export class ListPage {
 	}
 
 	handleThumbnailError(obj, e) {
-		console.log("缩略图加载出错, 设置为默认图.......")
+        console.log("缩略图加载出错, 设置为默认图......." + obj.thumbnail)
+        var md5 = Md5.hashStr(this.currPath.replace('\/$', '') + '/' + obj.name).toString();
+        this.global.thumbnailMap[md5] = '';
+        this.file.removeFile(obj.thumbnail, obj.name);
 		var defaultPhoto = "./assets/img/image1.svg";
 		if(obj.fileStyle == 'image') {
 			obj.thumbnail = defaultPhoto;
@@ -804,7 +807,7 @@ export class ListPage {
                     path: this.currPath.replace(/\/$/g, '') + "/" + file.name
                 });                
             } else if(file.fileStyle == 'image') {
-                let test = /(\.HEIC)$/gi;
+                let test = /(\.HEIC|\.webp)$/gi;
                 if(test.test(file.name)) {
                     this.app.getRootNav().push(PreviewOtherPage, {
                         currPath: this.currPath,

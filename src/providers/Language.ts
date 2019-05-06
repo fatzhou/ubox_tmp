@@ -4458,6 +4458,11 @@ export class Lang {
 		en: 'Loading...',
 		kr: ''
     }
+    static payUbbey = {
+		cn: "",
+		en: 'payUbbey',
+		kr: ''
+    }
     
     
 }

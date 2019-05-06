@@ -116,6 +116,7 @@ export class LoginPage {
             return false;
         }
         GlobalService.consoleLog("参数校验通过，开始登录盒子");
+        this.global.diskInfo = {};
 		this.loginCenter();
         // var boxSelected = this.global.deviceSelected;
         // // debugger

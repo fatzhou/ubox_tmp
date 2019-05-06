@@ -13,14 +13,14 @@
                 </svg>
                 <div class="input-box">
                     <input type="text" autocomplete="off" autofocus [(ngModel)]="inputValue" (focus)="isFocus = true" (blur)="isFocus = false"  (keyup.enter)="isShowLoad = true;searchList(inputValue, true);" class="common-general-button bt-input">
-                    <svg class="icon icon-ellipsis icon-clear" (click)="clearKey()" aria-hidden="true">
+                    <svg class="icon icon-ellipsis icon-clear" *ngIf="inputValue !='' && isFocus" (click)="clearKey()" aria-hidden="true">
                         <use xlink:href="#iconClear1"></use>
                     </svg>
                 </div>
                 
             </div>
         </div>
-        <div class="search-hirtory" *ngIf="searchFeedList.length != 0">
+        <div class="search-hirtory" *ngIf="searchFeedList.length == 0">
             <p class="history-title">{{ global.L('SearchHistory') }}
                 <span (click)="clearSearchKeys()">
                     <svg class="icon icon-ellipsis icon-clear" (click)="clearKey()" aria-hidden="true">
@@ -32,12 +32,12 @@
                 <span *ngFor="let item of searchKeyList" (click)="inputValue = item;isShowLoad = true;searchList(inputValue, true)">{{ item }}</span>
             </p>
         </div>
-        <div class="search-body">
+        <div class="search-body" *ngIf="searchFeedList.length != 0">
             <ul>
                 <li (click)="goBtDetailPage(item.resid);" *ngFor="let item of searchFeedList">
                     <div class="bt-box defalut-box">
                         <p class="bt-title">{{ item.title }}</p>
-                        <p class="p-info"><span>{{ item.mgdate | computeFileTime }} {{ item.size == '' ? '' : '·' }} {{ item.size }}</span></p>
+                        <p class="p-info"><span>{{ item.mgdate | computeFileTime }} {{ item.size == '' ? '' : '·' }} {{ item.size }} {{'· 0 UBBEY'}}</span></p>
                         <span class="download-btn" (click)="downloadBt(item);$event.stopPropagation();">{{ global.L('Get') }}</span>
                         <p class="p-imglist" *ngIf="item.images" [ngClass]="item.images.length == 1 ? 'one-png' : ''"><span *ngFor="let img of item.images" [ngStyle]="{'background-image': 'url('+ img +')'}"></span></p>
                     </div>

@@ -34,7 +34,7 @@ export class ChangePasswdPage {
     eyeshow:Boolean = false;
     eyeshow2:Boolean = false;
     eyeshow3:Boolean = false;
-
+    isFocus:Boolean = false;
     constructor(public navCtrl: NavController,
         public http: HttpService,
         private global: GlobalService,
@@ -187,6 +187,7 @@ export class ChangePasswdPage {
     	})
     }
     showIcon(index){
+        console.log('index' + index);
         if(index == 0) {
             this.eyeshow = !this.eyeshow;
         } else if(index == 2) {
