@@ -364,7 +364,9 @@ export class ClassifyListPage {
 				name: selected.name,
 				fileStyle: selected.fileStyle,
 				thumbnail: selected.thumbnail
-			}, selected.path.replace(/\/$/g, '') + "/" + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
+			}, selected.path.replace(/\/$/g, '') + "/" + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name, true, {
+				total: selected.size
+			});
         }
 
         this.allBtnsShow = false;

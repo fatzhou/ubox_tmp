@@ -693,8 +693,12 @@ export class FileTransport {
 					GlobalService.consoleLog("[tool.logid:" + tool.logid + "]下载完成！！" + task.localPath);
 
 					this.zone.run(() => {
+						console.log("[tool.logid:" + tool.logid + "]111.......");
+
 						task.finished = true;
 						task.finishedTime = new Date().getTime();
+						console.log("[tool.logid:" + tool.logid + "]222.......");
+
 					});
 					// if(!this.global.fileTaskList.some(item => item.action === 'download' && !item.finished )) {
 					//     this.global.createGlobalToast(this, {
@@ -702,9 +706,15 @@ export class FileTransport {
 					//     })
 					// }
 					if (this.global.fileHandler[taskId]) {
+						console.log("[tool.logid:" + tool.logid + "]333.......");
+
 						delete this.global.fileHandler[taskId];
+						console.log("[tool.logid:" + tool.logid + "]444.......");
+
 					}
 				} else {
+					console.log("[tool.logid:" + tool.logid + "]555.......");
+
 					//任务尚未完成
 					if (this.global.fileHandler[taskId]) {
 					    //pause的意义在于中断循环，success调用的时候，循环已中断，不能再次调用。
@@ -713,19 +723,31 @@ export class FileTransport {
                     task.speed = 0;
                     task.paused = 'paused';
 				}
+				console.log("[tool.logid:" + tool.logid + "]666.......");
+
 				task.loaded = res.loaded || res.rangend;
+				console.log("[tool.logid:" + tool.logid + "]777......." + createTask + "," + task.finished);
+
 				if (createTask) {
 					if (task.finished == true) {
+						console.log("[tool.logid:" + tool.logid + "]通知任务列表更新.......");
 						this.events.publish('file:updated', task);
+						console.log("[tool.logid:" + tool.logid + "]通知任务列表更新完成.......");
+
 					} else {
 						this.events.publish('file:savetask');
 					}
+					console.log("[tool.logid:" + tool.logid + "]启动新任务.......");
+
 					this.startWaitTask('download');
+					console.log("[tool.logid:" + tool.logid + "]启动新任务完成.......");
+
 				}
 				console.log("[tool.logid:" + tool.logid + "]resolve... " + task.localPath);
 				resolve && resolve(task.localPath);
 			} catch(e) {
 				console.error("Error caught in download success:" + JSON.stringify(task));
+				console.log(e.message || e.stack)
 				resolve && resolve(task.localPath);	
 			}
 
