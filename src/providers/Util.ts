@@ -381,6 +381,7 @@ export class Util {
                     .catch(() => {
                         console.log("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
                     });
+                this.global.appstatus = "working";
             })
         };
 
