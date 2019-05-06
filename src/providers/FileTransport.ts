@@ -567,6 +567,7 @@ export class FileTransport {
 				    //必须要前一个彻底完成
                     if (tool.handler && tool.status == 'downloading'){
                         tool.handler.pause();
+                        delete tool.handler;
                         tool.handler = null;
                         setTimeout(()=>resolve(), 3000);
                     }else{
@@ -717,7 +718,7 @@ export class FileTransport {
 			}
 			// GlobalService.consoleLog("更新任务进度");
 			let now = Date.now();
-			if (!start && now > start + 300) {
+			if (now > start + 300) {
 				this.zone.run(() => {
 					console.log("[tool.logid:" + tool.logid + "]下载进度通知：" + res.loaded + "," + task.loaded + "," + res.total);
 					task.speed = Math.max(0, Math.ceil((res.loaded - task.loaded) * 1000 / (now - start) * .5 + task.speed * .5));
@@ -760,7 +761,7 @@ export class FileTransport {
 
 					}
 				}
-				
+
 				task.loaded = res.loaded || res.rangend;
 				console.log("[tool.logid:" + tool.logid + "]777......." + createTask + "," + task.finished);
 
