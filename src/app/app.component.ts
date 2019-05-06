@@ -25,6 +25,7 @@ import { GlobalService } from '../providers/GlobalService';
 import { HttpService } from '../providers/HttpService';
 import { Lang } from '../providers/Language';
 import { Util } from '../providers/Util';
+import { FileTransport } from '../providers/FileTransport';
 
 import { TaskListPage } from '../pages/task-list/task-list';
 import { GuidancePage } from '../pages/guidance/guidance';
@@ -84,6 +85,7 @@ export class UboxApp {
         public storage: Storage,
         private appInstalled: AppsInstalled,
         private fileManager: FileManager,
+        private fileTransfer: FileTransport,
         private global: GlobalService,
 		private http: HttpService,
 		private file: File,
@@ -351,9 +353,14 @@ export class UboxApp {
                 this.global.fileTaskList = JSON.parse(res);
                 if (res.length) {
                     this.global.fileTaskList.forEach(item => {
-                        //所有下载任务设置为暂停状态
-                        if (item.finished === false) {
-                            item.pausing = 'paused';
+                        // //所有下载任务设置为暂停状态
+                        // if (item.finished === false) {
+                        //     item.pausing = 'pause';
+                        // }
+
+                        //所有之前正在进行中的任务设置为等待下载
+                        if (item.finished === false && item.pausing == 'doing') {
+                            item.pausing = 'waiting';
                         }
                     })
                 }
@@ -361,7 +368,7 @@ export class UboxApp {
         })
         .catch(e => {
             GlobalService.consoleLog('读缓存错误:' + JSON.stringify(e));
-        })
+        });
 
         //每隔5秒钟，保存文件下载/上传任务到缓存中
         setInterval(() => {
@@ -464,7 +471,7 @@ export class UboxApp {
             this.global.closeGlobalLoading(this);
             this.http.notifyNetworkStatusChange();
             this.createNetworkingAlert();
-			this.stopAllTask(true);
+			this.fileTransfer.stopAllTask(true);
         });
 
         network.onConnect().subscribe(() => {
@@ -647,23 +654,6 @@ export class UboxApp {
         }
 	}
 
-	stopAllTask(delteTask = false) {
-		this.global.fileTaskList.filter(item => {
-			return item.finished == false && item.pausing == 'doing';
-		}).forEach(item => {
-			let taskId = item.taskId;
-			let handler = this.global.fileHandler[taskId];
-			item.pausing = 'waiting';
-			if(handler) {
-				handler.pause();
-				if(delteTask) {
-					delete this.global.fileHandler[taskId];
-				}
-                item.speed = 0;
-			}
-		})
-	}
-
     removeBackButtonAction() {
         var start = Date.now();
         this.platform.registerBackButtonAction(() => {
@@ -673,7 +663,7 @@ export class UboxApp {
           if(view.component == TabsPage) {
             var end = Date.now();
             if(end - start < 1500) {
-				this.stopAllTask(true);
+                this.fileTransfer.stopAllTask(true);
 				setTimeout(() => {
 					this.platform.exitApp();
 				}, 300);
