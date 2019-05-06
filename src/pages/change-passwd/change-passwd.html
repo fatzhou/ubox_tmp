@@ -17,7 +17,7 @@
 			<div class="form-input passwd-wrap {{eyeshow?'open-eye':'close-eye'}}">
 				<!-- <div class="passwd-wrap close-eye"> -->
 					<label class="label" for="password1">{{ global.L("OldPassWord") }}</label>
-					<input type="{{eyeshow?'text':'password'}}" name="password1" [(ngModel)]="password1" class="input-v2" placeholder="{{global.L('PlsInputOldPassword')}}"/>
+					<input (focus)="isFocus = true" (blur)="isFocus = false"  type="{{eyeshow?'text':'password'}}" name="password1" [(ngModel)]="password1" class="input-v2" placeholder="{{global.L('PlsInputOldPassword')}}"/>
 					<svg aria-hidden="true" (click)="showIcon(0)" class="icon open">
 						<use xlink:href="#iconeyeopen"></use>
 					</svg>
@@ -30,7 +30,7 @@
 
 			<div class="form-input passwd-wrap {{eyeshow2?'open-eye':'close-eye'}}">
 				<label class="label" for="password2">{{ global.L("NewPassWord") }}</label>
-				<input type="password" name="password2" [(ngModel)]="password2" class="input-v2" placeholder="{{global.L('PlsInputNewPassword')}}"/>
+				<input (focus)="isFocus = true" (blur)="isFocus = false" type="{{eyeshow2?'text':'password'}}" name="password2" [(ngModel)]="password2" class="input-v2" placeholder="{{global.L('PlsInputNewPassword')}}"/>
 				<!-- <p class="error-input" *ngIf="pError2">{{ pErrorText2 }}</p> -->
 				<svg aria-hidden="true" (click)="showIcon(2)" class="icon open">
 					<use xlink:href="#iconeyeopen"></use>
@@ -42,7 +42,7 @@
 
 			<div class="form-input passwd-wrap {{eyeshow3?'open-eye':'close-eye'}}">
 				<label class="label" for="password3">{{ global.L("InputAgain") }}</label>
-				<input type="password" name="password3" [(ngModel)]="password3" class="input-v2" placeholder="{{global.L('PlsInputNewPassword1')}}"/>
+				<input (focus)="isFocus = true" (blur)="isFocus = false" type="{{eyeshow3?'text':'password'}}" name="password3" [(ngModel)]="password3" class="input-v2" placeholder="{{global.L('PlsInputNewPassword1')}}"/>
 				<!-- <p class="error-input" *ngIf="pError3">{{ pErrorText3 }}</p> -->
 				<svg aria-hidden="true" (click)="showIcon(3)" class="icon open">
 					<use xlink:href="#iconeyeopen"></use>
@@ -53,6 +53,6 @@
 			</div>
 		</form> 
 
-		<div class="common-focus-button change-passwd-btn" click-and-wait tappable (click)="commitNewPassword()">{{global.L("Commit")}}</div>
+		<div class="common-focus-button change-passwd-btn" click-and-wait tappable *ngIf="!isFocus" (click)="commitNewPassword()">{{global.L("Commit")}}</div>
 	</div>
 </ion-content>

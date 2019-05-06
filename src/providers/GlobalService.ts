@@ -133,6 +133,7 @@ export class GlobalService {
 	public focusWallet = null; //用户当前使用的默认钱包
     public isShowWarningBar = false;//是否展示网络异常警告
     public tabIndex = 0;//当前是在tab的哪个子页面
+    public appstatus = 'uninitialized';//app状态：uninitialized/centerlogin/boxlogin/working/stoping/stoped
 
     public static getUbbeyContract() {
         if(GlobalService.ENV === 'dev') {
@@ -760,9 +761,6 @@ export class GlobalService {
         }
     }
 
-
-
-
     //初始化变量
     resetWebrtc(type){
         if(type === 'webrtc'){
@@ -775,22 +773,25 @@ export class GlobalService {
         this.boxStatus = true;
         this.diskInfoStatus = true;
     }
+
+    //日志打印
     static _global = null;
     public static consoleLog(str) {
-        if (GlobalService._global && GlobalService._global.platformName === 'android'){
+        ////正式环境关闭日志打印
+        if(GlobalService.ENV == "prod"){
+           return;
+        }
+        ////android直接打印日志
+        else if (GlobalService._global && GlobalService._global.platformName === 'android'){
             console.log(str);
-        }else{
+        }
+        ////ios 打印日志需要在setTimeout里面
+        else{
             setTimeout(() => {
                 console.log(str);
             }, 0);
         }
 	}
-    //日志打印
-    // public static consoleLog(msg) {
-    //     // if(GlobalService.ENV == "dev"){
-    //         console.log(msg);
-    //     // }
-    // }
 
     //无登录态初始化
     logoutInit() {

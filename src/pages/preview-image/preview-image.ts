@@ -96,9 +96,9 @@ export class PreviewImagePage {
         this.transfer.getFileLocalOrRemote(task.path, task.name, this.global.fileSavePath + this.global.PhotoSubPath + "/", task.name, this.global.PhotoSubPath)
         .then(res => {
 			if(res) {
-				if(!task.thumbnail && res) {
+				if((!task.thumbnail || task.thumbnail == './assets/img/image1.svg') && res) {
 					task.thumbnail = res;
-				}
+                }
 				task.photo = res;
 				let name = task.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
 				let md5 = Md5.hashStr(task.path + "/" + name).toString();

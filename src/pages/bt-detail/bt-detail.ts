@@ -41,6 +41,7 @@ export class BtDetailPage {
 	desImgList: any = [];
 	status: any = 0;
 	isShowMoreBtn: boolean = false;
+	payUbbey: any = 0;
 	constructor(public navCtrl: NavController,
 		public navParams: NavParams,
 		public global: GlobalService,

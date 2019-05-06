@@ -375,11 +375,13 @@ export class Util {
                     .then(() => {
                         console.log("["+logid+"]" + "获取盒子状态成功，刷新list");
                         this.events.publish('list:refresh');
+                        console.log("["+logid+"]" + "获取盒子状态成功，check-box-app");
                         this.events.publish('check-box-app');
                     })
                     .catch(() => {
                         console.log("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
                     });
+                this.global.appstatus = "working";
             })
         };
 
@@ -1212,6 +1214,9 @@ export class Util {
         if (/^png$/.test(suffix)) {
             return "image/png";
         }
+        if (/^webp$/.test(suffix)) {
+            return "image/webp";
+        }
         if (/^gif$/.test(suffix)) {
             return "image/gif";
         }
@@ -1929,7 +1934,7 @@ export class Util {
         let matches = name.match(/[^\.]+$/g);
         let style = matches && matches[0] || '';
 		var suffix = style.toLowerCase();
-		if (/^(jpe?g|png|gif|heic|tif?f|bmp)$/.test(suffix)) {
+		if (/^(jpe?g|png|gif|heic|tif?f|bmp|webp)$/.test(suffix)) {
 			return "image";
 		}
 		if (/^(mp3|ogg|asf|wma|vqf|midi|module|ape|real|wav|flac|amr|m4a)$/.test(suffix)) {

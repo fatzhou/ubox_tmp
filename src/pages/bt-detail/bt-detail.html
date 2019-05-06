@@ -42,6 +42,7 @@
             <div class="info-box">
                 <p class="second-title">{{ global.L("Introduction") }}</p>
                 <div class="detail-list">
+                    <p>{{ global.L("payUbbey") }}<span>{{ payUbbey + ' UBBEY' }}</span></p>
                     <p *ngIf="createdTime != ''">{{ global.L("CreatTime") }}<span>{{ createdTime | computeFileTime }}</span></p>
                     <p *ngIf="fileType != ''">{{ global.L("FileType") }}<span>{{ fileType }}</span></p>
                     <p *ngIf="file_number != ''">{{ global.L("FileNumber") }}<span>{{ file_number }}</span></p>

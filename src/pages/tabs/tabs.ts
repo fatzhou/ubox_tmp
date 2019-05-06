@@ -171,6 +171,7 @@ export class TabsPage {
         })
         //触发检查更新
         events.subscribe('check-box-app', () => {
+            console.log('准备检查固件升级');
             this.getVersionControl()
             .then((res) => {
                 this.checkVersion();
@@ -419,6 +420,7 @@ export class TabsPage {
             if(this.global.currDiskUuid != '') {
                 console.log('回到首页，刷新列表');
                 this.events.publish('list:refresh');
+                this.events.publish('check-box-app');
             }
             // })
             // .catch(e=> {
