@@ -558,29 +558,32 @@ export class FileTransport {
 				tool.task = task;
 				tool.progress = progress;
 				tool.success = success;
-				tool.failure = failure;
+                tool.failure = failure;
+                tool.status = 'downloading';//'paused'
 
-				new Promise((resolve, reject)=>{
+				return new Promise((resolve, reject)=>{
 				    //必须要前一个彻底完成
-                    if (tool.handler){
+                    if (tool.handler && tool.status == 'downloading'){
                         tool.handler.pause();
                         tool.handler = null;
                         setTimeout(()=>resolve(), 3000);
                     }else{
+                        tool.handler = null;
                         resolve();
                     }
                 }).then(()=>{
 				    //临时解决方案，假设前一个已经成功
                     GlobalService.consoleLog("创建下载工具handler["+ oldlogid + "," + tool.logid +"].....");
+                    tool.status = 'downloading';
                     if (tool.mode == 'remote') {
                         tool.promise = this.createDownloadHandlerRemote(tool.task, tool.progress, tool.success, tool.failure)
                     } else {
                         tool.promise = this.createDownloadHandlerLocal(tool.task, tool.progress, tool.success, tool.failure);
                     }
-                    return tool.promise.then((h)=>{
-                        tool.handler = h;
+                    return tool.promise.then((newh)=>{
+                        GlobalService.consoleLog("创建下载工具handler["+ oldlogid + "," + tool.logid +"]成功完成, !!newh=" + !!newh);
+                        tool.handler = newh;
                         tool.promise = null;
-                        GlobalService.consoleLog("初始化下载工具 inittool["+ oldlogid + "," + tool.logid +"]成功完成");
                         return tool.handler;
                     })
                 });
@@ -588,48 +591,78 @@ export class FileTransport {
 
 			pause: () => {
                 GlobalService.consoleLog("[tool.logid:" + tool.logid + "]暂停下载～～～");
-                return tool._getHandler()
-                .then((h)=>{
-                    GlobalService.consoleLog("[tool.logid:" + tool.logid + "]执行handler的pause方法");
-                    tool.opDing=true;
-                    h.pause();
+                return new Promise((resolve, reject)=>{
+                    //如果当前有handler且没有正在执行的请求
+                    if (tool.handler && tool._opDoing == false){
+                        GlobalService.consoleLog("[tool.logid:" + tool.logid + "]执行handler的pause方法");
+                        tool._opDoing = true;
+                        setTimeout(() => {tool._opDoing = false;}, 10000);
+                        tool.handler.pause();
+                        tool._opPromise = {resolve:resolve, reject: reject};
+                        setTimeout(()=>{tool._opPromise = null; resolve();}, 3000);
+                    }
+                    //有正在执行的操作，暂时忽略
+                    else if(tool._opDoing != false){
+                        GlobalService.consoleLog("[tool.logid:" + tool.logid + "]当前有暂停请求正在执行");
+                        reject();
+                    }
+                    //当前没有可用handler，直接成功
+                    else{
+                        GlobalService.consoleLog("[tool.logid:" + tool.logid + "]当前没有可执行pause方法的handler");
+                        resolve();
+                    }
                 });
 			},
-            pause_done:()=>{
-                tool.opDing=false;
+
+            resume: () => {
+                GlobalService.consoleLog("[tool.logid:" + tool.logid + "]恢复下载～～～");
+                tool._getHandler().then((h)=>{h.resume(); tool.status = 'downloading';});
             },
 
-			resume: () => {
-				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]恢复下载～～～");
-				return tool._getHandler().then((h)=>h.resume());
-			},
+            pause_done:()=>{
+                GlobalService.consoleLog("[tool.logid:" + tool.logid + "]暂停成功～～～");
+                tool._opDoing=false;
+                if (tool._opPromise){
+                    tool._opPromise.resolve();
+                    tool.status = 'paused';
+                    tool._opPromise = null;
+                }
+            },
 
-            netchange: () => {
-			    //////just for test///////////
-                tool.netChanged = true;
+            clean_handler:()=>{
+                tool.handler=null;
             },
 
             ////////// 注意: 通过以下操作，使获取handler是一个串行化的过程 ///////////////////////////
             _getDoing: false,
+            _opDoing: false,
+            _opPromise: null,
             _getWaitingList: [],
             _getTimmer: null,
 			_getHandler: () => {
                 if (tool._getDoing){
+                    GlobalService.consoleLog("[tool.logid:" + tool.logid + "]当前有正在获取handler的请求，请求放入等待队列");
                     return new Promise((resove, reject)=>{
-                        tool._getWaitingList.push({resovle: resove, reject:reject})
+                        tool._getWaitingList.push({resovle: resove, reject:reject});
+                        tool._getTimmer = setTimeout(()=>tool._doNext(true), 50);
                     })
                 }
                 tool._getDoing = true;
                 let isRemote = this.global.useWebrtc == true;
 				let netChanged = (isRemote && tool.mode !== "remote") || (!isRemote && tool.mode === "remote");
 				if (!tool.handler || netChanged) {
-                    GlobalService.consoleLog("无handle或者handle不匹配: currentIsRemote=" + isRemote + ", preMode=" + tool.mode);
+                    GlobalService.consoleLog("[tool.logid:" + tool.logid + "]无handle或者handle不匹配: currentIsRemote=" + isRemote + ", preMode=" + tool.mode + ",!!tool.handler=" + !!tool.handler);
 					return tool.create(tool.task, tool.progress, tool.success, tool.failure)
                     .then((h)=>{
+                        GlobalService.consoleLog("创建下载工具handler["+ tool.logid +"]成功返回handler");
                         tool._getDoing = false;
                         tool._getTimmer = setTimeout(()=>tool._doNext(true), 50);
                         return h;
-					});
+					}).catch((e)=>{
+                        tool._getDoing = false;
+                        tool._getTimmer = setTimeout(()=>tool._doNext(true), 50);
+                        return Promise.reject(e);
+                    });
 				}
                 tool._getDoing = false;
                 tool._getTimmer = setTimeout(()=>tool._doNext(true), 50);
@@ -637,17 +670,21 @@ export class FileTransport {
 			},
 
             _doNext: (isTimerCallback=false)=>{
-                if (!tool.opDoing){
-                    //没有正在进行的任务，直接获取一个handler执行
+                GlobalService.consoleLog("[tool.logid:" + tool.logid+ "]_doNext:_getDoing=" + tool._getDoing + ",tool.opDoing=" + tool._opDoing + ",_getWaitingList length=" + tool._getWaitingList.length);
+                //case 1: 没有正在进行的任务，直接获取一个handler执行
+                if (!tool._getDoing && !tool._opDoing){
                     let promise = tool._getWaitingList.pop();
                     if (promise){
-                        tool._getHandler().then(promise.resovle, promise.reject)
+                        GlobalService.consoleLog("[tool.logid:" + tool.logid + "]获取到之前未完成到请求，执行之");
+                        tool._getHandler().then(promise.resovle, promise.reject);
+                    }else{
+                        //GlobalService.consoleLog("[tool.logid:" + tool.logid + "]之前无未完成到请求，直接返回");
                     }
-                }else{
-                    //有正在进行的任务，等待一段时间后再检测
-                    if (!tool._getTimmer || isTimerCallback){
-                        tool._getTimmer = setTimeout(()=>tool._doNext(true), 100);
-                    }
+                }
+
+                //case 2: 有正在进行的任务，等待一段时间后再检测
+                else if (!tool._getTimmer || isTimerCallback){
+                    tool._getTimmer = setTimeout(()=>tool._doNext(true), 2000);
                 }
             }
 		};
@@ -655,7 +692,14 @@ export class FileTransport {
 			// GlobalService.consoleLog("[tool.logid:" + tool.logid + "]进度信息：" + JSON.stringify(res));
 			//更新任务进度
 			this.events.publish('download:progress:' + task.fileId, task);
-			if (res.status === 'ERROR' || res.status === 'ABORT') {
+            if (res.status === 'PAUSE') {
+                GlobalService.consoleLog("[tool.logid:" + tool.logid + "]任务已暂停");
+                task.pausing = 'paused';
+                task.speed = 0;
+                tool.pause_done();
+                return false;
+            }
+            if (res.status === 'ERROR' || res.status === 'ABORT') {
 				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]任务已出错或者终止");
 				task.pausing = 'paused';
 				tool.pause();
@@ -729,25 +773,32 @@ export class FileTransport {
 		};
 		let failure = (res) => {
 			GlobalService.consoleLog("[tool.logid:" + tool.logid + "]下载失败, onFailure");
+			tool.clean_handler();
 			if (createTask) {
 				this.events.publish("download:failure", task);
 				this.startWaitTask('download');
 			}
-			resolve && resolve('');
+            task.pausing = "waiting";
+            task.speed = 0;
+            resolve && resolve('');
 		};
-		var taskList = this.global.fileTaskList.filter(item => item.action === 'download' && item.pausing === 'doing' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
+
+		let taskList = this.global.fileTaskList.filter(
+		    item => item.action === 'download'
+            && item.pausing === 'doing'
+            && item.finished == false
+            && item.boxId == this.global.deviceSelected.boxId
+            && item.bindUserHash == this.global.deviceSelected.bindUserHash);
+
 		this.taskDownloadListAmount = taskList.length;
 		//立即开始
 		if (!createTask || this.taskDownloadListAmount <= this.global.fileMaxDownload) {
 			GlobalService.consoleLog("开始创建任务....");
 			tool.create(task, createTask ? progress : null, success, failure);
             GlobalService.consoleLog("[tool.logid:" + tool.logid + "]开始创建任务执行中...");
-			// if (this.global.useWebrtc) {
-			// 	tool = this.createDownloadHandlerRemote(task, createTask ? progress : null, success, failure);
-			// } else {
-			// 	tool = this.createDownloadHandlerLocal(task, createTask ? progress : null, success, failure);
-			// }
-		} else {
+		}
+		//先加入队列
+        else {
 			GlobalService.consoleLog("[tool.logid:" + tool.logid + ']先加入队列，且先暂停，后面再下载' + this.taskDownloadListAmount + "," + this.global.fileMaxDownload);
 			task.pausing = "waiting";
 			task.speed = 0;
@@ -756,7 +807,7 @@ export class FileTransport {
 		return tool;
 	}
 
-	async createDownloadHandlerLocal(fileTask, progress, success, failure) {
+    createDownloadHandlerLocal(fileTask, progress, success, failure) {
 		if(!this.platform.is('cordova')) {
 			GlobalService.consoleLog('Not cordova, can not download file...');
 			return;
@@ -769,7 +820,7 @@ export class FileTransport {
 		let fileURL = fileTask.localPath;
 		console.log("local下载文件：url：" + url + ",存于本地" + fileURL + ",远程：" + fileTask.path);
 		let self = this;
-		return await new Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			if (fileTask.loaded > -10) {
 				return FileDownloader.getUnfinishedFileSizeIfExist(this.file, fileTask.localPath.replace(/\/([^\/]+)$/, '/'), fileTask.name)
 					.then((res:any) => {
@@ -819,7 +870,7 @@ export class FileTransport {
 			disk_uuid: task.diskUuid,
 			is_thumbnail: task.fileStyle == 'thumbnail' ? 1 : 0
 		};
-
+        console.log("remote下载文件, 存于本地:" + task.localPath + ",远程：" + task.path);
 		downloadTool = this.fileDownloader.createDownloader(task.localPath, task.path, option);
 		downloadTool.download().catch(err => {
 			GlobalService.consoleLog("下载失败 FileTransport" + JSON.stringify(err));

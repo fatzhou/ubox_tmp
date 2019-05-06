@@ -307,7 +307,8 @@ class SingleFileDownloader {
 		if(this.progress) {
 			this.progress({
 				loaded: this.cache.downloadsize,
-				total: this.cache.totalsize
+				total: this.cache.totalsize,
+                status: this.cache.status
 			});
 		}
     }
