@@ -1690,6 +1690,7 @@ export class HttpService {
 
 	sendMessage(url: string, method: string, paramObj: any, sessionId: string, headers: any = {}, options: any = {}) {
 		let body = paramObj;
+		let logbody = body;
 		let _url = url;
 		if (method === 'post') {
 			if (paramObj instanceof Buffer) {
@@ -1698,14 +1699,16 @@ export class HttpService {
 			} else if (typeof paramObj === 'object') {
 				body = new Buffer(this.toBodyString(paramObj));
 			}
+            logbody=body;
 			body = body.toString('base64');
 		} else {
 			body = '';
-			_url += this.toQueryString(paramObj);
+            logbody=body;
+            _url += this.toQueryString(paramObj);
 		}
 
 		GlobalService.consoleLog("发出WEBRTC post请求," + "session:" + sessionId + ", url:" + _url);
-		GlobalService.consoleLog("请求参数:" + body);
+		GlobalService.consoleLog("请求参数:" + logbody);
 		GlobalService.consoleLog("cookie:" + this.getCookieString(url));
 		headers['request-session'] = sessionId;
 		headers['cookie'] = this.getCookieString(url);

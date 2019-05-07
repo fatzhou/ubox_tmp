@@ -75,33 +75,41 @@ export class TaskListPage {
 		private transfer: FileTransport,
         public navParams: NavParams) {
         let self = this;
-        TaskListPage._this = this;
+        // TaskListPage._this = this;
 
         // events.unsubscribe('file:updated');
-        GlobalService.consoleLog("监听file:updated事件");
-        events.unsubscribe('file:updated',TaskListPage.filterTaskList)
-		events.subscribe('file:updated',TaskListPage.filterTaskList)
+		GlobalService.consoleLog("监听file:updated事件");
+		this.filterTaskList = this.filterTaskList.bind(this);
 
-		events.unsubscribe('task:created',TaskListPage.filterTaskList)
-        events.subscribe('task:created',TaskListPage.filterTaskList)
+		// events.unsubscribe('file:updated',this.filterTaskList)
+		events.subscribe('file:updated',this.filterTaskList)
+
+		// events.unsubscribe('task:created',this.filterTaskList)
+        events.subscribe('task:created',this.filterTaskList)
     }
 
     ionViewDidLoad() {
-        TaskListPage.filterTaskList();
+        this.filterTaskList();
         this.checkStatus();
         if(this.platform.is('ios')) {
             this.isDeleteType = 'ios';
         } else {
             this.isDeleteType = 'android';
         }
-    }
+	}
+	
+	ngOnDestory() {
+		this.events.unsubscribe('file:updated',this.filterTaskList);
+		this.events.unsubscribe('task:created',this.filterTaskList);
+	}
+
     ionViewWillLeave() {
         this.cancelSelect();
     }
 
-    static filterTaskList() {
+    filterTaskList() {
 		GlobalService.consoleLog("任务列表变更.......");
-		let _that = TaskListPage._this;
+		let _that = this;
 		_that.zone.run(() => {
 			_that.fileTaskList = _that.global.fileTaskList.filter(item=> item.boxId == _that.global.deviceSelected.boxId && item.bindUserHash == _that.global.deviceSelected.bindUserHash ) || [];
 			_that.doingTaskList = _that.fileTaskList.filter(item => item.finished === false) || [];
@@ -469,7 +477,7 @@ export class TaskListPage {
             }
         }
         this.events.publish('taskList:changed');
-        TaskListPage.filterTaskList();
+        this.filterTaskList();
         this.clearStatus();
         this.singleTask = null;
         this.deteleSingle = false;

@@ -48,6 +48,7 @@ export class GlobalService {
     public fileMaxChoose = 20;//文件最大上传数量
     public fileMaxUpload = 3;//文件同时上传最大数量
     public fileMaxDownload = 3;//文件同时上传最大数量
+    public fileMaxUpOrDown = {upload:this.fileMaxUpload, download:this.fileMaxDownload};//文件同时上传下载最大数量
 
     public networkType: String = 'wifi';
     public networking: Boolean = true; //是否联网

@@ -22,8 +22,8 @@ import { FileTransport } from '../../providers/FileTransport';
   templateUrl: 'task.html'
 })
 export class TaskComponent {
-    doingTaskList:any = [];
-    doneTaskList:any = [];
+    // doingTaskList:any = [];
+    // doneTaskList:any = [];
     taskStatus:string = 'paused';
     fileTaskList:any  =[];
     allBtnsShow: Boolean = false;
@@ -54,8 +54,8 @@ export class TaskComponent {
 
 		this.filterTaskList = this.filterTaskList.bind(this);
 
-        // events.unsubscribe('file:updated');
-        GlobalService.consoleLog("监听file:updated事件");
+        // // events.unsubscribe('file:updated');
+        // GlobalService.consoleLog("监听file:updated事件");
 		events.subscribe('file:updated',this.filterTaskList)  
 		events.subscribe('task:created',this.filterTaskList)  
 		
@@ -64,25 +64,28 @@ export class TaskComponent {
     }
 	
     ngOnDestory() {
-		this.cancelSelect();
 		this.events.unsubscribe('file:updated',this.filterTaskList)       
 		this.events.unsubscribe('task:created',this.filterTaskList)       
     }
     
     filterTaskList() { 
-		GlobalService.consoleLog("任务列表变更.......");
+		GlobalService.consoleLog("List任务列表变更.......");
 		let _that = this;
-		_that.zone.run(() => {
-			_that.fileTaskList = _that.global.fileTaskList.filter(item=> item.boxId == _that.global.deviceSelected.boxId && item.action == 'upload' && (item.path.replace(/\/[^\/]+$/g, '/')) == this.path.replace(/\/$/, '') + '/' && !item.finished && item.bindUserHash == _that.global.deviceSelected.bindUserHash ) || [];
-			_that.doingTaskList = _that.fileTaskList.filter(item => item.finished === false) || [];
-			// _that.doneTaskList = _that.fileTaskList.filter(item => item.finished === true) || [];
-			// _that.doneTaskList = _that.doneTaskList.sort(function(a, b) {
-			// 	return Number(b.finishedTime) - Number(a.finishedTime);
-			// });
-			_that.getThumbnail();
-			_that.doingTaskList.reverse();
-			GlobalService.consoleLog("任务列表过滤完毕....");			
-		})
+		try {
+			_that.zone.run(() => {
+				_that.fileTaskList = _that.global.fileTaskList.filter(item=> item.boxId == _that.global.deviceSelected.boxId && item.action == 'upload' && item.path.replace(/\/[^\/]+$/g, '/') == this.path.replace(/\/$/, '') + '/' && !item.finished && item.bindUserHash == _that.global.deviceSelected.bindUserHash ) || [];
+				// _that.doneTaskList = _that.fileTaskList.filter(item => item.finished === true) || [];
+				// _that.doneTaskList = _that.doneTaskList.sort(function(a, b) {
+				// 	return Number(b.finishedTime) - Number(a.finishedTime);
+				// });
+				_that.getThumbnail();
+				_that.fileTaskList.reverse();
+				GlobalService.consoleLog("任务列表过滤完毕...." + _that.fileTaskList.length);			
+			})			
+		} catch(e) {
+			console.log(e.message || e.stack);
+		}
+
 
 		// _that.cd.detectChanges();
         // this.doneTaskList.reverse();
@@ -90,7 +93,7 @@ export class TaskComponent {
 	
 	handleThumbnailError(obj, e) {
 		console.log("缩略图加载出错.......")
-		obj.thumbnail = '';
+		obj.thumbnail = './assets/img/image1.svg';
 		//存入全局缓存，将会导致该图片永不刷新
 		// var md5 = Md5.hashStr(that.currPath.replace('\/$', '') + '/' + obj.name).toString();
 		// that.global.thumbnailMap[md5] = defaultPhoto;
@@ -212,143 +215,11 @@ export class TaskComponent {
         }
     }
 
-    openFile(task) {
-        if(this.allBtnsShow) {
-            this.toggleTask(task);
-        } else {
-            this.util.openFile(task.localPath);
-        }
-    }
+
     //取消选择
     clearStatus() {
         this.allBtnsShow = false;
     }
-    //长按，显示按钮区域，并将当前文件加入选择list，同时需要更新底部导航栏状态
-    showAllBtns(info) {
-        this.allBtnsShow = true;
-        if(info) {
-            this.setSelectedFiles(info);            
-        }
-    }
-    //点击，选中或取消
-    toggleTask(info) {
-        this.cancalDelete();
-        if(this.allBtnsShow) {
-            this.setSelectedFiles(info);
-        } 
-    }
-    //勾选文件
-    setSelectedFiles(file) {
-        GlobalService.consoleLog("选择了文件:" + JSON.stringify(file));
-        var taskId = file.taskId;
-        //反选
-        file.selected = !file.selected;
-        this.setBtnsStatus();
-    }
-    setBtnsStatus() {
-        let doingTask = this.doingTaskList.filter(item => item.selected === true);
-        let doneTask = this.doneTaskList.filter(item => item.selected === true);
-        let len = doingTask.length + doneTask.length;
-        this.selectFileNum = len;
-        //只要选中至少1个文件，就可删除
-        this.canDelete = len > 0;
-    }
-    cancelSelect() {
-        GlobalService.consoleLog("重置状态");
-        this.clearStatus();
-        this.doingTaskList.map(item => item.selected = false);
-        this.doneTaskList.map(item => item.selected = false);
-        this.global.fileTaskList.map(item => item.selected = false);
-        this.selectAllStatus = false;
-        this.singleTask = null;
-        this.deteleSingle = false;
-    }
 
-    selectAll() {
-        GlobalService.consoleLog("用户触发全选，触发的操作是：" + this.selectAllStatus);
-    
-        for(let i = 0, len = this.fileTaskList.length; i < len; i++) {
-            this.fileTaskList[i].selected = !this.selectAllStatus;
-        }            
 
-        this.selectAllStatus = !this.selectAllStatus;
-        this.setBtnsStatus();
-    }
-    deleteFile() {
-        if(!this.canDelete) {
-            return false;
-        }
-        var self = this;
-        this.global.createGlobalAlert(this, {
-            title: Lang.L('WORD5627ad0c1'),
-            message: Lang.L('WORD5627ad0c2'),
-            // enableBackdropDismiss: false,
-            buttons: [
-                {
-                    text: Lang.L('WORD0e46988a'),
-                    handler: data => {
-                        self.deleteFileIndeed();
-                        self.setBtnsStatus();
-                        return true;
-                    }
-                },
-                {
-                    text: Lang.L('WORD85ceea04'),
-                    handler: data => {
-                        GlobalService.consoleLog('Cancel clicked');
-                    }
-                },
-            ]
-        });
-        return true;
-    }
-    deleteFileIndeed() {
-        let deleteFileList;
-        if(this.deteleSingle == false) {
-            deleteFileList = this.fileTaskList.filter(item => item.selected === true);
-        } else {
-            deleteFileList = [this.singleTask];
-        }
-        if(!deleteFileList.length) {
-            GlobalService.consoleLog("没有可删除的任务");
-            return false;
-        }
-        for(let i = 0 , len = deleteFileList.length ; i < len;i++){
-            let deleteTaskId = deleteFileList[i].taskId;
-            let index = this.global.fileTaskList.indexOf(deleteFileList[i]);
-            this.global.fileTaskList.splice(index, 1);
-            let handler = this.global.fileHandler[deleteTaskId];
-            if(handler) {
-                handler.pause();
-                delete this.global.fileHandler[deleteTaskId];
-            }
-        }
-        this.events.publish('taskList:changed');
-        this.filterTaskList();
-        this.clearStatus();
-        this.singleTask = null;
-        this.deteleSingle = false;
-        this.isShowShadow = false;
-    }
-
-    showAndroidDeleteBox(task) {
-        if(this.isDeleteType == 'android') {
-            this.singleTask = task;
-            this.isShowShadow = true;
-        } else {
-            this.singleTask = null;
-        }
-    }
-
-    deleteSingleTask(task) {
-        this.deteleSingle = true;
-        this.singleTask = task;
-        this.deleteFileIndeed();
-        this.setBtnsStatus();
-    }
-
-    cancalDelete() {
-        this.isShowShadow = false;
-        this.singleTask = null;
-    }
 }

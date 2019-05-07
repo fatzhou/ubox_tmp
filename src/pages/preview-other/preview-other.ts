@@ -133,7 +133,9 @@ export class PreviewOtherPage {
 			name: this.fileInfo.name,
 			fileStyle: this.fileInfo.fileStyle,
 			thumbnail: this.fileInfo.thumbnail
-		}, remoteFullPath, localFullPath)
+		}, remoteFullPath, localFullPath, true, {
+			total: this.fileInfo.size
+		})
 		.then(res => {
 			console.log("下载完成........")
 		})	

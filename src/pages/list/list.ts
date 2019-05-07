@@ -163,16 +163,20 @@ export class ListPage {
 
     ionViewDidEnter() {
         GlobalService.consoleLog("ionViewDidEnter ListPage");
-        this.global.tabIndex = 0;
-        if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
-            // this.isShowBox = true;
-            this.fileManager.getPermission()
-            .then(res => {
-                this.getFileInfo();
-            }, () => {
-                this.isShowBox = false; //true
-            })
-        }
+		this.global.tabIndex = 0;
+
+		if(this.platform.is('cordova')) {
+			if(!this.fileManager.readPermitted && this.global.centerUserInfo.bind_box_count > 0) {
+				// this.isShowBox = true;
+				this.fileManager.getPermission()
+				.then(res => {
+					this.getFileInfo();
+				}, () => {
+					this.isShowBox = true; //true
+				})
+			}			
+		}
+
         this.global.currPath = this.currPath;
         // if(this.currPath == '/') {
         //     setTimeout(()=>{
@@ -220,8 +224,12 @@ export class ListPage {
                 this.disks = this.global.diskInfo.disks.filter(item => {
                     return item.position != 'base';
                     // return item
-                });
-                this.cd.detectChanges();
+				});
+				try {
+					this.cd.detectChanges();
+				} catch(e) {
+					console.log("List initDiskInfo dectchanges:" + e.message);
+				}
             }        
         // })
     }
@@ -447,7 +455,8 @@ export class ListPage {
                 console.log('列表清空了');
                 if (res.list && res.list.length > 0) {
                     res.list.filter((item) => {
-                        let name = item.name.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
+                        let name = item.name;
+                        // let name = item.naxme.replace(/\(\d+\)(\.[^\.]+)$/, "$1");
 						let md5 = Md5.hashStr(this.currPath + "/" + name).toString();
 						let file = {
 							name: item.name,
@@ -472,8 +481,11 @@ export class ListPage {
                 this.allFileList = list;
                 this.fileList = this.allFileList.slice(0, this.pageSize);
                 this.transfer.getThumbnail(this.allFileList, false, this.currPath);
-
-                this.cd.detectChanges();
+				try {
+					this.cd.detectChanges();
+				} catch(e) {
+					GlobalService.consoleLog("List page:" + this.currPath + ", error:" + e.message);
+				}
                 //获取缩略图
                 this.clearStatus();
             }
@@ -482,7 +494,7 @@ export class ListPage {
 		.catch(e => {
             this.isLoadingData = false;
             this.global.closeGlobalLoading(this);
-            GlobalService.consoleLog("获取数据失败:" + JSON.stringify(e));
+            // GlobalService.consoleLog("获取数据失败:" + JSON.stringify(e));
 		})
 	}
 
@@ -580,7 +592,9 @@ export class ListPage {
 				name: selected.name,
 				fileStyle: selected.fileStyle,
 				thumbnail: selected.thumbnail
-			}, this.currPath.replace(/\/$/g, '') + "/" + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name);
+			}, this.currPath.replace(/\/$/g, '') + "/" + selected.name, this.global.fileSavePath + subFoldPath + '/' + selected.name, true, {
+				total: selected.size
+			});
         }
 
         this.allBtnsShow = false;
