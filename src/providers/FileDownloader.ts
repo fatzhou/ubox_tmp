@@ -282,7 +282,11 @@ class SingleFileDownloader {
     // @return undefined
     ///////////////////////////////////////
     resume() {
-        if(!!false){//this.isPause){
+        if(!this.isPause && this.isAbort && this.cache.status == "LOOP" && this.timer){
+            GlobalService.consoleLog("下载已启动，不用重新启动");
+        }
+        /////// 老逻辑 ////////////////
+        else if(!!false){//this.isPause){
             // this.setDownloadBlockSize();
             // this.cache.status = "LOOP";
             // this.isPause = false;
@@ -331,14 +335,14 @@ class SingleFileDownloader {
         // GlobalService.consoleLog("循环:" + JSON.stringify(cache));
         //下载已完成
         if (cache.status == "DONE") {
-            // GlobalService.consoleLog("循环：下载完成取消循环");
+            GlobalService.consoleLog("循环：下载完成取消循环");
             clearTimeout(self.timer);
             self.timer = null;
             self._progress("DONE");
         }
         //循环已取消
         else if (self.isAbort || self.isPause) {
-            // GlobalService.consoleLog("循环：取消或暂停循环");
+            GlobalService.consoleLog("循环：取消或暂停循环");
             clearTimeout(self.timer);
             self.timer = null;
             cache.status = self.isAbort ? "ABORT" : "PAUSE";
@@ -369,7 +373,7 @@ class SingleFileDownloader {
                             err_msg: err
                         });
                     } else if (cache.totalsize > downloadsize) {
-                        // GlobalService.consoleLog("循环：单块下载后大小不够，继续下载");
+                        //GlobalService.consoleLog("循环：单块下载后大小不够，继续下载");
                         cache.downloadsize = downloadsize;
                         cache.status = "LOOP";
                         self.nRetry=0;
@@ -378,7 +382,7 @@ class SingleFileDownloader {
                         self._progress("");
                     } else {
                         cache.downloadsize = cache.totalsize;
-                        // GlobalService.consoleLog("循环：单块下载后，下载完成(" + downloadsize + "/" + cache.totalsize + ")");
+                        GlobalService.consoleLog("循环：单块下载后，下载完成(" + downloadsize + "/" + cache.totalsize + ")");
 						cache.status = "DONE";
 						self.success({
 							complete: 1,
@@ -393,9 +397,9 @@ class SingleFileDownloader {
                 })
                 //获取单块失败
                 .catch((error) => {
-                    // GlobalService.consoleLog("循环：获取单块失败");
+                    GlobalService.consoleLog("循环：获取单块失败");
+                    //self.isAbort = true;
                     cache.status = "ERROR";
-                    self.isAbort = true;
                     self.failure({
                         err_no: -9999,
                         err_msg: ""

@@ -19,6 +19,7 @@ declare var window;
 export class FileTransport {
 	taskUploadListAmount: number = 0;
 	taskDownloadListAmount: number = 0;
+    waitingRetryTimer:any = null;
 
 	constructor(
 		// private transfer: FileTransport,
@@ -702,23 +703,23 @@ export class FileTransport {
 			this.events.publish('download:progress:' + task.fileId, task);
             if (res.status === 'PAUSE') {
                 GlobalService.consoleLog("[tool.logid:" + tool.logid + "]任务已暂停");
+                tool.pause_done();
                 //task.pausing = 'paused';
                 task.speed = 0;
-                tool.pause_done();
                 return false;
             }
             if (res.status === 'ERROR' || res.status === 'ABORT') {
 				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]任务已出错或者终止");
-				task.pausing = 'paused';
-				tool.pause();
+                task.pausing = 'waiting_retry';
+                this.startWaitRetryEngine('download');
 				task.speed = 0;
 				return false;
 			}
 			if (!this.global.networking) {
 				GlobalService.consoleLog("[tool.logid:" + tool.logid + "]网络故障");
-				task.pausing = 'waiting';
-				tool.pause();
-				task.speed = 0;
+				task.pausing = 'waiting_retry';
+                this.startWaitRetryEngine('download');
+                task.speed = 0;
 				return false;
 			}
 			// GlobalService.consoleLog("更新任务进度");
@@ -778,11 +779,20 @@ export class FileTransport {
 
 					} else {
                         task.speed = 0;
-                        task.paused = 'paused';
+                        //手动paused，此变量因为paused
+                        if(task.pausing == 'paused'){
+                            task.pausing = 'paused';
+                        }
+                        //网络异常导致的success调用，此变量不为paused
+                        else{
+                            task.pausing = 'waiting_retry';
+                            this.startWaitRetryEngine('download');
+                        }
+
 						this.events.publish('file:savetask');
 					}
-					console.log("[tool.logid:" + tool.logid + "]启动新任务.......");
 
+					console.log("[tool.logid:" + tool.logid + "]当前任务已停止，启动新任务.......");
 					this.startWaitTask('download');
 					console.log("[tool.logid:" + tool.logid + "]启动新任务完成.......");
 
@@ -801,10 +811,11 @@ export class FileTransport {
 			tool.clean_handler();
 			if (createTask) {
 				//this.events.publish("download:failure", task);
-                task.pausing = "paused";
+                task.pausing = "waiting_retry";
                 task.speed = 0;
-				this.startWaitTask('download');
-			}
+                this.startWaitRetryEngine('download');
+                this.startWaitTask('download');
+            }
             resolve && resolve('');
 		};
 
@@ -970,6 +981,25 @@ export class FileTransport {
             } else {
                 this.events.publish('create:' + action, newTask);
             }
+        }
+    }
+
+    startWaitRetryEngine(action) {
+        console.log("有任务失败，启动失败重试机制......." + action);
+        if(!this.waitingRetryTimer){
+            this.waitingRetryTimer = setInterval(()=>{
+                let waitingRetryList = this.global.fileTaskList.filter(item => item.action == action && item.pausing == 'waiting_retry' && item.finished == false && item.boxId == this.global.deviceSelected.boxId && item.bindUserHash == this.global.deviceSelected.bindUserHash);
+                console.log("等待重试任务数目：" + waitingRetryList.length);
+                if (waitingRetryList.length > 0) {
+                    let idx = Math.floor(Math.random() * waitingRetryList.length);
+                    let task = waitingRetryList[(idx >= waitingRetryList.length) ? 0 : idx];
+                    task.pausing = 'waiting';
+                    this.startWaitTask(action);
+                }
+            }, 10000);
+            console.log("启动失败重试机制成功..." + action);
+        }else{
+            console.log("失败重试机制已启动，不用再次启动..." + action);
         }
     }
 

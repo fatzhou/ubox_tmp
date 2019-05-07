@@ -11,7 +11,7 @@
 				<div class="speed clear" item-end>
 					<p class="amount fl" *ngIf="task.pausing === 'doing'">{{ task.speed | computeFileSize }}/S</p>
 					<p class="amount fl" *ngIf="task.pausing === 'paused'">{{global.L('PAUSED')}}</p>
-					<p class="amount fl" *ngIf="task.pausing === 'waiting'">{{global.L('WAITING')}}</p>
+					<p class="amount fl" *ngIf="task.pausing === 'waiting' || task.pausing === 'waiting_retry'">{{global.L('WAITING')}}</p>
 					<div class="progress fl circle btn" tappable (click)="toggleStatus(task)" *ngIf="!allBtnsShow">
 						<svg class="icon icon-right" aria-hidden="true" *ngIf="task.pausing == 'doing'">
 							<use xlink:href="#iconzanting"></use>
