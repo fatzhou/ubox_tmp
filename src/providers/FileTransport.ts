@@ -679,7 +679,12 @@ export class FileTransport {
                     let promise = tool._getWaitingList.pop();
                     if (promise){
                         GlobalService.consoleLog("[tool.logid:" + tool.logid + "]获取到之前未完成到请求，执行之");
-                        tool._getHandler().then(promise.resovle, promise.reject);
+                        //tool._getHandler().then(promise.resovle, promise.reject);
+                        if(tool.handler){
+                            promise.resovle(tool.handler);
+                        }else{
+                            promise.reject();
+                        }
                     }else{
                         //GlobalService.consoleLog("[tool.logid:" + tool.logid + "]之前无未完成到请求，直接返回");
                     }
@@ -796,7 +801,7 @@ export class FileTransport {
 			tool.clean_handler();
 			if (createTask) {
 				//this.events.publish("download:failure", task);
-                task.pausing = "waiting";
+                task.pausing = "paused";
                 task.speed = 0;
 				this.startWaitTask('download');
 			}
@@ -865,11 +870,13 @@ export class FileTransport {
 			if(!fileTask.total) {
 				fileTask.total = res.totalsize;
 			}
-            // console.log("开始调用new FileTransfer:loaded=" + fileTask.loaded + ",total=" + fileTask.total);
+            //获取cookie，然后注入到插件
+            let cookie = this.http.getCookieString(url)|| this.http.cookies[this.global.deviceSelected && this.global.deviceSelected.boxId];
+            console.log("开始调用new FileTransfer:loaded=" + fileTask.loaded + ",total=" + fileTask.total + ',cookie=' + cookie);
             let fileTransfer = new FileTransfer(url, fileURL, {
 				headers: {
 					// add custom headers if needed
-					cookie: this.http.getCookieString(url) || this.http.cookies[this.global.deviceSelected && this.global.deviceSelected.boxId]
+					cookie: cookie
 				},
 				params: {
 					offset: fileTask.loaded || 0,
