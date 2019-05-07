@@ -426,6 +426,7 @@ class SingleFileDownloader {
             cache.option = option;
             return FileDownloader.getUnfinishedFileSizeIfExist(this.file, cache.filepath, cache.filename)
             .then((unfinishedfile)=>{
+                console.log("downloader getUnfinishedFileSizeIfExist success:" + JSON.stringify(unfinishedfile));
                 cache.totalsize = unfinishedfile.totalsize;
                 cache.downloadsize = unfinishedfile.downloadsize;
             });

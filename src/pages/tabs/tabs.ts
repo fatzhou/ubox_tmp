@@ -112,7 +112,7 @@ export class TabsPage {
         //     }
         // }
 
-        events.subscribe('update-box', () => {
+        this.events.subscribe('update-box', () => {
             GlobalService.consoleLog('提示用户升级box');
             return this.checkUpdate.updateRom({
                 dialog: false
@@ -156,7 +156,7 @@ export class TabsPage {
         })
 
         //外部要求升级app
-        events.subscribe('update-app', () => {
+        this.events.subscribe('update-app', () => {
             GlobalService.consoleLog('提示用户升级app');
             this.version = this.appVersionDescription.version;
             this.toVersion = this.appVersionDescription.version;
@@ -169,8 +169,17 @@ export class TabsPage {
 
             GlobalService.DownloadPath['android'] = this.appVersionDescription.downloadUrl;
         })
+        //外部通知获取钱包列表 
+        this.events.subscribe('get-wallet', () => {
+            this.util.getWalletList()
+            .catch(e => {
+                console.log(e);
+            })
+        })
+        
         //触发检查更新
-        events.subscribe('check-box-app', () => {
+        
+        this.events.subscribe('check-box-app', () => {
             console.log('准备检查固件升级');
             this.getVersionControl()
             .then((res) => {
@@ -183,10 +192,10 @@ export class TabsPage {
             })
         })
         //接收home传过来的关闭设备网络状态的事件
-        events.subscribe('open-popup', ()=>{
+        this.events.subscribe('open-popup', ()=>{
             this.showPopup(true);
         })
-        events.subscribe('open-bind-box', (res) => {
+        this.events.subscribe('open-bind-box', (res) => {
             this.isCloseBindBox = res;
         })
         //外部要求切换页面
@@ -253,7 +262,10 @@ export class TabsPage {
             }
         });
     }
-
+    ngOnDestory() {
+        this.events.unsubscribe('get-wallet');
+        this.events.unsubscribe('check-box-app');
+    }
     updateBoxIndeed() {
         GlobalService.consoleLog("开始升级盒子....");
         this.isClose = false;
@@ -335,13 +347,15 @@ export class TabsPage {
             }
         }
     }
-
+    
     ionViewDidLoad() {
-		GlobalService.consoleLog('x...');
-		this.util.getWalletList()
-		.catch(e => {
-			console.log(e);
-		})
+        GlobalService.consoleLog('x...');
+        if(this.global.deviceSelected) {
+            this.util.getWalletList()
+            .catch(e => {
+                console.log(e);
+            })
+        }
 		//获取汇率
 		this.util.getDisplayRate();
         //初始化connection组件

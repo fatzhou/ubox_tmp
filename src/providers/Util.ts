@@ -377,6 +377,7 @@ export class Util {
                         this.events.publish('list:refresh');
                         console.log("["+logid+"]" + "获取盒子状态成功，check-box-app");
                         this.events.publish('check-box-app');
+                        this.events.publish('get-wallet');
                     })
                     .catch(() => {
                         console.log("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
