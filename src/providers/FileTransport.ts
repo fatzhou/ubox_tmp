@@ -283,7 +283,7 @@ export class FileTransport {
 			url,
 			{
 				headers: {
-					cookie: this.http.getCookieString(url)
+					cookie: this.http.getCookieString(url) || this.http.cookies[this.global.deviceSelected && this.global.deviceSelected.boxId]
 					// add custom headers if needed
 				},
 				chunkedMode: true,
@@ -868,7 +868,7 @@ export class FileTransport {
             let fileTransfer = new FileTransfer(url, fileURL, {
 				headers: {
 					// add custom headers if needed
-					cookie: this.http.getCookieString(url)
+					cookie: this.http.getCookieString(url) || this.http.cookies[this.global.deviceSelected && this.global.deviceSelected.boxId]
 				},
 				params: {
 					offset: fileTask.loaded || 0,
