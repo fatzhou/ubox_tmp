@@ -459,6 +459,15 @@ export class Util {
         })
     }
 
+    switchNetwork(target){
+        switch(target){
+            case "remote":
+                break;
+            case "local":
+                break;
+        }
+    }
+
     _checkRemoteBoxAvailable(boxId) {
         let url = GlobalService.centerApi["getBoxList"].url;
         let errorCallback = () => {
