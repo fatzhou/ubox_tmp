@@ -18,7 +18,7 @@
 		<form class="register-form" action=""  autocomplete="off">
 			<div class="form-input">
                 <p class="label-title">{{global.L("MyWalletName")}}</p>
-				<input type="text" [(ngModel)]="walletname" name="walletname" class="common-input normal-input" placeholder="Ubbey Box {{global.L('NewWalletName')}}">
+				<input type="text" [(ngModel)]="walletname" name="walletname" class="common-input normal-input" placeholder="{{global.L('NewWalletName')}}">
 				<p class="error-input" *ngIf="uError">{{ uErrorText }}</p>
 			</div>
 			<div class="form-input">

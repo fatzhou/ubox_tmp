@@ -53,7 +53,10 @@ export class BtTaskPage {
     }
     changeIndex(index) {
         this.tabIndex = index;
-    }
+	}
+	closeTaskOptions() {
+		this.isShowOptions = false;
+	}
     getTaskList() {
         var url = this.global.getBoxApi("getBtTaskList");
         this.http.post(url, {})

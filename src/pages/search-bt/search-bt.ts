@@ -90,7 +90,7 @@ export class SearchBtPage {
         this.loading = true;
         var url = GlobalService.centerApi["getSearchList"].url;
         let keyword = key || this.inputValue;
-        this.inputValue = keyword.replace(/\s+/g,"");
+        this.inputValue = keyword.replace(/^\s+|\s+$/g, "");
         if(this.inputValue == '') {
             return false;
         }
@@ -98,7 +98,6 @@ export class SearchBtPage {
             this.searchKeyList.splice(this.searchKeyList.indexOf(this.inputValue), 1);
         }
         this.searchKeyList.unshift(this.inputValue);
-        console.log(JSON.stringify(this.searchKeyList));
         if(this.searchKeyList.length > 10) {
             this.searchKeyList = this.searchKeyList.slice(0,10);
         }

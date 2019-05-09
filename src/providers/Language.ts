@@ -837,7 +837,7 @@ export class Lang {
     };
     static NewWalletName = {
         cn: "钱包名称",
-        en: "Wallet Name",
+        en: "Ubbey Wallet Name",
         kr: "지갑 이름"
     };
     static SetPayPassword = {

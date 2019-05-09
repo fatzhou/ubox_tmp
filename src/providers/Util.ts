@@ -32,6 +32,8 @@ declare var fileOpener2;
 
 @Injectable()
 export class Util {
+	searchUbbeyDoingCount = 0;
+
     constructor(
         // private transfer: FileTransport,
         private events: Events,
@@ -840,8 +842,7 @@ export class Util {
 			})
         })
     }
-
-    searchUbbeyDoingCount = 0;
+	
     searchUbbey(imediate = false, fastSearchBoxid = "") {
 		let start = Date.now();
         let logid = Date.now();

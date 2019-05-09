@@ -482,8 +482,10 @@ export class ListPage {
             if (res.err_no === 0) {
                 var list = [];
                 var index = 0;
-                this.type0List = [];
-                this.type1List = [];
+                // this.type0List = [];
+				// this.type1List = [];
+				let type0List = [],
+					type1List = [];
                 console.log('列表清空了');
                 if (res.list && res.list.length > 0) {
                     res.list.filter((item) => {
@@ -502,12 +504,14 @@ export class ListPage {
 							index: index++
 						};
                         if(item.type == 1) {
-                            this.type0List.push(file);
+                            type0List.push(file);
                         } else {
-                            this.type1List.push(file);
+                            type1List.push(file);
                         }
                     });
-                    list = this.type0List.concat(this.type1List);
+					list = type0List.concat(type1List);
+					this.type0List = type0List;
+					this.type1List = type1List;
                 }
                 console.log('列表填充后type0List' + JSON.stringify(this.type0List) + '   列表填充后typeList' + JSON.stringify(this.type1List));
                 this.allFileList = list;

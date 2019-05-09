@@ -85,7 +85,7 @@
         </div>  
     </div>
     <div class="download-btn-box">
-        <div class="download-btn" (click)="downloadBt()">{{ global.L("Download") }}</div>
+        <button class="download-btn" [disabled]="!!status" (click)="downloadBt()">{{ global.L("Download") }}</button>
     </div>
     
    

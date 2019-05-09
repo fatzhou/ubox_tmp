@@ -86,7 +86,7 @@
                             <use xlink:href="#iconshousuoicon"></use>
                         </svg>
                     </p>
-                    <ul class="file-list" *ngIf="dataAcquired &&type0List.length > 0"  [ngClass]="isShowType0List?'show-list':'hide-list'" (press)="showAllBtns()">
+                    <ul class="file-list" [ngClass]="isShowType0List?'show-list':'hide-list'" (press)="showAllBtns()">
                         <li class="file-list-item" *ngIf="isMainDisk && currPath == '/' && global.albumBackupSwitch"  (tap)="goCopyFolder(copyPhotoInfo);">
                             <div class="file-type folder"></div>
                             <div class="info">
@@ -138,7 +138,9 @@
                                     <use xlink:href="#icongouxuan"></use>
                                 </svg>
                             </div>
-                        </li>
+						</li>
+						<!-- </ion-virtual-scroll> -->
+						<!-- </ion-list> -->
                     </ul>
                     <div class="blank-height-50" *ngIf="dataAcquired && type0List.length > 0 && type1List.length > 0 &&  allBtnsShow"></div>
                     <div class="no-file" *ngIf="type0List.length === 0 && type1List.length === 0">
@@ -148,7 +150,9 @@
                 <!-- </div> -->
             </div>
         </div>
-    </div>
+	</div>
+	
+
 </ion-content>
 
 <permission *ngIf="isShowBox"></permission>
