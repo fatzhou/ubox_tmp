@@ -213,10 +213,24 @@ class SingleFileDownloader {
     // @return Promise<any>
     ///////////////////////////////////////
     download() {
+        //Case 1: 循环还在, 但是整个流程已经终止，等待500ms后重试
+        if(!this.timer && (this.isPause || this.isAbort) ){
+            GlobalService.consoleLog("循环还在, 但是整个流程已经终止，等待500ms后重试");
+            setTimeout(()=>{this.download();}, 500);
+            return;
+        }
+
+        //Case 2: 循环还在, 但是下载流程还在进行中，直接忽略
+        else if(this.timer){
+            GlobalService.consoleLog("循环还在, 但是下载流程还在进行中，直接忽略");
+            return;
+        }
+
+        //Case 3: 正常开始下载逻辑 ///////////
         let desturi = this.desturi;
         let sourceurl = this.sourceurl;
         let option = this.option;
-        console.log("filedownload download desturi" + desturi + "   sourceurl   " + sourceurl);
+        GlobalService.consoleLog("filedownload download desturi" + desturi + "   sourceurl   " + sourceurl);
         //Step 1. init cache
         let self = this;
         this.setDownloadBlockSize();
@@ -242,12 +256,18 @@ class SingleFileDownloader {
 
             //Step 3. loop for download
             .then(() => {
+                if (self.timer){
+                    clearTimeout(self.timer);
+                    self.timer = null;
+                }
+                this.isPause = false;
+                this.isAbort = false;
                 self.cache.status = "LOOP";
                 // GlobalService.consoleLog("开始循环下载文件。。。");
                 self._progress("");
                 self.timer = setTimeout(() => {
                     self._loopdownload();
-                }, 200);
+                }, 0);
                 return;
             })
 
@@ -276,26 +296,31 @@ class SingleFileDownloader {
     // @return undefined
     ///////////////////////////////////////
     resume() {
-        if (this.isPause) {
-            this.setDownloadBlockSize();
-            this.cache.status = "LOOP";
-            this.isPause = false;
-			this.isAbort = false;
-			new Promise((resolve, reject) => {
-				if(this.cache.totalsize) {
-					resolve(this.cache.totalsize);
-				} else {
-					this._getfilesize()
-					.then(res => {
-						this.cache.totalsize = res.totalsize;
-					})
-				}
-			});
-            this.timer = setTimeout(()=>{
-              this._loopdownload();
-            }, 100);
+        if(!this.isPause && !this.isAbort && this.cache.status == "LOOP" && this.timer){
+            GlobalService.consoleLog("下载已启动，不用重新启动");
+        }
+        /////// 老逻辑 ////////////////
+        else if(!!false){//this.isPause){
+            // this.setDownloadBlockSize();
+            // this.cache.status = "LOOP";
+            // this.isPause = false;
+            // this.isAbort = false;
+            // new Promise((resolve, reject) => {
+            //     if(this.cache.totalsize) {
+            //         resolve(this.cache.totalsize);
+            //     } else {
+            //         this._getfilesize()
+            //             .then(res => {
+            //                 this.cache.totalsize = res.totalsize;
+            //             })
+            //     }
+            // }).then(()=>{
+            //     this.timer = setTimeout(()=>{
+            //         this._loopdownload();
+            //     }, 0);
+            // });
         } else {
-            GlobalService.consoleLog("不在暂停状态，按照下载流程启动");
+            GlobalService.consoleLog("恢复文件下载,按照下载流程启动");
             this.download();
         }
     }
@@ -324,15 +349,15 @@ class SingleFileDownloader {
         // GlobalService.consoleLog("循环:" + JSON.stringify(cache));
         //下载已完成
         if (cache.status == "DONE") {
-            // GlobalService.consoleLog("循环：下载完成取消循环");
-            clearInterval(self.timer);
+            GlobalService.consoleLog("循环：下载完成取消循环");
+            clearTimeout(self.timer);
             self.timer = null;
             self._progress("DONE");
         }
         //循环已取消
         else if (self.isAbort || self.isPause) {
-            // GlobalService.consoleLog("循环：取消或暂停循环");
-            clearInterval(self.timer);
+            GlobalService.consoleLog("循环：取消或暂停循环");
+            clearTimeout(self.timer);
             self.timer = null;
             cache.status = self.isAbort ? "ABORT" : "PAUSE";
             self._progress(cache.status);
@@ -362,7 +387,7 @@ class SingleFileDownloader {
                             err_msg: err
                         });
                     } else if (cache.totalsize > downloadsize) {
-                        // GlobalService.consoleLog("循环：单块下载后大小不够，继续下载");
+                        //GlobalService.consoleLog("循环：单块下载后大小不够，继续下载");
                         cache.downloadsize = downloadsize;
                         cache.status = "LOOP";
                         self.nRetry=0;
@@ -371,7 +396,7 @@ class SingleFileDownloader {
                         self._progress("");
                     } else {
                         cache.downloadsize = cache.totalsize;
-                        // GlobalService.consoleLog("循环：单块下载后，下载完成(" + downloadsize + "/" + cache.totalsize + ")");
+                        GlobalService.consoleLog("循环：单块下载后，下载完成(" + downloadsize + "/" + cache.totalsize + ")");
 						cache.status = "DONE";
 						self.success({
 							complete: 1,
@@ -386,9 +411,9 @@ class SingleFileDownloader {
                 })
                 //获取单块失败
                 .catch((error) => {
-                    // GlobalService.consoleLog("循环：获取单块失败");
+                    GlobalService.consoleLog("循环：获取单块失败");
+                    //self.isAbort = true;
                     cache.status = "ERROR";
-                    self.isAbort = true;
                     self.failure({
                         err_no: -9999,
                         err_msg: ""

@@ -109,7 +109,8 @@ page-device-search {
                     max-width: 50%;
                 }
                 .device-info {
-                    font-size: 14px;
+					font-size: 12px;
+					line-height: 1.5;
 					color: $newFiveColor;
 					white-space: nowrap;
 					overflow: hidden;

@@ -37,6 +37,8 @@ resources/android
 resources/ios
 $RECYCLE.BIN/
 
+config.xml
+
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate

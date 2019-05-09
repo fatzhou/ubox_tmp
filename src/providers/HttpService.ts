@@ -1708,7 +1708,7 @@ export class HttpService {
 		}
 
 		GlobalService.consoleLog("发出WEBRTC post请求," + "session:" + sessionId + ", url:" + _url);
-		GlobalService.consoleLog("请求参数:" + logbody);
+		GlobalService.consoleLog("请求参数:" + logbody.toString().slice(0, 256) + "..." + logbody.toString().slice(-64));
 		GlobalService.consoleLog("cookie:" + this.getCookieString(url));
 		headers['request-session'] = sessionId;
 		headers['cookie'] = this.getCookieString(url);
