@@ -777,3 +777,11 @@ ion-infinite-scroll {
 //     background-size: cover;
 //     background-repeat: no-repeat;              
 // } 
+.back-button-icon {
+    background: url(../assets/img/fanhui.png) center center no-repeat;
+    background-color: transparent;
+    background-size: 20px auto;
+}
+.back-button-icon::before {
+    content: '';
+}

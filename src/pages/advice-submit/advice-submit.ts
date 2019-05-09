@@ -131,11 +131,11 @@ export class AdviceSubmitPage {
                         start_timestamp: now - 24 * 3600 * 1000,
                         end_timestamp: now
                     })         
-                    .then(res => {
-                        if(res.err_no === 0) {
+                    .then(data => {
+                        if(data.err_no === 0) {
                             return 0;
                         } else {
-                            return res.err_no;
+                            return data.err_no;
                         }
                     })           
                 } else {

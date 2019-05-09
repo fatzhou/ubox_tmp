@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { BtDetailPage } from '../bt-detail/bt-detail';
 import { Lang } from '../../providers/Language';
@@ -19,6 +19,7 @@ import { Util } from '../../providers/Util';
   templateUrl: 'search-bt.html',
 })
 export class SearchBtPage {
+    @ViewChild('input0') myInput0;
     searchFeedList: any = [];
     searchKeyList: any = [];
     inputValue: string = '';
@@ -37,6 +38,9 @@ export class SearchBtPage {
     ionViewDidLoad() {
         console.log('ionViewDidLoad SearchBtPage');
         this.getSearchKey();
+        setTimeout(() => {
+			this.myInput0.nativeElement.focus();
+		}, 2000)
     }
 
     ionViewWillLeave() {

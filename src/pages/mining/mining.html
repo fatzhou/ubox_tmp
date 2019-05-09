@@ -48,7 +48,11 @@
 	</div>
 
 	<div class="page-content">
-
+		<div class="slide-more">
+			<div class="slide-more-wrapper" (click)="goMiningList()">
+				{{ global.L("SeeMoreMining") }}
+			</div>
+		</div>
 		<div class="main-area">
 			<ul class="info-list">
 				<li class="info-li fl">
@@ -100,10 +104,6 @@
 			</ul>
 		</div>
 
-		<div class="slide-more">
-			<div class="slide-more-wrapper" (click)="goMiningList()">
-				{{ global.L("SeeMoreMining") }}
-			</div>
-		</div>
+		
 	</div>
 </ion-content>

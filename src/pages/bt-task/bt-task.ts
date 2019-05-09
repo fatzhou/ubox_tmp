@@ -36,6 +36,7 @@ export class BtTaskPage {
     }
     ionViewDidEnter() {
         console.log('ionViewDidEnter BtTaskPage');
+        this.global.tabIndex = 1;
         this.getTaskList();
         // this.setIntervalTaskList = setInterval(() => {
         //     this.getTaskList()

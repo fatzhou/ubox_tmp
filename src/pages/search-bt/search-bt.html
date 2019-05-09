@@ -12,12 +12,11 @@
                     <use xlink:href="#iconfanhui"></use>
                 </svg>
                 <div class="input-box">
-                    <input type="text" autocomplete="off" autofocus [(ngModel)]="inputValue" (focus)="isFocus = true" (blur)="isFocus = false"  (keyup.enter)="isShowLoad = true;searchList(inputValue, true);" class="common-general-button bt-input">
+                    <input type="text" autocomplete="off" #input0 [(ngModel)]="inputValue" (focus)="isFocus = true" (blur)="isFocus = false"  (keyup.enter)="isShowLoad = true;searchList(inputValue, true);" class="common-general-button bt-input">
                     <svg class="icon icon-ellipsis icon-clear" *ngIf="inputValue !='' && isFocus" (click)="clearKey()" aria-hidden="true">
                         <use xlink:href="#iconClear1"></use>
                     </svg>
                 </div>
-                
             </div>
         </div>
         <div class="search-hirtory" *ngIf="searchFeedList.length == 0">

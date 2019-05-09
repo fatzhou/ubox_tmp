@@ -109,7 +109,7 @@ export class ListPage {
 		this.onTaskFailure = this.onTaskFailure.bind(this);
 
 		// ListPage._this = this;
-        this.events.subscribe('file:updated', this.updateFilesEvent);
+        // this.events.subscribe('file:updated', this.updateFilesEvent);
         this.events.subscribe('image:move', this.moveFilesEvent);
 		this.events.subscribe('list:change', this.moveChangeList);
 		this.events.subscribe('connection:change', this.connectionChangeCallback);
@@ -150,7 +150,7 @@ export class ListPage {
 	}
 
 	ngOnDestory() {
-        this.events.unsubscribe('file:updated', this.updateFilesEvent);
+        // this.events.unsubscribe('file:updated', this.updateFilesEvent);
         this.events.unsubscribe('image:move', this.moveFilesEvent);
 		this.events.unsubscribe('list:change', this.moveChangeList);
 		this.events.unsubscribe('connection:change', this.connectionChangeCallback);
@@ -247,12 +247,18 @@ export class ListPage {
 
 		this.initPage();
 		this.events.unsubscribe(this.currPath + ":succeed");
-		this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
+		this.events.subscribe(this.currPath + ':succeed', this.listUploadFiles.bind(this));
 
         this.currDiskUuid = this.global.currDiskUuid;
         this.listFiles();
 		GlobalService.consoleLog("this.currPath" + this.currPath);
 		return true;
+    }
+
+    listUploadFiles(task:any = null) {
+        if(!task  ||  this.currDiskUuid == task.diskUuid) {
+            this.listFiles();
+        } 
     }
 
     refreshFilesEvent() {

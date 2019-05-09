@@ -225,6 +225,8 @@ export class FileTransport {
 						task.finishedTime = new Date().getTime();
 						this.fileUploader.clearUploaderTask(task.fileId);
 						this.events.publish('file:updated', task);
+						let currPath = task.path.replace(/\/[^\/]+$/g, '');
+						this.events.publish(currPath + ":succeed", task);
 						if (this.global.fileHandler[taskId]) {
 							delete this.global.fileHandler[taskId];
 						}
