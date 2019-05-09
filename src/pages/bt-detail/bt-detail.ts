@@ -97,7 +97,8 @@ export class BtDetailPage {
 					} else {
 						language = GlobalService.applang;
 					}
-					if (this.type == 'feed') {
+					let testFeedId = /[c]$/;
+					if (this.type == 'feed' || testFeedId.test(this.detailId)) {
 						this.detailDesc = JSON.parse(res.describe)[language].describe;
 					} else {
 						this.detailDesc = res.describe;

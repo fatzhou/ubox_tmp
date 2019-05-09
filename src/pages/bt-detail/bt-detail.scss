@@ -161,6 +161,10 @@ page-bt-detail {
                     width: 73%;
                     float: right;
                     text-align: left;
+                    &.has-span {
+                        line-height: 18px;
+                        padding-top: 4px;
+                    }
                 }
             }
         }
@@ -184,13 +188,14 @@ page-bt-detail {
             }
             .desc-box {
                 width: 100%;
-                max-height: 200px;
+                max-height: 88px;
                 overflow: hidden;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
                 -webkit-line-clamp: 5;
                 -webkit-box-orient: vertical;
+                line-height: 22px;
                 &.show-more {
                     max-height: unset;
                     -webkit-line-clamp: unset;

@@ -49,7 +49,7 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="item.isDelete" class="delete-btn" (click)="deleteTask(item)">{{ global.L("Delete") }}</div>
+                <div *ngIf="item.isDelete" class="delete-btn"><span (click)="deleteTask(item)">{{ global.L("Delete") }}</span></div>
             </li>
         </ul>
         <ul class="task-list"  *ngIf="tabIndex == 1">

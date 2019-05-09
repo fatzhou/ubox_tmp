@@ -47,7 +47,7 @@
                     <p *ngIf="fileType != ''">{{ global.L("FileType") }}<span>{{ fileType }}</span></p>
                     <p *ngIf="file_number != ''">{{ global.L("FileNumber") }}<span>{{ file_number }}</span></p>
                     <p *ngIf="btNum != ''">{{ global.L("BTNumber") }}<span>{{ btNum }}</span></p>
-                    <p *ngIf="hash != ''">{{ global.L("FileHash") }}<span>{{ hash }}</span></p>
+                    <p *ngIf="hash != ''">{{ global.L("FileHash") }}<span class="has-span">{{ hash }}</span></p>
                 </div>
                 <p class="second-title" *ngIf="detailDesc != ''">{{ global.L("FileDescription") }}</p>
                 <div class="detail-des" *ngIf="detailDesc != ''">

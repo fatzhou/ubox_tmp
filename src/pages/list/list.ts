@@ -113,8 +113,8 @@ export class ListPage {
         this.events.subscribe('image:move', this.moveFilesEvent);
 		this.events.subscribe('list:change', this.moveChangeList);
 		this.events.subscribe('connection:change', this.connectionChangeCallback);
-        events.subscribe('upload:failure', this.onTaskFailure); 
-        events.subscribe('download:failure', this.onTaskFailure); 
+        events.subscribe('upload:failure', this.onTaskFailure);
+        events.subscribe('download:failure', this.onTaskFailure);
 
         console.log("List constructor...")
         events.subscribe('close:box', (res) => {
@@ -153,7 +153,7 @@ export class ListPage {
         this.events.unsubscribe('file:updated', this.updateFilesEvent);
         this.events.unsubscribe('image:move', this.moveFilesEvent);
 		this.events.unsubscribe('list:change', this.moveChangeList);
-		this.events.unsubscribe('connection:change', this.connectionChangeCallback);		
+		this.events.unsubscribe('connection:change', this.connectionChangeCallback);
 	}
 
     ionViewWillEnter() {
@@ -174,7 +174,7 @@ export class ListPage {
 				}, () => {
 					this.isShowBox = true; //true
 				})
-			}			
+			}
 		}
 
         this.global.currPath = this.currPath;
@@ -208,7 +208,7 @@ export class ListPage {
             thumbnail: "",
             index: 0,
             copyPath:'main'
-        }
+        };
         return true;
 	}
 
@@ -218,20 +218,17 @@ export class ListPage {
 	}
 
     initDiskInfo() {
-        // this.zone.run(() => {
-            this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/');
-            if(this.global.diskInfo.disks) {
-                this.disks = this.global.diskInfo.disks.filter(item => {
-                    return item.position != 'base';
-                    // return item
-				});
-				try {
-					this.cd.detectChanges();
-				} catch(e) {
-					console.log("List initDiskInfo dectchanges:" + e.message);
-				}
-            }        
-        // })
+        this.isShowPageTitle = !(this.isMainDisk && this.currPath == '/');
+        if(this.global.diskInfo.disks) {
+            this.disks = this.global.diskInfo.disks.filter(item => {
+                return item.position != 'base';
+            });
+            try {
+                this.cd.detectChanges();
+            } catch(e) {
+                console.log("List initDiskInfo dectchanges:" + e.message);
+            }
+        }
     }
     ionViewDidLeave() {
         // this.hideAddBtn = true;
@@ -247,41 +244,13 @@ export class ListPage {
 
     ionViewDidLoad() {
 		GlobalService.consoleLog('ionViewDidLoad ListPage');
-        
+
 		this.initPage();
 		this.events.unsubscribe(this.currPath + ":succeed");
 		this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
 
         this.currDiskUuid = this.global.currDiskUuid;
-        if(this.util.isDiskInfoReady()) {
-            // diskInfo已经初始化，直接展示
-            this.listFiles();
-        }else{
-            // diskInfo没有初始化，猜测是盒子暂未连接，故尝试从缓存拿数据
-            this.util.getDiskStatus()
-            //  获取磁盘数据正常
-            .then((res:any)=>{
-                if(!res){
-                    return Promise.reject(null);
-                }
-                console.log('从[' + res.iscached ? '缓存' : '网络' +']拿数据成功：this.global.currDiskUuid' + this.global.currDiskUuid);
-                this.listFiles();
-            })
-            //  获取磁盘数据异常
-            .catch((res)=>{
-                console.log('从[缓存&网络]拿数据失败:' + JSON.stringify(res));
-                GlobalService.consoleLog("从网络及缓存拿数据都失败，500ms后判断是否直接跳入feed流页面做最后补救");
-                setTimeout(()=>{
-                    if (this.util.isDiskInfoReady()){
-                        GlobalService.consoleLog("等待500ms过程中，磁盘信息已就绪，不需跳入feed流页面做最后补救");
-                        this.listFiles();
-                    }else{
-                        GlobalService.consoleLog("等待500ms之后，磁盘信息还未就绪，需要跳入feed流页面做最后补救");
-                        this.tabsController.slideTo(1, "boxtabs");
-                    }
-                },500);
-            })
-        }
+        this.listFiles();
 		GlobalService.consoleLog("this.currPath" + this.currPath);
 		return true;
     }
@@ -432,11 +401,68 @@ export class ListPage {
         GlobalService.consoleLog("按钮显示状态：" + this.allBtnsShow);
     }
 
-    listFiles() {
+    listFiles(){
+        if(this.util.isDiskInfoReady()) {
+            //Case 1: diskInfo已经初始化，直接展示
+            GlobalService.consoleLog("diskInfo已经初始化，可以加载列表数据...");
+            this._listFiles();
+        }else{
+            //Case 2:  diskInfo没有初始化，猜测是盒子暂未连接，故尝试从缓存拿数据
+            GlobalService.consoleLog("diskInfo没有初始化，猜测是盒子暂未连接，故先尝试从缓存拿数据...");
+            ///// Step 1. 获取磁盘信息
+            this.util.getDiskStatus()
+            ///// Step 2. 获取磁盘信息成功
+            .then((res:any)=>{
+                this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
+                this.currDiskUuid = this.global.currDiskUuid;
+                if(!res){
+                    return Promise.reject(null);
+                }
+                let resSrc = res.iscached ? '缓存' : '网络';
+                GlobalService.consoleLog(`从[${resSrc}]拿diskInfo成功,可以加载列表数据... currDiskUuid=${this.global.currDiskUuid}`);
+                this._listFiles();
+            })
+            ///// Step 3. 获取磁盘数据异常
+            .catch((res)=>{
+                GlobalService.consoleLog('从[缓存&网络]拿数据失败:' + JSON.stringify(res));
+                let solution = "TOFEED";
+                switch(solution){
+                case "TOFEED":
+                    GlobalService.consoleLog("从网络及缓存拿数据都失败，500ms后判断是否直接跳入feed流页面做最后补救");
+                    setTimeout(()=>{
+                        if (this.util.isDiskInfoReady()){
+                            GlobalService.consoleLog("等待500ms过程中，磁盘信息已就绪，不需跳入feed流页面做最后补救");
+                            this._listFiles();
+                        }else{
+                            GlobalService.consoleLog("等待500ms之后，磁盘信息还未就绪，需要跳入feed流页面做最后补救");
+                            this.tabsController.slideTo(1, "boxtabs");
+                        }
+                    },500);
+                    break;
+                case "RETRY":
+                    GlobalService.consoleLog("从网络及缓存拿数据都失败，500ms后判断是否直接跳入feed流页面做最后补救");
+                    setTimeout(()=>{
+                        if (this.util.isDiskInfoReady()){
+                            GlobalService.consoleLog("等待500ms过程中，磁盘信息已就绪，不需跳入feed流页面做最后补救");
+                            this._listFiles();
+                        }else{
+                            GlobalService.consoleLog("等待500ms之后，磁盘信息还未就绪，重试刷新列表");
+                            this.listFiles();
+                        }
+                    },500);
+                    break;
+                }
+            })
+        }
+    }
+
+    _listFiles() {
         // this.global.createGlobalLoading(this, {delayshowtime:500});
         GlobalService.consoleLog("开始加载列表数据...");
+
         var url = this.global.getBoxApi("listFolder");
-        console.log('请求参数this.currPath   ' + this.currPath + '请求参数this.currDiskUuid   ' + this.currDiskUuid)
+        this.currDiskUuid = this.currDiskUuid || this.global.currDiskUuid;
+        console.log('请求参数this.currPath=' + this.currPath + '请求参数this.currDiskUuid=' + this.currDiskUuid);
 		return this.http.postWithStorage(url, {
 			path: this.currPath,
 			disk_uuid: this.currDiskUuid
@@ -823,7 +849,7 @@ export class ListPage {
                 this.app.getRootNav().push(ListPage, {
                     type: "",
                     path: this.currPath.replace(/\/$/g, '') + "/" + file.name
-                });                
+                });
             } else if(file.fileStyle == 'image') {
                 let test = /(\.HEIC|\.webp)$/gi;
                 if(test.test(file.name)) {

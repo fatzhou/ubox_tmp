@@ -4460,7 +4460,7 @@ export class Lang {
     }
     static payUbbey = {
 		cn: "",
-		en: 'payUbbey',
+		en: 'Price',
 		kr: ''
     }
     

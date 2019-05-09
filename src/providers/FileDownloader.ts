@@ -213,10 +213,24 @@ class SingleFileDownloader {
     // @return Promise<any>
     ///////////////////////////////////////
     download() {
+        //Case 1: 循环还在, 但是整个流程已经终止，等待500ms后重试
+        if(!this.timer && (this.isPause || this.isAbort) ){
+            GlobalService.consoleLog("循环还在, 但是整个流程已经终止，等待500ms后重试");
+            setTimeout(()=>{this.download();}, 500);
+            return;
+        }
+
+        //Case 2: 循环还在, 但是下载流程还在进行中，直接忽略
+        else if(this.timer){
+            GlobalService.consoleLog("循环还在, 但是下载流程还在进行中，直接忽略");
+            return;
+        }
+
+        //Case 3: 正常开始下载逻辑 ///////////
         let desturi = this.desturi;
         let sourceurl = this.sourceurl;
         let option = this.option;
-        console.log("filedownload download desturi" + desturi + "   sourceurl   " + sourceurl);
+        GlobalService.consoleLog("filedownload download desturi" + desturi + "   sourceurl   " + sourceurl);
         //Step 1. init cache
         let self = this;
         this.setDownloadBlockSize();
@@ -282,7 +296,7 @@ class SingleFileDownloader {
     // @return undefined
     ///////////////////////////////////////
     resume() {
-        if(!this.isPause && this.isAbort && this.cache.status == "LOOP" && this.timer){
+        if(!this.isPause && !this.isAbort && this.cache.status == "LOOP" && this.timer){
             GlobalService.consoleLog("下载已启动，不用重新启动");
         }
         /////// 老逻辑 ////////////////
