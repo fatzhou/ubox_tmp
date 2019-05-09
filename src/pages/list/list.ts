@@ -250,35 +250,7 @@ export class ListPage {
 		this.events.subscribe(this.currPath + ':succeed', this.listFiles.bind(this));
 
         this.currDiskUuid = this.global.currDiskUuid;
-        if(this.util.isDiskInfoReady()) {
-            // diskInfo已经初始化，直接展示
-            this.listFiles();
-        }else{
-            // diskInfo没有初始化，猜测是盒子暂未连接，故尝试从缓存拿数据
-            this.util.getDiskStatus()
-            //  获取磁盘数据正常
-            .then((res:any)=>{
-                if(!res){
-                    return Promise.reject(null);
-                }
-                console.log('从[' + res.iscached ? '缓存' : '网络' +']拿数据成功：this.global.currDiskUuid' + this.global.currDiskUuid);
-                this.listFiles();
-            })
-            //  获取磁盘数据异常
-            .catch((res)=>{
-                console.log('从[缓存&网络]拿数据失败:' + JSON.stringify(res));
-                GlobalService.consoleLog("从网络及缓存拿数据都失败，500ms后判断是否直接跳入feed流页面做最后补救");
-                setTimeout(()=>{
-                    if (this.util.isDiskInfoReady()){
-                        GlobalService.consoleLog("等待500ms过程中，磁盘信息已就绪，不需跳入feed流页面做最后补救");
-                        this.listFiles();
-                    }else{
-                        GlobalService.consoleLog("等待500ms之后，磁盘信息还未就绪，需要跳入feed流页面做最后补救");
-                        this.tabsController.slideTo(1, "boxtabs");
-                    }
-                },500);
-            })
-        }
+        this.listFiles();
 		GlobalService.consoleLog("this.currPath" + this.currPath);
 		return true;
     }
@@ -441,6 +413,8 @@ export class ListPage {
             this.util.getDiskStatus()
             ///// Step 2. 获取磁盘信息成功
             .then((res:any)=>{
+                this.isMainDisk = this.global.currDiskUuid == this.global.mainSelectDiskUuid;
+                this.currDiskUuid = this.global.currDiskUuid;
                 if(!res){
                     return Promise.reject(null);
                 }
