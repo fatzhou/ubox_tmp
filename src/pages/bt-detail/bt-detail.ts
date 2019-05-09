@@ -55,6 +55,7 @@ export class BtDetailPage {
 		// console.log('ionViewDidLoad BtDetailPage');
 		this.type = this.navParams.get("type");
 		this.detailId = this.navParams.get("id");
+		this.status = this.navParams.get('status');
 		this.getDetail();
 	}
 
@@ -194,6 +195,7 @@ export class BtDetailPage {
 		this.util.downloadBt(url, this.detailId)
 		.then(res => {
 			console.log("正在下载bt")
+			this.events.publish('btdownloading', this.detailId);
 		})
 	}
 

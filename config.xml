@@ -77,6 +77,9 @@
         <splash height="768" src="resources/ios/splash/Default-Landscape~ipad.png" width="1024" />
         <splash height="2732" src="resources/ios/splash/Default-Portrait@~ipadpro.png" width="2048" />
     </platform>
+    <preference name="Hostname" value="app.mobbi.it" />
+    <preference name="Scheme" value="https" />
+    <allow-navigation href="https://app.mobbi.it/*" />
     <preference name="orientation" value="portrait" />
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-minSdkVersion" value="16" />
@@ -140,6 +143,7 @@
     <plugin name="cordova-plugin-photo-library" spec="git+https://github.com/ubbey/cordova-plugin-photo-library.git">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
+    <plugin name="cordova-plugin-file-transfer" spec="git+https://github.com/ubbey/cordova-plugin-file-transfer.git" />
     <engine name="ios" spec="4.5.5" />
     <engine name="android" spec="6.3.0" />
 </widget>

@@ -20,6 +20,9 @@ page-register {
 		&::after {
 			border: unset;
 		}
+		&:active {
+			background: #F35530;
+		}
 	}
 
 }

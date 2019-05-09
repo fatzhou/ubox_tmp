@@ -127,65 +127,67 @@ export class VerifyEmailPage {
 			password: passwordMd5,
 			verifyCode: verifyCode
 		})
-			.then((res) => {
-				if (res.err_no === 0) {
-					GlobalService.consoleLog("重设密码成功，调用盒子重新设置密码");
+		.then((res) => {
+			if (res.err_no === 0) {
+				GlobalService.consoleLog("重设密码成功，调用盒子重新设置密码:" + this.global.userBoxIndex);
 
-					var boxInfo = this.global.foundDeviceList[this.global.userBoxIndex];
-					if (!boxInfo && this.bindbox) {
-						throw new Error(Lang.L('WORD612ce400'));
+				var boxInfo = this.global.foundDeviceList[this.global.userBoxIndex];
+				if (!boxInfo && this.bindbox) {
+					console.log("已绑定盒子但是没有找到盒子。。。");
+					throw new Error(Lang.L('WORD612ce400'));
+				} else {
+					// var url = "http://" + boxInfo.URLBase + GlobalService.boxApi["resetPasswd"].url;
+					if (this.bindbox) {
+						// if (!this.global.deviceSelected) {
+						// 	this.global.createGlobalToast(this, {
+						// 		message: Lang.L('WORDea9cca85')
+						// 	})
+						// 	return false;
+						// }
+						GlobalService.consoleLog("已绑定盒子，需向盒子发起请求");
+						// var url = this.global.getBoxApi("resetPasswd");
+						var url =  "http://" + boxInfo.URLBase + GlobalService.boxApi["resetPasswd"].url;
+						return this.http.post(url, {
+							username: this.username,
+							newpassword: passwordMd5,
+							captcha: verifyCode,
+							// signature: encodeURIComponent(res.credential),
+							signature: res.credential,
+						})
 					} else {
-						// var url = "http://" + boxInfo.URLBase + GlobalService.boxApi["resetPasswd"].url;
-						if (this.bindbox) {
-							if (!this.global.deviceSelected) {
-								this.global.createGlobalToast(this, {
-									message: Lang.L('WORDea9cca85')
-								})
-								return false;
-							}
-							GlobalService.consoleLog("已绑定盒子，需向盒子发起请求");
-							var url = this.global.getBoxApi("resetPasswd");
-							return this.http.post(url, {
-								username: this.username,
-								newpassword: passwordMd5,
-								captcha: verifyCode,
-								// signature: encodeURIComponent(res.credential),
-								signature: res.credential,
-							})
-						} else {
-							GlobalService.consoleLog("盒子未绑定账户，可以直接重设");
-							return new Promise((resolve, reject) => {
-								resolve({
-									err_no: 0
-								});
-							})
-						}
+						GlobalService.consoleLog("盒子未绑定账户，可以直接重设");
+						return new Promise((resolve, reject) => {
+							resolve({
+								err_no: 0
+							});
+						})
 					}
-				} else {
-					throw new Error(Lang.L('WORDe7824893'));
 				}
-			})
-			.then((res) => {
-				if (res.err_no === 0) {
-					GlobalService.consoleLog("盒子返回正确，即将调用中心确认");
-					return this.http.post(GlobalService.centerApi["resetPasswdConfirm"].url, {
-						uname: this.username,
-					})
-				} else {
-					throw new Error(Lang.L('WORDe672dfc3'));
-				}
-			})
-			.then((res) => {
-				if (res.err_no === 0) {
-					GlobalService.consoleLog("密码修改成功");
-					this.navCtrl.push(ResultPage, {
-						type: "resetPasswd"
-					});
-				}
-			})
-			.catch((res) => {
+			} else {
+				throw new Error(Lang.L('WORDe7824893'));
+			}
+		})
+		.then((res) => {
+			if (res.err_no === 0) {
+				GlobalService.consoleLog("盒子返回正确，即将调用中心确认");
+				return this.http.post(GlobalService.centerApi["resetPasswdConfirm"].url, {
+					uname: this.username,
+				})
+			} else {
+				throw new Error(Lang.L('WORDe672dfc3'));
+			}
+		})
+		.then((res) => {
+			if (res.err_no === 0) {
+				GlobalService.consoleLog("密码修改成功");
+				this.navCtrl.push(ResultPage, {
+					type: "resetPasswd"
+				});
+			}
+		})
+		.catch((res) => {
 
-			})
+		})
 	}
 
 	askUserLogin() {

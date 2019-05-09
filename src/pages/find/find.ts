@@ -52,6 +52,14 @@ export class FindPage {
 		private appsInstalled: AppsInstalled,
 		private menuCtrl: MenuController,
 		private app: App) {
+		
+		this.events.subscribe('btdownloading', (resid) => {
+			let item = this.feedList.find(item => item.resid == resid);
+			if(item) {
+				item.status = 1;
+			}
+		});
+
 	}
 
 	ionViewDidEnter() {
@@ -73,11 +81,12 @@ export class FindPage {
 		this.app.getRootNav().push(SearchBtPage);
 	}
 
-	goBtDetailPage(id) {
+	goBtDetailPage(item:any) {
 		console.log("go BtDetailPage");
 		this.app.getRootNav().push(BtDetailPage, {
 			type: 'feed',
-			id: id
+			id: item.resid,
+			status: item.status
 		});
 	}
 
@@ -245,10 +254,10 @@ export class FindPage {
 
 	downloadBt(item) {
 		console.log("download" + item.mgurl);
-		if (item.status && item.status == 1) {
-			return false;
-		}
-		item.status = 1;
+		// if (item.status && item.status == 1) {
+		// 	return false;
+		// }
+		// item.status = 1;
 		this.global.createGlobalAlert(this, {
 			title: Lang.L('DownloadFile'),
 			message: item.title,
@@ -257,11 +266,14 @@ export class FindPage {
 				{
 					text: Lang.L('Download'),
 					handler: data => {
-						let url = item.mgurl + '&dn=' + item.title;
-						this.util.downloadBt(url, item.resid)
-							.then(res => {
+						if(!item.status) {
+							let url = item.mgurl + '&dn=' + item.title;
+							this.util.downloadBt(url, item.resid)
+							.then((res:any) => {
 								console.log("正在下载bt")
-							});
+								item.status = 1;
+							});	
+						} 
 						return true;
 					}
 				},

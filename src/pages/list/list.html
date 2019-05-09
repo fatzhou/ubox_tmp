@@ -86,7 +86,7 @@
                             <use xlink:href="#iconshousuoicon"></use>
                         </svg>
                     </p>
-                    <ul class="file-list" [virtualScroll]="type0List" [ngClass]="isShowType0List?'show-list':'hide-list'" (press)="showAllBtns()">
+                    <ul class="file-list" [ngClass]="isShowType0List?'show-list':'hide-list'" (press)="showAllBtns()">
                         <li class="file-list-item" *ngIf="isMainDisk && currPath == '/' && global.albumBackupSwitch"  (tap)="goCopyFolder(copyPhotoInfo);">
                             <div class="file-type folder"></div>
                             <div class="info">
@@ -94,8 +94,8 @@
                                 <p>{{ copyPhotoInfo.displayTime }}</p>
                             </div>
                         </li>
-                        <li class="file-list-item" tappable *virtualItem="let info" (click)="goNextFolder(info);">
                         <!-- <li class="file-list-item" tappable *ngFor="let info of type0List" (click)="goNextFolder(info);"> -->
+                        <li class="file-list-item" tappable *ngFor="let info of type0List" (click)="goNextFolder(info);">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" (error)="handleError(info, $event)" onError="handleError(info, $event)" (ionImgDidLoad)="handleError(info, $event)" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
 							<div class="info">
@@ -122,10 +122,10 @@
                             <use xlink:href="#iconshousuoicon"></use>
                         </svg>
 					</p>
-                    <ul class="file-list" [virtualScroll]="type1List" approxItemHeight="72px" [ngClass]="isShowType1List?'show-list':'hide-list'" (press)="showAllBtns()">
+                    <ul class="file-list" approxItemHeight="72px" [ngClass]="isShowType1List?'show-list':'hide-list'" (press)="showAllBtns()">
 						<!-- <ion-list [virtualScroll]="type1List" approxItemHeight="72px"> -->
-						<!-- <li class="file-list-item" tappable *ngFor="let info of type1List" (click)="goNextFolder(info);"> -->
-						<li class="file-list-item" tappable *virtualItem="let info" (click)="goNextFolder(info);">
+						<li class="file-list-item" tappable *ngFor="let info of type1List" (click)="goNextFolder(info);">
+						<!-- <li class="file-list-item" tappable *virtualItem="let info" (click)="goNextFolder(info);"> -->
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" (error)="handleThumbnailError(info, $event)" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
                             <div class="info">
@@ -142,6 +142,7 @@
                                 </svg>
                             </div>
 						</li>
+						<!-- </ion-virtual-scroll> -->
 						<!-- </ion-list> -->
                     </ul>
                     <div class="blank-height-50" *ngIf="dataAcquired && type0List.length > 0 && type1List.length > 0 &&  allBtnsShow"></div>

@@ -74,16 +74,18 @@
     </div>
 </ion-content>
 
-<div class="task-options" *ngIf="isShowOptions">
-    <ul class="clear">      
-        <li tappable (click)="toggleAllTaskList('start')">
-            <p>{{ global.L("AllStart") }}</p>
-        </li>
-        <li tappable (click)="toggleAllTaskList('stop')">
-            <p>{{ global.L("AllStop") }}</p>
-        </li>
-        <li tappable (click)="goBtSetPage()">
-            <p>{{ global.L("DownloadSet") }}</p>
-        </li>
-    </ul>
+<div class="task-options" *ngIf="isShowOptions" (click)="closeTaskOptions()">
+	<div class="task-options-wrap">
+		<ul class="clear">      
+			<li tappable (click)="toggleAllTaskList('start')">
+				<p>{{ global.L("AllStart") }}</p>
+			</li>
+			<li tappable (click)="toggleAllTaskList('stop')">
+				<p>{{ global.L("AllStop") }}</p>
+			</li>
+			<li tappable (click)="goBtSetPage()">
+				<p>{{ global.L("DownloadSet") }}</p>
+			</li>
+		</ul>		
+	</div>
 </div>
