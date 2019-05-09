@@ -94,7 +94,7 @@
                                 <p>{{ copyPhotoInfo.displayTime }}</p>
                             </div>
                         </li>
-                        <li class="file-list-item" tappable *ngFor="let item of type0List" (click)="goNextFolder(info);">
+                        <li class="file-list-item" tappable *ngFor="let info of type0List" (click)="goNextFolder(info);">
                             <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)" [ngClass]="info.fileStyle"></div>
                             <img class="file-thumbnail"  [src]="info.thumbnail | photoSantizer" (error)="handleError(info, $event)" onError="handleError(info, $event)" (ionImgDidLoad)="handleError(info, $event)" *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
 							<div class="info">
