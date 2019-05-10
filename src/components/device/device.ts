@@ -60,7 +60,7 @@ export class DeviceComponent {
       if(this.global.deviceSelected) {
         this.goDevicePage.emit();
       } else {
-        // console.log("有设备未连接")
+        // GlobalService.consoleLog("有设备未连接")
       }
     } else {
       this.events.publish("open-bind-box", true);

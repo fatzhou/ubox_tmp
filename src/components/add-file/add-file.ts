@@ -92,7 +92,7 @@ export class AddFileComponent {
     //         correctOrientation: true,
     //         mediaType: mediaType[type]
     //     }
-    //     console.log("选择文件类型：" + type + "," + mediaType[type]);
+    //     GlobalService.consoleLog("选择文件类型：" + type + "," + mediaType[type]);
 
     //     camera.getPicture(cameraOptions)
     //     .then(file_uri => {
@@ -178,7 +178,7 @@ export class AddFileComponent {
     goSelectPage(type) {
         this.global.selectFolderType = 'upload';
         this.global.eventType = this.eventType;
-        // console.log('type' + type);
+        // GlobalService.consoleLog('type' + type);
         this.closeFileSelect.emit();
         let selectedName = '';
         selectedName = this.global.currPath == '/' ? Lang.L('DirAllFiles') : this.global.currPath.split('/')[this.global.currPath.split('/').length -1];

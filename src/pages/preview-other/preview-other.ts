@@ -86,7 +86,7 @@ export class PreviewOtherPage {
     }
 
     controlDownloadFile() {
-		console.log("开始执行controlDwonloadFile........")
+		GlobalService.consoleLog("开始执行controlDwonloadFile........")
         if(this.downloadStatus === 'finished') {
             GlobalService.consoleLog("已下载，直接打开")
             //已完成，直接打开
@@ -128,7 +128,7 @@ export class PreviewOtherPage {
 		}[this.fileInfo.fileStyle] || this.global.DocSubPath;
 		let localFullPath = this.global.fileSavePath + subFoldPath + '/' + this.fileInfo.name;
 		let remoteFullPath = this.currPath.replace(/\/$/g, '') + "/" + this.fileInfo.name;
-		console.log("开始下载文件........" + name)
+		GlobalService.consoleLog("开始下载文件........" + name)
 		this.transfer.downloadFile({
 			name: this.fileInfo.name,
 			fileStyle: this.fileInfo.fileStyle,
@@ -137,14 +137,14 @@ export class PreviewOtherPage {
 			total: this.fileInfo.size
 		})
 		.then(res => {
-			console.log("下载完成........")
+			GlobalService.consoleLog("下载完成........")
 		})	
 		var fileId = this.util.generateFileID(localFullPath, remoteFullPath, 'download');
-		console.log("本次fileId:" + fileId)
+		GlobalService.consoleLog("本次fileId:" + fileId)
 		this.task = this.global.fileTaskList.find(item => {
 			return item.fileId == fileId && item.action == 'download';
 		}) || {};
-		console.log("任务是否已经生成：" + JSON.stringify(this.task));
+		GlobalService.consoleLog("任务是否已经生成：" + JSON.stringify(this.task));
     }
 
     computeFinished() {
@@ -158,7 +158,7 @@ export class PreviewOtherPage {
 		if(this.task.finished) {
 			this.downloadStatus = 'finished';
 		}
-		console.log("下载进度：" + progress)
+		GlobalService.consoleLog("下载进度：" + progress)
 		return progress + '%';			
     }
 

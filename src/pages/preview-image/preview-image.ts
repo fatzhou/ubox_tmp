@@ -85,14 +85,14 @@ export class PreviewImagePage {
         this.count = this.navParams.get('count');
         this.isHasPath = this.fromType == 'list' ? false : true;
         this.index = this.navParams.get('index') || 0;
-        console.log('准备查看第'+this.index+'张图片');
+        GlobalService.consoleLog('准备查看第'+this.index+'张图片');
         // this.slides.slideTo(this.index);
         this.slides.initialSlide = this.index;
         this.getPhotoUrl(this.imageInfo);
     }
 
     getPhotoUrl(task) {
-		console.log("即将下载文件：" + JSON.stringify(task))
+		GlobalService.consoleLog("即将下载文件：" + JSON.stringify(task))
         this.transfer.getFileLocalOrRemote(task.path, task.name, this.global.fileSavePath + this.global.PhotoSubPath + "/", task.name, this.global.PhotoSubPath)
         .then(res => {
 			if(res) {
@@ -136,7 +136,7 @@ export class PreviewImagePage {
         //             remotePath = task.path;
         //         }
         //         remotePath = remotePath.replace(/\/$/,'') + '/' + task.name;
-        //         console.log('下载地址'  + remotePath);
+        //         GlobalService.consoleLog('下载地址'  + remotePath);
         //         let downloadTool = this.fileDownloader.createDownloader(localPath, remotePath);
         //         downloadTool.download(localPath, remotePath)
         //         .catch(err => {
@@ -147,7 +147,7 @@ export class PreviewImagePage {
         //         GlobalService.consoleLog("本地预览图片的fileId:" + fileId);
         //         this.fileDownloader.onProgress(fileId, (res)=>{
         //             if(res.totalsize === res.downloadsize) {
-        //                 console.log("文件下载完成......");
+        //                 GlobalService.consoleLog("文件下载完成......");
         //                 task.thumbnail = localPath;
         //                 this.global.closeGlobalLoading(this);
         //             }
@@ -221,7 +221,7 @@ export class PreviewImagePage {
                         }
                         
                     })
-                    console.log('list.length' + list.length)
+                    GlobalService.consoleLog('list.length' + list.length)
                 }
                 
                 this.count = res.count;
@@ -248,7 +248,7 @@ export class PreviewImagePage {
 
     slideChanged() {
         let currentIndex = this.slides.getActiveIndex();
-		console.log('Current index is' + currentIndex);
+		GlobalService.consoleLog('Current index is' + currentIndex);
 		if(currentIndex == this.imageInfo.index) {
 			//正在下载中....
 			return false;

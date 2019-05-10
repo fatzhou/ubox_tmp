@@ -505,8 +505,8 @@ export class MiningPage {
 		//至少预留20的高度
 		d = d.map(item => height - 20 - 80 * (item - min) / (max - min));
 
-		console.log("近7天收益：" + JSON.stringify(data));
-		console.log("近7天收益：" + JSON.stringify(d));
+		GlobalService.consoleLog("近7天收益：" + JSON.stringify(data));
+		GlobalService.consoleLog("近7天收益：" + JSON.stringify(d));
 
 		this._CANVAS 	    = this.canvasEl.nativeElement;
 		this._CANVAS.width  	= width;
@@ -575,7 +575,7 @@ export class MiningPage {
 				// this._CONTEXT.globalCompositeOperation = 'source-over';
 				//开始获取图片位置
 				let x = maxIndex * widthBase;
-				console.log("最大值位置：", x, d[maxIndex]);
+				GlobalService.consoleLog("最大值位置：", x, d[maxIndex]);
 				let top = d[maxIndex], bottom = height;
 				top = Math.ceil(top * ratio);	
 				bottom = Math.ceil(bottom * ratio);
@@ -595,7 +595,7 @@ export class MiningPage {
 						bottom = middle;
 					}
 				}
-				console.log("正确位置：" + x + "," + middle);
+				GlobalService.consoleLog("正确位置：" + x + "," + middle);
 				this._CONTEXT.drawImage(img, x - Math.ceil(imgSize / 2) , Math.ceil(middle / ratio) - Math.ceil(imgSize / 2), imgSize, imgSize);
 				this._CONTEXT.closePath();
 				// this._CONTEXT.stroke();
@@ -818,7 +818,7 @@ export class MiningPage {
     }
 
     displayMenu($event) {
-		console.log("即将显示左侧菜单........");
+		GlobalService.consoleLog("即将显示左侧菜单........");
 		this.menuCtrl.open();
 		if($event.stopPropagation) {
 			$event.stopPropagation();

@@ -44,15 +44,15 @@ export class UpdateAssitantPage {
   }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad UpdageAssitantPage');
+        GlobalService.consoleLog('ionViewDidLoad UpdageAssitantPage');
         this.appVersion = GlobalService.AppVersion;
         let AppVersionDescription = GlobalService.AppVersionDescription;
         this.appNewstVersion = this.util.compareVersion(AppVersionDescription.version, this.appVersion) ? AppVersionDescription.version : '';
-        console.log(this.global.deviceSelected)
+        GlobalService.consoleLog(this.global.deviceSelected)
     }
 
     updateApp() {
-        console.log(`当前版本：${this.appVersion}, 最新版本${this.appNewstVersion}, ${GlobalService.AppVersionDescription.version}`);
+        GlobalService.consoleLog(`当前版本：${this.appVersion}, 最新版本${this.appNewstVersion}, ${GlobalService.AppVersionDescription.version}`);
         if(this.appNewstVersion) {
             //存在可用的更新
             GlobalService.consoleLog('提示用户升级app');
@@ -82,13 +82,13 @@ export class UpdateAssitantPage {
         //升级到指定版本
         return this.checkUpdate.updateRomIndeed(this.boxUpdateInfo.dstVer, this.boxUpdateInfo.signature, ()=>{
             this.romNewestVersion = "";
-            console.log("升级成功,重新连接盒子");
+            GlobalService.consoleLog("升级成功,重新连接盒子");
             this.util.loginAndCheckBox(this, true)
             .then(res => {
                 //登录成功
             })
         }, ()=>{
-            console.log("升级失败");
+            GlobalService.consoleLog("升级失败");
         });
     }
 
@@ -103,9 +103,9 @@ export class UpdateAssitantPage {
                 //开始下载
                 this.progressBarShown = true;
             }, (finish, total) => {
-                console.log("下载进度:" + finish +  ",总大小:" + total)
+                GlobalService.consoleLog("下载进度:" + finish +  ",总大小:" + total)
                 this.percent = total === 0 ? 0 : Math.ceil(finish * 100 / total);
-                console.log("下载比例:" + this.percent);
+                GlobalService.consoleLog("下载比例:" + this.percent);
             }, () => {
                 //下载完成
                 this.progressBarShown = false;
@@ -155,7 +155,7 @@ export class UpdateAssitantPage {
                     this.romNewestVersion = "";
                     this.util.loginAndCheckBox(this, true)
                 }, ()=>{
-                    console.log("升级失败");
+                    GlobalService.consoleLog("升级失败");
                 })
             }
         }, res => {

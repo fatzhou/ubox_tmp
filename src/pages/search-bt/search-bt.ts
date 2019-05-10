@@ -36,7 +36,7 @@ export class SearchBtPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad SearchBtPage');
+        GlobalService.consoleLog('ionViewDidLoad SearchBtPage');
         this.getSearchKey();
         setTimeout(() => {
 			this.myInput0.nativeElement.focus();
@@ -44,12 +44,12 @@ export class SearchBtPage {
     }
 
     ionViewWillLeave() {
-        console.log("leave")
+        GlobalService.consoleLog("leave")
         this.setSearchKey();
     }
 
     goBtDetailPage(id) {
-        console.log("go BtDetailPage");
+        GlobalService.consoleLog("go BtDetailPage");
         this.navCtrl.push(BtDetailPage, {
             type: 'search',
             id: id
@@ -68,7 +68,7 @@ export class SearchBtPage {
         this.storage.get("searchKeyList")
         .then(res => {
             if(res) {
-                console.log("res" + res)
+                GlobalService.consoleLog("res" + res)
                 this.searchKeyList = JSON.parse(res);
                 if(this.searchKeyList.length > 10) {
                     this.searchKeyList = this.searchKeyList.slice(0,10);
@@ -158,7 +158,7 @@ export class SearchBtPage {
     }
 
     downloadBt(item) {
-        console.log("download" + item.mgurl)
+        GlobalService.consoleLog("download" + item.mgurl)
         if(item.status && item.status == 1) {
             return false;
         }
@@ -177,7 +177,7 @@ export class SearchBtPage {
                         let url = item.mgurl + '&dn=' + item.title;
                         this.util.downloadBt(url, item.resid)
                         .then(res => {
-                            console.log("正在下载bt")
+                            GlobalService.consoleLog("正在下载bt")
                         })
                         return true;
                     }

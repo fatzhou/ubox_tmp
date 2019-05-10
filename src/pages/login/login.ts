@@ -145,15 +145,15 @@ export class LoginPage {
         let index = this.navParams.get('tabIndex');
         this.util.loginAndCheckBox(this, true)
         .then(res => {
-            console.log("登录成功完成......");
+            GlobalService.consoleLog("登录成功完成......");
             this.isLoading = false;
             this.global.closeGlobalLoading(this);
             this.navCtrl.setRoot(TabsPage);
         })
         .catch(e => {
-			console.log("登录进入catch......");
+			GlobalService.consoleLog("登录进入catch......");
 			this.isLoading = false;
-			console.log(this.global.centerUserInfo.uname + "," + this.global.centerUserInfo.bind_box_count)
+			GlobalService.consoleLog(this.global.centerUserInfo.uname + "," + this.global.centerUserInfo.bind_box_count)
             if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
 				this.navCtrl.push(DeviceGuidancePage);
 			} else {

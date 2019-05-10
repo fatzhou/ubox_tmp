@@ -87,7 +87,7 @@ export class CheckUpdate {
         .then((res:any) => {
             this.upgradeFlag = "doing";
             //用户要求升级
-            console.log("开始下载安装包...");
+            GlobalService.consoleLog("开始下载安装包...");
             // this.global.createGlobalLoading(this, {
             //     message: this.global.L("DownloadingPackages")
             // })
@@ -149,7 +149,7 @@ export class CheckUpdate {
         }, res => {
             this.global.closeGlobalLoading(this);
             //不存在升级或者用户拒绝升级
-            console.log("升级过程结束");
+            GlobalService.consoleLog("升级过程结束");
             throw new Error("Upgrade refused or no available upgrade...");
         })
         .then((res:any) => {
@@ -182,7 +182,7 @@ export class CheckUpdate {
             }
         })    
         .catch(e => {
-            console.log("未能正常升级:" + JSON.stringify(e));
+            GlobalService.consoleLog("未能正常升级:" + JSON.stringify(e));
             setTimeout(() => {
                 this.global.closeGlobalLoading(this);  
             }, 5000 - (Date.now() - start))      
@@ -252,7 +252,7 @@ export class CheckUpdate {
             }
             this.http.post(updateUrl, {}, false)
             .then(res => {
-                console.log("升级状态查询接口返回:" + JSON.stringify(res))
+                GlobalService.consoleLog("升级状态查询接口返回:" + JSON.stringify(res))
                 if(res.err_no === 0) {
                     //忽略1604错误
                     if(res.status === 0) {

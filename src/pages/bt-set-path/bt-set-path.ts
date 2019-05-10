@@ -39,7 +39,7 @@ export class BtSetPathPage {
     
         ionViewDidLoad() {
             this.count = this.navParams.get("count") || 0;
-            console.log('this.count' + this.count);
+            GlobalService.consoleLog('this.count' + this.count);
             GlobalService.consoleLog('ionViewDidLoad SelectfolderPage');
             GlobalService.consoleLog('this.currPath  :' + this.currPath);
             this.currPath = this.navParams.get("currPath") || this.global.currPath;
@@ -105,7 +105,7 @@ export class BtSetPathPage {
             if(index) {
                 this.navCtrl.pop();
             } else {
-                console.log('this.count' + this.count);
+                GlobalService.consoleLog('this.count' + this.count);
                 this.util.popToPage(this, this.count + 3);
             }
             

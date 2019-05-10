@@ -32,17 +32,17 @@ export class PermissionComponent {
         private platform: Platform,
         public storage: Storage,
     ) {
-        // console.log('Hello PermissionComponent Component');
+        // GlobalService.consoleLog('Hello PermissionComponent Component');
         this.platformName = this.global.platformName;
     }
 
     checkPermission() {
-        // console.log('准备检查权限')
+        // GlobalService.consoleLog('准备检查权限')
         this.fileManager.getPermission()
         .then(res => {
             this.storage.set('ReadPermitted', true);
             this.fileManager.readPermitted = true;
-            // console.log('准备关闭弹窗了')
+            // GlobalService.consoleLog('准备关闭弹窗了')
             this.closeBox(false);
             this.fileManager.initFileList();
         })

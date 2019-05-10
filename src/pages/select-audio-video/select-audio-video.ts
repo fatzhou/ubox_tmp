@@ -63,7 +63,7 @@ export class SelectAudioVideoPage {
         GlobalService.consoleLog('ionViewDidLoad SelectAudioVideoPage');
         this.platformName = this.global.platformName;
 		this.dataType = this.navParams.get('type');
-		console.log("当前筛选数据类型：" + this.dataType);
+		GlobalService.consoleLog("当前筛选数据类型：" + this.dataType);
         // GlobalService.consoleLog("资源状态：" + this.fileManager.scanDiskReady);
         this.fileManager.getLocalFiles(this.dataType)
         .then(res => {
@@ -190,13 +190,13 @@ export class SelectAudioVideoPage {
             message: this.global.L('FileUploading')
         });
         this.unUploadedCount = this.unUploadedCount - uploadingList.length;
-        console.log('uploadingList1' + JSON.stringify(uploadingList.length))
+        GlobalService.consoleLog('uploadingList1' + JSON.stringify(uploadingList.length))
         uploadingList.forEach(item => {
             item.isSelected = false;  
             //TODO: 已上传列表需删除              
             item.uploaded = true;
         })
-        console.log('uploadingList2' + JSON.stringify(uploadingList.length))
+        GlobalService.consoleLog('uploadingList2' + JSON.stringify(uploadingList.length))
         this.uploadOneFile(uploadingList, 0);
         this.util.popToPage(this,2);
     }

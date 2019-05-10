@@ -20,7 +20,7 @@ export class GlobalService {
     public static boxFileControl = 3;
     public static AppVersion = '2.0.0';
     public static applang: any = "en";
-    public static ENV = "dev"; //环境设定
+    public static ENV = "prod"; //环境设定
     public static UBBEY_CONTRACT: string = "0x6cB1C2B61e24aD08bF5FFF4d2b13ea987d211a88";
     public static UBBEY_CONTRACT_TEST: string = "0x76040366331dc8e4A11CfC5f0Cd4d1aD23A1eAcd";
     public static DISK_K_BITS:number = 1024;
@@ -727,10 +727,10 @@ export class GlobalService {
         try{
             if (this.deviceSelected){
                 //忽略保存结果
-                this.storage.set('DeviceSelected', JSON.stringify(deviceStorage)).then(()=>{}).catch((e)=>{console.log(JSON.stringify(e))});
+                this.storage.set('DeviceSelected', JSON.stringify(deviceStorage)).then(()=>{}).catch((e)=>{GlobalService.consoleLog(JSON.stringify(e))});
             } else if (nullsave){
                 //忽略保存结果
-                this.storage.set('DeviceSelected', JSON.stringify(deviceStorage)).then(()=>{}).catch((e)=>{console.log(JSON.stringify(e))});
+                this.storage.set('DeviceSelected', JSON.stringify(deviceStorage)).then(()=>{}).catch((e)=>{GlobalService.consoleLog(JSON.stringify(e))});
             }
         }catch (e){
             GlobalService.consoleLog("this.storage.set 异常:" + JSON.stringify(e));
@@ -784,12 +784,12 @@ export class GlobalService {
         }
         ////android直接打印日志
         else if (GlobalService._global && GlobalService._global.platformName === 'android'){
-            console.log(str);
+            GlobalService.consoleLog(str);
         }
         ////ios 打印日志需要在setTimeout里面
         else{
             setTimeout(() => {
-                console.log(str);
+                GlobalService.consoleLog(str);
             }, 0);
         }
 	}

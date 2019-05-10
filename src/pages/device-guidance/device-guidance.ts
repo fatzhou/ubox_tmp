@@ -25,7 +25,7 @@ export class DeviceGuidancePage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad DeviceGuidancePage');
+        GlobalService.consoleLog('ionViewDidLoad DeviceGuidancePage');
     }
     goDeviceSearchPage() {
         this.navCtrl.push(DeviceSearchPage);

@@ -28,15 +28,15 @@ function _exec_result (callbackId, ret, args) {
         promise[1] (args);//reject
       }
     }else{
-      console.log ('value of callbackid:' + callbackId + ' length is not 2, something error!!!!');
+      GlobalService.consoleLog ('value of callbackid:' + callbackId + ' length is not 2, something error!!!!');
     }
   } else {
-    console.log ('unkown callbackid:' + callbackId);
+    GlobalService.consoleLog ('unkown callbackid:' + callbackId);
   }
   delete _callback_maps[callbackId];
 }
 
-console.log ('----ubbey iab: inject exec done.--by file--');
+GlobalService.consoleLog ('----ubbey iab: inject exec done.--by file--');
 
 
 window.exec = exec;

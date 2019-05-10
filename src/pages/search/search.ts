@@ -64,14 +64,14 @@ export class SearchPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad SearchPage');
+        GlobalService.consoleLog('ionViewDidLoad SearchPage');
         if(!this.bannerList.length) {
             this.getSearchData()
             .then((res)=> {
 				if(!this.global.SearchData) {
 					return false;
 				}
-                // console.log(JSON.stringify(res));
+                // GlobalService.consoleLog(JSON.stringify(res));
                 this.showList = this.global.SearchData.appList[GlobalService.applang];
                 this.labelList = this.global.SearchData.labelList;
                 this.bannerStyle = this.global.SearchData.bannerStyle;
@@ -85,7 +85,7 @@ export class SearchPage {
                         }
                     }
                 }
-                // console.log('this.bannerList' + JSON.stringify(this.bannerList))
+                // GlobalService.consoleLog('this.bannerList' + JSON.stringify(this.bannerList))
             })
         }
     }
@@ -115,7 +115,7 @@ export class SearchPage {
     }
 
     // goAppDetail(info) {
-    //     console.log("查看应用详情:" + JSON.stringify(info));
+    //     GlobalService.consoleLog("查看应用详情:" + JSON.stringify(info));
     //     this.app.getRootNav().push(AppDetailPage, {
     //         "info": info
     //     });
@@ -140,7 +140,7 @@ export class SearchPage {
                     res = JSON.parse(res);
                 }
                 if(res) {
-                    // console.log("search拿到了")
+                    // GlobalService.consoleLog("search拿到了")
                     this.global.SearchData = res;
                 }
                 return res;

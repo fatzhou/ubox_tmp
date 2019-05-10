@@ -42,16 +42,16 @@ export class BtSetPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad BtSetPage');
+        GlobalService.consoleLog('ionViewDidLoad BtSetPage');
         this.getTaskConfig();
     }
     ionViewWillLeave() {
-        console.log('ionViewWillLeave BtSetPage');
+        GlobalService.consoleLog('ionViewWillLeave BtSetPage');
         this.changeTaskConfig();
     }
 
     goBtSetPathPage() {
-        console.log("go BtSetPathPage");
+        GlobalService.consoleLog("go BtSetPathPage");
         this.navCtrl.push(BtSetDiskPage, {
             currPath: this.path
         });

@@ -116,7 +116,7 @@ export class ListPage {
         events.subscribe('upload:failure', this.onTaskFailure);
         events.subscribe('download:failure', this.onTaskFailure);
 
-        console.log("List constructor...")
+        GlobalService.consoleLog("List constructor...")
         events.subscribe('close:box', (res) => {
             this.isShowBox = res;
         })
@@ -157,7 +157,7 @@ export class ListPage {
 	}
 
     ionViewWillEnter() {
-        console.log('list ionViewWillEnter');
+        GlobalService.consoleLog('list ionViewWillEnter');
         this.isLoadingData = true;
     }
 
@@ -181,11 +181,11 @@ export class ListPage {
         // if(this.currPath == '/') {
         //     setTimeout(()=>{
         //         this.hideAddBtn = false;
-        //         console.log('this.hideAddBtn222 ' + this.hideAddBtn);
+        //         GlobalService.consoleLog('this.hideAddBtn222 ' + this.hideAddBtn);
         //     },100)
         // } else {
         //     this.hideAddBtn = false;
-        //     console.log('this.hideAddBtn2222 ' + this.hideAddBtn);
+        //     GlobalService.consoleLog('this.hideAddBtn2222 ' + this.hideAddBtn);
         // }
         this.isMainDisk = this.global.currDiskUuid == '' || this.global.currDiskUuid == this.global.mainSelectDiskUuid;
         this.initDiskInfo();
@@ -195,7 +195,7 @@ export class ListPage {
 			this.events.subscribe('warning:change', this.changeWarningStatus.bind(this));
         }
         this.currDiskUuid = this.global.currDiskUuid;
-        console.log('this.global.currDiskUuid' + this.global.currDiskUuid);
+        GlobalService.consoleLog('this.global.currDiskUuid' + this.global.currDiskUuid);
         GlobalService.consoleLog("this.isMainDisk" + this.isMainDisk);
         this.copyPhotoInfo = {
             name: this.global.L("PhotoBackup"),
@@ -213,7 +213,7 @@ export class ListPage {
 	}
 
 	connectionChangeCallback() {
-        console.log('刷新列表');
+        GlobalService.consoleLog('刷新列表');
 		this.listFiles();
 	}
 
@@ -226,7 +226,7 @@ export class ListPage {
             try {
                 this.cd.detectChanges();
             } catch(e) {
-                console.log("List initDiskInfo dectchanges:" + e.message);
+                GlobalService.consoleLog("List initDiskInfo dectchanges:" + e.message);
             }
         }
     }
@@ -262,7 +262,7 @@ export class ListPage {
     }
 
     refreshFilesEvent() {
-        console.log("Refresh file list..." + this.global.currPath);
+        GlobalService.consoleLog("Refresh file list..." + this.global.currPath);
         this.global.currPath = '/';
         this.initDiskInfo();
         if(this.global.diskInfo.disks) {
@@ -280,7 +280,7 @@ export class ListPage {
         this.listFiles();
         this.util.getWalletList()
 		.catch(e => {
-			console.log(e);
+			GlobalService.consoleLog(e);
 		})
     }
 
@@ -468,7 +468,7 @@ export class ListPage {
 
         var url = this.global.getBoxApi("listFolder");
         this.currDiskUuid = this.currDiskUuid || this.global.currDiskUuid;
-        console.log('请求参数this.currPath=' + this.currPath + '请求参数this.currDiskUuid=' + this.currDiskUuid);
+        GlobalService.consoleLog('请求参数this.currPath=' + this.currPath + '请求参数this.currDiskUuid=' + this.currDiskUuid);
 		return this.http.postWithStorage(url, {
 			path: this.currPath,
 			disk_uuid: this.currDiskUuid
@@ -486,7 +486,7 @@ export class ListPage {
 				// this.type1List = [];
 				let type0List = [],
 					type1List = [];
-                console.log('列表清空了');
+                GlobalService.consoleLog('列表清空了');
                 if (res.list && res.list.length > 0) {
                     res.list.filter((item) => {
                         let name = item.name;
@@ -513,7 +513,7 @@ export class ListPage {
 					this.type0List = type0List;
 					this.type1List = type1List;
                 }
-                console.log('列表填充后type0List' + JSON.stringify(this.type0List) + '   列表填充后typeList' + JSON.stringify(this.type1List));
+                GlobalService.consoleLog('列表填充后type0List' + JSON.stringify(this.type0List) + '   列表填充后typeList' + JSON.stringify(this.type1List));
                 this.allFileList = list;
                 this.fileList = this.allFileList.slice(0, this.pageSize);
                 this.transfer.getThumbnail(this.allFileList, false, this.currPath);
@@ -535,7 +535,7 @@ export class ListPage {
 	}
 
 	handleThumbnailError(obj, e) {
-        console.log("缩略图加载出错, 设置为默认图......." + obj.thumbnail)
+        GlobalService.consoleLog("缩略图加载出错, 设置为默认图......." + obj.thumbnail)
         var md5 = Md5.hashStr(this.currPath.replace('\/$', '') + '/' + obj.name).toString();
         this.global.thumbnailMap[md5] = '';
         this.file.removeFile(obj.thumbnail, obj.name);
@@ -733,7 +733,7 @@ export class ListPage {
     }
 
     moveFile(oldPath, oldName, newPath, newName, type = "rename") {
-        console.log('list move   ssss' + this.selectedFiles.length)
+        GlobalService.consoleLog('list move   ssss' + this.selectedFiles.length)
         var selectedFile = this.selectedFiles[0];
 
         this.util.moveFile(oldPath, oldName, newPath, newName)
@@ -886,7 +886,7 @@ export class ListPage {
                     });
                 }
             } else {
-				console.log("查看文件详情：" + JSON.stringify(file))
+				GlobalService.consoleLog("查看文件详情：" + JSON.stringify(file))
                 this.app.getRootNav().push(PreviewOtherPage, {
                     currPath: this.currPath,
                     info: file
@@ -940,16 +940,16 @@ export class ListPage {
                 this.fileManager.initFileList();
             }
             if(this.global.deviceSelected) {
-                console.log(JSON.stringify(this.global.deviceSelected))
+                GlobalService.consoleLog(JSON.stringify(this.global.deviceSelected))
                 let config = this.fileManager.resourceStorage['image'];
-                console.log("图片配置：" + JSON.stringify(config));
+                GlobalService.consoleLog("图片配置：" + JSON.stringify(config));
                 if(config.finished) {
-                    console.log("图片获取已完成，直接备份");
+                    GlobalService.consoleLog("图片获取已完成，直接备份");
                     setTimeout(() => {
                         this.fileManager.startBackUp();
                     }, 1000)
                 } else if(this.platform.is('cordova')) {
-                    console.log("图片获取尚未完成，需要先拉配置");
+                    GlobalService.consoleLog("图片获取尚未完成，需要先拉配置");
                     this.fileManager.getBackupInfo()
                     .then(res => {
                         this.fileManager.fetchAlbums('image')
@@ -972,25 +972,25 @@ export class ListPage {
 
 
     toggleClassifyNav(isShow = null) {
-		console.log("已点击......")
+		GlobalService.consoleLog("已点击......")
         if(isShow != null) {
-			console.log("关闭下拉菜单");
+			GlobalService.consoleLog("关闭下拉菜单");
             this.isShowClassifyNav = false;
         } else {
-			console.log("打开下拉菜单");
+			GlobalService.consoleLog("打开下拉菜单");
             this.isShowClassifyNav = !this.isShowClassifyNav;
         }
     }
 
     toggleClassifyNav2() {
-		console.log("打开菜单..." + this.isShowClassifyNav);
+		GlobalService.consoleLog("打开菜单..." + this.isShowClassifyNav);
         this.isShowClassifyNav = !this.isShowClassifyNav;
     }
 
 
 
     displayMenu($event) {
-		console.log("即将显示左侧菜单........");
+		GlobalService.consoleLog("即将显示左侧菜单........");
 		this.menuCtrl.open();
 		if($event.stopPropagation) {
 			$event.stopPropagation();

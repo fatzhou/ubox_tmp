@@ -145,7 +145,7 @@ export class HttpService {
 						break;
 					}
 					GlobalService.consoleLog("webrtc创建盒子连接: ....[重新]建立连接流程.............");
-					this._createDataChannel().then(console.log).catch(console.log);
+					this._createDataChannel().then(GlobalService.consoleLog).catch(GlobalService.consoleLog);
 					break;
 			}
 
@@ -235,21 +235,21 @@ export class HttpService {
 				dataChannel.channel.close();
 				dataChannel.channel = null;
 			}
-			console.log("Start to delete peerconnection....")
+			GlobalService.consoleLog("Start to delete peerconnection....")
 			if (this.peerConnection) {
 				this.peerConnection.close && this.peerConnection.close();
 				this.peerConnection = null;
 			}
-			console.log(333)
+			GlobalService.consoleLog(333)
 			// this.global.deviceSelected = null;
 			// this.global.centerBoxSelected = null;
 			// this.global.centerAvailableBoxList = [];
 			dataChannel.status = "cleared";
 		} catch (e) {
-			console.log(JSON.stringify(e));
+			GlobalService.consoleLog(JSON.stringify(e));
 		}
 
-		console.log("Clear finished.....")
+		GlobalService.consoleLog("Clear finished.....")
 	}
 
 	public get(url: string, paramObj: any, errorHandler: any = true, headers: any = {}, options: any = {}, cordova = false) {
@@ -454,7 +454,7 @@ export class HttpService {
 						this._updateCenterNetworkLastAliveTime(url);
 						if (res.headers && res.headers['set-cookie']) {
 							if (this.global.deviceSelected && url.indexOf(GlobalService.boxApi["login"].url) >= 0) {
-								console.log(url + "登录接口需要设置cookie:" + res.headers['set-cookie']);
+								GlobalService.consoleLog(url + "登录接口需要设置cookie:" + res.headers['set-cookie']);
 								this.cookies[this.global.deviceSelected.boxId] = res.headers['set-cookie'];
 							}
 						}
@@ -470,13 +470,13 @@ export class HttpService {
 					.toPromise()
 					.then((res: any) => {
 						this._updateCenterNetworkLastAliveTime(url);
-						// console.log(url + "angular http : + " + JSON.stringify(res))
-						// console.log(url +JSON.stringify(res.headers))
+						// GlobalService.consoleLog(url + "angular http : + " + JSON.stringify(res))
+						// GlobalService.consoleLog(url +JSON.stringify(res.headers))
 
-						//   console.log(!!res.headers)
-						//   console.log(!!res.headers['set-cookie'])
+						//   GlobalService.consoleLog(!!res.headers)
+						//   GlobalService.consoleLog(!!res.headers['set-cookie'])
 						// if(res.headers && res.headers['set-cookie']) {
-						//     console.log(url + "需要设置cookie:" + res.headers['set-cookie'][0]);
+						//     GlobalService.consoleLog(url + "需要设置cookie:" + res.headers['set-cookie'][0]);
 						//     this.setCookie(url, res.headers['set-cookie'][0]);
 						// }
 						return this.handleSuccess(url, res.json(), options, errorHandler)
@@ -500,7 +500,7 @@ export class HttpService {
 		}
 		if (result.err_no === 20010 || result.err_no === 1103) {
 			var cookie = this.getCookieString(url);
-			console.log("接口" + url + "报错登录态失效:" + JSON.stringify(result) + "是否处理：" + errorHandler);
+			GlobalService.consoleLog("接口" + url + "报错登录态失效:" + JSON.stringify(result) + "是否处理：" + errorHandler);
 			GlobalService.consoleLog("cookie:" + cookie);
 			// this.global.logger("丢失cookie的URL:" + url);
 			// this.global.logger("获取用户信息失败cookie:" + cookie);
@@ -627,7 +627,7 @@ export class HttpService {
 	}
 
 	private handleError(error: Response | any = {}, errorHandler = true) {
-		console.log("是否handleError:" + errorHandler)
+		GlobalService.consoleLog("是否handleError:" + errorHandler)
 		// GlobalService.consoleLog("==================");
 		var l = this.global.getAppLang();
 		if (!errorHandler) {
@@ -1103,7 +1103,7 @@ export class HttpService {
 			else {
 				GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，一定时间后重新启动.....");
 				this.webrtcEngineRestartTimer = setTimeout(() => {
-					this._createDataChannel().then(console.log).catch(console.log);
+					this._createDataChannel().then(GlobalService.consoleLog).catch(GlobalService.consoleLog);
 				}, this.successiveConnectGap);
 			}
 

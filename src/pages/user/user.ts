@@ -50,7 +50,7 @@ export class UserPage {
 
     ionViewDidEnter() {
         GlobalService.consoleLog('ionViewDidLoad UserPage   进入user');
-        // console.log("用户信息：" + JSON.stringify(this.global.centerUserInfo));
+        // GlobalService.consoleLog("用户信息：" + JSON.stringify(this.global.centerUserInfo));
         // this.username = this.global.centerUserInfo.uname;
         this.isShowNoticeList();
     }

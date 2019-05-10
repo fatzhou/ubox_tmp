@@ -20,7 +20,7 @@ export class BoxPromotionComponent {
     @Output() goBuyBoxPage = new EventEmitter < any > ();
 
 	constructor(private global: GlobalService) {
-		// console.log('Hello BoxPromotionComponent Component');
+		// GlobalService.consoleLog('Hello BoxPromotionComponent Component');
 	}
 
 	goBindingBoxPage() {

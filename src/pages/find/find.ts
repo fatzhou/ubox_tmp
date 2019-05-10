@@ -66,23 +66,23 @@ export class FindPage {
 		this.global.tabIndex = 1;
 	}
 	ionViewDidLoad() {
-		console.log('ionViewDidLoad FindPage');
+		GlobalService.consoleLog('ionViewDidLoad FindPage');
 		this.getFeedTop();
 		this.initFirstPage();
 	}
 
 	ionViewWillLeave() {
-		console.log("leave")
+		GlobalService.consoleLog("leave")
 		this.initcount = 0;
 	}
 
 	goSearchBtPage() {
-		console.log("gosearchbt");
+		GlobalService.consoleLog("gosearchbt");
 		this.app.getRootNav().push(SearchBtPage);
 	}
 
 	goBtDetailPage(item:any) {
-		console.log("go BtDetailPage");
+		GlobalService.consoleLog("go BtDetailPage");
 		this.app.getRootNav().push(BtDetailPage, {
 			type: 'feed',
 			id: item.resid,
@@ -188,7 +188,7 @@ export class FindPage {
 					var list = [];
 					var index = 0;
 					if (res.list && res.list.length > 0) {
-						console.log(JSON.stringify(res.list));
+						GlobalService.consoleLog(JSON.stringify(res.list));
 						this.feedList.unshift(res.list[0]);
 					}
 
@@ -227,7 +227,7 @@ export class FindPage {
 						res = JSON.parse(res);
 					}
 					if (res) {
-						// console.log("search拿到了")
+						// GlobalService.consoleLog("search拿到了")
 						this.global.SearchData = res;
 					}
 					return res;
@@ -241,7 +241,7 @@ export class FindPage {
 	}
 
 	goBtTaskPage() {
-		console.log("go BtTaskPage");
+		GlobalService.consoleLog("go BtTaskPage");
 		if (!this.global.deviceSelected) {
 			//未选择设备则不可用
 			this.global.createGlobalToast(this, {
@@ -253,7 +253,7 @@ export class FindPage {
 	}
 
 	downloadBt(item) {
-		console.log("download" + item.mgurl);
+		GlobalService.consoleLog("download" + item.mgurl);
 		// if (item.status && item.status == 1) {
 		// 	return false;
 		// }
@@ -270,7 +270,7 @@ export class FindPage {
 							let url = item.mgurl + '&dn=' + item.title;
 							this.util.downloadBt(url, item.resid)
 							.then((res:any) => {
-								console.log("正在下载bt")
+								GlobalService.consoleLog("正在下载bt")
 								item.status = 1;
 							});	
 						} 
@@ -301,7 +301,7 @@ export class FindPage {
 	}
 
 	displayMenu($event) {
-		console.log("即将显示左侧........");
+		GlobalService.consoleLog("即将显示左侧........");
 		this.menuCtrl.open();
 		if ($event.stopPropagation) {
 			$event.stopPropagation();

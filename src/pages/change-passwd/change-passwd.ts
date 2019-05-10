@@ -187,7 +187,7 @@ export class ChangePasswdPage {
     	})
     }
     showIcon(index){
-        console.log('index' + index);
+        GlobalService.consoleLog('index' + index);
         if(index == 0) {
             this.eyeshow = !this.eyeshow;
         } else if(index == 2) {

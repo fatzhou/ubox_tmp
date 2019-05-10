@@ -15,7 +15,7 @@ export class AppsInterface {
     constructor(private global: GlobalService,
                 private uapp: UappPlatform,
 				private file: File) {
-        console.log('Hello AppsInterfacedProvider Provider');
+        GlobalService.consoleLog('Hello AppsInterfacedProvider Provider');
         this.uapp.registerApi('closeUapp', this, this.closeUapp);
 		this.uapp.registerApi('getInfo', this, this.getInfo);
 		this.uapp.registerApi('log', this, this.log);
@@ -39,13 +39,13 @@ export class AppsInterface {
 	}
 
     closeUapp() {
-        console.log("即将关闭浏览器...");
+        GlobalService.consoleLog("即将关闭浏览器...");
         // cordova.InAppBrowser.close();
         return Promise.resolve(this.uapp.closeApp());
 	}
 
 	log(text) {
-        console.log("浏览器日志： " + text);
+        GlobalService.consoleLog("浏览器日志： " + text);
         // cordova.InAppBrowser.close();
         // return Promise.resolve(this.uapp.closeApp());
     }

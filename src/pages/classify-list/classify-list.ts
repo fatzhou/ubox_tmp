@@ -280,7 +280,7 @@ export class ClassifyListPage {
 	}
 	
 	handleThumbnailError(obj, e) {
-		console.log("缩略图加载出错.......")
+		GlobalService.consoleLog("缩略图加载出错.......")
 		var defaultPhoto = "./assets/img/image1.svg";
 		if(this.classify == 1) {
 			obj.thumbnail = defaultPhoto;
@@ -352,10 +352,10 @@ export class ClassifyListPage {
         this.global.createGlobalToast(this, {
             message: this.global.L('StartDownloading')
 		});
-        console.log(this.selectedFiles.length)
+        GlobalService.consoleLog(this.selectedFiles.length)
         for (var i = 0, len = this.selectedFiles.length; i < len; i++) {
             let selected = this.selectedFiles[i];
-            console.log('要下载的资源路径' + selected.path.replace(/\/$/g, '') + "/" + selected.name)
+            GlobalService.consoleLog('要下载的资源路径' + selected.path.replace(/\/$/g, '') + "/" + selected.name)
 			let subFoldPath = {
 				'image': this.global.PhotoSubPath,
 				'video': this.global.VideoSubPath,
@@ -384,7 +384,7 @@ export class ClassifyListPage {
         }
         GlobalService.consoleLog("开始删除文件");
 		let path = this.selectedFiles.map(item => item.path.replace(/\/$/g, '') + "/" + item.name);
-		console.log("删除以下文件:" + path.join('------'));
+		GlobalService.consoleLog("删除以下文件:" + path.join('------'));
 		var self = this;
         this.util.deleteFileDialog(path, false, ()=>{
             this.resetPageParam();

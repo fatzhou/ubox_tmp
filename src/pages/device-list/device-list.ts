@@ -67,7 +67,7 @@ export class DeviceListPage {
         GlobalService.consoleLog("进入发现列表页");
         this.refresh = this.navParams.get('refresh') || false;
         if(!this.global.userLoginInfo) {
-            console.log("this.global.user");
+            GlobalService.consoleLog("this.global.user");
             this.util.getUserList()
             .then(res => {
                 if(this.global.userLoginInfo){
@@ -98,7 +98,7 @@ export class DeviceListPage {
     ionViewWillLeave() {
         GlobalService.consoleLog("清除已发现状态");
         this.stopScan();
-        console.log('离开了devicelist页面')
+        GlobalService.consoleLog('离开了devicelist页面')
     }
 
     stopScan() {
@@ -106,7 +106,7 @@ export class DeviceListPage {
         this.scanning = false;
         this.searched = false;
         this.clearTimeOutName();
-        console.log("清楚定时器成功..");
+        GlobalService.consoleLog("清楚定时器成功..");
     }
 
     computeNetworkInfo() {
@@ -266,7 +266,7 @@ export class DeviceListPage {
     checkBindBox(dv) {
         GlobalService.consoleLog("开始校验盒子登录态，登录则直接进入首页，否则进入登录页");
         GlobalService.consoleLog(JSON.stringify(this.global.deviceSelected));
-        console.log("this.global.userLoginInfo  " + JSON.stringify(this.global.userLoginInfo));
+        GlobalService.consoleLog("this.global.userLoginInfo  " + JSON.stringify(this.global.userLoginInfo));
         if (!dv.bindUser) {
             GlobalService.consoleLog("盒子未绑定用户，直接绑定");
             this.global.createGlobalLoading(this, {
@@ -274,10 +274,10 @@ export class DeviceListPage {
             })
             this.util.bindBox(this)
             .then((res) => {
-                console.log("绑定流程已完成....");
+                GlobalService.consoleLog("绑定流程已完成....");
                 this.global.closeGlobalLoading(this);
                 if(res) {
-                    console.log("绑定成功.....");
+                    GlobalService.consoleLog("绑定成功.....");
                     this.navCtrl.push(TabsPage)
                     .then(() => {
                         this.isClicked = false;
@@ -287,11 +287,11 @@ export class DeviceListPage {
                     })
                 } else {
                     //绑定失败。。。。。
-                    console.log("绑定失败....");
+                    GlobalService.consoleLog("绑定失败....");
                 }
             })
             .catch(e => {
-                console.log("钱包绑定失败....");
+                GlobalService.consoleLog("钱包绑定失败....");
             })
         } else {
             this.global.createGlobalToast(this, {
@@ -380,7 +380,7 @@ export class DeviceListPage {
         this.navCtrl.push(LoginPage)
         .then(() => {
             this.isClicked = false;
-            console.log("取消按钮点击保护");
+            GlobalService.consoleLog("取消按钮点击保护");
         })
         // this.http.post(GlobalService.centerApi["getUserInfo"].url, {}, false)
         // .then(

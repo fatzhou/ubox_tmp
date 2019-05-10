@@ -191,16 +191,16 @@ export class HomePage {
                 this.fileManager.initFileList();
             }
             if(this.global.deviceSelected) {
-                console.log(JSON.stringify(this.global.deviceSelected))
+                GlobalService.consoleLog(JSON.stringify(this.global.deviceSelected))
                 let config = this.fileManager.resourceStorage['image'];
-                console.log("图片配置：" + JSON.stringify(config));
+                GlobalService.consoleLog("图片配置：" + JSON.stringify(config));
                 if(config.finished) {
-                    console.log("图片获取已完成，直接备份");
+                    GlobalService.consoleLog("图片获取已完成，直接备份");
                     setTimeout(() => {
                         this.fileManager.startBackUp();
                     }, 1000)
                 } else if(this.platform.is('cordova')) {
-                    console.log("图片获取尚未完成，需要先拉配置");
+                    GlobalService.consoleLog("图片获取尚未完成，需要先拉配置");
                     this.fileManager.getBackupInfo()
                     .then(res => {
                         this.fileManager.fetchAlbums('image')
