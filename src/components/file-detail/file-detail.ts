@@ -81,6 +81,7 @@ export class FileDetailComponent {
 			setTimeout(() => {
 				this.closeBox();
 				this.events.publish(this.global.currPath + ':succeed');
+				this.events.publish('classify:updated');
 				this.goPop.emit();
 			}, 500)
 		})

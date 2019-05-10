@@ -75,8 +75,8 @@ export class ClassifyListPage {
 
         ClassifyListPage._this = this;
 
-        this.events.unsubscribe('file:updated', ClassifyListPage.fileUpdated);
-        this.events.subscribe('file:updated', ClassifyListPage.fileUpdated);
+        this.events.unsubscribe('classify:updated', ClassifyListPage.fileUpdated);
+        this.events.subscribe('classify:updated', ClassifyListPage.fileUpdated);
         this.events.unsubscribe('image:move', ClassifyListPage.moveFileList);
         this.events.subscribe('image:move', ClassifyListPage.moveFileList);
     }
