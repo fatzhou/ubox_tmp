@@ -575,7 +575,7 @@ export class MiningPage {
 				// this._CONTEXT.globalCompositeOperation = 'source-over';
 				//开始获取图片位置
 				let x = maxIndex * widthBase;
-				GlobalService.consoleLog("最大值位置：", x, d[maxIndex]);
+				GlobalService.consoleLog("最大值位置：" + d[maxIndex]);
 				let top = d[maxIndex], bottom = height;
 				top = Math.ceil(top * ratio);	
 				bottom = Math.ceil(bottom * ratio);

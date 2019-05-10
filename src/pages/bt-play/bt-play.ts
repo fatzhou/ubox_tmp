@@ -18,9 +18,9 @@ export class BtPlayPage {
     }
 
     ionViewDidLoad() {
-        GlobalService.consoleLog('ionViewDidLoad BtPlayPage');
+        // GlobalService.consoleLog('ionViewDidLoad BtPlayPage');
         this.path = this.navParams.get("path") || '';
-        GlobalService.consoleLog(this.path)
+        // GlobalService.consoleLog(this.path)
     }
 
 }

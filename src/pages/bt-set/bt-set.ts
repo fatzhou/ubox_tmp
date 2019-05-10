@@ -42,7 +42,7 @@ export class BtSetPage {
     }
 
     ionViewDidLoad() {
-        GlobalService.consoleLog('ionViewDidLoad BtSetPage');
+        // GlobalService.consoleLog('ionViewDidLoad BtSetPage');
         this.getTaskConfig();
     }
     ionViewWillLeave() {
