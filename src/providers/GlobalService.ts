@@ -784,12 +784,12 @@ export class GlobalService {
         }
         ////android直接打印日志
         else if (GlobalService._global && GlobalService._global.platformName === 'android'){
-            GlobalService.consoleLog(str);
+            console.log(str);
         }
         ////ios 打印日志需要在setTimeout里面
         else{
             setTimeout(() => {
-                GlobalService.consoleLog(str);
+                console.log(str);
             }, 0);
         }
 	}
