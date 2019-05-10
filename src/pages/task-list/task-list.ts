@@ -5,6 +5,7 @@ import { GlobalService } from '../../providers/GlobalService';
 import { Lang } from '../../providers/Language';
 import { FileOpener } from '@ionic-native/file-opener';
 import { Util } from '../../providers/Util';
+import { HttpService } from '../../providers/HttpService';
 import { FileManager } from '../../providers/FileManager';
 import { ItemSliding } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
@@ -69,7 +70,8 @@ export class TaskListPage {
         private platform: Platform,
         private fileOpener: FileOpener,
         private fileManager: FileManager,
-		private util: Util,
+        private http: HttpService,
+        private util: Util,
 		private zone: NgZone,
 		private cd: ChangeDetectorRef,
 		private transfer: FileTransport,
@@ -97,7 +99,7 @@ export class TaskListPage {
             this.isDeleteType = 'android';
         }
 	}
-	
+
 	ngOnDestory() {
 		this.events.unsubscribe('file:updated',this.filterTaskList);
 		this.events.unsubscribe('task:created',this.filterTaskList);
@@ -311,6 +313,10 @@ export class TaskListPage {
     }
 
     toggleStatus(task) {
+        if (this.http.isNetworkReady(true)){
+            return;
+        }
+
         if(task.pausing === 'paused' || task.pausing === 'waiting') {
             this.startTask(task);
         } else {

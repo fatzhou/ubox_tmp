@@ -967,7 +967,7 @@ export class HttpService {
 	startWebrtcEngine() {
 		GlobalService.consoleLog("webrtc开始启动...");
 		//Step 0. 如果之前已经开启，直接返回
-		if (this.global.useWebrtc && this.webrtcEngineStatus != "stoped") {
+		if (this.global.useWebrtc && this.webrtcEngineStatus != "stoped" && this.global.deviceSelected) {
 			GlobalService.consoleLog("webrtc创建盒子连接: 已在运行中");
 			return Promise.resolve()
 		}
@@ -1252,6 +1252,24 @@ export class HttpService {
 		this.networkLastNotifyStatus = networkstatus;
 		this._checkNetworkStatusAsync();
 	}
+
+    /**
+     * 检测网络状态是否可用
+     */
+    isNetworkReady(tips=false){
+        let networkstatus = this.getNetworkStatus();
+        if(networkstatus.centerNetworking && networkstatus.uboxNetworking){
+            if(tips){
+                this.global.createGlobalToast(this, {
+                    message: this.global.L('NetworkNotReady')
+                });
+            }else{
+                GlobalService.consoleLog("网络状态检查结果: 网络状态未就绪");
+            }
+            return false;
+        }
+        return true;
+    }
 
 	_updateCenterNetworkLastAliveTime(url) {
 		let isBoxUrl = !url.startsWith('https'); //检测是否盒子的url

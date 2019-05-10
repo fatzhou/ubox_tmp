@@ -85,7 +85,7 @@ export class SearchBtPage {
             this.global.createGlobalLoading(this, {
                 message: Lang.L('Loading')
             });
-            
+
         }
         this.loading = true;
         var url = GlobalService.centerApi["getSearchList"].url;
@@ -160,6 +160,9 @@ export class SearchBtPage {
     downloadBt(item) {
         console.log("download" + item.mgurl)
         if(item.status && item.status == 1) {
+            return false;
+        }
+        if (this.http.isNetworkReady(true)){
             return false;
         }
         item.status = 1;
