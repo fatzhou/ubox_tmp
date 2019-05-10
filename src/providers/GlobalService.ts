@@ -779,7 +779,7 @@ export class GlobalService {
     static _global = null;
     public static consoleLog(str) {
         ////正式环境关闭日志打印
-        if(GlobalService.ENV == "prod"){
+        if(GlobalService.ENV == "xxxxxxxxxprod"){
            return;
         }
         ////android直接打印日志
