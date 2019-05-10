@@ -203,6 +203,7 @@ export class Util {
                 GlobalService.consoleLog("登录中心成功，获取个人信息" + JSON.stringify(res));
                 if (res.err_no === 0) {
                     GlobalService.consoleLog("登录中心成功，获取个人信息");
+                    this.setUserList();
                     resolve(res)
                 } else {
                     GlobalService.consoleLog("登录中心失败");
@@ -851,7 +852,7 @@ export class Util {
 			})
         })
     }
-	
+
     searchUbbey(imediate = false, fastSearchBoxid = "") {
 		let start = Date.now();
         let logid = Date.now();
