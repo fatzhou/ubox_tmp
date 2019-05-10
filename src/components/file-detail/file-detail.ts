@@ -81,7 +81,7 @@ export class FileDetailComponent {
 			setTimeout(() => {
 				this.closeBox();
 				this.events.publish(this.global.currPath + ':succeed');
-					this.goPop.emit();
+				this.goPop.emit();
 			}, 500)
 		})
 	}
