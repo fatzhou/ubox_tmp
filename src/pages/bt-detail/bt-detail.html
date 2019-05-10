@@ -85,7 +85,7 @@
         </div>  
     </div>
     <div class="download-btn-box">
-        <button class="download-btn" [disabled]="!!status" (click)="downloadBt()">{{ global.L("Download") }}</button>
+        <button class="download-btn" [ngClass]="!!status ? 'noclick' : ''" (click)="downloadBt()">{{ global.L("Download") }}</button>
     </div>
     
    
