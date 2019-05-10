@@ -141,6 +141,7 @@ export class TabsPage {
 						this.global.createGlobalToast(this, {
 							message: Lang.L('uploadFinished')
 						})
+						this.checkVersion();
 					}, () => {
 						this.global.closeGlobalLoading(this);
 						//升级失败
@@ -275,7 +276,10 @@ export class TabsPage {
             return this.checkUpdate.updateRomIndeed(this.boxUpdateInfo.dstVer, this.boxUpdateInfo.signature, resolve, reject);
         })
         .then(ver => {
-            GlobalService.consoleLog("升级成功：" + ver);
+			GlobalService.consoleLog("升级成功：" + ver);
+			//升级成功重新获取status
+			this.util.getDiskStatus();
+			//缩略图.........
             this.version = this.global.deviceSelected.version;
             this.checkVersion();
         })
@@ -304,13 +308,13 @@ export class TabsPage {
     //远程获取配置
     getVersionControl() {
         var that = this;
-        var url = GlobalService.versionConfig[GlobalService.ENV];
+		var url = GlobalService.versionConfig[GlobalService.ENV];
         if(this.global.firstLoadVersion == 0){
             return this.http.get(url, {}, false, {}, {}, true)
             .then((res:any) => {
                 if(typeof res === 'string') {
                     res = JSON.parse(res);
-                }
+				}
                 if (res.appControls && res.boxVersionDescription && res.appVersionDescription) {
                     this.versionControl = res.appControls;
                     GlobalService.VersionControl = res.appControls;

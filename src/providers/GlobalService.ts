@@ -780,16 +780,16 @@ export class GlobalService {
     public static consoleLog(str) {
         ////正式环境关闭日志打印
         if(GlobalService.ENV == "prod"){
-			GlobalService.consoleLog(str);
+            console.log(str);
         }
         ////android直接打印日志
         else if (GlobalService._global && GlobalService._global.platformName === 'android'){
-            GlobalService.consoleLog(str);
+            console.log(str);
         }
         ////ios 打印日志需要在setTimeout里面
         else{
             setTimeout(() => {
-                GlobalService.consoleLog(str);
+                console.log(str);
             }, 0);
         }
 	}

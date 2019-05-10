@@ -277,8 +277,10 @@ export class CheckUpdate {
                                 });
                                 // this.version = dstVer;
                                 this.global.deviceSelected.version = version;  
-                                let device = this.global.foundDeviceList.filter(item => item.boxId === boxId);
-                                device.version = version;
+								let device = this.global.foundDeviceList.find(item => item.boxId === boxId);
+								if(device) {
+									device.version = version;
+								}
                                 // resolve('updated', res);                              
                                 resolve({
                                     type: 'updated',
@@ -296,12 +298,18 @@ export class CheckUpdate {
                             });
                             reject()
                         })
-                    } else if(res.status === 1 || res.status === 1604) {
-                        GlobalService.consoleLog("正在升级中");
-                    } else {
+                    // } else if(res.status === 1 || res.status === 1604) {
+                    } else  {
+						GlobalService.consoleLog("正在升级中");
+						if(!this.global.loadingCtrl) {
+							this.global.createGlobalLoading(this, {
+								message: this.global.L("romUpdatingTips")
+							})
+						}
+					}/* else {
                         this.status = 'normal';
                         throw new Error("升级失败：" + JSON.stringify(res));
-                    }
+                    }*/
                 } 
             })
             .catch(e => {

@@ -258,7 +258,7 @@ export class ListPage {
     listUploadFiles(task:any = null) {
         if(!task  ||  this.currDiskUuid == task.diskUuid) {
             this.listFiles();
-        } 
+        }
     }
 
     refreshFilesEvent() {
@@ -472,7 +472,7 @@ export class ListPage {
 		return this.http.postWithStorage(url, {
 			path: this.currPath,
 			disk_uuid: this.currDiskUuid
-		}, true, {}, {
+		}, false, {}, {
 			storageName: 'FileStorage' + Md5.hashStr(this.currPath + this.currDiskUuid).toString(),
 		})
         .then((res:any) => {
