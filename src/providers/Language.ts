@@ -3882,7 +3882,7 @@ export class Lang {
 
     static BTSeeds = {
         cn: 'BT种子',
-        en: 'BT Seeds',
+        en: 'BitTorrent',
         kr: 'BT시드'
     }
 
