@@ -44,11 +44,12 @@ export class HttpService {
 	// createDataChannelPoint: number = 0; //上一次重建连接的时间点，用于超时检测
 	channels: any = {}; //所有的datachannels
 	webrtcEngineStatus = "stoped";     //"closing", "closed", "opening", "opended"
-	webrtcEngineLastAliveTime = Date.now();   //最后活跃时间
-	webrtcEngineRestartTimer = null;         //开启重试定时器
-	centerNetworkLastAliveTime = Date.now();   //中心请求最后活跃时间
-	centerNetworkChecking = false;        //是否正在检测中心网络状态
-	networkIndeedError = null;         //中心连接明确出错
+	webrtcEngineLastAliveTime = Date.now();     //最后活跃时间
+	webrtcEngineRestartTimer = null;            //开启重试定时器
+	centerNetworkLastAliveTime = Date.now();    //中心请求最后活跃时间
+    centerNetworkChecking = false;              //是否正在检测中心网络状态
+    centerNetworkCheckTimer = null;             //检测中心网络状态定时器
+	networkIndeedError = null;                  //中心连接明确出错
 	networkLastNotifyStatus = null;         //最后发送的通知对应的网络状态
 	isBoxUrlReg = /^http(s?):\/\/(\d){1,3}\.(\d){1,3}\.(\d){1,3}\.(\d){1,3}:(\d){1,5}/g;
 
@@ -84,7 +85,8 @@ export class HttpService {
 			this.channels[item] = {};
 			this.globalCallbackList[item] = {};
 			this.globalWaitingList[item] = {};
-		})
+		});
+        this.centerNetworkCheckTimer = setInterval(()=>{this._checkNetworkStatusAsync()}, 30000);
 	}
 
 
@@ -847,7 +849,7 @@ export class HttpService {
 
 	downloadFile(remoteUrl, params, headers, forceLocal = false) {
 		GlobalService.consoleLog("开始下载任务: params:" + JSON.stringify(params));
-		var url = this.global.getBoxApi('downloadFile');
+		let url = this.global.getBoxApi('downloadFile');
 		GlobalService.consoleLog(`下载url: ${url}, 远端路径: ${remoteUrl}, 文件路径:${params.filePath}, 临时文件：${params.tmpFileName}`);
 		if (!this.global.useWebrtc || forceLocal) {
 			return this.http.downloadFile(url, {
@@ -912,13 +914,13 @@ export class HttpService {
 		} else {
 			//webrtc
 			return new Promise((resolve, reject) => {
-				var form = new FormData();
-				var buf = new Buffer('');
+				let form = new FormData();
+				let buf = new Buffer('');
 				let r = Date.now();
 				form.on("data", (d) => {
 					// GlobalService.consoleLog("文件数据接收事件:" + (d.length || d.byteLength));
 					buf = Buffer.concat([buf, new Buffer(d)]);
-				})
+				});
 				form.on("end", () => {
 					// GlobalService.consoleLog("文件数据接收完毕");
 					this.webrtcRequest(url, 'post', buf, {
@@ -929,7 +931,7 @@ export class HttpService {
 							channelLabel: this.channels['upload'] ? 'upload' : this.channelLabels[0]
 						})
 						.then(resolve, reject);
-				})
+				});
 				form.append("range", params.range);
 				form.append("path", params.path);
 				form.append("name", params.name);
@@ -965,7 +967,7 @@ export class HttpService {
 	startWebrtcEngine() {
 		GlobalService.consoleLog("webrtc开始启动...");
 		//Step 0. 如果之前已经开启，直接返回
-		if (this.global.useWebrtc && this.webrtcEngineStatus != "stoped") {
+		if (this.global.useWebrtc && this.webrtcEngineStatus != "stoped" && this.global.deviceSelected) {
 			GlobalService.consoleLog("webrtc创建盒子连接: 已在运行中");
 			return Promise.resolve()
 		}
@@ -1250,6 +1252,24 @@ export class HttpService {
 		this.networkLastNotifyStatus = networkstatus;
 		this._checkNetworkStatusAsync();
 	}
+
+    /**
+     * 检测网络状态是否可用
+     */
+    isNetworkReady(tips=false){
+        let networkstatus = this.getNetworkStatus();
+        if(networkstatus.centerNetworking && networkstatus.uboxNetworking){
+            if(tips){
+                this.global.createGlobalToast(this, {
+                    message: this.global.L('NetworkNotReady')
+                });
+            }else{
+                GlobalService.consoleLog("网络状态检查结果: 网络状态未就绪");
+            }
+            return false;
+        }
+        return true;
+    }
 
 	_updateCenterNetworkLastAliveTime(url) {
 		let isBoxUrl = !url.startsWith('https'); //检测是否盒子的url

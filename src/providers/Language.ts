@@ -1671,7 +1671,12 @@ export class Lang {
         cn: '开始下载文件',
         en: 'Start downloading',
         kr: '다운로드를 시작'
-    }
+    };
+    static NetworkNotReady = {
+        cn: '网络未准备就绪，请稍候重试',
+        en: 'Network not ready, please try again later',
+        kr: ''
+    };
     static WORDc8b1ea31 = {
         cn: "尚未选择文件，无法下载",
         en: "You haven't selected any files, unable to download",
@@ -4463,6 +4468,6 @@ export class Lang {
 		en: 'Price',
 		kr: ''
     }
-    
-    
+
+
 }
