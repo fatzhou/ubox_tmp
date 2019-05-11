@@ -519,7 +519,7 @@ export class ClassifyListPage {
                 label: 4
             },
             'bt': {
-                title: Lang.L('DirBT'),
+                title: Lang.L('BTSeeds'),
                 path: '/Bittorrent',
                 label: 6
             }
