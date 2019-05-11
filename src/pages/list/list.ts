@@ -535,16 +535,19 @@ export class ListPage {
 	}
 
 	handleThumbnailError(obj, e) {
-        GlobalService.consoleLog("缩略图加载出错, 设置为默认图......." + obj.thumbnail)
-        var md5 = Md5.hashStr(this.currPath.replace('\/$', '') + '/' + obj.name).toString();
-        this.global.thumbnailMap[md5] = '';
-        this.file.removeFile(obj.thumbnail, obj.name);
-		var defaultPhoto = "./assets/img/image1.svg";
-		if(obj.fileStyle == 'image') {
-			obj.thumbnail = defaultPhoto;
-		} else {
-			obj.thumbnail = '';
-		}
+		this.util.handleThumbnailError(obj);
+        // GlobalService.consoleLog("缩略图加载出错, 设置为默认图......." + obj.thumbnail)
+        // var md5 = Md5.hashStr(this.currPath.replace('\/$', '') + '/' + obj.name).toString();
+		// this.global.thumbnailMap[md5] = '';
+		// if(obj.thumbnail) {
+		// 	this.file.removeFile(obj.thumbnail.replace(/\/[^\/]+$/g, '/'), obj.name);
+		// }
+		// var defaultPhoto = "./assets/img/image1.svg";
+		// if(obj.fileStyle == 'image') {
+		// 	obj.thumbnail = defaultPhoto;
+		// } else {
+		// 	obj.thumbnail = '';
+		// }
 		//存入全局缓存，将会导致该图片永不刷新
 		// var md5 = Md5.hashStr(that.currPath.replace('\/$', '') + '/' + obj.name).toString();
 		// that.global.thumbnailMap[md5] = defaultPhoto;

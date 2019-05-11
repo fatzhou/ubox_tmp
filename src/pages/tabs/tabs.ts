@@ -279,8 +279,8 @@ export class TabsPage {
         })
         .then(ver => {
 			GlobalService.consoleLog("升级成功：" + ver);
-			//升级成功重新获取status
-			this.util.getDiskStatus();
+			//升级成功需要刷新列表
+			this.events.publish('list:refresh');
 			//缩略图.........
             this.version = this.global.deviceSelected.version;
             this.checkVersion();
@@ -332,9 +332,7 @@ export class TabsPage {
                 GlobalService.consoleLog('版本配置赋值出错:' + e.stack);
             })
         } else {
-            return new Promise(()=>{
-
-            })
+            return Promise.resolve(this.versionControl);
         }
     }
 

@@ -280,13 +280,17 @@ export class ClassifyListPage {
 	}
 	
 	handleThumbnailError(obj, e) {
-		GlobalService.consoleLog("缩略图加载出错.......")
-		var defaultPhoto = "./assets/img/image1.svg";
-		if(this.classify == 1) {
-			obj.thumbnail = defaultPhoto;
-		} else {
-			obj.thumbnail = '';
-		}
+		this.util.handleThumbnailError(obj);
+		// GlobalService.consoleLog("缩略图加载出错.......")
+		// var defaultPhoto = "./assets/img/image1.svg";
+		// if(obj.thumbnail) {
+		// 	this.file.removeFile(obj.thumbnail.replace(/\/[^\/]+$/g, '/'), obj.name);
+		// }
+		// if(this.classify == 1) {
+		// 	obj.thumbnail = defaultPhoto;
+		// } else {
+		// 	obj.thumbnail = '';
+		// }
 		//存入全局缓存，将会导致该图片永不刷新
 		// var md5 = Md5.hashStr(that.currPath.replace('\/$', '') + '/' + obj.name).toString();
 		// that.global.thumbnailMap[md5] = defaultPhoto;
