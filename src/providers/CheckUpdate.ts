@@ -277,16 +277,12 @@ export class CheckUpdate {
                                 this.global.createGlobalToast(this, {
                                     message: Lang.L("uploadFinished")
                                 });
-                                console.log("aaaaaaa")
                                 // this.version = dstVer;
                                 deviceSelected.version = version; 
-                                console.log("bbbbbb")
                                 let device = this.global.foundDeviceList.find(item => item.boxId === boxId);
-                                console.log("cccccc")
                                 if(device) {
                                     device.version = version;
                                 }
-                                console.log("dddd" + JSON.stringify(resolve));
                                 // resolve('updated', res);                              
                                 resolve(version);
                             }
