@@ -238,6 +238,11 @@ export class CheckUpdate {
     }
 
     _checkUpdateStatus(resolve, reject) {
+		if(this.status == 'updating') {
+			GlobalService.consoleLog("Firwarming updating check is doing...");
+			reject();
+			return false;
+		}
         let updateUrl = this.setUpdateRomUrl(this.global.getBoxApi('checkRomUpdateStatus'));
         //轮询检查升级状态
         let deviceVersion = this.global.deviceSelected.version;
@@ -297,24 +302,26 @@ export class CheckUpdate {
                             });
                             reject()
                         })
-                    // } else if(res.status === 1 || res.status === 1604) {
-                    } else  {
+                    } else if(res.status === 1 || res.status === 1604 || res.status == 1603) {
+                    // } else  {
 						GlobalService.consoleLog("正在升级中");
 						if(!this.global.loadingCtrl) {
 							this.global.createGlobalLoading(this, {
 								message: this.global.L("romUpdatingTips")
 							})
 						}
-					}/* else {
-                        this.status = 'normal';
-                        throw new Error("升级失败：" + JSON.stringify(res));
-                    }*/
+					} else {
+                        // this.status = 'normal';
+						throw new Error("升级失败：" + JSON.stringify(res));
+						// reject();
+                    }
                 } 
             })
             .catch(e => {
                 GlobalService.consoleLog("catch报错了");
                 GlobalService.consoleLog(e.stack);
-                this.global.closeGlobalLoading(this);
+				this.global.closeGlobalLoading(this);
+				this.status = 'normal';
                 clearInterval(interval);
                 interval = null;
                 this.global.createGlobalToast(this, {

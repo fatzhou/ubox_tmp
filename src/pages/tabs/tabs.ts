@@ -141,8 +141,14 @@ export class TabsPage {
 						this.global.createGlobalToast(this, {
 							message: Lang.L('uploadFinished')
 						})
-						this.events.publish('list:refresh');
-						this.checkVersion();
+						let match = this.checkVersion();
+						//当前版本未命中规则，通知更新
+						if(match < 0) {
+							//如果版本没够，则不弹窗
+							if(this.global.deviceSelected && (this.global.deviceSelected.version )) {
+								this.events.publish('list:refresh');
+							}
+						}
 					}, () => {
 						this.global.closeGlobalLoading(this);
 						//升级失败
@@ -343,7 +349,7 @@ export class TabsPage {
         let index = this.checkUpdate.checkVersionMatch(this.versionControl);
         console.log('checkVersionMatch  ' + index);
         if (index < 0) {
-            GlobalService.consoleLog("Not match rules! Check version ignore update.");
+			GlobalService.consoleLog("Not match rules! Check version ignore update.");
         } else {
             let action = this.versionControl[GlobalService.AppVersion].versionList[index].action;
             if (action) {
@@ -352,8 +358,9 @@ export class TabsPage {
                 } catch (e) {
                     GlobalService.consoleLog("执行action出错:" + e.message);
                 }
-            }
-        }
+			}
+		}
+		return index;
     }
     
     ionViewDidLoad() {
