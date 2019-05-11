@@ -272,7 +272,10 @@ export class FindPage {
 							.then((res:any) => {
 								GlobalService.consoleLog("正在下载bt")
 								item.status = 1;
-							});	
+							})
+							.catch(e => {
+								console.log('下载失败')
+							})
 						} 
 						return true;
 					}

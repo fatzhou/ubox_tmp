@@ -2145,6 +2145,12 @@ export class Util {
 
     downloadBt(bturl,id) {
         var url = this.global.getBoxApi("btDownlaod");
+        if(!this.global.deviceSelected) {
+            this.global.createGlobalToast(this, {
+                message: Lang.L('noBindBox')
+            })
+            return Promise.reject({});
+        }
         this.global.createGlobalLoading(this, {
             message: Lang.L('Creating')
         });

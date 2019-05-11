@@ -4468,6 +4468,10 @@ export class Lang {
 		en: 'Price',
 		kr: ''
     }
-
+    static noBindBox = {
+        cn: "您当前尚未连接到设备",
+        en: "",
+        kr: ""
+    };
 
 }

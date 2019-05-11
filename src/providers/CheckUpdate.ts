@@ -303,17 +303,15 @@ export class CheckUpdate {
                             reject()
                         })
                     } else if(res.status === 1 || res.status === 1604 || res.status == 1603) {
-                    // } else  {
-						GlobalService.consoleLog("正在升级中");
+                        GlobalService.consoleLog("正在升级中");
+                        this.status = 'normal';
 						if(!this.global.loadingCtrl) {
 							this.global.createGlobalLoading(this, {
 								message: this.global.L("romUpdatingTips")
 							})
 						}
 					} else {
-                        // this.status = 'normal';
 						throw new Error("升级失败：" + JSON.stringify(res));
-						// reject();
                     }
                 } 
             })

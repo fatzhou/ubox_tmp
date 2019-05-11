@@ -179,6 +179,9 @@ export class SearchBtPage {
                         .then(res => {
                             GlobalService.consoleLog("正在下载bt")
                         })
+                        .catch(e => {
+                            console.log('下载失败')
+                        })
                         return true;
                     }
                 },

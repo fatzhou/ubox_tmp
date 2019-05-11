@@ -198,6 +198,9 @@ export class BtDetailPage {
 			GlobalService.consoleLog("正在下载bt")
 			this.events.publish('btdownloading', this.detailId);
 		})
+		.catch(e => {
+			console.log('下载失败')
+		})
 	}
 
 	toggleShowDesc() {
