@@ -141,6 +141,7 @@ export class TabsPage {
 						this.global.createGlobalToast(this, {
 							message: Lang.L('uploadFinished')
 						})
+						this.events.publish('list:refresh');
 						this.checkVersion();
 					}, () => {
 						this.global.closeGlobalLoading(this);

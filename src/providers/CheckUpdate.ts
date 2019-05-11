@@ -267,8 +267,8 @@ export class CheckUpdate {
                             GlobalService.consoleLog("检查更新成功后版本号为：" + version);
                             this.global.closeGlobalLoading(this); 
 
-                            if(deviceVersion == deviceSelected.version) {
-                                console.error("升级失败，却返回升级成功！");
+                            if(deviceVersion == version) {
+                                console.error("升级失败，却返回升级成功！" + deviceVersion);
                                 this.global.createGlobalToast(this, {
                                     message: Lang.L("updateRomError")
                                 });

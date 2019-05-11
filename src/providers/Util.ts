@@ -1001,7 +1001,7 @@ export class Util {
             let deviceSelected = this.global.foundDeviceList.find(item => {
                 return item.boxId === boxId;
             });
-            this.global.setSelectedBox(deviceSelected)
+            this.global.setSelectedBox(deviceSelected);
         };
 
         return this.http.post(url, {}, false)
@@ -2171,7 +2171,7 @@ export class Util {
 
     getDiskStatus() {
 		var url = this.global.getBoxApi("getDiskStatus");
-		return this.http.postWithStorage(url, {}, true, {}, {
+		return this.http.postWithStorage(url, {}, false, {}, {
 			storageName: 'DiskStatusInfo'
 		})
 		.then((data:any) => {
