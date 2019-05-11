@@ -47,6 +47,7 @@ export class DeviceSearchPage {
 
 	bindBox(box) {
 		GlobalService.consoleLog("已选定盒子：" + JSON.stringify(box));
+		this.http.stopWebrtcEngine();
 		this.global.setSelectedBox(box);
 		this.util.bindBox(this)
 		.then(res => {
