@@ -979,7 +979,7 @@ export class Util {
             };
 
             let doSearch = ()=> {
-                if (this.searchUbbeyDoingCount == 0){
+                if (this.searchUbbeyDoingCount <= 0){
                     this.searchUbbeyDoingCount++;
                     GlobalService.consoleLog("["+logid+"]" + "无其他搜索请求正在调用，直接调用插件...");
                     serviceDiscovery.getNetworkServices(serviceType, fastSearchBoxid, processRes, failure);
@@ -995,7 +995,7 @@ export class Util {
 
     getBoxVersion(boxId:string = "") {
         let url = this.global.getBoxApi('keepAlive');
-        let count = 3;
+        let count = 10;
 
         let updateDeviceSelected = () => {
             let deviceSelected = this.global.foundDeviceList.find(item => {
@@ -1020,7 +1020,7 @@ export class Util {
             GlobalService.consoleLog("查看盒子版本号失败");
             return new Promise((resolve, reject) => {
                 let searchUbbey = () => {
-                    this.searchUbbey(false, boxId)
+                    this.searchUbbey(true, boxId)
                     .then(res => {
                         updateDeviceSelected();
                         if(this.global.deviceSelected) {
@@ -1354,19 +1354,20 @@ export class Util {
                     return this.http.post(GlobalService.centerApi["getWalletBalance"].url, {
                         wallet: wallet.join(',')
                     })
+                    .then((data:any) => {
+                        if(data.err_no == 0) {
+                            for(let i = 0, len = this.global.walletList.length; i < len; i++) {
+                                this.global.walletList[i].earn_this_month = this.cutFloat(data.wallet[i].earn_this_month / GlobalService.CoinDecimal, 2);
+                            }
+                        }
+                        return this.global.walletList;
+                    })   
                 }
 			} else {
 				return []
 			}
 		})
-		.then((res:any) => {
-			if(res.err_no == 0) {
-				for(let i = 0, len = this.global.walletList.length; i < len; i++) {
-					this.global.walletList[i].earn_this_month = this.cutFloat(res.wallet[i].earn_this_month / GlobalService.CoinDecimal, 2);
-				}
-			}
 
-		})
 
 		// this.storage.get('walletList')
         // .then(res => {

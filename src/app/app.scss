@@ -95,6 +95,7 @@
 	top: 0;
 	left: 0;
 	z-index: 99;
+	overflow: hidden;
 	.aside-nav-bg {
 		position: absolute;
 		top: 0;
@@ -110,6 +111,7 @@
 		top: 0;
 		left: 0;
 		background: #222126;
+		overflow: hidden;
 		box-shadow: 0 0 20px rgba(0,0,0,0.5);
 		.nav-head {
 			height: 140px;

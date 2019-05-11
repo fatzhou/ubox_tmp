@@ -241,7 +241,8 @@ export class CheckUpdate {
         let updateUrl = this.setUpdateRomUrl(this.global.getBoxApi('checkRomUpdateStatus'));
         //轮询检查升级状态
         let deviceVersion = this.global.deviceSelected.version;
-        let boxId = this.global.deviceSelected.boxId;
+        let deviceSelected = this.global.deviceSelected;
+        let boxId = deviceSelected.boxId;
         GlobalService.consoleLog("升级时boxId " + boxId + "status" + this.status);
         this.status = 'updating';
         var interval = setInterval(()=>{
@@ -256,6 +257,7 @@ export class CheckUpdate {
                 if(res.err_no === 0) {
                     //忽略1604错误
                     if(res.status === 0) {
+                        console.log("升级已经成功，获取盒子版本:" + boxId);
                         this.status = "normal";
                         clearInterval(interval);
                         interval = null;                        
@@ -265,7 +267,7 @@ export class CheckUpdate {
                             GlobalService.consoleLog("检查更新成功后版本号为：" + version);
                             this.global.closeGlobalLoading(this); 
 
-                            if(deviceVersion == this.global.deviceSelected.version) {
+                            if(deviceVersion == deviceSelected.version) {
                                 console.error("升级失败，却返回升级成功！");
                                 this.global.createGlobalToast(this, {
                                     message: Lang.L("updateRomError")
@@ -275,17 +277,18 @@ export class CheckUpdate {
                                 this.global.createGlobalToast(this, {
                                     message: Lang.L("uploadFinished")
                                 });
+                                console.log("aaaaaaa")
                                 // this.version = dstVer;
-                                this.global.deviceSelected.version = version;  
-								let device = this.global.foundDeviceList.find(item => item.boxId === boxId);
-								if(device) {
-									device.version = version;
-								}
+                                deviceSelected.version = version; 
+                                console.log("bbbbbb")
+                                let device = this.global.foundDeviceList.find(item => item.boxId === boxId);
+                                console.log("cccccc")
+                                if(device) {
+                                    device.version = version;
+                                }
+                                console.log("dddd" + JSON.stringify(resolve));
                                 // resolve('updated', res);                              
-                                resolve({
-                                    type: 'updated',
-                                    data: res
-                                })
+                                resolve(version);
                             }
                         })
                         .catch(e => {

@@ -184,9 +184,11 @@ export class TabsPage {
             GlobalService.consoleLog('准备检查固件升级');
             this.getVersionControl()
             .then((res) => {
+                console.log('准备执行checkVersion');
                 this.checkVersion();
             })
             .catch(e => {
+                console.log('未执行checkVersion');
                 GlobalService.consoleLog(e.stack);
                 this.global.closeGlobalLoading(this);
                 this.initNoticeList();
@@ -273,7 +275,7 @@ export class TabsPage {
 
         return new Promise((resolve, reject) => {
             GlobalService.consoleLog("升级信息:" + GlobalService.consoleLog(JSON.stringify(this.boxUpdateInfo)));
-            return this.checkUpdate.updateRomIndeed(this.boxUpdateInfo.dstVer, this.boxUpdateInfo.signature, resolve, reject);
+            this.checkUpdate.updateRomIndeed(this.boxUpdateInfo.dstVer, this.boxUpdateInfo.signature, resolve, reject);
         })
         .then(ver => {
 			GlobalService.consoleLog("升级成功：" + ver);
@@ -338,8 +340,9 @@ export class TabsPage {
 
     checkVersion() {
         let index = this.checkUpdate.checkVersionMatch(this.versionControl);
+        console.log('checkVersionMatch  ' + index);
         if (index < 0) {
-            throw new Error("Not match rules!");
+            GlobalService.consoleLog("Not match rules! Check version ignore update.");
         } else {
             let action = this.versionControl[GlobalService.AppVersion].versionList[index].action;
             if (action) {
