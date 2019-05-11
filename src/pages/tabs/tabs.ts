@@ -147,7 +147,8 @@ export class TabsPage {
 						//升级失败
 						this.global.createGlobalToast(this, {
 							message: Lang.L('updateRomError')
-						})
+						});
+						this.checkVersion();
 					})
 				}
             })

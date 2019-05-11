@@ -6,6 +6,7 @@ import { TabsPage } from '../tabs/tabs';
 import { HttpService } from '../../providers/HttpService';
 import { JSONPBackend } from '@angular/http';
 import { Events } from 'ionic-angular';
+import { DeviceGuidancePage } from '../device-guidance/device-guidance';
 
 /**
  * Generated class for the DeviceSearchPage page.
@@ -51,7 +52,7 @@ export class DeviceSearchPage {
 		.then(res => {
 			if(res) {
 				// this.util.checkoutBox(this);
-				this.events.publish('check-box-app');
+				// this.events.publish('check-box-app');
 				//this.global.setSelectedBox(box);
 				this.bindStatus = 1;
 			} else {
@@ -66,7 +67,14 @@ export class DeviceSearchPage {
 	}
 
 	goNext() {
-		this.navCtrl.setRoot(TabsPage);
+		if(this.bindStatus == 1) {
+			this.navCtrl.setRoot(TabsPage)
+			.then(res => {
+				this.events.publish('check-box-app');
+			})			
+		} else {
+			this.navCtrl.setRoot(DeviceGuidancePage);
+		}
 	}
 
     doRefresh(event) {

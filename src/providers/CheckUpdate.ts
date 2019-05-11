@@ -243,7 +243,7 @@ export class CheckUpdate {
         let deviceVersion = this.global.deviceSelected.version;
         let deviceSelected = this.global.deviceSelected;
         let boxId = deviceSelected.boxId;
-        GlobalService.consoleLog("升级时boxId " + boxId + "status" + this.status);
+        GlobalService.consoleLog("升级时boxId " + boxId + "status" + this.status + ",version:" + deviceVersion);
         this.status = 'updating';
         var interval = setInterval(()=>{
             if(this.status === 'normal') {
