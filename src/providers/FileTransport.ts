@@ -332,15 +332,16 @@ export class FileTransport {
      * @param {[type]} remoteUrl [远程文件夹路径，不包含文件名]
      * @param {[type]} localPath [本地文件夹路径，不包含文件名]
      */
-	getFileLocalOrRemote(remoteUrl, remoteName, localPath, name, fileSubPath, fileStyle = 'image') {
+	getFileLocalOrRemote(remoteUrl, remoteName, localPath, localName, fileSubPath, fileStyle = 'image') {
 		if(!this.platform.is('cordova')) {
 			GlobalService.consoleLog('Not cordova, can not download file...');
 			return;
 		}
 		remoteUrl = remoteUrl.replace(/\/$/, '') + "/";
 		localPath = localPath.replace(/\/$/, '') + "/";
-		GlobalService.consoleLog(`查询${localPath}下是否存在文件${name}`)
-		GlobalService.consoleLog(`如果不存在，则直接从${remoteUrl}处下载${remoteName}文件`)
+		GlobalService.consoleLog(`查询${localPath}下是否存在文件${localName}`);
+		GlobalService.consoleLog(`如果不存在，则直接从${remoteUrl}处下载${remoteName}文件`);
+		var name = Md5.hashStr(remoteUrl + remoteName).toString().slice(0, 6) + "_";
 		//第1步，判断本地是否存在，若存在则直接使用
 		return this.file.checkFile(localPath, name)
 			.then(res => {
