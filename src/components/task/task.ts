@@ -83,7 +83,7 @@ export class TaskComponent {
 				GlobalService.consoleLog("任务列表过滤完毕...." + _that.fileTaskList.length);			
 			})			
 		} catch(e) {
-			console.log(e.message || e.stack);
+			GlobalService.consoleLog(e.message || e.stack);
 		}
 
 
@@ -92,7 +92,7 @@ export class TaskComponent {
 	}
 	
 	handleThumbnailError(obj, e) {
-		console.log("缩略图加载出错.......")
+		GlobalService.consoleLog("缩略图加载出错.......")
 		obj.thumbnail = './assets/img/image1.svg';
 		//存入全局缓存，将会导致该图片永不刷新
 		// var md5 = Md5.hashStr(that.currPath.replace('\/$', '') + '/' + obj.name).toString();
@@ -122,7 +122,7 @@ export class TaskComponent {
 
 					// this.fileManager.getThumbnail(task.localPath, task.path)
                     // .then(res => {
-					// 	console.log("获取缩略图成功：" + res)
+					// 	GlobalService.consoleLog("获取缩略图成功：" + res)
 					// 	if(res) {
 					// 		task.thumbnail = res;
 					// 		this.global.thumbnailMap[md5] = res;

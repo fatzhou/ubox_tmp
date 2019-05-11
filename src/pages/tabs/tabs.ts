@@ -100,7 +100,7 @@ export class TabsPage {
         // this.UserTitle = this.global.L('User');
 
         // window.handleOpenURL = (url) => {
-        //     console.log("Url已打开...." + url);
+        //     GlobalService.consoleLog("Url已打开...." + url);
         //     let reg = /^ubbeybox:\/\/(\w+)?(\?.+)?$/g;
         //     let matches = url.match(reg);
         //     if(matches) {
@@ -140,9 +140,8 @@ export class TabsPage {
 						//升级成功
 						this.global.createGlobalToast(this, {
 							message: Lang.L('uploadFinished')
-                        })
-                        
-                        this.checkVersion();
+						})
+						this.checkVersion();
 					}, () => {
 						this.global.closeGlobalLoading(this);
 						//升级失败
@@ -175,14 +174,14 @@ export class TabsPage {
         this.events.subscribe('get-wallet', () => {
             this.util.getWalletList()
             .catch(e => {
-                console.log(e);
+                GlobalService.consoleLog(e);
             })
         })
         
         //触发检查更新
         
         this.events.subscribe('check-box-app', () => {
-            console.log('准备检查固件升级');
+            GlobalService.consoleLog('准备检查固件升级');
             this.getVersionControl()
             .then((res) => {
                 console.log('准备执行checkVersion');
@@ -261,7 +260,7 @@ export class TabsPage {
                     this.navCtrl.setRoot(TabsPage);
                 }
             } else {
-                console.log('登录态失效去login')
+                GlobalService.consoleLog('登录态失效去login')
                 this.navCtrl.setRoot(LoginPage);
             }
         });
@@ -279,11 +278,12 @@ export class TabsPage {
             this.checkUpdate.updateRomIndeed(this.boxUpdateInfo.dstVer, this.boxUpdateInfo.signature, resolve, reject);
         })
         .then(ver => {
-            GlobalService.consoleLog("升级成功：" + ver);
-            if(this.global.deviceSelected) {
-                this.version = this.global.deviceSelected.version;
-                this.checkVersion();               
-            }
+			GlobalService.consoleLog("升级成功：" + ver);
+			//升级成功重新获取status
+			this.util.getDiskStatus();
+			//缩略图.........
+            this.version = this.global.deviceSelected.version;
+            this.checkVersion();
         })
         .catch(e => {
             GlobalService.consoleLog("首页升级出现异常：" + e.stack);
@@ -294,7 +294,7 @@ export class TabsPage {
         // this.selectedIndex = 0;
         if(!this.global.centerUserInfo.uname) {
             setTimeout(() => {
-                console.log("跳转发现页");
+                GlobalService.consoleLog("跳转发现页");
                 this.tabsCtrl.slideTo(0);
             }, 1000);
             this.navCtrl.push(LoginPage, {
@@ -310,14 +310,13 @@ export class TabsPage {
     //远程获取配置
     getVersionControl() {
         var that = this;
-        var url = GlobalService.versionConfig[GlobalService.ENV];
-        console.log('firstLoadVersion ' + this.global.firstLoadVersion);
+		var url = GlobalService.versionConfig[GlobalService.ENV];
         if(this.global.firstLoadVersion == 0){
             return this.http.get(url, {}, false, {}, {}, true)
             .then((res:any) => {
                 if(typeof res === 'string') {
                     res = JSON.parse(res);
-                }
+				}
                 if (res.appControls && res.boxVersionDescription && res.appVersionDescription) {
                     this.versionControl = res.appControls;
                     GlobalService.VersionControl = res.appControls;
@@ -361,7 +360,7 @@ export class TabsPage {
         if(this.global.deviceSelected) {
             this.util.getWalletList()
             .catch(e => {
-                console.log(e);
+                GlobalService.consoleLog(e);
             })
         }
 		//获取汇率
@@ -373,10 +372,10 @@ export class TabsPage {
 	ionViewCanEnter() {
 		//解决tabspage进入两次的问题
 		if(!this.navCtrl) {
-			console.log("没有navctrl......")
+			GlobalService.consoleLog("没有navctrl......")
 			return true;
 		} else {
-			console.log("进入tabs......")
+			GlobalService.consoleLog("进入tabs......")
 			let view = this.navCtrl.getActive();
 			if(!view || view.component != TabsPage) {
 				return true;
@@ -427,10 +426,10 @@ export class TabsPage {
         //         });
         //     }
         // }
-        // console.log('this.global.mainSelectDiskUuid' + this.global.mainSelectDiskUuid);
+        // GlobalService.consoleLog('this.global.mainSelectDiskUuid' + this.global.mainSelectDiskUuid);
         this.global.currDiskUuid = this.global.mainSelectDiskUuid;
         this.global.currSelectDiskUuid = this.global.mainSelectDiskUuid;
-        console.log('this.global.currDiskUuid' + this.global.currDiskUuid + 'this.global.mainSelectDiskUuid' + this.global.mainSelectDiskUuid);
+        GlobalService.consoleLog('this.global.currDiskUuid' + this.global.currDiskUuid + 'this.global.mainSelectDiskUuid' + this.global.mainSelectDiskUuid);
         this.global.currPath = '/';
         this.isClose = false;
         if (this.global.deviceSelected) {
@@ -440,7 +439,7 @@ export class TabsPage {
             // this.util.getDiskStatus()
             // .then(() => {
             if(this.global.currDiskUuid != '') {
-                console.log('回到首页，刷新列表');
+                GlobalService.consoleLog('回到首页，刷新列表');
                 this.events.publish('list:refresh');
                 this.events.publish('check-box-app');
             }
@@ -482,7 +481,7 @@ export class TabsPage {
     setIcons(e) {
         // this.selectIndex = e.index;
         // this.selectIndex = e.index;
-        // console.log("this.selectIndex" + this.selectIndex);
+        // GlobalService.consoleLog("this.selectIndex" + this.selectIndex);
         // if(!this.global.centerUserInfo.uname && (this.selectIndex == 1 || this.selectIndex == 2)){
         //     this.selectedIndex = 0;
         //     this.navCtrl.push(LoginPage, {
@@ -591,15 +590,15 @@ export class TabsPage {
         if(this.global.platformName == 'android') {
             this.fileOpener.appIsInstalled('com.android.vending')
             .then((res) => {
-                console.log('openApp ' + JSON.stringify(res))
+                GlobalService.consoleLog('openApp ' + JSON.stringify(res))
                 if (res.status === 0) {
-                    console.log('App is not installed.');
+                    GlobalService.consoleLog('App is not installed.');
                 } else {
                     window.open('market://details?id=com.ulabs.ubbeybox', '_system');
                 }
             })
             .catch(e => {
-                console.log('调用失败')
+                GlobalService.consoleLog('调用失败')
             })
         }
 
@@ -622,6 +621,6 @@ export class TabsPage {
     // }
 
     // onTabSelect(ev: any) {
-    //     console.log('Tab selected', 'Index: ' + ev.index, 'Unique ID: ' + ev.id);
+    //     GlobalService.consoleLog('Tab selected', 'Index: ' + ev.index, 'Unique ID: ' + ev.id);
     // }
 }

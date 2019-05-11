@@ -18,9 +18,7 @@ export class BtPlayPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad BtPlayPage');
         this.path = this.navParams.get("path") || '';
-        console.log(this.path)
     }
 
 }

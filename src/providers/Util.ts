@@ -170,7 +170,7 @@ export class Util {
         .then((boxes)=>{
             //检查盒子是否有自己的盒子
 			let myBox = boxes.find(item => {
-				console.log("盒子hash比较：" + item.bindUserHash + "," + $scope.global.centerUserInfo.unameHash)
+				GlobalService.consoleLog("盒子hash比较：" + item.bindUserHash + "," + $scope.global.centerUserInfo.unameHash)
 				return item.bindUserHash === $scope.global.centerUserInfo.unameHash
 			});
 
@@ -358,12 +358,12 @@ export class Util {
             //获取盒子的用户信息
             .then(()=>{
                 return this.http.post(this.global.getBoxApi('getUserInfo'), {}, false).then(res => {
-                    console.log("["+logid+"]" + "检测盒子的登录态" + JSON.stringify(res));
+                    GlobalService.consoleLog("["+logid+"]" + "检测盒子的登录态" + JSON.stringify(res));
                     if(res.err_no === 0) {
                         this.global.boxUserInfo = res.userinfo;
                         return this.global.deviceSelected;
                     }else{
-                        console.log("["+logid+"]" + "没有盒子登录态，暂不清除中心登录信息");
+                        GlobalService.consoleLog("["+logid+"]" + "没有盒子登录态，暂不清除中心登录信息");
                         this.global.setSelectedBox(null);
                         //this.global.centerUserInfo = {};
                         return Promise.reject("Error occured...");
@@ -376,14 +376,14 @@ export class Util {
                 this.http.notifyNetworkStatusChange();
                 this.getDiskStatus()
                     .then(() => {
-                        console.log("["+logid+"]" + "获取盒子状态成功，刷新list");
+                        GlobalService.consoleLog("["+logid+"]" + "获取盒子状态成功，刷新list");
                         this.events.publish('list:refresh');
-                        console.log("["+logid+"]" + "获取盒子状态成功，check-box-app");
+                        GlobalService.consoleLog("["+logid+"]" + "获取盒子状态成功，check-box-app");
                         this.events.publish('check-box-app');
                         this.events.publish('get-wallet');
                     })
                     .catch(() => {
-                        console.log("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
+                        GlobalService.consoleLog("["+logid+"]" + "获取盒子状态失败，!!!!!!!!");
                     });
                 this.global.appstatus = "working";
             })
@@ -657,7 +657,7 @@ export class Util {
                         }
                         this.checkoutBox($scope)
                         .catch(e => {
-                            console.log(e);
+                            GlobalService.consoleLog(e);
                         })
                     })
                 },3000)
@@ -844,7 +844,7 @@ export class Util {
 
 			this.file.listDir(this.global.fileSavePath, this.global.PhotoSubPath)
 			.then(res => {
-				console.log("文件夹列表:" + JSON.stringify(res));
+				GlobalService.consoleLog("文件夹列表:" + JSON.stringify(res));
 			});
 
 			this.global.createGlobalToast(this, {
@@ -2162,7 +2162,7 @@ export class Util {
 				let index = 0;
 				this.global.diskInfo = data.box;
                 this.global.diskInfo.disks = data.disks || [];
-                console.log('现在用的disk的值' + JSON.stringify(data.disks));
+                GlobalService.consoleLog('现在用的disk的值' + JSON.stringify(data.disks));
 				this.global.diskInfo.disks.map((item)=> {
 					if(item.label == '') {
 						item.label = 'DISK ' + label[index];

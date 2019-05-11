@@ -31,7 +31,7 @@ export class FileDetailPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad FileDetailPage');
+        GlobalService.consoleLog('ionViewDidLoad FileDetailPage');
         this.info = this.navParams.get("info");
         this.type = this.info.fileStyle;
         this.size = this.info.size;

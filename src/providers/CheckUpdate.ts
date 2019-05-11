@@ -87,7 +87,7 @@ export class CheckUpdate {
         .then((res:any) => {
             this.upgradeFlag = "doing";
             //用户要求升级
-            console.log("开始下载安装包...");
+            GlobalService.consoleLog("开始下载安装包...");
             // this.global.createGlobalLoading(this, {
             //     message: this.global.L("DownloadingPackages")
             // })
@@ -149,7 +149,7 @@ export class CheckUpdate {
         }, res => {
             this.global.closeGlobalLoading(this);
             //不存在升级或者用户拒绝升级
-            console.log("升级过程结束");
+            GlobalService.consoleLog("升级过程结束");
             throw new Error("Upgrade refused or no available upgrade...");
         })
         .then((res:any) => {
@@ -182,7 +182,7 @@ export class CheckUpdate {
             }
         })    
         .catch(e => {
-            console.log("未能正常升级:" + JSON.stringify(e));
+            GlobalService.consoleLog("未能正常升级:" + JSON.stringify(e));
             setTimeout(() => {
                 this.global.closeGlobalLoading(this);  
             }, 5000 - (Date.now() - start))      
@@ -253,7 +253,7 @@ export class CheckUpdate {
             }
             this.http.post(updateUrl, {}, false)
             .then(res => {
-                console.log("升级状态查询接口返回:" + JSON.stringify(res))
+                GlobalService.consoleLog("升级状态查询接口返回:" + JSON.stringify(res))
                 if(res.err_no === 0) {
                     //忽略1604错误
                     if(res.status === 0) {
@@ -279,7 +279,7 @@ export class CheckUpdate {
                                 });
                                 console.log("aaaaaaa")
                                 // this.version = dstVer;
-                                deviceSelected.version = version;  
+                                deviceSelected.version = version; 
                                 console.log("bbbbbb")
                                 let device = this.global.foundDeviceList.find(item => item.boxId === boxId);
                                 console.log("cccccc")
@@ -301,17 +301,18 @@ export class CheckUpdate {
                             });
                             reject()
                         })
-                    } else if(res.status === 1 || res.status === 1604) {
-                        GlobalService.consoleLog("正在升级中");
-                        if(!this.global.loadingCtrl) {
-                            this.global.createGlobalLoading(this, {
-                                message: this.global.L('romUpdatingTips')
-                            });
-                        }
-                    } else {
+                    // } else if(res.status === 1 || res.status === 1604) {
+                    } else  {
+						GlobalService.consoleLog("正在升级中");
+						if(!this.global.loadingCtrl) {
+							this.global.createGlobalLoading(this, {
+								message: this.global.L("romUpdatingTips")
+							})
+						}
+					}/* else {
                         this.status = 'normal';
                         throw new Error("升级失败：" + JSON.stringify(res));
-                    }
+                    }*/
                 } 
             })
             .catch(e => {

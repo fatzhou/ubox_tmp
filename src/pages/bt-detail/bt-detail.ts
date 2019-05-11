@@ -52,7 +52,7 @@ export class BtDetailPage {
 	}
 
 	ionViewDidLoad() {
-		// console.log('ionViewDidLoad BtDetailPage');
+		// GlobalService.consoleLog('ionViewDidLoad BtDetailPage');
 		this.type = this.navParams.get("type");
 		this.detailId = this.navParams.get("id");
 		this.status = this.navParams.get('status');
@@ -115,17 +115,17 @@ export class BtDetailPage {
 
 	setFileList(list:any) {
 		if(!list || !list.length) {
-			console.log("没有找到文件....");
+			GlobalService.consoleLog("没有找到文件....");
 			return false;
 		}
 		//解析pid
 		let idIndex = 1;
 		let filesObj = {};
-		console.log(list)
+		GlobalService.consoleLog(list)
 		if(this.type == 'feed') {
 			list.forEach(item => {
 				let path = (typeof item == 'string') ? item : item.path;
-				// console.log("sss" + path)
+				// GlobalService.consoleLog("sss" + path)
 				let pathArray = path.split('/');
 				item.id = idIndex++;
 				if (pathArray.length == 1) {
@@ -136,11 +136,11 @@ export class BtDetailPage {
 				} else {
 					//目录分级
 					let parent = pathArray.slice(0, pathArray.length - 1);
-					// console.log("父节点长度：" + parent)
+					// GlobalService.consoleLog("父节点长度：" + parent)
 					//增加顶层目录
 					for (let i = 0; i < parent.length; i++) {
 						let currentName = parent.slice(0, i + 1).join('/');
-						// console.log("父节点：" + currentName);
+						// GlobalService.consoleLog("父节点：" + currentName);
 						if (!filesObj[currentName]) {
 							let pid = i == 0 ? 0 : filesObj[parent.slice(0, i)].id;
 							filesObj[currentName] = {
@@ -152,7 +152,7 @@ export class BtDetailPage {
 					}
 					//当前元素
 					item.pid = filesObj[parent.join('/')].id;
-					// console.log("另一个叶节点：" + item.name);
+					// GlobalService.consoleLog("另一个叶节点：" + item.name);
 					filesObj[path] = item;
 				}
 			});
@@ -183,11 +183,11 @@ export class BtDetailPage {
 		} else {
 			this.fileList = list;
 		}
-		console.log("bt种子的文件列表:" + JSON.stringify(this.fileList))
+		GlobalService.consoleLog("bt种子的文件列表:" + JSON.stringify(this.fileList))
 	}
 
 	downloadBt() {
-		// console.log("download" + this.link)
+		// GlobalService.consoleLog("download" + this.link)
 		if(this.status == 1) {
             return false;
         }
@@ -195,7 +195,7 @@ export class BtDetailPage {
 		let url = this.link + '&dn=' + this.title;
 		this.util.downloadBt(url, this.detailId)
 		.then(res => {
-			console.log("正在下载bt")
+			GlobalService.consoleLog("正在下载bt")
 			this.events.publish('btdownloading', this.detailId);
 		})
 	}
@@ -221,7 +221,7 @@ export class BtDetailPage {
 	}
 
 	goBtTaskPage() {
-        console.log("go BtTaskPage");
+        GlobalService.consoleLog("go BtTaskPage");
         this.navCtrl.push(BtTaskPage);
     }
 

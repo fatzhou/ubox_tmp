@@ -129,7 +129,7 @@ export class TaskListPage {
 	}
 
 	handleThumbnailError(obj, e) {
-		console.log("缩略图加载出错.......")
+		GlobalService.consoleLog("缩略图加载出错.......")
 		obj.thumbnail = '';
 		//存入全局缓存，将会导致该图片永不刷新
 		// var md5 = Md5.hashStr(that.currPath.replace('\/$', '') + '/' + obj.name).toString();
@@ -159,7 +159,7 @@ export class TaskListPage {
 
 					// this.fileManager.getThumbnail(task.localPath, task.path)
                     // .then(res => {
-					// 	console.log("获取缩略图成功：" + res)
+					// 	GlobalService.consoleLog("获取缩略图成功：" + res)
 					// 	if(res) {
 					// 		task.thumbnail = res;
 					// 		this.global.thumbnailMap[md5] = res;

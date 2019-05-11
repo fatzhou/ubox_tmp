@@ -34,7 +34,7 @@ export class DeviceManagePage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad DeviceManagePage');
+        GlobalService.consoleLog('ionViewDidLoad DeviceManagePage');
         this.util.getDiskStatus()
         .then((res:any)=>{
             this.disks = this.global.diskInfo.disks || [];

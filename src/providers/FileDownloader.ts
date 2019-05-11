@@ -205,7 +205,7 @@ class SingleFileDownloader {
     }
 
     setDownloadBlockSize() {
-        console.log("filedownloader setDownloadBlockSize");
+        GlobalService.consoleLog("filedownloader setDownloadBlockSize");
         this.oneBlockSize = this.global.useWebrtc ? ONEBLOCKWEBRTCSIZE : ONEBLOCKSIZE;
     }
 
@@ -329,7 +329,7 @@ class SingleFileDownloader {
     // @return undefined
     ///////////////////////////////////////
     private _progress(errstr) {
-		console.log("进度通知:" + JSON.stringify(this.cache));
+		GlobalService.consoleLog("进度通知:" + JSON.stringify(this.cache));
 		if(this.progress) {
 			this.progress({
 				loaded: this.cache.downloadsize,
@@ -427,7 +427,7 @@ class SingleFileDownloader {
     ///////////////////////////////////////
     private _initcache(desturi, sourceurl, option) {
         let cache = this.cache;
-        console.log("_initcache " + JSON.stringify(cache))
+        GlobalService.consoleLog("_initcache " + JSON.stringify(cache))
         //Step 1. cache not empty, check chache.
         if (cache.status) {
             return new Promise(function(resolve, reject) {
@@ -438,8 +438,8 @@ class SingleFileDownloader {
         else {
 			let self = this;
 			let re = desturi.match(/^(.*)\/([^\/^\?]+)(\?[^\?]+)?$/);
-			console.log("desturi:" + desturi)
-			console.log("re:" + re[1] + "," + re[2])
+			GlobalService.consoleLog("desturi:" + desturi)
+			GlobalService.consoleLog("re:" + re[1] + "," + re[2])
             cache.filepath = re[1];
             cache.filename = re[2];
             cache.sourceurl = sourceurl;
@@ -451,7 +451,7 @@ class SingleFileDownloader {
             cache.option = option;
             return FileDownloader.getUnfinishedFileSizeIfExist(this.file, cache.filepath, cache.filename)
             .then((unfinishedfile)=>{
-                console.log("downloader getUnfinishedFileSizeIfExist success:" + JSON.stringify(unfinishedfile));
+                GlobalService.consoleLog("downloader getUnfinishedFileSizeIfExist success:" + JSON.stringify(unfinishedfile));
                 cache.totalsize = unfinishedfile.totalsize;
                 cache.downloadsize = unfinishedfile.downloadsize;
             });
@@ -631,7 +631,7 @@ class SingleFileDownloader {
             } catch (e) {
                 errstr = JSON.stringify(e);
             }
-            console.log("下载异常：" + errstr);
+            GlobalService.consoleLog("下载异常：" + errstr);
             return [errstr, range_end + 1];
         });
 	}

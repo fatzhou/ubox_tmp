@@ -46,7 +46,7 @@ export class CopyPhotoPage {
 			}
 			let timeout = null;
 			if(!this.fileManager.resourceStorage.image.finished) {
-				console.log("文件分类尚未完成！！")
+				GlobalService.consoleLog("文件分类尚未完成！！")
 				this.global.createGlobalLoading(this, {
 					message: ''
 				});
@@ -54,7 +54,7 @@ export class CopyPhotoPage {
 					this.changeBackupSwitch();		
 				}, 100)
 			} else {
-				console.log("文件分类已完成")
+				GlobalService.consoleLog("文件分类已完成")
 				this.global.closeGlobalLoading(this);
 				this.getAlbumList();
 			}
@@ -81,7 +81,7 @@ export class CopyPhotoPage {
             //     }
             // })
 			this.selectedAlbumsCount = this.albumsList.filter(item => item.backupSwitch).length;
-			console.log("符合条件的相册数：" + this.selectedAlbumsCount);
+			GlobalService.consoleLog("符合条件的相册数：" + this.selectedAlbumsCount);
         })
         .catch(e => {
 			GlobalService.consoleLog("搜索图片异常：" + JSON.stringify(e))
@@ -103,7 +103,7 @@ export class CopyPhotoPage {
         })
         let savedAlbumsParam = savedAlbums.join(','),
             originAlbumsParam = this.global.autoBackupAlbums.join(',');
-        console.log("需要备份的相册是：" + savedAlbumsParam);
+        GlobalService.consoleLog("需要备份的相册是：" + savedAlbumsParam);
 
         if(this.backupSwitch === this.global.albumBackupSwitch && savedAlbumsParam == originAlbumsParam) {
             //配置未改变，直接返回

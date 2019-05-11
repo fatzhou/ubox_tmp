@@ -31,7 +31,7 @@ export class DeviceDetailPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad DeviceDetailPage');
+        GlobalService.consoleLog('ionViewDidLoad DeviceDetailPage');
         this.disk = this.global.diskInfo;
         this.diskName = this.disk.name;
         this.diskStatus = this.global.useWebrtc ? Lang.L('RemoteConnection') : Lang.L('LocalConnection');

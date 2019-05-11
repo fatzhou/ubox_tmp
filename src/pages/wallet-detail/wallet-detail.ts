@@ -74,12 +74,12 @@ export class WalletDetailPage {
     ionViewDidEnter() {
         this.util.getWalletList()
 		.catch(e => {
-			console.log(e);
+			GlobalService.consoleLog(e);
 		})
         //可能修改了汇率单位，此处需刷新
         this.getDisplayRate();
 		this.pageNo = 0;
-		console.log("钱包列表：" + JSON.stringify(this.global.walletList));
+		GlobalService.consoleLog("钱包列表：" + JSON.stringify(this.global.walletList));
 		if(this.global.walletList.length > 0) {
 			if(this.global.focusWallet) {
 				this.walletInfo = this.global.focusWallet;
@@ -159,7 +159,7 @@ export class WalletDetailPage {
     }
 
     refreshWalletAmount() {
-		console.log("查询余额：" + this.walletInfo.addr)
+		GlobalService.consoleLog("查询余额：" + this.walletInfo.addr)
 		if(!this.walletInfo.addr) {
 			return null;
 		}

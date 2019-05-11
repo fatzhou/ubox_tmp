@@ -23,7 +23,7 @@ export class FileFooterComponent {
         public navCtrl: NavController,
         private events: Events,
     ) {
-        // console.log('Hello FileFooterComponent Component');
+        // GlobalService.consoleLog('Hello FileFooterComponent Component');
         if(this.global.currPath == '/') {
             this.uploadFolder = 'AllFiles';
         } else {
@@ -37,7 +37,7 @@ export class FileFooterComponent {
     }
 
     uploadEvent() {
-        // console.log('点击上传')
+        // GlobalService.consoleLog('点击上传')
         if(this.canClick == false) {
             return false;
         }

@@ -33,11 +33,11 @@ export class AdviceSubmitPage {
     }
 
     ionViewDidLoad() {
-        // console.log('ionViewDidLoad AdviceSubmitPage');
+        // GlobalService.consoleLog('ionViewDidLoad AdviceSubmitPage');
     }
 
     inputFileChange($event) {
-        // console.log($event.target.files[0])
+        // GlobalService.consoleLog($event.target.files[0])
         let files = $event.target.files;
         for(let i = 0, len = files.length; i < len; i++) {
             this.updatedPhotos.push({
@@ -47,9 +47,9 @@ export class AdviceSubmitPage {
         }
         // var reader = new FileReader();
         // reader.onload = (e:any) => {
-        //     console.log("文件读取完毕")
+        //     GlobalService.consoleLog("文件读取完毕")
         //     this.updatedPhotos.push(reader.result);
-        //     console.log(this.updatedPhotos.length)
+        //     GlobalService.consoleLog(this.updatedPhotos.length)
         // }
         // reader.readAsDataURL($event.target.files[0]);
     }
@@ -63,7 +63,7 @@ export class AdviceSubmitPage {
             data.append("uuid", uuid);
             data.append("timestamp", now); 
             this.updatedPhotos.forEach(item => {
-                // console.log("上传文件........")
+                // GlobalService.consoleLog("上传文件........")
                 data.append("file", item.file);
             })
             let url = GlobalService.centerApi['uploadLogAnalyser'].url;
@@ -72,7 +72,7 @@ export class AdviceSubmitPage {
 
             xhr.addEventListener("readystatechange", function () {
                 if (this.readyState === 4) {
-                    // console.log(this.responseText);
+                    // GlobalService.consoleLog(this.responseText);
                     let response = {};
                     try {
                         response = JSON.parse(this.responseText);

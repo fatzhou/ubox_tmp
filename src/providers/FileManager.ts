@@ -79,7 +79,7 @@ export class FileManager {
 			}
 		})
 		.catch(e => {
-			console.log("未获取到权限");
+			GlobalService.consoleLog("未获取到权限");
 		})
 	}
 
@@ -116,31 +116,31 @@ export class FileManager {
             	let fileName = info.fileName;
             	let contentType = info.mimeType;
             	this.writeFileToDiskIOS(info, this.global.fileSavePath, subFolder, fileName, (path)=>{
-	            	console.log("文件已写入本地:" + path);
+	            	GlobalService.consoleLog("文件已写入本地:" + path);
 	            	resolve(path);            		
             	}, (res) => {
-            		console.log("文件写入本地失败");
+            		GlobalService.consoleLog("文件写入本地失败");
             		reject(res);
             	})
 	            // return cordova.plugins.photoLibrary.getLibraryItemBinary(info, (blob) => {
-	            // 	console.log("获取文件成功,准备写入blob");
+	            // 	GlobalService.consoleLog("获取文件成功,准备写入blob");
 	            // 	//写文件
 	            // 	let subFolder = info.mimeType.indexOf('video') > -1 ? this.global.VideoSubPath : this.global.PhotoSubPath;
 	            // 	let folderPath = this.global.fileSavePath + subFolder + "/";
 	            // 	let fileName = info.fileName;
 	            // 	let contentType = info.mimeType;
 	            // 	this.writeImageFileByBlob(this.global.fileSavePath, subFolder, fileName, contentType, blob, () => {
-	            // 		console.log("文件已写入本地");
+	            // 		GlobalService.consoleLog("文件已写入本地");
 	            // 		this.file.checkDir(this.global.fileSavePath, subFolder)
 	            // 		.then(res => {
 	            // 			resolve(folderPath + fileName);
 	            // 		})
 	            // 	}, (res) => {
-	            // 		console.log("文件写入本地失败");
+	            // 		GlobalService.consoleLog("文件写入本地失败");
 	            // 		reject(res);
 	            // 	}) 
 	            // }, (res) => {
-	            // 	console.log("获取文件失败：" + JSON.stringify(res));
+	            // 	GlobalService.consoleLog("获取文件失败：" + JSON.stringify(res));
 	            // 	reject(res);
 	            // }, {
 
@@ -414,34 +414,34 @@ export class FileManager {
 	// }
 
 	writeImageFileByBlob(folderPath, subFolder, fileName, contentType, blob, callback = null, errorCallback = null) {
-      	console.log("Starting to write the file :" + folderPath + "***" + fileName);
+      	GlobalService.consoleLog("Starting to write the file :" + folderPath + "***" + fileName);
       	folderPath = folderPath.replace(/\/$/, '') + '/';
       	let urlResolve = window.resolveLocalFileSystemURL || window.webkitResolveLocalFileSystemURL;
       	urlResolve(folderPath, (fileSystem) => {
       		fileSystem.getDirectory(subFolder, { create: true }, (dir) => {
-	      		console.log("文件夹解析成功：" + subFolder);
+	      		GlobalService.consoleLog("文件夹解析成功：" + subFolder);
 	      		dir.getFile(fileName, {create: true}, (file) => {		     			
 	              	file.createWriter((fileWriter) => {
 	              		let folder = folderPath + subFolder + "/";
-	                  	console.log("Writing content to folder:" + (folder + fileName));
+	                  	GlobalService.consoleLog("Writing content to folder:" + (folder + fileName));
 	                  	fileWriter.write(blob);
 	                  	this.file.checkFile(folder, fileName)
 	                  	.then(res => {
-	                  		console.log("新生成的文件已确认存在:" + JSON.stringify(res));
+	                  		GlobalService.consoleLog("新生成的文件已确认存在:" + JSON.stringify(res));
 	                  		if(res) {
 	                  			callback && callback(folder + fileName);
 	                  		}
 	                  	})
 	                  	.catch(e => {
-	                  		console.log("checkFile error:" + (e.stack || e.message));
-	                  		console.log(JSON.stringify(e))
+	                  		GlobalService.consoleLog("checkFile error:" + (e.stack || e.message));
+	                  		GlobalService.consoleLog(JSON.stringify(e))
 	                  	})
 	              	}, () => {
-	                  	console.log('Unable to save file in path '+ folderPath);
+	                  	GlobalService.consoleLog('Unable to save file in path '+ folderPath);
 	                  	errorCallback && errorCallback();
 	              	});
 	      		}, (res) => {
-	      			console.log("getFile失败了啊" + JSON.stringify(res));
+	      			GlobalService.consoleLog("getFile失败了啊" + JSON.stringify(res));
 	      			errorCallback && errorCallback();
 	      		});
 	      	})
@@ -483,22 +483,22 @@ export class FileManager {
 	 * @param {[type]} errorCallback =             null [失败回调]
 	 */
 	writeFileToDiskIOS(info, folderPath, subFolder, fileName, callback = null, errorCallback = null) {      
-      	console.log("Starting to write the file :" + folderPath + "***" + fileName);
+      	GlobalService.consoleLog("Starting to write the file :" + folderPath + "***" + fileName);
       	folderPath = folderPath.replace(/\/$/, '') + '/';
       	let urlResolve = window.resolveLocalFileSystemURL || window.webkitResolveLocalFileSystemURL;
       	urlResolve(folderPath, (fileSystem) => {
       		fileSystem.getDirectory(subFolder, { create: true }, (dir) => {
-	      		console.log("文件夹解析成功：" + subFolder);
+	      		GlobalService.consoleLog("文件夹解析成功：" + subFolder);
 	      		dir.getFile(fileName, {create: true}, (file) => {
 			      	cordova.plugins.photoLibrary.getLibraryItemInPackage(
 			        	info, // or libraryItem.id
 			        	folderPath + subFolder + "/" + fileName,
 				        (p)=>{
-				        	console.log("请求并写入成功:" + p);
+				        	GlobalService.consoleLog("请求并写入成功:" + p);
 				        	callback && callback(p);
 				        },      
 				        (res)=>{
-				          console.log("写入文件失败" + JSON.stringify(res))
+				          GlobalService.consoleLog("写入文件失败" + JSON.stringify(res))
 				          errorCallback && errorCallback();
 				        },
 				        { // optional options
@@ -509,25 +509,25 @@ export class FileManager {
 				    ) 		     			
 	              	// file.createWriter((fileWriter) => {
 	              	// 	let folder = folderPath + subFolder + "/";
-	               //    	console.log("Writing content to folder:" + (folder + fileName));
+	               //    	GlobalService.consoleLog("Writing content to folder:" + (folder + fileName));
 	               //    	fileWriter.write(blob);
 	               //    	this.file.checkFile(folder, fileName)
 	               //    	.then(res => {
-	               //    		console.log("新生成的文件已确认存在:" + JSON.stringify(res));
+	               //    		GlobalService.consoleLog("新生成的文件已确认存在:" + JSON.stringify(res));
 	               //    		if(res) {
 	               //    			callback && callback(folder + fileName);
 	               //    		}
 	               //    	})
 	               //    	.catch(e => {
-	               //    		console.log("checkFile error:" + (e.stack || e.message));
-	               //    		console.log(JSON.stringify(e))
+	               //    		GlobalService.consoleLog("checkFile error:" + (e.stack || e.message));
+	               //    		GlobalService.consoleLog(JSON.stringify(e))
 	               //    	})
 	              	// }, () => {
-	               //    	console.log('Unable to save file in path '+ folderPath);
+	               //    	GlobalService.consoleLog('Unable to save file in path '+ folderPath);
 	               //    	errorCallback && errorCallback();
 	              	// });
 	      		}, (res) => {
-	      			console.log("getFile失败了啊" + JSON.stringify(res));
+	      			GlobalService.consoleLog("getFile失败了啊" + JSON.stringify(res));
 	      			errorCallback && errorCallback();
 	      		});
 	      	})
@@ -678,27 +678,27 @@ export class FileManager {
      */
 	saveThumbnail(info, fileName, callback = null, errorCallback = null) {
 		// let path = this.global.fileSavePath + 'thumbnail/' + fileName;
-		// console.log("缩略图本地路径：" + path);
+		// GlobalService.consoleLog("缩略图本地路径：" + path);
 		// this.writeFileToDisk(info, this.global.fileSavePath, 'thumbnail', fileName, callback, errorCallback);
 	    cordova.plugins.photoLibrary.getThumbnailBinary(info, (blob) => {
-        	console.log("获取文件成功,准备写入blob");
+        	GlobalService.consoleLog("获取文件成功,准备写入blob");
         	//写文件
         	let subFolder = this.global.ThumbnailSubPath;
         	let folderPath = this.global.fileSavePath + subFolder + "/";
         	let contentType = info.mimeType;
         	this.writeImageFileByBlob(this.global.fileSavePath, subFolder, fileName, contentType, blob, () => {
-        		console.log("文件已写入本地----------");
+        		GlobalService.consoleLog("文件已写入本地----------");
         		// this.file.listDir(folderPath, fileName)
         		// .then(res => {
-        		// 	console.log("gggggggssss" + JSON.stringify(res))
+        		// 	GlobalService.consoleLog("gggggggssss" + JSON.stringify(res))
         		// })
         		callback && callback(folderPath + fileName);
         	}, (res) => {
-        		console.log("文件写入本地失败");
+        		GlobalService.consoleLog("文件写入本地失败");
         		errorCallback && errorCallback(res);
         	}) 
         }, (res) => {
-        	console.log("获取文件失败：" + JSON.stringify(res));
+        	GlobalService.consoleLog("获取文件失败：" + JSON.stringify(res));
         	errorCallback && errorCallback(res);
         }, {
           	thumbnailWidth: GlobalService.THUMBNAIL_WIDTH,
@@ -752,7 +752,7 @@ export class FileManager {
 			let albumId = albums[i].id;
 			let backedAlbum = manifest[albumId] || [];
 			if(backedAlbum && backedAlbum.length) {
-				console.log("相册已经备份过：" + backedAlbum.length)
+				GlobalService.consoleLog("相册已经备份过：" + backedAlbum.length)
 				//已部分备份过
 				let album = [];
 				albums[i].content.forEach(item => {
@@ -836,7 +836,7 @@ export class FileManager {
 		let ret = getNextFile('');
 
 		if(!ret) {
-			console.log("自动备份已完成");
+			GlobalService.consoleLog("自动备份已完成");
 			//manifest写缓存
 			this.storage.set('backupManifest', JSON.stringify(manifest));
 			return false;
@@ -845,9 +845,9 @@ export class FileManager {
 		let albumId = ret.albumId,
 			file = ret.file;
 
-		console.log("即将上传文件：" + JSON.stringify(file));
-		console.log("相册id:" + albumId);
-		console.log("manifest内容：" + JSON.stringify(manifest));
+		GlobalService.consoleLog("即将上传文件：" + JSON.stringify(file));
+		GlobalService.consoleLog("相册id:" + albumId);
+		GlobalService.consoleLog("manifest内容：" + JSON.stringify(manifest));
 		let key = this.global.platformName === 'android' ? 'lastModificationTime' : 'creationDate';
 		this.getNativeUrl(file)
 		.then(localPath => {
@@ -861,10 +861,10 @@ export class FileManager {
 				//写入manifest
 				let fileInManifest = manifest[albumId].find(item => item.id === file.id);
 				if(fileInManifest) {
-					console.log("Manifest更新文件时间戳:" + file[key]);
+					GlobalService.consoleLog("Manifest更新文件时间戳:" + file[key]);
 					fileInManifest[key] = file[key];
 				} else {
-					console.log("Manifest增加文件");
+					GlobalService.consoleLog("Manifest增加文件");
 					manifest[albumId].push(file);
 				}
 			}
@@ -873,7 +873,7 @@ export class FileManager {
 			}, 2000);
 		})
 		.catch(e => {
-			console.log("备份文件异常：" + e.stack || JSON.stringify(e));
+			GlobalService.consoleLog("备份文件异常：" + e.stack || JSON.stringify(e));
 			this.storage.set('backupManifest', JSON.stringify(manifest));
 		})
 		return true;
@@ -956,13 +956,13 @@ export class FileManager {
 	    				try {
 	    					manifest = JSON.parse(res);
 	    				} catch(e) {
-	    					console.log(JSON.stringify(e));
+	    					GlobalService.consoleLog(JSON.stringify(e));
 	    				}
 	    			}
 	    			let filesToBeUpdated = this.computeFileListDiff(manifest, this.global.localAlbum.filter(item => item.backupSwitch == 1));
 	    			for(let i in filesToBeUpdated) {
-	    				console.log("备份相册：" + i + "," + filesToBeUpdated[i].length);
-	    				console.log("备份文件：" + JSON.stringify(filesToBeUpdated[i]))
+	    				GlobalService.consoleLog("备份相册：" + i + "," + filesToBeUpdated[i].length);
+	    				GlobalService.consoleLog("备份文件：" + JSON.stringify(filesToBeUpdated[i]))
 	    			}
 	    			this.uploadBackedFiles(manifest, filesToBeUpdated, this.backupId);
 	    		})    			

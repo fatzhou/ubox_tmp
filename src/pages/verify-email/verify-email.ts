@@ -75,7 +75,7 @@ export class VerifyEmailPage {
 
 	changeInput(index) {
 		var verifyCode = this.verifyCode.join("");
-		console.log("输入发生了变化" + index + "," + verifyCode);
+		GlobalService.consoleLog("输入发生了变化" + index + "," + verifyCode);
 
 		if (verifyCode.length === 4) {
 			if (this.global.passwdType === "register") {
@@ -133,7 +133,7 @@ export class VerifyEmailPage {
 
 				var boxInfo = this.global.foundDeviceList[this.global.userBoxIndex];
 				if (!boxInfo && this.bindbox) {
-					console.log("已绑定盒子但是没有找到盒子。。。");
+					GlobalService.consoleLog("已绑定盒子但是没有找到盒子。。。");
 					throw new Error(Lang.L('WORD612ce400'));
 				} else {
 					// var url = "http://" + boxInfo.URLBase + GlobalService.boxApi["resetPasswd"].url;

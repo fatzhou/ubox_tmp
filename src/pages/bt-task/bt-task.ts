@@ -35,7 +35,7 @@ export class BtTaskPage {
         private http: HttpService) {
     }
     ionViewDidEnter() {
-        console.log('ionViewDidEnter BtTaskPage');
+        GlobalService.consoleLog('ionViewDidEnter BtTaskPage');
         this.global.tabIndex = 1;
         this.getTaskList();
         this.setIntervalTaskList = setInterval(() => {
@@ -48,7 +48,7 @@ export class BtTaskPage {
         this.isShowOptions = false;
     }
     goBtSetPage() {
-        console.log("go BtTaskPage");
+        GlobalService.consoleLog("go BtTaskPage");
         this.navCtrl.push(BtSetPage);
     }
     changeIndex(index) {
@@ -150,7 +150,7 @@ export class BtTaskPage {
     }
 
     goListPage(item) {
-        console.log("go goBtPlayPage");
+        GlobalService.consoleLog("go goBtPlayPage");
         this.global.currDiskUuid = item.disk_uuid;
         this.navCtrl.push(ListPage, {
             type: "",

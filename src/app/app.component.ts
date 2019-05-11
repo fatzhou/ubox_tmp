@@ -205,10 +205,10 @@ export class UboxApp {
 			GlobalService.consoleLog("即将新建目录" + name);
 			this.file.createDir(this.global.fileSavePath, name, false)
 			.then(res => {
-				console.log("目录创建成功：" + name + JSON.stringify(res))
+				GlobalService.consoleLog("目录创建成功：" + name + JSON.stringify(res))
 			})
 			.catch(e => {
-				console.log("目录创建失败：" + name + JSON.stringify(e))
+				GlobalService.consoleLog("目录创建失败：" + name + JSON.stringify(e))
 			})
 		});
 	}
@@ -216,20 +216,20 @@ export class UboxApp {
 	initKeyboardListener(){
         // this.keyboard.onKeyboardShow().subscribe(() => {
         window.addEventListener('keyboardDidShow', () => {
-            console.log("键盘已弹出......");
+            GlobalService.consoleLog("键盘已弹出......");
             document.body.classList.add('keyboard-is-open');
         });
 
         // this.keyboard.onKeyboardHide().subscribe(() => {
         window.addEventListener('keyboardDidHide', () => {
-            console.log("键盘已关闭......");
+            GlobalService.consoleLog("键盘已关闭......");
             document.body.classList.remove('keyboard-is-open');
         });
     }
 
     getUserInfo() {
 		if(!this.platform.is('cordova')) {
-			console.log("设置首页........");
+			GlobalService.consoleLog("设置首页........");
 			this.nav.setRoot(LoginPage);
 			return false;
 		}
@@ -245,7 +245,7 @@ export class UboxApp {
         this.util.loginAndCheckBox(this, false)
             .then(res => {
                 this.splashScreen.hide();
-                console.log("---loginAndCheckBox成功进入resolve....");
+                GlobalService.consoleLog("---loginAndCheckBox成功进入resolve....");
                 if(this.global.centerUserInfo.uname) {
                     this.nav.setRoot(TabsPage);
                 } else {
@@ -253,7 +253,7 @@ export class UboxApp {
                 }
             })
             .catch(e => {
-                console.log("---loginAndCheckBox成功进入catch....");
+                GlobalService.consoleLog("---loginAndCheckBox成功进入catch....");
                 this.splashScreen.hide();
                 if(this.global.centerUserInfo.uname && this.global.centerUserInfo.bind_box_count == 0) {
                     //没有盒子，进入绑定流程 ------ 恐没有密码，引导用户输入密码比较保险
@@ -684,7 +684,7 @@ export class UboxApp {
 				case 'file':
 					// this.nav.setRoot(TabsPage)
 					// .then(res => {
-					// 	console.log(res)
+					// 	GlobalService.consoleLog(res)
 					// 	this.tabsController.slideTo(0);
                     // });
                     this.util.getDiskStatus();
@@ -693,7 +693,7 @@ export class UboxApp {
 				case 'discover':
 					// this.nav.setRoot(TabsPage)
 					// .then(res => {
-					// 	console.log(res)
+					// 	GlobalService.consoleLog(res)
 					// 	this.tabsController.slideTo(1);
 					// });
 					this.tabsController.slideTo(1, "boxtabs");
@@ -744,7 +744,7 @@ export class UboxApp {
 
 			}
 		} catch(e) {
-			console.log(e)
+			GlobalService.consoleLog(e)
 		}
 	}
 }

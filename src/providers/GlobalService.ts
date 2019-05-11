@@ -727,10 +727,10 @@ export class GlobalService {
         try{
             if (this.deviceSelected){
                 //忽略保存结果
-                this.storage.set('DeviceSelected', JSON.stringify(deviceStorage)).then(()=>{}).catch((e)=>{console.log(JSON.stringify(e))});
+                this.storage.set('DeviceSelected', JSON.stringify(deviceStorage)).then(()=>{}).catch((e)=>{GlobalService.consoleLog(JSON.stringify(e))});
             } else if (nullsave){
                 //忽略保存结果
-                this.storage.set('DeviceSelected', JSON.stringify(deviceStorage)).then(()=>{}).catch((e)=>{console.log(JSON.stringify(e))});
+                this.storage.set('DeviceSelected', JSON.stringify(deviceStorage)).then(()=>{}).catch((e)=>{GlobalService.consoleLog(JSON.stringify(e))});
             }
         }catch (e){
             GlobalService.consoleLog("this.storage.set 异常:" + JSON.stringify(e));
@@ -780,7 +780,6 @@ export class GlobalService {
     public static consoleLog(str) {
         ////正式环境关闭日志打印
         if(GlobalService.ENV == "prod"){
-        //    return;
             console.log(str);
         }
         ////android直接打印日志

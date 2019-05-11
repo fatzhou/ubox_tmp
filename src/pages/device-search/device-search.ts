@@ -28,21 +28,21 @@ export class DeviceSearchPage {
     }
 
     ionViewDidLoad() {
-		console.log('ionViewDidLoad DeviceSearchPage');
+		GlobalService.consoleLog('ionViewDidLoad DeviceSearchPage');
 		this.searchUbbey();
 	}
 
 	searchUbbey() {
 		return this.util.searchUbbey()
 		.then(res => {
-			console.log("已搜索到以下盒子：" + JSON.stringify(res));
+			GlobalService.consoleLog("已搜索到以下盒子：" + JSON.stringify(res));
 			this.searchResult = res;
 			return res;
 		})
 	}
 
 	bindBox(box) {
-		console.log("已选定盒子：" + JSON.stringify(box));
+		GlobalService.consoleLog("已选定盒子：" + JSON.stringify(box));
 		this.global.setSelectedBox(box);
 		this.util.bindBox(this)
 		.then(res => {
@@ -65,7 +65,7 @@ export class DeviceSearchPage {
 	}
 
     doRefresh(event) {
-		console.log('Begin async operation');
+		GlobalService.consoleLog('Begin async operation');
 		//状态复原
 		this.searchResult = null;
 		this.searchUbbey()

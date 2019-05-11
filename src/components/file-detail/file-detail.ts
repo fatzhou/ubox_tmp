@@ -37,7 +37,7 @@ export class FileDetailComponent {
 		private transfer: FileTransport,
 		private downloader: FileDownloader,
 	) {
-		// console.log('Hello FileDetailComponent Component');
+		// GlobalService.consoleLog('Hello FileDetailComponent Component');
 		FileDetailComponent._this = this;
 		this.initData();
 		//events.unsubscribe('image:move');
@@ -72,7 +72,7 @@ export class FileDetailComponent {
 		path.push(this.path.replace(/\/$/g, '') + "/" + this.info.name);
 		var hasFolder = 0;
 		var self = this;
-		// console.log("path" + JSON.stringify(path))
+		// GlobalService.consoleLog("path" + JSON.stringify(path))
 		this.util.deleteFileDialog(path, hasFolder, () => {
 			//完成删除回调
 			this.global.createGlobalToast(this, {
@@ -203,7 +203,7 @@ export class FileDetailComponent {
 	}
 
 	downloadFile() {
-		// console.log('this.path ' + this.path);
+		// GlobalService.consoleLog('this.path ' + this.path);
 		this.closeBox();
 		this.global.createGlobalToast(this, {
 			message: this.global.L('StartDownloading')

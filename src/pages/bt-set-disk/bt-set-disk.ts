@@ -22,7 +22,7 @@ export class BtSetDiskPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad BtSetDiskPage');
+        // GlobalService.consoleLog('ionViewDidLoad BtSetDiskPage');
         this.disks = this.global.diskInfo.disks;
 	}
 	

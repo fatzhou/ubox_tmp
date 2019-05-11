@@ -107,9 +107,9 @@ export class SelectUploadFolderPage {
     goBack(type) {
         if(type == 1){
             this.global.currPath = this.currPath;
-            console.log('准备move1')
+            GlobalService.consoleLog('准备move1')
             if(this.global.selectFolderType == 'move') {
-                console.log('准备move2')
+                GlobalService.consoleLog('准备move2')
                 this.events.publish("image:move");
             }
         }

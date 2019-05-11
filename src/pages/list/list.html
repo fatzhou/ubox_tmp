@@ -49,7 +49,6 @@
 </ion-header>
 
 <ion-content tappable>
-	<task [path]="currPath"></task>
     <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page" [ngClass]="currPath == '/' && isMainDisk ? 'padding-top' : ''">
         <div class="warning-box" *ngIf="isShowWarningBox && isMainDisk">
             <svg class="icon tishi-icon" aria-hidden="true">
@@ -59,7 +58,8 @@
             <svg class="icon close-icon" (click)="closeWarningBox()" tappable aria-hidden="true">
                 <use xlink:href="#iconClear1"></use>
             </svg>
-        </div>
+		</div>
+		
         <div class="disk-list" *ngIf="currPath == '/' && disks.length >= 1 && isMainDisk" [ngClass]="global.isShowWarningBar ? 'warning-bg' : ''">
             <!-- <div class="disk-list" *ngIf="currPath == '/' && disks.length > 1"> -->
             <p class="disk-title">{{global.L("OtherDisk")}}</p>
@@ -74,7 +74,10 @@
                 </ul>
             </div>
             <p class="black-bottom"></p>
-        </div>
+		</div>
+		
+		<task [path]="currPath"></task>
+
         <div class="main-content">
             <div class="file-content pad-55">
                     <p class="file-num" *ngIf="dataAcquired && type0List.length > 0" tappable (click)="toggleListStatus(0)">
