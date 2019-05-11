@@ -310,7 +310,8 @@ export class TabsPage {
     //远程获取配置
     getVersionControl() {
         var that = this;
-		var url = GlobalService.versionConfig[GlobalService.ENV];
+        var url = GlobalService.versionConfig[GlobalService.ENV];
+        console.log('this.global.firstLoadVersion ' + this.global.firstLoadVersion)
         if(this.global.firstLoadVersion == 0){
             return this.http.get(url, {}, false, {}, {}, true)
             .then((res:any) => {
