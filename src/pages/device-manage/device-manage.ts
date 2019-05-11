@@ -48,7 +48,7 @@ export class DeviceManagePage {
                 item.isShowOptions = false;
             })
         })
-        this.boxId = this.global.diskInfo.boxid;
+        // this.boxId = this.global.deviceSelected.boxId;
     }
 
     goDeviceDetailPage() {
@@ -78,7 +78,11 @@ export class DeviceManagePage {
     }
 
     unbindBox() {
-        this.util.unbindBox(this, this.boxId, ()=>{
+		if(!this.global.deviceSelected) {
+			GlobalService.consoleLog("没有连接盒子时不能解除盒子的绑定");
+			return false;
+		}
+        this.util.unbindBox(this, this.global.deviceSelected && this.global.deviceSelected.boxId, ()=>{
             this.global.createGlobalAlert(this, {
                 title: Lang.L('WORDab667a91'),
                 message: Lang.L('WORDe6e1739b'),

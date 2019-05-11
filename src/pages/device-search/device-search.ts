@@ -5,6 +5,8 @@ import { GlobalService } from '../../providers/GlobalService';
 import { TabsPage } from '../tabs/tabs';
 import { HttpService } from '../../providers/HttpService';
 import { JSONPBackend } from '@angular/http';
+import { Events } from 'ionic-angular';
+
 /**
  * Generated class for the DeviceSearchPage page.
  *
@@ -23,6 +25,7 @@ export class DeviceSearchPage {
 	constructor(public navCtrl: NavController,
 				public util: Util,
 				private http: HttpService,
+				private events: Events,
 				private global: GlobalService,
 				public navParams: NavParams) {
     }
@@ -47,7 +50,8 @@ export class DeviceSearchPage {
 		this.util.bindBox(this)
 		.then(res => {
 			if(res) {
-				this.util.checkoutBox(this);
+				// this.util.checkoutBox(this);
+				this.events.publish('check-box-app');
 				//this.global.setSelectedBox(box);
 				this.bindStatus = 1;
 			} else {
@@ -57,6 +61,7 @@ export class DeviceSearchPage {
 		})
 		.catch(e => {
 			this.global.setSelectedBox(null);
+			this.bindStatus = 2;
 		})
 	}
 
