@@ -4454,8 +4454,8 @@ export class Lang {
 		kr: ''
     }
     static DeviceRebootMessage = {
-		cn: "重启设备将会",
-		en: 'Auto backup',
+		cn: "重启设备将会等待1-2分钟",
+		en: '',
 		kr: ''
     }
     static YouHaveLoadingFile = {

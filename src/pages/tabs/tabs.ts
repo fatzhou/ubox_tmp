@@ -135,6 +135,7 @@ export class TabsPage {
                     this.isClose = true;
                     this.isShowAction = true;
                 } else if(res.type == 'force') {
+					GlobalService.consoleLog("正在强制升级中........");
 					this.checkUpdate._checkUpdateStatus(()=> {
 						this.global.closeGlobalLoading(this);
 						//升级成功
