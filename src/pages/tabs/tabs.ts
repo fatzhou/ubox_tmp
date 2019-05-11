@@ -140,7 +140,9 @@ export class TabsPage {
 						//升级成功
 						this.global.createGlobalToast(this, {
 							message: Lang.L('uploadFinished')
-						})
+                        })
+                        
+                        this.checkVersion();
 					}, () => {
 						this.global.closeGlobalLoading(this);
 						//升级失败
@@ -183,9 +185,11 @@ export class TabsPage {
             console.log('准备检查固件升级');
             this.getVersionControl()
             .then((res) => {
+                console.log('准备执行checkVersion');
                 this.checkVersion();
             })
             .catch(e => {
+                console.log('未执行checkVersion');
                 GlobalService.consoleLog(e.stack);
                 this.global.closeGlobalLoading(this);
                 this.initNoticeList();
@@ -272,12 +276,14 @@ export class TabsPage {
 
         return new Promise((resolve, reject) => {
             GlobalService.consoleLog("升级信息:" + GlobalService.consoleLog(JSON.stringify(this.boxUpdateInfo)));
-            return this.checkUpdate.updateRomIndeed(this.boxUpdateInfo.dstVer, this.boxUpdateInfo.signature, resolve, reject);
+            this.checkUpdate.updateRomIndeed(this.boxUpdateInfo.dstVer, this.boxUpdateInfo.signature, resolve, reject);
         })
         .then(ver => {
             GlobalService.consoleLog("升级成功：" + ver);
-            this.version = this.global.deviceSelected.version;
-            this.checkVersion();
+            if(this.global.deviceSelected) {
+                this.version = this.global.deviceSelected.version;
+                this.checkVersion();               
+            }
         })
         .catch(e => {
             GlobalService.consoleLog("首页升级出现异常：" + e.stack);
@@ -305,6 +311,7 @@ export class TabsPage {
     getVersionControl() {
         var that = this;
         var url = GlobalService.versionConfig[GlobalService.ENV];
+        console.log('firstLoadVersion ' + this.global.firstLoadVersion);
         if(this.global.firstLoadVersion == 0){
             return this.http.get(url, {}, false, {}, {}, true)
             .then((res:any) => {
@@ -334,8 +341,9 @@ export class TabsPage {
 
     checkVersion() {
         let index = this.checkUpdate.checkVersionMatch(this.versionControl);
+        console.log('checkVersionMatch  ' + index);
         if (index < 0) {
-            throw new Error("Not match rules!");
+            GlobalService.consoleLog("Not match rules! Check version ignore update.");
         } else {
             let action = this.versionControl[GlobalService.AppVersion].versionList[index].action;
             if (action) {

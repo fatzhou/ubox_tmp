@@ -47,6 +47,7 @@ export class DeviceSearchPage {
 		this.util.bindBox(this)
 		.then(res => {
 			if(res) {
+				this.util.checkoutBox(this);
 				//this.global.setSelectedBox(box);
 				this.bindStatus = 1;
 			} else {

@@ -780,7 +780,8 @@ export class GlobalService {
     public static consoleLog(str) {
         ////正式环境关闭日志打印
         if(GlobalService.ENV == "prod"){
-           return;
+        //    return;
+            console.log(str);
         }
         ////android直接打印日志
         else if (GlobalService._global && GlobalService._global.platformName === 'android'){
