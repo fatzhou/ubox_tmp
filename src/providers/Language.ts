@@ -606,7 +606,7 @@ export class Lang {
         cn: "重新扫描",
         en: "Scan Again",
         kr: "다시 스캔"
-    }
+    };
     ////./mining/mining.html////
     static MiningSetting = {
         cn: "挖矿设置",
@@ -2568,7 +2568,7 @@ export class Lang {
 		cn: '正在上传文件...',
 		en: "File uploading...",
 		kr: ''
-    }
+    };
     static UploadFileNotExist = {
         cn: "文件${filename}上传失败",
         en: "${filename} upload failed",
@@ -2668,55 +2668,55 @@ export class Lang {
         cn: "私有云",
         en: "Personal Cloud",
         kr: "퍼스널 클라우드"
-    }
+    };
     static Guidance2 = {
         cn: "随时随地",
         en: "Save life moments anytime and anywhere",
         kr: "언제 어디서나 자유롭게 당신의 모멘트를 저장 하십시오."
-    }
+    };
     static Guidance3 = {
         cn: "分享备用存储",
         en: "Share Spare Storage",
         kr: "Share Spare Storage"
-    }
+    };
     static Guidance4 = {
         cn: "通过采矿赚取UBBEY币",
         en: "Earn UBBEY token through mining",
         kr: "마이닝을 통해 UBBEY를 획득하십시오."
-    }
+    };
     static Guidance5 = {
         cn: "数字资产安全",
         en: "Digital Asset Security",
         kr: "디지털 자산에 대한 보안"
-    }
+    };
     static Guidance6 = {
         cn: "一个更安全的存储系统：非云存储",
         en: "A safer storage system: non-cloud storage",
         kr: "보다 안전한 스토리지 시스템입니다. 클라우드 스토리지가 아닙니다."
-    }
+    };
 
     static GuidanceBtn = {
         cn: "马上体验",
         en: "Experience Now",
         kr: "바로 체험하기"
-    }
+    };
     //agreement
     static AgreementTitle = {
         cn: "服务协议",
         en: "The Terms of Service",
         kr: "서비스 약관"
-    }
+    };
     static PrivacyPolicyTitle = {
         cn: "隐私协议",
         en: "Privacy Policy",
         kr: "개인정보 보호정책"
-    }
+    };
     //
     static SystemFileError = {
         cn:'系统无法打开该文件类型',
         en:'The system is unable to open this type of file.',
         kr:'시스템에서 해당 파일 형식을 열 수 없습니다.'
-    }
+    };
     static CoinUint = {
         cn: "货币单位",
         en: "Currency",
@@ -2891,269 +2891,269 @@ export class Lang {
         cn:'消息',
         en:'Messages',
         kr:'알림'
-    }
+    };
     static NoticeDetail = {
         cn:'消息详情',
         en:'Message Details',
         kr:'알림 상세내용'
-    }
+    };
     static NoticeDefault = {
         cn:'您还没有消息记录',
         en:'No Message ',
         kr:'알림 내용이 없습니다.'
-    }
+    };
     static SystemNotice = {
         cn:'系统通知',
         en:'Notifications',
         kr:'시스템 공지'
-    }
+    };
     static ActiveNotice = {
         cn:'活动通知',
         en:'Activity Notifications',
         kr:'활동 공지'
-    }
+    };
     //转账相关
     static ChangePayPassword = {
         cn: "修改支付密码",
         en: "Change Payment Password",
         kr: "결제 비밀번호 변경"
-    }
+    };
     static PayPasswordFunction = {
         cn: "支付密码用于保护私钥和交易授权，强度非常重要。Ulabs不存储密码，也无法帮您找回，请务必牢记",
         en: "Payment password is used to protect private key and authorizing transactions. Ulabs will not store or retrieve password, please keep your password safely.",
         kr: "결제 비밀번호는 private key와 거래승인을 보호하기 위한 것으로써 보안강도가 중요합니다. Ulabs 은 비밀번호를 저장하지 않으므로 비밀번호를 찾아 드릴수 없으므로 반드시 백업해두시기 바랍니다."
-    }
+    };
     static PayPasswordPlaceholder = {
         cn: "请输入支付密码",
         en: "Enter payment password.",
         kr: "결제비밀번호를 입력하십시오."
-    }
+    };
     static NewPayPasswordPlaceholder = {
         cn: "请输入新支付密码",
         en: "Enter new payment password.",
         kr: "새 결제비밀번호를 입력하십시오."
-    }
+    };
     static NewPayPasswordAgainPlaceholder = {
         cn: "请再次输入",
         en: "Enter again.",
         kr: "다시 한번 입력하십시오."
-    }
+    };
     static CommitModified = {
         cn: "提交修改",
         en: "Submit changes",
         kr: "수정사항 제출"
-    }
+    };
     static PayPasswordRequired = {
         cn: "原支付密码不能为空",
         en: "The original payment password cannot be blank.",
         kr: "기존 결제비밀번호는 비워둘 수 없습니다."
-    }
+    };
     static ChangePasswordSucceed = {
         cn: "支付密码修改成功",
         en: "Payment password changed",
         kr: "결제비밀번호 수정이 완료되었습니다."
-    }
+    };
     static EnterRightPassword = {
         cn: "请输入正确的支付密码",
         en: "Enter the correct payment password.",
         kr: "정확한 결제비밀번호를 입력하십시오."
-    }
+    };
     static Pay = {
         cn: "支付",
         en: "Payment",
         kr: "결제"
-    }
+    };
     static TransferTo = {
         cn: "转账至",
         en: "Transfer to",
         kr: "로출금"
-    }
+    };
     static IncorrectPaymentPassword  = {
         cn: "支付密码不正确",
         en: "Incorrect payment password.",
         kr: "결제비밀번호가 정확하지 않습니다."
-    }
+    };
     static PayAddressRequired = {
         cn: "收款钱包地址不能为空",
         en: "The recepient address cannot be blank.",
         kr: "입금주소는 비워둘수 없습니다."
-    }
+    };
     static RightAddress = {
         cn: "请输入正确的钱包地址",
         en: "Enter the correct wallet address",
         kr: "정확한 지갑주소를 입력하십시오."
-    }
+    };
     static TransferAmountRequired = {
         cn: "请输入转账金额",
         en: "Enter amount.",
         kr: "출금금액을 입력하십시오."
-    }
+    };
     static NoTransferAmountZero  = {
         cn: "转账金额不能为0",
         en: "Payment amount cannot be 0.",
         kr: "출금금액은 0이 될 수 없습니다."
-    }
+    };
     static RightTransferAmount = {
         cn: "请输入正确的转账金额",
         en: "Enter the correct payment amount.",
         kr: "정확한 출금금액을 입력하십시오."
-    }
+    };
     static InsufficientAccountBalance = {
         cn: "账户余额不足",
         en: "Insufficient account balance",
         kr: "잔액이 부족합니다."
-    }
+    };
     static EthBalanceInsufficient  = {
         cn: "以太坊余额不足",
         en: "Insufficient ETH balance",
         kr: "이더리움 잔액이 부족합니다."
-    }
+    };
     static UbbeyBalanceInsufficient  = {
         cn: "余额不足",
         en: "Insufficient balance",
         kr: "잔액부족"
-    }
+    };
     static TransactionPackaging = {
         cn: "交易打包中",
         en: "Packing",
         kr: "거래가 진행중입니다."
-    }
+    };
     static SuccessfulDeal = {
         cn: "交易成功",
         en: "Transaction succeeded",
         kr: "거래 성공"
-    }
+    };
     static TransactionFailure = {
         cn: "交易失败",
         en: "Transaction failed",
         kr: "거래 실패"
-    }
+    };
     static TransactionCancal = {
         cn: "交易取消",
         en: "Transaction canceled",
         kr: "거래 취소"
-    }
+    };
     static WaitTransactionPackage = {
         cn: "交易待打包",
         en: "To be packed",
         kr: "거래가 대기중입니다."
-    }
+    };
     //selectpage
     static SelectFile = {
         cn: "选择文件",
         en: "Select file",
         kr: "파일 선택"
-    }
+    };
     static SelectUploadPath = {
         cn: "选择上传位置",
         en: "Select upload location",
         kr: "업로드할 위치를 선택하십시오."
-    }
+    };
     static SelectRightPath = {
         cn: "选定: ",
         en: "Selected",
         kr: "선택"
-    }
+    };
     static Upload = {
         cn: "上传",
         en: "Upload",
         kr: "업로드"
-    }
+    };
     static SelectUploadNum = {
         cn: "已选择${num}项",
         en: "${num} items selected",
         kr: "이미${num}항목을 선택했습니다."
-    }
+    };
 
 	static FindResult = {
 		cn: "找到${num}个设备",
 		en: "${num} devices Found",
 		kr: ''
-	}
+	};
 
     static SelfTransferNotPermitted = {
         cn: "你不能给自己转账",
         en: "The address cannot be yourself",
         kr: "본인주소로 출금할 수 없습니다."
-    }
+    };
     //tab.html
     static createFile = {
         cn: "创建挖矿文件",
         en: "Create mining files",
         kr: "마이닝 파일 생성"
-    }
+    };
     static createJoinEarn = {
         cn: "已创建文件即可参与挖矿",
         en: "Can Open Minning after creating mining files",
         kr: "생성된 파일은 마이닝에 결합할 수 있습니다. "
-    }
+    };
     static cantCreateMore = {
         cn: "空间不足，无法创建更多文件",
         en: "No enough space, cannot create more files",
         kr: "공간이 부족하여 파일을 더 이상 만들 수 없습니다. "
-    }
+    };
     static createdShareFile = {
         cn: "已共享存储",
         en: "Used Sharing storage",
         kr: "사용된 공유 저장소"
-    }
+    };
     static allShareFile = {
         cn: "总共享存储",
         en: "Total sharing storage",
         kr: "총 공유 스토리지"
-    }
+    };
     //测试链
     static changeSize = {
         cn: "正在更改中",
         en: "Changing is in progress",
         kr: "변경이 진행 중입니다. "
-    }
+    };
     static changeWallet = {
         cn: "正在更改钱包中",
         en: "Changing the wallet",
         kr: "지갑 변경중"
-    }
+    };
     static changeWalletTitle = {
         cn: "更换挖矿地址",
         en: "Change mining address",
         kr: "마이닝 주소 변경"
-    }
+    };
     static changeWalletDetail = {
         cn: "更换挖矿地址后，先前挖矿文件不可用",
         en: "After changing the mining address, the previous mining file cannot be accessed",
         kr: "마이닝 주소를 변경한 후 이전 마이닝 파일에 접근할 수 없습니다. "
-    }
+    };
 
     static transferErrUnderPriced = {
         cn: "交易发送失败，为保障交易成功建议提高Gas",
         en: "Transaction failed, recommend to improve Gas for the success of the transaction",
         kr: "거래가 실패했습니다. 거래 성공을 위해 Gas를 개선할 것을 권장합니다. "
-    }
+    };
     static height = {
         cn: "高度",
         en: "Height",
         kr: "높이"
-    }
+    };
     static timestamp = {
         cn: "时间戳",
         en: "Timestamp",
         kr: "타임스탬프"
-    }
+    };
     static seeDetail = {
         cn: "查看详情",
         en: "View details",
         kr: "세부 정보 보기"
-    }
+    };
     static hideDetail = {
         cn: "收起详情",
         en: "Collapse details",
         kr: "세부 정보 거두기"
-    }
+    };
     static transerSending = {
         cn: "正在转帐中",
         en: "Transaction submitting",
         kr: "거래 제출 중"
-    }
+    };
     static HaveNoChangeRecord = {
         cn: "您还没有交易记录",
         en: "You have no transaction record",
@@ -3183,7 +3183,7 @@ export class Lang {
         cn: '文件上传成功',
         en: 'File uploaded successfully',
         kr: '파일 업로드 성공'
-    }
+    };
 
     static CloseMining = {
         cn: "关闭挖矿",
@@ -3219,1175 +3219,1175 @@ export class Lang {
         cn: '挖矿收益',
         en: 'Mining rewards',
         kr: '마이닝수익'
-    }
+    };
     static TransactionRecord = {
         cn: '交易记录',
         en: 'Transaction records',
         kr: '거래기록'
-    }
+    };
 
     static TestChainTitle = {
         cn: '参与测试链挖矿',
         en: 'Check TestNet mining',
         kr: '테스트넷 마이닝 체크아웃'
-    }
+    };
     static TestChainDescription = {
         cn: '加入测试活动，获百万UBBEY奖励',
         en: 'Mining with us to win millions of UBBEY',
         kr: '테스트 체인 마이닝에 참여하여 백만 UBBEY상금을 받아가세요'
-    }
+    };
     static ERCChainTitle = {
         cn: '查看ERC20挖矿',
         en: 'Check out ERC20 mining',
         kr: ' ERC20 마이닝 확인'
-    }
+    };
     static ERCChainDescription = {
         cn: '开启测试链挖矿不影响ERC20挖矿收益',
         en: 'Testnet won\'t effect on ERC20 reward',
         kr: '테스트넷이 ERC20 보상에 영향을 미치지 않음'
-    }
+    };
     static LookNow = {
         cn: '立即查看',
         en: 'Check out',
         kr: '체크아웃'
-    }
+    };
     static Move = {
         cn: '移动',
         en: 'Move',
         kr: '이동'
-    }
+    };
     static Detail = {
         cn: '详情',
         en: 'Details',
         kr: '세부 사항'
-    }
+    };
     static Share = {
         cn: '分享',
         en: 'Share',
         kr: '공유'
-    }
+    };
     static MoveToPath = {
         cn: '移动至: ',
         en: 'Move to',
         kr: '다음으로 이동'
-    }
+    };
     static Unupload = {
         cn: '未上传',
         en: 'Not uploaded',
         kr: '업로드되지 않음'
-    }
+    };
     static All = {
         cn: '全部',
         en: 'All',
         kr: '전부'
-    }
+    };
     static SelectAlbums = {
         cn: '选择相册',
         en: 'Elect albums',
         kr: '앨범 선택 '
-    }
+    };
     static CannotView = {
         cn: '暂不支持该文件类型预览',
         en: 'Not support the file preview',
         kr: '파일 미리보기를 지원하지 않습니다. '
-    }
+    };
     static OpenAfterDownload = {
         cn: '下载后可用其他应用打开',
         en: 'Open with other application after downloading',
         kr: '다운로드 후 다른 응용프로그램으로 열기'
-    }
+    };
     static OpenOtherApp = {
         cn: '其他应用打开',
         en: 'Open with others',
         kr: '다른 응용프로그램으로 열기'
-    }
+    };
     static CancalDownload = {
         cn: '取消下载',
         en: 'Cancel downloading',
         kr: '다운로드 취소'
-    }
+    };
     static DownloadFile = {
         cn: '下载文件',
         en: 'Download files',
         kr: '파일 다운로드'
-    }
+    };
     static Type = {
         cn: '类型',
         en: 'Type',
         kr: '유형'
-    }
+    };
     static Size = {
         cn: '大小',
         en: 'Size',
         kr: '크기'
-    }
+    };
     static Owner = {
         cn: '所有者',
         en: 'Owner',
         kr: '주인'
-    }
+    };
     static CreatTime = {
         cn: '添加时间',
         en: 'Add Date',
         kr: '창조 시간'
-    }
+    };
     static EditTime = {
         cn: '最近修改',
         en: 'Latest editing',
         kr: '최신 편집'
-    }
+    };
     static Editor = {
         cn: '修改成员',
         en: 'Editor',
         kr: '편집장'
-    }
+    };
     static ShareToFriend = {
         cn: '分享给好友',
         en: 'Share with friend',
         kr: '친구와 공유'
-    }
+    };
     static PayMeUBBEY = {
         cn: '向我扫码转UBBEY',
         en: 'Scan to transfer',
         kr: '스캔 전송'
-    }
+    };
     static UBBEYTransfer = {
         cn: 'U口令转账',
         en: 'U password transfer',
         kr: 'U 암호 전송'
-    }
+    };
     static TransferInfo = {
         cn: '您将向该钱包地址转账:',
         en: 'Transfer to this wallet address',
         kr: '이 지갑 주소로 전송합니다 '
-    }
+    };
     static ToSend = {
         cn: '去转账',
         en: 'Go to transfer',
         kr: '전송으로 이동'
-    }
+    };
     static AllFiles = {
         cn: '所有文件',
         en: 'All files',
         kr: '모든 파일'
-    }
+    };
     static PhotoCopy = {
         cn: '图片备份',
         en: 'Photo backup',
         kr: '사진 백업'
-    }
+    };
     static Opened = {
         cn: '已开启',
         en: 'Already opened',
         kr: '이미 열려 있습니다. '
-    }
+    };
     static UnOpened = {
         cn: '未开启',
         en: 'Not opened',
         kr: '열리지 않음'
-    }
+    };
     static AndroidPermissionTxt = {
         cn: 'Ubbey需要您授予存储空间权限，不授予可能会影响文件预览、上传下载功能使用。如关闭请前往【设置】-【权限管理】开启。',
         en: 'Ubbey requires you to grant storage permissions, not to grant access might influence the file preview, upload and download features. If it is closed, please go to [Settings] - [Permission Management]',
         kr: 'Ubbey에서는 스토리지 사용 권한을 부여해야 합니다. 액세스 권한을 부여하지 않을 경우 파일 미리 보기, 업로드 및 다운로드 기능에 영향을 줄 수 있습니다. 닫혀 있는 경우 [설정] - [권한 관리]로 이동하십시오.'
-    }
+    };
     static IosPermissionTxt = {
         cn: 'Ubbey需要您授予存储空间权限，不授予可能会影响文件预览、上传下载功能使用。如关闭请前往【设置】开启',
         en: 'Ubbey requires you to grant storage permissions, not to grant access might influence the file preview, upload and download features. If it is closed, please go to [Settings]',
         kr: ' Ubbey에서는 스토리지 사용 권한을 부여해야 합니다. 액세스 권한을 부여하지 않을 경우 파일 미리 보기, 업로드 및 다운로드 기능에 영향을 줄 수 있습니다. 닫혀 있는 경우 [설정]으로 이동하십시오.'
-    }
+    };
 
     static PermissionBtn = {
         cn: '知道了',
         en: 'Known',
         kr: '알려짐'
-    }
+    };
 
     static CopyPlace = {
         cn: '近场环境下自动同步，速度快不耗费流量',
         en: 'Automatic synchronization in near-field environment, fast and no traffic',
         kr: '근거리 환경에서의 자동 동기화, 빠른 속도, 트래픽 없음'
-    }
+    };
     static CopyCommentary = {
         cn: '图片自动加密传输至Ubbey Box，去中心化存储，私密保存不怕丢',
         en: 'The picture is automatically encrypted and transmitted to the device, secure your privacy with decentralized storage',
         kr: '사진이 자동으로 암호화되고 Ubbey 상자로 전송되며 분산형 스토리지로 개인 정보 보호'
-    }
+    };
 
     static SelectCopyAlbums = {
         cn: '选择自动备份相册',
         en: 'Select auto back up',
         kr: '자동 사진 백업 선택'
-    }
+    };
     static Item = {
         cn: '项',
         en: 'Item',
         kr: '항목'
-    }
+    };
     static NoFiles = {
         cn: '该文件夹下为空',
         en: 'The folder is empty',
         kr: '폴더가 비어 있습니다.'
-    }
+    };
     static NoShares = {
         cn: '分享功能暂未开放',
         en: 'Sharing not available now',
         kr: '공유 기능을 지금 사용할 수 없습니다.'
-    }
+    };
     static CannotMove = {
         cn: '文件夹暂时不支持移动',
         en: 'This foder cannot be moved',
         kr: '이 파일을 이동할 수 없습니다.'
-    }
+    };
     static CannotRename = {
         cn: '该文件夹暂时不支持重命名',
         en: 'This folder cannot be renamed',
         kr: '이 파일의 이름을 바꿀 수 없습니다.'
-    }
+    };
 
     static CopyInfoHead = {
         cn: '复制整段信息，打开�Ubbey App�，即可向我的钱包转账:【',
         en: 'Copy the whole paragraph，open�Ubbey App，then you can transfer to my wallet',
         kr: '전체 메시지를 복사하고 �Ubbey App�를 열면 바로 나의 지갑으로 이체할 수 있다.'
-    }
+    };
     static CopyInfoFoot = {
         cn: '】(未安装App点这里：https://ulabs.tech/app)',
         en: 'Download app, please click https://ulabs.tech/app',
         kr: '앱 다운로드 받으시려면 여기를 누루세요'
-    }
+    };
 
     static Creating = {
         cn: '创建中',
         en: 'Creating',
         kr: '생성중'
-    }
+    };
 
     static Home = {
         cn: "首页",
         en: "Home",
         kr: "홈"
-    }
+    };
 
     static Mining = {
         cn: "挖矿",
         en: "Mining",
         kr: "마이닝"
-    }
+    };
 
     static Discover = {
         cn: "发现",
         en: "Discover",
         kr: "탐색"
-    }
+    };
 
     static User = {
         cn: "我的",
         en: "User",
         kr: "사용자"
-    }
+    };
 
     static LoginBtn = {
         cn: "点击登录/注册",
         en: "Click to login/register",
         kr: '로그인/가입'
-    }
+    };
 
     static LoginTips = {
         cn: "尚未登录，点击这里登录/注册",
         en: "You have not login yet, click here to login/register,",
-        kr: "아직 로그인되지 않았습니다. 로그인/가입을 위해 여기를 클릭 해주세요"
-    }
+        kr: "아직 로그인되지 않았습니다. 여기를 클릭하여 로그인/가입을 해주세요"
+    };
 
     static NeedLogin = {
         cn: "请先登录您的个人账号",
         en: 'Please login to your personal account first ',
-        kr: '우선 개인계정에 로그인 해주세요'
-    }
+        kr: '우선 계정에 로그인 해주세요'
+    };
 
     static UpdateAssistant = {
         cn: "升级助手",
-        en: 'Update assistant',
-        kr: '업데이트'
-    }
+        en: 'Update Assistant',
+        kr: '업데이트 도우미'
+    };
 
-    static App = {
+    static APP = {
         cn: 'Ubbey App',
         en: 'Ubbey App',
-        kr: '유베이 어플리케이션(어플/앱)'
-    }
+        kr: '유베이 앱'
+    };
 
     static ROM = {
         cn: 'Ubbey Box ROM',
         en: 'Ubbey Box ROM',
         kr: '유베이 메모리'
-    }
+    };
 
     static CurrentVersion = {
         cn: '当前版本',
         en: 'Current version',
         kr: '현재버전'
-    }
+    };
 
     static RemoteNetwork = {
         cn: '远场网络',
         en: 'Remote network ',
         kr: '무선 네트워크'
-    }
+    };
 
     static LocalNetwork = {
         cn: '近场网络',
         en: 'Local network',
         kr: '로컬 네트워크'
-    }
+    };
 
     static RemoteNetworkDesc = {
         cn: '手机与设备处于不同网络',
         en: 'The phone and the device are on different network',
-        kr: '휴대폰과 유베이박스는 다른 네트워크에 연결되어있습니다'
-    }
+        kr: '휴대폰과 유베이박스는 동일 네트워크에 연결되어있지 않습니다.'
+    };
 
     static LocalNetworkDesc = {
         cn: '手机与设备处于同一网络',
         en: 'The phone is on the same network as the device',
         kr: '휴대폰이 유베이박스와 동일한 네트워크에 연결되어있습니다'
-    }
+    };
 
     static ConnectionError = {
         cn: '连接失败',
         en: 'Connection failed',
         kr: '연결실패'
-    }
+    };
 
     static ConnectionErrorDesc = {
         cn: '网络异常，请检查手机或设备网络状态',
         en: 'There is something wrong with the network. Please check the network status of your phone or device.',
         kr: '네크워크에 문제가 있습니다. 휴대폰이나 장치의 네크워크 상태를 확인하세요'
-    }
+    };
 
     static Connecting = {
         cn: '连接中',
         en: 'Connecting',
         kr: '연결중'
-    }
+    };
 
     static ConnectingDesc = {
         cn: '设备连接中，请稍候......',
         en: 'Please wait while connecting to the device...',
         kr: '장치가 연결될 때까지 기다려주세요'
-    }
+    };
 
     static BuyFavour = {
         cn: '绑定设备，您将获得',
         en: 'After binding the device, you will get',
         kr: '유베이박스에 연결된 후에 받으실 수 있습니다'
-    }
+    };
 
     static BackupImmediately = {
         cn: '去中心化存储私有云盘，随时备份',
         en: 'Decentralized storage of private cloud disks, back up at any time ',
-        kr: '개인 클라우드 디스크 분산저장공간, 아무때나 백업하세요'
-    }
+        kr: '개인 클라우드 분산저장공간, 아무때나 백업하세요'
+    };
 
     static StorageEnough = {
         cn: '再也不担心手机存储不够用',
         en: 'You don\'t need to worry about the lack of mobile phone storage. ',
         kr: '더이상 휴대폰용량 부족때문에 걱정할 필요가 없습니다'
-    }
+    };
 
     static JoinMining = {
         cn: '分享存储空间，参与挖矿',
         en: 'Share the storage space, participate in mining',
         kr: '저장공간을 공유하고, 마이닝에 참여하세요'
-    }
+    };
 
     static EarnMoney = {
         cn: '每天赚点零花钱',
         en: 'Earn some pocket money every day',
         kr: '매일 용돈을 조금씩 버세요'
-    }
+    };
 
     static BindImmediately = {
         cn: '立即绑定',
         en: 'Bind immediately',
-        kr: '즉시 연결'
-    }
+        kr: '즉시연결'
+    };
 
     static BuyBox = {
         cn: '购买设备',
         en: 'Buy Device',
         kr: '유베이박스 구매하기'
-    }
+    };
 
     static Offline = {
         cn: "离线",
         en: 'Offline',
         kr: '오프라인'
-    }
+    };
 
     static DeviceReboot = {
         cn: "设备重启",
         en: 'Device Reboot',
         kr: '장치 재부팅'
-    }
+    };
 
     static DeviceRebooting = {
         cn: "设备正在重启中，启动后将恢复重连...",
         en: 'The device is restarting and will reconnect after the device is started...',
         kr: '장치가 재부팅되는 중입니다. 박스가 실행되면 재연결 됩니다.'
-    }
+    };
 
     static RebootSuccess = {
         cn: "设备已重新连接！",
         en: 'The device is reconnected!',
         kr: '장치 재연결 성공!'
-    }
+    };
 
     static AdviceSubmit = {
         cn: "意见反馈",
         en: 'Advice Submit',
         kr: '피드백 제출'
-    }
+    };
 
     static ProblemCategory = {
         cn: "问题类别",
         en: 'Problem category',
         kr: '고장 분류'
-    }
+    };
 
     static Account = {
         cn: '账号',
         en: 'Account',
         kr: '계정'
-    }
+    };
 
     static Application = {
         cn: 'DApp应用',
         en: 'DApp application',
-        kr: 'DApp 신청서'
-    }
+        kr: 'DAPP앱'
+    };
 
     static HardwareDevice = {
         cn: '硬件设备',
         en:'Hardware device',
         kr:'하드웨어 장치'
-    }
+    };
 
     static FileTransport = {
         cn: '文件传输',
         en: 'File transmission',
         kr: '파일 전송'
-    }
+    };
 
     static FileManager = {
         cn: '文件管理',
         en: 'File management',
         kr: '파일 매니저'
-    }
+    };
 
     static Others = {
         cn: '其他',
         en:'Others',
         kr:'기타'
-    }
+    };
 
     static ProblemDetail = {
         cn: '反馈问题详情',
         en: 'Details of the problems',
-        kr: '고장 상세내용'
-    }
+        kr: '고장상세내용'
+    };
 
     static ProblemDetailPlaceholder = {
         cn: '您的反馈对我们来说非常重要，请输入您在使用过程中遇到的问题和建议，帮助我们优化产品（该详情输入不超过500个字符）',
         en: ' Your feedback is very important to us. Please enter the questions and suggestions you have encountered during use to help us optimize the product (the details are entered in 500 characters)',
-        kr: '당신의 피드백은 저희에게 매우 중요합니다. 제품을 최적화하기위하여 사용하시는 동안의 문의사항이나 제안사항이 있으시면 입력해주세요. (500자 이내)'
-    }
+        kr: '당신의 피드백은 저희에게 매우 중요합니다. 제품을 최적화하기 위하여 사용하는 동안의 문의사항이나 제안사항이 있으시면 입력해주세요. (500자 이내)'
+    };
 
     static ContactEmail = {
         cn: '联系邮箱',
         en: 'Contact Email',
         kr: '이메일'
-    }
+    };
 
     static ContactEmailPlaceholder = {
         cn: '请输入您的常用邮箱',
-        en: 'Please input your Email',
-        kr: '자주 사용하시는 이메일주소를 적어주세요'
-    }
+        en: 'Please input your best Email',
+        kr: '자주 사용하는 이메일 주소를 적어주세요'
+    };
 
     static ProblemSnapshot = {
         cn: '问题截图(可选)',
-        en: 'Screenshot of the problem (optional)',
-        kr: '고장 스크린샷 (선택)'
-    }
+        en: ' Screenshot of the problem (optional)',
+        kr: '고장스크린샷 (선택)'
+    };
 
     static UploadSystemLog = {
         cn: '上传系统日志，帮助我们定位问题',
         en: 'Upload the system log, help us to fix the bug',
         kr: '위치를 찾을 수 있도록 시스템 로그를 업로드해주세요'
-    }
+    };
 
     static CommitFeedback = {
         cn: '提交反馈',
         en: 'Submit feedback',
-        kr: '피드백 제출'
-    }
+        kr: '피드백제출'
+    };
 
     static FeedbackSucceeded = {
         cn: '您的反馈已提交成功',
         en: 'Your submission is successful',
         kr: '성공적으로 제출되었습니다'
-    }
+    };
 
     static ContactEmailEmpty = {
         cn: '联系邮箱不能为空',
-        en: "Email can't be empty",
-        kr: '이메일을 비울 수 없습니다'
-    }
+        en: 'Email can\'t be empty',
+        kr: '이메일 주소는 비워둘 수 없습니다'
+    };
 
     static ContactEmailIlledge = {
         cn: '请输入正确的联系邮箱',
         en: 'Please input the right Email address',
         kr: '정확한 이메일 주소를 입력해주세요'
-    }
+    };
 
     static ProblemDetailEmpty = {
         cn: '您的问题描述不能为空',
-        en: "Your description can't be empty",
-        kr: '상세내용을 비울 수 없습니다'
-    }
+        en: 'Your description can\'t be empty',
+        kr: '상세내용을 비워둘 수 없습니다'
+    };
 
     static CheckUpdatingAvailable = {
         cn: "正在检查可用的更新...",
         en: 'Checking available updates',
         kr: '업데이트 확인 중'
-    }
+    };
 
     static DownloadingPackages = {
         cn: "正在下载升级包...",
         en: 'Downloading upgrade package',
         kr: '업그레이드 패키지 다운로드 중'
-    }
+    };
 
     static InstallingPackages = {
         cn: "正在安装升级包...",
         en: 'Installing upgrade package',
         kr: '업그레이드 패키지 설치 중'
-    }
+    };
 
     static Downloading = {
         cn: "正在下载(${percent}%)",
         en: 'Downloading(${percent}%)',
         kr: '다운로드 중(${percent}%)'
-    }
+    };
 
     static UpgradeStopped = {
         cn: "已停止升级",
         en: 'Upgrade terminated',
         kr: '업그레이드 완료'
-    }
+    };
 
     static Time = {
         cn: '时间',
         en: 'Time',
         kr: '시간'
-    }
+    };
     static UpdateApp = {
         cn: '更新',
         en: 'Update',
         kr: '업데이트'
-    }
+    };
     static Description = {
         cn: '应用描述',
         en: 'Application description',
-        kr: '어플이케이션 설명'
-    }
+        kr: '앱 설명'
+    };
     static Permissions = {
         cn: '权限',
         en: 'Permission',
-        kr: '승인'
-    }
+        kr: '권한'
+    };
     static Hardware = {
         cn: '硬件环境',
         en: 'Hardware environment',
         kr: '하드웨어 환경'
-    }
+    };
     static Developers = {
         cn: '开发者',
         en: 'Developers',
         kr: '개발자'
-    }
+    };
     static Open = {
         cn: '打开',
         en: 'Open',
         kr: '열기'
-    }
+    };
     static FindFascinating = {
         cn: '发现精彩',
         en: 'Discover the wonderful',
-        kr: '멋진 것을 발견'
-    }
+        kr: '멋진 것 발견'
+    };
     static Get = {
         cn: '获取',
         en: 'GET',
         kr: '얻기'
-    }
+    };
     static BindBox = {
         cn: '绑定设备',
         en: 'Bind Device',
         kr: '유베이박스 바인딩'
-    }
+    };
     static BindBoxInfo1 = {
         cn: '拥有去中心化存储私有云盘，随时备份',
         en: 'Decentralized storage private cloud disk in hand, backup at any time',
-        kr: '개인 클라우드 디스크 분산저장공간에 아무때나 백업하세요'
-    }
+        kr: '개인 클라우드 분산저장공간에 아무때나 백업하세요'
+    };
     static BindBoxInfo2 = {
         cn: '再也不担心手机存储不够用',
         en: 'You don\'t need to worry about the lack of mobile phone storage.',
         kr: '더이상 휴대폰용량 부족때문에 걱정할 필요가 없습니다'
-    }
+    };
     static NotBind = {
         cn: '暂不绑定',
         en: 'Not bound yet',
-        kr: '지금 바인딩되지 않음'
-    }
+        kr: '지금 바인딩 하지않음'
+    };
     static BindSuccess = {
         cn: '绑定成功',
         en: 'Binding succeed',
         kr: '바인딩 성공'
-    }
+    };
 
     static BoxHasBind = {
         cn: '该设备已经被绑定',
         en: 'The device has been bound',
         kr: '박스가 바인딩되었습니다'
-    }
+    };
 
     static StartDownload = {
         cn: '恢复下载',
         en: 'Restore download',
         kr: '다운로드 복구'
-    }
+    };
     static StopDownload = {
         cn: '暂停下载',
         en: 'Pause download',
         kr: '다운로드 중지'
-    }
+    };
 
     static AKeyBackup = {
         cn: '一键备份图片',
         en: 'One-Click backup',
-        kr: '원클릭 백업 이미지'
-    }
+        kr: '원클릭 이미지 백업'
+    };
 
     static BTSeeds = {
         cn: 'BT种子',
         en: 'BitTorrent',
         kr: 'BT시드'
-    }
+    };
 
     static UploadTo = {
         cn: '上传至 ',
         en: 'Upload to ',
-        kr: '업로드 위치 '
-    }
+        kr: '~에 업로드'
+    };
 
     static AdviceSubmitInfo = {
         cn: '上传的系统日志包括版本信息、固件信息、系统时间、磁盘信息等，上传的日志受到隐私保护，只用于定位问题，不会对外泄漏。勾选此项表示您同意提供日志信息定位问题。',
         en: 'The uploaded system log includes version information, firmware information, system time and disk information. The uploaded logs are protected by privacy and will only be used to locate problems and will not be leaked outside. By checking this device, you agree to provide log information to location problems.',
-        kr: '업로드된 시스템로그는 버전정보, 펌웨어정보, 시스템 시간 및 디스크 정보를 포함합니다. 업로드된 로그는 개인정보법에따라 보호되며 문제발생시에만 이용되고 외부유출이 되지 않습니다. 네모를 체크하여 문제위치장소에 대한 로그정보제공에 동의하세요.'
-    }
+        kr: '업로드된 시스템로그는 버전정보, 펌웨어정보, 시스템시간 및 디스크 정보를 포함합니다. 업로드된 로그는 개인정보보호법에따라 보호되며 문제 확신시에만 이용되고 외부유출이 되지 않습니다. 네모를 체크하여 문제 확인을 위한 로그정보제공에 동의해주세요.'
+    };
 
     static BTDetail = {
         cn: '资源详情',
         en: 'Resource details',
         kr: '리소스 상세내역'
-    }
+    };
     static AllDownload = {
         cn: '共下载：',
         en: 'Total download:',
         kr: '전체 다운로드'
-    }
+    };
     static Introduction = {
         cn: '简介',
         en: 'Introduction',
         kr: '소개'
-    }
+    };
     static FileType = {
         cn: '类别',
         en: 'Category',
         kr: '파일형식'
-    }
+    };
     static FileNumber = {
         cn: '文件数',
         en: 'File Number',
         kr: '파일 개수'
-    }
+    };
     static BTNumber = {
         cn: '种子数',
         en: 'Seeds',
         kr: '시드 개수'
-    }
+    };
     static FileHash = {
         cn: '文件hash',
         en: 'File hash',
         kr: '파일 해시'
-    }
+    };
     static FileDescription = {
         cn: '描述',
         en: 'Description',
         kr: '설명'
-    }
+    };
     static PutMore = {
         cn: '收起更多',
         en: 'Collapse more',
         kr: '더 접기'
-    }
+    };
     static ViewMore = {
         cn: '查看更多',
         en: 'Read more',
         kr: '더 읽기'
-    }
+    };
     static RelatedImages = {
         cn: '相关图片',
         en: 'Related Images',
         kr: '관련 이미지'
-    }
+    };
     static FileList = {
         cn: '文件列表',
         en: 'Files',
         kr: '파일 목록'
-    }
+    };
     static PlayError = {
         cn: '您的浏览器不支持 video 标签。',
         en: 'Your browser does not support the video tag.',
         kr: '브라우저가 해당 비디오태그를 지원하지 않습니다'
-    }
+    };
     static DownloadSet = {
         cn: '下载设置',
         en: 'Download settings',
         kr: '다운로드 설정'
-    }
+    };
     static MeanwhileDownloadTask = {
         cn: '同时下载任务',
         en: 'Download the task at the same time',
-        kr: '항상 똑같이 다운로드'
-    }
+        kr: '동시에 다운로드'
+    };
     static MeanwhileDownloadTaskNum = {
         cn: '同时运行的最大下载任务数',
         en: 'Maximum number of download tasks running simultaneously',
         kr: '동시에 진행가능한 최대 다운로드 수'
-    }
+    };
     static SelectSavePath = {
         cn: '选择存储位置',
         en: 'Select storage location',
         kr: '저장위치 선택'
-    }
+    };
     static ChangeTaskConfigSuccess = {
         cn: '更改任务配置成功',
-        en: 'Successfully change the task configuration',
-        kr: '환경설정 변경 성공'
-    }
+        en: ' Successfully change the task configuration',
+        kr: '환경설정 변경에 성공'
+    };
     static CanUse = {
         cn: '可用',
         en: 'Available',
-        kr: '가능'
-    }
+        kr: '사용가능'
+    };
     static SaveNowPath = {
         cn: '保存当前路径',
         en: 'Save current path',
-        kr: '현재 설정 저장'
-    }
+        kr: '현재경로 저장'
+    };
     static GoBack = {
         cn: '返回上一层',
         en: 'Back to the previous level',
-        kr: '이전 수준 회복'
-    }
+        kr: '전단계로 돌아가기'
+    };
     static DownloadTask = {
         cn: '下载任务',
         en: 'Download task',
         kr: '다운로드 작업'
-    }
+    };
     static DownloadingNum = {
         cn: '下载中',
         en: 'Downloading',
         kr: '다운로드 중'
-    }
+    };
     static AllStop = {
         cn: '全部暂停',
         en: 'All pause',
         kr: '모두 중지'
-    }
+    };
     static AllStart = {
         cn: '全部开始',
         en: 'All start',
         kr: '모두 실행'
-    }
+    };
     static ChangeBtTaskStatusSuccess = {
         cn: '更改任务状态成功',
         en: 'Successfully change the task status',
         kr: '작업상황 변경 성공'
-    }
+    };
     static Prompt = {
         cn: '提示',
         en: 'Prompt',
-        kr: '즉시'
-    }
+        kr: '알림'
+    };
     static SureDeleteTask = {
         cn: '确认删除该任务',
         en: 'Confirm to delete this task',
         kr: '작업삭제 확인'
-    }
+    };
     static DeleteBoxFile = {
         cn: '同时删除硬盘本地文件',
         en: 'Delete the hard disk local files as well',
         kr: '하드디스크의 로컬파일도 같이 삭제'
-    }
+    };
     static DeleteTaskSuccess = {
         cn: '删除任务成功',
         en: 'Successfully deleted the task',
         kr: '작업삭제 성공'
-    }
+    };
     static OldPayPassword = {
         cn: '原支付密码',
         en: 'Original payment password',
         kr: '기존 결제 비밀번호'
-    }
+    };
     static NewPayPassword = {
         cn: '新支付密码',
         en: 'New payment password',
         kr: '신규 결제 비밀번호'
-    }
+    };
     static SurePayPassword = {
         cn: '确认支付密码',
         en: 'Confirm new payment password',
         kr: '결제 비밀번호 확인'
-    }
+    };
     static TransactionAmount = {
         cn: '交易金额',
         en: 'Transaction amount',
-        kr: '송금액'
-    }
+        kr: '송금금액'
+    };
     static EquipmentModel = {
         cn: '设备型号',
         en: 'Device model',
         kr: '장치 모델'
-    }
+    };
     static SystemVersion = {
         cn: '系统版本',
         en: 'System version',
         kr: '시스템 버전'
-    }
+    };
     static PrepareUbbeyEquipment = {
         cn: '准备设备',
         en: 'Prepare Device',
         kr: '유베이 장치 준비'
-    }
+    };
     static EquipmentUbbeyInfo = {
         cn: '将设备接通电源和插入网线，确认你的手机与设备处于同一网络（连接同一Wi-Fi）',
         en: 'Power on the device and plug in the network cable. Make sure your phone is on the same network as the device (connected to the same Wi-Fi)',
         kr: '유베이 장치의 전원을 켜고 네트워크선에 연결하세요. 휴대폰이 유베이 장치와 같은 네트워크에 연결되어있어야 합니다.(동일한 와이파이에 연결)'
-    }
+    };
     static Continue = {
         cn: '继续',
         en: 'Continue',
         kr: '계속'
-    }
+    };
     static Used = {
         cn: '已使用',
         en: 'Used',
-        kr: '사용'
-    }
+        kr: '사용됨'
+    };
     static ConnectErr = {
         cn: '连接异常',
         en: 'Connection error',
         kr: '연결 오류'
-    }
+    };
     static TheDisc = {
         cn: '主盘',
         en: 'Main disk',
-        kr: '주디스크'
-    }
+        kr: '메인디스크'
+    };
     static TheSecondDisc = {
         cn: '扩展',
         en: 'Extend',
         kr: '확장'
-    }
+    };
     static BindFail = {
         cn: '绑定失败',
         en: 'Binding failed',
         kr: '바인딩 실패'
-    }
+    };
     static DropDownAndSearchAgain = {
         cn: '下拉重新搜索',
         en: 'Pull down and scan again',
-        kr: '아래로 내려서 재검색'
-    }
+        kr: '아래로 드레그해서 다시 검색'
+    };
     static Capacity = {
         cn: '容量：',
         en: 'Capacity ',
         kr: '용량'
-    }
+    };
     static SerialNumber = {
         cn: '序列号：',
         en: 'Serial No.',
         kr: '시리얼넘버'
-    }
+    };
     static Binded = {
         cn: '已绑定：',
         en: 'Binded',
-        kr: '바인딩중'
-    }
+        kr: '바인딩됨'
+    };
     static Bind = {
         cn: '绑定',
         en: 'Bind',
         kr: '바인딩'
-    }
+    };
     static Find = {
         cn: '找到',
         en: 'Find',
         kr: '찾기'
-    }
+    };
     static CanUseEquipment = {
         cn: '台可用设备',
         en: 'Available devices',
-        kr: '이용가능한 장치'
-    }
+        kr: '사용가능한 장치'
+    };
     static CanotUseEquipment = {
         cn: '找不到可用设备',
         en: "Can't find available device",
-        kr: '이용가능한 장치를 찾을 수 없습니다'
-    }
+        kr: '사용가능한 장치를 찾을 수 없습니다'
+    };
     static ScaningEquipment = {
         cn: '正在搜索可用设备...',
         en: 'Scaning for available devices...',
         kr: '이용가능한 장치를 찾는 중'
-    }
+    };
 
     //////////////////////////////
     static Place = {
         cn: '位置',
         en: 'Location',
         kr: '위치'
-    }
+    };
 
     static RecommendedResources = {
         cn: '推荐资源',
         en: 'Recommended',
         kr: '권장 리소스'
-    }
+    };
     static Discovery = {
         cn: '发现',
         en: 'Discover',
         kr: '탐색'
-    }
+    };
     static MyFiles = {
         cn: '我的文件',
         en: 'My Files',
         kr: '내 파일'
-    }
+    };
     static OtherDisk = {
         cn: '其他磁盘',
         en: 'Other disks',
         kr: '다른 디스크'
-    }
+    };
     static File = {
         cn: '文件',
         en: 'File',
         kr: '파일'
-    }
+    };
     static WonderfulWorld = {
         cn: '超越区块链，开启去中心化的未来',
         en: 'Beyond blockchain, open the gate to the decentralized future',
         kr: '블록체인을 넘어서 분산형 미래의 문을 여세요'
-    }
+    };
     static Email = {
         cn: '邮箱',
         en: 'Email',
         kr: '이메일'
-    }
+    };
     static LoginPassword = {
         cn: '登录密码',
         en: 'Login password',
         kr: '로그인 비밀번호'
-    }
+    };
     static RegisterNow = {
         cn: '没有账号？立即注册',
         en: 'No account yet? Sign up now',
-        kr: '아직 계정이 없으세요? 지금 가입하세요.'
-    }
+        kr: '아직 계정이 없으신가요? 지금 가입하세요.'
+    };
 
     static SeeMoreMining = {
         cn: '查看历史收益',
         en: 'View historical revenue',
         kr: '수익기록 보기'
-	}
+	};
 
 	static AddNewDevice = {
 		cn: '添加新设备',
 		en: 'Add new device',
 		kr: '신규 장치 추가'
-	}
+	};
 
 	static Extentions = {
 		cn: '${num}个扩展设备',
 		en: '${num} extention devices',
 		kr: '${num} 장치 확장'
-	}
+	};
 
 	static RemoteConnection = {
 		cn: '远场连接',
 		en: 'Remote connection',
 		kr: '원격 연결'
-	}
+	};
 
 	static LocalConnection = {
 		cn: '近场连接',
 		en: 'Local connection',
 		kr: '로컬 연결'
-	}
+	};
 
     static OpenUbbeyGetUbbey = {
         cn: '打开挖矿获取UBBEY奖励',
         en: 'Open mining to get UBBEY rewards',
         kr: '마이닝을 열어 유베이 보상 수령'
-    }
+    };
     static SetPassword = {
         cn: '设置密码',
         en: 'Set password',
         kr: '비밀번호 설정'
-    }
+    };
     static InputAgain = {
         cn: '再次输入',
         en: 'Enter Again',
         kr: '재입력'
-    }
+    };
     static ClickNextAgree = {
         cn: '点击下一步即表示接受用户协议',
         en: 'Click Next to accept agreement',
         kr: '사용자 동의를 위해 다음을 클릭하세요'
-    }
+    };
     static TheNextStep = {
         cn: '下一步',
         en: 'Next Step',
         kr: '다음'
-    }
+    };
     static DAPP = {
         cn: 'DApp',
         en: 'DApp',
         kr: 'DApp'
-    }
+    };
     static SearchHistory = {
         cn: '搜索历史',
         en: 'Search History',
         kr: '검색 기록'
-    }
+    };
     static SecuritySettings = {
         cn: '安全设置',
         en: 'Security setting',
         kr: '보안 설정'
-    }
+    };
     static SystemSet = {
         cn: '系统设置',
         en: 'System setting ',
         kr: '시스템 설정'
-    }
+    };
     static More = {
         cn: '更多',
         en: 'Mores',
         kr: '기타'
-    }
+    };
     static UbbeyOrg = {
         cn: 'ubbey.org',
         en: 'ubbey.org',
         kr: 'ubbey.org'
-    }
+    };
     static CopyRight = {
         cn: 'Copyright © 2018 Universal Labs.',
         en: 'Copyright © 2018 Universal Labs.',
         kr: 'Copyright © 2018 Universal Labs.'
-    }
+    };
     static AllRights = {
         cn: '版权所有',
         en: 'All Rights Reserved',
         kr: 'All Rights Reserved'
-    }
+    };
     static Tips = {
         cn: '温馨提示：',
         en: 'Tips',
         kr: '팁'
-    }
+    };
     static ValidationCode = {
         cn: '· 验证码有效期为30分钟，超时请重新获取',
         en: '· The verification code is valid for 30 minutes. Please re-acquire after the timeout.',
-        kr: '· 인증번호는 30분간 유효합니다. 시간초과 시 인증번호 재요청을 하세요'
-    }
+        kr: '인증번호는 30분간 유효합니다. 시간 초과시 인증번호를 재요청 하세요.'
+    };
     static EmailInfo = {
         cn: '· 如收不到邮件，请检查邮件地址或者检查邮件是否被归类于垃圾邮件',
         en: '· If not receive the email, please check the email address or check whether the email is classified as spam.',
         kr: '· 이메일을 받지 못하셨다면 이메일주소를 다시 확인하거나 이메일이 스팸으로 분류되어 있는지 확인하세요.'
-    }
+    };
 
     static ClickChangePassword = {
         cn: '点击修改支付密码',
         en: 'Click to change the payment password',
-        kr: '결제 비밀번호를 수정하시려면 클릭하세요'
-    }
+        kr: '결제비밀번호를 수정하려면 클릭하세요'
+    };
     static CopyKeyStore = {
         cn: '为保障资产安全，请备份Keystore文件',
         en: 'To protect your assets, please back up your keystore files.',
         kr: '자산을 보호하기 위하여 키저장소 파일을 백업하세요'
-    }
+    };
 
     static Wallet = {
         cn: '钱包',
         en: 'Wallet',
         kr: '지갑'
-    }
+    };
     static Notices = {
         cn: '消息',
         en: 'Notices',
         kr: '공지'
-    }
+    };
 
     static WaitingDownload = {
         cn: '等待下载',
         en: 'Waiting',
         kr: '다운로드 대기 중'
-    }
+    };
     static ContinueDownload = {
         cn: '继续下载',
         en: 'Continue',
-        kr: '다운로드 계속'
-    }
+        kr: '계속 다운로드'
+    };
     static DownloadError = {
         cn: '下载失败',
         en: 'Failed',
         kr: '다운로드 실패'
-    }
+    };
 
     static ViewFile = {
         cn: '查看文件',
         en: 'View file',
         kr: '파일보기'
-    }
+    };
     static DownloadAgain = {
         cn: '重新下载',
         en: 'Redownload',
-        kr: '재다운로드'
-    }
+        kr: '다시 다운로드'
+    };
 
     static TaskViewPC = {
         cn: '在电脑上打开Ubbey客户端，可对您设备里的文件进行管理，下载地址：www.ubbey.org/download',
         en: 'Open the Ubbey PC client to manage the files on your device. Download address: www.ubbey.org/download',
         kr: '장치내 파일을 관리하시려면 컴퓨터에서 유베이 클라이언트를 열어주세요. 다운로드 주소: www.ubbey.org/download'
-    }
+    };
 
     static RenameError = {
         cn: '重命名失败',
         en: 'Rename failed',
         kr: '이름변경 실패'
-    }
+    };
     static RegisterSlogan = {
         cn: "超越区块链，开启去中心化的未来",
         en: "Beyond blockchain, open the gate to the decentralized future",
@@ -4406,7 +4406,7 @@ export class Lang {
      static ClearSpaceInfo = {
         cn: "测试链挖矿活动已结束，感谢您对活动的支持。立即清除挖矿文件恢复存储空间",
         en: "The test chain mining activity has ended. Thank you for your support. Clear the mining file immediately to restore storage space.",
-        kr: "테스트 체인 마이닝이 완료되었습니다. 이벤트에 참가해주셔서 감사합니다. 저장공간 복구를 위하여 마이닝 파일을 즉시 제거해주세요.",
+        kr: "테스트넷 마이닝 이벤트가 종료되었습니다. 이벤트에 참여해주셔서 감사합니다. 저장공간 복구를 위하여 마이닝 파일을 즉시 제거해주세요.",
     };
     static NowClear = {
         cn: "立即清除",
@@ -4417,12 +4417,12 @@ export class Lang {
         cn: 'BT下载',
         en: 'BT download',
         kr: 'BT 다운로드'
-    }
+    };
     static OldPassWord = {
         cn: '原密码',
         en: 'Current Password',
         kr: ''
-    }
+    };
     static NewPassWord = {
         cn: '新密码',
         en: 'New Password',
@@ -4447,22 +4447,22 @@ export class Lang {
 		cn: "未归档文件",
 		en: 'UnArchieved',
 		kr: ''
-	}
+	};
 	static PhotoBackup = {
 		cn: "自动备份文件列表",
 		en: 'Auto backup',
 		kr: ''
-    }
+    };
     static DeviceRebootMessage = {
 		cn: "重启设备将会等待1-2分钟",
 		en: '',
 		kr: ''
-    }
+    };
     static YouHaveLoadingFile = {
 		cn: "加载中...",
 		en: 'Loading...',
 		kr: ''
-    }
+    };
     static payUbbey = {
 		cn: "",
 		en: 'Price',

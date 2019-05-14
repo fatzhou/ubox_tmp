@@ -265,6 +265,9 @@ export class GlobalService {
 
     //盒子API
     public static boxApi = {
+        "ping": {
+            url: '/description.xml',
+        },
         "login": {
             url: '/ubeybox/user/login',
         },

@@ -328,7 +328,7 @@ export class HttpService {
 		}
 	}
 
-	public post(url: string, paramObj: any, errorHandler: any = true, headers: any = {}, options: any = {}) {
+	public post(url: string, paramObj: any, errorHandler: any = false, headers: any = {}, options: any = {}) {
 		//盒子的远近场需要同步cookie
 		url = url || '';
 		headers['X-Request-Id'] = this.getXRequestId();

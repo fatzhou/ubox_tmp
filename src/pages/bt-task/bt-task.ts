@@ -40,7 +40,7 @@ export class BtTaskPage {
         this.getTaskList();
         this.setIntervalTaskList = setInterval(() => {
             this.getTaskList()
-        },3000);
+        },10000);
     }
     ionViewWillLeave() {
         clearInterval(this.setIntervalTaskList);
