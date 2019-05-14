@@ -29,3 +29,12 @@ else
 	sed -i "" "s/{{global.L(\"Login\")}}/{{global.L(\"Login\")}}({{global.L(\"InnerTestVersion\")}})/g" src/pages/login/login.html	
 
 fi
+
+if [[ $1 = "prod-no-md5" ]]
+then
+    sed -i "" "s/Md5.hashStr(\$scope.password).toString()/(((\$scope.password)))/g"   src/providers/Util.ts
+    sed -i "" "s/Md5.hashStr(password).toString()/password/g"                   src/providers/Util.ts
+else
+    sed -i "" "s/(((\$scope.password)))/Md5.hashStr(\$scope.password).toString()/g"   src/providers/Util.ts
+    sed -i "" "s/(((password)))/Md5.hashStr(password).toString()/g"                   src/providers/Util.ts
+fi

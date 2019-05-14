@@ -197,7 +197,6 @@ export class Util {
             	$scope.http.post(loginUrl, {
                     uname: $scope.username,
                     password: Md5.hashStr($scope.password).toString(),
-                    // password: $scope.password,
                 }, tips)
             .then((res) => {
                 GlobalService.consoleLog("登录中心成功，获取个人信息" + JSON.stringify(res));
@@ -429,7 +428,6 @@ export class Util {
         return this.http.post(url, {
             username: username,
             password: Md5.hashStr(password).toString(),
-            // password: $scope.password,
         }, false)
         .then(res => {
             if(res.err_no === 0) {
@@ -732,7 +730,6 @@ export class Util {
     //     $scope.http.post(userInfoUrl, {
     //         uname: $scope.username,
     //         password: Md5.hashStr($scope.password).toString(),
-    //         // password: $scope.password,
     //     }, tips)
     //     .then((res) => {
     //         if (res.err_no === 0) {
@@ -1268,34 +1265,69 @@ export class Util {
     //ping近场盒子
     pingLocalBox(mybox = null){
         return new Promise((resolve, reject)=>{
-            let url = GlobalService.boxApi["keepAlive"].url;
+            let url = GlobalService.boxApi["ping"].url;
+            let addr = "";
+            let box = null;
             if(mybox && mybox.URLBase){
-                url = "http://" + mybox.URLBase + url;
+                box = mybox;
+                addr = ("" + mybox.URLBase).replace(/:(\d){0,5}\s*$/g, ":6004");
             } else if(this.global.deviceSelected && this.global.deviceSelected.URLBase){
-                url = "http://" + this.global.deviceSelected.URLBase + url;
-            } else{
-                url = ""
+                box = this.global.deviceSelected;
+                addr = ("" +this.global.deviceSelected.URLBase).replace(/:(\d){0,5}\s*$/g, ":6004");
             }
-
-            if (url){
-                let rejected = false;
+            if (addr){
+                GlobalService.consoleLog("ping local box:" + addr);
+                url = "http://" + addr + url;
+                let promisedone = false;
                 let pingTimer = setTimeout(()=>{
-                    rejected = true;
+                    promisedone = true;
                     reject()
                 }, 800);
 
-                this.http.post(url, {}, false, {}, {})
-                    .then(()=>{
-                        if (!rejected){
-                            resolve(mybox || this.global.deviceSelected)
+                //// 发送一个post请求，看id是否匹配 //////////
+                this.angularHttp.get(url, {})
+                    .subscribe((res)=>{
+                        GlobalService.consoleLog("ping local box post res:" + JSON.stringify(res));
+                        if (promisedone){
+                            return;
                         }
-                    }, ()=>{
-                        if (!rejected){
+                        promisedone = true;
+                        if (!res || !res.ok || res.status != 200 || !res.text()){
+                            reject();
+                            return;
+                        }
+                        let xml = res.text();
+                        let parser = new xml2js.Parser({
+                            trim: true,
+                            explicitArray: true
+                        });
+                        parser.parseString(xml, (err, result)=> {
+                            GlobalService.consoleLog("ping local box parse xml result:" + JSON.stringify(result) + ", err:" + err);
+                            if (err || !result || !result.root || !result.root.device){
+                                reject();
+                                return;
+                            }
+                            let device = result.root.device[0];
+                            let deviceBoxId = '' + device.boxId;
+                            GlobalService.consoleLog("myBoxId:" + box.boxId + ",xmlDeviceBoxId=" + deviceBoxId);
+
+                            if ((this.global.deviceSelected && deviceBoxId != this.global.deviceSelected.boxId)
+                                ||(mybox && deviceBoxId != mybox.boxId)) {
+                                reject();
+                                return;
+                            }
+                            resolve(mybox || this.global.deviceSelected);
+                        })
+                    }, (err)=>{
+                        GlobalService.consoleLog("ping local box post error:" + JSON.stringify(err));
+                        if (!promisedone){
                             clearTimeout(pingTimer);
+                            promisedone = true;
                             reject();
                         }
                     })
             }else{
+                GlobalService.consoleLog("ping local box:"+ "未知盒子，作ping不成功处理");
                 reject()
             }
         });
@@ -1599,7 +1631,6 @@ export class Util {
     //     $scope.http.post(url, {
     //         username: $scope.username,
     //         password: Md5.hashStr($scope.password).toString(),
-    //         // password: $scope.password,
     //     })
     //     .then((res) => {
     //         if (res.err_no === 0) {
