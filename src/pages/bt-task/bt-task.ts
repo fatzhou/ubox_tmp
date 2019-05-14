@@ -39,6 +39,12 @@ export class BtTaskPage {
         this.global.tabIndex = 1;
         this.getTaskList();
         this.setIntervalTaskList = setInterval(() => {
+            let list = this.btTaskList.find(item => {
+                return item.isDelete == true
+            });
+            if(list) {
+                return false;
+            }
             this.getTaskList()
         },10000);
     }
