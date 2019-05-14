@@ -28,7 +28,7 @@
 			</svg>
 		</div>
 		<button class="go-next" tappable (click)="goNext()">
-			{{ global.L("WORD2cb40779") }}
+			{{ bindStatus == 1 ? global.L("WORD2cb40779") : global.L("") }}
 		</button>
 	</div>
 	<div class="main-content" *ngIf="bindStatus == 0">

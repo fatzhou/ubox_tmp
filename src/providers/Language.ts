@@ -4473,5 +4473,14 @@ export class Lang {
         en: "",
         kr: ""
     };
-
+	static Binding = {
+		cn: "正在绑定设备",
+		en: "Binding device...",
+		kr: ""
+	}
+	static Rebind = {
+		cn: "重新绑定",
+		en: "Rebind",
+		kr: ""
+	}
 }

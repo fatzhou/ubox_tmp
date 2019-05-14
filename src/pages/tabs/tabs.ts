@@ -158,6 +158,18 @@ export class TabsPage {
 						});
 						this.checkVersion();
 					})
+				} else if(res.type == 'newest') {
+					this.global.createGlobalAlert(this, {
+						title: "Special Reminder",
+						message: "This beta version may be unstable, please download the official version first",
+						buttons: [{
+							text: "Exit",
+							role: null,
+							handler: data => {
+								this.platform.exitApp();
+							}
+						}]
+					})
 				}
             })
             .catch(e => {

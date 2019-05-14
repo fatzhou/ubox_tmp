@@ -49,8 +49,12 @@ export class DeviceSearchPage {
 		GlobalService.consoleLog("已选定盒子：" + JSON.stringify(box));
 		this.http.stopWebrtcEngine();
 		this.global.setSelectedBox(box);
+		this.global.createGlobalLoading(this, {
+			message: this.global.L("Binding")
+		})
 		this.util.bindBox(this)
 		.then(res => {
+			this.global.closeGlobalLoading(this);
 			if(res) {
 				// this.util.checkoutBox(this);
 				// this.events.publish('check-box-app');
@@ -62,6 +66,7 @@ export class DeviceSearchPage {
 			}
 		})
 		.catch(e => {
+			this.global.closeGlobalLoading(this);
 			this.global.setSelectedBox(null);
 			this.bindStatus = 2;
 		})
