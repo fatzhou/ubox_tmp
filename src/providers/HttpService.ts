@@ -50,7 +50,8 @@ export class HttpService {
     centerNetworkChecking = false;              //是否正在检测中心网络状态
     centerNetworkCheckTimer = null;             //检测中心网络状态定时器
 	networkIndeedError = null;                  //中心连接明确出错
-	networkLastNotifyStatus = null;         //最后发送的通知对应的网络状态
+    networkLastNotifyStatus = null;             //最后发送的通知对应的网络状态
+    networkLastNotifyStatusTime = null;         //最后发送的通知对应的时间
 	isBoxUrlReg = /^http(s?):\/\/(\d){1,3}\.(\d){1,3}\.(\d){1,3}\.(\d){1,3}:(\d){1,5}/g;
 
 	globalRequestMap = {}; //已发送的回调
@@ -1254,6 +1255,7 @@ export class HttpService {
 		this.events.publish('app:class-changed', networkstatus);
 		this.events.publish('task:network-changed', networkstatus);
 		this.networkLastNotifyStatus = networkstatus;
+        this.networkLastNotifyStatusTime = Date.now();
 		this._checkNetworkStatusAsync();
 	}
 
@@ -1288,19 +1290,26 @@ export class HttpService {
 	}
 
 	_checkNetworkStatusAsync() {
-		if (Date.now() - this.centerNetworkLastAliveTime > 60000 && this.centerNetworkChecking == false) {
+        let now = Date.now();
+		if (now - this.centerNetworkLastAliveTime > 60000 && this.centerNetworkChecking == false) {
 			this.centerNetworkChecking = true;
 			let url = GlobalService.centerApi["noticeMarketList"].url;
 			this.http.post(url, {
 				timeStamp: 0,
 			}, false).then(res => {
-				GlobalService.consoleLog("检查网络状态请求发送成功返回, 刷新网络状态");
+				GlobalService.consoleLog("检查网络状态请求发送返回成功, 准备刷新网络状态");
 			}).catch(e => {
-				GlobalService.consoleLog("检查网络状态请求发送返回异常, 刷新网络状态");
+				GlobalService.consoleLog("检查网络状态请求发送返回异常, 准备刷新网络状态");
 			}).then(() => {
-				if (this.networkLastNotifyStatus && !this.networkLastNotifyStatus.centerNetworking) {
-					this.notifyNetworkStatusChange();
-				}
+				if (!this.networkLastNotifyStatus || !this.networkLastNotifyStatus.centerNetworking) {
+                    GlobalService.consoleLog("检查网络状态: 之前无网络, 刷新网络状态");
+                    this.notifyNetworkStatusChange();
+				}else if(now - this.networkLastNotifyStatusTime > 120000){
+                    GlobalService.consoleLog("检查网络状态: 长时间无刷新, 刷新网络状态");
+                    this.notifyNetworkStatusChange();
+                }else {
+                    GlobalService.consoleLog("检查网络状态: 已处于有网状态, 不刷新网络");
+                }
 				this.centerNetworkChecking = false;
 			});
 		}
