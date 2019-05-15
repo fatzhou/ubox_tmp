@@ -136,28 +136,32 @@ export class TabsPage {
                     this.isShowAction = true;
                 } else if(res.type == 'force') {
 					GlobalService.consoleLog("正在强制升级中........");
-					this.checkUpdate._checkUpdateStatus(()=> {
-						this.global.closeGlobalLoading(this);
-						//升级成功
-						this.global.createGlobalToast(this, {
-							message: Lang.L('uploadFinished')
-						})
-						let match = this.checkVersion();
-						//当前版本未命中规则，通知更新
-						if(match < 0) {
-							//如果版本没够，则不弹窗
-							if(this.global.deviceSelected && (this.global.deviceSelected.version )) {
-								this.events.publish('list:refresh');
-							}
-						}
-					}, () => {
-						this.global.closeGlobalLoading(this);
-						//升级失败
-						this.global.createGlobalToast(this, {
-							message: Lang.L('updateRomError')
-						});
-						this.checkVersion();
-					})
+                    this.checkUpdate._checkUpdateStatus(()=> {
+                        this.global.closeGlobalLoading(this);
+                        //升级成功
+                        this.global.createGlobalToast(this, {
+                            message: Lang.L('uploadFinished')
+                        });
+                        let match = this.checkVersion();
+                        //当前版本未命中规则，通知更新
+                        if(match < 0) {
+                            //如果版本没够，则不弹窗
+                            if(this.global.deviceSelected && (this.global.deviceSelected.version )) {
+                                this.events.publish('list:refresh');
+                            }
+                        }
+                    }, (checkres) => {
+                        if(checkres != "UPDATE_DOING"){
+                            GlobalService.consoleLog("正在强制升级中, 不须再次调用升级");
+                            return;
+                        }
+                        //升级失败
+                        this.global.closeGlobalLoading(this);
+                        this.global.createGlobalToast(this, {
+                            message: Lang.L('updateRomError')
+                        });
+                        this.checkVersion();
+                    })
 				} else if(res.type == 'newest') {
 					this.global.createGlobalAlert(this, {
 						title: "Special Reminder",
@@ -175,7 +179,7 @@ export class TabsPage {
             .catch(e => {
                 GlobalService.consoleLog(e.stack);
             })
-        })
+        });
 
         //外部要求升级app
         this.events.subscribe('update-app', () => {
@@ -191,16 +195,16 @@ export class TabsPage {
 
             GlobalService.DownloadPath['android'] = this.appVersionDescription.downloadUrl;
         })
-        //外部通知获取钱包列表 
+        //外部通知获取钱包列表
         this.events.subscribe('get-wallet', () => {
             this.util.getWalletList()
             .catch(e => {
                 GlobalService.consoleLog(e);
             })
         })
-        
+
         //触发检查更新
-        
+
         this.events.subscribe('check-box-app', () => {
             GlobalService.consoleLog('准备检查固件升级');
             this.getVersionControl()
@@ -375,7 +379,7 @@ export class TabsPage {
 		}
 		return index;
     }
-    
+
     ionViewDidLoad() {
         GlobalService.consoleLog('x...');
         if(this.global.deviceSelected) {
@@ -496,7 +500,7 @@ export class TabsPage {
                 // });
             // })
         }
-       
+
     }
 
     setIcons(e) {
