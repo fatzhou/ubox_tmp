@@ -148,6 +148,7 @@ export class SearchBtPage {
     }
 
     clearKey() {
+        console.log('clearKey')
         this.inputValue = '';
     }
 
