@@ -36,7 +36,7 @@ export class DeviceDetailPage {
         this.diskName = this.disk.name;
         this.diskStatus = this.global.useWebrtc ? Lang.L('RemoteConnection') : Lang.L('LocalConnection');
         this.diskNo = this.disk.boxid;
-        this.diskModel = this.disk.hardware;
+        this.diskModel = this.disk.hardware == 'UbbeyNext' ? 'Ubbey NEXT': 'Ubbey BOX';
         this.diskVersion = this.disk.firmware;
         this.diskNewVersion = this.disk.firmware;
     }

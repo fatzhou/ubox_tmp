@@ -299,7 +299,10 @@ page-bt-detail {
         background: $newFourColor;
         .file-list-item {
 			position: relative;
-
+            margin-bottom: 14px;
+            &:last-child {
+                margin-bottom: 0px;
+            }
 			&.sub-file-list-item {
 				margin-top: 14px;
 				padding-left: 11px;

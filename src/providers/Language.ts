@@ -4237,13 +4237,13 @@ export class Lang {
 
 	static RemoteConnection = {
 		cn: '远场连接',
-		en: 'Remote connection',
+		en: 'Remote',
 		kr: '원격 연결'
 	};
 
 	static LocalConnection = {
 		cn: '近场连接',
-		en: 'Local connection',
+		en: 'Local',
 		kr: '로컬 연결'
 	};
 

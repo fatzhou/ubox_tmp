@@ -97,7 +97,7 @@ export class BtDetailPage {
 					} else {
 						language = GlobalService.applang;
 					}
-					let testFeedId = /[c]$/;
+					let testFeedId = /^ubbey/; //ubbey开头的是自己的资源
 					if (this.type == 'feed' || testFeedId.test(this.detailId)) {
 						this.detailDesc = JSON.parse(res.describe)[language].describe;
 					} else {
