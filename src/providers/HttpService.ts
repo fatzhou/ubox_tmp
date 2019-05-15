@@ -515,7 +515,7 @@ export class HttpService {
 			this.global.boxStatus = true;
 		}
 
-		if (result && result.err_no !== 0 && errorHandler) {
+		if (result && result.err_no !== 0) {
 			let handlers = thisLanguage;
 			if (handlers) {
 				//弹出err_msg的内容
@@ -548,14 +548,14 @@ export class HttpService {
 						enableBackdropDismiss: false,
 						buttons: buttons
 					})
-				} else {
+				} else if(errorHandler) {
 					let message = thisLanguage.Title[l] || thisLanguage.Title['cn'];
 					this.global.createGlobalToast(this, {
 						message: message,
 					});
 					return result;
 				}
-			} else {
+			} else if(errorHandler) {
 				this.global.createGlobalToast(this, {
 					message: Lang.UnkownError[l] || Lang.L('UnkownError'),
 				});
@@ -641,10 +641,6 @@ export class HttpService {
 		this.global.closeGlobalLoading(this);
 
 		msg = Lang.SystemError[l] || "网络错误，请稍候再试";
-
-		// if(this.dataChannelOpen) {
-		//     this._clearWebrtc();
-		// }
 
 		if (this.global.networking) {
 			msg = error.err_msg || msg;
