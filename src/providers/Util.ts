@@ -32,7 +32,8 @@ declare var fileOpener2;
 
 @Injectable()
 export class Util {
-	searchUbbeyDoingCount = 0;
+    searchUbbeyDoingCount = 0;      //正在进行搜索的请求数
+    isDoingCheckoutBox = false;     //当前是否正在进行盒子检出
 
     constructor(
         // private transfer: FileTransport,
@@ -229,7 +230,7 @@ export class Util {
 
         //尽最大努力获取用户盒子信息, 获取不到返回失败
         .then(res=> {
-			return this.checkoutBox($scope)
+			return this.startCheckoutBox($scope)
 			.then(res => {
 				return res;
 			})
@@ -262,7 +263,11 @@ export class Util {
         })
     }
 
-    checkoutBox($scope){
+    stopCheckoutBox(){
+        this.isDoingCheckoutBox = false;
+    }
+
+    startCheckoutBox($scope){
         let logid = Date.now();
         let doSelect =  ()=>{
             //尝试用本地缓存中的信息ping一下本地盒子, ping不通之后再搜索
@@ -388,10 +393,17 @@ export class Util {
             })
         };
 
-
         return new Promise((resolve, reject)=>{
+            // Case 0: is doing now
+            if (this.isDoingCheckoutBox){
+                GlobalService.consoleLog("["+logid+"]" + "选取盒子请求退出: 已正在进行盒子选择");
+                reject();
+                return;
+            }
+
             // Case 1: timeout
             let havedone = false;
+            this.isDoingCheckoutBox = true;
             setTimeout((logid)=>{
                 if(!havedone){
                     GlobalService.consoleLog("["+logid+"]" + "选取盒子超时， 引擎继续运行中，直至成功选取盒子...");
@@ -407,10 +419,13 @@ export class Util {
                 let oldlogid = logid;
                 logid = Date.now();
                 GlobalService.consoleLog("["+ oldlogid + ":" + logid+"]" + "选取盒子开始第"+retrycount+"次运行...");
-                doSelect().then(()=>{havedone=true; resolve()}).catch((err)=>{
+                doSelect().then(()=>{havedone=true; this.isDoingCheckoutBox=false; resolve()}).catch((err)=>{
                     if (err === "USER_HAVE_NO_BOX"){
                         GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败，弱中心明确用户无盒子, 不再重试");
                         reject("USER_HAVE_NO_BOX");
+                    }else if(this.isDoingCheckoutBox){
+                        GlobalService.consoleLog("["+logid+"]" + "选取盒子请求退出: 已被停止");
+                        reject();
                     }else{
                         GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + JSON.stringify(err));
                         setTimeout(()=>{doSelectLoop()}, 15000);
@@ -653,7 +668,7 @@ export class Util {
                             //关闭webrtc连接
                             $scope.http.stopWebrtcEngine()
                         }
-                        this.checkoutBox($scope)
+                        this.startCheckoutBox($scope)
                         .catch(e => {
                             GlobalService.consoleLog(e);
                         })
@@ -1393,7 +1408,7 @@ export class Util {
                             }
                         }
                         return this.global.walletList;
-                    })   
+                    })
                 }
 			} else {
 				return []
@@ -1436,7 +1451,7 @@ export class Util {
         //     // this.global.nowUserWallet = {};
         // })
 	}
-	
+
 	handleThumbnailError(obj) {
         GlobalService.consoleLog("缩略图加载出错, 设置为默认图......." + obj.thumbnail)
         var md5 = Md5.hashStr(obj.path.replace('\/$', '') + '/' + obj.name).toString();
@@ -1677,6 +1692,7 @@ export class Util {
             callback && callback();
         }, 0);
 
+        this.stopCheckoutBox();
         this.http.post(this.global.getBoxApi("logout"), {}, false)
         .then(()=>{
             this.http.stopWebrtcEngine();
