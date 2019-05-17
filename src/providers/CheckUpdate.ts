@@ -56,7 +56,7 @@ export class CheckUpdate {
                                         GlobalService.consoleLog("升级固件:" + res.data.dstVer + "," + res.data.signature);
                                         resolve(res);
                                     }
-                                }, 
+                                },
                                 {
                                     text: Lang.L("Cancel"),
                                     handler: data => {
@@ -64,7 +64,7 @@ export class CheckUpdate {
                                         GlobalService.consoleLog("用户拒绝升级");
                                         reject(res);
                                     }
-                                },                           
+                                },
                             ]
                         })
                     } else if(res.force === 0 ) {
@@ -78,11 +78,11 @@ export class CheckUpdate {
                             this.global.createGlobalToast(this, {
                                 message: this.global.L('NewestVersion')
                             });
-                            reject(res);                        
+                            reject(res);
                         }, 1500)
-                    }                    
+                    }
                 }, 3000 - (Date.now() - start));
-            })                
+            })
         })
         .then((res:any) => {
             this.upgradeFlag = "doing";
@@ -141,7 +141,7 @@ export class CheckUpdate {
                                 }
                             })
                         }, 500);
-                    })                    
+                    })
                 } else {
                     throw new Error('Error when downloading...' + JSON.stringify(res))
                 }
@@ -176,16 +176,16 @@ export class CheckUpdate {
                 //安装成功
                 return new Promise((resolve, reject) => {
                     this._checkUpdateStatus(resolve, reject);
-                })                  
+                })
             } else {
                 throw new Error('Error when installing...' + JSON.stringify(res));
             }
-        })    
+        })
         .catch(e => {
             GlobalService.consoleLog("未能正常升级:" + JSON.stringify(e));
             setTimeout(() => {
-                this.global.closeGlobalLoading(this);  
-            }, 5000 - (Date.now() - start))      
+                this.global.closeGlobalLoading(this);
+            }, 5000 - (Date.now() - start))
         })
     }
 
@@ -227,7 +227,7 @@ export class CheckUpdate {
 
             if((version > checkArr[i] || checkArr[i] === -1) && (version < checkArr[i + 1] || checkArr[i + 1] === -1)) {
                 return i / 2;
-            }       
+            }
         }
         return -1;
     }
@@ -238,11 +238,11 @@ export class CheckUpdate {
     }
 
     _checkUpdateStatus(resolve, reject) {
-		// if(this.status == 'updating') {
-		// 	GlobalService.consoleLog("Firwarming updating check is doing...");
-		// 	reject();
-		// 	return false;
-		// }
+        if(this.status == 'updating') {
+            GlobalService.consoleLog("Firwarming updating check is doing, reject(UPDATE_DOING)...");
+            reject("UPDATE_DOING");
+            return;
+        }
         let updateUrl = this.setUpdateRomUrl(this.global.getBoxApi('checkRomUpdateStatus'));
         //轮询检查升级状态
         let deviceVersion = this.global.deviceSelected.version;
@@ -250,7 +250,7 @@ export class CheckUpdate {
         let boxId = deviceSelected.boxId;
         GlobalService.consoleLog("升级时boxId " + boxId + "status" + this.status + ",version:" + deviceVersion);
         this.status = 'updating';
-        var interval = setInterval(()=>{
+        let interval = setInterval(()=>{
             if(this.status === 'normal') {
                 clearInterval(interval);
                 interval = null;
@@ -265,36 +265,36 @@ export class CheckUpdate {
                         console.log("升级已经成功，获取盒子版本:" + boxId);
                         this.status = "normal";
                         clearInterval(interval);
-                        interval = null;                        
+                        interval = null;
                         //查询当前版本号
                         this.util.getBoxVersion(boxId)
                         .then(version => {
                             GlobalService.consoleLog("检查更新成功后版本号为：" + version);
-                            this.global.closeGlobalLoading(this); 
+                            this.global.closeGlobalLoading(this);
 
                             if(deviceVersion == version) {
                                 console.error("升级失败，却返回升级成功！" + deviceVersion);
                                 this.global.createGlobalToast(this, {
                                     message: Lang.L("updateRomError")
                                 });
-                                reject(res);                                 
+                                reject(res);
                             } else {
                                 this.global.createGlobalToast(this, {
                                     message: Lang.L("uploadFinished")
                                 });
                                 // this.version = dstVer;
-                                deviceSelected.version = version; 
+                                deviceSelected.version = version;
                                 let device = this.global.foundDeviceList.find(item => item.boxId === boxId);
                                 if(device) {
                                     device.version = version;
                                 }
-                                // resolve('updated', res);                              
+                                // resolve('updated', res);
                                 resolve(version);
                             }
                         })
                         .catch(e => {
                             GlobalService.consoleLog("处理版本号错误：" + e.stack);
-                            this.global.closeGlobalLoading(this); 
+                            this.global.closeGlobalLoading(this);
                             clearInterval(interval);
                             interval = null;
                             this.global.createGlobalToast(this, {
@@ -314,7 +314,7 @@ export class CheckUpdate {
 						this.status = 'normal';
 						throw new Error("升级失败：" + JSON.stringify(res));
                     }
-                } 
+                }
             })
             .catch(e => {
                 GlobalService.consoleLog("catch报错了");
@@ -329,7 +329,7 @@ export class CheckUpdate {
                 reject({
                     type: 'error',
                     data: e
-                }); 
+                });
             })
         }, 2000);
     }
@@ -367,15 +367,15 @@ export class CheckUpdate {
                         });
                         // this._checkUpdateStatus(resolve, reject);
                     }
-                } else {  
-                    reject(res);          
+                } else {
+                    reject(res);
                 }
-            })  
+            })
             .catch(e => {
                 GlobalService.consoleLog("升级查询出错:" + e);
-            })          
+            })
         })
-     
+
     }
 
     //升级固件到指定版本
@@ -385,7 +385,7 @@ export class CheckUpdate {
         // });
         var url = this.setUpdateRomUrl(this.global.getBoxApi('updateRom'));
         this.http.post(url, {
-            dstVer: dstVer, 
+            dstVer: dstVer,
             signature: signature
         })
         .then(res => {
@@ -394,6 +394,6 @@ export class CheckUpdate {
             } else {
                 reject('Failure');
             }
-        })        
+        })
     }
 }

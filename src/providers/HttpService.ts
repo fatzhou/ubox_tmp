@@ -329,7 +329,7 @@ export class HttpService {
 		}
 	}
 
-	public post(url: string, paramObj: any, errorHandler: any = false, headers: any = {}, options: any = {}) {
+	public post(url: string, paramObj: any, errorHandler: any = true, headers: any = {}, options: any = {}) {
 		//盒子的远近场需要同步cookie
 		url = url || '';
 		headers['X-Request-Id'] = this.getXRequestId();
@@ -515,7 +515,7 @@ export class HttpService {
 			this.global.boxStatus = true;
 		}
 
-		if (result && result.err_no !== 0) {
+		if (result && result.err_no !== 0 && errorHandler) {
 			let handlers = thisLanguage;
 			if (handlers) {
 				//弹出err_msg的内容
@@ -548,7 +548,7 @@ export class HttpService {
 						enableBackdropDismiss: false,
 						buttons: buttons
 					})
-				} else if(errorHandler) {
+				} else {
 					let message = thisLanguage.Title[l] || thisLanguage.Title['cn'];
 					this.global.createGlobalToast(this, {
 						message: message,
