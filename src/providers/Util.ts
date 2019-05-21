@@ -414,7 +414,7 @@ export class Util {
             // case 2: select
             ////////// 持续搜索，直至成功 ///// begain ///////////////
             let retrycount = 0;
-            let doSelectLoop = function () {
+            let doSelectLoop = () => {
                 retrycount++;
                 let oldlogid = logid;
                 logid = Date.now();
