@@ -278,21 +278,21 @@ export class Util {
 
             //Case 2: ping通之后, 直接使用缓存
             .then((pingbox)=>{
-                GlobalService.consoleLog("["+logid+"]" + "ping本地盒子成功, 直接使用缓存");
+                GlobalService.consoleLog("["+logid+"]" + "选取盒子时ping本地盒子成功, 直接使用缓存");
                 $scope.global.setSelectedBox(pingbox);
                 return $scope.global.deviceSelected
             })
 
             //Case 3: ping不通之后再尝试搜索
             .catch(()=>{
-                GlobalService.consoleLog("["+logid+"]" + "ping本地盒子不通, 尝试搜索BOX....");
+                GlobalService.consoleLog("["+logid+"]" + "选取盒子时ping本地盒子不通, 尝试搜索BOX....");
                 return this.searchSelfBox($scope).then(mybox => {
-                    GlobalService.consoleLog("["+logid+"]" + "尝试搜索成功....");
+                    GlobalService.consoleLog("["+logid+"]" + "选取盒子时尝试搜索成功....");
                     $scope.global.setSelectedBox(mybox);
                     return $scope.global.deviceSelected
                 }).catch((err) => {
                     if (err == "USER_HAVE_NO_BOX") {
-                        GlobalService.consoleLog("[" + logid + "]" + "用户明确无盒子，本地搜索盒子失败");
+                        GlobalService.consoleLog("[" + logid + "]" + "选取盒子时用户明确无盒子，本地搜索盒子失败");
                         return Promise.reject("USER_HAVE_NO_BOX");
                     } else {
                         return null;
@@ -315,7 +315,7 @@ export class Util {
             .then((res:any) => {
 
                 if (!this.global.deviceSelected) {
-                    GlobalService.consoleLog("["+logid+"]" + "选择盒子失败, ***UNREACHABLE CODE***");
+                    GlobalService.consoleLog("["+logid+"]" + "选取盒子失败, ***UNREACHABLE CODE***");
                     return Promise.reject("["+logid+"]" + "***UNREACHABLE CODE***")
                 }
 
@@ -403,7 +403,6 @@ export class Util {
 
             // Case 1: timeout
             let havedone = false;
-            this.isDoingCheckoutBox = true;
             setTimeout((logid)=>{
                 if(!havedone){
                     GlobalService.consoleLog("["+logid+"]" + "选取盒子超时， 引擎继续运行中，直至成功选取盒子...");
@@ -414,7 +413,8 @@ export class Util {
             // case 2: select
             ////////// 持续搜索，直至成功 ///// begain ///////////////
             let retrycount = 0;
-            let doSelectLoop = function () {
+            this.isDoingCheckoutBox = true;
+            let doSelectLoop = () => {
                 retrycount++;
                 let oldlogid = logid;
                 logid = Date.now();
@@ -422,9 +422,10 @@ export class Util {
                 doSelect().then(()=>{havedone=true; this.isDoingCheckoutBox=false; resolve()}).catch((err)=>{
                     if (err === "USER_HAVE_NO_BOX"){
                         GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败，弱中心明确用户无盒子, 不再重试");
+                        this.isDoingCheckoutBox=false;
                         reject("USER_HAVE_NO_BOX");
-                    }else if(this.isDoingCheckoutBox){
-                        GlobalService.consoleLog("["+logid+"]" + "选取盒子请求退出: 已被停止");
+                    }else if(!this.isDoingCheckoutBox){
+                        GlobalService.consoleLog("["+logid+"]" + "选取盒子循环引擎退出: 已被停止");
                         reject();
                     }else{
                         GlobalService.consoleLog("["+logid+"]" + "选取盒子第" + retrycount + "次失败， 等待X秒后继续重试... error=" + JSON.stringify(err));
