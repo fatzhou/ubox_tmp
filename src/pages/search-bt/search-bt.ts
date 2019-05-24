@@ -163,7 +163,7 @@ export class SearchBtPage {
         if(item.status && item.status == 1) {
             return false;
         }
-        if (this.http.isNetworkReady(true)){
+        if (!this.http.isNetworkReady(true)){
             return false;
         }
         item.status = 1;
@@ -179,9 +179,11 @@ export class SearchBtPage {
                         this.util.downloadBt(url, item.resid)
                         .then(res => {
                             GlobalService.consoleLog("正在下载bt")
+                            item.status = 1;
                         })
                         .catch(e => {
                             console.log('下载失败')
+                            item.status = 0;
                         })
                         return true;
                     }
@@ -191,6 +193,7 @@ export class SearchBtPage {
                     handler: data => {
                         GlobalService.consoleLog('Cancel clicked');
                         // this.handleBack();
+                        item.status = 0;
                     }
                 },
             ]
