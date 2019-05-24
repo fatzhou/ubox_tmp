@@ -1265,7 +1265,7 @@ export class HttpService {
      */
     isNetworkReady(tips=false){
         let networkstatus = this.getNetworkStatus();
-        if(networkstatus.centerNetworking && networkstatus.uboxNetworking){
+        if(!networkstatus.centerNetworking || !networkstatus.uboxNetworking){
             if(tips){
                 this.global.createGlobalToast(this, {
                     message: this.global.L('NetworkNotReady')
