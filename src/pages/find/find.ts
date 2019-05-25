@@ -260,7 +260,6 @@ export class FindPage {
 		if (!this.http.isNetworkReady(true)){
             return false;
         }
-		item.status = 1;
 		this.global.createGlobalAlert(this, {
 			title: Lang.L('DownloadFile'),
 			message: item.title,
