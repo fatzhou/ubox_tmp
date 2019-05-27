@@ -64,7 +64,7 @@ export class BtSetPage {
                 this.taskNum--;
             }
         } else {
-            if(this.taskNum <= 5) {
+            if(this.taskNum <= 4) {
                 this.taskNum++;
             }
         }
