@@ -254,10 +254,12 @@ export class FindPage {
 
 	downloadBt(item) {
 		GlobalService.consoleLog("download" + item.mgurl);
-		// if (item.status && item.status == 1) {
-		// 	return false;
-		// }
-		// item.status = 1;
+		if (item.status && item.status == 1) {
+			return false;
+		}
+		if (!this.http.isNetworkReady(true)){
+            return false;
+        }
 		this.global.createGlobalAlert(this, {
 			title: Lang.L('DownloadFile'),
 			message: item.title,
@@ -274,7 +276,8 @@ export class FindPage {
 								item.status = 1;
 							})
 							.catch(e => {
-								console.log('下载失败')
+								console.log('下载失败');
+								item.status = 0;
 							})
 						} 
 						return true;
@@ -285,6 +288,7 @@ export class FindPage {
 					handler: data => {
 						GlobalService.consoleLog('Cancel clicked');
 						// this.handleBack();
+						item.status = 0;
 					}
 				},
 			]

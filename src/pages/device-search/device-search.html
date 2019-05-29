@@ -52,7 +52,7 @@
 							<div class="device-info">
 								<p class="name">{{ device.boxType == 'UbbeyNext' ? 'Ubbey NEXT': 'Ubbey BOX' }}</p>
 								<p *ngIf="device.storage">{{ global.L("Capacity") }}: {{ device.storage | computeFileSize }}</p>
-								<p>{{ global.L("SerialNumber") }}: {{ device.boxId }}</p>
+								<p class="info-text-overflow">{{ global.L("SerialNumber") }}: {{ device.boxId }}</p>
 								<p *ngIf="!!device.bindUser">{{ global.L("Binded") }}: {{ device.bindUser }}</p>
 							</div>
 						</div>

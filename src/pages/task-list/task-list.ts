@@ -313,7 +313,7 @@ export class TaskListPage {
     }
 
     toggleStatus(task) {
-        if (this.http.isNetworkReady(true)){
+        if (!this.http.isNetworkReady(true)){
             return;
         }
 

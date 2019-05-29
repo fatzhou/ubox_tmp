@@ -1104,7 +1104,12 @@ export class HttpService {
 			else {
 				GlobalService.consoleLog("webrtc创建盒子连接: 建立连接失败，一定时间后重新启动.....");
 				this.webrtcEngineRestartTimer = setTimeout(() => {
-					this._createDataChannel().then(GlobalService.consoleLog).catch(GlobalService.consoleLog);
+                    this.webrtcEngineRestartTimer = null;
+                    if (this.webrtcEngineStatus == "stoped"){
+                        GlobalService.consoleLog("webrtc创建盒子连接: 引擎已关闭，不重新启动建立连接");
+                    }else{
+                        this._createDataChannel().then(GlobalService.consoleLog).catch(GlobalService.consoleLog);
+                    }
 				}, this.successiveConnectGap);
 			}
 
@@ -1260,7 +1265,7 @@ export class HttpService {
      */
     isNetworkReady(tips=false){
         let networkstatus = this.getNetworkStatus();
-        if(networkstatus.centerNetworking && networkstatus.uboxNetworking){
+        if(!networkstatus.centerNetworking || !networkstatus.uboxNetworking){
             if(tips){
                 this.global.createGlobalToast(this, {
                     message: this.global.L('NetworkNotReady')

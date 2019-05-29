@@ -2039,6 +2039,9 @@ export class Util {
 		}
 		if (/^(zip)$/.test(suffix)) {
 			return "zip";
+        }
+        if (/^(torrent)$/.test(suffix)) {
+			return "torrent";
 		}
 		return "default";
     }
