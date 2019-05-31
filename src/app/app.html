@@ -1,77 +1,83 @@
 <ion-nav #mycontent [root]="rootPage"></ion-nav>
 
 <ion-menu type="overlay" swipeGesture="false" [content]="mycontent">
-	<ion-content>
-		<div class="aside-nav">
-			<div class="aside-nav-bg"></div>
-			<div class="aside-nav-content">
-				<div class="nav-head">
-					<p class="user-head-img"></p>
-					<p class="user-email">{{ global.centerUserInfo.uname }}</p>
-				</div>
-				<ul class="nav-list">
-					<li tappable [ngClass]="global.tabIndex == 0 ? 'active':''" (click)="goPage('file')">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#icondownloadicon1"></use>
-						</svg>
-						<span>{{global.L('MyFiles')}}</span>
-					</li>
-					<li tappable [ngClass]="global.tabIndex == 1 ? 'active':''" (click)="goPage('discover')">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconBTdefault1"></use>
-						</svg>
-						<span>{{global.L('Discover')}}</span>
-					</li>
-					<li tappable [ngClass]="global.tabIndex == 2 ? 'active':''" class="border-bottom" (click)="goPage('mining')">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconMiningdefault1"></use>
-						</svg>
-						<span>{{global.L('Mining')}}</span>
-					</li>
-					<li tappable class="border-bottom" (click)="goPage('wallet')">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconWalletdefault"></use>
-						</svg>
-						<span>{{global.L('Wallet')}}</span>
-					</li>
-					<!-- <li class="border-bottom" (click)="goPage('dapp')">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconDappdefault"></use>
-						</svg>
-						<span>{{global.L('DAPP')}}</span>
-					</li> -->
-					<li tappable (click)="goPage('notice')">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconMessagedefault"></use>
-						</svg>
-						<span>{{global.L('Notices')}}</span>
-					</li>
-					<li tappable (click)="goPage('setting')">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconSettingdefault1"></use>
-						</svg>
-						<span>{{global.L('Setting')}}</span>
-					</li>
-				</ul>
-				<div ion-item *ngIf="global.centerUserInfo.bind_box_count > 0" class="nav-bottom">
-					<div item-start class="nav-bottom-top" tappable (click)="goPage('device-manage')">
-						<p class="ubbey-contact fl eps">{{ global.deviceSelected ? (global.diskInfo.hardware == 'UbbeyNext' ? 'Ubbey NEXT': 'Ubbey BOX') : global.L('NOBOX') }}</p>
-						<p class="connection-type fl">{{ global.useWebrtc ? global.L('RemoteConnection') : global.L('LocalConnection') }}</p>
-						<p class="extentions fl" *ngIf="global.deviceSelected">{{ global.Lf('Extentions', global.diskInfo.disks && global.diskInfo.disks.length - 1) }}</p>
-					</div>
-					<div item-end tappable (click)="goPage('device-manage')">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconxiangyou"></use>
-						</svg>
-					</div>
-				</div>
-				<div *ngIf="global.centerUserInfo.bind_box_count == 0" class="add-device" tappable (click)="goPage('deviceguidance');">
-					<svg class="icon" aria-hidden="true">
-						<use xlink:href="#icontianjiashebei1"></use>
-					</svg>
-					<span>{{ global.L('AddNewDevice') }}</span>
-				</div>
-			</div>
-		</div>
-	</ion-content>
+    <ion-content>
+        <div class="aside-nav">
+            <div class="aside-nav-bg"></div>
+            <div class="aside-nav-content">
+                <div class="nav-head">
+                    <p class="user-head-img"></p>
+                    <p class="user-email">{{ global.centerUserInfo.uname }}</p>
+                </div>
+                <ul class="nav-list">
+                    <li tappable [ngClass]="global.tabIndex == 0 ? 'active':''" (click)="goPage('file')">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icondownloadicon1"></use>
+                        </svg>
+                        <span>{{global.L('MyFiles')}}</span>
+                    </li>
+                    <li tappable [ngClass]="global.tabIndex == 1 ? 'active':''" (click)="goPage('discover')">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#iconBTdefault1"></use>
+                        </svg>
+                        <span>{{global.L('Discover')}}</span>
+                    </li>
+                    <li tappable [ngClass]="global.tabIndex == 2 ? 'active':''" class="border-bottom"
+                        (click)="goPage('mining')">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#iconMiningdefault1"></use>
+                        </svg>
+                        <span>{{global.L('Mining')}}</span>
+                    </li>
+                    <li tappable class="border-bottom" (click)="goPage('wallet')">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#iconWalletdefault"></use>
+                        </svg>
+                        <span>{{global.L('Wallet')}}</span>
+                    </li>
+                    <li class="border-bottom" (click)="goPage('dapp')">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#iconDappdefault"></use>
+                        </svg>
+                        <span>{{global.L('DAPP')}}</span>
+                    </li>
+                    <li tappable (click)="goPage('notice')">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#iconMessagedefault"></use>
+                        </svg>
+                        <span>{{global.L('Notices')}}</span>
+                    </li>
+                    <li tappable (click)="goPage('setting')">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#iconSettingdefault1"></use>
+                        </svg>
+                        <span>{{global.L('Setting')}}</span>
+                    </li>
+                </ul>
+                <div ion-item *ngIf="global.centerUserInfo.bind_box_count > 0" class="nav-bottom">
+                    <div item-start class="nav-bottom-top" tappable (click)="goPage('device-manage')">
+                        <p class="ubbey-contact fl eps">
+                            {{ global.deviceSelected ? (global.diskInfo.hardware == 'UbbeyNext' ? 'Ubbey NEXT': 'Ubbey BOX') : global.L('NOBOX') }}
+                        </p>
+                        <p class="connection-type fl">
+                            {{ global.useWebrtc ? global.L('RemoteConnection') : global.L('LocalConnection') }}</p>
+                        <p class="extentions fl" *ngIf="global.deviceSelected">
+                            {{ global.Lf('Extentions', global.diskInfo.disks && global.diskInfo.disks.length - 1) }}</p>
+                    </div>
+                    <div item-end tappable (click)="goPage('device-manage')">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#iconxiangyou"></use>
+                        </svg>
+                    </div>
+                </div>
+                <div *ngIf="global.centerUserInfo.bind_box_count == 0" class="add-device" tappable
+                    (click)="goPage('deviceguidance');">
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icontianjiashebei1"></use>
+                    </svg>
+                    <span>{{ global.L('AddNewDevice') }}</span>
+                </div>
+            </div>
+        </div>
+    </ion-content>
 </ion-menu>
