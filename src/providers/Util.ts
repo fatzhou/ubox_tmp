@@ -776,20 +776,18 @@ export class Util {
         GlobalService.consoleLog("设备："+ JSON.stringify(devices));
         for (var i = 0, len = devices.length; i < len; i++) {
             let xml = devices[i].xml;
-            if(!xml) {
-                continue;
-            }
-            let parser = new xml2js.Parser({
-                trim: true,
-                explicitArray: true
-            });
-            if(xml==undefined){
+            if(!xml){
                 if(i ==(len-1)){
                     callback(deviceList);
                 }else{
                     continue;
                 }
             }
+            let parser = new xml2js.Parser({
+                trim: true,
+                explicitArray: true
+            });
+ 
             parser.parseString(xml, function(err, result) {
                 var device = result.root.device;
                 var dv = device[0];
