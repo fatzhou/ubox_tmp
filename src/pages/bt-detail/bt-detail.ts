@@ -42,6 +42,8 @@ export class BtDetailPage {
 	status: any = 0;
 	isShowMoreBtn: boolean = false;
 	payUbbey: any = 0;
+	times: number = 0;
+	timesInterval: any = null;
 	constructor(public navCtrl: NavController,
 		public navParams: NavParams,
 		public global: GlobalService,
@@ -53,9 +55,16 @@ export class BtDetailPage {
 
 	ionViewDidLoad() {
 		// GlobalService.consoleLog('ionViewDidLoad BtDetailPage');
-		this.type = this.navParams.get("type");
+		let typeTest = /^ubbey/;
 		this.detailId = this.navParams.get("id");
+		this.type = typeTest.test(this.detailId) ? 'feed' : 'search';
 		this.status = this.navParams.get('status');
+		this.global.createGlobalLoading(this, {
+			message: Lang.L('Loading')
+		});
+		this.timesInterval = setInterval(() => {
+			this.times++;
+		}, 1000);//loading计时
 		this.getDetail();
 	}
 
@@ -110,9 +119,23 @@ export class BtDetailPage {
 						this.setFileList(res.file_list);
 					}
 				}
+				this.closeLoading();
+			}).catch(e => {
+				this.closeLoading();
 			})
 	}
-
+	closeLoading() {
+		//关闭loading处理
+		let closeTime = 0;
+		if(this.times <= 0 ) {
+			closeTime = 1000;
+		}
+		setTimeout(() => {
+			this.global.closeGlobalLoading(this);
+		}, closeTime)
+		clearInterval(this.timesInterval);
+		this.timesInterval = null;
+	}
 	setFileList(list:any) {
 		if(!list || !list.length) {
 			GlobalService.consoleLog("没有找到文件....");
@@ -181,7 +204,19 @@ export class BtDetailPage {
 		if(this.type == 'feed') {
 			this.fileList = findCurrPid(0);
 		} else {
-			this.fileList = list;
+			let arr = [];
+			list.map(item => {
+				let file:any = {};
+				let nameTest = /(\s*\({1}[a-zA-Z0-9]{0,}\.{0,}[a-zA-Z0-9]{0,}\){1})$/;
+				if(nameTest.test(item)) {
+					file.name = item.replace(nameTest,'')
+				}
+				file.children = null;
+				file.style = self.util.computeFileType(file.name);
+				arr.push(file);
+			})
+			this.fileList = arr;
+
 		}
 		GlobalService.consoleLog("bt种子的文件列表:" + JSON.stringify(this.fileList))
 	}

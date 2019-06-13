@@ -779,19 +779,17 @@ export class Util {
 		for (var i = 0, len = devices.length; i < len; i++) {
 			let xml = devices[i].xml;
 			if (!xml) {
-				continue;
-			}
-			let parser = new xml2js.Parser({
-				trim: true,
-				explicitArray: true
-			});
-			if (xml == undefined) {
 				if (i == (len - 1)) {
 					callback(deviceList);
 				} else {
 					continue;
 				}
 			}
+			let parser = new xml2js.Parser({
+				trim: true,
+				explicitArray: true
+			});
+
 			parser.parseString(xml, function (err, result) {
 				var device = result.root.device;
 				var dv = device[0];
@@ -885,7 +883,7 @@ export class Util {
 						"manufacturer": "23",
 						"manufacturerURL": "23",
 						"deviceType": "UBOXV1236638987688822c4",
-						"version": "1.2.3",
+						"version": "2.0.0",
 						"URLBase": ["192.168.0.41:37867"],
 						"bindUserHash": "45edba743bd17fbcefdc5affb77ff75b"
 					},
@@ -896,7 +894,7 @@ export class Util {
 						"manufacturer": "YQTC company",
 						"manufacturerURL": "https://www.yqtc.co",
 						"deviceType": "UBOXV1001548593547181270",
-						"version": "1.3.0",
+						"version": "2.0.0",
 						"URLBase": ["192.168.0.2:37867"],
 						"bindUserHash": "d615d5793929e8c7d70eab5f00f7f5f1"
 					}])
