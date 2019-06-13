@@ -1332,12 +1332,12 @@ export class Util {
 							let device = result.root.device[0];
 							let deviceBoxId = '' + device.boxId;
 							GlobalService.consoleLog("myBoxId:" + box.boxId + ",xmlDeviceBoxId=" + deviceBoxId);
-
 							if ((this.global.deviceSelected && deviceBoxId != this.global.deviceSelected.boxId)
 								|| (mybox && deviceBoxId != mybox.boxId)) {
 								reject();
 								return;
 							}
+							this.global.deviceSelected.version = device.version;
 							resolve(mybox || this.global.deviceSelected);
 						})
 					}, (err) => {
