@@ -1,314 +1,376 @@
 page-wallet-detail {
-	.my-header {
-		color: #fff;
-		position: relative;
-		border: none;
-		.toolbar-title {
-			color: #fff;
-			height: 100%;
-			display: flex;
-			align-items: center;
-			.icon {
-				padding: 14px;
-				font-size: 40px;
-			}
-		}
-		.wallet-wrapper {
-			display: flex;
-			height: 40px;		
-			line-height: 40px;
-		}
-		.set-btn-wrap {
-			position: absolute;
-			width: 44px;
-			height: 44px;
-			padding: 10px;
-			top: 0px;
-			right: 2px;
-			.set-btn {
-				width: 100%;
-			}			
-		}
-		.button-inner {
-			color: #fff;
-		}
-	}
-	.has-refresher > .scroll-content {
-		border-color: $newFirstColor;
-	}
+    .my-header {
+        color: #fff;
+        position: relative;
+        border: none;
 
-	.my-content {
-		background: $newThreeColor;
-		.fixed-content {
-			background: $newFirstColor;
-		}
-		/*background: $newFirstColor;*/
-		.wallet-assets {
-			background: $newFirstColor;		
-			color: #fff;
-			text-align: center;
-			min-height: 176px;
-			position: relative;
-			.wallet-value {
-				padding-top: 25px;
-				text-align: left;
-				padding-left: 10px;
-				
-				.key {
-					color: #fff;
-					font-size: 12px;
-					line-height: 1.5;
-				}
-				.value {
-				    margin-top: 2px;
-				    color: #fff;
-				    font-size: 32px;
-				    padding: 0 20px;
-					padding: 4px 20px;
-					padding-left: unset;
-					line-height: 43px;
-					span {
-						font-size: 16px;
-					}
-				}
-			}
+        .toolbar-title {
+            color: #fff;
+            height: 100%;
+            display: flex;
+            align-items: center;
 
-			.assets-info {
-				margin: 26px 10px 0;
-				border-radius: 4px;
-				height: 120px;
-				position: absolute;
-				width: calc(100% - 20px);
-				background: $newFourColor;
-				box-shadow: 0 2px 6px 0 rgba(0,0,0,0.10);
-				border-radius: 3px;
-				bottom: -60px;
-				color: $newFiveColor;
-				.assets {
-					width: 50%;
-					box-sizing: border-box;
-					border-right: 1px solid $newThreeColor;
-					padding: 12px 0 10px 19px;
-					text-align: left;
-					height: 100%;
-					.icon {
-						font-size: 35px;
-						margin-bottom: 20px;
-					}
-					&:last-child {
-						border-right: none;
-					}
-					.key {
-						color: $newFiveColor;
-						font-size: 12px;
-						line-height: 16px;
-						margin-top: 4px;
-					}
-					.value {
-						font-size: 18px;
-						color: #FFFFFF;
-						line-height: 22px;
-						height: 22px;
-						width: 100%;
-					}
-				}
-			}			
-		}
-		.trade-list {
-			padding-top: 60px;
-			.title {
-				font-size: 14px;
-				color: #78777C;
-				line-height: 20px;
-				padding-top: 25px;
-				padding-bottom: 13px;
-				border-bottom: .5px solid #1D1D1E;
-				&.erc20Title{
-					text-indent: 10px;
-				}
-				span{
-					display: inline-block;
-					text-indent: 0;
-					width: 50%;
-					height: 42px;
-					text-align: center;
-					float: left;
-					&.active{
-						color: #fff;
-						position: relative;
-						&:after {
-							content: "";
-							display: block;
-							width: 30px;
-							height: 2px;
-							background-color: #fff;
-							position: absolute;
-							bottom: 0;
-							left: 50%;
-							transform: translate(-50%, 0);
-						}
-					}
-				}
-			}
-			.trade-ul {
-				li {
-					height: 54px;
-					background: $newFourColor;
-					box-shadow: 0 0 0 0 #1D1D1F;
-					border-bottom: .5px solid #222126;
-					&.gray {
-						// background: #FBFBFB;
-					}
-					img {
-						width: 20px;
-						float: left;
-						margin: 11px 14px;
-						margin-top: 18px;
-						margin-left: 18px;
-					}
-					.trade-info {
-						width: 100%;
-						padding-left: 36px;
-						margin-left: -36px;
-						padding-top: 10px;
-						.trade-type {
-							color: #fff;
-							font-size: 14px;
-							line-height: 18px;
-							margin-bottom: 2px;
-						}
-						.trade-date {
-							color: $newFiveColor;
-							font-size: 10px;
-						}
-						.trade-amount {
-							margin-right: -26px;
-							color: $newFirstColor;
-							font-size: 14px;
-							line-height: 34px;
-							max-width: 140px;
-							.red {
-								color: $newSecondColor;
-							}
-							&.error {
-								p {
-									color: $newSecondColor;
-									line-height: 20px;
-								}
-								span {
-									color: #9B9B9B;
-									font-size: 10px;
-									line-height: 16px;
-									text-align: right;
-									display: block;
-								}
-							}
-						}
-					}					
-				}
-			}
-		}
-	}
-	.more, .no-more {
-		font-size: 12px;
-		color: #9B9B9B;
-		line-height: 2;
-		padding: 6px 0;
-		text-align: center;
-	}
-	.wallet-create {
-		position: fixed;
-		z-index: 999;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 98px;
-		padding-top: 50px;
-		box-sizing: border-box;
-		// background: linear-gradient(rgba(245, 245, 245, 0) 0%, rgba(245, 245, 245, 1) 80%);
-		.common-focus-button {
-			display: inline-block;
-			width: 50%;
-			height: 48px;
-			line-height: 48px;
-			border-radius: 0;
-			background: $newFourColor;
-			font-size: 17px;
-			letter-spacing: 0.2px;
-			&.get-ubbey-btn {
-				border-radius: none;
-				left: 0;
-				color: $newFirstColor;
-			}
-			&.send-ubbey-btn {
-				right: 0;
-				color: $newSecondColor;
-			}
-			position: absolute;
-			z-index: 9999;
-			bottom: 0;
-		}
-	}
-	.common-unfocus-button {
-		border-radius: 0px;
-		background: $newFourColor;
-		border-top: unset;
-		color: $newFirstColor;
-		&:active {
-			color: $newFirstColor;
-		}
-	}
-	ion-infinite-scroll {
-		background: $newThreeColor;
-	}
-	.content-ios:not([no-bounce]) > .scroll-content::before, .content-ios:not([no-bounce]) > .scroll-content::after {
-		height: 0;
-	}
-	.wallat-select-box {
-		position: fixed;
-		width: 100%;
-		height: 100%;
-		left: 0;
-		top: 0;
-		z-index: 999;
-		.wallet-bg {
-			width: 100%;
-			height: 100%;
-			background: transparent;
-		}
-		.wallat-list-box {
-			position: absolute;
-			background: #302F34;
-			box-shadow: 0 2px 20px 0 rgba(0,0,0,0.50);
-			border-radius: 3px;
-			font-size: 15px;
-			color: #78777C;
-			padding-left: 13px;
-			line-height: 44px;
-			top: 46px;
-			max-height: 176px;
-			overflow-y: scroll;
-			left: 51px;
-			min-width: 160px;
-			z-index: 99;
-			.add-new-wallat {
-				display: flex;
-				align-items: center;
-			}
-			.icon {
-				font-size: 12px;
-				margin-right: 7px;
-			}
-			li {
-				color: #fff;
-				font-size: 15px;
-			}
-		}
-	}
-	
+            .icon {
+                padding: 14px;
+                font-size: 40px;
+            }
+        }
+
+        .wallet-wrapper {
+            display: flex;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .set-btn-wrap {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            padding: 10px;
+            top: 0px;
+            right: 2px;
+
+            .set-btn {
+                width: 100%;
+            }
+        }
+
+        .button-inner {
+            color: #fff;
+        }
+    }
+
+    .has-refresher>.scroll-content {
+        border-color: $newFirstColor;
+    }
+
+    .my-content {
+        background: $newThreeColor;
+
+        .fixed-content {
+            background: $newFirstColor;
+        }
+
+        /*background: $newFirstColor;*/
+        .wallet-assets {
+            background: $newFirstColor;
+            color: #fff;
+            text-align: center;
+            min-height: 176px;
+            position: relative;
+
+            .wallet-value {
+                padding-top: 25px;
+                text-align: left;
+                padding-left: 10px;
+
+                .key {
+                    color: #fff;
+                    font-size: 12px;
+                    line-height: 1.5;
+                }
+
+                .value {
+                    margin-top: 2px;
+                    color: #fff;
+                    font-size: 32px;
+                    padding: 0 20px;
+                    padding: 4px 20px;
+                    padding-left: unset;
+                    line-height: 43px;
+
+                    span {
+                        font-size: 16px;
+                    }
+                }
+            }
+
+            .assets-info {
+                margin: 26px 10px 0;
+                border-radius: 4px;
+                height: 120px;
+                position: absolute;
+                width: calc(100% - 20px);
+                background: $newFourColor;
+                box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.10);
+                border-radius: 3px;
+                bottom: -60px;
+                color: $newFiveColor;
+
+                .assets {
+                    width: 50%;
+                    box-sizing: border-box;
+                    border-right: 1px solid $newThreeColor;
+                    padding: 12px 0 10px 19px;
+                    text-align: left;
+                    height: 100%;
+
+                    .icon {
+                        font-size: 35px;
+                        margin-bottom: 20px;
+                    }
+
+                    &:last-child {
+                        border-right: none;
+                    }
+
+                    .key {
+                        color: $newFiveColor;
+                        font-size: 12px;
+                        line-height: 16px;
+                        margin-top: 4px;
+                    }
+
+                    .value {
+                        font-size: 18px;
+                        color: #FFFFFF;
+                        line-height: 22px;
+                        height: 22px;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        .trade-list {
+            padding-top: 60px;
+
+            .title {
+                font-size: 14px;
+                color: #78777C;
+                line-height: 20px;
+                padding-top: 25px;
+                padding-bottom: 13px;
+                border-bottom: .5px solid #1D1D1E;
+
+                &.erc20Title {
+                    text-indent: 10px;
+                }
+
+                span {
+                    display: inline-block;
+                    text-indent: 0;
+                    width: 50%;
+                    height: 42px;
+                    text-align: center;
+                    float: left;
+
+                    &.active {
+                        color: #fff;
+                        position: relative;
+
+                        &:after {
+                            content: "";
+                            display: block;
+                            width: 30px;
+                            height: 2px;
+                            background-color: #fff;
+                            position: absolute;
+                            bottom: 0;
+                            left: 50%;
+                            transform: translate(-50%, 0);
+                        }
+                    }
+                }
+            }
+
+            .trade-ul {
+                li {
+                    height: 54px;
+                    background: $newFourColor;
+                    box-shadow: 0 0 0 0 #1D1D1F;
+                    border-bottom: .5px solid #222126;
+
+                    &.gray {
+                        // background: #FBFBFB;
+                    }
+
+                    img {
+                        width: 20px;
+                        float: left;
+                        margin: 11px 14px;
+                        margin-top: 18px;
+                        margin-left: 18px;
+                    }
+
+                    .trade-info {
+                        width: 100%;
+                        padding-left: 36px;
+                        margin-left: -36px;
+                        padding-top: 10px;
+
+                        .trade-type {
+                            color: #fff;
+                            font-size: 14px;
+                            line-height: 18px;
+                            margin-bottom: 2px;
+                        }
+
+                        .trade-date {
+                            color: $newFiveColor;
+                            font-size: 10px;
+                        }
+
+                        .trade-amount {
+                            margin-right: -26px;
+                            color: $newFirstColor;
+                            font-size: 14px;
+                            line-height: 34px;
+                            max-width: 140px;
+
+                            .red {
+                                color: $newSecondColor;
+                            }
+
+                            &.error {
+                                p {
+                                    color: $newSecondColor;
+                                    line-height: 20px;
+                                }
+
+                                span {
+                                    color: #9B9B9B;
+                                    font-size: 10px;
+                                    line-height: 16px;
+                                    text-align: right;
+                                    display: block;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .more,
+    .no-more {
+        font-size: 12px;
+        color: #9B9B9B;
+        line-height: 2;
+        padding: 6px 0;
+        text-align: center;
+    }
+
+    .wallet-create {
+        position: fixed;
+        z-index: 999;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 98px;
+        padding-top: 50px;
+        box-sizing: border-box;
+
+        .wallet-create-wrapper {
+            height: 48px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        // background: linear-gradient(rgba(245, 245, 245, 0) 0%, rgba(245, 245, 245, 1) 80%);
+        .common-focus-button {
+            display: inline-block;
+            width: 50%;
+            height: 48px;
+            line-height: 48px;
+            border-radius: 0;
+            background: $newFourColor;
+            font-size: 17px;
+            letter-spacing: 0.2px;
+            box-shadow: 0 -1px 1px rgba(0, 0, 0, .2);
+
+            &.get-ubbey-btn {
+                border-radius: none;
+                left: 0;
+                color: $newFirstColor;
+            }
+
+            &.send-ubbey-btn {
+                right: 0;
+                color: $newSecondColor;
+            }
+
+            position: absolute;
+            z-index: 9999;
+            bottom: 0;
+        }
+    }
+
+    .common-unfocus-button {
+        border-radius: 0px;
+        background: $newFourColor;
+        border-top: unset;
+        color: $newFirstColor;
+        box-shadow: 0 -1px 1px rgba(0, 0, 0, .2);
+
+
+        &:active {
+            color: $newFirstColor;
+        }
+    }
+
+    ion-infinite-scroll {
+        background: $newThreeColor;
+    }
+
+    .content-ios:not([no-bounce])>.scroll-content::before,
+    .content-ios:not([no-bounce])>.scroll-content::after {
+        height: 0;
+    }
+
+    .wallat-select-box {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 999;
+
+        .wallet-bg {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .wallat-list-box {
+            position: absolute;
+            background: #302F34;
+            box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.50);
+            border-radius: 3px;
+            font-size: 15px;
+            color: #78777C;
+            padding-left: 13px;
+            line-height: 44px;
+            top: 46px;
+            max-height: 176px;
+            overflow-y: scroll;
+            left: 51px;
+            min-width: 160px;
+            z-index: 99;
+
+            .add-new-wallat {
+                display: flex;
+                align-items: center;
+            }
+
+            .icon {
+                font-size: 12px;
+                margin-right: 7px;
+            }
+
+            li {
+                color: #fff;
+                font-size: 15px;
+            }
+        }
+    }
+
 }
-@media only screen and (max-width: 320px) {  
-	page-wallet-detail .my-content .trade-list .trade-ul li .trade-info .trade-amount {
-		max-width: 110px;
-	}
+
+@media only screen and (max-width: 320px) {
+    page-wallet-detail .my-content .trade-list .trade-ul li .trade-info .trade-amount {
+        max-width: 110px;
+    }
 }

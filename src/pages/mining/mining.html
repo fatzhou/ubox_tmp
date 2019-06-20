@@ -5,105 +5,151 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-		<ion-navbar class="search-header">
-			<ion-title>
-				<div class="home-title-box">
-					<p class="home-title">{{ global.L("Mining") }}</p>
-					<p class="list-point"><span></span><span></span><span class="active"></span></p>
-				</div>
-			</ion-title>
-			<svg class="icon aside-nav-icon" tappable (click)="displayMenu($event)" aria-hidden="true">
-				<use xlink:href="#iconcaidan"></use>
-			</svg>
-			<svg class="icon icon-ellipsis" (click)="setMining()" aria-hidden="true">
-				<use xlink:href="#iconSettingdefault1"></use>
-			</svg>
-		</ion-navbar>
-	</ion-header>
+    <ion-navbar class="search-header">
+        <ion-title>
+            <div class="home-title-box">
+                <p class="home-title">{{ global.L("Mining") }}</p>
+                <p class="list-point"><span></span><span></span><span class="active"></span></p>
+            </div>
+        </ion-title>
+        <svg class="icon aside-nav-icon" tappable (click)="displayMenu($event)" aria-hidden="true">
+            <use xlink:href="#iconcaidan"></use>
+        </svg>
+        <svg class="icon icon-ellipsis" (click)="setMining()" aria-hidden="true">
+            <use xlink:href="#iconSettingdefault1"></use>
+        </svg>
+    </ion-navbar>
+</ion-header>
 <ion-content>
-	<div class="mining-info">
-		<div class="revenue">
-			<div class="icon-wrapper">
-				<svg class="icon" aria-hidden="true">
+    <div class="mining-info">
+        <div class="revenue">
+            <div class="icon-wrapper">
+                <!-- <svg class="icon" aria-hidden="true">
 					<use xlink:href="#iconwakuangicon"></use>
-				</svg>				
-			</div>
+				</svg>				 -->
+                <img src="./assets/img/coin.svg" alt="">
+                <span>REWARD</span>
+            </div>
 
-			<div class="revenue-detail">
-				<div class="amount">
-					<p class="main">{{ (lastDayEarn | pretifyNumber) || '-' }}</p>
-					<p class="second">≈${{ ubbeyToDollar }}</p>
-				</div>
-				<p class="yesterday-avenue">{{ global.L("YesterdayReward") }}</p>
-			</div>
-			<ion-toggle class="toggle" color="secondary" [(ngModel)]="ifMining" (ionChange)="changeIfMining()"
-				[disabled]="!global.deviceSelected || !this.coinbase" [checked]="!!ifMining">
-			</ion-toggle>
+            <div class="revenue-detail">
+                <div class="amount">
+                    <p class="main">{{ (lastDayEarn | pretifyNumber) || '-' }}</p>
+                    <p class="second">≈${{ ubbeyToDollar }}</p>
+                </div>
+                <!-- <p class="yesterday-avenue">{{ global.L("YesterdayReward") }}</p> -->
+            </div>
+            <ion-toggle class="toggle" color="secondary" [(ngModel)]="ifMining" (ionChange)="changeIfMining()"
+                [disabled]="!global.deviceSelected || !this.coinbase" [checked]="!!ifMining">
+            </ion-toggle>
 
-			<div class="curve">
-				<!-- <p class="max-earn" [ngStyle]="{'left': maxEarnLeft, 'top': maxEarnTop}">{{ maxEarn | pretifyNumber }} UBBEY</p> -->
-				<canvas #canvas></canvas>
-			</div> 
-		</div>
-	</div>
+            <div class="curve">
+                <!-- <div class="date">
+                    <div class="month">
+                        <div class="month-wrapper">
+                            <p>May</p>
+                            <p>8</p>
+                        </div>
+                    </div>
+                    <div class="month">
+                        <div class="month-wrapper">
+                            <p>May</p>
+                            <p>8</p>
+                        </div>
+                    </div>
+                    <div class="month">
+                        <div class="month-wrapper">
+                            <p>May</p>
+                            <p>8</p>
+                        </div>
+                    </div>
+                    <div class="month">
+                        <div class="month-wrapper">
+                            <p>May</p>
+                            <p>8</p>
+                        </div>
+                    </div>
+                    <div class="month">
+                        <div class="month-wrapper">
+                            <p>May</p>
+                            <p>8</p>
+                        </div>
+                    </div>
+                    <div class="month">
+                        <div class="month-wrapper">
+                            <p>May</p>
+                            <p>8</p>
+                        </div>
+                    </div>
+                    <div class="month active">
+                        <div class="month-wrapper">
+                            <p>May</p>
+                            <p>8</p>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <p class="max-earn" [ngStyle]="{'left': maxEarnLeft, 'top': maxEarnTop}">{{ maxEarn | pretifyNumber }} UBBEY</p> -->
+                <canvas #canvas></canvas>
+            </div>
+        </div>
+    </div>
 
-	<div class="page-content">
-		<div class="slide-more">
-			<div class="slide-more-wrapper" (click)="goMiningList()">
-				{{ global.L("SeeMoreMining") }}
-			</div>
-		</div>
-		<div class="main-area">
-			<ul class="info-list">
-				<li class="info-li fl">
-					<div class="info-wrapper">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconleijiwakuang1"></use>
-						</svg>
-						<p class="value">{{ totalEarn | pretifyNumber }}</p>
-						<p class="label">{{ global.L("TotalReward") }}</p>
-					</div>
-				</li>
-				<li class="info-li fl">
-					<div class="info-wrapper">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconsuodingshouyi"></use>
-						</svg>
-						<p class="value">{{ unlockEarn | pretifyNumber }}</p>
-						<p class="label">{{ global.L("LockedReward") }}</p>
-					</div>
-				</li>
-				<li class="info-li fl">
-					<div class="info-wrapper">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconwakuangshichang"></use>
-						</svg>
-						<p class="value" *ngIf="(ifMining || coinbase) && miningDays">
-							<span>{{ miningDays | pretifyNumber }}</span>{{global.L("Day")}}
-							<span>{{ miningHours }}</span>{{global.L("Hour")}}
-						</p>
-						<p class="value" *ngIf="(ifMining || coinbase) && !miningDays && miningHours">
-							<span>{{ miningHours }}</span>{{global.L("Hour")}}
-							<span>{{ miningMinutes }}</span>{{global.L("Minute")}}
-						</p>
-						<p class="value" *ngIf="(ifMining || coinbase) && !miningDays && !miningHours">
-							<span>{{ miningMinutes }}</span>{{global.L("Minute")}}</p>
-						<p class="value" *ngIf="!ifMining && !coinbase"><span>--</span></p>
-						<p class="label">{{ global.L("MinedTime") }}</p>
-					</div>
-				</li>
-				<li class="info-li fl">
-					<div class="info-wrapper">
-						<svg class="icon" aria-hidden="true">
-							<use xlink:href="#iconDiskicon"></use>
-						</svg>
-						<p class="value">{{ global.deviceSelected ? shareSize + 'G' : '--' }}</p>
-						<p class="label">{{ global.L("ShareStorage") }}</p>
-					</div>
-				</li>
-			</ul>
-		</div>
+    <div class="page-content">
+        <div class="slide-more">
+            <div class="slide-more-wrapper" (click)="goMiningList()">
+                {{ global.L("SeeMoreMining") }}
+            </div>
+        </div>
+        <div class="main-area">
+            <ul class="info-list">
+                <li class="info-li fl">
+                    <div class="info-wrapper">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#iconleijiwakuang1"></use>
+                        </svg>
+                        <p class="value">{{ totalEarn | pretifyNumber }}</p>
+                        <p class="label">{{ global.L("TotalReward") }}</p>
+                    </div>
+                </li>
+                <li class="info-li fl">
+                    <div class="info-wrapper">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#iconsuodingshouyi"></use>
+                        </svg>
+                        <p class="value">{{ unlockEarn | pretifyNumber }}</p>
+                        <p class="label">{{ global.L("LockedReward") }}</p>
+                    </div>
+                </li>
+                <li class="info-li fl">
+                    <div class="info-wrapper">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#iconwakuangshichang"></use>
+                        </svg>
+                        <p class="value" *ngIf="(ifMining || coinbase) && miningDays">
+                            <span>{{ miningDays | pretifyNumber }}</span>{{global.L("Day")}}
+                            <span>{{ miningHours }}</span>{{global.L("Hour")}}
+                        </p>
+                        <p class="value" *ngIf="(ifMining || coinbase) && !miningDays && miningHours">
+                            <span>{{ miningHours }}</span>{{global.L("Hour")}}
+                            <span>{{ miningMinutes }}</span>{{global.L("Minute")}}
+                        </p>
+                        <p class="value" *ngIf="(ifMining || coinbase) && !miningDays && !miningHours">
+                            <span>{{ miningMinutes }}</span>{{global.L("Minute")}}</p>
+                        <p class="value" *ngIf="!ifMining && !coinbase"><span>--</span></p>
+                        <p class="label">{{ global.L("MinedTime") }}</p>
+                    </div>
+                </li>
+                <li class="info-li fl">
+                    <div class="info-wrapper">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#iconDiskicon"></use>
+                        </svg>
+                        <p class="value">{{ global.deviceSelected ? shareSize + 'G' : '--' }}</p>
+                        <p class="label">{{ global.L("ShareStorage") }}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
 
-		
-	</div>
+
+    </div>
 </ion-content>

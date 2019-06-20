@@ -18,7 +18,8 @@ import { Clipboard } from '@ionic-native/clipboard';
 import { AppsInstalled } from './AppsInstalled';
 import { UappPlatform } from "./UappPlatform";
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-
+// import { VideoPlayer } from '@ionic-native/video-player/ngx';
+// declare var VideoPlayer;
 // import { FileTransport } from './FileTransport';
 declare var chcp: any;
 declare var createObjectURL: any;
@@ -49,6 +50,7 @@ export class Util {
 		private global: GlobalService,
 		private uappPlatform: UappPlatform,
 		private appsInstalled: AppsInstalled,
+		// private videoPlayer: VideoPlayer,
 		// private fileTransport: FileTransport,
 		private clipboard: Clipboard,
 	) {
@@ -445,7 +447,7 @@ export class Util {
 			username: username,
 			password: Md5.hashStr(password).toString(),
 		}, false)
-			.then(res => {
+			.then((res: any) => {
 				if (res.err_no === 0) {
 					if (this.platform.is('ios')) {
 						//ios使用网页再登录一次，以保证uapp拥有盒子cookie
@@ -825,6 +827,18 @@ export class Util {
 		}
 	}
 
+	// openVideo(path) {
+	// 	console.log("打开video..." + path)
+	// 	VideoPlayer.play(path, { scalingMode: 2 }, () => {
+	// 		console.log("播放完成....")
+	// 		VideoPlayer.close();
+
+	// 	}, () => {
+	// 		console.log("打开失败....")
+	// 		VideoPlayer.close();
+	// 	})
+	// }
+
 	openFile(path) {
 		let urlResolve = window.resolveLocalFileSystemURL || window.webkitResolveLocalFileSystemURL;
 		urlResolve(path, (fileEntry) => {
@@ -833,6 +847,9 @@ export class Util {
 				if (mime) {
 					// path = 'file://' + path.replace(/^file:\/\//, '');
 					GlobalService.consoleLog("正在打开文件..." + path + "," + mime);
+					// if (mime.startsWith('video/')) {
+					// 	this.openVideo(path);
+					// } else {
 					new Promise((resolve, reject) => {
 						cordova.plugins.fileOpener2.showOpenWithDialog(path, mime, { success: resolve, error: reject })
 					})
@@ -845,6 +862,8 @@ export class Util {
 								message: Lang.L('SystemFileError')
 							})
 						});
+					// }
+
 				} else {
 					GlobalService.consoleLog("打开失败：mime is null");
 					this.global.createGlobalToast(this, {
@@ -1131,6 +1150,7 @@ export class Util {
 	}
 
 	cutFloat(number, dec, flag: any = false) {
+		number = number || 0.00;
 		let suffix = '000000';
 		if (flag) {
 			//强制向上进位
@@ -1162,12 +1182,12 @@ export class Util {
 		}[status] || "";
 	}
 
-    /**
-     * [generateFileID 计算文件上传/下载任务的文件ID]
-     * @param {[type]} desturi   [远程目录，包含文件名]
-     * @param {[type]} sourceurl [本地目录，包含文件名]
-     * @param {[type]} action    [行为，包括'download', 'upload']
-     */
+	/**
+	 * [generateFileID 计算文件上传/下载任务的文件ID]
+	 * @param {[type]} desturi   [远程目录，包含文件名]
+	 * @param {[type]} sourceurl [本地目录，包含文件名]
+	 * @param {[type]} action    [行为，包括'download', 'upload']
+	 */
 	generateFileID(desturi, sourceurl, action, id = '') {
 		if (action == 'upload') {
 			return id
@@ -1226,10 +1246,10 @@ export class Util {
 		}
 	}
 
-    /**
-     * [computeFileMIMEType 根据文件名后缀计算MIME类型]
-     * @param {[type]} name [MIME]
-     */
+	/**
+	 * [computeFileMIMEType 根据文件名后缀计算MIME类型]
+	 * @param {[type]} name [MIME]
+	 */
 	computeFileMIMEType(name) {
 		let matches = name.match(/[^\.]+$/g);
 		let style = matches && matches[0] || '';
@@ -1760,7 +1780,7 @@ export class Util {
 				//需要先登录
 				throw new Error("Password lost and cannot bind...");
 			})
-			.then(res => {
+			.then((res: any) => {
 				if (res.err_no === 0) {
 					return res;
 				} else {
@@ -1806,7 +1826,7 @@ export class Util {
 					throw new Error('盒子绑定失败');
 				}
 			})
-			.then((res) => {
+			.then((res: any) => {
 				if (res.err_no === 0) {
 					GlobalService.consoleLog("盒子端绑定成功，开始中心确认");
 					return this.http.post(GlobalService.centerApi["bindBoxConfirm"].url, {
@@ -1816,7 +1836,7 @@ export class Util {
 					throw new Error('中心确认失败');
 				}
 			})
-			.then((res) => {
+			.then((res: any) => {
 				if (res.err_no === 0) {
 					GlobalService.consoleLog("盒子确认成功，登录盒子");
 					//更新用户绑定盒子的数量
@@ -2063,10 +2083,10 @@ export class Util {
 		return Md5.hashStr(path + name).toString() + ".png";
 	}
 
-    /**
-     * [deleteFile 批量删除文件]
-     * @param {[type]} path [文件远程路径的数组]
-     */
+	/**
+	 * [deleteFile 批量删除文件]
+	 * @param {[type]} path [文件远程路径的数组]
+	 */
 	deleteFile(path) {
 		//调用远程接口删除,暂不删除缩略图文件
 		var url = this.global.getBoxApi("removeFile");
@@ -2112,13 +2132,13 @@ export class Util {
 		return true;
 	}
 
-    /**
-     * [moveFile 移动文件，如果文件包含缩略图信息，则需要触发重命名]
-     * @param {[type]} newName [新文件名字]
-     * @param {[type]} newPath [新文件路径]
-     * @param {[type]} oldName [老文件名字]
-     * @param {[type]} oldPath [老文件路径]
-     */
+	/**
+	 * [moveFile 移动文件，如果文件包含缩略图信息，则需要触发重命名]
+	 * @param {[type]} newName [新文件名字]
+	 * @param {[type]} newPath [新文件路径]
+	 * @param {[type]} oldName [老文件名字]
+	 * @param {[type]} oldPath [老文件路径]
+	 */
 	moveFile(oldPath, oldName, newPath, newName) {
 		//保证新老路径最后一定有/
 		newPath = newPath.replace(/\/$/g, '') + "/";

@@ -11,50 +11,56 @@
   Ionic pages and navigation.
 -->
 <ion-header class="black-header">
-	<ion-navbar>
-	</ion-navbar>
+    <ion-navbar>
+    </ion-navbar>
 </ion-header>
 <ion-content>
-	<div class="form-content">
-		<h2 class="form-title">{{ global.passwdType === "register" ? global.L("Register") : global.L("ForgotPassword") }}</h2>
-		<p class="form-desc">{{ global.passwdType === "register" ? global.L("RegisterSlogan") : global.L("ResetPasswordSlogan")}}</p>
-		<form class="form-form" action="" autocomplete="off">
-			<div class="form-input">
-				<label class="label" for="username-register">{{ global.L("Email") }}</label>
-				<input type="text" (focus)="isFocus = true" (blur)="isFocus = false"  id="username-register" name="username" [(ngModel)]="username" class="input-v2"
-					placeholder="{{global.L('PlsInputEmail')}}" />
-			</div>
+    <div class="form-content">
+        <h2 class="form-title">
+            {{ global.passwdType === "register" ? global.L("Register") : global.L("ForgotPassword") }}</h2>
+        <p class="form-desc">
+            {{ global.passwdType === "register" ? global.L("RegisterSlogan") : global.L("ResetPasswordSlogan")}}</p>
+        <form class="form-form" action="" autocomplete="off">
+            <div class="form-input">
+                <label class="label" for="username-register">{{ global.L("Email") }}</label>
+                <input type="text" (focus)="isFocus = true" (blur)="isFocus = false" id="username-register"
+                    name="username" [(ngModel)]="username" class="input-v2"
+                    placeholder="{{global.L('PlsInputEmail')}}" />
+            </div>
 
-			<div class="form-input passwd-wrap {{eyeshow?'open-eye':'close-eye'}}">
-				<label class="label" for="password-register">{{ global.L("SetPassword") }}</label>
-				<input id="password-register" (focus)="isFocus = true" (blur)="isFocus = false"  type="{{eyeshow?'text':'password'}}" name="password" [(ngModel)]="passwd"
-					class="input-v2" placeholder="{{global.L('PlsInputPassword')}}" />
-				<svg aria-hidden="true" (click)="showIcon()" class="icon open">
-					<use xlink:href="#iconeyeopen"></use>
-				</svg>
-				<svg aria-hidden="true" class="icon closed" (click)="showIcon()">
-					<use xlink:href="#iconeyeclose"></use>
-				</svg>
-			</div>
+            <div class="form-input passwd-wrap {{eyeshow?'open-eye':'close-eye'}}">
+                <label class="label" for="password-register">{{ global.L("SetPassword") }}</label>
+                <input id="password-register" (focus)="isFocus = true" (blur)="isFocus = false"
+                    type="{{eyeshow?'text':'password'}}" name="password" [(ngModel)]="passwd" class="input-v2"
+                    placeholder="{{global.L('PlsInputPassword')}}" />
+                <svg aria-hidden="true" (click)="showIcon()" class="icon open">
+                    <use xlink:href="#iconeyeopen"></use>
+                </svg>
+                <svg aria-hidden="true" class="icon closed" (click)="showIcon()">
+                    <use xlink:href="#iconeyeclose"></use>
+                </svg>
+            </div>
 
-			<div class="form-input passwd-wrap {{eyeshow2?'open-eye':'close-eye'}}">
-				<label class="label" for="password-register2">{{ global.L("InputAgain") }}</label>
-				<input id="password-register2" (focus)="isFocus = true" (blur)="isFocus = false"  type="{{eyeshow2?'text':'password'}}" name="password" [(ngModel)]="passwd2"
-					class="input-v2" placeholder="{{global.L('PlsInputNewPassword1')}}" />
-				<!-- <label class="borderline"></label> -->
-				<svg aria-hidden="true" (click)="showIcon2()" class="icon open">
-					<use xlink:href="#iconeyeopen"></use>
-				</svg>
-				<svg aria-hidden="true" class="icon closed" (click)="showIcon2()">
-					<use xlink:href="#iconeyeclose"></use>
-				</svg>
-				<!-- <p class="error-input" *ngIf="pError">{{ pErrorText }}</p> -->
-			</div>
-		</form>
-	</div>
-	<div class="common-focus-button change-passwd-btn" *ngIf="global.passwdType != 'register' && !isFocus" click-and-wait tappable (click)="doRegister()">{{global.L("Commit")}}</div>
-	<div class="form-area" *ngIf="global.passwdType === 'register'">
-		<p class="second-btn" (click)="goAgreement();"> {{ global.L("ClickNextAgree") }}</p>
-		<button class="main-btn" tappable click-and-wait (click)="doRegister()"> {{ global.L("TheNextStep") }}</button>
-	</div>
+            <div class="form-input passwd-wrap {{eyeshow2?'open-eye':'close-eye'}}">
+                <label class="label" for="password-register2">{{ global.L("InputAgain") }}</label>
+                <input id="password-register2" (focus)="isFocus = true" (blur)="isFocus = false"
+                    type="{{eyeshow2?'text':'password'}}" name="password" [(ngModel)]="passwd2" class="input-v2"
+                    placeholder="{{global.L('PlsInputNewPassword1')}}" />
+                <!-- <label class="borderline"></label> -->
+                <svg aria-hidden="true" (click)="showIcon2()" class="icon open">
+                    <use xlink:href="#iconeyeopen"></use>
+                </svg>
+                <svg aria-hidden="true" class="icon closed" (click)="showIcon2()">
+                    <use xlink:href="#iconeyeclose"></use>
+                </svg>
+                <!-- <p class="error-input" *ngIf="pError">{{ pErrorText }}</p> -->
+            </div>
+        </form>
+    </div>
+    <div class="common-focus-button change-passwd-btn" *ngIf="global.passwdType != 'register'" click-and-wait tappable
+        (click)="doRegister()">{{global.L("Commit")}}</div>
+    <div class="form-area" *ngIf="global.passwdType === 'register'">
+        <p class="second-btn" (click)="goAgreement();"> {{ global.L("ClickNextAgree") }}</p>
+        <button class="main-btn" tappable click-and-wait (click)="doRegister()"> {{ global.L("TheNextStep") }}</button>
+    </div>
 </ion-content>

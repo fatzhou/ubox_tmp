@@ -84,16 +84,46 @@ export class VerifyEmailPage {
 					password: Md5.hashStr(this.password).toString(),
 					verifyCode: verifyCode,
 				})
-					.then((res) => {
+					.then((res: any) => {
 						GlobalService.consoleLog(JSON.stringify(res));
 						if (res.err_no === 0) {
-							GlobalService.consoleLog("注册成功，检测是否已经绑定；如果已经绑定，则提示用户登录；否则，自动绑定");
-							var boxSelected = this.global.deviceSelected;
-							GlobalService.consoleLog(JSON.stringify(boxSelected))
+							GlobalService.consoleLog("注册成功，自动帮用户登录");
+							let loginUrl = GlobalService.centerApi["login"].url;
+							this.http.post(loginUrl, {
+								uname: this.username,
+								password: Md5.hashStr(this.password).toString(),
+							}, false)
+								.then((res: any) => {
+									GlobalService.consoleLog("登录中心成功，获取个人信息" + JSON.stringify(res));
+									if (res.err_no === 0) {
+										GlobalService.consoleLog("登录中心成功，获取个人信息");
+										this.global.userLoginInfo = {
+											username: this.username,
+											password: this.password
+										}
+										this.util.setUserList();
+										return this.http.post(GlobalService.centerApi["getUserInfo"].url, {}, false).then((res: any) => {
+											if (res.err_no !== 0) {
+												GlobalService.consoleLog("获取用户信息错误......." + JSON.stringify(res));
+												this.navCtrl.setRoot(LoginPage);
+											} else {
+												GlobalService.consoleLog("获取用户信息成功，保存用户信息...." + JSON.stringify(res.user_info));
+												this.global.centerUserInfo = res.user_info;
+												this.global.centerUserInfo.unameHash = Md5.hashStr(res.user_info.uname).toString();
+												this.navCtrl.push(DeviceGuidancePage);
+											}
+										})
+									} else {
+										GlobalService.consoleLog("登录中心失败");
+										this.navCtrl.setRoot(LoginPage);
+									}
+								})
+								.catch(e => {
+									this.navCtrl.setRoot(LoginPage);
+								})
 							// if (!boxSelected) {
-								//未选择盒子，直接登录
-								// this.askUserLogin();
-								this.navCtrl.push(DeviceGuidancePage);
+							//未选择盒子，直接登录
+							// this.askUserLogin();
 							// } else if (boxSelected.bindUser) {
 							// 	//已绑定，提示用户更换账户
 							// 	this.askUserChangeAccount();
@@ -127,75 +157,75 @@ export class VerifyEmailPage {
 			password: passwordMd5,
 			verifyCode: verifyCode
 		})
-		.then((res) => {
-			if (res.err_no === 0) {
-				GlobalService.consoleLog("重设密码成功，调用盒子重新设置密码:" + this.global.userBoxIndex);
+			.then((res) => {
+				if (res.err_no === 0) {
+					GlobalService.consoleLog("重设密码成功，调用盒子重新设置密码:" + this.global.userBoxIndex);
 
-				var boxInfo = this.global.foundDeviceList[this.global.userBoxIndex];
-				if (!boxInfo && this.bindbox) {
-					GlobalService.consoleLog("已绑定盒子但是没有找到盒子。。。");
-					throw new Error(Lang.L('WORD612ce400'));
-				} else {
-					// var url = "http://" + boxInfo.URLBase + GlobalService.boxApi["resetPasswd"].url;
-					if (this.bindbox) {
-						// if (!this.global.deviceSelected) {
-						// 	this.global.createGlobalToast(this, {
-						// 		message: Lang.L('WORDea9cca85')
-						// 	})
-						// 	return false;
-						// }
-						GlobalService.consoleLog("已绑定盒子，需向盒子发起请求");
-						// var url = this.global.getBoxApi("resetPasswd");
-						var url =  "http://" + boxInfo.URLBase + GlobalService.boxApi["resetPasswd"].url;
-						return this.http.post(url, {
-							username: this.username,
-							newpassword: passwordMd5,
-							captcha: verifyCode,
-							// signature: encodeURIComponent(res.credential),
-							signature: res.credential,
-						})
+					var boxInfo = this.global.foundDeviceList[this.global.userBoxIndex];
+					if (!boxInfo && this.bindbox) {
+						GlobalService.consoleLog("已绑定盒子但是没有找到盒子。。。");
+						throw new Error(Lang.L('WORD612ce400'));
 					} else {
-						GlobalService.consoleLog("盒子未绑定账户，可以直接重设");
-						return new Promise((resolve, reject) => {
-							resolve({
-								err_no: 0
-							});
-						})
+						// var url = "http://" + boxInfo.URLBase + GlobalService.boxApi["resetPasswd"].url;
+						if (this.bindbox) {
+							// if (!this.global.deviceSelected) {
+							// 	this.global.createGlobalToast(this, {
+							// 		message: Lang.L('WORDea9cca85')
+							// 	})
+							// 	return false;
+							// }
+							GlobalService.consoleLog("已绑定盒子，需向盒子发起请求");
+							// var url = this.global.getBoxApi("resetPasswd");
+							var url = "http://" + boxInfo.URLBase + GlobalService.boxApi["resetPasswd"].url;
+							return this.http.post(url, {
+								username: this.username,
+								newpassword: passwordMd5,
+								captcha: verifyCode,
+								// signature: encodeURIComponent(res.credential),
+								signature: res.credential,
+							})
+						} else {
+							GlobalService.consoleLog("盒子未绑定账户，可以直接重设");
+							return new Promise((resolve, reject) => {
+								resolve({
+									err_no: 0
+								});
+							})
+						}
 					}
+				} else {
+					throw new Error(Lang.L('WORDe7824893'));
 				}
-			} else {
-				throw new Error(Lang.L('WORDe7824893'));
-			}
-		})
-		.then((res) => {
-			if (res.err_no === 0) {
-				GlobalService.consoleLog("盒子返回正确，即将调用中心确认");
-				return this.http.post(GlobalService.centerApi["resetPasswdConfirm"].url, {
-					uname: this.username,
-				})
-			} else {
-				throw new Error(Lang.L('WORDe672dfc3'));
-			}
-		})
-		.then((res) => {
-			if (res.err_no === 0) {
-				GlobalService.consoleLog("密码修改成功");
-				this.navCtrl.push(ResultPage, {
-					type: "resetPasswd"
-				});
-			}
-		})
-		.catch((res) => {
+			})
+			.then((res) => {
+				if (res.err_no === 0) {
+					GlobalService.consoleLog("盒子返回正确，即将调用中心确认");
+					return this.http.post(GlobalService.centerApi["resetPasswdConfirm"].url, {
+						uname: this.username,
+					})
+				} else {
+					throw new Error(Lang.L('WORDe672dfc3'));
+				}
+			})
+			.then((res) => {
+				if (res.err_no === 0) {
+					GlobalService.consoleLog("密码修改成功");
+					this.navCtrl.push(ResultPage, {
+						type: "resetPasswd"
+					});
+				}
+			})
+			.catch((res) => {
 
-		})
+			})
 	}
 
 	askUserLogin() {
 		//重写登录态
 		this.util.loginAndCheckBox(this)
-		.catch(e => {
-			GlobalService.consoleLog("Login catch in verify-email page...." + e);
-		})
+			.catch(e => {
+				GlobalService.consoleLog("Login catch in verify-email page...." + e);
+			})
 
 		// Util.loginCenter(this, null);
 

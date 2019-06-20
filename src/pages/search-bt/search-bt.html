@@ -6,20 +6,25 @@
 -->
 <ion-content>
     <div class="main-content">
-        <div class="search-header" [ngClass]="isFocus ? 'input-focus' : ''">
+        <div class="search-header input-focus">
+            <!-- <div class="search-header" [ngClass]="isFocus ? 'input-focus' : ''"> -->
             <div>
-                <svg class="icon icon-ellipsis icon-back"  (click)="goBack()" aria-hidden="true">
+                <svg class="icon icon-ellipsis icon-back" (click)="goBack()" aria-hidden="true">
                     <use xlink:href="#iconfanhui"></use>
                 </svg>
                 <div class="input-box">
-                    <input type="text" autocomplete="off" #input0 [(ngModel)]="inputValue" (focus)="isFocus = true" (blur)="isFocus = false"  (keyup.enter)="isShowLoad = true;searchList(inputValue, true);" class="common-general-button bt-input">
-                    <svg class="icon icon-ellipsis icon-clear" *ngIf="inputValue !=''" (click)="clearKey()" aria-hidden="true">
+                    <input type="text" autofocus autocomplete="off" #input0 [(ngModel)]="inputValue"
+                        (focus)="isFocus = true" (blur)="isFocus = false"
+                        (keyup.enter)="isShowLoad = true;searchList(inputValue, true);"
+                        class="common-general-button bt-input">
+                    <svg class="icon icon-ellipsis icon-clear" *ngIf="inputValue !=''" (click)="clearKey()"
+                        aria-hidden="true">
                         <use xlink:href="#iconClear1"></use>
                     </svg>
                 </div>
             </div>
         </div>
-        <div class="search-hirtory" *ngIf="searchFeedList.length == 0">
+        <div class="search-hirtory" *ngIf="!searched && searchFeedList.length == 0">
             <p class="history-title">{{ global.L('SearchHistory') }}
                 <span (click)="clearSearchKeys()">
                     <svg class="icon icon-ellipsis icon-clear" (click)="clearKey()" aria-hidden="true">
@@ -28,7 +33,8 @@
                 </span>
             </p>
             <p class="history-list">
-                <span *ngFor="let item of searchKeyList" (click)="inputValue = item;isShowLoad = true;searchList(inputValue, true)">{{ item }}</span>
+                <span *ngFor="let item of searchKeyList"
+                    (click)="inputValue = item;isShowLoad = true;searchList(inputValue, true)">{{ item }}</span>
             </p>
         </div>
         <div class="search-body" *ngIf="searchFeedList.length != 0">
@@ -36,15 +42,24 @@
                 <li (click)="goBtDetailPage(item.resid);" *ngFor="let item of searchFeedList">
                     <div class="bt-box defalut-box">
                         <p class="bt-title">{{ item.title }}</p>
-                        <p class="p-info"><span>{{ item.mgdate | computeFileTime }} {{ item.size == '' ? '' : '·' }} {{ item.size }} {{'· 0 UBBEY'}}</span></p>
-                        <span class="download-btn" (click)="downloadBt(item);$event.stopPropagation();">{{ global.L('Get') }}</span>
-                        <p class="p-imglist" *ngIf="item.images" [ngClass]="item.images.length == 1 ? 'one-png' : ''"><span *ngFor="let img of item.images" [ngStyle]="{'background-image': 'url('+ img +')'}"></span></p>
+                        <p class="p-info"><span>{{ item.mgdate | computeFileTime }} {{ item.size == '' ? '' : '·' }}
+                                {{ item.size }} {{'· 0 UBBEY'}}</span></p>
+                        <span class="download-btn"
+                            (click)="downloadBt(item);$event.stopPropagation();">{{ global.L('Get') }}</span>
+                        <p class="p-imglist" *ngIf="item.images" [ngClass]="item.images.length == 1 ? 'one-png' : ''">
+                            <span *ngFor="let img of item.images"
+                                [ngStyle]="{'background-image': 'url('+ img +')'}"></span></p>
                     </div>
                 </li>
             </ul>
         </div>
+        <div class="no-file" *ngIf="searchFeedList.length === 0 && searched">
+            <!-- <div class="no-file"> -->
+            <img src="assets/img/EmptyFolder.svg" alt="">
+            <p>{{ global.L('NoResource') }}</p>
+        </div>
     </div>
     <ion-infinite-scroll (ionInfinite)="refreshFeedList($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 </ion-content>

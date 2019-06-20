@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="12px" viewBox="0 0 11 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>coin</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="1.14212161%" y1="100%" x2="101.007478%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#00D1E0" offset="0%"></stop>
+            <stop stop-color="#1FF979" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="挖矿-界面" transform="translate(-35.000000, -117.000000)">
+            <g id="挖矿图表" transform="translate(13.000000, 95.000000)">
+                <g id="收益图标-模块" transform="translate(17.000000, 18.000000)">
+                    <g id="coin" transform="translate(5.000000, 4.000000)">
+                        <path d="M10.7327,2.81555 L5.75025,0.06455 C5.5946,-0.02145 5.4054,-0.02145 5.24975,0.06455 L0.2673,2.81555 C0.1023,2.90655 0,3.08005 0,3.26855 L0,8.73155 C0,8.92005 0.1023,9.09355 0.2673,9.18455 L5.24975,11.93555 C5.4054,12.02155 5.5946,12.02155 5.75025,11.93555 L10.7327,9.18455 C10.8977,9.09355 11,8.92005 11,8.73155 L11,3.26855 C11,3.08005 10.8977,2.90655 10.7327,2.81555" id="Fill-1" fill="url(#linearGradient-1)"></path>
+                        <path d="M8,6 L8,7 C8,8.0755 7.074,9.003 5.5,9 C3.926,8.9975 3.001,7.8775 3.001,6.65 L3,5.32675 L3,6 L2,6 L2,5 L2.99975307,5 L2.999,4.0035 L3.999,4.0035 L4,6 C3.938,7.2305 4.5555,7.998 5.5,7.998 C6.4445,7.998 7.05,7.5845 6.9945,6.388 L6.9945,4 L8,4 L8,5 L9,5.004 L9,6.004 L8,6 Z" id="Combined-Shape" fill="#212024"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

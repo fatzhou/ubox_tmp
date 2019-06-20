@@ -1,160 +1,219 @@
 page-mining {
-	.page-content {
-		padding: 0 12px;
-		height: calc(100% - 136px);
-		/* height: 100%; */
-		padding-bottom: 30px;
-		overflow: scroll;
-		min-height: auto;
-		padding-top: 100px;
-	}
-	.search-header {
+    .page-content {
+        padding: 0 12px;
+        height: calc(100% - 136px);
+        /* height: 100%; */
+        padding-bottom: 30px;
+        overflow: scroll;
+        min-height: auto;
+        padding-top: 100px;
+        // padding-top: 155px;
+    }
+
+    .search-header {
         height: 54px;
         line-height: 54px;
         position: relative;
         width: 100%;
         color: #fff;
+
         .icon {
             position: absolute;
             top: 17px;
             right: 13px;
-			font-size: 20px;
-			color: #fff;
+            font-size: 20px;
+            color: #fff;
+
             &.icon-search {
                 right: 50px;
             }
+
             &.aside-nav-icon {
                 font-size: 20px;
                 margin-left: 10px;
                 right: unset;
                 left: 4px;
-			}
-			
+            }
+
         }
     }
-	.mining-info {
-		height: 136px;
-		padding: 21px 12px 0;
-		background: $newFirstColor;
-		.revenue {
-			height: 212px;
-			background: #302F34;
-			border-radius: 3px;
-			position: relative;
-			z-index: 999;
-			.icon-wrapper {
-				position: absolute;
-				top: 23px;
-				left: 18px;
-				background: $newFirstColor;
-				border: 3px;
-				width: 44px;
-				height: 44px;
-				padding: 10px;
-				.icon {
-					width: 24px;
-					height: 24px;
-					color: #fff;
-				}								
-			}
-			.revenue-detail {
-				position: absolute;
-				left: 74px;
-				top: 18px;
-				.amount {
-					display: flex;
-					.main {
-						flex: 1;
-						color: $newFirstColor;
-						font-size: 30px;
-						line-height: 36px;
-						height: 36px;
-					}
-					.second {
-						flex: 1;
-						font-size: 16px;
-						line-height: 20px;
-						position: relative;
-						top: 12px;
-						margin-left: 4px;
-						color: #78777C;
-					}
-				}
-				.yesterday-avenue {
-					font-size: 14px;
-					color: #78777C;
-					line-height: 18px;
-				}
-			}
-			.toggle {
-				position: absolute;
-				top: 30px;
-				right: 18px;
-			}
-			.curve {
-				position: absolute;
-				bottom: 0;
-				width: 100%;
-				height: 130px;
-				.max-earn {
-					white-space: nowrap;
-					position: absolute;
-					color: $newFirstColor;
-					font-size: 12px;
-					line-height: 24px;
-					height: 24px;
-					transform: translate(-50%, -50%);
-				}			
-			}
-		}
-	}
-	.main-area {
-		padding-top: 20px;
-		.info-list {
-			overflow: hidden;
-			margin-right: -10px;
-			.info-li {
-				box-shadow: 0 2px 6px 0 rgba(0,0,0,0.10);
-				border-radius: 3px;
-				width: 50%;
-				padding-right: 10px;
-				padding-bottom: 10px;
-				height: 130px;				
-			}
-			.info-wrapper {
-				background: #302F34;
-				height: 100%;
-				width: 100%;
-				padding: 10px 16px;
-				.icon {
-					width: 35px;
-					height: 35px;
-				}
-				.value {
-					margin-top: 20px;
-					font-size: 18px;
-					line-height: 22px;
-					color: #FFFFFF;
-				}
-				.label {
-					font-size: 13px;
-					line-height: 17px;
-					color: #78777C;
-					margin-top: 3px;
-				}
-			}
-		}
-	}
-	.slide-more {
-		margin-top: 16px;
-		font-size: 14px;
-		color: #78777C;
-		height: 44px;
-		line-height: 44px;
-		text-align: center;
-		padding: 0 16px;
-		background: #302F34;
-		box-shadow: 0 2px 6px 0 rgba(0,0,0,0.10);
-	}
+
+    .mining-info {
+        height: 136px;
+        padding: 21px 12px 0;
+        background: $newFirstColor;
+
+        .revenue {
+            height: 212px;
+            // height: 264px;
+            background: #302F34;
+            border-radius: 3px;
+            position: relative;
+            z-index: 999;
+
+            .icon-wrapper {
+                font-size: 12px;
+                color: #00C77D;
+                height: 20px;
+                background: #222126;
+                display: inline-block;
+                padding: 0 4px;
+                line-height: 20px;
+                border-radius: 2px;
+                margin-top: 18px;
+                margin-left: 18px;
+
+                img {
+                    margin-right: 4px;
+                    margin-top: 4px;
+                    vertical-align: top;
+                }
+            }
+
+            .revenue-detail {
+                margin-left: 18px;
+                margin-top: 8px;
+            }
+
+            .amount {
+                display: flex;
+
+                .main {
+                    // flex: 1;
+                    color: $newFirstColor;
+                    font-size: 30px;
+                    line-height: 36px;
+                    height: 36px;
+                }
+
+                .second {
+                    // flex: 1;
+                    font-size: 16px;
+                    line-height: 20px;
+                    position: relative;
+                    top: 12px;
+                    margin-left: 8px;
+                    color: #78777C;
+                }
+            }
+
+            .yesterday-avenue {
+                font-size: 14px;
+                color: #78777C;
+                line-height: 18px;
+            }
+        }
+
+        .toggle {
+            position: absolute;
+            top: 30px;
+            right: 18px;
+        }
+
+        .curve {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 130px;
+
+            .date {
+                display: flex;
+                padding: 20px 18px 0;
+                justify-content: space-between;
+
+                .month {
+                    width: 40px;
+                    height: 36px;
+                    color: #78777C;
+                    flex: 1;
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+
+                    p:first-child {
+                        font-size: 10px;
+                    }
+
+                    p:last-child {
+                        font-size: 12px;
+                    }
+
+                    .month-wrapper {
+                        width: 100%;
+                    }
+
+                    &.active {
+                        background: #222126;
+                        border-radius: 2px;
+                    }
+                }
+            }
+
+            .max-earn {
+                white-space: nowrap;
+                position: absolute;
+                color: $newFirstColor;
+                font-size: 12px;
+                line-height: 24px;
+                height: 24px;
+                transform: translate(-50%, -50%);
+            }
+        }
+    }
 }
 
+.main-area {
+    padding-top: 20px;
+
+    .info-list {
+        overflow: hidden;
+        margin-right: -10px;
+
+        .info-li {
+            box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.10);
+            border-radius: 3px;
+            width: 50%;
+            padding-right: 10px;
+            padding-bottom: 10px;
+            height: 130px;
+        }
+
+        .info-wrapper {
+            background: #302F34;
+            height: 100%;
+            width: 100%;
+            padding: 10px 16px;
+
+            .icon {
+                width: 35px;
+                height: 35px;
+            }
+
+            .value {
+                margin-top: 20px;
+                font-size: 18px;
+                line-height: 22px;
+                color: #FFFFFF;
+            }
+
+            .label {
+                font-size: 13px;
+                line-height: 17px;
+                color: #78777C;
+                margin-top: 3px;
+            }
+        }
+    }
+}
+
+.slide-more {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #78777C;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    padding: 0 16px;
+    background: #302F34;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.10);
+}

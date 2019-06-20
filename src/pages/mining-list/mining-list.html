@@ -6,33 +6,31 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>{{global.L("MiningReward")}}</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>{{global.L("MiningReward")}}</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-	<ul class="reward-list" *ngIf="!loading && avenueData.length > 0">
-		<li *ngFor="let avenueInfo of avenueData;">
-			<p class="month">{{ avenueInfo.key }}</p>
-			<div class="reward-day">
-				<div class="reward-info clear" *ngFor="let dayInfo of avenueInfo.value;">
-	                <div class="fl desc">
-	                	<!-- <p class="tips">{{global.L("MiningReward")}}</p> -->
-	                	<p class="date">{{ dayInfo.date }}</p>
-	                </div>
-					<div class="fr reward-amount">
-						<span>+{{ dayInfo.earn }} UBBEY</span>
-						
-					</div>	                
-				</div>		
-			</div>
-		</li>				
-	</ul>
-	<div class="no-avenue" *ngIf="!loading && avenueData.length === 0">
-	    <img src="assets/img/avenue@2x.png" alt="">
+    <ul class="reward-list" *ngIf="!loading && avenueData.length > 0">
+        <li *ngFor="let avenueInfo of avenueData;">
+            <p class="month">{{ avenueInfo.key }}</p>
+            <div class="reward-day">
+                <div class="reward-info clear" *ngFor="let dayInfo of avenueInfo.value;">
+                    <div class="fl desc">
+                        <p class="date">{{ dayInfo.date }}</p>
+                    </div>
+                    <div class="fr reward-amount">
+                        <span>+{{ dayInfo.earn }} UBBEY</span>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="no-avenue" *ngIf="!loading && avenueData.length === 0">
+        <img src="assets/img/text.svg" alt="">
         <p>{{global.L("HaveNoRewardRecord")}}</p>
-	</div>
+    </div>
 </ion-content>
