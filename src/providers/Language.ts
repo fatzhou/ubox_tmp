@@ -868,9 +868,9 @@ export class Lang {
 		kr: "지갑 키스토어 파일 내용을 입력 상자에 붙여 넣거나 생성된 QR 코드를 스캔하여 키스토어를 직접 가져오십시오."
 	};
 	static WalletTextContend = {
-		cn: "文本内容",
-		en: "Text contents",
-		kr: "텍스트 내용"
+		cn: "Keystore文本内容",
+		en: "Keystore text contents",
+		kr: "Keystore 텍스트 내용"
 	};
 	static StartImport = {
 		cn: "开始导入",
