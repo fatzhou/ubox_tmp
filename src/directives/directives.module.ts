@@ -5,4 +5,4 @@ import { ClickAndWaitDirective } from './click-and-wait/click-and-wait';
 	imports: [],
 	exports: [ClickAndWaitDirective]
 })
-export class DirectivesModule {}
+export class DirectivesModule { }

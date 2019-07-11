@@ -462,6 +462,7 @@ textarea::-webkit-input-placeholder {
     float: left;
     background: url(../assets/img/default.svg) center center no-repeat;
     background-size: 22px 22px;
+    border-radius: 2px;
 
     &.default {
         background-image: url(../assets/img/default.svg);
@@ -657,7 +658,7 @@ textarea::-webkit-input-placeholder {
             margin: 7px 6px 7px 16px;
         }
 
-        .alert-tappable {
+        .alert- tappable {
             min-height: 40px;
         }
 
@@ -693,6 +694,10 @@ textarea::-webkit-input-placeholder {
 
 ion-infinite-scroll {
     background: $newThreeColor;
+}
+
+.has-refresher>.scroll-content {
+    border: none;
 }
 
 .select-tollbar {

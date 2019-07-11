@@ -12,27 +12,28 @@
                 <p class="list-point"><span></span><span class="active"></span><span></span></p>
             </div>
         </ion-title>
-        <svg class="icon aside-nav-icon" tappable (click)="displayMenu($event)" aria-hidden="true">
-                <use xlink:href="#iconcaidan"></use>
+        <svg class="icon aside-nav-icon"  tappable  (click)="displayMenu($event)" aria-hidden="true">
+            <use xlink:href="#iconcaidan"></use>
         </svg>
-        <div class="input-box"  *ngIf="!isShowTitle">
-            <input type="text" autocomplete="off" (click)="goSearchBtPage()" class="common-general-button bt-input" readonly>
+        <div class="input-box" *ngIf="!isShowTitle">
+            <input type="text" autocomplete="off" (click)="goSearchBtPage()" class="common-general-button bt-input"
+                readonly>
         </div>
         <svg class="icon icon-ellipsis icon-search" (click)="goSearchBtPage()" *ngIf="isShowTitle" aria-hidden="true">
             <use xlink:href="#iconsearch"></use>
         </svg>
-        <svg class="icon icon-ellipsis" (click)="goBtTaskPage()" aria-hidden="true">
+        <svg class="icon icon-ellipsis" id="download-list" (click)="goBtTaskPage()" aria-hidden="true">
             <use xlink:href="#iconBTxiazaiguanli"></use>
         </svg>
     </ion-navbar>
 </ion-header>
 <ion-content (ionScroll)="onPageScroll($event)">
-    <ion-refresher snapbackDuration="300"  (ionRefresh)="isPullListType = 'pull';refreshFeedList($event)">
-        <ion-refresher-content  pullingIcon="arrow-dropdown" refreshingSpinner="circles">
+    <ion-refresher snapbackDuration="300" (ionRefresh)="isPullListType = 'pull';refreshFeedList($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" refreshingSpinner="circles">
         </ion-refresher-content>
     </ion-refresher>
-    <div class="main-content" >
-        <div class="search-body" >
+    <div class="main-content">
+        <div class="search-body">
             <div class="recommend-title" [ngClass]="global.isShowWarningBar ? 'warning-bg' : ''">
                 <p>{{global.L("RecommendedResources")}}</p>
             </div>
@@ -40,9 +41,26 @@
                 <li (click)="goBtDetailPage(item);" *ngFor="let item of feedList">
                     <div class="bt-box defalut-box">
                         <p class="bt-title">{{ item.title }}</p>
-                        <p class="p-info"><span>{{ item.mgdate | computeFileTime:'-':false }} {{ item.size == '' ? '' : '·' }} {{ item.size }} {{'· 0 UBBEY'}}</span></p>
-                        <button class="download-btn" [disabled]="!!item.status" (click)="downloadBt(item);$event.stopPropagation();">{{global.L("Get")}}</button>
-                        <p class="p-imglist" *ngIf="item.images" [ngClass]="item.images.length == 1 ? 'one-png' : ''"><span *ngFor="let img of item.images" [ngStyle]="{'background-image': 'url('+ img +')'}"></span></p>
+                        <p class="p-info">
+                            <span class="coin"><img src="assets/img/coin.svg" />0</span>
+                            <span>{{ item.mgdate | computeFileTime:'-':false }} {{ item.size == '' ? '' : '·' }}
+                                {{ item.size }} {{'· 0 UBBEY'}}</span>
+                        </p>
+                        <button class="download-btn" [disabled]="!!item.status"
+                            (click)="downloadBt(item);$event.stopPropagation();">{{global.L("Get")}}</button>
+                        <div class="p-imglist-wrapper">
+                            <p class="p-imglist animation-wrapper" *ngIf="item.images"
+                                [ngClass]="item.images.length == 1 ? 'one-png' : ''">
+                                <span [id]="item.resid" class="animation-image"
+                                    *ngIf="item.images && item.images.length > 0" [ngStyle]="item.style"></span>
+                            </p>
+                            <p class="p-imglist" *ngIf="item.images"
+                                [ngClass]="item.images.length == 1 ? 'one-png' : ''">
+                                <span *ngFor="let img of item.images"
+                                    [ngStyle]="{'background-image': 'url('+ img +')'}"></span>
+                            </p>
+                        </div>
+
                     </div>
                 </li>
             </ul>
@@ -50,8 +68,7 @@
         </div>
     </div>
     <ion-infinite-scroll (ionInfinite)="isPullListType = 'scroll';refreshFeedList($event);" threshold="100px">
-        <ion-infinite-scroll-content loadingSpinner="bubbles"
-                                     loadingText="Loading more data...">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
 </ion-content>

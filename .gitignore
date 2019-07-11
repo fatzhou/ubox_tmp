@@ -42,3 +42,4 @@ config.xml
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+src/assets/js

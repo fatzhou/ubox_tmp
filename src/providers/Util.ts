@@ -917,7 +917,6 @@ export class Util {
 						"URLBase": ["192.168.0.2:37867"],
 						"bindUserHash": "d615d5793929e8c7d70eab5f00f7f5f1"
 					}])
-
 					// resolve([]);
 				}, minSearchTime);
 				// resolve([]);
@@ -2233,13 +2232,13 @@ export class Util {
 			magnet: bturl,
 			resourceid: id
 		})
-			.then((res) => {
+			.then((res: any) => {
 				this.global.closeGlobalLoading(this);
 				if (res.err_no === 0) {
 					GlobalService.consoleLog("下载bt成功");
-					this.global.createGlobalToast(this, {
-						message: Lang.L('StartDownloading')
-					})
+					// this.global.createGlobalToast(this, {
+					// 	message: Lang.L('StartDownloading')
+					// })
 				}
 			})
 			.catch(e => {

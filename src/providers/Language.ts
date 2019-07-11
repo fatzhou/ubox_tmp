@@ -4488,4 +4488,16 @@ export class Lang {
 		en: "No related resource found",
 		kr: ""
 	}
+
+	static ClearCash = {
+		cn: "清除缓存",
+		en: "Clear Cash",
+		kr: ""
+	}
+
+	static PreviewImage = {
+		cn: "预览图片",
+		en: "Preview Image",
+		kr: ""
+	}
 }

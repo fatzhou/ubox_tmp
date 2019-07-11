@@ -4,16 +4,42 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
 
-    <ion-navbar>
-        <ion-title>video-player</ion-title>
-    </ion-navbar>
+<ion-content no-padding tappable (click)="toggleShowTitle()">
+    <div class="video-wrapper" tappable (click)="$event.stopPropagation()">
+        <div class="qrcode-button" *ngIf="isShowTitle">
+            <div class="back-box" tappable (click)="goBack();$event.stopPropagation();">
+                <svg class="icon back-icon" aria-hidden="true">
+                    <use xlink:href="#iconfanhui"></use>
+                </svg>
+            </div>
+            <span>{{ name }}</span>
+        </div>
 
-</ion-header>
+        <video autoplay playsinline [src]="videoUrl | photoSantizer" #video preload id="video"
+            [poster]="imageUrl | photoSantizer"></video>
 
+        <div class="controller" *ngIf="isShowTitle">
+            <div class="play-btn" [ngClass]="playBtn ? '' : 'pause-btn'" tappable (click)="playVideo($event)"></div>
+            <div class="prev-btn" tappable (click)="gotoStart()"></div>
+            <div class="progress">
+                <div class="progress-bar">
+                    <div class="progress-bar-played" [ngStyle]="{width: playedProgress + '%'}"></div>
+                    <div class="progress-bar-loaded" [ngStyle]="{width:  loadedProgress +  '%'}"></div>
+                    <div class="draggable-ball" #controller [ngStyle]="{left: playedProgress + '%'}">
+                    </div>
+                </div>
+                <p class="time">
+                    <span class="start">{{ currentTime }}</span>
+                    <span class="end">{{ totalTime }}</span>
+                </p>
+            </div>
+        </div>
+    </div>
 
-<ion-content padding>
-    <button (click)="playVideo()">播放</button>
-    <video [src]="videoUrl" controls></video>
+    <div class="my-loading" *ngIf="loading">
+        <div class="my-loading-wrapper">
+            <img src="assets/img/loading-player.svg" alt="">
+        </div>
+    </div>
 </ion-content>

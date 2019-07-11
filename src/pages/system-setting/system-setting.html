@@ -6,41 +6,44 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>{{ global.L("System") }}</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>{{ global.L("System") }}</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-	<div class="page-content system-select-page">
-		<div class="language-list">
+    <div class="page-content system-select-page">
+        <div class="language-list">
             <p class="set-title">{{global.L("SecuritySettings")}}</p>
-			<button class="language" tappable (click)="goChangePasswdPage()" ion-item>
+            <button class="language"  tappable  (click)="goChangePasswdPage()" ion-item>
                 {{global.L("ModifyPassword")}}
-            </button>			
+            </button>
             <p class="set-title">{{global.L("SystemSet")}}</p>
-			<button class="language bor-btm"  tappable (click)="goLangSettingPage()" ion-item>
+            <button class="language bor-btm"  tappable  (click)="goLangSettingPage()" ion-item>
                 {{ global.L("Language") }}
-			</button>
-			<button class="language bor-btm"  tappable (click)="goCoinUintPage()" ion-item>
+            </button>
+            <button class="language bor-btm"  tappable  (click)="goCoinUintPage()" ion-item>
                 {{ global.L("CoinUint") }}
             </button>
-            <button class="language"  tappable (click)="goCopyPhotoPage()" ion-item>
+            <button class="language"  tappable  (click)="goCopyPhotoPage()" ion-item>
                 {{ global.L("PhotoCopy") }}
                 <i class="status-copy">{{ global.albumBackupSwitch ? global.L("Opened") : global.L("UnOpened") }}</i>
-            </button>		
+            </button>
             <p class="set-title">{{ global.L("More") }}</p>
-            <button class="language bor-btm"  tappable (click)="goUpdatePage()" ion-item>
+            <button class="language bor-btm"  tappable  (click)="goUpdatePage()" ion-item>
                 {{ global.L("UpdateAssistant") }}
             </button>
-            <button class="language bor-btm"  tappable (click)="goAdvicePage()" ion-item>
+            <button class="language bor-btm"  tappable  (click)="goAdvicePage()" ion-item>
                 {{ global.L("AdviceSubmit") }}
             </button>
-            <button class="language"  tappable (click)="logoutSystem()" ion-item>
+            <button class="language bor-btm"  tappable  (click)="goClearCashPage()" ion-item>
+                {{ global.L("ClearCash") }}
+            </button>
+            <button class="language"  tappable  (click)="logoutSystem()" ion-item>
                 {{ global.L("ExitLogin") }}
             </button>
-		</div>
-	</div>
+        </div>
+    </div>
 </ion-content>

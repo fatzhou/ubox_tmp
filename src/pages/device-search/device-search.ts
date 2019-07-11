@@ -16,33 +16,35 @@ import { DeviceGuidancePage } from '../device-guidance/device-guidance';
  */
 
 @Component({
-  selector: 'page-device-search',
-  templateUrl: 'device-search.html',
+	selector: 'page-device-search',
+	templateUrl: 'device-search.html',
 })
 export class DeviceSearchPage {
-	searchResult:any = null;
+	searchResult: any = null;
 	bindStatus = 0;
 
 	constructor(public navCtrl: NavController,
-				public util: Util,
-				private http: HttpService,
-				private events: Events,
-				private global: GlobalService,
-				public navParams: NavParams) {
-    }
+		public util: Util,
+		private http: HttpService,
+		private events: Events,
+		private global: GlobalService,
+		public navParams: NavParams) {
+	}
 
-    ionViewDidLoad() {
+	ionViewDidLoad() {
 		GlobalService.consoleLog('ionViewDidLoad DeviceSearchPage');
 		this.searchUbbey();
 	}
 
 	searchUbbey() {
 		return this.util.searchUbbey()
-		.then(res => {
-			GlobalService.consoleLog("已搜索到以下盒子：" + JSON.stringify(res));
-			this.searchResult = res;
-			return res;
-		})
+			.then((res: any) => {
+				GlobalService.consoleLog("已搜索到以下盒子：" + JSON.stringify(res));
+				this.searchResult = res.sort((a, b) => {
+					return (+!!a.bindUser) - (+!!b.bindUser);
+				});
+				return res;
+			})
 	}
 
 	bindBox(box) {
@@ -53,43 +55,43 @@ export class DeviceSearchPage {
 			message: this.global.L("Binding")
 		})
 		this.util.bindBox(this)
-		.then(res => {
-			this.global.closeGlobalLoading(this);
-			if(res) {
-				// this.util.checkoutBox(this);
-				// this.events.publish('check-box-app');
-				//this.global.setSelectedBox(box);
-				this.bindStatus = 1;
-			} else {
+			.then(res => {
+				this.global.closeGlobalLoading(this);
+				if (res) {
+					// this.util.checkoutBox(this);
+					// this.events.publish('check-box-app');
+					//this.global.setSelectedBox(box);
+					this.bindStatus = 1;
+				} else {
+					this.global.setSelectedBox(null);
+					this.bindStatus = 2;
+				}
+			})
+			.catch(e => {
+				this.global.closeGlobalLoading(this);
 				this.global.setSelectedBox(null);
 				this.bindStatus = 2;
-			}
-		})
-		.catch(e => {
-			this.global.closeGlobalLoading(this);
-			this.global.setSelectedBox(null);
-			this.bindStatus = 2;
-		})
+			})
 	}
 
 	goNext() {
-		if(this.bindStatus == 1) {
+		if (this.bindStatus == 1) {
 			this.navCtrl.setRoot(TabsPage)
-			.then(res => {
-				this.events.publish('check-box-app');
-			})			
+				.then(res => {
+					this.events.publish('check-box-app');
+				})
 		} else {
 			this.navCtrl.setRoot(DeviceGuidancePage);
 		}
 	}
 
-    doRefresh(event) {
+	doRefresh(event) {
 		GlobalService.consoleLog('Begin async operation');
 		//状态复原
 		this.searchResult = null;
 		this.searchUbbey()
-		.then(res => {
-			event.complete();
-		})
-    }
+			.then(res => {
+				event.complete();
+			})
+	}
 }

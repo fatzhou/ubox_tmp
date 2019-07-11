@@ -6,7 +6,7 @@
 -->
 <ion-content>
     <div class="qrcode-button">
-        <svg class="icon back-icon"  (click)="goBack()" aria-hidden="true">
+        <svg class="icon back-icon" (click)="goBack()" aria-hidden="true">
             <use xlink:href="#iconfanhui"></use>
         </svg>
         <svg class="icon icon-ellipsis" (click)="goBtTaskPage()" aria-hidden="true">
@@ -15,8 +15,8 @@
     </div>
     <div class="main-content">
         <div class="head-detail-img" *ngIf="titleImgList.length > 0">
-            <div class="head-img-box"> 
-                <div class="img-box" *ngFor="let img of titleImgList" >
+            <div class="head-img-box">
+                <div class="img-box" *ngFor="let img of titleImgList">
                     <img [src]="img" alt="">
                 </div>
             </div>
@@ -24,7 +24,7 @@
                 <p class="p-title">{{ title }}</p>
             </div>
         </div>
-        
+
         <div class="detail-title" [ngClass]="titleImgList.length <= 0 ? 'mar-top-46' : ''">
             <p class="p-title" *ngIf="titleImgList.length <= 0">{{ title }}</p>
             <p>{{ size }}<span>{{ global.L("AllDownload") }} {{ heat }}</span></p>
@@ -38,12 +38,17 @@
             </div>
         </div>
         <div class="detail-info">
-            
+
             <div class="info-box">
                 <p class="second-title">{{ global.L("Introduction") }}</p>
                 <div class="detail-list">
-                    <p>{{ global.L("payUbbey") }}<span>{{ payUbbey + ' UBBEY' }}</span></p>
-                    <p *ngIf="createdTime != ''">{{ global.L("CreatTime") }}<span>{{ createdTime | computeFileTime }}</span></p>
+                    <p>{{ global.L("payUbbey") }}
+                        <span>
+                            <img class="coin-img" src="assets/img/coin.svg">{{ payUbbey }}
+                        </span>
+                    </p>
+                    <p *ngIf="createdTime != ''">
+                        {{ global.L("CreatTime") }}<span>{{ createdTime | computeFileTime }}</span></p>
                     <p *ngIf="fileType != ''">{{ global.L("FileType") }}<span>{{ fileType }}</span></p>
                     <p *ngIf="file_number != ''">{{ global.L("FileNumber") }}<span>{{ file_number }}</span></p>
                     <p *ngIf="btNum != ''">{{ global.L("BTNumber") }}<span>{{ btNum }}</span></p>
@@ -52,41 +57,44 @@
                 <p class="second-title" *ngIf="detailDesc != ''">{{ global.L("FileDescription") }}</p>
                 <div class="detail-des" *ngIf="detailDesc != ''">
                     <div [innerHTML]="detailDesc" class="desc-box" [ngClass]="isShowDesc ? 'show-more' : ''"></div>
-                    <div class="see-more" *ngIf="isShowMoreBtn" (click)="toggleShowDesc()">{{ isShowDesc ? global.L("PutMore") : global.L("ViewMore") }}</div>
+                    <div class="see-more" *ngIf="isShowMoreBtn" (click)="toggleShowDesc()">
+                        {{ isShowDesc ? global.L("PutMore") : global.L("ViewMore") }}</div>
                 </div>
                 <p class="second-title" *ngIf="desImgList.length > 0">{{ global.L("RelatedImages") }}</p>
                 <div class="img-list-box" *ngIf="desImgList.length > 0">
                     <p class="p-imglist">
-                        <span *ngFor="let file of desImgList"  [ngStyle]="{'background-image': 'url('+ file +')'}"></span>
+                        <span (click)="viewImageDetail(file)" *ngFor="let file of desImgList"
+                            [ngStyle]="{'background-image': 'url('+ file +')'}"></span>
                     </p>
                 </div>
                 <p class="second-title" *ngIf="fileList.length > 0">{{ global.L("FileList") }}</p>
                 <div class="file-list-box" *ngIf="fileList.length > 0">
                     <ul class="file-list">
-                        <li class="file-list-item" *ngFor="let file of fileList" tappable>
+                        <li class="file-list-item" *ngFor="let file of fileList"  tappable >
                             <div class="file-type" [ngClass]="file.style"></div>
                             <div class="info">
                                 <h2 class="eps">{{ file.name || file }}</h2>
                             </div>
                             <div class="file-list" *ngIf="file.children && file.children.length > 0">
-                                <div class="file-list-item sub-file-list-item" *ngFor="let f of file.children" tappable>
+                                <div class="file-list-item sub-file-list-item" *ngFor="let f of file.children"  tappable >
                                     <div class="file-split"></div>
                                     <div class="file-type" [ngClass]="f.style"></div>
                                     <div class="info">
                                         <h2 class="eps">{{ f.name }}</h2>
                                     </div>
-                                </div>							
+                                </div>
                             </div>
                         </li>
                     </ul>
                 </div>
-                
+
             </div>
-        </div>  
+        </div>
     </div>
     <div class="download-btn-box">
-        <button class="download-btn" [ngClass]="!!status ? 'noclick' : ''" (click)="downloadBt()">{{ global.L("Download") }}</button>
+        <button class="download-btn" [ngClass]="!!status ? 'noclick' : ''"
+            (click)="downloadBt()">{{ global.L("Download") }}</button>
     </div>
-    
-   
+
+
 </ion-content>

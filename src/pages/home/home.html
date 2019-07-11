@@ -23,7 +23,7 @@
 				(press)="showAllBtns();$event.stopPropagation();">
 				<!-- <div *ngIf="dataAcquired && fileList.length > 0"> -->
 				<!-- <ul class="file-list" [virtualScroll]="fileList" approxItemHeight="73px" bufferRatio="10" > -->
-				<li class="file-list-item" tappable *ngFor="let info of type0List"
+				<li class="file-list-item"  tappable  *ngFor="let info of type0List"
 					(click)="goNextFolder(info);$event.stopPropagation();">
 					<div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)"
 						[ngClass]="info.fileStyle"></div>
@@ -56,7 +56,7 @@
 			</p>
 			<ul class="file-list" *ngIf="dataAcquired && type1List.length > 0 && isShowType1List"
 				(press)="showAllBtns();$event.stopPropagation();">
-				<li class="file-list-item" tappable *ngFor="let info of type1List"
+				<li class="file-list-item"  tappable  *ngFor="let info of type1List"
 					(click)="goNextFolder(info);$event.stopPropagation();">
 					<div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)"
 						[ngClass]="info.fileStyle"></div>
@@ -85,7 +85,7 @@
 				<p>{{global.L("YouHaveUploadFile")}}</p>
 			</div>
 		</div>
-		<div class="add" *ngIf="!!global.deviceSelected" tappable (click)="openFileSelect()">
+		<div class="add" *ngIf="!!global.deviceSelected"  tappable  (click)="openFileSelect()">
 			<svg class="icon" aria-hidden="true">
 				<use xlink:href="#icontianjiawenjian"></use>
 			</svg>

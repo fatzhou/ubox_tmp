@@ -20,7 +20,7 @@
     "bannerStyle": {
         "COMMON": "http://iamtest.yqtc.co/searchData/pvr-bg.png"
     },
-    "bannerList":  ["com.pvr.www"],
+    "bannerList": ["com.pvr.www"],
     "appList": {
         "cn": [{
                 "id": "com.pvr.www",
@@ -28,9 +28,9 @@
                 "logo": "http://iamtest.yqtc.co/searchData/pvr.png",
                 "title": "cn-PVR应用",
                 "abbreTitle": "PVR",
-                "type": 1, 
-                "box": 1, 
-                "label": ["DApp","Third","WebApp","BoxDep"],
+                "type": 1,
+                "box": 1,
+                "label": ["DApp", "Third", "WebApp", "BoxDep"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
                 "description": ["IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于区块链网络播放器", "描述2"],
@@ -39,10 +39,10 @@
                 "size": 244444,
                 "version": "1.0.0",
                 "time": 1546585487200,
-                "updateInfo": ["【热点】新增网络热点播放功能","【优化】优化使用体验"],
-                "permissions": ["· 存储","· 读取通讯录"],
-                "hardware": ["· Ubeey Box","· PVR"],
-                "developers": ["开发者","YQTC.COM"]
+                "updateInfo": ["【热点】新增网络热点播放功能", "【优化】优化使用体验"],
+                "permissions": ["· 存储", "· 读取通讯录"],
+                "hardware": ["· Ubeey Box", "· PVR"],
+                "developers": ["开发者", "YQTC.COM"]
             },
             {
                 "id": "com.browser.www",
@@ -50,8 +50,8 @@
                 "logo": "http://iamtest.yqtc.co/searchData/ipfs.png",
                 "title": "区块链浏览器",
                 "abbreTitle": "PVR",
-                "type": 0, 
-                "box": 0, 
+                "type": 0,
+                "box": 0,
                 "label": ["DApp"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
@@ -61,10 +61,10 @@
                 "size": 244444,
                 "version": "1.0.0",
                 "time": 1546585487200,
-                "updateInfo": ["【热点】新增网络热点播放功能","【优化】优化使用体验"],
-                "permissions": ["· 存储","· 读取通讯录"],
-                "hardware": ["· Ubeey Box","· PVR"],
-                "developers": ["开发者","YQTC.COM"]
+                "updateInfo": ["【热点】新增网络热点播放功能", "【优化】优化使用体验"],
+                "permissions": ["· 存储", "· 读取通讯录"],
+                "hardware": ["· Ubeey Box", "· PVR"],
+                "developers": ["开发者", "YQTC.COM"]
             }
         ],
         "en": [{
@@ -73,9 +73,9 @@
                 "logo": "http://iamtest.yqtc.co/searchData/pvr.png",
                 "title": "cn-PVR应用",
                 "abbreTitle": "PVR",
-                "type": 1, 
-                "box": 1, 
-                "label": ["DApp","Third","WebApp","BoxDep"],
+                "type": 1,
+                "box": 1,
+                "label": ["DApp", "Third", "WebApp", "BoxDep"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
                 "description": ["IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于区块链网络播放器", "描述2"],
@@ -84,10 +84,10 @@
                 "size": 244444,
                 "version": "1.0.0",
                 "time": 1546585487200,
-                "updateInfo": ["【热点】新增网络热点播放功能","【优化】优化使用体验"],
-                "permissions": ["· 存储","· 读取通讯录"],
-                "hardware": ["· Ubeey Box","· PVR"],
-                "developers": ["开发者","YQTC.COM"]
+                "updateInfo": ["【热点】新增网络热点播放功能", "【优化】优化使用体验"],
+                "permissions": ["· 存储", "· 读取通讯录"],
+                "hardware": ["· Ubeey Box", "· PVR"],
+                "developers": ["开发者", "YQTC.COM"]
             },
             {
                 "id": "com.browser.www",
@@ -95,8 +95,8 @@
                 "logo": "http://iamtest.yqtc.co/searchData/ipfs.png",
                 "title": "区块链浏览器",
                 "abbreTitle": "PVR",
-                "type": 0, 
-                "box": 0, 
+                "type": 0,
+                "box": 0,
                 "label": ["DApp"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
@@ -106,10 +106,10 @@
                 "size": 244444,
                 "version": "1.0.0",
                 "time": 1546585487200,
-                "updateInfo": ["【热点】新增网络热点播放功能","【优化】优化使用体验"],
-                "permissions": ["· 存储","· 读取通讯录"],
-                "hardware": ["· Ubeey Box","· PVR"],
-                "developers": ["开发者","YQTC.COM"]
+                "updateInfo": ["【热点】新增网络热点播放功能", "【优化】优化使用体验"],
+                "permissions": ["· 存储", "· 读取通讯录"],
+                "hardware": ["· Ubeey Box", "· PVR"],
+                "developers": ["开发者", "YQTC.COM"]
             }
         ],
         "kr": [{
@@ -118,9 +118,9 @@
                 "logo": "http://iamtest.yqtc.co/searchData/pvr.png",
                 "title": "cn-PVR应用",
                 "abbreTitle": "PVR",
-                "type": 1, 
-                "box": 1, 
-                "label": ["DApp","Third","WebApp","BoxDep"],
+                "type": 1,
+                "box": 1,
+                "label": ["DApp", "Third", "WebApp", "BoxDep"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
                 "description": ["IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于IPFS的网络播放器, IPFS播放器是一款基于区块链网络播放器", "描述2"],
@@ -129,10 +129,10 @@
                 "size": 244444,
                 "version": "1.0.0",
                 "time": 1546585487200,
-                "updateInfo": ["【热点】新增网络热点播放功能","【优化】优化使用体验"],
-                "permissions": ["· 存储","· 读取通讯录"],
-                "hardware": ["· Ubeey Box","· PVR"],
-                "developers": ["开发者","YQTC.COM"]
+                "updateInfo": ["【热点】新增网络热点播放功能", "【优化】优化使用体验"],
+                "permissions": ["· 存储", "· 读取通讯录"],
+                "hardware": ["· Ubeey Box", "· PVR"],
+                "developers": ["开发者", "YQTC.COM"]
             },
             {
                 "id": "com.browser.www",
@@ -140,8 +140,8 @@
                 "logo": "http://iamtest.yqtc.co/searchData/ipfs.png",
                 "title": "区块链浏览器",
                 "abbreTitle": "PVR",
-                "type": 0, 
-                "box": 0, 
+                "type": 0,
+                "box": 0,
                 "label": ["DApp"],
                 "slogon": "简写",
                 "summary": "IPFS播放器是一款基于IPFS的网络播放器",
@@ -151,10 +151,10 @@
                 "size": 244444,
                 "version": "1.0.0",
                 "time": 1546585487200,
-                "updateInfo": ["【热点】新增网络热点播放功能","【优化】优化使用体验"],
-                "permissions": ["· 存储","· 读取通讯录"],
-                "hardware": ["· Ubeey Box","· PVR"],
-                "developers": ["开发者","YQTC.COM"]
+                "updateInfo": ["【热点】新增网络热点播放功能", "【优化】优化使用体验"],
+                "permissions": ["· 存储", "· 读取通讯录"],
+                "hardware": ["· Ubeey Box", "· PVR"],
+                "developers": ["开发者", "YQTC.COM"]
             }
         ]
     }

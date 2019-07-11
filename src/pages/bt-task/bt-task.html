@@ -9,10 +9,10 @@
     <ion-navbar class="text-right" (click)="toggleShowOptions('close');toggleShowDelete()">
         <ion-title>
             {{ global.L("DownloadTask") }}
-            <svg class="icon icon-right" tappable (click)="toggleShowOptions();toggleShowDelete();$event.stopPropagation();" aria-hidden="true">
+            <svg class="icon icon-right"  tappable  (click)="toggleShowOptions();toggleShowDelete();$event.stopPropagation();" aria-hidden="true">
                 <use xlink:href="#icongengduo1"></use>
             </svg>
-            <svg class="icon icon-right" tappable (click)="showPcToast()" aria-hidden="true">
+            <svg class="icon icon-right"  tappable  (click)="showPcToast()" aria-hidden="true">
                 <use xlink:href="#iconPCView1"></use>
             </svg>
         </ion-title>
@@ -23,12 +23,12 @@
 
 <ion-content (click)="toggleShowOptions('close')">
     <ul class="tab-list">
-        <li tappable [ngClass]="tabIndex == 0 ? 'active' : ''" (click)="changeIndex(0)">{{ global.L("DownloadingNum") }}({{ btDoingNum }})</li>
-        <li tappable [ngClass]="tabIndex == 1 ? 'active' : ''" (click)="changeIndex(1)">{{ global.L("WORD3c80409a") }}({{ btDoneNum }})</li>
+        <li  tappable  [ngClass]="tabIndex == 0 ? 'active' : ''" (click)="changeIndex(0)">{{ global.L("DownloadingNum") }}({{ btDoingNum }})</li>
+        <li  tappable  [ngClass]="tabIndex == 1 ? 'active' : ''" (click)="changeIndex(1)">{{ global.L("WORD3c80409a") }}({{ btDoneNum }})</li>
     </ul>
     <div class="task-box">
         <ul class="task-list" *ngIf="tabIndex == 0">
-            <li class="task-item" tappable *ngFor="let item of btDoingList" (press)="toggleShowDelete(item, true)">
+            <li class="task-item"  tappable  *ngFor="let item of btDoingList" (press)="toggleShowDelete(item, true)">
                 <div class="task-item-box">
                     <div class="info">
                         <p class="file-name">{{ item.name }}</p>
@@ -53,7 +53,7 @@
             </li>
         </ul>
         <ul class="task-list"  *ngIf="tabIndex == 1">
-            <li class="task-item" tappable *ngFor="let item of btDoneList" (press)="toggleShowDelete(item, true)">
+            <li class="task-item"  tappable  *ngFor="let item of btDoneList" (press)="toggleShowDelete(item, true)">
                 <div class="task-item-box" (click)="goListPage(item)">
                     <div class="info">
                         <p class="file-name">{{ item.name }}</p>
@@ -77,13 +77,13 @@
 <div class="task-options" *ngIf="isShowOptions" (click)="closeTaskOptions()">
 	<div class="task-options-wrap">
 		<ul class="clear">      
-			<li tappable (click)="toggleAllTaskList('start')">
+			<li  tappable  (click)="toggleAllTaskList('start')">
 				<p>{{ global.L("AllStart") }}</p>
 			</li>
-			<li tappable (click)="toggleAllTaskList('stop')">
+			<li  tappable  (click)="toggleAllTaskList('stop')">
 				<p>{{ global.L("AllStop") }}</p>
 			</li>
-			<li tappable (click)="goBtSetPage()">
+			<li  tappable  (click)="goBtSetPage()">
 				<p>{{ global.L("DownloadSet") }}</p>
 			</li>
 		</ul>		

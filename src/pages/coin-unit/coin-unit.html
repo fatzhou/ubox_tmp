@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar class="clear">
-    <ion-title>{{global.L("CoinUint")}}<span class="save-btn fr" tappable>
+    <ion-title>{{global.L("CoinUint")}}<span class="save-btn fr"  tappable >
     <!-- {{global.L("SaveModify")}} -->
     </span>
 		</ion-title>
@@ -19,7 +19,7 @@
 <ion-content>
 	<div class="page-content language-select-page">
 		<div class="language-list">
-			<div class="language bor-btm" *ngFor="let unit of global.globalRateInfo" tappable (click)="selectCoinUnit(unit.curreycy)" ion-item>
+			<div class="language bor-btm" *ngFor="let unit of global.globalRateInfo"  tappable  (click)="selectCoinUnit(unit.curreycy)" ion-item>
 				{{ unit.curreycy }}
 				<svg class="icon" aria-hidden="true" item-end *ngIf="global.coinUnit === unit.curreycy">
 			        <use xlink:href="#icondanxuan"></use>

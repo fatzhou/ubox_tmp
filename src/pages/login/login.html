@@ -26,10 +26,10 @@
 				<input id="password-login" type="{{eyeshow?'text':'password'}}" name="password" [(ngModel)]="password"
 					class="input-v2" placeholder="{{global.L('PlsInputPassword')}}" />
 				<!-- <label class="borderline"></label> -->
-				<svg aria-hidden="true" (click)="showIcon()" tappable class="icon open">
+				<svg aria-hidden="true" (click)="showIcon()"  tappable  class="icon open">
 					<use xlink:href="#iconeyeopen"></use>
 				</svg>
-				<svg aria-hidden="true" class="icon closed" tappable (click)="showIcon()">
+				<svg aria-hidden="true" class="icon closed"  tappable  (click)="showIcon()">
 					<use xlink:href="#iconeyeclose"></use>
 				</svg>
 				<!-- <p class="error-input" *ngIf="pError">{{ pErrorText }}</p> -->
@@ -38,7 +38,7 @@
 
 		<div class="forget-password" (click)="goForgetPasswdPage()">{{ global.L("ForgotPassword") }}?</div>
 
-		<!-- <div class="common-focus-button login-btn" tappable (click)="doLogin()">{{global.L("Login")}}</div>
+		<!-- <div class="common-focus-button login-btn"  tappable  (click)="doLogin()">{{global.L("Login")}}</div>
 		<div class="buttons">
 			<div class="forget-password fl" (click)="goForgetPasswdPage()">{{global.L("ForgotPassword")}}</div>
 			<div class="forget-password fr" (click)="goRegisterPage()">{{global.L("RegisterNewUser")}}</div>

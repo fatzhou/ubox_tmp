@@ -41,7 +41,9 @@
                     <p class="p-title">{{diskNo}}</p>
                     <p class="p-info">{{ global.L("SerialNo") }}</p>
                 </div>
-                <div class="item-right"></div>
+                <div class="item-right">
+                    <img class="copy-btn" (click)="copyBoxid()" src="assets/img/copy.svg" alt="">
+                </div>
             </div>
             <div class="detail-item">
                 <div class="item-left">
@@ -55,7 +57,7 @@
                     <p class="p-title">{{diskVersion}}</p>
                     <p class="p-info">{{ global.L("SystemVersion") }}</p>
                 </div>
-                <div class="item-right version-box">{{diskNewVersion}}</div>
+                <!-- <div class="item-right version-box">{{diskNewVersion}}</div> -->
             </div>
         </div>
     </div>

@@ -19,7 +19,7 @@
 			{{global.L("WalletManagement")}}
 		</h2>
 		<div class="wallet-list" *ngIf="walletList.length > 0 && !loading">
-			<div class="wallet" *ngFor="let wallet of walletList;" tappable (click)="goWalletInfoPage(wallet);$event.stopPropagation();">
+			<div class="wallet" *ngFor="let wallet of walletList;"  tappable  (click)="goWalletInfoPage(wallet);$event.stopPropagation();">
 				<div class="button-wrap">
 					<button ion-item class="info">
 						<div class="icon-wrap" item-start>
@@ -55,7 +55,7 @@
 					</div>
 				</div>
 <!-- 				<div class="wallet-value">
-					<span class="no-amount" *ngIf="wallet.earn_this_month === undefined" tappable (click)="getMyWalletAmount(wallet);$event.stopPropagation();">{{global.L("ViewBalance")}}</span>
+					<span class="no-amount" *ngIf="wallet.earn_this_month === undefined"  tappable  (click)="getMyWalletAmount(wallet);$event.stopPropagation();">{{global.L("ViewBalance")}}</span>
 					<span class="with-amount" *ngIf="wallet.earn_this_month !== undefined">
 						{{global.L("HaveReceived")}}: <a href="javascript:;">{{ wallet.earn_before }}</a> UBBEY   
 						{{global.L("WaitUnlock")}}: <a href="javascript:;">{{ wallet.earn_this_month }}</a> UBBEY
@@ -71,12 +71,12 @@
 		</div>
 
 		<div class="save-btn-wrap" style="display: none;">
-			<div class="common-focus-button save-btn" tappable (click)="doSave()">{{global.L("SaveModify")}}</div>			
+			<div class="common-focus-button save-btn"  tappable  (click)="doSave()">{{global.L("SaveModify")}}</div>			
 		</div>
 
-		<div class="wallet-create" tappable (click)="doClick()">
-			<span class="common-unfocus-button create-btn" tappable  (click)="doCreate()">{{global.L("CreateNewWallet")}}</span>
-			<span class="common-focus-button import-btn no-shadow" tappable (click)="doImport()">{{global.L("ImportWallet")}}</span>
+		<div class="wallet-create"  tappable  (click)="doClick()">
+			<span class="common-unfocus-button create-btn"  tappable   (click)="doCreate()">{{global.L("CreateNewWallet")}}</span>
+			<span class="common-focus-button import-btn no-shadow"  tappable  (click)="doImport()">{{global.L("ImportWallet")}}</span>
 		</div>		
 	</div>
 		

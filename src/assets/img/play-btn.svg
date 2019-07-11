@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>暂停icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="播放操作界面" transform="translate(-20.000000, -289.000000)">
+            <g id="暂停icon" transform="translate(20.000000, 289.000000)">
+                <circle id="Oval" stroke="#FFFFFF" cx="18" cy="18" r="17.5"></circle>
+                <path d="M20.5783102,11.8995936 L28.3190402,23.9407292 C28.5243635,24.2601211 28.4318927,24.6854868 28.1125008,24.8908102 C28.0016089,24.9620979 27.8725592,25 27.74073,25 L12.25927,25 C11.8795743,25 11.57177,24.6921958 11.57177,24.3125 C11.57177,24.1806708 11.6096722,24.0516211 11.6809598,23.9407292 L19.4216898,11.8995936 C19.6270132,11.5802017 20.0523789,11.4877309 20.3717708,11.6930543 C20.4546164,11.7463122 20.5250523,11.8167481 20.5783102,11.8995936 Z" id="Triangle-2" fill="#FFFFFF" transform="translate(20.000000, 18.000000) rotate(90.000000) translate(-20.000000, -18.000000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

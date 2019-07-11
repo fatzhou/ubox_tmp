@@ -1,11 +1,14 @@
 <super-tabs #boxtabs [config]="{allowElementScroll: true}" name="boxtabs">
-    <super-tab [root]="home" name="home"></super-tab>
+    <super-tab [root]="home" name="home">
+    </super-tab>
     <super-tab [root]="search" name="search"></super-tab>
     <super-tab [root]="mining" name="mining"></super-tab>
 </super-tabs>
 <bind-box *ngIf="isCloseBindBox" (closeBindBox)="closeBindBox()"></bind-box>
-<news-notice *ngIf="isClose" [isVersion]="isVersion" [isShowAction]="isShowAction" [version]="toVersion" [head]="head" [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action" (closeNotice)="closeNotice()"></news-notice>
-<connection-popup *ngIf="popupShown" (closeNetworkPopup)="showPopup(false)" [connectionStatus]="connectionStatus"></connection-popup>
+<news-notice *ngIf="isClose" [isVersion]="isVersion" [isShowAction]="isShowAction" [version]="toVersion" [head]="head"
+    [info]="info" [txt]="btnText" [close]="closeBtn" [action]="action" (closeNotice)="closeNotice()"></news-notice>
+<connection-popup *ngIf="popupShown" (closeNetworkPopup)="showPopup(false)" [connectionStatus]="connectionStatus">
+</connection-popup>
 <!-- <div class="showBoxShare" *ngIf="isShowShareBox">
     <div class="mask" (click)="closeShareBox()"></div>
     <div class="showShare">

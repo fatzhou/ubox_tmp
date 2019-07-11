@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>视频icon copy</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="播放操作界面" transform="translate(-77.000000, -344.000000)" fill="#FFFFFF">
+            <g id="播放操作" transform="translate(0.000000, 327.000000)">
+                <g id="视频icon-copy" transform="translate(77.000000, 17.000000)">
+                    <path d="M5.4944505,2.27617372 L11.8516561,11.0297853 C12.0499835,11.3028741 11.9893775,11.6850323 11.7162888,11.8833598 C11.6119004,11.9591705 11.4861976,12 11.3571852,12 L-1.35722593,12 C-1.69473328,12 -1.96833704,11.7263962 -1.96833704,11.3888889 C-1.96833704,11.2598765 -1.92750756,11.1341737 -1.8516968,11.0297853 L4.50550877,2.27617372 C4.70383618,2.00308501 5.08599446,1.94247899 5.35908318,2.1408064 C5.4110369,2.17853717 5.45671974,2.22422001 5.4944505,2.27617372 Z" id="Triangle-2" transform="translate(5.000000, 7.000000) rotate(90.000000) translate(-5.000000, -7.000000) "></path>
+                    <rect id="Rectangle-2" x="12" y="0" width="2" height="14" rx="0.888888889"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

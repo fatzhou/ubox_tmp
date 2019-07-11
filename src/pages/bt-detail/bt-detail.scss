@@ -58,6 +58,10 @@ page-bt-detail {
         margin-top: 46px;
     }
 
+    .file-type.image {
+        background-image: url(../assets/img/image-bt.svg);
+    }
+
     .detail-title {
         padding: 10px;
         padding-top: 17px;
@@ -180,6 +184,13 @@ page-bt-detail {
 
                 &:last-child {
                     padding-bottom: 0;
+                }
+
+                .coin-img {
+                    vertical-align: top;
+                    height: 12px;
+                    margin-top: 6px;
+                    margin-right: 4px;
                 }
 
                 span {

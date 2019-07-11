@@ -25,13 +25,11 @@ import { InternalFormsSharedModule } from '@angular/forms/src/directives';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
 @Component({
 	selector: 'page-find',
 	templateUrl: 'find.html',
 })
 export class FindPage {
-
 	feedList: any = [];
 	feedListAll: any = {};
 	feedListCached: any = [];
@@ -52,10 +50,10 @@ export class FindPage {
 		private appsInstalled: AppsInstalled,
 		private menuCtrl: MenuController,
 		private app: App) {
-		
+
 		this.events.subscribe('btdownloading', (resid) => {
 			let item = this.feedList.find(item => item.resid == resid);
-			if(item) {
+			if (item) {
 				item.status = 1;
 			}
 		});
@@ -65,6 +63,7 @@ export class FindPage {
 	ionViewDidEnter() {
 		this.global.tabIndex = 1;
 	}
+
 	ionViewDidLoad() {
 		GlobalService.consoleLog('ionViewDidLoad FindPage');
 		this.getFeedTop();
@@ -81,7 +80,7 @@ export class FindPage {
 		this.app.getRootNav().push(SearchBtPage);
 	}
 
-	goBtDetailPage(item:any) {
+	goBtDetailPage(item: any) {
 		GlobalService.consoleLog("go BtDetailPage");
 		this.app.getRootNav().push(BtDetailPage, {
 			type: 'feed',
@@ -97,6 +96,13 @@ export class FindPage {
 		}
 		this.initcount++;
 		this._getFeedList().then((list) => {
+			list.forEach(item => {
+				if (item.images && item.images.length > 0) {
+					item.style = {
+						'background-image': 'url(' + item.images[0] + ')'
+					}
+				}
+			})
 			this.feedList = this.feedList.concat(list);
 			if (this.feedList.length < 8) {
 				setTimeout(() => { this.initFirstPage(); }, 100)
@@ -130,12 +136,19 @@ export class FindPage {
 			.then((list: any) => {
 				if (list.length > 0) {
 					list = list.filter(item => {
-						if(item.images) {
-							if(item.images.length == 2) {
+						if (item.images) {
+							if (item.images.length == 2) {
 								item.images.pop();
 							}
 						}
 						return item
+					})
+					list.forEach(item => {
+						if (item.images && item.images.length > 0) {
+							item.style = {
+								'background-image': 'url(' + item.images[0] + ')'
+							}
+						}
 					})
 					switch (this.isPullListType) {
 						case "scroll":
@@ -183,7 +196,7 @@ export class FindPage {
 	getFeedTop() {
 		var url = GlobalService.centerApi["getFeedTop"].url;
 		this.http.post(url, {})
-			.then((res) => {
+			.then((res: any) => {
 				if (res.err_no === 0) {
 					var list = [];
 					var index = 0;
@@ -200,7 +213,7 @@ export class FindPage {
 		var url = GlobalService.centerApi["getFeedList"].url;
 		return this.http.post(
 			url, { id: 0 }, false
-		).then((res): any => {
+		).then((res: any): any => {
 			if (res.err_no === 0 && res.list) {
 				let list = [];
 				res.list.forEach((item, index, array) => {
@@ -252,14 +265,49 @@ export class FindPage {
 		this.app.getRootNav().push(BtTaskPage);
 	}
 
+	displayDownloadAnimaton(item) {
+		if (!item.images || !item.images.length) {
+			return;
+		}
+		if (item.animating) {
+			return;
+		}
+		item.animating = true;
+		//获取当前节点
+		let node = document.getElementById(item.resid);
+		let target = document.getElementById('download-list');
+		let nodeRect = node.getBoundingClientRect(),
+			targetRect = target.getBoundingClientRect();
+		let xGap = (targetRect.left - nodeRect.left),
+			yGap = (targetRect.top - nodeRect.top);
+		item.style.transform = `translate3d(${xGap}px, ${yGap}px, 0)`;
+		console.log(item.style.transform)
+		node.classList.add('fix-size');
+		let animationTime = 2000;
+		//TODO: 动画复原
+		setTimeout(() => {
+			//恢复图片的位置
+			item.style = {
+				'background-image': 'url(' + item.images[0] + ')'
+			}
+			setTimeout(() => {
+				//恢复图片显示
+				item.animating = false;
+				node.classList.remove('fix-size');
+			}, animationTime * 2);
+		}, animationTime * 1.5)
+
+		// this.startAnimation(item);
+	}
+
 	downloadBt(item) {
 		GlobalService.consoleLog("download" + item.mgurl);
 		if (item.status && item.status == 1) {
 			return false;
 		}
-		if (!this.http.isNetworkReady(true)){
-            return false;
-        }
+		if (!this.http.isNetworkReady(true)) {
+			return false;
+		}
 		this.global.createGlobalAlert(this, {
 			title: Lang.L('DownloadFile'),
 			message: item.title,
@@ -268,18 +316,19 @@ export class FindPage {
 				{
 					text: Lang.L('Download'),
 					handler: data => {
-						if(!item.status) {
+						if (!item.status) {
 							let url = item.mgurl + '&dn=' + item.title;
 							this.util.downloadBt(url, item.resid)
-							.then((res:any) => {
-								GlobalService.consoleLog("正在下载bt")
-								item.status = 1;
-							})
-							.catch(e => {
-								console.log('下载失败');
-								item.status = 0;
-							})
-						} 
+								.then((res: any) => {
+									GlobalService.consoleLog("正在下载bt")
+									item.status = 1;
+									this.displayDownloadAnimaton(item);
+								})
+								.catch(e => {
+									console.log('下载失败');
+									item.status = 0;
+								})
+						}
 						return true;
 					}
 				},

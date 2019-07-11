@@ -10,7 +10,7 @@
             <div class="list-header">
                 <div class="back-nav">
                     <div class="back-btn">  
-                        <span tappable>{{ global.L('SelectAll') }}</span>               
+                        <span  tappable >{{ global.L('SelectAll') }}</span>               
                     </div>     
                 </div>    
             </div>
@@ -23,7 +23,7 @@
         <div class="second-content">
         <ul *ngIf="type === 'image' ? global.localPictureLibrary.length > 0 : global.localVideoLibrary.length > 0">
             <ng-container *ngFor="let album of albums">
-                <li class="folder-li" tappable *ngIf="album.show" (click)="goSelectImgPage(album)">
+                <li class="folder-li"  tappable  *ngIf="album.show" (click)="goSelectImgPage(album)">
                     <div class="file-type active">
                         <img [src]="album.content[0].thumbnailURL | photoSantizer" alt="">
                     </div>

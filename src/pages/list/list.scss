@@ -14,6 +14,24 @@ page-list {
         overflow-y: auto;
     }
 
+    .home-title {
+        img {
+            margin-right: 4px;
+            vertical-align: middle;
+            animation: rotate .8s linear infinite;
+        }
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
     .showBox {
         padding-top: 54px;
     }
@@ -266,7 +284,7 @@ page-list {
 
         .black-bottom {
             position: absolute;
-            bottom: 0;
+            bottom: -2px;
             left: 0;
             height: 50px;
             z-index: 1;
@@ -391,6 +409,10 @@ page-list {
         transition: all .5s ease-out;
         overflow: hidden;
 
+        &:last-child {
+            padding-bottom: 100px;
+        }
+
         /*padding-top: 98px;*/
         // padding-bottom: 100px;
         .file-list-item {
@@ -412,6 +434,13 @@ page-list {
                 height: 40px;
                 border-radius: 2px;
                 overflow: hidden;
+                text-align: center;
+
+                .play-btn {
+                    width: 16px;
+                    height: 16px;
+                    margin-top: 12px;
+                }
             }
 
             .info {

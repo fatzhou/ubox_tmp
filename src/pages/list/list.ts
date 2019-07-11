@@ -159,7 +159,6 @@ export class ListPage {
 
 	ionViewWillEnter() {
 		GlobalService.consoleLog('list ionViewWillEnter');
-		this.isLoadingData = true;
 	}
 
 	ionViewDidEnter() {
@@ -213,6 +212,14 @@ export class ListPage {
 		return true;
 	}
 
+	refreshFileList(infiniteScroll) {
+		this.listFiles(() => {
+			setTimeout(() => {
+				infiniteScroll.complete();
+			}, 500);
+		})
+	}
+
 	connectionChangeCallback() {
 		GlobalService.consoleLog('刷新列表');
 		this.listFiles();
@@ -245,6 +252,7 @@ export class ListPage {
 
 	ionViewDidLoad() {
 		GlobalService.consoleLog('ionViewDidLoad ListPage');
+		this.isLoadingData = true;
 
 		this.initPage();
 		this.events.unsubscribe(this.currPath + ":succeed");
@@ -408,11 +416,11 @@ export class ListPage {
 		GlobalService.consoleLog("按钮显示状态：" + this.allBtnsShow);
 	}
 
-	listFiles() {
+	listFiles(callback = null) {
 		if (this.util.isDiskInfoReady()) {
 			//Case 1: diskInfo已经初始化，直接展示
 			GlobalService.consoleLog("diskInfo已经初始化，可以加载列表数据...");
-			this._listFiles();
+			this._listFiles(callback);
 		} else {
 			//Case 2:  diskInfo没有初始化，猜测是盒子暂未连接，故尝试从缓存拿数据
 			GlobalService.consoleLog("diskInfo没有初始化，猜测是盒子暂未连接，故先尝试从缓存拿数据...");
@@ -427,7 +435,7 @@ export class ListPage {
 					}
 					let resSrc = res.iscached ? '缓存' : '网络';
 					GlobalService.consoleLog(`从[${resSrc}]拿diskInfo成功,可以加载列表数据... currDiskUuid=${this.global.currDiskUuid}`);
-					this._listFiles();
+					this._listFiles(callback);
 				})
 				///// Step 3. 获取磁盘数据异常
 				.catch((res) => {
@@ -439,7 +447,7 @@ export class ListPage {
 							setTimeout(() => {
 								if (this.util.isDiskInfoReady()) {
 									GlobalService.consoleLog("等待500ms过程中，磁盘信息已就绪，不需跳入feed流页面做最后补救");
-									this._listFiles();
+									this._listFiles(callback);
 								} else {
 									GlobalService.consoleLog("等待500ms之后，磁盘信息还未就绪，需要跳入feed流页面做最后补救");
 									this.tabsController.slideTo(1, "boxtabs");
@@ -451,10 +459,10 @@ export class ListPage {
 							setTimeout(() => {
 								if (this.util.isDiskInfoReady()) {
 									GlobalService.consoleLog("等待500ms过程中，磁盘信息已就绪，不需跳入feed流页面做最后补救");
-									this._listFiles();
+									this._listFiles(callback);
 								} else {
 									GlobalService.consoleLog("等待500ms之后，磁盘信息还未就绪，重试刷新列表");
-									this.listFiles();
+									this.listFiles(callback);
 								}
 							}, 500);
 							break;
@@ -463,7 +471,7 @@ export class ListPage {
 		}
 	}
 
-	_listFiles() {
+	_listFiles(callback = null) {
 		// this.global.createGlobalLoading(this, {delayshowtime:500});
 		GlobalService.consoleLog("开始加载列表数据...");
 
@@ -479,7 +487,9 @@ export class ListPage {
 			.then((res: any) => {
 				this.global.closeGlobalLoading(this);
 				this.dataAcquired = true;
+				console.log("=====收到数据=======");
 				this.isLoadingData = false;
+				callback && callback();
 				if (res.err_no === 0) {
 					var list = [];
 					var index = 0;
@@ -514,15 +524,13 @@ export class ListPage {
 						this.type0List = type0List;
 						this.type1List = type1List;
 					}
-					GlobalService.consoleLog('列表填充后type0List' + JSON.stringify(this.type0List) + '   列表填充后typeList' + JSON.stringify(this.type1List));
+					GlobalService.consoleLog('是否正在loading?' + this.isLoadingData);
 					this.allFileList = list;
 					this.fileList = this.allFileList.slice(0, this.pageSize);
 					this.transfer.getThumbnail(this.allFileList, false, this.currPath);
-					try {
-						this.cd.detectChanges();
-					} catch (e) {
-						GlobalService.consoleLog("List page:" + this.currPath + ", error:" + e.message);
-					}
+					this.zone.run(() => {
+
+					})
 					//获取缩略图
 					this.clearStatus();
 				}
@@ -531,6 +539,7 @@ export class ListPage {
 			.catch(e => {
 				this.isLoadingData = false;
 				this.global.closeGlobalLoading(this);
+				callback && callback();
 				// GlobalService.consoleLog("获取数据失败:" + JSON.stringify(e));
 			})
 	}
@@ -889,7 +898,7 @@ export class ListPage {
 						index: index
 					});
 				}
-			} /*else if (file.fileStyle == 'video' && !this.global.useWebrtc) {
+			} else if (file.fileStyle == 'video') {
 				console.log("文件信息：" + JSON.stringify(file))
 				let url = this.global.getBoxApi('downloadFile');
 				let path = url + this.http.toQueryString({
@@ -899,11 +908,13 @@ export class ListPage {
 				})
 				console.log("即将播放视频:" + path)
 				this.app.getRootNav().push(VideoPlayerPage, {
-					videoUrl: path
+					videoUrl: path,
+					imageUrl: file.thumbnail,
+					name: file.name
 				})
 				// this.util.openVideo("https://www.yqtc.co/iamtest/ubox/VID_20181119_170603.mp4");
 				// this.util.openVideo(path);
-			}*/ else {
+			} else {
 				GlobalService.consoleLog("查看文件详情：" + JSON.stringify(file))
 				this.app.getRootNav().push(PreviewOtherPage, {
 					currPath: this.currPath,

@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar class="page-padding clear">
-        <ion-title><span class="import-btn" tappable click-and-wait (click)="doCreate()">{{global.L("CreateNewWallet")}}</span></ion-title>
+        <ion-title><span class="import-btn"  tappable  click-and-wait (click)="doCreate()">{{global.L("CreateNewWallet")}}</span></ion-title>
 	    <!-- <svg class="icon qrcode-icon fr" aria-hidden="true" (click)="scanKeystore()" end>
 	        <use xlink:href="#icon-qrcode"></use>
 	    </svg> -->
@@ -31,6 +31,6 @@
       <span>{{global.L("UserAgreementLable")}}<a href="javascript:;">{{global.L("UserAgreementButton")}}</a></span>
     </label>
 
-    <div class="common-focus-button import-btn" click-and-wait tappable (click)="doImport()">{{global.L("StartImport")}}</div> 
+    <div class="common-focus-button import-btn" click-and-wait  tappable  (click)="doImport()">{{global.L("StartImport")}}</div> 
   </div>
 </ion-content>

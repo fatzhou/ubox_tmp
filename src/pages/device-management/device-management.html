@@ -16,7 +16,7 @@
 <ion-content>
 	<div class="page-content device-management-content">
 		<h2 class="title">{{global.L("DeviceManagement")}}</h2>
-		<div class="device-info" tappable (click)="goAboutDevicePage()" *ngIf="!!global.deviceSelected">
+		<div class="device-info"  tappable  (click)="goAboutDevicePage()" *ngIf="!!global.deviceSelected">
 			<div class="top-area clear">
 				<div class="device fl">
 					<div class="icon-wrap">
@@ -45,8 +45,8 @@
 				</div>
 			</div>
 			<div class="btns clear">
-				<div class="btn clear-data fl" tappable click-and-wait (click)="rebootDevice();$event.stopPropagation();">{{global.L("DeviceReboot")}}</div>
-				<div class="btn unbind-disk fl" tappable click-and-wait (click)="unbindBox();$event.stopPropagation();">{{global.L("DoUnbind")}}</div>
+				<div class="btn clear-data fl"  tappable  click-and-wait (click)="rebootDevice();$event.stopPropagation();">{{global.L("DeviceReboot")}}</div>
+				<div class="btn unbind-disk fl"  tappable  click-and-wait (click)="unbindBox();$event.stopPropagation();">{{global.L("DoUnbind")}}</div>
 			</div>
 			<img src="assets/img/device-selected@2x.png" class="select-icon" alt="">
 		</div>		

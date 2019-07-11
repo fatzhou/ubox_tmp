@@ -1,11 +1,12 @@
-<ion-content tappable (click)="toggleTitle()">
+<ion-content  tappable  (click)="toggleTitle()">
     <div class="qrcode-button" *ngIf="isShowTitle" (click)="$event.stopPropagation();">
         <div class="back-box" (click)="goBack();$event.stopPropagation();">
             <svg class="icon back-icon" aria-hidden="true">
                 <use xlink:href="#iconfanhui"></use>
             </svg>
         </div>
-        <span>{{ imageName }}</span>
+        <span *ngIf="!remoteSrc">{{ imageName }}</span>
+        <span *ngIf="remoteSrc">{{ global.L('PreviewImage') }}({{ currentIndex }}/{{ count }})</span>
     </div>
     <ion-slides (ionSlideDidChange)="slideChanged()">
         <ion-slide *ngFor="let info of fileList">
@@ -14,7 +15,7 @@
             </div>
         </ion-slide>
     </ion-slides>
-    
+
 </ion-content>
-<file-detail *ngIf="isShowTitle" (closeDetailBox)="toggleTitle()" [path]='currPath' (goDetailPage)="goDetailPage()" citePage="preview" (goPop)="goBack()" [info]="imageInfo"></file-detail>
-    
+<file-detail *ngIf="isShowTitle && !remoteSrc" (closeDetailBox)="toggleTitle()" [path]='currPath'
+    (goDetailPage)="goDetailPage()" citePage="preview" (goPop)="goBack()" [info]="imageInfo"></file-detail>

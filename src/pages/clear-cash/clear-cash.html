@@ -1,0 +1,50 @@
+<!--
+  Generated template for the SystemSettingPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>{{ global.L("ClearCash") }}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+    <div class="page-content system-select-page">
+        <div class="clear-list">
+            <div class="clear-item" >
+                <div class="left-item">
+                    <p class="title">{{ global.L("Image") }}</p>
+                    <p class="volumn">{{ imageCache | computeFileSize }}</p>
+                </div>
+                <div class="right-item" (click)="clearFiles('image')">
+                    {{ global.L("Clear") }}
+                </div>
+            </div>
+
+            <div class="clear-item" >
+                <div class="left-item">
+                    <p class="title">{{ global.L("Document") }}</p>
+                    <p class="volumn">{{ docCache | computeFileSize }}</p>
+                </div>
+                <div class="right-item" (click)="clearFiles('doc')">
+                    {{ global.L("Clear") }}
+                </div>
+            </div>
+
+            <div class="clear-item">
+                <div class="left-item">
+                    <p class="title">{{ global.L("Video") }}</p>
+                    <p class="volumn">{{ videoCache | computeFileSize }}</p>
+                </div>
+                <div class="right-item" (click)="clearFiles('video')">
+                    {{ global.L("Clear") }}
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

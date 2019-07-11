@@ -44,6 +44,7 @@ export class LoginPage {
 		private events: Events,
 		private alertCtrl: AlertController,
 		private util: Util,
+		private platform: Platform,
 		private app: App,
 		public navParams: NavParams) {
 		GlobalService.consoleLog("进入登录页...");
@@ -57,13 +58,14 @@ export class LoginPage {
 		document.body.addEventListener('touchmove', function (event) {
 			event.preventDefault();
 		}, false);
-		if (GlobalService.ENV === 'dev') {
-			this.username = "aop800@163.com"
-			this.password = "dh5819413"
+		if (!this.platform.is('cordova')) {
+			// this.username = "aop800@163.com"
+			// this.password = "dh5819413"
 			// this.username = '1@qq.com';
 			// this.password = 'A123456789';
+			this.username = 'testv314@online.com';
+			this.password = 'a1234567';
 		} else {
-
 			this.util.getUserList()
 				.then(res => {
 					if (this.global.userLoginInfo) {

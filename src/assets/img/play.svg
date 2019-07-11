@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>视频icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="单扩展盘-文件首页" transform="translate(-23.000000, -730.000000)">
+            <g id="文件" transform="translate(0.000000, 514.000000)">
+                <g id="图片" transform="translate(0.000000, 188.000000)">
+                    <g id="视频icon" transform="translate(23.000000, 28.000000)">
+                        <circle id="Oval-3" fill-opacity="0.5" fill="#000000" cx="8" cy="8" r="8"></circle>
+                        <polygon id="Triangle-2" fill="#FFFFFF" transform="translate(9.000000, 8.500000) rotate(90.000000) translate(-9.000000, -8.500000) " points="9 5.5 13.5 11.5 4.5 11.5"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

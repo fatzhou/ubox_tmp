@@ -86,6 +86,7 @@ import { DeviceGuidancePage } from '../pages/device-guidance/device-guidance';
 import { DeviceDetailPage } from '../pages/device-detail/device-detail';
 import { DeviceManagePage } from '../pages/device-manage/device-manage';
 import { VideoPlayerPage } from '../pages/video-player/video-player';
+import { ClearCashPage } from '../pages/clear-cash/clear-cash';
 
 //自定义组件
 import { DropdownFolderComponent } from '../components/dropdown-folder/dropdown-folder';
@@ -227,6 +228,7 @@ import { PretifyNumberPipe } from '../pipes/pretify-number/pretify-number'
 		DeviceDetailPage,
 		DeviceManagePage,
 		VideoPlayerPage,
+		ClearCashPage,
 		// ClickAndWaitDirective,
 	],
 	imports: [
@@ -320,7 +322,8 @@ import { PretifyNumberPipe } from '../pipes/pretify-number/pretify-number'
 		DeviceGuidancePage,
 		DeviceDetailPage,
 		DeviceManagePage,
-		VideoPlayerPage
+		VideoPlayerPage,
+		ClearCashPage,
 	],
 	providers: [
 		UboxApp,

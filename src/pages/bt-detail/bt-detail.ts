@@ -8,7 +8,7 @@ import { Lang } from "../../providers/Language";
 import { Clipboard } from '@ionic-native/clipboard';
 import { SearchPage } from '../search/search';
 import { BtTaskPage } from '../bt-task/bt-task';
-
+import { PreviewImagePage } from '../preview-image/preview-image';
 
 /**
  * Generated class for the BtDetailPage page.
@@ -48,6 +48,7 @@ export class BtDetailPage {
 		public navParams: NavParams,
 		public global: GlobalService,
 		public util: Util,
+		private app: App,
 		public http: HttpService,
 		private events: Events,
 		private clipboard: Clipboard, ) {
@@ -68,6 +69,22 @@ export class BtDetailPage {
 		this.getDetail();
 	}
 
+	viewImageDetail(file) {
+		let index = this.desImgList.indexOf(file);
+
+		this.app.getRootNav().push(PreviewImagePage, {
+			currPath: "",
+			info: { photo: file },
+			from: 'bt',
+			list: this.desImgList.map(item => { return { photo: item } }),
+			pageIndex: 1,
+			pageSize: 1,
+			remoteSrc: true,
+			count: this.desImgList.length,
+			index: index
+		});
+	}
+
 	getDetail() {
 		var url = '', param = {};
 		if (this.type == 'feed') {
@@ -82,7 +99,7 @@ export class BtDetailPage {
 			}
 		}
 		this.http.post(url, param)
-			.then((res) => {
+			.then((res: any) => {
 				if (res.err_no === 0) {
 					this.title = res.title;
 					this.size = res.size;
@@ -94,7 +111,7 @@ export class BtDetailPage {
 					this.hash = res.hash;
 					this.heat = res.heat;
 					this.link = res.mgurl;
-					if(res.title_images) {
+					if (res.title_images) {
 						this.titleImgList = [res.title_images[0]];
 					} else {
 						this.titleImgList = [];
@@ -112,8 +129,8 @@ export class BtDetailPage {
 					} else {
 						this.detailDesc = res.describe;
 					}
-					this.isShowMoreBtn = this.detailDesc.length < 240 ? false : true; 
-					if(this.type == 'feed') {
+					this.isShowMoreBtn = this.detailDesc.length < 240 ? false : true;
+					if (this.type == 'feed') {
 						this.setFileList(JSON.parse(res.file_list));
 					} else {
 						this.setFileList(res.file_list);
@@ -127,7 +144,7 @@ export class BtDetailPage {
 	closeLoading() {
 		//关闭loading处理
 		let closeTime = 0;
-		if(this.times <= 0 ) {
+		if (this.times <= 0) {
 			closeTime = 1000;
 		}
 		setTimeout(() => {
@@ -136,8 +153,8 @@ export class BtDetailPage {
 		clearInterval(this.timesInterval);
 		this.timesInterval = null;
 	}
-	setFileList(list:any) {
-		if(!list || !list.length) {
+	setFileList(list: any) {
+		if (!list || !list.length) {
 			GlobalService.consoleLog("没有找到文件....");
 			return false;
 		}
@@ -145,7 +162,7 @@ export class BtDetailPage {
 		let idIndex = 1;
 		let filesObj = {};
 		GlobalService.consoleLog(list)
-		if(this.type == 'feed') {
+		if (this.type == 'feed') {
 			list.forEach(item => {
 				let path = (typeof item == 'string') ? item : item.path;
 				// GlobalService.consoleLog("sss" + path)
@@ -180,18 +197,18 @@ export class BtDetailPage {
 				}
 			});
 		}
-		
+
 
 		let self = this;
 
 		function findCurrPid(id) {
 			var _arr = [];
-		
-			for(let i in filesObj) {
-				if(filesObj[i].pid == id) {
-				
+
+			for (let i in filesObj) {
+				if (filesObj[i].pid == id) {
+
 					filesObj[i].children = findCurrPid(filesObj[i].id);
-					if(filesObj[i].children) {
+					if (filesObj[i].children) {
 						filesObj[i].style = 'folder';
 					} else {
 						filesObj[i].style = self.util.computeFileType(filesObj[i].name);
@@ -201,15 +218,15 @@ export class BtDetailPage {
 			}
 			return _arr.length ? _arr : null;
 		}
-		if(this.type == 'feed') {
+		if (this.type == 'feed') {
 			this.fileList = findCurrPid(0);
 		} else {
 			let arr = [];
 			list.map(item => {
-				let file:any = {};
+				let file: any = {};
 				let nameTest = /(\s*\({1}[a-zA-Z0-9]{0,}\.{0,}[a-zA-Z0-9]{0,}\){1})$/;
-				if(nameTest.test(item)) {
-					file.name = item.replace(nameTest,'')
+				if (nameTest.test(item)) {
+					file.name = item.replace(nameTest, '')
 				}
 				file.children = null;
 				file.style = self.util.computeFileType(file.name);
@@ -223,19 +240,19 @@ export class BtDetailPage {
 
 	downloadBt() {
 		// GlobalService.consoleLog("download" + this.link)
-		if(this.status == 1) {
-            return false;
-        }
+		if (this.status == 1) {
+			return false;
+		}
 		this.status = 1;
 		let url = this.link + '&dn=' + this.title;
 		this.util.downloadBt(url, this.detailId)
-		.then(res => {
-			GlobalService.consoleLog("正在下载bt")
-			this.events.publish('btdownloading', this.detailId);
-		})
-		.catch(e => {
-			console.log('下载失败')
-		})
+			.then(res => {
+				GlobalService.consoleLog("正在下载bt")
+				this.events.publish('btdownloading', this.detailId);
+			})
+			.catch(e => {
+				console.log('下载失败')
+			})
 	}
 
 	toggleShowDesc() {
@@ -259,11 +276,11 @@ export class BtDetailPage {
 	}
 
 	goBtTaskPage() {
-        GlobalService.consoleLog("go BtTaskPage");
-        this.navCtrl.push(BtTaskPage);
-    }
+		GlobalService.consoleLog("go BtTaskPage");
+		this.navCtrl.push(BtTaskPage);
+	}
 
 	goBack() {
-        this.navCtrl.pop();
-    }
+		this.navCtrl.pop();
+	}
 }
