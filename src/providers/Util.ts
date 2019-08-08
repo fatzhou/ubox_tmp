@@ -67,8 +67,10 @@ export class Util {
 			this.statusBar.backgroundColorByHexString("#33000000");
 		} else if (type == 'white') {
 			this.statusBar.backgroundColorByHexString("#ffffffff");
-		} else {
+		} else if (type == 'green') {
 			this.statusBar.backgroundColorByHexString("#FF00C77D");
+		} else if (type == 'red') {
+			this.statusBar.backgroundColorByHexString("#FFF35530");
 		}
 	}
 
@@ -362,7 +364,7 @@ export class Util {
 					}).then((user: any) => {
 						GlobalService.consoleLog("[" + logid + "]" + "使用获取的[用户名和密码]登录盒子");
 						GlobalService.consoleLog("[" + logid + "]" + "使用获取的[用户名和密码]登录盒子xx:" + user.username + "/" + user.password);
-						return $scope.util.loginBox(user.username, user.password).then(res => {
+						return this.loginBox(user.username, user.password).then(res => {
 							//这里封装的不是很好，loginBox的返回值要么是盒子信息，要么是null，和之前不统一
 							if (res) {
 								return this.global.deviceSelected;

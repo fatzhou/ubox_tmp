@@ -300,9 +300,12 @@ export class ListPage {
 			if (status.uboxNetworking && status.centerNetworking) {
 				this.global.isShowWarningBar = false;
 				this.isShowWarningBox = false;
+				//连接网路欧
+				this.util.setStatusBar('green');
 			} else {
 				this.global.isShowWarningBar = true;
 				this.isShowWarningBox = true;
+				this.util.setStatusBar('red');
 			}
 		});
 	}

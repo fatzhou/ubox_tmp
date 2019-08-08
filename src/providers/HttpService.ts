@@ -26,8 +26,8 @@ export class HttpService {
 	networkTimeout = 15000; //网络超时时间
 	dataChannelTimeout = 40000; //网络超时时间
 	requestCheckGap = 1000; //channel状态检查间隙
-	requestStorageTime = 10000; //请求缓存时间
-	aliveIntervalTime = 30000; //保活时间
+	requestStorageTime = 30000; //请求缓存时间
+	aliveIntervalTime = 40000; //保活时间
 	// aliveInterval = null; //保活的interval
 	successiveConnectGap = 15000; //连续两次重试的间隔
 
@@ -84,8 +84,8 @@ export class HttpService {
 		GlobalService.consoleLog("进入HttpService构造函数");
 		this.channelLabels.forEach(item => {
 			this.channels[item] = {};
-			this.globalCallbackList[item] = {};
-			this.globalWaitingList[item] = {};
+			this.globalCallbackList[item] = [];
+			this.globalWaitingList[item] = [];
 		});
 		this.centerNetworkCheckTimer = setInterval(() => { this._checkNetworkStatusAsync() }, 30000);
 	}
@@ -174,7 +174,7 @@ export class HttpService {
 						break;
 					}
 					while (this.globalWaitingList[label].length) {
-						let request = this.globalWaitingList[label].pop();
+						let request = this.globalWaitingList[label].shift();
 						if (Date.now() - request.time < this.requestStorageTime) {
 							GlobalService.consoleLog("发送缓存的请求........." + request.url);
 							//强制刷新cookie
@@ -311,9 +311,10 @@ export class HttpService {
 						})
 						.catch(error => this.handleError(error, errorHandler));
 				} else {
-					GlobalService.consoleLog("缓存请求，稍后get..." + url);
+					GlobalService.consoleLog(label + "缓存请求，稍后get..." + url);
 					return new Promise((resolve, reject) => {
-						this.globalWaitingList[label].push({
+						let list: any = this.globalWaitingList[label];
+						list.push({
 							url: url,
 							resolve: resolve,
 							reject: reject,
@@ -365,7 +366,8 @@ export class HttpService {
 			} else {
 				GlobalService.consoleLog(label + "缓存请求，稍后post..." + url);
 				return new Promise((resolve, reject) => {
-					this.globalWaitingList[label].push({
+					let list: any = this.globalWaitingList[label]
+					list.push({
 						url: url,
 						resolve: resolve,
 						reject: reject,
@@ -1358,7 +1360,7 @@ export class HttpService {
 			maxTime = options.maxTime || 30000;
 		let label = options.channelLabel || this.channelLabels[0],
 			dataChannel = this.channels[label];
-
+		console.log("webrtcrequest被调用........");
 		//通道尚未建立时，选择其他可用通道
 		if (!dataChannel || dataChannel.status != 'opened') {
 			this.channelLabels.some((item) => {
@@ -1372,9 +1374,11 @@ export class HttpService {
 		}
 		return new Promise((resolve, reject) => {
 			let __request = (_url, _paramObj) => {
-				let ready = options.needLogin == undefined ? true : options.needLogin;
-				if (ready == true) {
+				let ready;
+				if (options.needLogin == undefined || options.needLogin == true) {
 					ready = !!this.global.boxUserInfo.username;
+				} else {
+					ready = true;
 				}
 				if (!this.rateLimit(label) && dataChannel.status === 'opened' && dataChannel.channel.readyState === "open" && ready) {
 					let r: string = this.generateRandom();
@@ -1464,6 +1468,11 @@ export class HttpService {
 				return;
 			}
 			dataChannel.status = "opened";
+			if(this.webrtcEngineRestartTimer) {
+				GlobalService.consoleLog("Channel已启动，注销webrtc重启的timer");
+				clearTimeout(this.webrtcEngineRestartTimer);
+				this.webrtcEngineRestartTimer = null;
+			}
 			this.global.setSelectedBox(this.deviceSelected);
 
 			if (label == this.channelLabels[0]) {
