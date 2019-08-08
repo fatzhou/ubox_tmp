@@ -102,11 +102,11 @@ export class HttpService {
 					let url = this.global.getBoxApi('keepAlive');
 					GlobalService.consoleLog("保活请求发出:" + Date.now().toString());
 					this.webrtcRequest(url, 'post', {}, {}, {
-						channelLabel: label
+						channelLabel: label,
+						needLogin: false
+					}).catch(e => {
+						GlobalService.consoleLog("保活请求发送出错:" + e.stack);
 					})
-						.catch(e => {
-							GlobalService.consoleLog("保活请求发送出错:" + e.stack);
-						})
 				} else {
 					GlobalService.consoleLog("保活请求被忽略: 通道状态:" + dataChannel.status + ", 是否超时:" + timeout);
 				}
@@ -1253,7 +1253,7 @@ export class HttpService {
 	notifyNetworkStatusChange() {
 		let networkstatus = this.getNetworkStatus();
 		this.events.publish('warning:change', networkstatus);
-		this.events.publish('app:class-changed', networkstatus);
+		// this.events.publish('app:class-changed', networkstatus);
 		this.events.publish('task:network-changed', networkstatus);
 		this.networkLastNotifyStatus = networkstatus;
 		this.networkLastNotifyStatusTime = Date.now();
@@ -1372,7 +1372,11 @@ export class HttpService {
 		}
 		return new Promise((resolve, reject) => {
 			let __request = (_url, _paramObj) => {
-				if (!this.rateLimit(label) && dataChannel.status === 'opened' && dataChannel.channel.readyState === "open") {
+				let ready = options.needLogin == undefined ? true : options.needLogin;
+				if (ready == true) {
+					ready = !!this.global.boxUserInfo.username;
+				}
+				if (!this.rateLimit(label) && dataChannel.status === 'opened' && dataChannel.channel.readyState === "open" && ready) {
 					let r: string = this.generateRandom();
 					let logprefix = "session:" + r + ",url:" + url + " :";
 
@@ -1470,20 +1474,19 @@ export class HttpService {
 				//也用于其他信道的请求连接测试
 				GlobalService.consoleLog("请求连接测试开始：" + label)
 				this.webrtcRequest(url, 'post', {}, {}, {
+					needLogin: false,
 					channelLabel: label
-				})
-					.then((res: any) => {
-						if (res.status === 200 && res.data.err_no === 0) {
-							this.global.deviceSelected.version = res.data.version;
-							//填充盒子版本号
-							resolve && resolve(this.global.deviceSelected);
-						} else {
-							reject && reject(this.global.deviceSelected);
-						}
-					})
-					.catch(e => {
+				}).then((res: any) => {
+					if (res.status === 200 && res.data.err_no === 0) {
+						this.global.deviceSelected.version = res.data.version;
+						//填充盒子版本号
+						resolve && resolve(this.global.deviceSelected);
+					} else {
 						reject && reject(this.global.deviceSelected);
-					})
+					}
+				}).catch(e => {
+					reject && reject(this.global.deviceSelected);
+				})
 			}
 		};
 		channel.onclose = () => {

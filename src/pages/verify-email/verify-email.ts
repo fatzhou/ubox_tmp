@@ -101,7 +101,7 @@ export class VerifyEmailPage {
 											password: this.password
 										}
 										this.util.setUserList();
-										return this.http.post(GlobalService.centerApi["getUserInfo"].url, {}, false).then((res: any) => {
+										return this.http.post(GlobalService.centerApi["getUserInfo"].url, {}, false, {}, { needLogin: false }).then((res: any) => {
 											if (res.err_no !== 0) {
 												GlobalService.consoleLog("获取用户信息错误......." + JSON.stringify(res));
 												this.navCtrl.setRoot(LoginPage);

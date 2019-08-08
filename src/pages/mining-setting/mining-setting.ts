@@ -22,14 +22,14 @@ import { WalletGeneratorPage } from '../wallet-generator/wallet-generator';
 export class MiningSettingPage {
     brightness: any = 0;
     // coinbase:any = "";
-    totalSize:any = 0;
-    ifMining:any = false;
-    maxRange:any = 100;
-    minRange:any = 1;
-    chainType:string = "ERC20";
-    oldShareSize:any = 0;
-	coinbase:string;
-	oldCoinbase:string;
+    totalSize: any = 0;
+    ifMining: any = false;
+    maxRange: any = 100;
+    minRange: any = 1;
+    chainType: string = "ERC20";
+    oldShareSize: any = 0;
+    coinbase: string;
+    oldCoinbase: string;
 
     constructor(public navCtrl: NavController,
         private global: GlobalService,
@@ -37,26 +37,26 @@ export class MiningSettingPage {
         private http: HttpService,
         private events: Events,
         public navParams: NavParams) {
-            this.events.subscribe('coinbase:change', (res) => {
-				this.coinbase = res.coinbase;
-                this.chainType = this.global.chainSelectArray[this.global.chainSelectIndex];
-                if(this.chainType === 'ERC20') {
-                    this.global.deviceSelected && (this.global.deviceSelected.coinbase = res.coinbase);
-                }
-            });
+        this.events.subscribe('coinbase:change', (res) => {
+            this.coinbase = res.coinbase;
+            this.chainType = this.global.chainSelectArray[this.global.chainSelectIndex];
+            if (this.chainType === 'ERC20') {
+                this.global.deviceSelected && (this.global.deviceSelected.coinbase = res.coinbase);
+            }
+        });
     }
 
-	selectCoinbase(addr) {
-		this.coinbase = addr;
-	}
-	
-	goCreateWalletPage() {
-		this.navCtrl.push(WalletGeneratorPage);
-	}
+    selectCoinbase(addr) {
+        this.coinbase = addr;
+    }
+
+    goCreateWalletPage() {
+        this.navCtrl.push(WalletGeneratorPage);
+    }
 
 
     saveModify() {
-        if(!this.coinbase && this.ifMining) {
+        if (!this.coinbase && this.ifMining) {
             this.global.createGlobalToast(this, {
                 message: Lang.L('WORD3a536642')
             })
@@ -64,43 +64,43 @@ export class MiningSettingPage {
         }
         var url = this.global.getBoxApi("setCoinbase");
         var storage = this.computeShareSize() * GlobalService.DISK_G_BITS;
-        this.util.toggleIfMining({chainType: this.chainType, ifMining: this.ifMining, oldSize: parseInt(this.oldShareSize) * GlobalService.DISK_G_BITS, newSize: storage})
-        .then(res => {
-            if(res.err_no === 0) {
-                this.global.createGlobalToast(this, {
-                    message: Lang.L('WORD5e6d7a09'),
-                })
-                GlobalService.consoleLog("更新盒子数据");
-                if(this.chainType === 'ERC20') {
-                    this.http.post(url, {coinbase: this.coinbase})
-                    .then((res) => {
-                        this.events.publish('coinbase:change', {
-                            coinbase: this.coinbase
-                        });
-                        this.http.post(this.global.getBoxApi('getUserInfo'), {}, false)
-                        .then((res) => {
-                            this.global.boxUserInfo = res.userinfo;
-                            this.events.publish('mining:change', {
-                                ifMining: this.ifMining,
-                                storage: storage
-                            });
-                        })
+        this.util.toggleIfMining({ chainType: this.chainType, ifMining: this.ifMining, oldSize: parseInt(this.oldShareSize) * GlobalService.DISK_G_BITS, newSize: storage })
+            .then(res => {
+                if (res.err_no === 0) {
+                    this.global.createGlobalToast(this, {
+                        message: Lang.L('WORD5e6d7a09'),
                     })
-                    this.global.centerUserInfo.mining = this.ifMining;
+                    GlobalService.consoleLog("更新盒子数据");
+                    if (this.chainType === 'ERC20') {
+                        this.http.post(url, { coinbase: this.coinbase })
+                            .then((res) => {
+                                this.events.publish('coinbase:change', {
+                                    coinbase: this.coinbase
+                                });
+                                this.http.post(this.global.getBoxApi('getUserInfo'), {}, false, {}, { needLogin: false })
+                                    .then((res: any) => {
+                                        this.global.boxUserInfo = res.userinfo;
+                                        this.events.publish('mining:change', {
+                                            ifMining: this.ifMining,
+                                            storage: storage
+                                        });
+                                    })
+                            })
+                        this.global.centerUserInfo.mining = this.ifMining;
+                    }
+
+                    setTimeout(() => {
+                        this.navCtrl.pop();
+                    }, 500)
+                } else {
+                    throw new Error('Save info failed');
                 }
-                
-                setTimeout(()=>{
-                    this.navCtrl.pop();
-                }, 500)
-            } else {
-                throw new Error('Save info failed');
-            }
-        })
-        .catch(e => {
-            GlobalService.consoleLog(e.stack);
-            this.global.closeGlobalLoading(this);
-            this.ifMining = !this.ifMining;
-        })
+            })
+            .catch(e => {
+                GlobalService.consoleLog(e.stack);
+                this.global.closeGlobalLoading(this);
+                this.ifMining = !this.ifMining;
+            })
     }
 
     ionViewDidLoad() {
@@ -114,20 +114,20 @@ export class MiningSettingPage {
             var shareSize = 0;
             var size = 0;
             var disk = this.global.diskInfo.disks && this.global.diskInfo.disks[0] || {};
-            size = Math.floor((disk.size - disk.used) / GlobalService.DISK_G_BITS);            
+            size = Math.floor((disk.size - disk.used) / GlobalService.DISK_G_BITS);
             shareSize = +this.navParams.get('shareSize') || 0;
             this.ifMining = this.navParams.get('ifMining');
             this.oldShareSize = shareSize;
             this.totalSize = size;
-            if(this.chainType != 'ERC20') {
+            if (this.chainType != 'ERC20') {
                 this.totalSize += Math.floor(this.global.shareFileProduced / GlobalService.DISK_G_BITS);
-            }            
-            if(this.totalSize > 1500) {
+            }
+            if (this.totalSize > 1500) {
                 this.totalSize = 1500;
-            } else if(this.totalSize > 800) {
+            } else if (this.totalSize > 800) {
                 this.totalSize = 800;
-            } 
-            this.brightness = shareSize / this.totalSize  * 100;
+            }
+            this.brightness = shareSize / this.totalSize * 100;
             //this.maxRange =  this.totalSize > 1000 ? Math.min(100, 150000.0 / this.totalSize) : Math.min(100, 80000.0 / this.totalSize);
             GlobalService.consoleLog("分享大小: " + shareSize);
             GlobalService.consoleLog("总比例: " + this.maxRange)
@@ -157,7 +157,7 @@ export class MiningSettingPage {
     }
 
     computeShareSize() {
-        if(this.brightness === 1) {
+        if (this.brightness === 1) {
             return 1;
         } else {
             return Math.min(this.totalSize, Math.max(1, +(this.brightness / 100 * this.totalSize).toFixed(0)));

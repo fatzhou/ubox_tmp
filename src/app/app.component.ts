@@ -396,7 +396,7 @@ export class UboxApp {
 		var url = GlobalService.centerApi["noticeMarketList"].url;
 		this.http.post(url, {
 			timeStamp: 0,
-		}, false).then(res => {
+		}, false).then((res: any) => {
 			if (res.err_no == 0) {
 				if (res.list) {
 					if (res.list.length > 0) {

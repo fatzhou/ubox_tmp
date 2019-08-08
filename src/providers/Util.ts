@@ -230,7 +230,7 @@ export class Util {
 
 			//尝试从中心直接获取用户信息
 			.then(res => {
-				return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, tips).then((res: any) => {
+				return $scope.http.post(GlobalService.centerApi["getUserInfo"].url, {}, tips, {}, { needLogin: false }).then((res: any) => {
 					if (res.err_no !== 0) {
 						GlobalService.consoleLog("获取用户信息错误.......");
 						return Promise.reject("UserInfo Error");
@@ -344,40 +344,38 @@ export class Util {
 							});
 						} else {
 							GlobalService.consoleLog("[" + logid + "]" + "[从缓存中提取]用户名和密码");
-							return this.storage.get('UserList')
-								.then(res => {
-									GlobalService.consoleLog("缓存UserList状态：" + JSON.stringify(res));
-									if (res) {
-										let userLoginList = JSON.parse(res);
-										let userLoginInfo;
-										if (this.global.deviceSelected) {
-											userLoginInfo = userLoginList['boxid'][this.global.deviceSelected.boxId] || null;
-										}
-										if (!userLoginInfo) {
-											userLoginInfo = userLoginList['remote'] || null;
-										}
-										return resolve(userLoginInfo);
+							return this.storage.get('UserList').then(res => {
+								GlobalService.consoleLog("缓存UserList状态：" + JSON.stringify(res));
+								if (res) {
+									let userLoginList = JSON.parse(res);
+									let userLoginInfo;
+									if (this.global.deviceSelected) {
+										userLoginInfo = userLoginList['boxid'][this.global.deviceSelected.boxId] || null;
 									}
-								})
+									if (!userLoginInfo) {
+										userLoginInfo = userLoginList['remote'] || null;
+									}
+									return resolve(userLoginInfo);
+								}
+							})
 						}
 					}).then((user: any) => {
 						GlobalService.consoleLog("[" + logid + "]" + "使用获取的[用户名和密码]登录盒子");
 						GlobalService.consoleLog("[" + logid + "]" + "使用获取的[用户名和密码]登录盒子xx:" + user.username + "/" + user.password);
-						return $scope.util.loginBox(user.username, user.password)
-							.then(res => {
-								//这里封装的不是很好，loginBox的返回值要么是盒子信息，要么是null，和之前不统一
-								if (res) {
-									return this.global.deviceSelected;
-								} else {
-									return null;
-								}
-							})
+						return $scope.util.loginBox(user.username, user.password).then(res => {
+							//这里封装的不是很好，loginBox的返回值要么是盒子信息，要么是null，和之前不统一
+							if (res) {
+								return this.global.deviceSelected;
+							} else {
+								return null;
+							}
+						})
 					});
 				})
 
 				//获取盒子的用户信息
 				.then(() => {
-					return this.http.post(this.global.getBoxApi('getUserInfo'), {}, false).then(res => {
+					return this.http.post(this.global.getBoxApi('getUserInfo'), {}, false, {}, { needLogin: false }).then((res: any) => {
 						GlobalService.consoleLog("[" + logid + "]" + "检测盒子的登录态" + JSON.stringify(res));
 						if (res.err_no === 0) {
 							this.global.boxUserInfo = res.userinfo;
@@ -460,7 +458,7 @@ export class Util {
 		return this.http.post(url, {
 			username: username,
 			password: Md5.hashStr(password).toString(),
-		}, false)
+		}, false, {}, { needLogin: false })
 			.then((res: any) => {
 				if (res.err_no === 0) {
 					if (this.platform.is('ios')) {
@@ -471,7 +469,7 @@ export class Util {
 						})
 					}
 					let userInfoUrl = this.global.getBoxApi('getUserInfo');
-					return this.http.post(userInfoUrl, {})
+					return this.http.post(userInfoUrl, {}, false, {}, { needLogin: false })
 						.then(res => {
 							if (res.err_no === 0) {
 								this.global.boxUserInfo = res.userinfo;
@@ -1053,7 +1051,7 @@ export class Util {
 			this.global.setSelectedBox(deviceSelected);
 		};
 
-		return this.http.post(url, {}, false)
+		return this.http.post(url, {}, false, {}, { needLogin: false })
 			.then((res: any) => {
 				GlobalService.consoleLog("查询盒子版本号" + JSON.stringify(res));
 				if (res.err_no === 0) {
@@ -1783,7 +1781,7 @@ export class Util {
 			}
 		})
 			.then(res => {
-				return this.http.post(GlobalService.centerApi["getUserInfo"].url, {})
+				return this.http.post(GlobalService.centerApi["getUserInfo"].url, {}, false)
 			}, res => {
 				$scope.global.centerUserInfo = {};
 				this.events.publish('token:expired', {

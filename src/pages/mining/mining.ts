@@ -160,7 +160,7 @@ export class MiningPage {
 			GlobalService.consoleLog("用户已登录中心，查询box信息");
 			this.getBoxInfo();
 		} else {
-			this.http.post(GlobalService.centerApi["getUserInfo"].url, {}, false)
+			this.http.post(GlobalService.centerApi["getUserInfo"].url, {}, false, {}, {needLogin: false})
 				.then((res: any) => {
 					if (res.err_no === 0) {
 						GlobalService.consoleLog("已登录");

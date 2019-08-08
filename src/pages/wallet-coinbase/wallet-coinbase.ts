@@ -25,10 +25,10 @@ import { Web3Service } from '../../providers/Web3Service'
 export class WalletCoinbasePage {
     walletList: any = [];
     coinbase: "";
-    loading:any = true;
+    loading: any = true;
     oldCoinbase: "";
     oldShareSize: any = 0;
-    chainType:string = 'ERC20'
+    chainType: string = 'ERC20'
     constructor(public navCtrl: NavController,
         private global: GlobalService,
         private toastCtrl: ToastController,
@@ -37,7 +37,7 @@ export class WalletCoinbasePage {
         private util: Util,
         public navParams: NavParams,
         private cd: ChangeDetectorRef,
-        private web3service:Web3Service
+        private web3service: Web3Service
     ) {
         this.chainType = this.global.chainSelectArray[this.global.chainSelectIndex];
     }
@@ -48,15 +48,15 @@ export class WalletCoinbasePage {
         this.getWalletList();
         this.coinbase = this.navParams.get('coinbase');
         this.util.getCoinbase()
-        .then(res => {
-            this.oldCoinbase = res.coinbase;
-        })
+            .then(res => {
+                this.oldCoinbase = res.coinbase;
+            })
     }
 
     ionViewWillEnter() {
         this.loading = true;
     }
-    ionViewWillLeave(){
+    ionViewWillLeave() {
         this.updateWallet();
     }
 
@@ -70,10 +70,10 @@ export class WalletCoinbasePage {
 
     getWalletData() {
         let url = "";
-        if(!!this.global.deviceSelected) {
+        if (!!this.global.deviceSelected) {
             //已连接盒子，直接
-            url = this.global.getBoxApi("getWalletList"); 
-        } else if(this.global.centerUserInfo && this.global.centerUserInfo.bind_box_count === 0) {
+            url = this.global.getBoxApi("getWalletList");
+        } else if (this.global.centerUserInfo && this.global.centerUserInfo.bind_box_count === 0) {
             //未绑定盒子
             url = GlobalService.centerApi['getKeystore'].url;
         } else {
@@ -81,52 +81,52 @@ export class WalletCoinbasePage {
         }
         return this.http.post(url, {
             type: this.global.chainSelectArray[this.global.chainSelectIndex] == 'ERC20' ? 0 : 1
-        });   
+        });
     }
 
     getWalletList() {
-        if(this.walletList.length == 0){
+        if (this.walletList.length == 0) {
             this.global.createGlobalLoading(this, {
                 message: Lang.L("Loading")
             });
         }
-        
+
         this.oldShareSize = this.navParams.get('shareSize');
         this.getWalletData()
-        .then(res => {
-            this.loading = false;
-            if (res.err_no === 0) {
-                if(!res.wallets || !res.wallets.length) {
-                    this.global.closeGlobalLoading(this);
-                    return false;
-                }
-                if(this.walletList.length === 0) {
-                    this.walletList = res.wallets;
-                    this.cd.detectChanges();
-                }
-                // this.coinbase = res.coinbase;
-                if (this.global.centerUserInfo.earn !== undefined) {
-                    this.getWalletAmount(res.wallets, (wallets) => {
-                        if(this.walletList.length > 0) {
-                            this.walletList = res.wallets;
-                        }
-                    });
-                } else {
-                    for (var i = 0, len = res.wallets.length; i < len; i++) {
-                        res.wallets[i].earn_before = Lang.L('WORDdd409967');
-                        res.wallets[i].earn_this_month = Lang.L('WORDdd409967');
+            .then(res => {
+                this.loading = false;
+                if (res.err_no === 0) {
+                    if (!res.wallets || !res.wallets.length) {
+                        this.global.closeGlobalLoading(this);
+                        return false;
                     }
-                    this.walletList = res.wallets || [];
-                    this.global.closeGlobalLoading(this);
+                    if (this.walletList.length === 0) {
+                        this.walletList = res.wallets;
+                        this.cd.detectChanges();
+                    }
+                    // this.coinbase = res.coinbase;
+                    if (this.global.centerUserInfo.earn !== undefined) {
+                        this.getWalletAmount(res.wallets, (wallets) => {
+                            if (this.walletList.length > 0) {
+                                this.walletList = res.wallets;
+                            }
+                        });
+                    } else {
+                        for (var i = 0, len = res.wallets.length; i < len; i++) {
+                            res.wallets[i].earn_before = Lang.L('WORDdd409967');
+                            res.wallets[i].earn_this_month = Lang.L('WORDdd409967');
+                        }
+                        this.walletList = res.wallets || [];
+                        this.global.closeGlobalLoading(this);
+                    }
+                    return true;
                 }
-                return true;
-            }
-        })
-        .catch(e => {
-            console.error(e.stack);
-            this.global.closeGlobalLoading(this);
-            this.loading = false;
-        })
+            })
+            .catch(e => {
+                console.error(e.stack);
+                this.global.closeGlobalLoading(this);
+                this.loading = false;
+            })
     }
 
     getMyWalletAmount(wallet) {
@@ -154,7 +154,7 @@ export class WalletCoinbasePage {
         if (!wallets.length) {
             wallets = [wallets];
         }
-        var wallet = wallets.map(wallet =>  wallet.addr);
+        var wallet = wallets.map(wallet => wallet.addr);
         var requestBack = 0;
         GlobalService.consoleLog(JSON.stringify(wallet));
 
@@ -163,110 +163,110 @@ export class WalletCoinbasePage {
         {
             GlobalService.consoleLog("合约初始化成功");
             this.web3service.getBatchAmount(wallet, GlobalService.getUbbeyContract())
-            .then(money => {
-                if(money){
-                    for(let i = 0; i < money.length; i++) {
-                        wallets[i].earn_before = this.util.cutFloat(parseInt(money[i]), 2);
-                    } 
-                }
-                requestBack++;
-                GlobalService.consoleLog(requestBack + "*************")
-                // if(requestBack == 2) {
+                .then(money => {
+                    if (money) {
+                        for (let i = 0; i < money.length; i++) {
+                            wallets[i].earn_before = this.util.cutFloat(parseInt(money[i]), 2);
+                        }
+                    }
+                    requestBack++;
+                    GlobalService.consoleLog(requestBack + "*************")
+                    // if(requestBack == 2) {
                     GlobalService.consoleLog("Web3完成，执行allback");
                     this.global.closeGlobalLoading(this);
                     callback && callback(wallets);
-                // }                 
-            }) 
-            .catch(e => {
-                GlobalService.consoleLog("Web3完成，执行allback");
-                this.global.closeGlobalLoading(this);
-                callback && callback(wallets);                
-            })
+                    // }                 
+                })
+                .catch(e => {
+                    GlobalService.consoleLog("Web3完成，执行allback");
+                    this.global.closeGlobalLoading(this);
+                    callback && callback(wallets);
+                })
         }
         // })
 
-        if(this.chainType === 'ERC20') {
+        if (this.chainType === 'ERC20') {
             this.http.post(GlobalService.centerApi["getWalletBalance"].url, {
                 wallet: wallet.join(',')
             })
-            .then((res) => {
-                if (res.err_no === 0) {
-                    for (var i = 0, len = res.wallet.length; i < len; i++) {
-                        wallets[i].earn_this_month = this.util.cutFloat(res.wallet[i].earn_this_month / GlobalService.CoinDecimal, 2);
-                        //wallets[i].earn_before = (res.wallet[i].earn_before / GlobalService.CoinDecimal).toFixed(2);
+                .then((res) => {
+                    if (res.err_no === 0) {
+                        for (var i = 0, len = res.wallet.length; i < len; i++) {
+                            wallets[i].earn_this_month = this.util.cutFloat(res.wallet[i].earn_this_month / GlobalService.CoinDecimal, 2);
+                            //wallets[i].earn_before = (res.wallet[i].earn_before / GlobalService.CoinDecimal).toFixed(2);
+                        }
                     }
-                }
-                requestBack++;
-                GlobalService.consoleLog(requestBack + "=============")
-                // if(requestBack == 2) {
-                if(this.chainType != 'ERC20') {
-                    GlobalService.consoleLog("中心接口完成，执行callback");
-                    this.global.closeGlobalLoading(this);
-                    callback && callback(wallets);                    
-                }
+                    requestBack++;
+                    GlobalService.consoleLog(requestBack + "=============")
+                    // if(requestBack == 2) {
+                    if (this.chainType != 'ERC20') {
+                        GlobalService.consoleLog("中心接口完成，执行callback");
+                        this.global.closeGlobalLoading(this);
+                        callback && callback(wallets);
+                    }
 
-                // }
-            }) 
-            .catch(e => {
-                if(this.chainType != 'ERC20') {
-                    GlobalService.consoleLog("中心接口完成，执行callback");
-                    this.global.closeGlobalLoading(this);
-                    callback && callback(wallets); 
-                }                   
-            })           
+                    // }
+                })
+                .catch(e => {
+                    if (this.chainType != 'ERC20') {
+                        GlobalService.consoleLog("中心接口完成，执行callback");
+                        this.global.closeGlobalLoading(this);
+                        callback && callback(wallets);
+                    }
+                })
         }
     }
 
     saveCoinbase(isChange) {
         let chainType = this.global.chainSelectArray[this.global.chainSelectIndex];
         var url = this.global.getBoxApi("setCoinbase");
-        if(chainType !== 'ERC20') {
-            url = this.global.getBoxApi("setChainCoinbase");    
+        if (chainType !== 'ERC20') {
+            url = this.global.getBoxApi("setChainCoinbase");
         }
-        if(chainType !== 'ERC20'){
-            if(isChange){
+        if (chainType !== 'ERC20') {
+            if (isChange) {
                 return this.http.post(url, {
                     coinbase: this.coinbase
                 })
-                .then(res => {
-                    if(res.err_no === 0) {
-                        let url = this.global.getBoxApi('stopShare');
-                        return this.http.post(url, {})
-                    } else {
-                        throw new Error('Stop Share error');
-                    }
-                })
-                .then(res => {
-                    if(res.err_no === 0) {
-                        let url = this.global.getBoxApi('clearShareFile');
-                        return this.http.post(url, {})
-                    } else {
-                        throw new Error('Clear Share error');
-                    }
-                })
-                .then(res => {
-                    if(res.err_no === 0) {
-                        let setStoreUrl = this.global.getBoxApi('setChainStorage');
-                        return this.http.post(setStoreUrl, {
-                            sharesize: parseInt(this.oldShareSize) * GlobalService.DISK_G_BITS
-                        }) 
-                    }
-                })
-            }else{
+                    .then(res => {
+                        if (res.err_no === 0) {
+                            let url = this.global.getBoxApi('stopShare');
+                            return this.http.post(url, {})
+                        } else {
+                            throw new Error('Stop Share error');
+                        }
+                    })
+                    .then(res => {
+                        if (res.err_no === 0) {
+                            let url = this.global.getBoxApi('clearShareFile');
+                            return this.http.post(url, {})
+                        } else {
+                            throw new Error('Clear Share error');
+                        }
+                    })
+                    .then(res => {
+                        if (res.err_no === 0) {
+                            let setStoreUrl = this.global.getBoxApi('setChainStorage');
+                            return this.http.post(setStoreUrl, {
+                                sharesize: parseInt(this.oldShareSize) * GlobalService.DISK_G_BITS
+                            })
+                        }
+                    })
+            } else {
                 return this.http.post(url, {
                     coinbase: this.coinbase
                 });
             }
-        }else{
+        } else {
             return this.http.post(url, {
                 coinbase: this.coinbase
             });
         }
-        
+
     }
 
     doSave() {
-        if(!this.coinbase) {
+        if (!this.coinbase) {
             this.global.createGlobalToast(this, {
                 message: Lang.L('WORD59abf580')
             });
@@ -274,7 +274,7 @@ export class WalletCoinbasePage {
         }
         let chainType = this.global.chainSelectArray[this.global.chainSelectIndex];
         let isChange = false;
-        if(chainType !== 'ERC20' && this.coinbase != this.oldCoinbase) {
+        if (chainType !== 'ERC20' && this.coinbase != this.oldCoinbase) {
             this.global.createGlobalAlert(this, {
                 title: Lang.L('changeWalletTitle'),
                 message: Lang.L('changeWalletDetail'),
@@ -282,58 +282,58 @@ export class WalletCoinbasePage {
                     {
                         text: Lang.L('Ok'),
                         handler: data => {
-                            isChange = true; 
+                            isChange = true;
                             this.global.createGlobalLoading(this, {
                                 message: Lang.L('changeWallet')
-                            });      
-                            this.saveCallback(isChange);                   
+                            });
+                            this.saveCallback(isChange);
                         }
                     },
                     {
                         text: Lang.L('WORD85ceea04'),
                         handler: data => {
-                            
+
                         }
                     },
                 ]
             })
-        }else{
-            this.saveCallback(isChange);                   
+        } else {
+            this.saveCallback(isChange);
         }
     }
 
-    saveCallback(isChange){
+    saveCallback(isChange) {
         this.saveCoinbase(isChange)
-        .then(res => {
-            if (res.err_no === 0) {
-                this.global.closeGlobalLoading(this);
-                let toast = this.toastCtrl.create({
-                    message: Lang.L('WORD6c50c226'),
-                    duration: GlobalService.ToastTime,
-                    position: 'middle',
-                    cssClass: 'toast-error'
-                });
-                toast.present();
-                GlobalService.consoleLog('后面更改的地址 ' +  this.coinbase);
-                this.events.publish('coinbase:change', {
-                    coinbase: this.coinbase
-                });
+            .then(res => {
+                if (res.err_no === 0) {
+                    this.global.closeGlobalLoading(this);
+                    let toast = this.toastCtrl.create({
+                        message: Lang.L('WORD6c50c226'),
+                        duration: GlobalService.ToastTime,
+                        position: 'middle',
+                        cssClass: 'toast-error'
+                    });
+                    toast.present();
+                    GlobalService.consoleLog('后面更改的地址 ' + this.coinbase);
+                    this.events.publish('coinbase:change', {
+                        coinbase: this.coinbase
+                    });
 
-                this.http.post(this.global.getBoxApi('getUserInfo'), {}, false)
-                .then((res) => {
-                    this.global.boxUserInfo = res.userinfo;
-                    setTimeout(() => {
-                        this.navCtrl.pop();
-                    }, 300);                        
-                })
-            }
-        })
-        .catch(e=>{
-            GlobalService.consoleLog('change error');
-        })
+                    this.http.post(this.global.getBoxApi('getUserInfo'), {}, false, {}, { needLogin: false })
+                        .then((res) => {
+                            this.global.boxUserInfo = res.userinfo;
+                            setTimeout(() => {
+                                this.navCtrl.pop();
+                            }, 300);
+                        })
+                }
+            })
+            .catch(e => {
+                GlobalService.consoleLog('change error');
+            })
     }
     initWallet() {
-        if(this.global.nowUserWallet[this.chainType]){
+        if (this.global.nowUserWallet[this.chainType]) {
             this.walletList = this.global.nowUserWallet[this.chainType];
             this.loading = false;
             this.cd.detectChanges();
