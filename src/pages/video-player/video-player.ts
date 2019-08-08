@@ -1,5 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { Events, Nav, Platform, Tabs } from 'ionic-angular';
 
 /**
  * Generated class for the VideoPlayerPage page.
@@ -15,11 +17,14 @@ import { NavController, NavParams } from 'ionic-angular';
 export class VideoPlayerPage {
 	@ViewChild('controller') controllerEl: ElementRef;
 	@ViewChild('video') videoEl: ElementRef;
+	// @ViewChild('canvas') canvasEl: ElementRef;
 
 	videoUrl: string = "";
 	imageUrl: string = "";
 	isShowTitle = true;
 	video: any = null;
+	// canvas: any = null;
+	// ctx: any = null;
 	loadedProgress = 0;
 	playedProgress = 0;
 	currentTime = '--:--:--';
@@ -29,50 +34,45 @@ export class VideoPlayerPage {
 	current = 0;
 	loading = true;
 	name = "";
+	scale = 1.0;
+	controllerStart = 0;
+	totalWidth = 0;
+	maxVideoWidth = 'auto';
+	maxVideoHeight = 'auto';
 
-	constructor(public navCtrl: NavController, public navParams: NavParams) {
+	constructor(public navCtrl: NavController,
+		private platform: Platform,
+		private screenOrientation: ScreenOrientation,
+		public navParams: NavParams) {
 	}
 
 	setTime(num) {
 		num = ~~num;
 		let seconds = ('00' + (num % 60)).slice(-2),
-			minutes = ('00' + Math.floor(num / 60)).slice(-2),
+			minutes = ('00' + (Math.floor(num / 60) % 60)).slice(-2),
 			hours = ('00' + Math.floor(num / 3600)).slice(-2);
 		return [hours, minutes, seconds].join(':');
 	}
 
 	toggleShowTitle() {
+		console.log("切换是否显示标题～！！！" + !this.isShowTitle);
 		this.isShowTitle = !this.isShowTitle;
 	}
 
-	onDrag(e) {
-		console.log("ttt")
-		console.log(e);
-	}
-
-	test(e) {
-		console.log("ttt")
-		console.log(e);
-	}
-
-	onDrag1(e) {
-		console.log("sss")
-		console.log(e)
-	}
-
-	ionViewDidLoad() {
-		console.log('ionViewDidLoad VideoPlayerPage');
-		this.videoUrl = this.navParams.get('videoUrl');
-		this.imageUrl = this.navParams.get('imageUrl');
-		this.name = this.navParams.get('name');
-		setTimeout(() => {
-			this.isShowTitle = false;
-		}, 2000);
-
+	setVideoEvent() {
+		console.log("开始绑定video事件.......");
 		// let video = document.getElementById('video');
 		let video = this.videoEl.nativeElement;
-		video.removeAttribute('controls');
+		// video.removeAttribute('controls');
 		this.video = video;
+		// let canvas = this.canvasEl.nativeElement;
+		// this.canvas = canvas;
+		// this.ctx = this.canvas.getContext('2d');
+		// this.canvas.width = window.innerWidth;
+		// this.canvas.height = window.innerHeight;
+		// this.ctx.fillStyle = 'rgb(0, 0, 0)';
+		// this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
 		video.addEventListener('loadedmetadata', (res) => {
 			console.log("Metadata:" + JSON.stringify(res))
 		})
@@ -91,17 +91,19 @@ export class VideoPlayerPage {
 		})
 
 		video.addEventListener('canplaythrough', (res) => {
-			console.log("Video can play through...");
+			// let canvas = this.canvas;
 			this.loading = false;
-		})
-
-
-		video.addEventListener('progress', (res) => {
-			console.log("Progress:" + JSON.stringify(res))
-		})
-
-		video.addEventListener('seeking', (res) => {
-			console.log("Seeking:" + JSON.stringify(res))
+			console.log("loading:" + this.loading);
+			console.log("Video can play through..." + this.video.videoWidth + "," + this.video.videoHeight);
+			if (this.video.videoWidth / this.video.videoHeight > window.innerWidth / window.innerHeight) {
+				this.maxVideoHeight = '100%';
+			} else {
+				this.maxVideoWidth = "100%";
+			}
+			// this.scale = Math.min(
+			// 	canvas.width / this.video.videoWidth,
+			// 	canvas.height / this.video.videoHeight);
+			// this.updateCanvas();
 		})
 
 		video.addEventListener('timeupdate', (res) => {
@@ -123,36 +125,126 @@ export class VideoPlayerPage {
 			this.playBtn = true;
 
 		})
+	}
 
-		let controller = this.controllerEl.nativeElement;
-		let controllerStart = 0;
-		let totalWidth = 0;
-		controller.addEventListener('touchstart', (e) => {
-			controllerStart = e.touches[0].clientX;
-			console.log("按下按钮..." + controllerStart)
-		})
+	onTouchStart(e) {
+		this.controllerStart = e.touches[0].clientX;
+		console.log("按下按钮..." + this.controllerStart)
+	}
 
-		controller.addEventListener('touchmove', (e) => {
-			if (!this.video.duration) {
-				return false;
-			}
-			let gap = (e.touches[0].clientX - controllerStart);
-			if (!totalWidth) {
-				totalWidth = e.target.parentNode.clientWidth;
-			}
-			console.log(this.playedProgress, e.touches[0].clientX, controllerStart, totalWidth)
-			this.playedProgress = Math.max(0, Math.min(100, this.playedProgress + gap / totalWidth));
-			console.log("拖动距离：" + this.playedProgress);
-		})
+	onTouchMove(e) {
+		// if (!this.video.duration) {
+		// 	return false;
+		// }
+		let gap = (e.touches[0].clientX - this.controllerStart);
+		if (!this.totalWidth) {
+			this.totalWidth = e.target.parentNode.clientWidth;
+		}
+		console.log(this.playedProgress, gap, this.totalWidth, 100 * gap / this.totalWidth)
+		this.playedProgress = Math.max(0, Math.min(100, this.playedProgress + 100 * gap / this.totalWidth));
+		this.controllerStart = e.touches[0].clientX;
+		console.log("拖动距离：" + this.playedProgress);
+	}
 
-		controller.addEventListener('touchend', (e) => {
-			console.log("松手.......")
-			if (!this.video.duration) {
-				return false;
-			}
-			this.video.currentTime = Math.max(0, Math.min(this.video.duration, this.video.duration * this.playedProgress / 100));
-			this.currentTime = this.setTime(this.video.currentTime);
-		})
+	onTouchEnd(e) {
+		console.log("松手.......")
+		if (!this.video.duration) {
+			return false;
+		}
+		this.video.currentTime = Math.max(0, Math.min(this.video.duration, this.video.duration * this.playedProgress / 100));
+		this.currentTime = this.setTime(this.video.currentTime);
+	}
+
+	setControllerEvent() {
+		// let controller = this.controllerEl.nativeElement;
+		// let controllerStart = 0;
+		// let totalWidth = 0;
+
+		// console.log("我是controller", controller);
+		// controller.addEventListener('touchstart', (e) => {
+		// 	controllerStart = e.touches[0].clientX;
+		// 	console.log("按下按钮..." + controllerStart)
+		// })
+
+		// controller.addEventListener('touchmove', (e) => {
+		// 	if (!this.video.duration) {
+		// 		return false;
+		// 	}
+		// 	let gap = (e.touches[0].clientX - controllerStart);
+		// 	if (!totalWidth) {
+		// 		totalWidth = e.target.parentNode.clientWidth;
+		// 	}
+		// 	console.log(this.playedProgress, e.touches[0].clientX, controllerStart, totalWidth)
+		// 	this.playedProgress = Math.max(0, Math.min(100, this.playedProgress + gap / totalWidth));
+		// 	console.log("拖动距离：" + this.playedProgress);
+		// })
+
+		// controller.addEventListener('touchend', (e) => {
+		// 	console.log("松手.......")
+		// 	if (!this.video.duration) {
+		// 		return false;
+		// 	}
+		// 	this.video.currentTime = Math.max(0, Math.min(this.video.duration, this.video.duration * this.playedProgress / 100));
+		// 	this.currentTime = this.setTime(this.video.currentTime);
+		// })
+	}
+
+	ionViewDidLoad() {
+		console.log('ionViewDidLoad VideoPlayerPage');
+		this.videoUrl = this.navParams.get('videoUrl');
+		this.imageUrl = this.navParams.get('imageUrl');
+		this.name = this.navParams.get('name');
+		setTimeout(() => {
+			this.isShowTitle = false;
+		}, 2000);
+
+		setTimeout(() => {
+			this.setVideoEvent();
+			this.setControllerEvent();
+		}, 200);
+
+		setTimeout(() => {
+			this.loading = false;
+		}, 10000)
+
+
+		if (this.platform.is('cordova')) {
+			this.screenOrientation.unlock();
+
+			this.screenOrientation.onChange().subscribe(
+				() => {
+					console.log("Orientation Changed");
+					if (this.video.videoWidth / this.video.videoHeight > window.innerWidth / window.innerHeight) {
+						this.maxVideoHeight = '100%';
+						this.maxVideoWidth = 'auto';
+					} else {
+						this.maxVideoWidth = "100%";
+						this.maxVideoHeight = 'auto';
+					}
+				}
+			);
+		}
+
+
+	}
+
+	ionViewWillLeave() {
+		if (this.platform.is('cordova')) {
+			this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+		}
+	}
+
+	updateCanvas() {
+		// this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+		// var scale = this.scale;
+		// var vidH = this.video.videoHeight;
+		// var vidW = this.video.videoWidth;
+		// var top = this.canvas.height / 2 - (vidH / 2) * scale;
+		// var left = this.canvas.width / 2 - (vidW / 2) * scale;
+		// this.ctx.drawImage(this.video, left, top, vidW * scale, vidH * scale);
+
+		// requestAnimationFrame(this.updateCanvas.bind(this));
 	}
 
 	playVideo($event) {

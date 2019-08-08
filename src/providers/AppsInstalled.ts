@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { GlobalService } from '../providers/GlobalService';
 import { HttpService } from '../providers/HttpService';
 import xml2js from 'xml2js';
-import { HTTP } from '@ionic-native/http';
+import { HTTP } from '@ionic-native/http/ngx';
 import { IfObservable } from 'rxjs/observable/IfObservable';
 import { Md5 } from "ts-md5/dist/md5";
 // import { Zip } from '@ionic-native/zip/ngx';

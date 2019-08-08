@@ -41,10 +41,10 @@
                 </svg>
             </div>
             <ul class="clear options-list" *ngIf="disk.isShowOptions">      
-                <li  tappable  (click)="setDiskLabel(disk);;$event.stopPropagation();">
+                <li  tappable   (click)="setDiskLabel(disk);;$event.stopPropagation();">
                     <p>{{global.L('Rename')}}</p>
                 </li>
-                <li  tappable  (click)="formatDisk(disk);;$event.stopPropagation();">
+                <li  tappable   (click)="formatDisk(disk);;$event.stopPropagation();">
                     <p>{{global.L('WORD652905a6')}}</p>
                 </li>
             </ul>
@@ -55,13 +55,13 @@
 
 <div class="manage-options" *ngIf="isShowOptions">
     <ul class="clear">      
-        <li  tappable  (click)="rebootDevice();">
+        <li  tappable   (click)="rebootDevice();">
             <p>{{global.L('DeviceReboot')}}</p>
         </li>
-        <li  tappable  (click)="unbindBox();">
+        <li  tappable   (click)="unbindBox();">
             <p>{{global.L('DoUnbind')}}</p>
         </li>
-        <!-- <li  tappable  >
+        <!-- <li  tappable   >
             <p>关闭</p>
         </li> -->
     </ul>

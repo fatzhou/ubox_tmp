@@ -14,24 +14,24 @@
                         <svg class="icon" aria-hidden="true" (click)="cancelSelect()">
                             <use xlink:href="#iconfanhui"></use>
                         </svg>
-                        <span tappable>{{ global.Lf('SelectUploadNum', selectedFiles.length) }}</span>
+                        <span tappable >{{ global.Lf('SelectUploadNum', selectedFiles.length) }}</span>
                     </div>
                     <div class="select-btn"
                         [ngClass]="[showEng=='cn'?'':'eng-sel-btn', allBtnsShow ? 'bg-black fr-select-nav' : '']">
                         <div class="task-btn" *ngIf="!allBtnsShow">
-                            <svg class="icon" tappable aria-hidden="true" (click)="goTaskPage()">
+                            <svg class="icon" tappable  aria-hidden="true" (click)="goTaskPage()">
                                 <use *ngIf="!judgeBusy()" xlink:href="#iconrenwuguanli"></use>
                                 <use *ngIf="judgeBusy()" xlink:href="#iconrenwuguanlired"></use>
                             </svg>
                         </div>
-                        <span class="task-btn all-toggle-btn" *ngIf="!allBtnsShow" tappable (click)="showAllBtns(null)">
+                        <span class="task-btn all-toggle-btn" *ngIf="!allBtnsShow" tappable  (click)="showAllBtns(null)">
                             <svg class="icon" aria-hidden="true">
                                 <use xlink:href="#iconduoxuan"></use>
                             </svg>
                         </span>
-                        <span *ngIf="allBtnsShow" tappable
+                        <span *ngIf="allBtnsShow" tappable 
                             (click)="selectAll()">{{ selectAllStatus ? global.L("CancelSelectAll") : global.L("SelectAll") }}</span>
-                        <!-- <span *ngIf="allBtnsShow" tappable (click)="cancelSelect()"> / {{global.L("Cancel")}}</span> -->
+                        <!-- <span *ngIf="allBtnsShow" tappable  (click)="cancelSelect()"> / {{global.L("Cancel")}}</span> -->
                     </div>
                 </div>
             </div>
@@ -47,12 +47,13 @@
                 <!-- <div *ngIf="dataAcquired && fileList.length > 0"> -->
                 <!-- <ion-list class="file-list" [virtualScroll]="fileList" approxItemHeight="73px" bufferRatio="10" > -->
                 <li class="file-list-item" [ngClass]="classify == 1 ? 'img-li' : ''" *ngFor="let info of fileList"
-                    tappable (click)="goNextFolder(info);$event.stopPropagation();">
+                    tappable  (click)="goNextFolder(info);$event.stopPropagation();">
                     <div class="file-type" *ngIf="!hasThumbnail() || !info.thumbnail" [ngClass]="info.fileStyle">
+                        <img class="play-btn" *ngIf="classify == 2" src="assets/img/play.svg" alt="">
                     </div>
                     <div class="file-type" *ngIf="info.thumbnail">
                         <img class="file-thumbnail" [src]="info.thumbnail" *ngIf="info.thumbnail && hasThumbnail()">
-                        <img class="play-btn" *ngIf="classify != 1" src="assets/img/play.svg" alt="">
+                        <img class="play-btn" *ngIf="classify == 2" src="assets/img/play.svg" alt="">
                     </div>
                     <div class="info" *ngIf="classify != 1">
                         <h2 class="eps">{{ pretify(info.name) }}</h2>
@@ -109,32 +110,32 @@
     </ion-infinite-scroll>
 </ion-content>
 
-<!-- <div class="add" tappable *ngIf="!allBtnsShow" [ngClass]="[allBtnsShow ? 'at-bottom' : '', hideAddBtn ? 'hidden' : '']"  (click)="openFileSelect()">
+<!-- <div class="add" tappable  *ngIf="!allBtnsShow" [ngClass]="[allBtnsShow ? 'at-bottom' : '', hideAddBtn ? 'hidden' : '']"  (click)="openFileSelect()">
     <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-add"></use>
     </svg>
 </div>    -->
 
 <div class="operation-btns" *ngIf="allBtnsShow && !isShowDetail">
-    <div class="btn download" tappable (click)="downloadFileList()" [ngClass]="canDownload?'':'disable'">
+    <div class="btn download" tappable  (click)="downloadFileList()" [ngClass]="canDownload?'':'disable'">
         <svg class="icon" aria-hidden="true">
             <use xlink:href="#icondownloadicon1"></use>
         </svg>
         <span>{{global.L("Download")}}</span>
     </div>
-    <div class="btn move" tappable (click)="moveSingleFile()" [ngClass]="canMove?'':'disable'">
+    <div class="btn move" tappable  (click)="moveSingleFile()" [ngClass]="canMove?'':'disable'">
         <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconMoveicon1"></use>
         </svg>
         <span>{{global.L("Move")}}</span>
     </div>
-    <div class="btn delete" tappable (click)="deleteFile()" [ngClass]="canDelete?'':'disable'">
+    <div class="btn delete" tappable  (click)="deleteFile()" [ngClass]="canDelete?'':'disable'">
         <svg class="icon" aria-hidden="true">
             <use xlink:href="#icondelete1"></use>
         </svg>
         <span>{{global.L("Delete")}}</span>
     </div>
-    <div class="btn rename" tappable (click)="renameFile()" [ngClass]="canRename?'':'disable'">
+    <div class="btn rename" tappable  (click)="renameFile()" [ngClass]="canRename?'':'disable'">
         <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconRenameicon1"></use>
         </svg>

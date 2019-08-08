@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Tabs, Nav } from 'ionic-angular';
-import { FindPage } from '../find/find';
+import { BtPage } from '../bt/bt';
 import { ListPage } from '../list/list';
 import { MiningPage } from '../mining/mining';
 import { UserPage } from '../user/user';
@@ -18,7 +18,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { Events } from 'ionic-angular';
 import { Lang } from '../../providers/Language';
 import { AppsInstalled } from '../../providers/AppsInstalled';
-import { FileOpener } from '@ionic-native/file-opener';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { SuperTabsController } from 'ionic2-super-tabs/dist/providers/super-tabs-controller';
 declare var window;
 
@@ -37,7 +37,7 @@ export class TabsPage {
 	// @ViewChild('boxtabs') tabRef: Tabs;
 	@ViewChild(Nav) nav: Nav;
 	// selectedIndex:any = 0;
-	search: any = FindPage;
+	search: any = BtPage;
 	home: any = ListPage;
 	user: any = UserPage;
 	mining: any = MiningPage;
@@ -392,6 +392,10 @@ export class TabsPage {
 		this.util.getDisplayRate();
 		//初始化connection组件
 		// this.connection.status = this.global.useWebrtc ? this.global.L('RemoteNetwork')
+	}
+
+	ionViewWillEnter() {
+		this.util.setStatusBar('green');
 	}
 
 	ionViewCanEnter() {

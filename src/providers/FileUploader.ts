@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-// import { HTTP } from '@ionic-native/http';
+// import { HTTP } from '@ionic-native/http/ngx';
 // import {Http} from '@angular/http';
 import { HttpService } from './HttpService';
 
@@ -7,7 +7,7 @@ import { GlobalService } from './GlobalService';
 
 
 import { Md5 } from 'ts-md5/dist/md5';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { Events, App } from 'ionic-angular';
 import { NgZone } from '@angular/core';
 import { Util } from './Util';
@@ -212,24 +212,24 @@ class SingleFileUploader {
 			this.isPause = false;
 			this.isAbort = false;
 			new Promise((resolve, reject) => {
-				if(this.cache.totalsize) {
+				if (this.cache.totalsize) {
 					resolve(this.cache.totalsize);
 				} else {
 					this._initcache({
 						name: this.cache.filename,
 						localPath: this.cache.localpath
 					})
-					.then(res => {
-						this.cache.totalsize = res;
-						resolve(res);
-					})
+						.then(res => {
+							this.cache.totalsize = res;
+							resolve(res);
+						})
 				}
 			})
-			.then(res => {
-				this.timer = setTimeout(() => {
-					this._loopUpload();
-				}, 0);				
-			})
+				.then(res => {
+					this.timer = setTimeout(() => {
+						this._loopUpload();
+					}, 0);
+				})
 		} else {
 			GlobalService.consoleLog("不在暂停状态，不能继续");
 		}

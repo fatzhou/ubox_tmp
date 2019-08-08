@@ -8,7 +8,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { HttpService } from '../../providers/HttpService';
 import { Events, App } from 'ionic-angular';
 // import { FileTransport, FileUploadOptions, FileTransportObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { ToastController } from 'ionic-angular';
 import { Lang } from "../../providers/Language";
 import { TaskListPage } from '../task-list/task-list';
@@ -232,7 +232,7 @@ export class ClassifyListPage {
 					var list = [];
 					var index = 0;
 					this.count = res.count;
-
+					res.list = res.list || [];
 					if (res.list && res.list.length > 0) {
 						let md5 = '';
 						res.list.forEach((item) => {
@@ -291,13 +291,16 @@ export class ClassifyListPage {
 						this.transfer.getThumbnail(this.fileList, true);
 					}
 
-					let url = this.global.getBoxApi('downloadFile');
-					let path = url + this.http.toQueryString({
-						fullpath: this.fileList[0].path.replace(/\/$/, '') + '/' + this.fileList[0].name,
-						disk_uuid: this.global.currDiskUuid,
-						token: this.http.getCookieString(url).replace('token=', '')
-					})
-					this.videoUrl = path
+					// if(this.classify == 2) {
+					// 	let url = this.global.getBoxApi('downloadFile');
+					// 	let path = url + this.http.toQueryString({
+					// 		fullpath: this.fileList[0].path.replace(/\/$/, '') + '/' + this.fileList[0].name,
+					// 		disk_uuid: this.global.currDiskUuid,
+					// 		token: this.http.getCookieString(url).replace('token=', '')
+					// 	})
+					// 	this.videoUrl = path						
+					// }
+
 					// this.cd.detectChanges();
 					//获取缩略图
 					this.clearStatus();

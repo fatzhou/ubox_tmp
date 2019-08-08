@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { GlobalService } from '../../providers/GlobalService';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { DirectoryEntry, Entry } from "@ionic-native/file";
 
 /**
@@ -11,7 +11,6 @@ import { DirectoryEntry, Entry } from "@ionic-native/file";
  * Ionic pages and navigation.
  */
 declare var window;
-@IonicPage()
 @Component({
 	selector: 'page-clear-cash',
 	templateUrl: 'clear-cash.html',
@@ -104,17 +103,19 @@ export class ClearCashPage {
 					} else {
 						return Promise.resolve(0);
 					}
-				}))
-					.then(res => {
-						console.log("清楚完成...")
-						if (type == 'video') {
-							this.videoCache = 0;
-						} else if (type == 'doc') {
-							this.docCache = 0;
-						} else if (type == 'image') {
-							this.imageCache = 0;
-						}
+				})).then(res => {
+					console.log("清楚完成...")
+					if (type == 'video') {
+						this.videoCache = 0;
+					} else if (type == 'doc') {
+						this.docCache = 0;
+					} else if (type == 'image') {
+						this.imageCache = 0;
+					}
+					this.global.createGlobalToast(this, {
+						message: this.global.L("ClearCashSuccess")
 					})
+				})
 			})
 	}
 

@@ -70,13 +70,13 @@
                 <p class="second-title" *ngIf="fileList.length > 0">{{ global.L("FileList") }}</p>
                 <div class="file-list-box" *ngIf="fileList.length > 0">
                     <ul class="file-list">
-                        <li class="file-list-item" *ngFor="let file of fileList"  tappable >
+                        <li class="file-list-item" *ngFor="let file of fileList"  tappable  >
                             <div class="file-type" [ngClass]="file.style"></div>
                             <div class="info">
                                 <h2 class="eps">{{ file.name || file }}</h2>
                             </div>
                             <div class="file-list" *ngIf="file.children && file.children.length > 0">
-                                <div class="file-list-item sub-file-list-item" *ngFor="let f of file.children"  tappable >
+                                <div class="file-list-item sub-file-list-item" *ngFor="let f of file.children"  tappable  >
                                     <div class="file-split"></div>
                                     <div class="file-type" [ngClass]="f.style"></div>
                                     <div class="info">

@@ -5,10 +5,10 @@
   Ionic pages and navigation.
 -->
 
-<ion-content no-padding tappable (click)="toggleShowTitle()">
-    <div class="video-wrapper" tappable (click)="$event.stopPropagation()">
+<ion-content no-padding>
+    <div class="video-wrapper" tappable  (click)="$event.stopPropagation()">
         <div class="qrcode-button" *ngIf="isShowTitle">
-            <div class="back-box" tappable (click)="goBack();$event.stopPropagation();">
+            <div class="back-box" tappable  (click)="goBack();$event.stopPropagation();">
                 <svg class="icon back-icon" aria-hidden="true">
                     <use xlink:href="#iconfanhui"></use>
                 </svg>
@@ -16,17 +16,21 @@
             <span>{{ name }}</span>
         </div>
 
-        <video autoplay playsinline [src]="videoUrl | photoSantizer" #video preload id="video"
-            [poster]="imageUrl | photoSantizer"></video>
+        <video autoplay playsinline (click)="toggleShowTitle()" [src]="videoUrl | photoSantizer" #video preload
+            id="video" [poster]="imageUrl | photoSantizer"></video>
+
+        <!-- <canvas id="canvas" style="display: none;" #canvas tappable  (click)="toggleShowTitle()"></canvas> -->
 
         <div class="controller" *ngIf="isShowTitle">
-            <div class="play-btn" [ngClass]="playBtn ? '' : 'pause-btn'" tappable (click)="playVideo($event)"></div>
-            <div class="prev-btn" tappable (click)="gotoStart()"></div>
+            <div class="play-btn" [ngClass]="playBtn ? '' : 'pause-btn'" tappable  (click)="playVideo($event)"></div>
+            <div class="prev-btn" tappable  (click)="gotoStart()"></div>
             <div class="progress">
                 <div class="progress-bar">
                     <div class="progress-bar-played" [ngStyle]="{width: playedProgress + '%'}"></div>
                     <div class="progress-bar-loaded" [ngStyle]="{width:  loadedProgress +  '%'}"></div>
-                    <div class="draggable-ball" #controller [ngStyle]="{left: playedProgress + '%'}">
+                    <div class="draggable-ball" #controller [ngStyle]="{left: playedProgress + '%'}"
+                        (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)"
+                        (touchend)="onTouchEnd($event)">
                     </div>
                 </div>
                 <p class="time">

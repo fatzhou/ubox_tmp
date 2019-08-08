@@ -8,7 +8,7 @@ import { HttpService } from '../../providers/HttpService';
 import { Events } from 'ionic-angular';
 import { FileDownloader } from '../../providers/FileDownloader';
 import { Util } from '../../providers/Util';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { Md5 } from 'ts-md5/dist/md5';
 import { ViewChild } from '@angular/core';
 import { Slides } from 'ionic-angular';

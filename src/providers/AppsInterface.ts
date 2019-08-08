@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { GlobalService } from './GlobalService';
 import { UappPlatform } from './UappPlatform';
 declare var cordova;
@@ -12,18 +12,18 @@ declare var cordova;
 @Injectable()
 export class AppsInterface {
 
-    constructor(private global: GlobalService,
-                private uapp: UappPlatform,
-				private file: File) {
-        GlobalService.consoleLog('Hello AppsInterfacedProvider Provider');
-        this.uapp.registerApi('closeUapp', this, this.closeUapp);
+	constructor(private global: GlobalService,
+		private uapp: UappPlatform,
+		private file: File) {
+		GlobalService.consoleLog('Hello AppsInterfacedProvider Provider');
+		this.uapp.registerApi('closeUapp', this, this.closeUapp);
 		this.uapp.registerApi('getInfo', this, this.getInfo);
 		this.uapp.registerApi('log', this, this.log);
 	}
 
 	getInfo() {
 		let boxInfo = null;
-		if(this.global.deviceSelected) {
+		if (this.global.deviceSelected) {
 			boxInfo = {
 				ip: this.global.deviceSelected.URLBase,
 				boxId: this.global.deviceSelected.boxId,
@@ -38,15 +38,15 @@ export class AppsInterface {
 		})
 	}
 
-    closeUapp() {
-        GlobalService.consoleLog("即将关闭浏览器...");
-        // cordova.InAppBrowser.close();
-        return Promise.resolve(this.uapp.closeApp());
+	closeUapp() {
+		GlobalService.consoleLog("即将关闭浏览器...");
+		// cordova.InAppBrowser.close();
+		return Promise.resolve(this.uapp.closeApp());
 	}
 
 	log(text) {
-        GlobalService.consoleLog("浏览器日志： " + text);
-        // cordova.InAppBrowser.close();
-        // return Promise.resolve(this.uapp.closeApp());
-    }
+		GlobalService.consoleLog("浏览器日志： " + text);
+		// cordova.InAppBrowser.close();
+		// return Promise.resolve(this.uapp.closeApp());
+	}
 }

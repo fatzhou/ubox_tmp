@@ -10,14 +10,17 @@ import { Lang } from './Language';
 import { Events, App, Platform } from 'ionic-angular';
 import xml2js from 'xml2js';
 import { Storage } from '@ionic/storage';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import { File } from '@ionic-native/file';
-import { FileOpener } from '@ionic-native/file-opener';
-import { Clipboard } from '@ionic-native/clipboard';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { AppsInstalled } from './AppsInstalled';
 import { UappPlatform } from "./UappPlatform";
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+
+
 // import { VideoPlayer } from '@ionic-native/video-player/ngx';
 // declare var VideoPlayer;
 // import { FileTransport } from './FileTransport';
@@ -49,6 +52,7 @@ export class Util {
 		public barcodeScanner: BarcodeScanner,
 		private global: GlobalService,
 		private uappPlatform: UappPlatform,
+		private statusBar: StatusBar,
 		private appsInstalled: AppsInstalled,
 		// private videoPlayer: VideoPlayer,
 		// private fileTransport: FileTransport,
@@ -57,6 +61,16 @@ export class Util {
 		GlobalService.consoleLog("Util构造函数。。")
 
 	};
+
+	setStatusBar(type) {
+		if (type == 'dark') {
+			this.statusBar.backgroundColorByHexString("#33000000");
+		} else if (type == 'white') {
+			this.statusBar.backgroundColorByHexString("#ffffffff");
+		} else {
+			this.statusBar.backgroundColorByHexString("#FF00C77D");
+		}
+	}
 
 	public static validator = {
 		email(str) {
@@ -2168,7 +2182,9 @@ export class Util {
 					//更新远程缩略图名字变更，不需要等待
 					this.http.post(url, {
 						src_path: thumbnailRemotePath + oldThumbnailName,
-						dst_path: thumbnailRemotePath + newThumbnailName
+						dst_path: thumbnailRemotePath + newThumbnailName,
+						src_diskuuid: this.global.currDiskUuid,
+						dst_diskuuid: this.global.currSelectDiskUuid
 					}, false)
 
 					//操作本地缩略图，不论成功失败都操作

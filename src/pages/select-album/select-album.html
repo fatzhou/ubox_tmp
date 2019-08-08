@@ -9,10 +9,10 @@
         <ion-title>
             <div class="list-header">
                 <div class="back-nav">
-                    <div class="back-btn">  
-                        <span  tappable >{{ global.L('SelectAll') }}</span>               
-                    </div>     
-                </div>    
+                    <div class="back-btn">
+                        <span tappable >{{ global.L('SelectAll') }}</span>
+                    </div>
+                </div>
             </div>
         </ion-title>
     </ion-navbar>
@@ -21,29 +21,32 @@
 <ion-content>
     <div class="main-content">
         <div class="second-content">
-        <ul *ngIf="type === 'image' ? global.localPictureLibrary.length > 0 : global.localVideoLibrary.length > 0">
-            <ng-container *ngFor="let album of albums">
-                <li class="folder-li"  tappable  *ngIf="album.show" (click)="goSelectImgPage(album)">
-                    <div class="file-type active">
-                        <img [src]="album.content[0].thumbnailURL | photoSantizer" alt="">
-                    </div>
-                    <div class="info">
-                        <h2 class="eps">{{ album.title }}</h2>
-                        <p>{{  album.content.length }}{{ global.L('Item') }}</p>
-                    </div>
-                    <div class="btn">
-                        <svg class="icon icon-ellipsis" aria-hidden="true">
-                            <use xlink:href="#iconxiangyou"></use>
-                        </svg>                    
-                    </div>                    
-                </li>
-            </ng-container>
-        </ul>
-        <div class="no-file" *ngIf="type === 'image' ? global.localPictureLibrary.length == 0 : global.localVideoLibrary.length == 0">
-            <img src="assets/img/file@2x.png" alt="">
-            <p>{{global.L("NoFiles")}}</p>
+            <ul *ngIf="type === 'image' ? global.localPictureLibrary.length > 0 : global.localVideoLibrary.length > 0">
+                <ng-container *ngFor="let album of albums">
+                    <li class="folder-li" tappable  *ngIf="album.show" (click)="goSelectImgPage(album)">
+                        <div class="file-type active">
+                            <img [src]="album.content[0].thumbnailURL | photoSantizer" alt="">
+                        </div>
+                        <div class="info">
+                            <h2 class="eps">{{ album.title }}</h2>
+                            <p>{{  album.content.length }}{{ global.L('Item') }}</p>
+                        </div>
+                        <div class="btn">
+                            <svg class="icon icon-ellipsis" aria-hidden="true">
+                                <use xlink:href="#iconxiangyou"></use>
+                            </svg>
+                        </div>
+                    </li>
+                </ng-container>
+            </ul>
+            <div class="no-file"
+                *ngIf="type === 'image' ? global.localPictureLibrary.length == 0 : global.localVideoLibrary.length == 0">
+                <img src="assets/img/file@2x.png" alt="">
+                <p>{{global.L("NoFiles")}}</p>
+            </div>
         </div>
-        </div>
-        <file-footer class="footer" canClick="false" (uploadFileEvent)="uploadVideoFile()"></file-footer>
+        <file-footer
+            *ngIf="type === 'image' ? global.localPictureLibrary.length == 0 : global.localVideoLibrary.length == 0"
+            class="footer" canClick="false" (uploadFileEvent)="uploadFile()"></file-footer>
     </div>
 </ion-content>

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { GlobalService } from './GlobalService';
 import { Platform } from 'ionic-angular';
-import { PhotoLibrary, LibraryItem } from '@ionic-native/photo-library';
-import { File, FileEntry } from '@ionic-native/file';
-import { FileOpener } from '@ionic-native/file-opener';
+import { PhotoLibrary, LibraryItem } from '@ionic-native/photo-library/ngx';
+import { File, FileEntry } from '@ionic-native/file/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { Storage } from '@ionic/storage';
 import { FileUploader } from './FileUploader';
 import { HttpService } from './HttpService';
@@ -86,9 +86,11 @@ export class FileManager {
 	getLocalFiles(type) {
 		let config = this.resourceStorage[type];
 		let name = config.name;
+		console.log("获取文件类型：" + type);
 		if (this.global[name] && this.global[name].length > 0) {
 			return Promise.resolve(this.global[name]);
 		} else {
+			console.log("yiyiyaya....")
 			//读取缓存文件
 			return this.searchLocalFiles(type);
 		}
@@ -253,7 +255,6 @@ export class FileManager {
 				.then(() => {
 					GlobalService.consoleLog("获取相册成功++++.......");
 					return new Promise((resolve, reject) => {
-						GlobalService.consoleLog("$$$$$$$开始获取数据........" + JSON.stringify(this.photoLibrary));
 						this.photoLibrary.getLibrary({
 							thumbnailWidth: GlobalService.THUMBNAIL_WIDTH,
 							thumbnailHeight: GlobalService.THUMBNAIL_HEIGHT,
@@ -265,9 +266,9 @@ export class FileManager {
 							includeImages: type === 'image'
 							/*, chunkTimeSec: 0.3*/
 						}).subscribe({
-							next: (chunk) => {
-								// GlobalService.consoleLog("收到chunk数据:" + chunk.length);
-								// GlobalService.consoleLog("Chunk数据：" + JSON.stringify(chunk));
+							next: (ret: any) => {
+								// GlobalService.consoleLog(config.name + "收到chunk数据:" + chunk.length);
+								let chunk = ret.library;
 								this.photoLibraryReady = true;
 								if (this.global.platformName === 'android') {
 									// GlobalService.consoleLog("过滤大小为0的文件");
@@ -277,50 +278,46 @@ export class FileManager {
 								if (config.read === false) {
 									this.global[config.name] = library;
 								}
+
+								if (ret.isLastChunk) {
+									GlobalService.consoleLog('completed....+++.....' + type + "*****" + JSON.stringify(library[0]));
+									if (type == 'video') {
+										console.log("视频列表手动添加类型为video..");
+										library = library.map(item => {
+											item.thumbnailURL = item.thumbnailURL + '&type=video';
+											return item;
+										})
+									} else if (type == 'document' || type == 'audio') {
+										library = library.map(item => {
+											item.thumbnailURL = '';
+											return item;
+										})
+									}
+									//如果之前加载过缓存，此时需要更新缓存
+									if (config.read === true) {
+										this.global[config.name] = library;
+									}
+									//匹配相册
+									this.matchAlbums(config, library);
+									config.finished = true;
+									//文档需计算文件名
+									if (type === 'document') {
+										this.computeFileNameByPath(config, library);
+									} else if (type === 'image') {
+										this.startBackUp();
+									}
+									resolve({
+										err_no: 0,
+										err_msg: 'ok',
+									})
+								}
 							},
 							error: (err) => {
 								GlobalService.consoleLog("居然会出错:" + JSON.stringify(err))
 								this.photoLibraryReady = true;
 							},
 							complete: () => {
-								GlobalService.consoleLog('completed....+++.....' + type + "*****" + JSON.stringify(library[0]));
-								if (type == 'video') {
-									console.log("视频列表手动添加类型为video..");
-									library = library.map(item => {
-										item.thumbnailURL = item.thumbnailURL + '&type=video';
-										return item;
-									})
-								} else if (type == 'document' || type == 'audio') {
-									library = library.map(item => {
-										item.thumbnailURL = '';
-										return item;
-									})
-								}
-								//如果之前加载过缓存，此时需要更新缓存
-								if (config.read === true) {
-									this.global[config.name] = library;
-								}
-								//匹配相册
-								this.matchAlbums(config, library);
-								config.finished = true;
-								//文档需计算文件名
-								if (type === 'document') {
-									this.computeFileNameByPath(config, library);
-								} else if (type === 'image') {
-									this.startBackUp();
-								}
-
-								//ios没有size
-
-								//写入缓存
-								// this.storage.set(config.name, JSON.stringify(this.global[config.name]))
-								// .then(res => {
-								// 	config.write = true;
-								// })
-								resolve({
-									err_no: 0,
-									err_msg: 'ok',
-								})
+								console.log("get library complete");
 							}
 						});
 					})

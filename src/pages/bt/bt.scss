@@ -1,4 +1,4 @@
-page-find {
+page-bt {
     .toolbar-background {
         background: $newFirstColor;
     }
@@ -235,14 +235,15 @@ page-find {
     }
 }
 
-page-find .search-body .p-imglist.animation-wrapper {
+page-bt .search-body .p-imglist.animation-wrapper {
     position: absolute;
     width: 100%;
+
+    span.animation-image {
+        transition: all ease 1s;
+    }
 }
 
-page-find .search-body .p-imglist span.animation-image {
-    transition: all ease 1s;
-}
 
 .fix-size {
     width: 20px !important;

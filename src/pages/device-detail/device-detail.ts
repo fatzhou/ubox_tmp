@@ -4,7 +4,7 @@ import { Lang } from '../../providers/Language';
 import { GlobalService } from '../../providers/GlobalService';
 import { HttpService } from '../../providers/HttpService';
 import { Util } from '../../providers/Util';
-import { Clipboard } from '@ionic-native/clipboard';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 
 /**
  * Generated class for the DeviceDetailPage page.

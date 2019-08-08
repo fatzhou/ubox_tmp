@@ -26,10 +26,10 @@ import { InternalFormsSharedModule } from '@angular/forms/src/directives';
  * Ionic pages and navigation.
  */
 @Component({
-	selector: 'page-find',
-	templateUrl: 'find.html',
+	selector: 'page-bt',
+	templateUrl: 'bt.html',
 })
-export class FindPage {
+export class BtPage {
 	feedList: any = [];
 	feedListAll: any = {};
 	feedListCached: any = [];
@@ -65,7 +65,7 @@ export class FindPage {
 	}
 
 	ionViewDidLoad() {
-		GlobalService.consoleLog('ionViewDidLoad FindPage');
+		GlobalService.consoleLog('ionViewDidLoad BtPage');
 		this.getFeedTop();
 		this.initFirstPage();
 	}

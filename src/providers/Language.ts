@@ -4500,4 +4500,10 @@ export class Lang {
 		en: "Preview Image",
 		kr: ""
 	}
+
+	static ClearCashSuccess = {
+		cn: "缓存已清理",
+		en: "",
+		kr: "'"
+	}
 }

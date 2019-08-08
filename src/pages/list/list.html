@@ -12,7 +12,8 @@
             <use xlink:href="#iconcaidan"></use>
         </svg>
         <ion-title [ngClass]="[allBtnsShow ? 'list-active' : '', currPath != '/' && allBtnsShow ? 'list-no-home' : '']">
-            <div (click)="toggleClassifyNav('close')" tappable *ngIf="isShowPageTitle && !allBtnsShow">{{pageTitle}}
+            <div (click)="toggleClassifyNav('close')" tappable *ngIf="isShowPageTitle && !allBtnsShow">
+                {{pageTitle}}
             </div>
             <div (click)="toggleClassifyNav('close')" tappable *ngIf="currPath == '/' && !allBtnsShow && isMainDisk"
                 class="home-title-box">
@@ -51,7 +52,7 @@
                         </span>
                         <span *ngIf="allBtnsShow" class="text-right" tappable
                             (click)="selectAll()">{{ selectAllStatus ? global.L("CancelSelectAll") : global.L("SelectAll") }}</span>
-                        <!-- <span *ngIf="allBtnsShow" tappable (click)="cancelSelect()"> / {{global.L("Cancel")}}</span> -->
+                        <!-- <span *ngIf="allBtnsShow" tappable  (click)="cancelSelect()"> / {{global.L("Cancel")}}</span> -->
                     </div>
                 </div>
             </div>
@@ -62,11 +63,11 @@
 </ion-header>
 
 <ion-content tappable>
-    <ion-refresher snapbackDuration="3000" closeDuration="1000ms" pullFactor="0.5"
+    <!-- <ion-refresher snapbackDuration="3000" closeDuration="1000ms" pullFactor="0.5"
         (ionRefresh)="refreshFileList($event)">
         <ion-refresher-content pullingIcon="arrow-dropdown" refreshingSpinner="circles">
         </ion-refresher-content>
-    </ion-refresher>
+    </ion-refresher> -->
 
     <div *ngIf="global.centerUserInfo.bind_box_count != 0" class="home-page"
         [ngClass]="currPath == '/' && isMainDisk ? 'padding-top' : ''">
@@ -113,8 +114,7 @@
                     </svg>
                 </p>
                 <ul class="file-list" [ngClass]="isShowType0List?'show-list':'hide-list'" (press)="showAllBtns()">
-                    <li class="file-list-item" 
-                        *ngIf="isMainDisk && currPath == '/' && global.albumBackupSwitch"
+                    <li class="file-list-item" *ngIf="isMainDisk && currPath == '/' && global.albumBackupSwitch"
                         (tap)="goCopyFolder(copyPhotoInfo);">
                         <div class="file-type folder"></div>
                         <div class="info">
@@ -122,8 +122,7 @@
                             <p>{{ copyPhotoInfo.displayTime }}</p>
                         </div>
                     </li>
-                    <li class="file-list-item"  *ngFor="let info of type0List"
-                        (click)="goNextFolder(info);">
+                    <li class="file-list-item" *ngFor="let info of type0List" (click)="goNextFolder(info);">
                         <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)"
                             [ngClass]="info.fileStyle"></div>
                         <div class="file-type" *ngIf="info.thumbnail">
@@ -162,16 +161,16 @@
                 </p>
                 <ul class="file-list" *ngIf="dataAcquired && type1List.length > 0"
                     [ngClass]="isShowType1List?'show-list':'hide-list'" (press)="showAllBtns()">
-                    <li class="file-list-item"  *ngFor="let info of type1List"
-                        (click)="goNextFolder(info);">
+                    <li class="file-list-item" *ngFor="let info of type1List" (click)="goNextFolder(info);">
                         <div class="file-type" *ngIf="!info.thumbnail || !hasThumbnail(info.fileStyle)"
-                            [ngClass]="info.fileStyle"></div>
+                            [ngClass]="info.fileStyle">
+                            <img class="play-btn" *ngIf="info.fileStyle == 'video'" src="assets/img/play.svg" alt="">
+                        </div>
                         <div class="file-type" *ngIf="info.thumbnail">
                             <img class="file-thumbnail" [src]="info.thumbnail | photoSantizer"
                                 (error)="handleThumbnailError(info, $event)"
                                 *ngIf="info.thumbnail && hasThumbnail(info.fileStyle)">
-                            <img class="play-btn" *ngIf="info.fileStyle == 'video' && info.thumbnail"
-                                src="assets/img/play.svg" alt="">
+                            <img class="play-btn" *ngIf="info.fileStyle == 'video'" src="assets/img/play.svg" alt="">
                         </div>
 
                         <div class="info" button>
@@ -208,7 +207,7 @@
 <classify *ngIf="isShowClassifyNav" tappable (click)="toggleClassifyNav('close')"
     (closeClassify)="toggleClassifyNav('close')"></classify>
 
-<div class="add" *ngIf="!allBtnsShow && !showFileSelect" tappable 
+<div class="add" *ngIf="!allBtnsShow && !showFileSelect"
     [ngClass]="[allBtnsShow ? 'at-bottom' : '', hideAddBtn ? 'hidden' : '']" tappable (click)="openFileSelect()">
     <svg class="icon" aria-hidden="true">
         <use xlink:href="#icontianjiawenjian"></use>
@@ -218,26 +217,25 @@
 
 <div class="operation-btns" *ngIf="allBtnsShow">
     <div class="operation-content">
-        <div class="btn download" tappable  (click)="downloadFileList()"
-            [ngClass]="canDownload?'':'disable'">
+        <div class="btn download" tappable (click)="downloadFileList()" [ngClass]="canDownload?'':'disable'">
             <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icondownloadicon1"></use>
             </svg>
             <span>{{global.L("Download")}}</span>
         </div>
-        <div class="btn move" tappable  (click)="moveSingleFile()" [ngClass]="canMove?'':'disable'">
+        <div class="btn move" tappable (click)="moveSingleFile()" [ngClass]="canMove?'':'disable'">
             <svg class="icon" aria-hidden="true">
                 <use xlink:href="#iconMoveicon1"></use>
             </svg>
             <span>{{global.L("Move")}}</span>
         </div>
-        <div class="btn rename" tappable  (click)="renameFile()" [ngClass]="canRename?'':'disable'">
+        <div class="btn rename" tappable (click)="renameFile()" [ngClass]="canRename?'':'disable'">
             <svg class="icon" aria-hidden="true">
                 <use xlink:href="#iconRenameicon1"></use>
             </svg>
             <span>{{global.L("Rename")}}</span>
         </div>
-        <div class="btn delete" tappable  (click)="deleteFile()" [ngClass]="canDelete?'':'disable'">
+        <div class="btn delete" tappable (click)="deleteFile()" [ngClass]="canDelete?'':'disable'">
             <svg class="icon" aria-hidden="true">
                 <use xlink:href="#icondelete1"></use>
             </svg>

@@ -161,12 +161,7 @@ page-classify-list {
             .file-thumbnail {
                 width: 40px;
                 height: 40px;
-                float: left;
-            }
-
-            .file-type {
-                width: 40px;
-                height: 40px;
+                // float: left;
             }
 
             .file-type {
@@ -175,11 +170,20 @@ page-classify-list {
                 border-radius: 2px;
                 overflow: hidden;
                 text-align: center;
+                position: relative;
+
+                &.image {
+                    background-image: url(../assets/img/image.svg);
+                }
 
                 .play-btn {
                     width: 16px;
                     height: 16px;
-                    margin-top: 12px;
+                    position: absolute;
+                    z-index: 9999;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
                 }
             }
 

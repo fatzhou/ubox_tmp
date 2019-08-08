@@ -412,6 +412,15 @@ textarea::-webkit-input-placeholder {
     font-size: 34px;
 }
 
+// .platform-android {
+//     .ion-page {
+//         ion-header {
+//             padding-top: $cordova-md-statusbar-padding;
+//             background-color: color($colors, primary);
+//         }
+//     }
+// }
+
 .ion-header-border {
     border-bottom: .5px solid #d8d8d8;
 }
@@ -460,7 +469,7 @@ textarea::-webkit-input-placeholder {
     width: 48px;
     height: 48px;
     float: left;
-    background: url(../assets/img/default.svg) center center no-repeat;
+    background: #302F34 url(../assets/img/default.svg) center center no-repeat;
     background-size: 22px 22px;
     border-radius: 2px;
 
@@ -485,7 +494,7 @@ textarea::-webkit-input-placeholder {
     }
 
     &.image {
-        background-image: url(../assets/img/image.svg);
+        background-image: url(../assets/img/image-bt.svg);
     }
 
     &.folder {

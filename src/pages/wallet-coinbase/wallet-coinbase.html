@@ -8,7 +8,7 @@
 
   <ion-navbar class="clear">
     <ion-title></ion-title>
-    <span class="create-btn fr"  tappable  (click)="goCreateWallet()">{{global.L("CreateWallet")}}</span>
+    <span class="create-btn fr"  tappable   (click)="goCreateWallet()">{{global.L("CreateWallet")}}</span>
   </ion-navbar>
 
 </ion-header>
@@ -52,7 +52,7 @@
 				</div>
 
 <!-- 				<div class="wallet-value">
-					<span class="no-amount" *ngIf="wallet.earn_this_month === undefined"  tappable  (click)="getMyWalletAmount(wallet);$event.stopPropagation();">{{global.L("ViewBalance")}}</span>
+					<span class="no-amount" *ngIf="wallet.earn_this_month === undefined"  tappable   (click)="getMyWalletAmount(wallet);$event.stopPropagation();">{{global.L("ViewBalance")}}</span>
 					<span class="with-amount" *ngIf="wallet.earn_this_month !== undefined">
 						{{global.L("HaveReceived")}}: <a href="javascript:;">{{ wallet.earn_before }}</a> UBBEY  
 						{{global.L("WaitUnlock")}}：<a href="javascript:;">{{ wallet.earn_this_month }}</a> UBBEY
@@ -68,7 +68,7 @@
 		</div>
 
 		<div class="save-btn-wrap">
-			<div class="common-focus-button save-btn" click-and-wait  tappable  (click)="doSave()">{{global.L("SaveModify")}}</div>			
+			<div class="common-focus-button save-btn" click-and-wait  tappable   (click)="doSave()">{{global.L("SaveModify")}}</div>			
 		</div>
 			
 	</div>

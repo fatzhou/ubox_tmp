@@ -11,8 +11,8 @@
             <div class="list-header">
                 <div class="back-nav">
                     <div class="back-btn" (click)='toggleAllSelected()'>
-                        <span  tappable  *ngIf="!isAllSelected">{{ global.L('SelectAll') }}</span>
-                        <span  tappable  *ngIf="isAllSelected">{{ global.L('CancelSelectAll') }}</span>
+                        <span tappable  *ngIf="!isAllSelected">{{ global.L('SelectAll') }}</span>
+                        <span tappable  *ngIf="isAllSelected">{{ global.L('CancelSelectAll') }}</span>
                     </div>
                 </div>
             </div>
@@ -23,15 +23,15 @@
     <div class="main-content">
         <div class="second-content">
             <h5>
-                <span [class]="!isAllFile ? 'active' : ''"  tappable 
+                <span [class]="!isAllFile ? 'active' : ''" tappable 
                     (click)="toggleAllFile(false)">{{ global.L('Unupload') }}({{unUploadedCount}})</span>
-                <span [class]="isAllFile ? 'active' : ''"  tappable 
+                <span [class]="isAllFile ? 'active' : ''" tappable 
                     (click)="toggleAllFile(true)">{{ global.L('All') }}({{totalCount}})</span>
             </h5>
 
             <div class="bg-three">
                 <ul *ngIf="fileList.length > 0">
-                    <li  tappable  class="file-li" *ngFor="let info of fileList" (click)="toggleSelect(info)">
+                    <li tappable  class="file-li" *ngFor="let info of fileList" (click)="toggleSelect(info)">
                         <div class="file-type" [ngClass]="util.computeFileType(info.fileName)">
                             <img *ngIf="info.thumbnailURL" [src]="info.thumbnailURL | photoSantizer" alt=""
                                 (load)="loadImageSuccess(info)" (error)="loadImageError(info)">
@@ -63,5 +63,5 @@
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 </ion-content>
-<file-footer class="footer" *ngIf="isShowFooter ? '' : 'hidden'" [canClick]="canUpload"
+<file-footer class="footer" *ngIf="isShowFooter && canUpload ? '' : 'hidden'" [canClick]="canUpload"
     (uploadFileEvent)="uploadFile()"></file-footer>

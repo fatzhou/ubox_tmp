@@ -16,45 +16,49 @@ declare var cordova;
 declare var window;
 
 @Component({
-    selector: 'page-select-album',
-    templateUrl: 'select-album.html',
+	selector: 'page-select-album',
+	templateUrl: 'select-album.html',
 })
 export class SelectAlbumPage {
-    albums: any = [];
-    type: any = "image";
-    constructor(public navCtrl: NavController,
-        private platform: Platform,
-        private cd: ChangeDetectorRef,
-        private global: GlobalService,
-        private fileManager: FileManager,
-        public navParams: NavParams) {}
+	albums: any = [];
+	type: any = "image";
+	constructor(public navCtrl: NavController,
+		private platform: Platform,
+		private cd: ChangeDetectorRef,
+		private global: GlobalService,
+		private fileManager: FileManager,
+		public navParams: NavParams) { }
 
-    ionViewDidLoad() {
-        GlobalService.consoleLog('ionViewDidLoad SelectAlbumPage');
-        this.type = this.navParams.get('type') || 'image';
-        GlobalService.consoleLog("文件类型：" + this.type);
-        // this.albums = this.global.localAlbums || [];
-        // this.fileManager.classifiedPhotoLibrary(this.type);
-        this.fileManager.getLocalFiles(this.type)
-        .then(res => {
-            let config = this.fileManager.resourceStorage[this.type];
-            this.albums = this.global[config.album];
-            GlobalService.consoleLog("相册：" + JSON.stringify(this.albums));
-        })
-        .catch(e => {
-            GlobalService.consoleLog("获取相册及图片出错：" + e.message || e.stack)
-        }) 
-    }
+	ionViewDidLoad() {
+		GlobalService.consoleLog('ionViewDidLoad SelectAlbumPage');
+		this.type = this.navParams.get('type') || 'image';
+		GlobalService.consoleLog("文件类型：" + this.type);
+		// this.albums = this.global.localAlbums || [];
+		// this.fileManager.classifiedPhotoLibrary(this.type);
+		this.fileManager.getLocalFiles(this.type)
+			.then(res => {
+				let config = this.fileManager.resourceStorage[this.type];
+				this.albums = this.global[config.album];
+				GlobalService.consoleLog("相册：" + JSON.stringify(this.albums));
+			})
+			.catch(e => {
+				GlobalService.consoleLog("获取相册及图片出错：" + e.message || e.stack)
+			})
+	}
 
-    goBtSetDiskPage() {
-        this.navCtrl.push(BtSetDiskPage);
-    }
+	goBtSetDiskPage() {
+		this.navCtrl.push(BtSetDiskPage);
+	}
 
-    goSelectImgPage(album) {
-        this.navCtrl.push(SelectImgPage, {
-            album: album,
-            type: this.type
-        });
-    }
+	goSelectImgPage(album) {
+		this.navCtrl.push(SelectImgPage, {
+			album: album,
+			type: this.type
+		});
+	}
+
+	uploadFile() {
+		console.log("Upload files...");
+	}
 
 }

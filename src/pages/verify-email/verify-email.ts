@@ -12,7 +12,6 @@ import { ResultPage } from "../result/result";
 import { Lang } from '../../providers/Language';
 import { Events } from 'ionic-angular';
 import { DeviceGuidancePage } from '../device-guidance/device-guidance';
-// import { Keyboard } from '@ionic-native';
 /**
  * Generated class for the VerifyemailPage page.
  *

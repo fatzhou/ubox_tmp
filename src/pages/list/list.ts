@@ -9,7 +9,7 @@ import { FileManager } from '../../providers/FileManager';
 import { HttpService } from '../../providers/HttpService';
 import { Events, App } from 'ionic-angular';
 // import { FileTransport, FileUploadOptions, FileTransportObject } from '@ionic-native/file-transfer';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { ToastController } from 'ionic-angular';
 import { Lang } from "../../providers/Language";
 import { TaskListPage } from '../task-list/task-list';
@@ -488,16 +488,15 @@ export class ListPage {
 				this.global.closeGlobalLoading(this);
 				this.dataAcquired = true;
 				console.log("=====收到数据=======");
-				this.isLoadingData = false;
 				callback && callback();
 				if (res.err_no === 0) {
+					res.list = res.list || [];
 					var list = [];
 					var index = 0;
 					// this.type0List = [];
 					// this.type1List = [];
 					let type0List = [],
 						type1List = [];
-					GlobalService.consoleLog('列表清空了');
 					if (res.list && res.list.length > 0) {
 						res.list.filter((item) => {
 							let name = item.name;
@@ -523,16 +522,20 @@ export class ListPage {
 						list = type0List.concat(type1List);
 						this.type0List = type0List;
 						this.type1List = type1List;
+					} else {
+						this.type0List = [];
+						this.type1List = [];
 					}
 					GlobalService.consoleLog('是否正在loading?' + this.isLoadingData);
-					this.allFileList = list;
-					this.fileList = this.allFileList.slice(0, this.pageSize);
-					this.transfer.getThumbnail(this.allFileList, false, this.currPath);
-					this.zone.run(() => {
 
+					this.transfer.getThumbnail(list, false, this.currPath);
+					this.zone.run(() => {
+						this.allFileList = list;
+						this.fileList = this.allFileList.slice(0, this.pageSize);
 					})
 					//获取缩略图
 					this.clearStatus();
+					this.isLoadingData = false;
 				}
 				return false;
 			})

@@ -5,9 +5,9 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { SuperTabsModule } from 'ionic2-super-tabs';
 
-import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { SplashScreen } from '@ionic-native/splash-screen';
-// import { StatusBar } from '@ionic-native/status-bar';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 
 import { IonicStorageModule } from '@ionic/storage';
@@ -78,7 +78,7 @@ import { BtSetPage } from '../pages/bt-set/bt-set';
 import { BtTaskPage } from '../pages/bt-task/bt-task';
 import { BtSetPathPage } from '../pages/bt-set-path/bt-set-path';
 import { BtSetDiskPage } from '../pages/bt-set-disk/bt-set-disk';
-import { FindPage } from '../pages/find/find';
+import { BtPage } from '../pages/bt/bt';
 import { BtPlayPage } from '../pages/bt-play/bt-play';
 import { FileDetailPage } from '../pages/file-detail/file-detail';
 import { DeviceSearchPage } from '../pages/device-search/device-search';
@@ -104,19 +104,20 @@ import { ClassifyComponent } from '../components/classify/classify';
 import { TaskComponent } from '../components/task/task';
 
 //插件providers
-import { File } from '@ionic-native/file';
-import { Camera } from '@ionic-native/camera';
-import { FileOpener } from '@ionic-native/file-opener';
-import { Clipboard } from '@ionic-native/clipboard';
-import { Network } from '@ionic-native/network';
-import { HTTP } from '@ionic-native/http';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import { SocialSharing } from '@ionic-native/social-sharing';
+import { File } from '@ionic-native/file/ngx';
+import { Camera } from '@ionic-native/camera/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
+import { Network } from '@ionic-native/network/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Zip } from '@ionic-native/zip/ngx';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { DirectivesModule } from '../directives/directives.module';
-import { PhotoLibrary } from '@ionic-native/photo-library';
+import { PhotoLibrary } from '@ionic-native/photo-library/ngx';
 import { Keyboard } from '@ionic-native/keyboard/ngx';
 // import { VideoPlayer } from '@ionic-native/video-player/ngx';
 
@@ -220,7 +221,7 @@ import { PretifyNumberPipe } from '../pipes/pretify-number/pretify-number'
 		SearchBtPage,
 		BtSetPathPage,
 		BtSetDiskPage,
-		FindPage,
+		BtPage,
 		BtPlayPage,
 		FileDetailPage,
 		DeviceSearchPage,
@@ -315,7 +316,7 @@ import { PretifyNumberPipe } from '../pipes/pretify-number/pretify-number'
 		SearchBtPage,
 		BtSetPathPage,
 		BtSetDiskPage,
-		FindPage,
+		BtPage,
 		BtPlayPage,
 		FileDetailPage,
 		DeviceSearchPage,
@@ -330,7 +331,7 @@ import { PretifyNumberPipe } from '../pipes/pretify-number/pretify-number'
 		{ provide: ErrorHandler, useClass: IonicErrorHandler },
 		InAppBrowser,
 		Network,
-		// StatusBar,
+		StatusBar,
 		SplashScreen,
 		File,
 		Camera,
@@ -357,7 +358,8 @@ import { PretifyNumberPipe } from '../pipes/pretify-number/pretify-number'
 		UappPlatform,
 		AppsInstalled,
 		AppsInterface,
-		Keyboard
+		Keyboard,
+		ScreenOrientation
 	]
 })
 export class AppModule { }

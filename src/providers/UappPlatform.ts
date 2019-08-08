@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 // import { AppsInterface } from './AppsInterface';
 import { AppsInstalled } from './AppsInstalled';
 import { GlobalService } from './GlobalService';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { HttpService } from '../providers/HttpService';
 
 declare var cordova;

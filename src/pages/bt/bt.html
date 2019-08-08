@@ -12,7 +12,7 @@
                 <p class="list-point"><span></span><span class="active"></span><span></span></p>
             </div>
         </ion-title>
-        <svg class="icon aside-nav-icon"  tappable  (click)="displayMenu($event)" aria-hidden="true">
+        <svg class="icon aside-nav-icon" tappable  (click)="displayMenu($event)" aria-hidden="true">
             <use xlink:href="#iconcaidan"></use>
         </svg>
         <div class="input-box" *ngIf="!isShowTitle">
@@ -44,17 +44,17 @@
                         <p class="p-info">
                             <span class="coin"><img src="assets/img/coin.svg" />0</span>
                             <span>{{ item.mgdate | computeFileTime:'-':false }} {{ item.size == '' ? '' : '·' }}
-                                {{ item.size }} {{'· 0 UBBEY'}}</span>
+                                {{ item.size }}</span>
                         </p>
                         <button class="download-btn" [disabled]="!!item.status"
                             (click)="downloadBt(item);$event.stopPropagation();">{{global.L("Get")}}</button>
                         <div class="p-imglist-wrapper">
-                            <p class="p-imglist animation-wrapper" *ngIf="item.images"
+                            <p class="p-imglist animation-wrapper" *ngIf="item.images && item.images.length"
                                 [ngClass]="item.images.length == 1 ? 'one-png' : ''">
                                 <span [id]="item.resid" class="animation-image"
                                     *ngIf="item.images && item.images.length > 0" [ngStyle]="item.style"></span>
                             </p>
-                            <p class="p-imglist" *ngIf="item.images"
+                            <p class="p-imglist" *ngIf="item.images && item.images.length"
                                 [ngClass]="item.images.length == 1 ? 'one-png' : ''">
                                 <span *ngFor="let img of item.images"
                                     [ngStyle]="{'background-image': 'url('+ img +')'}"></span>

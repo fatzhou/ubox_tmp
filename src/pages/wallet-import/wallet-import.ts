@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { HttpService } from '../../providers/HttpService';
 import { GlobalService } from '../../providers/GlobalService';
-import { Clipboard } from '@ionic-native/clipboard';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { Lang } from '../../providers/Language';
 import { Util } from '../../providers/Util';
 import { WalletGeneratorPage } from '../wallet-generator/wallet-generator';

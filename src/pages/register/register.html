@@ -57,10 +57,10 @@
             </div>
         </form>
     </div>
-    <div class="common-focus-button change-passwd-btn" *ngIf="global.passwdType != 'register'" click-and-wait  tappable 
+    <div class="common-focus-button change-passwd-btn" *ngIf="global.passwdType != 'register'" click-and-wait  tappable  
         (click)="doRegister()">{{global.L("Commit")}}</div>
     <div class="form-area" *ngIf="global.passwdType === 'register'">
         <p class="second-btn" (click)="goAgreement();"> {{ global.L("ClickNextAgree") }}</p>
-        <button class="main-btn"  tappable  click-and-wait (click)="doRegister()"> {{ global.L("TheNextStep") }}</button>
+        <button class="main-btn"  tappable   click-and-wait (click)="doRegister()"> {{ global.L("TheNextStep") }}</button>
     </div>
 </ion-content>

@@ -6,61 +6,64 @@
 -->
 <ion-header>
 
-	<ion-navbar>
-		<ion-title></ion-title>
-	</ion-navbar>
+    <ion-navbar>
+        <ion-title></ion-title>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-	<ion-refresher snapbackDuration="300" *ngIf="bindStatus == 0" (ionRefresh)="doRefresh($event)">
-		<!-- <ion-refresher-content></ion-refresher-content> -->
-	</ion-refresher>
-	<div class="main-content" *ngIf="bindStatus != 0">
-		<div class="search-box">
-			<p class="p-title">{{ bindStatus == 1 ? global.L("BindSuccess") : global.L("BindFail") }}</p>
-			<svg class="icon search-icon" *ngIf="bindStatus == 1" aria-hidden="true" item-end>
-				<use xlink:href="#iconchenggong"></use>
-			</svg>
-			<svg class="icon search-icon" *ngIf="bindStatus != 1" aria-hidden="true" item-end>
-				<use xlink:href="#iconshibai"></use>
-			</svg>
-		</div>
-		<button class="go-next"  tappable  (click)="goNext()">
-			{{ bindStatus == 1 ? global.L("WORD2cb40779") : global.L("BindFail") }}
-		</button>
-	</div>
-	<div class="main-content" *ngIf="bindStatus == 0">
-		<p class="update-search" style="display:none;"><span>{{ global.L("DropDownAndSearchAgain") }}</span></p>
-		<div class="search-box">
-			<p class="p-title">
-				{{ searchResult ? searchResult.length > 0 ? global.Lf("FindResult", searchResult.length) : global.L("CanotUseEquipment") : global.L("ScaningEquipment") }}
-			</p>
-			<svg class="icon search-icon" [ngClass]="searchResult ? 'hide-icon' : 'search-animation'"  aria-hidden="true"
-				item-end>
-				<use xlink:href="#iconsousuoshebei"></use>
-			</svg>
-		</div>
-		<div class="slides-box" *ngIf="searchResult && searchResult.length > 0">
-			<ion-slides pager spaceBetween="12px">
-				<ion-slide *ngFor="let device of searchResult">
-					<div class="bg-box">
-						<div class="bind-info">
-							<img src="assets/img/device-next.png" class="icon" *ngIf="device.boxType == 'UbbeyNext'" aria-hidden="true" item-end />
-							<img src="assets/img/device-ubbey.png" class="icon" *ngIf="device.boxType != 'UbbeyNext'" aria-hidden="true" item-end />
-							<div class="device-info">
-								<p class="name">{{ device.boxType == 'UbbeyNext' ? 'Ubbey NEXT': 'Ubbey BOX' }}</p>
-								<p *ngIf="device.storage">{{ global.L("Capacity") }}: {{ device.storage | computeFileSize }}</p>
-								<p class="info-text-overflow">{{ global.L("SerialNumber") }}: {{ device.boxId }}</p>
-								<p *ngIf="!!device.bindUser">{{ global.L("Binded") }}: {{ device.bindUser }}</p>
-							</div>
-						</div>
-						<button class="bind-btn" (click)="bindBox(device)"
-							[disabled]="device.bindUser"><span>{{ global.L("Bind") }}</span></button>
-					</div>
-				</ion-slide>
-			</ion-slides>
-		</div>
-	</div>
+    <ion-refresher snapbackDuration="300" *ngIf="bindStatus == 0" (ionRefresh)="doRefresh($event)">
+        <!-- <ion-refresher-content></ion-refresher-content> -->
+    </ion-refresher>
+    <div class="main-content" *ngIf="bindStatus != 0">
+        <div class="search-box">
+            <p class="p-title">{{ bindStatus == 1 ? global.L("BindSuccess") : global.L("BindFail") }}</p>
+            <svg class="icon search-icon" *ngIf="bindStatus == 1" aria-hidden="true" item-end>
+                <use xlink:href="#iconchenggong"></use>
+            </svg>
+            <svg class="icon search-icon" *ngIf="bindStatus != 1" aria-hidden="true" item-end>
+                <use xlink:href="#iconshibai"></use>
+            </svg>
+        </div>
+        <button class="go-next" tappable (click)="goNext()">
+            {{ bindStatus == 1 ? global.L("WORD2cb40779") : global.L("BindFail") }}
+        </button>
+    </div>
+    <div class="main-content" *ngIf="bindStatus == 0">
+        <p class="update-search" style="display:none;"><span>{{ global.L("DropDownAndSearchAgain") }}</span></p>
+        <div class="search-box">
+            <p class="p-title">
+                {{ searchResult ? searchResult.length > 0 ? global.Lf("FindResult", searchResult.length) : global.L("CanotUseEquipment") : global.L("ScaningEquipment") }}
+            </p>
+            <svg class="icon search-icon" [ngClass]="searchResult ? 'hide-icon' : 'search-animation'" aria-hidden="true"
+                item-end>
+                <use xlink:href="#iconsousuoshebei"></use>
+            </svg>
+        </div>
+        <div class="slides-box" *ngIf="searchResult && searchResult.length > 0">
+            <ion-slides pager spaceBetween="12px">
+                <ion-slide *ngFor="let device of searchResult">
+                    <div class="bg-box">
+                        <div class="bind-info">
+                            <img src="assets/img/Box@2x.png" class="icon" *ngIf="device.boxType != 'UbbeyNext'"
+                                aria-hidden="true" item-end />
+                            <img src="assets/img/NEXT.png" class="icon" *ngIf="device.boxType == 'UbbeyNext'"
+                                aria-hidden="true" item-end />
+                            <div class="device-info">
+                                <p class="name">{{ device.boxType == 'UbbeyNext' ? 'Ubbey NEXT': 'Ubbey BOX' }}</p>
+                                <p *ngIf="device.storage">{{ global.L("Capacity") }}:
+                                    {{ device.storage | computeFileSize }}</p>
+                                <p class="info-text-overflow">{{ global.L("SerialNumber") }}: {{ device.boxId }}</p>
+                                <p *ngIf="!!device.bindUser">{{ global.L("Binded") }}: {{ device.bindUser }}</p>
+                            </div>
+                        </div>
+                        <button class="bind-btn" (click)="bindBox(device)"
+                            [disabled]="device.bindUser"><span>{{ global.L("Bind") }}</span></button>
+                    </div>
+                </ion-slide>
+            </ion-slides>
+        </div>
+    </div>
 </ion-content>

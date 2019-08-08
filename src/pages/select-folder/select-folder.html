@@ -11,8 +11,8 @@
             <div class="list-header">
                 <div class="back-nav">
                     <div class="back-btn" (click)='toggleAllSelected()'>  
-                        <span  tappable  *ngIf="!isAllSelected">{{ global.L('SelectAll') }}</span>  
-                        <span  tappable  *ngIf="isAllSelected">{{ global.L('CancelSelectAll') }}</span>               
+                        <span  tappable   *ngIf="!isAllSelected">{{ global.L('SelectAll') }}</span>  
+                        <span  tappable   *ngIf="isAllSelected">{{ global.L('CancelSelectAll') }}</span>               
                     </div>     
                 </div>    
             </div>
@@ -27,7 +27,7 @@
         <div class="second-content">
             <div class="bg-three">
                 <ul *ngIf="listFiles.length > 0">
-                    <li   tappable  class="fileli" *ngFor="let info of listFiles" (click)="selectFile(info)">
+                    <li   tappable   class="fileli" *ngFor="let info of listFiles" (click)="selectFile(info)">
                         <div class="file-type" [ngClass]="util.computeFileType(info.name, info.isFile ? 0 : 1)"></div>
                         <div class="info">
                             <h2 class="eps">{{ info.name }}</h2>

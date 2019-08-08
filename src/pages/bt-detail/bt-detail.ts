@@ -5,7 +5,7 @@ import { HttpService } from '../../providers/HttpService';
 import { GlobalService } from '../../providers/GlobalService';
 import { Util } from '../../providers/Util';
 import { Lang } from "../../providers/Language";
-import { Clipboard } from '@ionic-native/clipboard';
+import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { SearchPage } from '../search/search';
 import { BtTaskPage } from '../bt-task/bt-task';
 import { PreviewImagePage } from '../preview-image/preview-image';

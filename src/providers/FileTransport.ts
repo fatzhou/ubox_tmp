@@ -7,7 +7,7 @@ import { FileDownloader } from './FileDownloader';
 import { Util } from './Util';
 import { Lang } from './Language';
 import { Platform } from 'ionic-angular';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { Md5 } from "ts-md5/dist/md5";
 import { TaskListPage } from '../pages/task-list/task-list';
 import { Component, NgZone } from "@angular/core";
@@ -382,7 +382,7 @@ export class FileTransport {
 		}
 		//获取最新拉取的一页的缩略图
 		let noThumbnailList = list.filter(item => {
-			let type = this.util.computeFileType(item.name);
+			// let type = this.util.computeFileType(item.name);
 			return !item.thumbnail && (item.fileStyle === 'image' || item.fileStyle === 'video');
 		});
 

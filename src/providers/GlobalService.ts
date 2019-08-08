@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AlertController, ToastController, LoadingController } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { Lang } from './Language';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 

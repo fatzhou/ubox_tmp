@@ -7,7 +7,7 @@
 <ion-content>
 	<div class="scanning" *ngIf="scanning">
         <div class="qrcode-button">
-        	<div class="stop"  tappable  (click)="stopScan()">
+        	<div class="stop"  tappable   (click)="stopScan()">
 	            <svg class="icon back-icon" aria-hidden="true">
 	                <use xlink:href="#icon-lefticon"></use>
 	            </svg>
@@ -32,7 +32,7 @@
 		</div>
 	</div>
     <div class="devicelist-content" *ngIf="!scanning">
-        <div class="qrcode-button"  tappable  (click)="goBack()">
+        <div class="qrcode-button"  tappable   (click)="goBack()">
         	<svg class="icon back-icon" aria-hidden="true">
                 <use xlink:href="#icon-lefticon"></use>
             </svg>
@@ -45,7 +45,7 @@
             <img src="assets/img/device.svg" alt="">
 			<p>{{ computeNetworkInfo() }}</p>
 			<div class="login-wrap ">
-				<div class="common-focus-button login-btn"  tappable  click-and-wait (click)="searchUbbeyBox()" ClickAndWaitDirective>{{global.L("RetryScan")}}</div>
+				<div class="common-focus-button login-btn"  tappable   click-and-wait (click)="searchUbbeyBox()" ClickAndWaitDirective>{{global.L("RetryScan")}}</div>
 			</div>
         </div>
 
@@ -54,11 +54,11 @@
                 <span *ngIf="deviceList.length > 0 && !scanning">{{global.Lf("ScannedDeviceNum", deviceList.length)}}</span>
                 <span *ngIf="deviceList.length === 0 && !scanning">{{global.L("ScanNotFoundDev")}}</span>
                 <span *ngIf="scanning">{{global.L("IsDoingScan")}}</span>
-                <!-- <div class="scan-button common-general-button defalutline blueline" click-and-wait  tappable    (click)="goLoginPage()">{{global.L("RemoteLogin")}}</div> -->
+                <!-- <div class="scan-button common-general-button defalutline blueline" click-and-wait  tappable     (click)="goLoginPage()">{{global.L("RemoteLogin")}}</div> -->
 			</div>
 			<ion-list *ngIf="!scanning && deviceList.length > 0">
 				<ul class="device-ul">
-					<li *ngFor="let device of deviceList;"  tappable  click-and-wait  (click)="gotoBinding(device)">
+					<li *ngFor="let device of deviceList;"  tappable   click-and-wait  (click)="gotoBinding(device)">
 						<div class="ubbey ">
 							<svg class="icon" aria-hidden="true">
 								<use xlink:href="#icon-device"></use>

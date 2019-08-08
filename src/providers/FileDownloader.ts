@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HTTP } from '@ionic-native/http';
+import { HTTP } from '@ionic-native/http/ngx';
 import { Md5 } from 'ts-md5/dist/md5';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { HttpService } from './HttpService';
 import { GlobalService } from './GlobalService';
 import { Util } from './Util';

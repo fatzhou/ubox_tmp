@@ -51,6 +51,10 @@ export class LoginPage {
 
 	}
 
+	ionViewWillEnter() {
+		this.util.setStatusBar('dark');
+	}
+
 	ionViewDidLoad() {
 		GlobalService.consoleLog('ionViewDidLoad LoginPage');
 		this.popBack = this.navParams.get('popBack');
@@ -66,16 +70,17 @@ export class LoginPage {
 			this.username = 'testv314@online.com';
 			this.password = 'a1234567';
 		} else {
-			this.util.getUserList()
-				.then(res => {
-					if (this.global.userLoginInfo) {
-						this.username = this.global.userLoginInfo.username;
-						this.password = this.global.userLoginInfo.password;
-					} else {
-						this.username = '';
-						this.password = '';
-					}
-				})
+			this.username = 'testv314@online.com';
+			this.password = 'a1234567';
+			// this.util.getUserList().then(res => {
+			// 	if (this.global.userLoginInfo) {
+			// 		this.username = this.global.userLoginInfo.username;
+			// 		this.password = this.global.userLoginInfo.password;
+			// 	} else {
+			// 		this.username = '';
+			// 		this.password = '';
+			// 	}
+			// })
 		}
 	}
 

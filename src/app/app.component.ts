@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { Events, Nav, Platform, Tabs } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
-// import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+// import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { Storage } from '@ionic/storage';
 import { AlertController } from 'ionic-angular';
@@ -36,8 +36,8 @@ import { PermissionPage } from '../pages/permission/permission';
 // import { NoticeListPage } from '../pages/notice-list/notice-list'
 // import { NoticeDetailPage } from '../pages/notice-detail/notice-detail'
 
-import { Network } from '@ionic-native/network';
-import { OpenNativeSettings } from '@ionic-native/open-native-settings';
+import { Network } from '@ionic-native/network/ngx';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 
 import { WalletDetailPage } from '../pages/wallet-detail/wallet-detail';
 import { WalletGeneratorPage } from '../pages/wallet-generator/wallet-generator';
@@ -50,10 +50,10 @@ import { VerifyEmailPage } from '../pages/verify-email/verify-email';
 import { Web3Service } from '../providers/Web3Service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { AppsInstalled } from '../providers/AppsInstalled';
-import { File } from '@ionic-native/file';
+import { File } from '@ionic-native/file/ngx';
 import { MenuController } from 'ionic-angular';
 import { FileManager } from '../providers/FileManager';
-import { FindPage } from '../pages/find/find';
+import { BtPage } from '../pages/bt/bt';
 import { SuperTabsController } from 'ionic2-super-tabs/dist/providers/super-tabs-controller';
 import { NoticeListPage } from '../pages/notice-list/notice-list';
 import { DeviceGuidancePage } from '../pages/device-guidance/device-guidance';
@@ -137,6 +137,8 @@ export class UboxApp {
 			if (!this.platform.is('cordova')) {
 				GlobalService.consoleLog("我不是cordova");
 				this.nav.setRoot(LoginPage);
+
+				// this.statusBar.overlaysWebView(true);
 			} else {
 				//检查更新
 				// this.checkHotUpdate();
@@ -231,6 +233,7 @@ export class UboxApp {
 	}
 
 	getUserInfo() {
+		console.log("开始获取用户信息......");
 		if (!this.platform.is('cordova')) {
 			GlobalService.consoleLog("设置首页........");
 			this.nav.setRoot(LoginPage);
@@ -270,17 +273,12 @@ export class UboxApp {
 
 	getWifiName() {
 		//获取wifi名称
-		WifiWizard.getCurrentSSID((info) => {
-			GlobalService.consoleLog("成功获取到wifi信息：" + info);
-			this.global.wifiName = info;
-		}, () => {
-			GlobalService.consoleLog("获取当前连接的wifi失败！！！！！");
-		});
-	}
-
-	onDeviceReady() {
-		GlobalService.consoleLog("statusbar 的颜色")
-		//this.statusBar.backgroundColorByHexString("#007c36");
+		// WifiWizard.getCurrentSSID((info) => {
+		// 	GlobalService.consoleLog("成功获取到wifi信息：" + info);
+		// 	this.global.wifiName = info;
+		// }, () => {
+		// 	GlobalService.consoleLog("获取当前连接的wifi失败！！！！！");
+		// });
 	}
 
 	initReadPermitted() {
@@ -464,23 +462,35 @@ export class UboxApp {
 		}
 		// this.initGuidance();
 
-		network.onDisconnect().subscribe(() => {
-			global.networking = false;
-			GlobalService.consoleLog("网络已断开");
-			GlobalService.consoleLog("网络端开后的networkType   :" + this.network.type);
-			this.global.wifiName = "";
-			this.global.networkType = "";
-			this.global.closeGlobalAlert(this);
-			this.global.closeGlobalLoading(this);
-			this.http.notifyNetworkStatusChange();
-			this.createNetworkingAlert();
-			this.fileTransfer.stopAllTask(true);
-		});
+		try {
+			network.onDisconnect().subscribe(() => {
+				console.log("网络已断开");
+				global.networking = false;
+				GlobalService.consoleLog("网络已断开");
+				GlobalService.consoleLog("网络端开后的networkType   :" + this.network.type);
+				this.global.wifiName = "";
+				this.global.networkType = "";
+				this.global.closeGlobalAlert(this);
+				this.global.closeGlobalLoading(this);
+				this.http.notifyNetworkStatusChange();
+				this.createNetworkingAlert();
+				this.fileTransfer.stopAllTask(true);
+			}, (e) => {
+				console.log("testtesttest");
+				console.log(e.message || e.stack)
+			});
 
-		network.onConnect().subscribe(() => {
-			//网络连接后的相关设置
-			this.networkOnConnect();
-		});
+			console.log("ondisconect over....");
+
+			network.onConnect().subscribe(() => {
+				console.log("网络已链接");
+				//网络连接后的相关设置
+				this.networkOnConnect();
+			});
+		} catch (e) {
+			console.log("出错:" + e.message + "," + e.stack);
+		}
+
 
 		//ios需手动监测网络变化
 		if (this.platform.is('ios')) {
@@ -497,6 +507,7 @@ export class UboxApp {
 				}
 			}, 2000);
 		}
+		GlobalService.consoleLog("网络检测完毕...");
 	}
 
 	check4G(net) {
