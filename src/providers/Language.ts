@@ -4418,92 +4418,88 @@ export class Lang {
 		en: 'BT download',
 		kr: 'BT 다운로드'
 	};
+
 	static OldPassWord = {
 		cn: '原密码',
 		en: 'Current Password',
-		kr: ''
+		kr: '현재 암호'
 	};
 	static NewPassWord = {
 		cn: '新密码',
 		en: 'New Password',
-		kr: ''
+		kr: '새 암호'
 	};
 	static ChangeUser = {
 		cn: '切换账号登录',
 		en: 'Swtich Account',
-		kr: ''
+		kr: '계정 로그인 전환'
 	};
 	static UserCanotConnectBox = {
 		cn: '设备无法连接，请检查设备或网络',
 		en: 'Device connection failed, please check',
-		kr: ''
-	};
-	static TaskDownloading = {
-		cn: '任务已下载',
-		en: '',
-		kr: ''
+		kr: '장치를 연결할 수 없습니다, 장치나 네트워크를 검사하십시오'
 	};
 	static UnArchieved = {
 		cn: "未归档文件",
 		en: 'UnArchieved',
-		kr: ''
+		kr: '기타 문서'
 	};
 	static PhotoBackup = {
 		cn: "自动备份文件列表",
 		en: 'Auto backup',
-		kr: ''
+		kr: '자동 백업 파일 목록'
 	};
 	static DeviceRebootMessage = {
 		cn: "重启设备将会等待1-2分钟",
-		en: '',
-		kr: ''
+		en: 'Restart the device will wait 1-2 minutes',
+		kr: '장치를 다시 시작하면 1-2 분 정도 기다립니다.'
 	};
 	static YouHaveLoadingFile = {
 		cn: "加载中...",
 		en: 'Loading...',
-		kr: ''
+		kr: '로딩...'
 	};
 	static payUbbey = {
-		cn: "",
+		cn: "价格",
 		en: 'Price',
-		kr: ''
-	}
+		kr: '가격'
+	};
 	static noBindBox = {
 		cn: "您当前尚未连接到设备",
-		en: "",
-		kr: ""
+		en: "You are not connected to the device currently",
+		kr: "현재 기기에 연결되어 있지 않습니다"
 	};
 	static Binding = {
 		cn: "正在绑定设备",
 		en: "Binding device...",
-		kr: ""
-	}
+		kr: "바인딩 장치..."
+	};
 	static Rebind = {
 		cn: "重新绑定",
 		en: "Rebind",
-		kr: ""
-	}
+		kr: "리 바인딩"
+	};
 	static NoResource = {
 		cn: "没有搜索到资源",
 		en: "No related resource found",
-		kr: ""
-	}
+		kr: "리소스가 없습니다"
+	};
 
 	static ClearCash = {
 		cn: "清除缓存",
 		en: "Clear Cash",
-		kr: ""
-	}
+		kr: "캐시 지우기"
+	};
 
 	static PreviewImage = {
 		cn: "预览图片",
 		en: "Preview Image",
-		kr: ""
-	}
+		kr: "미리보기 이미지"
+	};
 
 	static ClearCashSuccess = {
 		cn: "缓存已清理",
-		en: "",
-		kr: "'"
-	}
+		en: "Cache has been cleaned up",
+		kr: "캐시가 정리되었습니다"
+	};
 }
