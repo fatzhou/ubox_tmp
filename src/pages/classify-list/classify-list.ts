@@ -630,7 +630,7 @@ export class ClassifyListPage {
 						index: info.index
 					});
 				}
-			} else if (info.fileStyle == 'video') {
+			} else if (info.fileStyle == 'video' && info.name.endsWith('.mp4')) {
 				console.log("文件信息：" + JSON.stringify(info))
 				let url = this.global.getBoxApi('downloadFile');
 				let path = url + this.http.toQueryString({

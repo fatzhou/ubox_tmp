@@ -904,7 +904,7 @@ export class ListPage {
 						index: index
 					});
 				}
-			} else if (file.fileStyle == 'video') {
+			} else if (file.fileStyle == 'video' && file.name.endsWith('.mp4')) {
 				console.log("文件信息：" + JSON.stringify(file))
 				let url = this.global.getBoxApi('downloadFile');
 				let path = url + this.http.toQueryString({

@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Events, Nav, Platform, Tabs } from 'ionic-angular';
+import { Util } from '../../providers/Util';
 
 /**
  * Generated class for the VideoPlayerPage page.
@@ -42,6 +43,7 @@ export class VideoPlayerPage {
 
 	constructor(public navCtrl: NavController,
 		private platform: Platform,
+		private util: Util,
 		private screenOrientation: ScreenOrientation,
 		public navParams: NavParams) {
 	}
@@ -82,8 +84,7 @@ export class VideoPlayerPage {
 		})
 
 		video.addEventListener('canplay', (res) => {
-			console.log("Canplay:" + JSON.stringify(res))
-			console.log(this.video.currentTime, this.video.duration)
+			console.log("Canplay:" + this.video.duration)
 			this.currentTime = this.setTime(this.video.currentTime);
 			this.totalTime = this.setTime(this.video.duration);
 			this.duration = this.video.duration;
@@ -95,11 +96,11 @@ export class VideoPlayerPage {
 			this.loading = false;
 			console.log("loading:" + this.loading);
 			console.log("Video can play through..." + this.video.videoWidth + "," + this.video.videoHeight);
-			if (this.video.videoWidth / this.video.videoHeight > window.innerWidth / window.innerHeight) {
-				this.maxVideoHeight = '100%';
-			} else {
-				this.maxVideoWidth = "100%";
-			}
+			// if (this.video.videoWidth / this.video.videoHeight > window.innerWidth / window.innerHeight) {
+			// 	this.maxVideoHeight = '100%';
+			// } else {
+			// 	this.maxVideoWidth = "100%";
+			// }
 			// this.scale = Math.min(
 			// 	canvas.width / this.video.videoWidth,
 			// 	canvas.height / this.video.videoHeight);
@@ -194,6 +195,9 @@ export class VideoPlayerPage {
 		this.videoUrl = this.navParams.get('videoUrl');
 		this.imageUrl = this.navParams.get('imageUrl');
 		this.name = this.navParams.get('name');
+
+		this.util.setStatusBarDisplay(false);
+
 		setTimeout(() => {
 			this.isShowTitle = false;
 		}, 2000);
@@ -210,27 +214,25 @@ export class VideoPlayerPage {
 
 		if (this.platform.is('cordova')) {
 			this.screenOrientation.unlock();
-
-			this.screenOrientation.onChange().subscribe(
-				() => {
-					console.log("Orientation Changed");
-					if (this.video.videoWidth / this.video.videoHeight > window.innerWidth / window.innerHeight) {
-						this.maxVideoHeight = '100%';
-						this.maxVideoWidth = 'auto';
-					} else {
-						this.maxVideoWidth = "100%";
-						this.maxVideoHeight = 'auto';
-					}
-				}
-			);
+			// this.screenOrientation.onChange().subscribe(
+			// 	() => {
+			// 		console.log("Orientation Changed");
+			// 		if (this.video.videoWidth / this.video.videoHeight > window.innerWidth / window.innerHeight) {
+			// 			this.maxVideoHeight = '100%';
+			// 			this.maxVideoWidth = 'auto';
+			// 		} else {
+			// 			this.maxVideoWidth = "100%";
+			// 			this.maxVideoHeight = 'auto';
+			// 		}
+			// 	}
+			// );
 		}
-
-
 	}
 
 	ionViewWillLeave() {
 		if (this.platform.is('cordova')) {
 			this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+			this.util.setStatusBarDisplay(true)
 		}
 	}
 

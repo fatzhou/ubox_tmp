@@ -62,6 +62,14 @@ export class Util {
 
 	};
 
+	setStatusBarDisplay(b = true) {
+		if(b) {
+			this.statusBar.show();
+		} else {
+			this.statusBar.hide();
+		}
+	}
+
 	setStatusBar(type) {
 		if (type == 'dark') {
 			this.statusBar.backgroundColorByHexString("#33000000");
