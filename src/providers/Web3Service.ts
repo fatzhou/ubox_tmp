@@ -20,7 +20,7 @@ export class Web3Service {
     httpProviderChain: string = 'http://139.199.180.239:7004';
     httpProviderMvpChain: string = 'https://provider.uchain.yqtc.com:443';
     httpProviderTestMvpChain: string = 'http://35.200.79.17:8544';
-    
+
     contract = null;
     web3: any;
 
@@ -59,12 +59,11 @@ export class Web3Service {
                     GlobalService.consoleLog(e.stack)
                 })
         }
-
     }
 
-    getBatchAmount(userAddr:any, contractAddr:any = "", pending = true) {
+    getBatchAmount(userAddr: any, contractAddr: any = "", pending = true) {
         let chainType = this.global.chainSelectArray[this.global.chainSelectIndex];
-        if(chainType === 'ERC20') {
+        if (chainType === 'ERC20') {
             return this.getWalletNum(userAddr, contractAddr);
         } else {
             return this.getWeb3WalletNum(userAddr, pending);
@@ -72,11 +71,11 @@ export class Web3Service {
     }
 
     //获取钱包余额
-    getWalletNum(userAddr:any, contractAddr) {
+    getWalletNum(userAddr: any, contractAddr) {
         return this.initContract(contractAddr)
             .then(res => {
-                var walletArr:any = [];
-                GlobalService.consoleLog('userAddr ' +userAddr.length)
+                var walletArr: any = [];
+                GlobalService.consoleLog('userAddr ' + userAddr.length)
                 for (let i = 0, len = userAddr.length; i < len; i++) {
                     let value = this.contract.balanceOf(userAddr[i]);
                     GlobalService.consoleLog("余额查询结果:" + JSON.stringify(value));
@@ -95,14 +94,14 @@ export class Web3Service {
             })
     }
 
-    getWeb3WalletNum(userAddr:any, pending = true) {
+    getWeb3WalletNum(userAddr: any, pending = true) {
         let self = this
         return new Promise((resolve, reject) => {
             var walletArr = new Array(userAddr.length);
             var count = userAddr.length;
             var flag = false;
             setTimeout(() => {
-                if(!flag) {
+                if (!flag) {
                     reject(walletArr);
                 }
             }, 5000)
@@ -114,8 +113,8 @@ export class Web3Service {
                     walletArr[i] = value;
                 }
                 flag = true;
-                resolve(walletArr);                
-            } catch(e) {
+                resolve(walletArr);
+            } catch (e) {
                 GlobalService.consoleLog("获取余额错误");
                 reject(walletArr);
             }
@@ -126,17 +125,17 @@ export class Web3Service {
         let flag = true, privKey = null, publicKey = null;
         try {
             let wallet = Wallet.fromV3(keystore, password, true)
-            privKey = wallet.getPrivateKey();   
-            publicKey = wallet.getPublicKey();         
-        } catch(e) {
+            privKey = wallet.getPrivateKey();
+            publicKey = wallet.getPublicKey();
+        } catch (e) {
             flag = false;
         }
         return {
-            flag: flag, 
+            flag: flag,
             privKey: privKey,
             publicKey: publicKey
         };
-    } 
+    }
 
     createWalletFromPrivkey(password, key, callback) {
         let wallet = Wallet.fromPrivateKey(key);
@@ -184,7 +183,7 @@ export class Web3Service {
                         keyhash: keyhash
                     })
                 })
-            }            
+            }
         })
     }
 
@@ -232,22 +231,23 @@ export class Web3Service {
             })
     }
 
-    transfer(contractAddr, from, to, amount, gasPrice, privateKey, callback){
+    transfer(contractAddr, from, to, amount, gasPrice, privateKey, callback) {
         let chainType = this.global.chainSelectArray[this.global.chainSelectIndex];
         try {
-            if(chainType === 'ERC20'){
+            if (chainType === 'ERC20') {
                 this.transferCoin(contractAddr, from, to, amount, gasPrice, privateKey, callback);
-            }else{
+            } else {
                 this.transferUbbey(from, to, amount, gasPrice, privateKey, callback)
-            }            
-        } catch(e) {
+            }
+        } catch (e) {
             GlobalService.consoleLog(e);
             callback && callback({
                 message: "Transfer error"
             }, -1);
         }
     }
-    transferUbbey(from, to, value, gasPrice, privateKey, callback){
+
+    transferUbbey(from, to, value, gasPrice, privateKey, callback) {
         let tx = this.generateUbbeyTx(from, to, value, gasPrice, privateKey)
         const serializedTx = tx.serialize();
         this.web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), callback); //调起合约
@@ -257,22 +257,6 @@ export class Web3Service {
         let tx = this.generateTx(from, GlobalService.getUbbeyContract(), 'transfer', [to, amount], gasPrice, privateKey);
         const serializedTx = tx.serialize();
         this.web3.eth.sendRawTransaction('0x' + serializedTx.toString('hex'), callback); //调起合约
-    }
-
-    convertFloat2Hex(f) {
-        const getHex = i => ('00' + i.toString(16)).slice(-2);
-
-        var view = new DataView(new ArrayBuffer(4)),
-            result;
-
-        view.setFloat32(0, 0.0205022);
-
-        result = Array
-            .apply(null, { length: 4 })
-            .map((_, i) => getHex(view.getUint8(i)))
-            .join('');
-
-        return '0x' + result;
     }
 
     convert10to16(n) {
@@ -291,9 +275,9 @@ export class Web3Service {
         var nonce = this.web3.eth.getTransactionCount(from, 'pending'); //获取用户钱包地址的nonce
         GlobalService.consoleLog("Nonce为" + nonce);
         let gasLimit = this.web3.eth.estimateGas({
-             "from"      : from,       
-             "nonce"     : nonce, 
-             "to"        : to,   
+            "from": from,
+            "nonce": nonce,
+            "to": to,
         })
         const txParams = {
             nonce: nonce,
@@ -325,10 +309,10 @@ export class Web3Service {
         GlobalService.consoleLog("Nonce为" + nonce);
         GlobalService.consoleLog("params为" + JSON.stringify(params));
         let gasLimit = this.web3.eth.estimateGas({
-             "from"      : from,       
-             "nonce"     : nonce, 
-             "to"        : to,     
-             "data"      : destdata
+            "from": from,
+            "nonce": nonce,
+            "to": to,
+            "data": destdata
         })
         const txParams = {
             nonce: nonce,
@@ -365,14 +349,14 @@ export class Web3Service {
     }
 
     /*切换环境*/
-    changeChainProvider(){
+    changeChainProvider() {
         let provider = '';
         let chainType = this.global.chainSelectArray[this.global.chainSelectIndex];
-        if(chainType == 'ERC20') {
+        if (chainType == 'ERC20') {
             provider = GlobalService.ENV === 'dev' ? this.httpProviderTest : this.httpProvider;
         } else {
             provider = GlobalService.ENV === 'dev' ? this.httpProviderTestMvpChain : this.httpProviderMvpChain;
-        } 
+        }
         let web3Provider = new this.web3.providers.HttpProvider(provider)
         this.web3.setProvider(web3Provider);
     }
