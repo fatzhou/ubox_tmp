@@ -55,7 +55,7 @@
     "cordova-clipboard": "^1.2.1",
     "cordova-hot-code-push-cli": "^1.1.1",
     "cordova-httpd": "git+https://github.com/floatinghotpot/cordova-httpd.git",
-    "cordova-ios": "4.5.5",
+    "cordova-ios": "5.0.0",
     "cordova-open-native-settings": "^1.5.2",
     "cordova-plugin-add-swift-support": "^1.7.2",
     "cordova-plugin-advanced-http": "^2.0.11",
@@ -125,8 +125,8 @@
   },
   "cordova": {
     "platforms": [
-      "ios",
-      "android"
+      "android",
+      "ios"
     ],
     "plugins": {
       "cordova-plugin-whitelist": {},

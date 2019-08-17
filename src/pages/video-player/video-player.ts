@@ -193,6 +193,7 @@ export class VideoPlayerPage {
 	ionViewDidLoad() {
 		console.log('ionViewDidLoad VideoPlayerPage');
 		this.videoUrl = this.navParams.get('videoUrl');
+		console.log("当前播放视频为:" + this.videoUrl);
 		this.imageUrl = this.navParams.get('imageUrl');
 		this.name = this.navParams.get('name');
 

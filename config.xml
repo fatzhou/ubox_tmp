@@ -79,7 +79,7 @@
         <splash height="768" src="resources/ios/splash/Default-Landscape~ipad.png" width="1024" />
         <splash height="2732" src="resources/ios/splash/Default-Portrait@~ipadpro.png" width="2048" />
     </platform>
-    <preference name="Hostname" value="app.mobbi.it" />
+    <preference name="Hostname" value="org.ubbey" />
     <preference name="Scheme" value="https" />
     <allow-navigation href="https://app.mobbi.it/*" />
     <preference name="orientation" value="portrait" />
@@ -94,8 +94,8 @@
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
-    <preference name="StatusBarOverlaysWebView" value="true" />
-    <preference name="StatusBarBackgroundColor" value="#00C77D" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarBackgroundColor" value="#000" />
     <allow-navigation href="http://192.168.0.22:8100" sessionid="dc1ca46a" />
     <allow-navigation href="http://192.168.0.27:8101" sessionid="d2b0d333" />
     <allow-navigation href="http://192.168.0.27:8100" sessionid="2c927b49" />
@@ -147,6 +147,6 @@
     <plugin name="cordova-plugin-photo-library" spec="https://github.com/ubbey/cordova-plugin-photo-library.git">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
-    <engine name="ios" spec="4.5.5" />
     <engine name="android" spec="6.3.0" />
+    <engine name="ios" spec="5.0.0" />
 </widget>

@@ -71,15 +71,17 @@ export class Util {
 	}
 
 	setStatusBar(type) {
-		if (type == 'dark') {
-			this.statusBar.backgroundColorByHexString("#33000000");
-		} else if (type == 'white') {
-			this.statusBar.backgroundColorByHexString("#ffffffff");
-		} else if (type == 'green') {
-			this.statusBar.backgroundColorByHexString("#FF00C77D");
-		} else if (type == 'red') {
-			this.statusBar.backgroundColorByHexString("#FFF35530");
-		}
+		// if(this.global.platformName == 'android') {
+			if (type == 'dark') {
+				this.statusBar.backgroundColorByHexString("#33000000");
+			} else if (type == 'white') {
+				this.statusBar.backgroundColorByHexString("#ffffffff");
+			} else if (type == 'green') {
+				this.statusBar.backgroundColorByHexString("#FF00C77D");
+			} else if (type == 'red') {
+				this.statusBar.backgroundColorByHexString("#FFF35530");
+			}			
+		// }
 	}
 
 	public static validator = {

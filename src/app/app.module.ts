@@ -243,7 +243,8 @@ import { PretifyNumberPipe } from '../pipes/pretify-number/pretify-number'
 			// tabsPlacement: 'bottom',
 			pageTransition: 'ios-transition',
 			backButtonText: '',
-			backButtonIcon: 'arrow-round-back'
+			backButtonIcon: 'arrow-round-back',
+			statusbarPadding: true
 		}),
 		IonicStorageModule.forRoot(
 			{

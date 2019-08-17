@@ -137,7 +137,6 @@ export class UboxApp {
 			if (!this.platform.is('cordova')) {
 				GlobalService.consoleLog("我不是cordova");
 				this.nav.setRoot(LoginPage);
-
 				// this.statusBar.overlaysWebView(true);
 			} else {
 				//检查更新
